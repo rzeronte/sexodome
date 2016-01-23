@@ -145,7 +145,7 @@ class rZeBotYouPorn extends Command
                             $sceneTranslation = new SceneTranslation();
                             $sceneTranslation->scene_id = $scene->id;
                             $sceneTranslation->title = $video["title"];
-                            $sceneTranslation->permalink = rZeBotUtils::slugify($video["title"]);
+                            $sceneTranslation->permalink = str_slug($video["title"]);
                             $sceneTranslation->language_id = $language->id;
                             $sceneTranslation->save();
                         }
@@ -183,7 +183,6 @@ class rZeBotYouPorn extends Command
                     } else {
                         echo "SCENE: ya existente" . PHP_EOL;
                     }
-
                 }
             }
 

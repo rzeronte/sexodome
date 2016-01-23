@@ -15,6 +15,10 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         \App\Console\Commands\Inspire::class,
         \App\Console\Commands\rZeBotExport::class,
+        \App\Console\Commands\rZeBotClicks::class,
+        \App\Console\Commands\rZeBotPornHub::class,
+        \App\Console\Commands\rZeBotYouPorn::class,
+        \App\Console\Commands\rZeBotTranslate::class,
     ];
 
     /**

@@ -94,4 +94,9 @@ class Scene extends Model
     {
         return $this->belongsTo('App\Model\Channel');
     }
+
+    public function logspublish()
+    {
+        return $this->hasMany('App\Model\Logpublish');
+    }
 }

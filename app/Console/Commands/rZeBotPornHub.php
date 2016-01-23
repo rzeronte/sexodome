@@ -186,10 +186,14 @@ class rZeBotPornHub extends Command
                                 // tag translations
                                 foreach ($languages as $language) {
                                     $tagTranslation = new TagTranslation();
-                                    $tagTranslation->name = $tagTxt;
-                                    $tagTranslation->permalink = rZeBotUtils::slugify($tagTxt);;
                                     $tagTranslation->language_id = $language->id;
                                     $tagTranslation->tag_id = $tag_id;
+
+                                    if ($language->id == 2) {
+                                        $tagTranslation->permalink = rZeBotUtils::slugify($tagTxt);;
+                                        $tagTranslation->name = $tagTxt;
+                                    }
+
                                     $tagTranslation->save();
                                 }
                             } else {
