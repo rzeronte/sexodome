@@ -53,7 +53,7 @@
                 <div class="col-md-2" style="margin: 15px 0 0 0">
                     @foreach ($scene->tags()->get() as $tag)
                         <?php $translation = $tag->translations()->where('language_id',$language->id)->first(); ?>
-                        <small>{{$translation->name}} |</small>
+                        <small style="background-color: forestgreen;color:white;margin:2px;padding:1px;">{{$translation->name}}</small>
                     @endforeach
                 </div>
 
