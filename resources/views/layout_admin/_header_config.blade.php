@@ -9,11 +9,12 @@
                 <a href="{{route('changeLocale', ['locale' => $itemLang->code])}}"><img src="{{asset("flags/$itemLang->code.png")}}"/></a>
             @endif
         @endforeach
-
     </small>
 </div>
 
 
 <div class="col-md-2 text-right" style="color:white; margin: 12px 0 0 0">
+    <a href="{{route('content', ['locale'=>$language->code])}}" class="btn btn-primary">Content</a>
+    <a href="{{route('tags', ['locale'=>$language->code])}}" class="btn btn-primary">Tags</a>
 </div>
 

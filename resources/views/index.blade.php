@@ -41,47 +41,65 @@
         ?>
 
         <div class="row" style="background-color:<?=$bgColor?>;">
-            <form action="{{route('exportScene', ['locale'=>$locale, 'scene_id'=>$scene->id])}}">
+            <form action="{{route('exportScene', ['locale'=>$locale, 'scene_id'=>$scene->id, 'q' => Request::get("q"), 'page' => Request::get("page")])}}" method="post">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+
                 <div class="col-md-1">
-                    <img src="<?=htmlspecialchars($scene->preview)?>" class="img-responsive thumbnail"/>
+                    <img title="{{$scene->permalink}}" src="<?=htmlspecialchars($scene->preview)?>" class="img-responsive thumbnail"/>
                 </div>
 
                 <div class="col-md-2" style="margin: 5px 0 0 0">
-                    <small>{{$scene->title}}</small> (<small><b>{{number_format($scene->rate, 2)}}</b></small>)
+                    <a href="http://tube-panel.loc/{{$language->code}}/admin/translations?q={{$scene->title}}" target="_blank">
+                        <small>{{$scene->title}}</small> </a>
+                    (<small><b>{{number_format($scene->rate, 2)}} | {{gmdate("i:s", $scene->duration)}}</b></small>)
                 </div>
-
+                {{--tags--}}
                 <div class="col-md-2" style="margin: 15px 0 0 0">
                     @foreach ($scene->tags()->get() as $tag)
-                        <?php $translation = $tag->translations()->where('language_id',$language->id)->first(); ?>
-                        <small style="background-color: forestgreen;color:white;margin:2px;padding:1px;">{{$translation->name}}</small>
+                        <small style="background-color: forestgreen;color:white;margin:2px;padding:1px;">
+                                <?php $translation = $tag->translations()->where('language_id',$language->id)->first(); ?>
+                                @foreach($sites as $site)
+                                    @if (in_array(strtolower($translation->permalink), $site['tags']))
+                                       <img src="{{asset('favicons/favicon-'.$site['name'].'.png')}}"/>
+                                   @endif
+                                @endforeach
+                                <a href="{{route('tags',['locale'=>$language->code, 'q'=>$translation->name])}}" style="color:white;" target="_blank">{{$translation->name}}</a>
+                            </span>
+                        </small>
                     @endforeach
                 </div>
 
+                {{--translations--}}
                 <div class="col-md-1" style="margin: 5px 0 0 0">
                     @foreach ($languages as $itemLang)
-                        <?php $translation = $tag->translations()->where('language_id',$language->id)->first(); ?>
-                        @if ($translation->name != "")
+                        <?php $translation = $scene->translations()->where('language_id',$itemLang->id)->first(); ?>
+                        @if ($translation->title != "")
                                 <img src="{{asset("flags/$itemLang->code.png")}}"/>
                         @endif
                     @endforeach
-
                 </div>
 
-                <div class="col-md-2" style="margin: 15px 0 0 0">
+                <div class="col-md-3" style="margin: 15px 0 0 0">
                     @if (count($scene->logspublish()->get()) == 0)
                         <small>NoPublished</small>
                     @endif
-                    @foreach ($scene->logspublish()->get() as $publish)
-                        <img src="{{asset('favicons/favicon-'.$publish->site.'.png')}}" style="float:left;"/><small style="margin-left:5px;float:left;clear:right;">{{$publish->site}}</small><br/>
-                    @endforeach
+                        @foreach ($scene->logspublish()->get() as $publish)
+                            <img src="{{asset('favicons/favicon-'.$publish->site.'.png')}}" style="float:left;"/><small style="margin-left:5px;float:left;margin-right: 5px;">{{$publish->site}}</small>
+                            @foreach($languages as $itemLang)
+                                <?php $translation = DB::connection($publish->site)->table('scene_translations')->where('scene_id', $scene->id)->where('language_id', $itemLang->id)->first();?>
+                                    @if ($translation->title != "")
+                                        <img src="{{asset("flags/$itemLang->code.png")}}"/>
+                                    @endif
+                            @endforeach
+                            <br/>
+                        @endforeach
                 </div>
 
                 <div class="col-md-2" style="margin: 15px 0 0 0">
                     <select class="form-control" name="database" style="width:100%">
-                        <option value="assassinsporn">assassinsporn</option>
-                        <option value="mamasfollando">mamasfollando</option>
-                        <option value="latinasparadise">latinasparadise</option>
-                        <option value="dirtyblow">dirtyblow</option>
+                        @foreach($sites as $site)
+                            <option value="{{$site['name']}}">{{$site['name']}}</option>
+                        @endforeach
                     </select>
                 </div>
 

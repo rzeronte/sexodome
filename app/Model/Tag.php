@@ -23,13 +23,13 @@ class Tag extends Model
         return $this->hasMany('App\Model\TagTranslation');
     }
 
-    static function getTranslationSearch($query_string = "", $language_id)
+    static function getTranslationSearch($query_string = false, $language_id)
     {
         $tags = Tag::select('tags.*', 'tag_translations.name', 'tag_translations.permalink', 'tag_translations.id as translationId')
             ->join('tag_translations', 'tag_translations.tag_id', '=', 'tags.id')
             ->where('tag_translations.language_id', $language_id);
 
-        if (strlen($query_string) > 0) {
+        if ($query_string != false) {
             $tags->where('tag_translations.name', 'like', '%'.$query_string.'%');
         }
 

@@ -35,10 +35,11 @@ class ConfigController extends Controller
     private $languages;
     private $locale;
     private $perPageScenes;
+    private $sites;
 
     public function __construct()
     {
-        $locale = Route::current()->getParameter('locale');
+        $locale = Route::current()->getParameter('locale', "es");
 
         // set locale
         $this->locale = $locale;
@@ -50,15 +51,27 @@ class ConfigController extends Controller
         $this->languages = Language::where('status', 1)->get();
 
         // results per page
-        $this->perPageTags = 150;
-        $this->perPageScenes = 20;
+        $this->perPageTags = 50;
+        $this->perPageScenes = 6;
+
+        // sites
+        $this->sites = array(
+            ['name' => 'assassinsporn',   'tags' => []],
+            ['name' => 'mamasfollando',   'tags' => ['milf', 'mom', 'mother', 'wife', 'mature', 'older', 'milfs']],
+            ['name' => 'latinasparadise', 'tags' => ['latina', 'italian', 'latinas', 'latino','spanish', 'peruvian', 'colombian', 'cuba', 'cuban', 'brazil']],
+            ['name' => 'dirtyblow',       'tags' => ['extreme', 'bdsm', 'masochism', 'bondage', 'unusual', 'fetish', 'shemale', 'tied']],
+        );
+    }
+
+    public function home()
+    {
+        return redirect()->route('content', ['locale' => "es"]);
     }
 
     public function index($locale)
     {
         $query_string = Request::get('q');
 
-        // scenes
         $scenes = Scene::getTranslationSearch($query_string, $this->language->id);
 
         return view('index', [
@@ -68,7 +81,25 @@ class ConfigController extends Controller
             'languages'    => $this->languages,
             'locale'       => $this->locale,
             'title'        => "Admin Panel",
+            'sites'        => $this->sites
         ]);
+    }
+
+    public function tags($locale)
+    {
+        $query_string = Request::get('q');
+        $tags = Tag::getTranslationSearch($query_string, $this->language->id);
+
+        return view('tags', [
+            'tags'       => $tags->paginate($this->perPageTags),
+            'query_string' => $query_string,
+            'language'     => $this->language,
+            'languages'    => $this->languages,
+            'locale'       => $this->locale,
+            'title'        => "Admin Panel",
+            'sites'        => $this->sites
+        ]);
+
     }
 
     public function changeLocale($locale)
@@ -122,10 +153,11 @@ class ConfigController extends Controller
                     $translation->id,
                     $scene->id,
                     $lang->id,
-                    $translation->title,
-                    $translation->permalink,
-                    $translation->description,
+                    ($translation->title != "") ? $translation->title : null,
+                    ($translation->permalink != "") ? $translation->permalink : null,
+                    ($translation->description != "") ? $translation->description : null,
                 );
+
                 DB::connection($database)->insert('insert into scene_translations (id, scene_id, language_id, title, permalink, description) values (?, ?, ?, ?, ?, ?)', $values);
             }
         } else {
@@ -147,16 +179,22 @@ class ConfigController extends Controller
                 $sql_update = "UPDATE scene_translations SET
                             scene_id=" . $scene->id . ",
                             language_id=" . $lang->id. ",
-                            title=" . DB::connection()->getPdo()->quote($translation->title). ",
-                            permalink=" . DB::connection()->getPdo()->quote($translation->permalink) . ",
-                            description='" . $translation->description. "' where id=" . $translation->id;
+                            title=" . (($translation->title != "") ? DB::connection()->getPdo()->quote($translation->title) : "NULL"). ",
+                            permalink=" . (($translation->permalink != "") ? DB::connection()->getPdo()->quote($translation->permalink) : "NULL") . ",
+                            description='" . (($translation->description != "") ? DB::connection()->getPdo()->quote($translation->description) : "NULL") . "'
+                            where id=" . $translation->id;
 
                 DB::connection($database)->update($sql_update);
             }
         }
 
-        return redirect()->route('content', ['locale' => $this->locale]);
+        return redirect()->route('content', [
+            'locale' => $this->locale,
+            'q'      => Request::get("q"),
+            'page'   => Request::get("page")
+        ]);
     }
+
     public function syncSceneTags($database, $scene, $domainScene)
     {
         $tagsScene = $scene->tags()->get();
