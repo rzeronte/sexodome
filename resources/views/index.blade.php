@@ -57,7 +57,7 @@
                 </div>
 
                 <div class="col-md-2" style="margin: 5px 0 0 0">
-                    <a href="http://tube-panel.loc/{{$language->code}}/admin/translations?q={{$scene->title}}" target="_blank">
+                    <a href="http://universo.assassinsporn.com/{{$language->code}}/admin/translations?q={{$scene->title}}" target="_blank">
                         <small>{{$scene->title}}</small> </a>
                     (<small><b>{{number_format($scene->rate, 2)}} | {{gmdate("i:s", $scene->duration)}}</b></small>)
                 </div>
