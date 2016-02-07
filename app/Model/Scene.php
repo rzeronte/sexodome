@@ -60,7 +60,7 @@ class Scene extends Model
 
     static function getTranslationsForTag($tag_permalink, $language_id)
     {
-        return Scene::select('scenes.*', 'scene_translations.*')
+        return Scene::select('scenes.*', 'scene_translations.title', 'scene_translations.permalink')
             ->join('scene_translations', 'scenes.id', '=', 'scene_translations.scene_id')
             ->join('scene_tag', 'scenes.id', '=', 'scene_tag.scene_id')
             ->join('tags', 'scene_tag.tag_id', '=', 'tags.id')

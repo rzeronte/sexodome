@@ -14,14 +14,22 @@
             <form action="{{ route('content', ['locale'=>$locale]) }}" method="get" style="width:100%">
 
                 <div class="input-group">
-                    <input id="query_string" name="q" type="text" placeholder="" class="form-control query_string" value="{{$query_string}}" style="width:100%;">
+                    <input id="query_string" name="q" type="text" placeholder="scenes search" class="form-control query_string" value="{{$query_string}}" style="width:100%;">
                     <span class="input-group-btn">
-                        <button type="submit" class="btn btn-primary">Find</button>
+                        <button type="submit" class="btn btn-primary">title search</button>
                     </span>
                 </div>
             </form>
         </div>
-        <div class="col-md-8" style="text-align:right;">
+        <div class="col-md-4">
+            <form action="{{ route('content', ['locale'=>$locale]) }}" method="get" style="width:100%">
+                <div class="input-group">
+                    <input id="query_tags" name="tag_q" type="text" placeholder="tags search" class="form-control query_string" value="{{$tag_q}}" style="width:100%;">
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-primary">tags search</button>
+                    </span>
+                </div>
+            </form>
         </div>
 
     </div>
@@ -41,7 +49,7 @@
         ?>
 
         <div class="row" style="background-color:<?=$bgColor?>;">
-            <form action="{{route('exportScene', ['locale'=>$locale, 'scene_id'=>$scene->id, 'q' => Request::get("q"), 'page' => Request::get("page")])}}" method="post">
+            <form action="{{route('exportScene', ['locale'=>$locale, 'scene_id'=>$scene->id, 'q' => Request::get("q"),'tag_q' => Request::get("tag_q"),  'page' => Request::get("page")])}}" method="post">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
 
                 <div class="col-md-1">
@@ -73,7 +81,7 @@
                 <div class="col-md-1" style="margin: 5px 0 0 0">
                     @foreach ($languages as $itemLang)
                         <?php $translation = $scene->translations()->where('language_id',$itemLang->id)->first(); ?>
-                        @if ($translation->title != "")
+                        @if (isset($translation->title))
                                 <img src="{{asset("flags/$itemLang->code.png")}}"/>
                         @endif
                     @endforeach
@@ -87,7 +95,7 @@
                             <img src="{{asset('favicons/favicon-'.$publish->site.'.png')}}" style="float:left;"/><small style="margin-left:5px;float:left;margin-right: 5px;">{{$publish->site}}</small>
                             @foreach($languages as $itemLang)
                                 <?php $translation = DB::connection($publish->site)->table('scene_translations')->where('scene_id', $scene->id)->where('language_id', $itemLang->id)->first();?>
-                                    @if ($translation->title != "")
+                                    @if (isset($translation->title))
                                         <img src="{{asset("flags/$itemLang->code.png")}}"/>
                                     @endif
                             @endforeach
@@ -112,7 +120,7 @@
     @endforeach
 
     <div class="row">
-        <?php echo $scenes->appends(['locale'=>$locale, 'q' => $query_string])->render(); ?>
+        <?php echo $scenes->appends(['locale'=>$locale, 'q' => $query_string, 'tag_q' => $tag_q])->render(); ?>
     </div>
 
 </div>

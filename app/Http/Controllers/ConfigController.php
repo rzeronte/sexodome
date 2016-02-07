@@ -71,12 +71,19 @@ class ConfigController extends Controller
     public function index($locale)
     {
         $query_string = Request::get('q');
+        $tag_query_string = Request::get('tag_q');
 
-        $scenes = Scene::getTranslationSearch($query_string, $this->language->id);
+        if ($tag_query_string) {
+            $scenes = Scene::getTranslationsForTag($tag_query_string, $this->language->id);
+        } else {
+            $scenes = Scene::getTranslationSearch($query_string, $this->language->id);
+        }
+
 
         return view('index', [
-            'scenes'       => $scenes->orderBy('scene_id', 'desc')->paginate($this->perPageScenes),
+            'scenes'       => $scenes->paginate($this->perPageScenes),
             'query_string' => $query_string,
+            'tag_q'        => $tag_query_string,
             'language'     => $this->language,
             'languages'    => $this->languages,
             'locale'       => $this->locale,
@@ -89,10 +96,12 @@ class ConfigController extends Controller
     {
         $query_string = Request::get('q');
         $tags = Tag::getTranslationSearch($query_string, $this->language->id);
+        $tag_query_string = Request::get('tag_q');
 
         return view('tags', [
             'tags'       => $tags->paginate($this->perPageTags),
             'query_string' => $query_string,
+            'tag_q'        => $tag_query_string,
             'language'     => $this->language,
             'languages'    => $this->languages,
             'locale'       => $this->locale,
@@ -191,6 +200,7 @@ class ConfigController extends Controller
         return redirect()->route('content', [
             'locale' => $this->locale,
             'q'      => Request::get("q"),
+            'tag_q'  => Request::get("tag_q"),
             'page'   => Request::get("page")
         ]);
     }
