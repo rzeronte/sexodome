@@ -85,6 +85,43 @@ class Scene extends Model
         }
     }
 
+    static function getScenesForExporterSearch($query_string, $tag_query_string, $remote_scenes, $language) {
+        $scenes = Scene::select('scenes.*', 'scene_translations.title', 'scene_translations.permalink')
+            ->join('scene_translations', 'scenes.id', '=', 'scene_translations.scene_id')
+            ->join('scene_tag', 'scenes.id', '=', 'scene_tag.scene_id')
+            ->join('tags', 'scene_tag.tag_id', '=', 'tags.id')
+            ->join('tag_translations', 'tags.id', '=', 'tag_translations.tag_id')
+            ->where('tag_translations.language_id', $language)
+            ->where('scene_translations.language_id', $language)
+            ->orderBy('scenes.id', 'desc');
+
+        if ($tag_query_string != "") {
+            $scenes->where('tag_translations.permalink', 'like', $tag_query_string);
+        }
+
+        if ($query_string != "") {
+            $scenes->where('scene_translations.title', 'like', $query_string);
+        }
+
+        if (count($remote_scenes)) {
+            $scenes->whereIn('scenes.id', $remote_scenes);
+        }
+
+        return $scenes;
+    }
+
+    static function getRemoteSceneIdsFor($database) {
+        $sql = "SELECT id FROM scenes WHERE status <> 0";
+        $scenes = DB::connection($database)->select($sql);
+
+        $ids = [];
+        foreach($scenes as $scene) {
+            $ids[] = $scene->id;
+        }
+
+        return $ids;
+    }
+
     public function clicks()
     {
         return $this->hasMany('App\Model\SceneClick');

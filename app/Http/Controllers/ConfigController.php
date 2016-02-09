@@ -72,18 +72,26 @@ class ConfigController extends Controller
     {
         $query_string = Request::get('q');
         $tag_query_string = Request::get('tag_q');
+        $publish_for = Request::get('publish_for');
 
-        if ($tag_query_string) {
-            $scenes = Scene::getTranslationsForTag($tag_query_string, $this->language->id);
-        } else {
-            $scenes = Scene::getTranslationSearch($query_string, $this->language->id);
+        $remote_scenes = [];
+        if ($publish_for) {
+            $remote_scenes = Scene::getRemoteSceneIdsFor($publish_for);
         }
 
+        $scenes = Scene::getScenesForExporterSearch(
+            $query_string,
+            $tag_query_string,
+            $remote_scenes,
+            $this->language->id
+        );
 
         return view('index', [
             'scenes'       => $scenes->paginate($this->perPageScenes),
+            'total_scenes' => $scenes->count(),
             'query_string' => $query_string,
             'tag_q'        => $tag_query_string,
+            'publish_for'  => $publish_for,
             'language'     => $this->language,
             'languages'    => $this->languages,
             'locale'       => $this->locale,

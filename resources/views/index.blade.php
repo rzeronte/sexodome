@@ -4,36 +4,52 @@
 @include('layout_admin._head')
 
 <body style="background-color: dimgray;">
+
 <div class="container">
     <div class="header row">
         @include('layout_admin._header_config')
     </div>
 
     <div class="row" style="background-color:white;padding:10px;">
-        <div class="col-md-4">
-            <form action="{{ route('content', ['locale'=>$locale]) }}" method="get" style="width:100%">
-
-                <div class="input-group">
-                    <input id="query_string" name="q" type="text" placeholder="scenes search" class="form-control query_string" value="{{$query_string}}" style="width:100%;">
-                    <span class="input-group-btn">
-                        <button type="submit" class="btn btn-primary">title search</button>
-                    </span>
-                </div>
-            </form>
-        </div>
-        <div class="col-md-4">
-            <form action="{{ route('content', ['locale'=>$locale]) }}" method="get" style="width:100%">
-                <div class="input-group">
-                    <input id="query_tags" name="tag_q" type="text" placeholder="tags search" class="form-control query_string" value="{{$tag_q}}" style="width:100%;">
-                    <span class="input-group-btn">
-                        <button type="submit" class="btn btn-primary">tags search</button>
-                    </span>
-                </div>
-            </form>
-        </div>
-
+        <form action="{{ route('content', ['locale'=>$locale]) }}" method="get" style="width:100%">
+            <div class="col-md-4">
+                <input id="query_string" name="q" type="text" placeholder="title search" class="form-control query_string" value="{{$query_string}}" style="width:100%;">
+            </div>
+            <div class="col-md-4">
+                    <input id="query_tags" name="tag_q" type="text" placeholder="tag search" class="form-control query_string" value="{{$tag_q}}" style="width:100%;">
+            </div>
+            <div class="col-md-3">
+                <select class="form-control" name="publish_for" style="width:100%">
+                    <option value="">all</option>
+                    @foreach($sites as $site)
+                        @if ($site["name"] == $publish_for)
+                            <option value="{{$site['name']}}" selected>{{$site['name']}}</option>
+                        @else
+                            <option value="{{$site['name']}}">{{$site['name']}}</option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-1">
+                <button type="submit" class="btn btn-primary">search</button>
+            </div>
+        </form>
     </div>
 
+    <div class="row" style="background-color:white;padding:10px;">
+        <div class="col-md-12">
+            <p><b>{{ $total_scenes }}</b> scenes found for:
+            @if ($query_string != "")
+                    <b><i>"{{$query_string}}"</i></b> in title
+            @else
+                    <b><i>any title</i></b>
+            @endif
+            @if ($tag_q != "")
+                and <b><i>"{{$tag_q}}"</i></b> tag
+            @endif
+            </p>
+        </div>
+    </div>
     <?php $loop = 0 ?>
     @foreach($scenes as $scene)
         <?php
