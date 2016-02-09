@@ -88,16 +88,19 @@ class Scene extends Model
     static function getScenesForExporterSearch($query_string, $tag_query_string, $remote_scenes, $language) {
         $scenes = Scene::select('scenes.*', 'scene_translations.title', 'scene_translations.permalink')
             ->join('scene_translations', 'scenes.id', '=', 'scene_translations.scene_id')
-            ->join('scene_tag', 'scenes.id', '=', 'scene_tag.scene_id')
-            ->join('tags', 'scene_tag.tag_id', '=', 'tags.id')
-            ->join('tag_translations', 'tags.id', '=', 'tag_translations.tag_id')
-            ->where('tag_translations.language_id', $language)
             ->where('scene_translations.language_id', $language)
-            ->groupBy('scenes.id')
+            ->orderBy('scenes.id')
         ;
 
         if ($tag_query_string != "") {
+            $scenes->join('scene_tag', 'scenes.id', '=', 'scene_tag.scene_id')
+                ->join('tags', 'scene_tag.tag_id', '=', 'tags.id')
+                ->join('tag_translations', 'tags.id', '=', 'tag_translations.tag_id')
+                ->where('tag_translations.language_id', $language)
+            ;
+
             $scenes->where('tag_translations.permalink', 'like', $tag_query_string);
+
         }
 
         if ($query_string != "") {
