@@ -93,7 +93,8 @@ class Scene extends Model
             ->join('tag_translations', 'tags.id', '=', 'tag_translations.tag_id')
             ->where('tag_translations.language_id', $language)
             ->where('scene_translations.language_id', $language)
-            ->orderBy('scenes.id', 'desc');
+            ->groupBy('scenes.id')
+        ;
 
         if ($tag_query_string != "") {
             $scenes->where('tag_translations.permalink', 'like', $tag_query_string);
