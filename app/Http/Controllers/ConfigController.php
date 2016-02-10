@@ -196,11 +196,10 @@ class ConfigController extends Controller
                 $sql_update = "UPDATE scene_translations SET
                             scene_id=" . $scene->id . ",
                             language_id=" . $lang->id. ",
-                            title=" . (($translation->title != "") ? DB::connection()->getPdo()->quote($translation->title) : "NULL"). ",
-                            permalink=" . (($translation->permalink != "") ? DB::connection()->getPdo()->quote($translation->permalink) : "NULL") . ",
-                            description='" . (($translation->description != "") ? DB::connection()->getPdo()->quote($translation->description) : "NULL") . "'
+                            title=" . (($translation->title != "") ? DB::connection()->getPdo()->quote($translation->title) : ""). ",
+                            permalink=" . (($translation->permalink != "") ? DB::connection()->getPdo()->quote($translation->permalink) : "") . ",
+                            description='" . (($translation->description != "") ? DB::connection()->getPdo()->quote($translation->description) : "") . "'
                             where id=" . $translation->id;
-
                 DB::connection($database)->update($sql_update);
             }
         }
