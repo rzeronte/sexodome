@@ -86,7 +86,7 @@ class Scene extends Model
     }
 
     static function getScenesForExporterSearch($query_string, $tag_query_string, $remote_scenes, $language) {
-        $scenes = Scene::select('scenes.*', 'scene_translations.title', 'scene_translations.permalink')
+        $scenes = Scene::select('scenes.*', 'scene_translations.title', 'scene_translations.description', 'scene_translations.permalink')
             ->join('scene_translations', 'scenes.id', '=', 'scene_translations.scene_id')
             ->where('scene_translations.language_id', $language)
             ->orderBy('scenes.id')
