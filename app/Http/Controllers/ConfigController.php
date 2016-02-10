@@ -235,19 +235,20 @@ class ConfigController extends Controller
             ->where('language_id', $this->language->id)
             ->first();
 
-        $sceneTranslation->title = $title;
-        $sceneTranslation->permalink = str_slug($title);
-        $sceneTranslation->description = $description;
-        $sceneTranslation->save();
-        // response json if ajax request
-        if(Request::ajax()) {
-            return json_encode(array('status'=>1));
+        if ($sceneTranslation) {
+
+            $sceneTranslation->title = $title;
+            $sceneTranslation->permalink = str_slug($title);
+            $sceneTranslation->description = $description;
+            $sceneTranslation->save();
+
+            return json_encode(array(
+                'description' => $sceneTranslation->description,
+                'scene_id'    => $scene_id,
+                'status'      => 1
+            ));
         } else {
-            return redirect()->route('translations', [
-                'locale' => $this->locale,
-                'q'      => Request::get("q"),
-                'page'   => Request::get("page")
-            ]);
+            return json_encode(array('status'=>0));
         }
     }
 }

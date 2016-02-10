@@ -92,14 +92,14 @@
                 </div>
 
                 <div class="col-md-4" style="margin: 5px 0 0 0">
-                    <form action="{{route('saveTranslation', ['locale'=>$locale, 'scene_id'=>$scene->id])}}" method="post" class="ajax-form">
+                    <form action="{{route('saveTranslation', ['locale'=>$locale, 'scene_id'=>$scene->id])}}" class="ajax-form">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                         <input type="text" value="{{$scene->title}}" class="form-control" name="title"/>
                         <textarea class="form-control" style="margin-top:5px;margin-bottom:5px;" name="description">{{$scene->description}}</textarea>
-                        <input type="submit" class="btn btn-primary" value="update" style="margin-right:10px;"/>
+                        <input type="submit" class="btn btn-primary" value="update" style="margin-right:10px;margin-bottom:5px;"/>
                     </form>
                 </div>
-                {{--tags--}}
+
                 <div class="col-md-2" style="margin: 15px 0 0 0">
                     @foreach ($scene->tags()->get() as $tag)
                         <small style="background-color: forestgreen;color:white;margin:2px;padding:1px;">
@@ -163,29 +163,6 @@
     </div>
 
 </div>
-<script type="text/javascript">
-    $( document ).ready(function() {
-        $( ".ajax-form" ).submit(function( event ) {
-            var action = $(this).attr("action");
-            var form = $(this);
-            $.ajax({
-                url: action,
-                data: $(this).serialize(),
-                method: 'post'
-            }).done(function( data ) {
-                var data = $.parseJSON(data);
-                if (data['status'] == 1) {
-                    form.closest('.coloreable').addClass('successAjax');
-                    setTimeout("clearAjaxCSS()", 1000);
-                } else {
-                    form.closest('.coloreable').addClass('errorAjax');
-                    setTimeout("clearAjaxCSS()", 1000);
-                }
-            });
-            event.preventDefault();
-        });
-    });
-</script>
 <style>
     .successAjax{
         border: solid 3px green;
