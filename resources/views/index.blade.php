@@ -50,24 +50,6 @@
             </p>
         </div>
     </div>
-    <div class="row" style="background-color:white;font-size:12px;">
-        <div class="col-md-1 text-center">
-            <b>Image</b>
-        </div>
-        <div class="col-md-3 text-center">
-            <b>Title/Description</b>
-        </div>
-        <div class="col-md-2 text-center">
-            <b>Tags</b>
-        </div>
-        <div class="col-md-2 text-center">
-            <b>Sites status</b>
-        </div>
-        <div class="col-md-4 text-center">
-            <b>Publish in</b>
-        </div>
-
-    </div>
 
     <?php $loop = 0 ?>
     @foreach($scenes as $scene)
@@ -91,7 +73,7 @@
                     {{gmdate("i:s", $scene->duration)}}</b></small>
                 </div>
 
-                <div class="col-md-4" style="margin: 5px 0 0 0">
+                <div class="col-md-3" style="margin: 5px 0 0 0">
                     <form action="{{route('saveTranslation', ['locale'=>$locale, 'scene_id'=>$scene->id])}}" class="ajax-form">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                         <input type="text" value="{{$scene->title}}" class="form-control" name="title"/>
@@ -114,15 +96,16 @@
                     @endforeach
                 </div>
 
-                <div class="col-md-2" style="margin: 10px 0 0 0">
+                <div class="col-md-4" style="margin: 10px 0 0 0">
                     <small><b>Available in:</b></small><br/>
                     @foreach ($languages as $itemLang)
                         <?php $translation = $scene->translations()->where('language_id',$itemLang->id)->first(); ?>
+                            <img src="{{asset("flags/$itemLang->code.png")}}"/>
                         @if (isset($translation->title))
-                            <small>[T] </small><img src="{{asset("flags/$itemLang->code.png")}}"/>
+                            <small>[T] </small>
                         @endif
                         @if (isset($translation->description))
-                            <small>[D] </small><img src="{{asset("flags/$itemLang->code.png")}}"/>
+                            <small>[D] </small>
                         @endif
                         <br/>
                     @endforeach
@@ -135,9 +118,14 @@
                         <img src="{{asset('favicons/favicon-'.$publish->site.'.png')}}" style="float:left;"/><small style="margin-left:5px;float:left;margin-right: 5px;">{{$publish->site}}</small>
                         @foreach($languages as $itemLang)
                             <?php $translation = DB::connection($publish->site)->table('scene_translations')->where('scene_id', $scene->id)->where('language_id', $itemLang->id)->first();?>
-                                @if (isset($translation->title))
-                                    <img src="{{asset("flags/$itemLang->code.png")}}"/>
-                                @endif
+                                <img src="{{asset("flags/$itemLang->code.png")}}"/>
+                            @if (isset($translation->title))
+                                <small>[T] </small>
+                            @endif
+                            @if (isset($translation->description))
+                                <small>[D] </small>
+                            @endif
+
                         @endforeach
                         <br/>
                     @endforeach

@@ -1,8 +1,4 @@
 <div class="col-md-10" style="height: 50px; padding-top: 4px;">
-    <span style="font-size:22px;color:white; margin-right:10px;">Exporter 1.0</span>
-</div>
-
-<div class="col-md-10" style="height: 50px; padding-top: 4px;">
     <small style="color: white;">
         @foreach($languages as $itemLang)
             @if ($itemLang->code != $language->code)
