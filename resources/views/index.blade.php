@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 
 @include('layout_admin._head')
 
@@ -36,9 +36,9 @@
         </form>
     </div>
 
-    <div class="row" style="background-color:white;padding:10px;">
+    <div class="row" style="background-color:white;padding:10px;padding-bottom:15px;">
         <div class="col-md-12">
-            <p><b>{{ $total_scenes }}</b> scenes found for:
+            <p><b>{{ number_format($total_scenes, 0, ",", ".") }}</b> scenes found for:
             @if ($query_string != "")
                     <b><i>"{{$query_string}}"</i></b> in title
             @else
@@ -50,6 +50,25 @@
             </p>
         </div>
     </div>
+    <div class="row" style="background-color:white;font-size:12px;">
+        <div class="col-md-1 text-center">
+            <b>Image</b>
+        </div>
+        <div class="col-md-3 text-center">
+            <b>Title/Description</b>
+        </div>
+        <div class="col-md-2 text-center">
+            <b>Tags</b>
+        </div>
+        <div class="col-md-2 text-center">
+            <b>Available - Published in sites/langs</b>
+        </div>
+        <div class="col-md-4 text-center">
+            <b>Publish in</b>
+        </div>
+
+    </div>
+
     <?php $loop = 0 ?>
     @foreach($scenes as $scene)
         <?php
@@ -64,18 +83,21 @@
             }
         ?>
 
-        <div class="row" style="background-color:<?=$bgColor?>;">
-            <form action="{{route('exportScene', ['locale'=>$locale, 'scene_id'=>$scene->id, 'q' => Request::get("q"),'tag_q' => Request::get("tag_q"),  'page' => Request::get("page")])}}" method="post">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+        <div class="row coloreable" style="background-color:<?=$bgColor?>;">
 
                 <div class="col-md-1">
                     <img title="{{$scene->permalink}}" src="<?=htmlspecialchars($scene->preview)?>" class="img-responsive thumbnail"/>
+                    <small><b>{{number_format($scene->rate, 2)}}p. <br/>
+                    {{gmdate("i:s", $scene->duration)}}</b></small>
                 </div>
 
-                <div class="col-md-2" style="margin: 5px 0 0 0">
-                    <a href="http://universo.assassinsporn.com/{{$language->code}}/admin/translations?q={{$scene->title}}" target="_blank">
-                        <small>{{$scene->title}}</small> </a>
-                    (<small><b>{{number_format($scene->rate, 2)}} | {{gmdate("i:s", $scene->duration)}}</b></small>)
+                <div class="col-md-4" style="margin: 5px 0 0 0">
+                    <form action="{{route('saveTranslation', ['locale'=>$locale, 'scene_id'=>$scene->id])}}" method="post" class="ajax-form">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+                        <input type="text" value="{{$scene->title}}" class="form-control" name="title"/>
+                        <textarea class="form-control" style="margin-top:5px;margin-bottom:5px;" name="description">{{$scene->description}}</textarea>
+                        <input type="submit" class="btn btn-primary" value="update" style="margin-right:10px;"/>
+                    </form>
                 </div>
                 {{--tags--}}
                 <div class="col-md-2" style="margin: 15px 0 0 0">
@@ -88,36 +110,37 @@
                                    @endif
                                 @endforeach
                                 <a href="{{route('tags',['locale'=>$language->code, 'q'=>$translation->name])}}" style="color:white;" target="_blank">{{$translation->name}}</a>
-                            </span>
                         </small>
                     @endforeach
                 </div>
 
-                {{--translations--}}
-                <div class="col-md-1" style="margin: 5px 0 0 0">
+                <div class="col-md-2" style="margin: 15px 0 0 0">
+                    <small><b>Available in:</b></small><br/>
                     @foreach ($languages as $itemLang)
                         <?php $translation = $scene->translations()->where('language_id',$itemLang->id)->first(); ?>
                         @if (isset($translation->title))
-                                <img src="{{asset("flags/$itemLang->code.png")}}"/>
+                            <img src="{{asset("flags/$itemLang->code.png")}}"/>
                         @endif
                     @endforeach
-                </div>
 
-                <div class="col-md-3" style="margin: 15px 0 0 0">
+                    <br/><br/>
+                    <small><b>Published in:</b></small><br/>
                     @if (count($scene->logspublish()->get()) == 0)
                         <small>NoPublished</small>
                     @endif
-                        @foreach ($scene->logspublish()->get() as $publish)
-                            <img src="{{asset('favicons/favicon-'.$publish->site.'.png')}}" style="float:left;"/><small style="margin-left:5px;float:left;margin-right: 5px;">{{$publish->site}}</small>
-                            @foreach($languages as $itemLang)
-                                <?php $translation = DB::connection($publish->site)->table('scene_translations')->where('scene_id', $scene->id)->where('language_id', $itemLang->id)->first();?>
-                                    @if (isset($translation->title))
-                                        <img src="{{asset("flags/$itemLang->code.png")}}"/>
-                                    @endif
-                            @endforeach
-                            <br/>
+                    @foreach ($scene->logspublish()->get() as $publish)
+                        <img src="{{asset('favicons/favicon-'.$publish->site.'.png')}}" style="float:left;"/><small style="margin-left:5px;float:left;margin-right: 5px;">{{$publish->site}}</small>
+                        @foreach($languages as $itemLang)
+                            <?php $translation = DB::connection($publish->site)->table('scene_translations')->where('scene_id', $scene->id)->where('language_id', $itemLang->id)->first();?>
+                                @if (isset($translation->title))
+                                    <img src="{{asset("flags/$itemLang->code.png")}}"/>
+                                @endif
                         @endforeach
+                        <br/>
+                    @endforeach
                 </div>
+            <form action="{{route('exportScene', ['locale'=>$locale, 'scene_id'=>$scene->id, 'q' => Request::get("q"),'tag_q' => Request::get("tag_q"),  'page' => Request::get("page")])}}" method="post">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
 
                 <div class="col-md-2" style="margin: 15px 0 0 0">
                     <select class="form-control" name="database" style="width:100%">
@@ -136,9 +159,42 @@
     @endforeach
 
     <div class="row">
-        <?php echo $scenes->appends(['locale'=>$locale, 'q' => $query_string, 'tag_q' => $tag_q])->render(); ?>
+        <?php echo $scenes->appends(['locale'=>$locale, 'q' => $query_string, 'tag_q' => $tag_q, 'publish_for' => $publish_for])->render(); ?>
     </div>
 
 </div>
+<script type="text/javascript">
+    $( document ).ready(function() {
+        $( ".ajax-form" ).submit(function( event ) {
+            var action = $(this).attr("action");
+            var form = $(this);
+            $.ajax({
+                url: action,
+                data: $(this).serialize(),
+                method: 'post'
+            }).done(function( data ) {
+                var data = $.parseJSON(data);
+                if (data['status'] == 1) {
+                    form.closest('.coloreable').addClass('successAjax');
+                    setTimeout("clearAjaxCSS()", 1000);
+                } else {
+                    form.closest('.coloreable').addClass('errorAjax');
+                    setTimeout("clearAjaxCSS()", 1000);
+                }
+            });
+            event.preventDefault();
+        });
+    });
+</script>
+<style>
+    .successAjax{
+        border: solid 3px green;
+    }
+
+    .errorAjax{
+        border: solid 3px red;
+    }
+
+</style>
 </body>
 </html>

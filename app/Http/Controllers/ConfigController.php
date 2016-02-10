@@ -226,4 +226,28 @@ class ConfigController extends Controller
         }
     }
 
+    public function saveTranslation($locale, $scene_id)
+    {
+        $title = Request::input('title');
+        $description = Request::input('description');
+
+        $sceneTranslation = SceneTranslation::where('scene_id', $scene_id)
+            ->where('language_id', $this->language->id)
+            ->first();
+
+        $sceneTranslation->title = $title;
+        $sceneTranslation->permalink = str_slug($title);
+        $sceneTranslation->description = $description;
+        $sceneTranslation->save();
+        // response json if ajax request
+        if(Request::ajax()) {
+            return json_encode(array('status'=>1));
+        } else {
+            return redirect()->route('translations', [
+                'locale' => $this->locale,
+                'q'      => Request::get("q"),
+                'page'   => Request::get("page")
+            ]);
+        }
+    }
 }

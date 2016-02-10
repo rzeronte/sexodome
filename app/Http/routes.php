@@ -5,3 +5,4 @@ Route::match(['get', 'post'], '{locale}/', 'ConfigController@index')->name('cont
 Route::match(['get', 'post'], '{locale}/export_scene/{scene_id}', 'ConfigController@exportScene')->name('exportScene');
 Route::match(['get', 'post'], '{locale}/tags/', 'ConfigController@tags')->name('tags');
 Route::get('/setLocale/{locale}', 'ConfigController@changeLocale')->name('changeLocale');
+Route::match(['get', 'post'], '{locale}/saveTranslation/{scene_id}', 'ConfigController@saveTranslation')->name('saveTranslation');
