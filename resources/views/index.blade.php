@@ -61,7 +61,7 @@
             <b>Tags</b>
         </div>
         <div class="col-md-2 text-center">
-            <b>Available - Published in sites/langs</b>
+            <b>Sites status</b>
         </div>
         <div class="col-md-4 text-center">
             <b>Publish in</b>
@@ -114,16 +114,19 @@
                     @endforeach
                 </div>
 
-                <div class="col-md-2" style="margin: 15px 0 0 0">
+                <div class="col-md-2" style="margin: 10px 0 0 0">
                     <small><b>Available in:</b></small><br/>
                     @foreach ($languages as $itemLang)
                         <?php $translation = $scene->translations()->where('language_id',$itemLang->id)->first(); ?>
                         @if (isset($translation->title))
-                            <img src="{{asset("flags/$itemLang->code.png")}}"/>
+                            <small>[T] </small><img src="{{asset("flags/$itemLang->code.png")}}"/>
                         @endif
+                        @if (isset($translation->description))
+                            <small>[D] </small><img src="{{asset("flags/$itemLang->code.png")}}"/>
+                        @endif
+                        <br/>
                     @endforeach
 
-                    <br/><br/>
                     <small><b>Published in:</b></small><br/>
                     @if (count($scene->logspublish()->get()) == 0)
                         <small>NoPublished</small>
