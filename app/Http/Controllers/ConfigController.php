@@ -250,4 +250,26 @@ class ConfigController extends Controller
             return json_encode(array('status'=>0));
         }
     }
+
+    public function stats()
+    {
+        $scenes = Scene::getAllTranslated($this->language->id)->get();
+
+        $amountTitle = "";
+        foreach ($scenes as $scene) {
+            $amountTitle.=$scene->title;
+        }
+
+        $words = array_count_values(explode(" ", $amountTitle));
+        arsort($words);
+
+        return view('stats', [
+            'language'     => $this->language,
+            'languages'    => $this->languages,
+            'locale'       => $this->locale,
+            'title'        => "Admin Panel",
+            'sites'        => $this->sites,
+            'words'        => $words
+        ]);
+    }
 }
