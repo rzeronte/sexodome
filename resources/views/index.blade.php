@@ -79,7 +79,9 @@
                         <input type="text" value="{{$scene->title}}" class="form-control" name="title"/>
                         <textarea class="form-control" style="margin-top:5px;margin-bottom:5px;" name="description">{{$scene->description}}</textarea>
                         <input type="submit" class="btn btn-primary" value="update" style="margin-right:10px;margin-bottom:5px;"/>
+                        <a href="http://{{$language->domain}}/video/{{$scene->permalink}}" target="_blank" class="btn btn-warning">Show</a>
                     </form>
+
                 </div>
 
                 <div class="col-md-2" style="margin: 15px 0 0 0">
