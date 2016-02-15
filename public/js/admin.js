@@ -33,7 +33,8 @@ function clearAjaxCSS() {
 }
 
 $( document ).ready(function() {
-    alert("entro");
+
+
     $( ".ajax-form" ).submit(function( event ) {
         var action = $(this).attr("action");
         var form = $(this);

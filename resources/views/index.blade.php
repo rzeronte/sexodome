@@ -79,7 +79,6 @@
                         <input type="text" value="{{$scene->title}}" class="form-control" name="title"/>
                         <textarea class="form-control" style="margin-top:5px;margin-bottom:5px;" name="description">{{$scene->description}}</textarea>
                         <input type="submit" class="btn btn-primary" value="update" style="margin-right:10px;margin-bottom:5px;"/>
-                        <a href="http://{{$language->domain}}/video/{{$scene->permalink}}" target="_blank" class="btn btn-warning">Show</a>
                     </form>
 
                 </div>
@@ -136,15 +135,16 @@
                 <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
 
                 <div class="col-md-2" style="margin: 15px 0 0 0">
-                    <select class="form-control" name="database" style="width:100%">
+                    <select class="form-control" name="database" style="width:100%" id="site_select_{{$scene->id}}">
                         @foreach($sites as $site)
-                            <option value="{{$site['name']}}">{{$site['name']}}</option>
+                            <option value="{{$site['name']}}" data-url="{{$site['url']}}">{{$site['name']}}</option>
                         @endforeach
                     </select>
                 </div>
 
                 <div class="col-md-1" style="margin: 15px 0 0 0">
-                    <input type="submit" value="export" class="btn btn-primary form-control"/>
+                    <input type="submit" value="export" class="btn btn-primary form-control" style=""/> <br/><br/>
+                    <a href="#" data-selector="site_select_{{$scene->id}}" data-tag="/video/{{$scene->permalink}}" class="btn btn-warning btn-show">Show</a>
                 </div>
             </form>
         </div>
