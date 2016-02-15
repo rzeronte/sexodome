@@ -137,14 +137,46 @@
                 <div class="col-md-2" style="margin: 15px 0 0 0">
                     <select class="form-control" name="database" style="width:100%" id="site_select_{{$scene->id}}">
                         @foreach($sites as $site)
-                            <option value="{{$site['name']}}" data-url="{{$site['url']}}">{{$site['name']}}</option>
+                            <option value="{{$site['name']}}">{{$site['name']}}</option>
                         @endforeach
                     </select>
                 </div>
 
                 <div class="col-md-1" style="margin: 15px 0 0 0">
                     <input type="submit" value="export" class="btn btn-primary form-control" style=""/> <br/><br/>
-                    <a href="#" data-selector="site_select_{{$scene->id}}" data-tag="/video/{{$scene->permalink}}" class="btn btn-warning btn-show">Show</a>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal{{$scene->id}}">
+                        preview
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal{{$scene->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">preview scene</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <?php
+                                    $iframe = $scene->iframe;
+                                    $pattern = "/width=\"[0-9]*\"/";
+                                    $iframe = preg_replace($pattern, "width='100%'", $iframe);
+                                    $pattern2 = "/width=\"[0-9]*+px\"/";
+                                    $pattern = "/width='[0-9]*'/";
+                                    $iframe = preg_replace($pattern, "width='100%'", $iframe);
+                                    $pattern2 = "/width='[0-9]*+px'/";
+
+                                    $iframe = preg_replace($pattern2, "width='100%'", $iframe);
+                                    ?>
+                                    <?php echo $iframe;?>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </form>
         </div>
@@ -154,7 +186,6 @@
     <div class="row">
         <?php echo $scenes->appends(['locale'=>$locale, 'q' => $query_string, 'tag_q' => $tag_q, 'publish_for' => $publish_for])->render(); ?>
     </div>
-
 </div>
 <style>
     .successAjax{

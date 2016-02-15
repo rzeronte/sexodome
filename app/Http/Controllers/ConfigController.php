@@ -56,10 +56,10 @@ class ConfigController extends Controller
 
         // sites
         $this->sites = array(
-            ['name' => 'assassinsporn',   'url'=>'www.assassinsporn.com', 'tags' => []],
-            ['name' => 'mamasfollando',   'url'=>'www.mamasfollando.com',  'tags' => ['milf', 'mom', 'mother', 'wife', 'mature', 'older', 'milfs']],
-            ['name' => 'latinasparadise', 'url'=>'www.latinasparadise.com', 'tags' => ['latina', 'italian', 'latinas', 'latino','spanish', 'peruvian', 'colombian', 'cuba', 'cuban', 'brazil']],
-            ['name' => 'dirtyblow',       'url'=>'www.dirtyblow.com', 'tags' => ['extreme', 'bdsm', 'masochism', 'bondage', 'unusual', 'fetish', 'shemale', 'tied']],
+            ['name' => 'assassinsporn',   'tags' => []],
+            ['name' => 'mamasfollando',   'tags' => ['milf', 'mom', 'mother', 'wife', 'mature', 'older', 'milfs']],
+            ['name' => 'latinasparadise', 'tags' => ['latina', 'italian', 'latinas', 'latino','spanish', 'peruvian', 'colombian', 'cuba', 'cuban', 'brazil']],
+            ['name' => 'dirtyblow',       'tags' => ['extreme', 'bdsm', 'masochism', 'bondage', 'unusual', 'fetish', 'shemale', 'tied']],
         );
     }
 

@@ -35,12 +35,10 @@ function clearAjaxCSS() {
 $( document ).ready(function() {
 
     $( ".btn-show" ).click(function() {
-        var selector = $(this).attr('data-selector');
-        var tag = $(this).attr('data-tag');
 
-        var selected = $("#"+selector).find('option:selected');
-        var url = selected.data('url');
-        window.open('http://' + url + tag, '_blank');
+        $( "#book" ).toggle( "slow", function() {
+            // Animation complete.
+        });
     });
 
     $( ".ajax-form" ).submit(function( event ) {
