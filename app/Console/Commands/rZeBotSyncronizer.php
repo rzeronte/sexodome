@@ -76,7 +76,7 @@ class rZeBotSyncronizer extends Command
                            iframe = '".$scene->iframe."',
                            status = ".$scene->status.",
                            rate = ".$scene->rate.",
-                           updated_at = '".$scene->updated_at."'
+                           updated_at = '".date('Y-m-d H:i:s')."'
                             WHERE id=".$scene->id;
 
         DB::connection($database)->update($sql_update);
