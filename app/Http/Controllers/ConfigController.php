@@ -187,6 +187,7 @@ class ConfigController extends Controller
                                iframe = '".$scene->iframe."',
                                status = ".$scene->status.",
                                rate = ".$scene->rate."
+                               updated_at = ".date('Y-m-d H:i:s')."
                                 WHERE id=".$scene->id;
 
             DB::connection($database)->update($sql_update);
