@@ -33,6 +33,7 @@
             <div class="col-md-3">
                 <select class="form-control" name="publish_for" style="width:100%">
                     <option value="">all</option>
+                    <option value="notpublished">not published</option>
                     @foreach($sites as $site)
                         @if ($site["name"] == $publish_for)
                             <option value="{{$site['name']}}" selected>{{$site['name']}}</option>
