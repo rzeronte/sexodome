@@ -65,9 +65,6 @@ class rZeBotSyncronizer extends Command
     }
 
     public function exportScene($database, $scene) {
-        $logpublish = $scene->logspublish()->where('site', 'like', $database)->orderBy('id', 'desc')->first();
-        echo $logpublish->scene_id . PHP_EOL;
-        return false;
         $languages = Language::all();
 
         $sql_update = "UPDATE scenes SET status=".$scene->status . ",
@@ -83,18 +80,18 @@ class rZeBotSyncronizer extends Command
 
         //$this->syncSceneTags($database, $scene, $domain_scene);
 
-        foreach ($languages as $lang) {
-            $translation = $scene->translations()->where('language_id', $lang->id)->first();
-
-            $sql_update = "UPDATE scene_translations SET
-                        scene_id=" . $scene->id . ",
-                        language_id=" . $lang->id. ",
-                        title=" . DB::connection()->getPdo()->quote((($translation->title != "") ? $translation->title : "")). ",
-                        permalink=" . DB::connection()->getPdo()->quote((($translation->permalink != "") ? $translation->permalink : "")) . ",
-                        description=" . DB::connection()->getPdo()->quote((($translation->description != "") ? $translation->description : "")) . "
-                        where id=" . $translation->id;
-            DB::connection($database)->update($sql_update);
-        }
+//        foreach ($languages as $lang) {
+//            $translation = $scene->translations()->where('language_id', $lang->id)->first();
+//
+//            $sql_update = "UPDATE scene_translations SET
+//                        scene_id=" . $scene->id . ",
+//                        language_id=" . $lang->id. ",
+//                        title=" . DB::connection()->getPdo()->quote((($translation->title != "") ? $translation->title : "")). ",
+//                        permalink=" . DB::connection()->getPdo()->quote((($translation->permalink != "") ? $translation->permalink : "")) . ",
+//                        description=" . DB::connection()->getPdo()->quote((($translation->description != "") ? $translation->description : "")) . "
+//                        where id=" . $translation->id;
+//            DB::connection($database)->update($sql_update);
+//        }
     }
 
     public function syncSceneTags($database, $scene)
