@@ -186,7 +186,7 @@ class ConfigController extends Controller
                                thumbs = '".$scene->thumbs."',
                                iframe = '".$scene->iframe."',
                                status = ".$scene->status.",
-                               rate = ".$scene->rate."
+                               rate = ".$scene->rate.",
                                updated_at = '".date('Y-m-d H:i:s')."'
                                 WHERE id=".$scene->id;
 
