@@ -104,7 +104,7 @@ class Scene extends Model
         }
 
         if ($query_string != "") {
-            $scenes->where('scene_translations.title', 'like', $query_string);
+            $scenes->where('scene_translations.title', 'like', "%".$query_string."%");
         }
 
         if (count($remote_scenes)) {
