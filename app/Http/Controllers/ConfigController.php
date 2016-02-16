@@ -73,6 +73,7 @@ class ConfigController extends Controller
         $query_string = Request::get('q');
         $tag_query_string = Request::get('tag_q');
         $publish_for = Request::get('publish_for');
+        $duration = Request::get('duration');
 
         $remote_scenes = [];
         if ($publish_for) {
@@ -83,7 +84,8 @@ class ConfigController extends Controller
             $query_string,
             $tag_query_string,
             $remote_scenes,
-            $this->language->id
+            $this->language->id,
+            $duration
         );
 
         return view('index', [

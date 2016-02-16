@@ -12,12 +12,24 @@
 
     <div class="row" style="background-color:white;padding:10px;">
         <form action="{{ route('content', ['locale'=>$locale]) }}" method="get" style="width:100%">
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <input id="query_string" name="q" type="text" placeholder="title search" class="form-control query_string" value="{{$query_string}}" style="width:100%;">
             </div>
-            <div class="col-md-4">
+            <div class="col-md-2">
                     <input id="query_tags" name="tag_q" type="text" placeholder="tag search" class="form-control query_string" value="{{$tag_q}}" style="width:100%;">
             </div>
+            <div class="col-md-2">
+                <select name="duration" class="form-control">
+                    <option value="">any duration</option>
+                    <option value="300">min5min</option>
+                    <option value="360">min6min</option>
+                    <option value="420">min7min</option>
+                    <option value="480">min8min</option>
+                    <option value="540">min9min</option>
+                    <option value="600">min10min</option>
+                </select>
+            </div>
+
             <div class="col-md-3">
                 <select class="form-control" name="publish_for" style="width:100%">
                     <option value="">all</option>
@@ -70,7 +82,7 @@
                 <div class="col-md-1">
                     <img title="{{$scene->permalink}}" src="<?=htmlspecialchars($scene->preview)?>" class="img-responsive thumbnail"/>
                     <small><b>{{number_format($scene->rate, 2)}}p. <br/>
-                    {{gmdate("i:s", $scene->duration)}}</b></small>
+                    {{gmdate("i:s", $scene->duration)}}m.</b></small>
                 </div>
 
                 <div class="col-md-3" style="margin: 5px 0 0 0">
