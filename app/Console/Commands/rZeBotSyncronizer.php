@@ -57,7 +57,7 @@ class rZeBotSyncronizer extends Command
         $i=0;
         foreach($ids as $id) {
             $scene = Scene::find($id);
-            echo "[ " . number_format(($i*100)/ $total, 0) ."% ] " . $scene->id . PHP_EOL;
+            echo "[ " . number_format(($i*100)/ $total, 0) ."% ".date('Y-m-d H:i:s')."] " . $scene->id . PHP_EOL;
             $i++;
             $this->exportScene($database, $scene);
             sleep(1);
