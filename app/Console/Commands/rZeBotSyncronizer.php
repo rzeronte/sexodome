@@ -45,7 +45,7 @@ class rZeBotSyncronizer extends Command
         echo "Syncronize from " . $database . PHP_EOL;
         $logPublisheds = Logpublish::where('site', 'like', $database)
             ->groupBy('scene_id')
-            ->orderBy('id', 'desc')
+            ->orderBy('id', 'ASC')
             ->get()
         ;
         $ids = [];
