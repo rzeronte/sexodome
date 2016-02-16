@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Model\LanguageTag;
+use App\Model\Logpublish;
 use App\Model\SceneClick;
 use App\Model\SceneTranslation;
 use App\Model\TagTranslation;
@@ -42,7 +43,15 @@ class rZeBotSyncronizer extends Command
         $database = $this->argument('database');
 
         echo "Syncronize from " . $database . PHP_EOL;
-        $ids = Scene::getRemoteSceneIdsFor($database);
+        $logPublisheds = Logpublish::where('site', 'like', $database)
+            ->groupBy('scene_id')
+            ->orderBy('id', 'desc')
+            ->get()
+        ;
+        $ids = [];
+        foreach($logPublisheds as $publish) {
+            $ids[] = $publish->scene_id;
+        }
 
         $total = count($ids);
         $i=0;
@@ -51,11 +60,14 @@ class rZeBotSyncronizer extends Command
             echo "[ " . number_format(($i*100)/ $total, 0) ."% ] " . $scene->id . PHP_EOL;
             $i++;
             $this->exportScene($database, $scene);
+            sleep(1);
         }
     }
 
     public function exportScene($database, $scene) {
-
+        $logpublish = $scene->logspublish()->where('site', 'like', $database)->orderBy('id', 'desc')->first();
+        echo $logpublish->scene_id . PHP_EOL;
+        return false;
         $languages = Language::all();
 
         $sql_update = "UPDATE scenes SET status=".$scene->status . ",
