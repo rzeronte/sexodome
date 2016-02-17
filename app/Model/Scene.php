@@ -92,7 +92,7 @@ class Scene extends Model
             ->orderBy('scenes.id')
         ;
 
-        if ($publish_for != "") {
+        if ($publish_for == "notpublished") {
             $scenesPublished= Scene::select('scenes.id')
                 ->join('logpublish', 'logpublish.scene_id', '=', 'scenes.id')
                 ->groupBy('scenes.id')
