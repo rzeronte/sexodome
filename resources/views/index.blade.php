@@ -82,8 +82,13 @@
 
                 <div class="col-md-1">
                     <img title="{{$scene->permalink}}" src="<?=htmlspecialchars($scene->preview)?>" class="img-responsive thumbnail"/>
-                    <small><b>{{number_format($scene->rate, 2)}}p. <br/>
-                    {{gmdate("i:s", $scene->duration)}}m.</b></small>
+                    <small>
+                        <b>
+                            {{number_format($scene->rate, 2)}}p. <br/>
+                            {{gmdate("i:s", $scene->duration)}}m.<br/>
+                            {{ $scene->views+0}} views
+                        </b>
+                    </small>
                 </div>
 
                 <div class="col-md-3" style="margin: 5px 0 0 0">
