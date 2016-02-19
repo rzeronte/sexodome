@@ -92,7 +92,6 @@ class rZeBotPornHub extends Command
                 if ($max != 'false' && is_numeric($max) && $added >= $max) {
                     break;
                 }
-
                 $videorate = 0;
                 if ($datos[9]+$datos[10] != 0) {
                     $videorate = ($datos[9]*100)/($datos[9]+$datos[10]);
@@ -105,112 +104,118 @@ class rZeBotPornHub extends Command
                     "title"    => $datos[3],
                     "tags"     => explode(";", $datos[4]),
                     "duration" => $datos[7],
-                    "likes"    => $datos[9],
+                    "likes"    => $datos[8],
+                    "views"    => $datos[9],
                     "unlikes"  => $datos[10],
                     "rate"     => $videorate
                 );
 
 
                 if(SceneTranslation::where('title', $video["title"])->where('language_id', 2)->count() == 0) {
-                    $mixed_check = true;
-
-                    // check tags limit
-                    if ($tags !== false) {
-                        $mixed_check = false;
-                        foreach ($video["tags"] as $tagTxt) {
-                            if (in_array($tagTxt, $tags)) {
-                                $mixed_check = true;
-                            }
-                        }
-                    }
-
-                    if (!$mixed_check) {
-                        echo "TAGS: No tiene ningún tag solicitado" . PHP_EOL;
-                    }
-
-                    // rate check
-                    if ($rate !== 'false') {
-                        if ($video["rate"] < $rate) {
-                            $mixed_check = false;
-                            echo "RATE: Rate insuficiente" . PHP_EOL;
-                        }
-                    }
-
-                    if ($mixed_check) {
-                        $added++;
-
-                        $scene = new Scene();
-                        $scene->preview = $video["preview"];
-                        $scene->iframe  = $video["iframe"];
-                        $scene->status  = 1;
-                        $scene->channel_id = 1;         //pornhub
-                        $scene->thumbs  = utf8_encode(json_encode($video["thumbs"]));
-                        $scene->duration = $video["duration"];
-                        $scene->rate = $video["rate"];
-                        $scene->save();
-
-                        // scene clicks
-                        if ($clicks == 'random') {
-                            $max = rand(0, 99);
-                            for ($z=0;$z<=$max;$z++) {
-                                $sceneClick = new SceneClick();
-                                $sceneClick->scene_id = $scene->id;
-                                $sceneClick->referer = 'pornhub-dump';
-                                $sceneClick->save();
-                            }
-                        }
-                        //translations
-                        foreach ($languages as $language) {
-                            $sceneTranslation = new SceneTranslation();
-                            $sceneTranslation->scene_id = $scene->id;
-                            $sceneTranslation->language_id = $language->id;
-
-                            if ($language->id == 2) {
-                                $sceneTranslation->title = $video["title"];
-                                $sceneTranslation->permalink = rZeBotUtils::slugify($video["title"]);
-                            }
-
-                            $sceneTranslation->save();
-                        }
-
-                        // tags
-                        foreach ($video["tags"] as $tagTxt) {
-
-                            if (TagTranslation::where('name', $tagTxt)->where('language_id', 2)->count() == 0) {
-                                //echo "TAG: creando tag en la colección" . PHP_EOL;
-                                $tag = new Tag();
-                                $tag->status = 2;
-                                $tag->save();
-                                $tag_id=$tag->id;
-
-                                // tag translations
-                                foreach ($languages as $language) {
-                                    $tagTranslation = new TagTranslation();
-                                    $tagTranslation->language_id = $language->id;
-                                    $tagTranslation->tag_id = $tag_id;
-
-                                    if ($language->id == 2) {
-                                        $tagTranslation->permalink = rZeBotUtils::slugify($tagTxt);;
-                                        $tagTranslation->name = $tagTxt;
-                                    }
-
-                                    $tagTranslation->save();
-                                }
-                            } else {
-                                $tagTranslation = TagTranslation::where('name', $tagTxt)->where('language_id', 2)->first();
-                                $tag_id = $tagTranslation->tag_id;
-                                //echo "TAG: ya existente en la colección" . PHP_EOL;
-                            }
-
-                            $sceneTag = new SceneTag();
-                            $sceneTag->scene_id = $scene->id;
-                            $sceneTag->tag_id = $tag_id;
-                            $sceneTag->save();
-                            //echo "TAG: asociando el tag $tagTxt" . PHP_EOL;
-                        }
-                    }
+//                    $mixed_check = true;
+//
+//                    // check tags limit
+//                    if ($tags !== false) {
+//                        $mixed_check = false;
+//                        foreach ($video["tags"] as $tagTxt) {
+//                            if (in_array($tagTxt, $tags)) {
+//                                $mixed_check = true;
+//                            }
+//                        }
+//                    }
+//
+//                    if (!$mixed_check) {
+//                        echo "TAGS: No tiene ningún tag solicitado" . PHP_EOL;
+//                    }
+//
+//                    // rate check
+//                    if ($rate !== 'false') {
+//                        if ($video["rate"] < $rate) {
+//                            $mixed_check = false;
+//                            echo "RATE: Rate insuficiente" . PHP_EOL;
+//                        }
+//                    }
+//
+//                    if ($mixed_check) {
+//                        $added++;
+//
+//                        $scene = new Scene();
+//                        $scene->preview = $video["preview"];
+//                        $scene->iframe  = $video["iframe"];
+//                        $scene->status  = 1;
+//                        $scene->status  = $video["views"];
+//                        $scene->channel_id = 1;         //pornhub
+//                        $scene->thumbs  = utf8_encode(json_encode($video["thumbs"]));
+//                        $scene->duration = $video["duration"];
+//                        $scene->rate = $video["rate"];
+//                        $scene->save();
+//
+//                        // scene clicks
+//                        if ($clicks == 'random') {
+//                            $max = rand(0, 99);
+//                            for ($z=0;$z<=$max;$z++) {
+//                                $sceneClick = new SceneClick();
+//                                $sceneClick->scene_id = $scene->id;
+//                                $sceneClick->referer = 'pornhub-dump';
+//                                $sceneClick->save();
+//                            }
+//                        }
+//                        //translations
+//                        foreach ($languages as $language) {
+//                            $sceneTranslation = new SceneTranslation();
+//                            $sceneTranslation->scene_id = $scene->id;
+//                            $sceneTranslation->language_id = $language->id;
+//
+//                            if ($language->id == 2) {
+//                                $sceneTranslation->title = $video["title"];
+//                                $sceneTranslation->permalink = rZeBotUtils::slugify($video["title"]);
+//                            }
+//
+//                            $sceneTranslation->save();
+//                        }
+//
+//                        // tags
+//                        foreach ($video["tags"] as $tagTxt) {
+//
+//                            if (TagTranslation::where('name', $tagTxt)->where('language_id', 2)->count() == 0) {
+//                                //echo "TAG: creando tag en la colección" . PHP_EOL;
+//                                $tag = new Tag();
+//                                $tag->status = 2;
+//                                $tag->save();
+//                                $tag_id=$tag->id;
+//
+//                                // tag translations
+//                                foreach ($languages as $language) {
+//                                    $tagTranslation = new TagTranslation();
+//                                    $tagTranslation->language_id = $language->id;
+//                                    $tagTranslation->tag_id = $tag_id;
+//
+//                                    if ($language->id == 2) {
+//                                        $tagTranslation->permalink = rZeBotUtils::slugify($tagTxt);;
+//                                        $tagTranslation->name = $tagTxt;
+//                                    }
+//
+//                                    $tagTranslation->save();
+//                                }
+//                            } else {
+//                                $tagTranslation = TagTranslation::where('name', $tagTxt)->where('language_id', 2)->first();
+//                                $tag_id = $tagTranslation->tag_id;
+//                                //echo "TAG: ya existente en la colección" . PHP_EOL;
+//                            }
+//
+//                            $sceneTag = new SceneTag();
+//                            $sceneTag->scene_id = $scene->id;
+//                            $sceneTag->tag_id = $tag_id;
+//                            $sceneTag->save();
+//                            //echo "TAG: asociando el tag $tagTxt" . PHP_EOL;
+//                        }
+//                    }
                 } else {
-                    echo "SCENE: ya existente" . PHP_EOL;
+                    echo "SCENE: ya existente";
+                    $scene = SceneTranslation::where('title', $video["title"])->where('language_id', 2)->first();
+                    echo "Actualizamos views:" . $video["views"].PHP_EOL;
+                    $scene->views = $video["views"];
+
                 }
             }
 
