@@ -29,6 +29,7 @@ class rZeBotPornHub extends Command
                             {--tags=false : Tags imported}
                             {--rate=false : rate min imported}
                             {--views=false : views min imported}
+                            {--duration=false : duration min imported}
                             {--clicks=false: Generate random visits}';
 
     /**
@@ -58,6 +59,7 @@ class rZeBotPornHub extends Command
         $tags     = $this->option('tags');
         $rate     = $this->option('rate');
         $minViews = $this->option('views');
+        $minDuration = $this->option('duration');
 
         if ($truncate == 'true') {
             echo "Truncando...".PHP_EOL.PHP_EOL;
@@ -143,7 +145,15 @@ class rZeBotPornHub extends Command
                     if ($minViews !== 'false') {
                         if ($video["views"] < $minViews) {
                             $mixed_check = false;
-                            echo "VIEWS: Rate insuficiente" . PHP_EOL;
+                            echo "VIEWS: Views insuficiente" . PHP_EOL;
+                        }
+                    }
+
+                    // duration check
+                    if ($minDuration !== 'false') {
+                        if ($video["duration"] < $minDuration) {
+                            $mixed_check = false;
+                            echo "DURATION: duration insuficiente" . PHP_EOL;
                         }
                     }
 
