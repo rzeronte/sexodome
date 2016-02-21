@@ -99,7 +99,8 @@ class ConfigController extends Controller
             'languages'    => $this->languages,
             'locale'       => $this->locale,
             'title'        => "Admin Panel",
-            'sites'        => $this->sites
+            'sites'        => $this->sites,
+            'duration'     => $duration
         ]);
     }
 

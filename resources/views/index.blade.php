@@ -18,17 +18,17 @@
                 <input id="query_string" name="q" type="text" placeholder="title search" class="form-control query_string" value="{{$query_string}}" style="width:100%;">
             </div>
             <div class="col-md-2">
-                    <input id="query_tags" name="tag_q" type="text" placeholder="tag search" class="form-control query_string" value="{{$tag_q}}" style="width:100%;">
+                <input id="query_tags" name="tag_q" type="text" placeholder="tag search" class="form-control query_string" value="{{$tag_q}}" style="width:100%;">
             </div>
             <div class="col-md-2">
                 <select name="duration" class="form-control">
                     <option value="">any duration</option>
-                    <option value="300">min5min</option>
-                    <option value="360">min6min</option>
-                    <option value="420">min7min</option>
-                    <option value="480">min8min</option>
-                    <option value="540">min9min</option>
-                    <option value="600">min10min</option>
+                    <option value="300" @if($duration == 300) selected @endif>min5min</option>
+                    <option value="360" @if($duration == 360) selected @endif>min6min</option>
+                    <option value="420" @if($duration == 420) selected @endif>min7min</option>
+                    <option value="480" @if($duration == 480) selected @endif>min8min</option>
+                    <option value="540" @if($duration == 540) selected @endif>min9min</option>
+                    <option value="600" @if($duration == 600) selected @endif>min10min</option>
                 </select>
             </div>
 
@@ -207,7 +207,13 @@
     @endforeach
 
     <div class="row">
-        <?php echo $scenes->appends(['locale'=>$locale, 'q' => $query_string, 'tag_q' => $tag_q, 'publish_for' => $publish_for])->render(); ?>
+        <?php echo $scenes->appends([
+                'locale'      => $locale,
+                'q'           => $query_string,
+                'tag_q'       => $tag_q,
+                'publish_for' => $publish_for,
+                'duration'    => $duration
+        ])->render(); ?>
     </div>
 </div>
 
