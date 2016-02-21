@@ -89,7 +89,6 @@ class Scene extends Model
         $scenes = Scene::select('scenes.*', 'scene_translations.title', 'scene_translations.description', 'scene_translations.permalink')
             ->join('scene_translations', 'scenes.id', '=', 'scene_translations.scene_id')
             ->where('scene_translations.language_id', $language)
-            ->orderBy('scenes.views', 'desc')
         ;
 
         if ($publish_for == "notpublished") {
