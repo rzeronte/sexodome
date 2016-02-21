@@ -83,7 +83,7 @@
 
         <div class="row coloreable" style="background-color:<?=$bgColor?>;">
 
-                <div class="col-md-2">
+                <div class="col-md-1">
                     <img title="{{$scene->permalink}}" src="<?=htmlspecialchars($scene->preview)?>" class="img-responsive thumbnail"/>
                     <small>
                         <b>
@@ -120,7 +120,7 @@
                 </div>
 
 
-                <div class="col-md-4" style="margin: 10px 0 0 0">
+                <div class="col-md-3" style="margin: 10px 0 0 0">
                     <small><b>Available in:</b></small><br/>
                     @foreach ($languages as $itemLang)
                         <?php $translation = $scene->translations()->where('language_id',$itemLang->id)->first(); ?>
