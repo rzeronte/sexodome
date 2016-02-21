@@ -52,7 +52,7 @@ class ConfigController extends Controller
 
         // results per page
         $this->perPageTags = 50;
-        $this->perPageScenes = 1;
+        $this->perPageScenes = 10;
 
         // sites
         $this->sites = array(
