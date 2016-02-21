@@ -122,7 +122,7 @@ class Scene extends Model
 
         if (count($remote_scenes)) {
             $scenes->whereIn('scenes.id', $remote_scenes);
-            $scenes->orderBy('scenes.id');
+            $scenes->orderBy('scenes.id', 'desc');
         }
 
         return $scenes;
