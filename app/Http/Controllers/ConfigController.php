@@ -248,6 +248,7 @@ class ConfigController extends Controller
             $sceneTranslation->save();
 
             // tags
+            DB::connection('mysql')->table('scene_tag')->where('scene_id', $scene_id)->delete();
             foreach($tags_string as $tag_string) {
                 // Si no tiene el tag, lo asociamos
                 $tag = Tag::getTranslationSearch($tag_string, $this->language->id)->first();
