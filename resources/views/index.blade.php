@@ -83,7 +83,7 @@
 
         <div class="row coloreable" style="background-color:<?=$bgColor?>;">
 
-                <div class="col-md-1">
+                <div class="col-md-2">
                     <img title="{{$scene->permalink}}" src="<?=htmlspecialchars($scene->preview)?>" class="img-responsive thumbnail"/>
                     <small>
                         <b>
@@ -174,10 +174,6 @@
                     <div class="modal fade" id="myModal{{$scene->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title" id="myModalLabel">preview scene</h4>
-                                </div>
                                 <div class="modal-body">
                                     <?php
                                     $iframe = $scene->iframe;
