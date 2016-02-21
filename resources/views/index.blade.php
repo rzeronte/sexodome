@@ -143,11 +143,15 @@
                         @foreach($languages as $itemLang)
                             <?php $translation = DB::connection($publish->site)->table('scene_translations')->where('scene_id', $scene->id)->where('language_id', $itemLang->id)->first();?>
                                 <img src="{{asset("flags/$itemLang->code.png")}}"/>
-                            @if (strlen($translation->title))
-                                <small>[T] </small>
-                            @endif
-                            @if (strlen($translation->description))
-                                <small>[D] </small>
+                                @if (isset($translation->title))
+                                    @if (strlen($translation->title))
+                                        <small>[T] </small>
+                                    @endif
+                                @endif
+                            @if (isset($translation->description))
+                                    @if (isset($translation->title))
+                                        <small>[D] </small>
+                                    @endif
                             @endif
 
                         @endforeach
