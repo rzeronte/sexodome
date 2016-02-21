@@ -83,7 +83,7 @@
 
         <div class="row coloreable" style="background-color:<?=$bgColor?>;">
 
-                <div class="col-md-1">
+                <div class="col-md-2">
                     <img title="{{$scene->permalink}}" src="<?=htmlspecialchars($scene->preview)?>" class="img-responsive thumbnail"/>
                     <small>
                         <b>
