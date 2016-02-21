@@ -129,7 +129,7 @@ class Scene extends Model
     }
 
     static function getRemoteSceneIdsFor($database) {
-        $sql = "SELECT id FROM scenes WHERE status <> 0";
+        $sql = "SELECT id FROM scenes WHERE status <> 0 ORDER BY updated_at DESC";
         $scenes = DB::connection($database)->select($sql);
 
         $ids = [];
