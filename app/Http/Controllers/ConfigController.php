@@ -233,6 +233,8 @@ class ConfigController extends Controller
     {
         $title = Request::input('title');
         $description = Request::input('description');
+        $tags_string = Request::input('tags');
+        $tags_string = explode(",", $tags_string);
 
         $sceneTranslation = SceneTranslation::where('scene_id', $scene_id)
             ->where('language_id', $this->language->id)
@@ -245,6 +247,17 @@ class ConfigController extends Controller
             $sceneTranslation->description = $description;
             $sceneTranslation->save();
 
+            // tags
+            foreach($tags_string as $tag_string) {
+                // Si no tiene el tag, lo asociamos
+                $tag = Tag::getTranslationSearch($tag_string, $this->language->id)->first();
+                if (!Scene::hasTag($scene_id, $tag->id)) {
+                    $tagScene = new SceneTag();
+                    $tagScene->scene_id = $scene_id;
+                    $tagScene->tag_id = $tag->id;
+                    $tagScene->save();
+                }
+            }
             return json_encode(array(
                 'description' => $sceneTranslation->description,
                 'scene_id'    => $scene_id,

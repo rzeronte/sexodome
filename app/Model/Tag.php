@@ -36,6 +36,24 @@ class Tag extends Model
         return $tags;
     }
 
+    static function getTranslationSearchFromArray($tags_string = false, $language_id)
+    {
+        $tags = Tag::select('tags.*', 'tag_translations.name', 'tag_translations.permalink', 'tag_translations.id as translationId')
+            ->join('tag_translations', 'tag_translations.tag_id', '=', 'tags.id')
+            ->where('tag_translations.language_id', $language_id);
+
+        if ($tags_string != false) {
+            $tags->where(function($query){
+                return $query;
+                    foreach($tags_string as $tag) {
+                        $query->orWhere('tag_translations.name', '=', $tag);
+                    }
+            });
+        }
+
+        return $tags;
+    }
+
     static function getTranslationByStatus($status, $language_id)
     {
         $tags = Tag::select('tags.*', 'tag_translations.name', 'tag_translations.permalink')
