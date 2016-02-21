@@ -119,7 +119,6 @@
 
                 </div>
 
-
                 <div class="col-md-3" style="margin: 10px 0 0 0">
                     <small><b>Available in:</b></small><br/>
                     @foreach ($languages as $itemLang)
@@ -138,9 +137,13 @@
                     @if (count($scene->logspublish()->get()) == 0)
                         <small>NoPublished</small>
                     @endif
+
                     @foreach ($scene->logspublish()->get() as $publish)
                         <img src="{{asset('favicons/favicon-'.$publish->site.'.png')}}" style="float:left;"/><small style="margin-left:5px;float:left;margin-right: 5px;">{{$publish->site}}</small>
+                        <?php $remote_scene = DB::connection($publish->site)->table('scenes')->where('id', $scene->id)->first();?>
+                        (<small>{{$remote_scene->published_at}}</small>)
                         @foreach($languages as $itemLang)
+
                             <?php $translation = DB::connection($publish->site)->table('scene_translations')->where('scene_id', $scene->id)->where('language_id', $itemLang->id)->first();?>
                                 <img src="{{asset("flags/$itemLang->code.png")}}"/>
                                 @if (isset($translation->title))
@@ -153,8 +156,9 @@
                                         <small>[D] </small>
                                     @endif
                             @endif
-
                         @endforeach
+
+
                         <br/>
                     @endforeach
                 </div>

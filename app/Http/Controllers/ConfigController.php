@@ -161,9 +161,10 @@ class ConfigController extends Controller
                 $scene->channel_id,
                 date("Y-m-d H:i:s"),
                 date("Y-m-d H:i:s"),
+                date("Y-m-d H:i:s"),
             );
 
-            $sql_insert = 'insert into scenes (id, preview, thumbs, iframe, status, duration, rate, channel_id, created_at, updated_at) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+            $sql_insert = 'insert into scenes (id, preview, thumbs, iframe, status, duration, rate, channel_id, created_at, updated_at, published_at) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
             DB::connection($database)->insert($sql_insert, $values);
 
             $this->syncSceneTags($database, $scene, $domain_scene);
@@ -189,6 +190,7 @@ class ConfigController extends Controller
                                status = ".$scene->status.",
                                rate = ".$scene->rate.",
                                updated_at = '".date('Y-m-d H:i:s')."'
+                               published_at = '".date('Y-m-d H:i:s')."'
                                 WHERE id=".$scene->id;
 
             DB::connection($database)->update($sql_update);
