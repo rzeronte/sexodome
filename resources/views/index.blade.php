@@ -5,6 +5,8 @@
 
 <body style="background-color: dimgray;">
 
+<div id="ajaxUrls" data-tags-url="{{route('ajaxTags', ['locale'=> $locale])}}"></div>
+
 <div class="container">
     <div class="header row">
         @include('layout_admin._header_config')
@@ -92,29 +94,31 @@
                     </small>
                 </div>
 
-                <div class="col-md-3" style="margin: 5px 0 0 0">
+                <div class="col-md-5" style="margin: 5px 0 0 0">
                     <form action="{{route('saveTranslation', ['locale'=>$locale, 'scene_id'=>$scene->id])}}" class="ajax-form">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                         <input type="text" value="{{$scene->title}}" class="form-control" name="title"/>
                         <textarea class="form-control" style="margin-top:5px;margin-bottom:5px;" name="description">{{$scene->description}}</textarea>
+                        <input name="tags" type="text" class="js-tags-<?=$scene->id?>"/>
                         <input type="submit" class="btn btn-primary" value="update" style="margin-right:10px;margin-bottom:5px;"/>
+
+                        <script type="text/javascript">
+                            var data = [
+                                @foreach ($scene->tags()->get() as $tag)
+                                <?php $translation = $tag->translations()->where('language_id',$language->id)->first(); ?>
+                                '<?= $translation->name?>',
+                                @endforeach
+                                ];
+                            $('.js-tags-<?=$scene->id?>').tagEditor({
+                                initialTags: data,
+                                autocomplete: { 'source': $("#ajaxUrls").attr('data-tags-url'), minLength: 3 }
+                            });
+                        </script>
+
                     </form>
 
                 </div>
 
-                <div class="col-md-2" style="margin: 15px 0 0 0">
-                    @foreach ($scene->tags()->get() as $tag)
-                        <small style="background-color: forestgreen;color:white;margin:2px;padding:1px;">
-                                <?php $translation = $tag->translations()->where('language_id',$language->id)->first(); ?>
-                                @foreach($sites as $site)
-                                    @if (in_array(strtolower($translation->permalink), $site['tags']))
-                                       <img src="{{asset('favicons/favicon-'.$site['name'].'.png')}}"/>
-                                   @endif
-                                @endforeach
-                                <a href="{{route('tags',['locale'=>$language->code, 'q'=>$translation->name])}}" style="color:white;" target="_blank">{{$translation->name}}</a>
-                        </small>
-                    @endforeach
-                </div>
 
                 <div class="col-md-4" style="margin: 10px 0 0 0">
                     <small><b>Available in:</b></small><br/>
@@ -206,6 +210,7 @@
         <?php echo $scenes->appends(['locale'=>$locale, 'q' => $query_string, 'tag_q' => $tag_q, 'publish_for' => $publish_for])->render(); ?>
     </div>
 </div>
+
 <style>
     .successAjax{
         border: solid 3px green;

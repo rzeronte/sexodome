@@ -52,7 +52,7 @@ class ConfigController extends Controller
 
         // results per page
         $this->perPageTags = 50;
-        $this->perPageScenes = 6;
+        $this->perPageScenes = 1;
 
         // sites
         $this->sites = array(
@@ -275,5 +275,18 @@ class ConfigController extends Controller
             'sites'        => $this->sites,
             'words'        => $words
         ]);
+    }
+
+    public function ajaxTags($locale)
+    {
+        $term = Request::get('term');
+        $tags = Tag::getTranslationSearch($term, $this->language->id)->get();
+
+        $select_tags = [];
+        foreach($tags as $tag) {
+            $select_tags[] = $tag->name;
+        }
+
+        return json_encode($select_tags);
     }
 }

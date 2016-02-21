@@ -21,5 +21,14 @@
     <script src="{{asset('jsoneditor/jsoneditor.js')}}"></script>
     <link rel="stylesheet" href="{{asset('jsoneditor/jsoneditor.css')}}" />
 
+    {{-- select2 --}}
+    {{--<script src="{{asset('select2/js/select2.full.js')}}"></script>--}}
+    {{--<link rel="stylesheet" href="{{asset('select2/css/select2.css')}}" />--}}
+
+    {{-- tagEditor --}}
+    <script src="{{asset('tagEditor/jquery.caret.min.js')}}"></script>
+    <script src="{{asset('tagEditor/jquery.tag-editor.js')}}"></script>
+    <link rel="stylesheet" href="{{asset('tagEditor/jquery.tag-editor.css')}}" />
+
     <script src="{{asset('admin.js')}}" type="text/javascript"></script>
 </head>

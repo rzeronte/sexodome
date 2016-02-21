@@ -5,6 +5,7 @@ Route::match(['get', 'post'], '{locale}/', 'ConfigController@index')->name('cont
 Route::match(['get', 'post'], '{locale}/export_scene/{scene_id}', 'ConfigController@exportScene')->name('exportScene');
 Route::match(['get', 'post'], '{locale}/tags/', 'ConfigController@tags')->name('tags');
 Route::match(['get', 'post'], '{locale}/stats/', 'ConfigController@stats')->name('stats');
+Route::match(['get'], '{locale}/ajax/tags/', 'ConfigController@ajaxTags')->name('ajaxTags');
 
 Route::get('/setLocale/{locale}', 'ConfigController@changeLocale')->name('changeLocale');
 
