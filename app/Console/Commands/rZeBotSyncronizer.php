@@ -73,6 +73,7 @@ class rZeBotSyncronizer extends Command
                            iframe = '".$scene->iframe."',
                            status = ".$scene->status.",
                            rate = ".$scene->rate.",
+                           published_at = '".date('Y-m-d H:i:s')."',
                            updated_at = '".date('Y-m-d H:i:s')."'
                             WHERE id=".$scene->id;
 
