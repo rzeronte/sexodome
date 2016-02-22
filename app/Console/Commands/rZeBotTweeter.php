@@ -29,8 +29,8 @@ class rZeBotTweeter extends Command
     {
         parent::__construct();
 
-        $this->consumer_key = "VQx6KxjqVqI8y05LYrgYIQsjd";
-        $this->consumer_secret = "HdxmPJad8MeT2oMkhUGMblqyWY7grkgrIKAjhJUZgdLxseebOG";
+            $this->consumer_key = "VQx6KxjqVqI8y05LYrgYIQsjd";
+            $this->consumer_secret = "HdxmPJad8MeT2oMkhUGMblqyWY7grkgrIKAjhJUZgdLxseebOG";
         $this->access_token = "4709109838-LMogh4L2ue2IlC31DftSLzXX0jxNJXAht81x1Em";
         $this->access_token_secret = "f5FW4IzQS3pdLQaCHhTfcdMT2jLu6FAzSBIEMB35dYwcg";
     }
