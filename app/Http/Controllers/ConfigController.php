@@ -155,7 +155,7 @@ class ConfigController extends Controller
                 $scene->preview,
                 $scene->thumbs,
                 $scene->iframe,
-                $scene->status,
+                1,
                 $scene->duration,
                 $scene->rate,
                 $scene->channel_id,
