@@ -19,6 +19,7 @@ use App\Model\Tag;
 use App\Model\TagTranslation;
 use App\Model\Origin;
 use App\Model\Language;
+use App\Model\SceneTagTier;
 use App\Model\LanguageTag;
 use App\Model\TagClick;
 use App\Model\Tweet;
@@ -54,13 +55,8 @@ class ConfigController extends Controller
         $this->perPageTags = 50;
         $this->perPageScenes = 10;
 
-        // sites
-        $this->sites = array(
-            ['name' => 'assassinsporn',   'tags' => []],
-            ['name' => 'mamasfollando',   'tags' => ['milf', 'mom', 'mother', 'wife', 'mature', 'older', 'milfs']],
-            ['name' => 'latinasparadise', 'tags' => ['latina', 'italian', 'latinas', 'latino','spanish', 'peruvian', 'colombian', 'cuba', 'cuban', 'brazil']],
-            ['name' => 'dirtyblow',       'tags' => ['extreme', 'bdsm', 'masochism', 'bondage', 'unusual', 'fetish', 'shemale', 'tied']],
-        );
+        //sites
+        $this->sites = Site::all();
     }
 
     public function home()
@@ -305,5 +301,53 @@ class ConfigController extends Controller
         }
 
         return json_encode($select_tags);
+    }
+
+    public function sites()
+    {
+        if (Request::isMethod('post')) {
+
+            //sites
+            foreach($this->sites as $site) {
+                //tiers
+                for($i=1 ; $i<= Site::getNumTiers(); $i++) {
+
+                    $tags_string = Request::input('tier'.$i.'_'.$site->id);
+
+                    if (strlen($tags_string)) {
+                        $tags_string = explode(",", $tags_string);
+                        DB::connection('mysql')
+                            ->table('site_tagtiers')
+                            ->where('site_id', $site->id)
+                            ->where('tipo', 'tier'.$site->id)
+                            ->delete()
+                        ;
+
+                        foreach($tags_string as $tag_string) {
+                            // Si no tiene el tag, lo asociamos
+                            $tag = Tag::getTranslationSearch($tag_string, $this->language->id)->first();
+
+                            if (!Site::hasTag($site->id, $tag->id, "tier".$i)) {
+                                $tagSite = new App\Model\SiteTagTier();
+                                $tagSite->site_id = $site->id;
+                                $tagSite->tag_id = $tag->id;
+                                $tagSite->tipo= "tier".$i;
+
+                                $tagSite->save();
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+
+        return view('sites', [
+            'language'     => $this->language,
+            'languages'    => $this->languages,
+            'locale'       => $this->locale,
+            'title'        => "Admin Panel",
+            'sites'        => $this->sites,
+        ]);
     }
 }
