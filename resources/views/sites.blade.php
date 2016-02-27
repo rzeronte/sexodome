@@ -41,7 +41,8 @@
 
                     <div class="row">
                         <div class="col-md-3">
-                            <a href="http://{{$site->domain}}">http://{{$site->domain}}</a>
+                            <img src="{{asset('favicons/favicon-'.$site->name.'.png')}}" style="float:left;"/>
+                            <span style="margin-left:5px;">http://{{$site->domain}}</span>
                         </div>
                         <div class="col-md-3">
                             <label>Tier1:</label>
