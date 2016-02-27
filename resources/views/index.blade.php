@@ -168,7 +168,7 @@
                 <div class="col-md-2" style="margin: 15px 0 0 0">
                     <select class="form-control" name="database" style="width:100%" id="site_select_{{$scene->id}}">
                         @foreach($sites as $site)
-                            <option value="{{$site['name']}}">{{$site['name']}}</option>
+                            <option value="{{$site->name}}">{{$site->name}}</option>
                         @endforeach
                     </select>
                 </div>
