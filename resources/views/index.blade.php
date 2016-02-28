@@ -85,13 +85,19 @@
 
                 <div class="col-md-2">
                     <img title="{{$scene->permalink}}" src="<?=htmlspecialchars($scene->preview)?>" class="img-responsive thumbnail"/>
+
                     <small>
                         <b>
-                            {{number_format($scene->rate, 2)}}p. <br/>
-                            {{gmdate("i:s", $scene->duration)}}m.<br/>
-                            {{ $scene->views+0}} views
+                            {{number_format($scene->rate, 2)}}% | {{gmdate("i:s", $scene->duration)}} |  {{ $scene->views+0}} views
                         </b>
                     </small>
+                    <br/>
+
+                    @foreach ($languages as $itemLang)
+                        <?php $translation = $scene->translations()->where('language_id', $itemLang->id)->first(); ?>
+                        <a href="{{route('content', ['locale'=>$itemLang->code,'q'=> $translation->title])}}" target="_blank"><img src="{{asset("flags/$itemLang->code.png")}}"/></a>
+                    @endforeach
+
                 </div>
 
                 <div class="col-md-5" style="margin: 5px 0 0 0">
