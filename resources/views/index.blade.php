@@ -102,7 +102,7 @@
                         <input name="tags" type="text" class="js-tags-<?=$scene->id?>"/>
                         {{--<input type="submit" class="btn btn-primary" value="update" style="margin-right:10px;margin-bottom:5px;"/>--}}
 
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit" class="btn btn-danger">
                             <i class="fa fa-floppy-o"></i> update
                         </button>
                         <script type="text/javascript">
@@ -158,11 +158,11 @@
 
                 <div class="col-md-1" style="margin: 15px 0 0 0">
                     {{--<input type="submit" value="export" class="btn btn-primary form-control" style=""/> <br/><br/>--}}
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-danger">
                         <i class="fa fa-cloud-upload"></i> export
                     </button><br/><br/>
 
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal{{$scene->id}}">
+                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal{{$scene->id}}">
                         <i class="fa fa-eye"></i> preview
                     </button><br/><br/>
 

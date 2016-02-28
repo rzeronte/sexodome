@@ -70,6 +70,8 @@ $( document ).ready(function() {
         var scene = $(this).attr("data-scene-id");
         var site = $("#site_select_"+scene).val();
 
+        $("#TagTiersModal .modal-body").html("Loading...");
+
         $.ajax({
             url: action+"?site="+site,
             method: 'get'
@@ -80,6 +82,7 @@ $( document ).ready(function() {
 
     $( ".btn-publication-info" ).click(function() {
         var action = $(this).attr("data-url");
+        $("#TagTiersModal .modal-body").html("Loading...");
 
         $.ajax({
             url: action,
