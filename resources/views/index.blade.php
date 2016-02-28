@@ -94,8 +94,7 @@
                     <br/>
 
                     @foreach ($languages as $itemLang)
-                        <?php $translation = $scene->translations()->where('language_id', $itemLang->id)->first(); ?>
-                        <a href="{{route('content', ['locale'=>$itemLang->code,'q'=> $translation->title])}}" target="_blank"><img src="{{asset("flags/$itemLang->code.png")}}"/></a>
+                        <a href="{{route('content', ['locale'=>$itemLang->code,'scene_id'=> $scene->id])}}" target="_blank"><img src="{{asset("flags/$itemLang->code.png")}}"/></a>
                     @endforeach
 
                 </div>

@@ -70,20 +70,25 @@ class ConfigController extends Controller
         $tag_query_string = Request::get('tag_q');
         $publish_for = Request::get('publish_for');  //site or 'notpublished'
         $duration = Request::get('duration');
+        $scene_id = Request::get('scene_id');
 
-        $remote_scenes = [];
-        if ($publish_for && $publish_for !== 'notpublished') {
-            $remote_scenes = Scene::getRemoteSceneIdsFor($publish_for);
+        if ($scene_id == "") {
+            $remote_scenes = [];
+            if ($publish_for && $publish_for !== 'notpublished') {
+                $remote_scenes = Scene::getRemoteSceneIdsFor($publish_for);
+            }
+
+            $scenes = Scene::getScenesForExporterSearch(
+                $query_string,
+                $tag_query_string,
+                $remote_scenes,
+                $this->language->id,
+                $duration,
+                $publish_for
+            );
+        } else {
+            $scenes = Scene::where('id', $scene_id);
         }
-
-        $scenes = Scene::getScenesForExporterSearch(
-            $query_string,
-            $tag_query_string,
-            $remote_scenes,
-            $this->language->id,
-            $duration,
-            $publish_for
-        );
 
         return view('index', [
             'scenes'       => $scenes->paginate($this->perPageScenes),
