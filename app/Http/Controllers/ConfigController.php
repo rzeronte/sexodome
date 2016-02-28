@@ -42,12 +42,13 @@ class ConfigController extends Controller
     {
         $locale = Route::current()->getParameter('locale', "es");
 
+        App::setLocale($locale);
+
         // set locale
         $this->locale = $locale;
 
         // current language
         $this->language = Language::where('code', 'like', $locale)->first();
-
         // all valid languages
         $this->languages = Language::where('status', 1)->get();
 
@@ -72,23 +73,20 @@ class ConfigController extends Controller
         $duration = Request::get('duration');
         $scene_id = Request::get('scene_id');
 
-        if ($scene_id == "") {
-            $remote_scenes = [];
-            if ($publish_for && $publish_for !== 'notpublished') {
-                $remote_scenes = Scene::getRemoteSceneIdsFor($publish_for);
-            }
-
-            $scenes = Scene::getScenesForExporterSearch(
-                $query_string,
-                $tag_query_string,
-                $remote_scenes,
-                $this->language->id,
-                $duration,
-                $publish_for
-            );
-        } else {
-            $scenes = Scene::where('id', $scene_id);
+        $remote_scenes = [];
+        if ($publish_for && $publish_for !== 'notpublished') {
+            $remote_scenes = Scene::getRemoteSceneIdsFor($publish_for);
         }
+
+        $scenes = Scene::getScenesForExporterSearch(
+            $query_string,
+            $tag_query_string,
+            $remote_scenes,
+            $this->language->id,
+            $duration,
+            $publish_for,
+            $scene_id
+        );
 
         return view('index', [
             'scenes'       => $scenes->paginate($this->perPageScenes),

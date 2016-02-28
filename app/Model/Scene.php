@@ -85,11 +85,15 @@ class Scene extends Model
         }
     }
 
-    static function getScenesForExporterSearch($query_string, $tag_query_string, $remote_scenes, $language, $duration, $publish_for) {
+    static function getScenesForExporterSearch($query_string, $tag_query_string, $remote_scenes, $language, $duration, $publish_for, $scene_id) {
         $scenes = Scene::select('scenes.*', 'scene_translations.title', 'scene_translations.description', 'scene_translations.permalink')
             ->join('scene_translations', 'scenes.id', '=', 'scene_translations.scene_id')
             ->where('scene_translations.language_id', $language)
         ;
+
+        if ($scene_id != "") {
+            $scenes->where('scenes.id', $scene_id);
+        }
 
         if ($publish_for == "notpublished") {
             $scenesPublished= Scene::select('scenes.id')
