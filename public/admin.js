@@ -65,4 +65,28 @@ $( document ).ready(function() {
         console.log("entro");
     });
 
+    $( ".btn-tag-tiers" ).click(function() {
+        var action = $(this).attr("data-url");
+        var scene = $(this).attr("data-scene-id");
+        var site = $("#site_select_"+scene).val();
+
+        $.ajax({
+            url: action+"?site="+site,
+            method: 'get'
+        }).done(function( data ) {
+            $("#TagTiersModal .modal-body").html(data);
+        });
+    });
+
+    $( ".btn-publication-info" ).click(function() {
+        var action = $(this).attr("data-url");
+
+        $.ajax({
+            url: action,
+            method: 'get'
+        }).done(function( data ) {
+            $("#TagTiersModal .modal-body").html(data);
+        });
+    });
+
 });

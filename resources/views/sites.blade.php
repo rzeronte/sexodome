@@ -82,16 +82,19 @@
 
                                 $('.js-tags1-<?=$site->id?>').tagEditor({
                                     initialTags: data1,
+                                    removeDuplicates: true,
                                     autocomplete: { 'source': $("#ajaxUrls").attr('data-tags-url'), minLength: 3 }
                                 });
 
                                 $('.js-tags2-<?=$site->id?>').tagEditor({
                                     initialTags: data2,
+                                    removeDuplicates: true,
                                     autocomplete: { 'source': $("#ajaxUrls").attr('data-tags-url'), minLength: 3 }
                                 });
 
                                 $('.js-tags3-<?=$site->id?>').tagEditor({
                                     initialTags: data3,
+                                    removeDuplicates: true,
                                     autocomplete: { 'source': $("#ajaxUrls").attr('data-tags-url'), minLength: 3 }
                                 });
                             </script>

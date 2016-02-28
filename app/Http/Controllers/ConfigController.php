@@ -350,4 +350,41 @@ class ConfigController extends Controller
             'sites'        => $this->sites,
         ]);
     }
+
+    public function tagTiersInfo($locale)
+    {
+        $site_name = Request::input("site");
+
+        $site = Site::where('name', $site_name)->first();
+
+        if (!$site) {
+            abort(404, 'Site not found');
+        }
+
+        $tier1 = $site->tags()->where('tipo', 'tier1')->get();
+        $tier2 = $site->tags()->where('tipo', 'tier2')->get();
+        $tier3 = $site->tags()->where('tipo', 'tier3')->get();
+
+        return view('_ajax_tagtiers', [
+            'tier1'     => $tier1,
+            'tier2'     => $tier2,
+            'tier3'     => $tier3,
+            'language' => $this->language
+        ]);
+    }
+
+    public function scenePublicationInfo($locale, $sceneId)
+    {
+        $scene = Scene::find($sceneId);
+
+        if (!$scene) {
+            abort(404, 'Scene not found');
+        }
+
+        return view('_ajax_publication_info', [
+            'scene'     => $scene,
+            'language'  => $this->language,
+            'languages' => $this->languages
+        ]);
+    }
 }

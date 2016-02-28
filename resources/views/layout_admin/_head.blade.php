@@ -31,4 +31,5 @@
     <link rel="stylesheet" href="{{asset('tagEditor/jquery.tag-editor.css')}}" />
 
     <script src="{{asset('admin.js')}}" type="text/javascript"></script>
+    <link rel="stylesheet" href="{{asset('admin.css')}}" />
 </head>

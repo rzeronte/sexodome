@@ -81,7 +81,7 @@
             }
         ?>
 
-        <div class="row coloreable" style="background-color:<?=$bgColor?>;">
+        <div class="row coloreable" style="background-color:<?=$bgColor?>;padding: 5px;">
 
                 <div class="col-md-2">
                     <img title="{{$scene->permalink}}" src="<?=htmlspecialchars($scene->preview)?>" class="img-responsive thumbnail"/>
@@ -100,8 +100,11 @@
                         <input type="text" value="{{$scene->title}}" class="form-control" name="title"/>
                         <textarea class="form-control" style="margin-top:5px;margin-bottom:5px;" name="description">{{$scene->description}}</textarea>
                         <input name="tags" type="text" class="js-tags-<?=$scene->id?>"/>
-                        <input type="submit" class="btn btn-primary" value="update" style="margin-right:10px;margin-bottom:5px;"/>
+                        {{--<input type="submit" class="btn btn-primary" value="update" style="margin-right:10px;margin-bottom:5px;"/>--}}
 
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-floppy-o"></i> update
+                        </button>
                         <script type="text/javascript">
                             var data = [
                                 @foreach ($scene->tags()->get() as $tag)
@@ -130,37 +133,17 @@
                         @if (isset($translation->description))
                             <small>[D] </small>
                         @endif
-                        <br/>
                     @endforeach
+                    <br/>
+                    <br/>
+                    <button type="button" class="btn-publication-info btn btn-success" data-toggle="modal" data-target="#TagTiersModal" data-url="{{route('scenePublicationInfo', ['locale'=>$locale, 'scene_id'=>$scene->id])}}">
+                        <i class="fa fa-random"></i> publication info
+                    </button>
 
-                    <small><b>Published in:</b></small><br/>
                     @if (count($scene->logspublish()->get()) == 0)
                         <small>NoPublished</small>
                     @endif
 
-                    @foreach ($scene->logspublish()->get() as $publish)
-                        <img src="{{asset('favicons/favicon-'.$publish->site.'.png')}}" style="float:left;"/><small style="margin-left:5px;float:left;margin-right: 5px;">{{$publish->site}}</small>
-                        <?php $remote_scene = DB::connection($publish->site)->table('scenes')->where('id', $scene->id)->first();?>
-                        (<small>{{$remote_scene->published_at}}</small>)
-                        @foreach($languages as $itemLang)
-
-                            <?php $translation = DB::connection($publish->site)->table('scene_translations')->where('scene_id', $scene->id)->where('language_id', $itemLang->id)->first();?>
-                                <img src="{{asset("flags/$itemLang->code.png")}}"/>
-                                @if (isset($translation->title))
-                                    @if (strlen($translation->title))
-                                        <small>[T] </small>
-                                    @endif
-                                @endif
-                            @if (isset($translation->description))
-                                    @if (isset($translation->title))
-                                        <small>[D] </small>
-                                    @endif
-                            @endif
-                        @endforeach
-
-
-                        <br/>
-                    @endforeach
                 </div>
             <form action="{{route('exportScene', ['locale'=>$locale, 'scene_id'=>$scene->id, 'q' => Request::get("q"),'tag_q' => Request::get("tag_q"),  'page' => Request::get("page")])}}" method="post">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
@@ -174,10 +157,19 @@
                 </div>
 
                 <div class="col-md-1" style="margin: 15px 0 0 0">
-                    <input type="submit" value="export" class="btn btn-primary form-control" style=""/> <br/><br/>
+                    {{--<input type="submit" value="export" class="btn btn-primary form-control" style=""/> <br/><br/>--}}
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-cloud-upload"></i> export
+                    </button><br/><br/>
+
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal{{$scene->id}}">
-                        preview
+                        <i class="fa fa-eye"></i> preview
+                    </button><br/><br/>
+
+                    <button type="button" class="btn-tag-tiers btn btn-primary" data-toggle="modal" data-target="#TagTiersModal" data-url="{{route('tagTiersInfo', ['locale'=>$locale])}}" data-scene-id="{{$scene->id}}">
+                        <i class="fa fa-tags"></i> tag tiers
                     </button>
+
                     <!-- Modal -->
                     <div class="modal fade" id="myModal{{$scene->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                         <div class="modal-dialog" role="document">
@@ -198,7 +190,6 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Save changes</button>
                                 </div>
                             </div>
                         </div>
@@ -218,6 +209,20 @@
                 'publish_for' => $publish_for,
                 'duration'    => $duration
         ])->render(); ?>
+    </div>
+</div>
+
+<!-- Modal Tag Tiers-->
+<div class="modal fade" id="TagTiersModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                wer
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
 </div>
 
