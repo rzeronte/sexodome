@@ -328,7 +328,7 @@ class ConfigController extends Controller
 
                         foreach($tags_string as $tag_string) {
                             // Si no tiene el tag, lo asociamos
-                            $tag = Tag::getTranslationSearch($tag_string, $this->language->id)->first();
+                            $tag = Tag::getTranslationByName($tag_string, $this->language->id)->first();
 
                             if (!Site::hasTag($site->id, $tag->id, "tier".$i)) {
                                 $tagSite = new App\Model\SiteTagTier();
