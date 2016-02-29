@@ -124,8 +124,12 @@ class Scene extends Model
             $scenes->where('scenes.duration', '>=', $duration);
         }
 
-        if (count($remote_scenes)) {
-            $scenes->whereIn('scenes.id', $remote_scenes);
+        if ($remote_scenes !== false) {
+            if (count($remote_scenes)) {
+                $scenes->whereIn('scenes.id', $remote_scenes);
+            } else {
+                $scenes->where('scenes.id', 0);
+            }
         }
 
         return $scenes;

@@ -73,7 +73,7 @@ class ConfigController extends Controller
         $duration = Request::get('duration');
         $scene_id = Request::get('scene_id');
 
-        $remote_scenes = [];
+        $remote_scenes = false;
         if ($publish_for && $publish_for !== 'notpublished') {
             $remote_scenes = Scene::getRemoteSceneIdsFor($publish_for);
         }
