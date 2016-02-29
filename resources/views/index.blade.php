@@ -37,10 +37,10 @@
                     <option value="">all</option>
                     <option value="notpublished">not published</option>
                     @foreach($sites as $site)
-                        @if ($site["name"] == $publish_for)
-                            <option value="{{$site['name']}}" selected>{{$site['name']}}</option>
+                        @if ($site->name == $publish_for)
+                            <option value="{{$site->name}}" selected>{{$site->name}}</option>
                         @else
-                            <option value="{{$site['name']}}">{{$site['name']}}</option>
+                            <option value="{{$site->name}}">{{$site->name}}</option>
                         @endif
                     @endforeach
                 </select>
