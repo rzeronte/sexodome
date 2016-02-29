@@ -311,6 +311,11 @@ class ConfigController extends Controller
         if (Request::isMethod('post')) {
 
             //sites
+            DB::connection('mysql')
+                ->table('site_tagtiers')
+                ->delete()
+            ;
+
             foreach($this->sites as $site) {
                 //tiers
                 for($i=1 ; $i<= Site::getNumTiers(); $i++) {
@@ -319,12 +324,6 @@ class ConfigController extends Controller
 
                     if (strlen($tags_string)) {
                         $tags_string = explode(",", $tags_string);
-                        DB::connection('mysql')
-                            ->table('site_tagtiers')
-                            ->where('site_id', $site->id)
-                            ->where('tipo', 'tier'.$site->id)
-                            ->delete()
-                        ;
 
                         foreach($tags_string as $tag_string) {
                             // Si no tiene el tag, lo asociamos
@@ -337,6 +336,9 @@ class ConfigController extends Controller
                                 $tagSite->tipo= "tier".$i;
 
                                 $tagSite->save();
+                            } else {
+
+                                echo "ya existe";
                             }
                         }
 
