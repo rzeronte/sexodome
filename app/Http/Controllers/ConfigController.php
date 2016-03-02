@@ -306,6 +306,26 @@ class ConfigController extends Controller
         return json_encode($select_tags);
     }
 
+    public function scenePreview($locale, $scene_id)
+    {
+
+        $scene = Scene::find($scene_id);
+
+        if (!$scene) {
+            abort("404", "Scene not found");
+        }
+
+        return view('_ajax_preview', [
+            'language'     => $this->language,
+            'languages'    => $this->languages,
+            'locale'       => $this->locale,
+            'title'        => "Admin Panel",
+            'sites'        => $this->sites,
+            'scene'        => $scene
+        ]);
+
+    }
+
     public function sites()
     {
         if (Request::isMethod('post')) {
@@ -358,7 +378,7 @@ class ConfigController extends Controller
 
     public function tagTiersInfo($locale)
     {
-        $site_name = Request::input("site");
+        $site_name = Request::input("site"); // sitename == database name
 
         $site = Site::where('name', $site_name)->first();
 
@@ -374,7 +394,8 @@ class ConfigController extends Controller
             'tier1'     => $tier1,
             'tier2'     => $tier2,
             'tier3'     => $tier3,
-            'language' => $this->language
+            'language'  => $this->language,
+            'database'  => $site_name
         ]);
     }
 

@@ -8,7 +8,7 @@
 
 @foreach ($tier1 as $tag)
     <?php $translation = $tag->translations()->where('language_id',$language->id)->first(); ?>
-    <small style="padding:2px;background-color: #3bc53e;color:white;">{{$translation->name}} ({{ $tag->countScenesLang($language->id) }})</small>
+    <small style="padding:2px;background-color: #3bc53e;color:white;">{{$translation->name}} ({{ $tag->countScenesLangIn($language->id, $database) }})</small>
 @endforeach
 
 <br/>

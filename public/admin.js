@@ -92,4 +92,16 @@ $( document ).ready(function() {
         });
     });
 
+    $( ".btn-preview-scene" ).click(function() {
+        var action = $(this).attr("data-url");
+        $("#previewModal .modal-body").html("Loading...");
+
+        $.ajax({
+            url: action,
+            method: 'get'
+        }).done(function( data ) {
+            $("#previewModal  .modal-body").html(data);
+        });
+    });
+
 });

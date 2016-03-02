@@ -167,38 +167,13 @@
                         <i class="fa fa-cloud-upload"></i> export
                     </button><br/><br/>
 
-                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal{{$scene->id}}">
+                    <button type="button" class="btn-preview-scene btn btn-warning" data-toggle="modal" data-target="#previewModal" data-scene-id="{{$scene->id}}" data-url="{{route('scenePreview', ['locale' => $locale, 'scene_id'=>$scene->id])}}">
                         <i class="fa fa-eye"></i> preview
                     </button><br/><br/>
 
                     <button type="button" class="btn-tag-tiers btn btn-primary" data-toggle="modal" data-target="#TagTiersModal" data-url="{{route('tagTiersInfo', ['locale'=>$locale])}}" data-scene-id="{{$scene->id}}">
                         <i class="fa fa-tags"></i> tag tiers
                     </button>
-
-                    <!-- Modal -->
-                    <div class="modal fade" id="myModal{{$scene->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-body">
-                                    <?php
-                                    $iframe = $scene->iframe;
-                                    $pattern = "/width=\"[0-9]*\"/";
-                                    $iframe = preg_replace($pattern, "width='100%'", $iframe);
-                                    $pattern2 = "/width=\"[0-9]*+px\"/";
-                                    $pattern = "/width='[0-9]*'/";
-                                    $iframe = preg_replace($pattern, "width='100%'", $iframe);
-                                    $pattern2 = "/width='[0-9]*+px'/";
-
-                                    $iframe = preg_replace($pattern2, "width='100%'", $iframe);
-                                    ?>
-                                    <?php echo $iframe;?>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
                 </div>
             </form>
@@ -222,7 +197,21 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                wer
+                Loading...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Preview -->
+<div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                Loading...
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

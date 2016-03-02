@@ -9,6 +9,7 @@ Route::match(['get', 'post'], '{locale}/sites', 'ConfigController@sites')->name(
 Route::match(['get'], '{locale}/ajax/tags/', 'ConfigController@ajaxTags')->name('ajaxTags');
 Route::match(['get'], '{locale}/ajax/tagtiersinfo/', 'ConfigController@tagTiersInfo')->name('tagTiersInfo');
 Route::match(['get'], '{locale}/ajax/sceneinfo/{scene_id}', 'ConfigController@scenePublicationInfo')->name('scenePublicationInfo');
+Route::match(['get'], '{locale}/ajax/preview/{scene_id}', 'ConfigController@scenePreview')->name('scenePreview');
 
 Route::get('/setLocale/{locale}', 'ConfigController@changeLocale')->name('changeLocale');
 
