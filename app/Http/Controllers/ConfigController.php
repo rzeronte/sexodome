@@ -166,7 +166,6 @@ class ConfigController extends Controller
             $sql_insert = 'insert into scenes (id, preview, thumbs, iframe, status, duration, rate, channel_id, created_at, updated_at, published_at) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
             DB::connection($database)->insert($sql_insert, $values);
 
-            $this->syncSceneTags($database, $scene, $domain_scene);
             foreach ($languages as $lang) {
                 $translation = $scene->translations()->where('language_id', $lang->id)->first();
 
@@ -181,6 +180,8 @@ class ConfigController extends Controller
 
                 DB::connection($database)->insert('insert into scene_translations (id, scene_id, language_id, title, permalink, description) values (?, ?, ?, ?, ?, ?)', $values);
             }
+            $this->syncSceneTags($database, $scene, $domain_scene);
+
         } else {
             $sql_update = "UPDATE scenes SET status=".$scene->status . ",
                                preview = '".$scene->preview."',
@@ -194,8 +195,6 @@ class ConfigController extends Controller
 
             DB::connection($database)->update($sql_update);
 
-            $this->syncSceneTags($database, $scene, $domain_scene);
-
             foreach ($languages as $lang) {
                 $translation = $scene->translations()->where('language_id', $lang->id)->first();
 
@@ -208,6 +207,7 @@ class ConfigController extends Controller
                             where id=" . $translation->id;
                 DB::connection($database)->update($sql_update);
             }
+            $this->syncSceneTags($database, $scene, $domain_scene);
         }
 
         return redirect()->route('content', [
