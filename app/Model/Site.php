@@ -16,6 +16,16 @@ class Site extends Model
         return $this->belongsToMany('App\Model\Tag', 'site_tagtiers', 'site_id', 'tag_id');
     }
 
+    public function getAnalytics($fi, $ff)
+    {
+        $analytics = Analytics::where('site_id', $this->id)
+            ->where("date", ">=", $fi)
+            ->where("date", "<=", $ff)
+        ;
+
+        return $analytics;
+    }
+
     static function getNumTiers()
     {
         return 3;
@@ -35,5 +45,7 @@ class Site extends Model
             return false;
         }
     }
+
+
 
 }

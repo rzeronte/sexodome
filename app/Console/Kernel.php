@@ -20,6 +20,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\rZeBotYouPorn::class,
         \App\Console\Commands\rZeBotTranslate::class,
         \App\Console\Commands\rZeBotSyncronizer::class,
+        \App\Console\Commands\rZeBotAnalytics::class,
     ];
 
     /**

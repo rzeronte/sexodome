@@ -110,6 +110,11 @@
                         <button type="submit" class="btn btn-danger">
                             <i class="fa fa-floppy-o"></i> update
                         </button>
+                        <button type="button" class="btn-preview-scene btn btn-warning" data-toggle="modal" data-target="#previewModal" data-scene-id="{{$scene->id}}" data-url="{{route('scenePreview', ['locale' => $locale, 'scene_id'=>$scene->id])}}">
+                            <i class="fa fa-eye"></i> preview
+                        </button><br/><br/>
+
+
                         <script type="text/javascript">
                             var data = [
                                 @foreach ($scene->tags()->get() as $tag)
@@ -127,7 +132,7 @@
 
                 </div>
 
-                <div class="col-md-3" style="margin: 10px 0 0 0">
+                <div class="col-md-2" style="margin: 10px 0 0 0">
                     <small><b>Available in:</b></small><br/>
                     @foreach ($languages as $itemLang)
                         <?php $translation = $scene->translations()->where('language_id',$itemLang->id)->first(); ?>
@@ -150,33 +155,37 @@
                     @endif
 
                 </div>
-            <form action="{{route('exportScene', ['locale'=>$locale, 'scene_id'=>$scene->id, 'q' => Request::get("q"),'tag_q' => Request::get("tag_q"),  'page' => Request::get("page")])}}" method="post">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+                <form action="{{route('exportScene', ['locale'=>$locale, 'scene_id'=>$scene->id, 'q' => Request::get("q"),'tag_q' => Request::get("tag_q"),  'page' => Request::get("page")])}}" method="post">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
 
-                <div class="col-md-2" style="margin: 15px 0 0 0">
-                    <select class="form-control" name="database" style="width:100%" id="site_select_{{$scene->id}}">
-                        @foreach($sites as $site)
-                            <option value="{{$site->name}}">{{$site->name}}</option>
-                        @endforeach
-                    </select>
-                </div>
+                    <div class="col-md-3" style="margin: 15px 0 0 0;text-align:center;">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <select class="form-control" name="database" style="width:100%" id="site_select_{{$scene->id}}">
+                                    @foreach($sites as $site)
+                                        <option value="{{$site->name}}">{{$site->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-                <div class="col-md-1" style="margin: 15px 0 0 0">
-                    {{--<input type="submit" value="export" class="btn btn-primary form-control" style=""/> <br/><br/>--}}
-                    <button type="submit" class="btn btn-danger">
-                        <i class="fa fa-cloud-upload"></i> export
-                    </button><br/><br/>
+                            <div class="col-md-6" style="margin-top:10px;">
+                                {{--<input type="submit" value="export" class="btn btn-primary form-control" style=""/> <br/><br/>--}}
+                                <button type="submit" class="btn btn-danger" style="width:100%;">
+                                    <i class="fa fa-cloud-upload"></i> export
+                                </button><br/><br/>
 
-                    <button type="button" class="btn-preview-scene btn btn-warning" data-toggle="modal" data-target="#previewModal" data-scene-id="{{$scene->id}}" data-url="{{route('scenePreview', ['locale' => $locale, 'scene_id'=>$scene->id])}}">
-                        <i class="fa fa-eye"></i> preview
-                    </button><br/><br/>
+                            </div>
+                            <div class="col-md-6" style="margin-top:10px;">
 
-                    <button type="button" class="btn-tag-tiers btn btn-primary" data-toggle="modal" data-target="#TagTiersModal" data-url="{{route('tagTiersInfo', ['locale'=>$locale])}}" data-scene-id="{{$scene->id}}">
-                        <i class="fa fa-tags"></i> tag tiers
-                    </button>
+                                <button type="button" class="btn-tag-tiers btn btn-primary" data-toggle="modal" data-target="#TagTiersModal" data-url="{{route('tagTiersInfo', ['locale'=>$locale])}}" data-scene-id="{{$scene->id}}" style="width:100%;">
+                                    <i class="fa fa-tags"></i> tag tiers
+                                </button>
 
-                </div>
-            </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
         </div>
 
     @endforeach

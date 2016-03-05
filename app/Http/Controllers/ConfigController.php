@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App;
 use DB;
 use Request;
+use Spatie\LaravelAnalytics\LaravelAnalyticsFacade;
 use Validator;
 use Input;
 use Session;
@@ -328,6 +329,9 @@ class ConfigController extends Controller
 
     public function sites()
     {
+        $ff = date("Y-m-d");
+        $fi = date("Y-m-d", strtotime($ff." -7 days"));
+
         if (Request::isMethod('post')) {
 
             //sites
@@ -373,6 +377,8 @@ class ConfigController extends Controller
             'locale'       => $this->locale,
             'title'        => "Admin Panel",
             'sites'        => $this->sites,
+            'fi'           => $fi,
+            'ff'           => $ff,
         ]);
     }
 
