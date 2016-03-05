@@ -354,19 +354,17 @@ class ConfigController extends Controller
                             // Si no tiene el tag, lo asociamos
                             $tag = Tag::getTranslationByName($tag_string, $this->language->id)->first();
 
-                            if (!Site::hasTag($site->id, $tag->id, "tier".$i)) {
-                                $tagSite = new App\Model\SiteTagTier();
-                                $tagSite->site_id = $site->id;
-                                $tagSite->tag_id = $tag->id;
-                                $tagSite->tipo= "tier".$i;
+                            if ($tag) {
+                                if (!Site::hasTag($site->id, $tag->id, "tier".$i)) {
+                                    $tagSite = new App\Model\SiteTagTier();
+                                    $tagSite->site_id = $site->id;
+                                    $tagSite->tag_id = $tag->id;
+                                    $tagSite->tipo= "tier".$i;
 
-                                $tagSite->save();
-                            } else {
-
-                                echo "ya existe";
+                                    $tagSite->save();
+                                }
                             }
                         }
-
                     }
                 }
             }
