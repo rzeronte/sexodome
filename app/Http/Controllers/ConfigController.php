@@ -335,12 +335,13 @@ class ConfigController extends Controller
         if (Request::isMethod('post')) {
 
             //sites
-            DB::connection('mysql')
-                ->table('site_tagtiers')
-                ->delete()
-            ;
-
             foreach($this->sites as $site) {
+                DB::connection('mysql')
+                    ->table('site_tagtiers')
+                    ->where('site_id', $site->id)
+                    ->delete()
+                ;
+
                 //tiers
                 for($i=1 ; $i<= Site::getNumTiers(); $i++) {
 
