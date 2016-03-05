@@ -14,16 +14,15 @@
 
     <div class="row"  style="background-color:white;">
         <form action="" method="post">
-        <div class="col-md-12">
-            <h2>Tag tiers</h2>
-        </div>
         <div class="col-md-12 text-right">
+            <br/>
+            <br/>
             <input type="submit" class="btn btn-primary" value="Update"/>
             <br/>
             <br/>
         </div>
         <div class="col-md-12">
-            <div id="graph_site_global" style="width:100%; height:300px;border: solid 1px black;"></div>
+            <div id="graph_site_global" style="width:100%; height:300px;border: solid 1px black;margin:10px;"></div>
 
             <script type="text/javascript">
                 $(function () {
@@ -104,111 +103,110 @@
                 $bgColor = 'lightyellow';
             }
             ?>
-            <div class="col-md-12">
 
-                <?php $data = $site->getAnalytics($fi, $ff)->get(); ?>
-
-                <div id="graph_site_{{$site->id}}" style="width:100%; height:300px;border: solid 1px black;"></div>
-                <script type="text/javascript">
-                    $(function () {
-                        serieVisitors = {
-                            name: 'Visitors',
-                            data: [
-                                @foreach($data as $day) {{$day->visitors}}, @endforeach
-                            ]
-                        };
-
-                        seriePageView = {
-                            name: 'PageViews',
-                            data: [
-                                @foreach($data as $day) {{$day->pageviews}}, @endforeach
-                            ]
-                        };
-
-                        $('#graph_site_<?=$site->id?>').highcharts({
-                            chart: {
-                                type: 'line'
-                            },
-                            title: {
-                                text: 'Visitas in {{$site->domain}}'
-                            },
-                            xAxis: {
-                                categories: ['Days']
-                            },
-                            yAxis: {
-                                title: {
-                                    text: 'Number'
-                                }
-                            },
-                            series: [serieVisitors, seriePageView]
-                        });
-                    });
-                </script>
-            </div>
 
             <div class="col-md-12" style="background-color:<?=$bgColor?>;padding:10px;">
 
                 <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
 
                 <div class="row">
-                    <div class="col-md-3">
-                        <img src="{{asset('favicons/favicon-'.$site->name.'.png')}}" style="float:left;"/>
-                        <span style="margin-left:5px;">http://{{$site->domain}}</span>
-                    </div>
-                    <div class="col-md-3">
-                        <label>Tier1:</label>
-                        <input name="tier1_{{$site->id}}" type="text" class="js_tags_tier1 ajax-form form-control js-tags1-<?=$site->id?>" style="margin:10px;"/>
-                    </div>
+                    <div class="col-md-4">
+                        <h4 style="margin-left:5px;">http://{{$site->domain}}</h4>
 
-                    <div class="col-md-3">
-                        <label>Tier2:</label>
-                        <input name="tier2_{{$site->id}}" type="text" class="js_tags_tier2 ajax-form form-control js-tags2-<?=$site->id?>" style="margin:10px;"/>
-                    </div>
+                        <?php $data = $site->getAnalytics($fi, $ff)->get(); ?>
 
-                    <div class="col-md-3">
-                        <label>Tier3:</label>
-                        <input name="tier3_{{$site->id}}" type="text" class="js_tags_tier3 ajax-form form-control js-tags3-<?=$site->id?>" style="margin:10px;"/>
-
+                        <div id="graph_site_{{$site->id}}" style="width:100%; height:200px;border: solid 1px black;"></div>
                         <script type="text/javascript">
-                            var data1 = [
-                                @foreach ($site->tags()->where('tipo', 'tier1')->get() as $tag)
-                                <?php $translation = $tag->translations()->where('language_id',$language->id)->first(); ?>
-                                '<?= $translation->name?>',
-                                @endforeach
-                            ];
+                            $(function () {
+                                serieVisitors = {
+                                    name: 'Visitors',
+                                    data: [
+                                        @foreach($data as $day) {{$day->visitors}}, @endforeach
+                                    ]
+                                };
 
-                            var data2 = [
-                                @foreach ($site->tags()->where('tipo', 'tier2')->get() as $tag)
-                                <?php $translation = $tag->translations()->where('language_id',$language->id)->first(); ?>
-                                '<?= $translation->name?>',
-                                @endforeach
-                            ];
+                                seriePageView = {
+                                    name: 'PageViews',
+                                    data: [
+                                        @foreach($data as $day) {{$day->pageviews}}, @endforeach
+                                    ]
+                                };
 
-                            var data3 = [
-                                @foreach ($site->tags()->where('tipo', 'tier3')->get() as $tag)
-                                <?php $translation = $tag->translations()->where('language_id',$language->id)->first(); ?>
-                                '<?= $translation->name?>',
-                                @endforeach
-                            ];
-
-                            $('.js-tags1-<?=$site->id?>').tagEditor({
-                                initialTags: data1,
-                                removeDuplicates: true,
-                                autocomplete: { 'source': $("#ajaxUrls").attr('data-tags-url'), minLength: 3 }
-                            });
-
-                            $('.js-tags2-<?=$site->id?>').tagEditor({
-                                initialTags: data2,
-                                removeDuplicates: true,
-                                autocomplete: { 'source': $("#ajaxUrls").attr('data-tags-url'), minLength: 3 }
-                            });
-
-                            $('.js-tags3-<?=$site->id?>').tagEditor({
-                                initialTags: data3,
-                                removeDuplicates: true,
-                                autocomplete: { 'source': $("#ajaxUrls").attr('data-tags-url'), minLength: 3 }
+                                $('#graph_site_<?=$site->id?>').highcharts({
+                                    chart: {
+                                        type: 'line'
+                                    },
+                                    title: false,
+                                    xAxis: {
+                                        categories: ['Days']
+                                    },
+                                    yAxis: {
+                                        title: {
+                                            text: 'Number'
+                                        }
+                                    },
+                                    series: [serieVisitors, seriePageView]
+                                });
                             });
                         </script>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="col-md-12">
+                            <label>Tier1:</label>
+                            <input name="tier1_{{$site->id}}" type="text" class="js_tags_tier1 ajax-form form-control js-tags1-<?=$site->id?>" style="margin:10px;"/>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label>Tier2:</label>
+                            <input name="tier2_{{$site->id}}" type="text" class="js_tags_tier2 ajax-form form-control js-tags2-<?=$site->id?>" style="margin:10px;"/>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label>Tier3:</label>
+                            <input name="tier3_{{$site->id}}" type="text" class="js_tags_tier3 ajax-form form-control js-tags3-<?=$site->id?>" style="margin:10px;"/>
+
+                            <script type="text/javascript">
+                                var data1 = [
+                                    @foreach ($site->tags()->where('tipo', 'tier1')->get() as $tag)
+                                    <?php $translation = $tag->translations()->where('language_id',$language->id)->first(); ?>
+                                    '<?= $translation->name?>',
+                                    @endforeach
+                                ];
+
+                                var data2 = [
+                                    @foreach ($site->tags()->where('tipo', 'tier2')->get() as $tag)
+                                    <?php $translation = $tag->translations()->where('language_id',$language->id)->first(); ?>
+                                    '<?= $translation->name?>',
+                                    @endforeach
+                                ];
+
+                                var data3 = [
+                                    @foreach ($site->tags()->where('tipo', 'tier3')->get() as $tag)
+                                    <?php $translation = $tag->translations()->where('language_id',$language->id)->first(); ?>
+                                    '<?= $translation->name?>',
+                                    @endforeach
+                                ];
+
+                                $('.js-tags1-<?=$site->id?>').tagEditor({
+                                    initialTags: data1,
+                                    removeDuplicates: true,
+                                    autocomplete: { 'source': $("#ajaxUrls").attr('data-tags-url'), minLength: 3 }
+                                });
+
+                                $('.js-tags2-<?=$site->id?>').tagEditor({
+                                    initialTags: data2,
+                                    removeDuplicates: true,
+                                    autocomplete: { 'source': $("#ajaxUrls").attr('data-tags-url'), minLength: 3 }
+                                });
+
+                                $('.js-tags3-<?=$site->id?>').tagEditor({
+                                    initialTags: data3,
+                                    removeDuplicates: true,
+                                    autocomplete: { 'source': $("#ajaxUrls").attr('data-tags-url'), minLength: 3 }
+                                });
+                            </script>
+                        </div>
+
                     </div>
                 </div>
                 <div class="clearfix"></div>
