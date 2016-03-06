@@ -106,7 +106,7 @@ $( document ).ready(function() {
 
     $( ".seo-info-keywords" ).click(function() {
         var action = $(this).attr("data-url");
-        alert(action);
+
         $("#SEOInfoModal .modal-body").html("Loading...");
 
         $.ajax({
