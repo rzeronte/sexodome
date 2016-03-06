@@ -11,6 +11,10 @@ Route::match(['get'], '{locale}/ajax/tagtiersinfo/', 'ConfigController@tagTiersI
 Route::match(['get'], '{locale}/ajax/sceneinfo/{scene_id}', 'ConfigController@scenePublicationInfo')->name('scenePublicationInfo');
 Route::match(['get'], '{locale}/ajax/preview/{scene_id}', 'ConfigController@scenePreview')->name('scenePreview');
 
+Route::match(['get'], '{locale}/ajax/seo/site/keywords/{site_id}', 'ConfigController@siteKeywords')->name('siteKeywords');
+Route::match(['get'], '{locale}/ajax/seo/site/referrers/{site_id}', 'ConfigController@siteReferrers')->name('siteReferrers');
+Route::match(['get'], '{locale}/ajax/seo/site/pages/{site_id}', 'ConfigController@sitePageViews')->name('sitePageViews');
+
 Route::get('/setLocale/{locale}', 'ConfigController@changeLocale')->name('changeLocale');
 
 Route::match(['get', 'post'], '{locale}/saveTranslation/{scene_id}', 'ConfigController@saveTranslation')->name('saveTranslation');

@@ -17,17 +17,18 @@
         <div class="col-md-12 text-right">
             <br/>
             <br/>
-            <input type="submit" class="btn btn-primary" value="Update"/>
+            <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-disk"></i> Update</button>
             <br/>
             <br/>
         </div>
         <div class="col-md-12">
-            <div id="graph_site_global" style="width:100%; height:300px;border: solid 1px black;margin:10px;"></div>
+            <div id="graph_site_global" style="width:99%; height:300px;border: solid 1px black;margin:5px;"></div>
 
             <script type="text/javascript">
                 $(function () {
                     serieVisitorsGlobal = {
                         name: 'Visitors',
+                        color: '#FF0000',
                         data: [
                         <?php
                             $begin = new DateTime( $fi );
@@ -50,6 +51,7 @@
                     };
                     seriePageViewGlobal = {
                         name: 'PageViews',
+                        color: '#0000FF',
                         data: [
                             <?php
                                 $begin = new DateTime( $fi );
@@ -73,11 +75,9 @@
 
                     $('#graph_site_global').highcharts({
                         chart: {
-                            type: 'line'
+                            zoomType: 'xy'
                         },
-                        title: {
-                            text: 'Visitas in all network'
-                        },
+                        title: false,
                         xAxis: {
                             categories: ['Days']
                         },
@@ -103,7 +103,6 @@
                 $bgColor = 'lightyellow';
             }
             ?>
-
 
             <div class="col-md-12" style="background-color:<?=$bgColor?>;padding:10px;">
 
@@ -151,6 +150,12 @@
                         </script>
                     </div>
                     <div class="col-md-8">
+                        <button type="button" class="seo-info-keywords btn btn-success btn-xs" data-toggle="modal" data-target="#SEOInfoModal" data-url="{{route('siteKeywords', ['locale'=>$locale, 'site_id'=>$site->id])}}"><i class="glyphicon glyphicon-link"></i> Top Keywords</button>
+                        <button type="button" class="seo-info-keywords btn btn-success btn-xs" data-toggle="modal" data-target="#SEOInfoModal" data-url="{{route('siteReferrers', ['locale'=>$locale, 'site_id'=>$site->id])}}"><i class="glyphicon glyphicon-send"></i> Top Referrers</button>
+                        <button type="button" class="seo-info-keywords btn btn-success btn-xs" data-toggle="modal" data-target="#SEOInfoModal" data-url="{{route('sitePageViews', ['locale'=>$locale, 'site_id'=>$site->id])}}"><i class="glyphicon glyphicon-thumbs-up"></i> Most Visited pages</button>
+
+                        <br/>
+                        <br/>
                         <div class="col-md-12">
                             <label>Tier1:</label>
                             <input name="tier1_{{$site->id}}" type="text" class="js_tags_tier1 ajax-form form-control js-tags1-<?=$site->id?>" style="margin:10px;"/>
@@ -217,7 +222,22 @@
     </form>
 
     </div>
+    <!-- Modal SEO Info -->
+    <div class="modal fade" id="SEOInfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    Loading...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
+
 <style>
     .js_tags+.tag-editor { background: #fafafa; font-size: 12px; }
     .js_tags+.tag-editor .tag-editor-spacer { width: 7px; }

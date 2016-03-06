@@ -418,4 +418,38 @@ class ConfigController extends Controller
             'languages' => $this->languages
         ]);
     }
+
+    public function siteKeywords($locale, $site_id)
+    {
+        $site = Site::find($site_id);
+
+        if (!$site) {
+            abort(404, "Site not found");
+        }
+
+        $keywords = LaravelAnalyticsFacade::setSiteId('ga:'.$site->ga_account)->getTopKeyWords(90, $maxResults = 30);
+
+        return view('_ajax_site_keywords', [
+            'keywords' => $keywords,
+            'language'  => $this->language,
+            'languages' => $this->languages
+        ]);
+    }
+
+    public function sitePageViews($locale, $site_id)
+    {
+        $site = Site::find($site_id);
+
+        if (!$site) {
+            abort(404, "Site not found");
+        }
+
+        $pageViews = LaravelAnalyticsFacade::setSiteId('ga:'.$site->ga_account)->getMostVisitedPages(90, $maxResults = 30);
+
+        return view('_ajax_site_pageviews', [
+            'pageViews' => $pageViews,
+            'language'  => $this->language,
+            'languages' => $this->languages
+        ]);
+    }
 }
