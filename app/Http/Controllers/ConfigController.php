@@ -436,6 +436,24 @@ class ConfigController extends Controller
         ]);
     }
 
+    public function siteReferrers($locale, $site_id)
+    {
+        $site = Site::find($site_id);
+
+        if (!$site) {
+            abort(404, "Site not found");
+        }
+
+        $referrers= LaravelAnalyticsFacade::setSiteId('ga:'.$site->ga_account)->getTopReferrers(90, $maxResults = 30);
+
+        return view('_ajax_site_referrers', [
+            'referrers' => $referrers,
+            'language'  => $this->language,
+            'languages' => $this->languages
+        ]);
+
+    }
+
     public function sitePageViews($locale, $site_id)
     {
         $site = Site::find($site_id);
