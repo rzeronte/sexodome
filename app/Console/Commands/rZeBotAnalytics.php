@@ -40,17 +40,18 @@ class rZeBotAnalytics extends Command
 
         foreach($sites as $site) {
             if ($site->ga_account != '') {
-                $analyticsData = LaravelAnalyticsFacade::setSiteId('ga:'.$site->ga_account)->getVisitorsAndPageViews(60);
-
-                Analytics::where('site_id', $site->id)->delete();
+                $analyticsData = LaravelAnalyticsFacade::setSiteId('ga:'.$site->ga_account)->getVisitorsAndPageViews(2);
 
                 foreach ($analyticsData as $data) {
+
                     $fecha = $data["date"];
                     $arrayData = array(
                         "fecha"     => date("Y-m-d", strtotime($fecha)),
                         "visitors"  => $data["visitors"],
                         "pageViews" => $data["pageViews"]
                     );
+
+                    Analytics::where('site_id', $site->id)->where('date', $arrayData["fecha"])->delete();
 
                     $analytics = new Analytics();
                     $analytics->site_id = $site->id;
