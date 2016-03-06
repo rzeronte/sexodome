@@ -36,20 +36,26 @@ class rZeBotAnalytics extends Command
      */
     public function handle()
     {
+        echo PHP_EOL."INIT RZEBOT-ANALYTICS".PHP_EOL;
+
         $sites = Site::all();
 
         foreach($sites as $site) {
             if ($site->ga_account != '') {
+                echo PHP_EOL."Getting for ".$site->domain.PHP_EOL;
                 $analyticsData = LaravelAnalyticsFacade::setSiteId('ga:'.$site->ga_account)->getVisitorsAndPageViews(2);
 
                 foreach ($analyticsData as $data) {
 
                     $fecha = $data["date"];
+                    echo PHP_EOL.$fecha.PHP_EOL;
                     $arrayData = array(
                         "fecha"     => date("Y-m-d", strtotime($fecha)),
                         "visitors"  => $data["visitors"],
                         "pageViews" => $data["pageViews"]
                     );
+
+
 
                     Analytics::where('site_id', $site->id)->where('date', $arrayData["fecha"])->delete();
 
