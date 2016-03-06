@@ -342,6 +342,9 @@ class ConfigController extends Controller
                     ->delete()
                 ;
 
+                $site->ga_account = Request::input('ga_view_'.$site->id);
+                $site->save();
+
                 //tiers
                 for($i=1 ; $i<= Site::getNumTiers(); $i++) {
 
