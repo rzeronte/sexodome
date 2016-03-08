@@ -48,14 +48,13 @@ class rZeBotAnalytics extends Command
                 foreach ($analyticsData as $data) {
 
                     $fecha = $data["date"];
-                    echo PHP_EOL.$fecha.PHP_EOL;
                     $arrayData = array(
                         "fecha"     => date("Y-m-d", strtotime($fecha)),
                         "visitors"  => $data["visitors"],
                         "pageViews" => $data["pageViews"]
                     );
 
-
+                    echo PHP_EOL.$fecha." | ".$arrayData["visitors"]." | ".$arrayData["pageViews"].PHP_EOL;
 
                     Analytics::where('site_id', $site->id)->where('date', $arrayData["fecha"])->delete();
 

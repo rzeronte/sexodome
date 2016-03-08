@@ -112,7 +112,7 @@ class Scene extends Model
                 ->where('tag_translations.language_id', $language)
             ;
 
-            $scenes->where('tag_translations.permalink', 'like', $tag_query_string);
+            $scenes->where('tag_translations.permalink', 'like', '%'.$tag_query_string.'%');
 
         }
 
