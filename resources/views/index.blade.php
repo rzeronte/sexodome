@@ -84,24 +84,26 @@
         <div class="row coloreable" style="background-color:<?=$bgColor?>;padding: 5px;">
 
                 <div class="col-md-2">
-                    <img title="{{$scene->permalink}}" src="<?=htmlspecialchars($scene->preview)?>" class="img-responsive thumbnail"/>
+
+                    @if ($scene->thumb_index > 0)
+                        <img title="{{$scene->permalink}}" src="<?=htmlspecialchars($thumbs[$scene->thumb_index])?>" class="img-responsive thumbnail selected-thumb-for-{{$scene->id}}"/>
+                    @else
+                        <img title="{{$scene->permalink}}" src="<?=htmlspecialchars($scene->preview)?>" class="img-responsive thumbnail selected-thumb-for-{{$scene->id}}"/>
+                    @endif
 
                     <small>
-                        <b>
-                            {{number_format($scene->rate, 2)}}% | {{gmdate("i:s", $scene->duration)}} |  {{ $scene->views+0}} views
-                        </b>
+                        <i class="glyphicon glyphicon-thumbs-up"></i> <b>{{number_format($scene->rate, 2)}}%</b><br/>
+                        <i class="glyphicon glyphicon-time"></i> <b>{{gmdate("i:s", $scene->duration)}}</b><br/>
+                        <i class="glyphicon glyphicon-eye-open"></i> <b>{{ $scene->views+0}} views</b><br/>
                     </small>
-                    <br/>
-
-                    @foreach ($languages as $itemLang)
-                        <a href="{{route('content', ['locale'=>$itemLang->code,'scene_id'=> $scene->id])}}" target="_blank"><img src="{{asset("flags/$itemLang->code.png")}}"/></a>
-                    @endforeach
 
                 </div>
 
                 <div class="col-md-5" style="margin: 5px 0 0 0">
                     <form action="{{route('saveTranslation', ['locale'=>$locale, 'scene_id'=>$scene->id])}}" class="ajax-form">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+                        <input type="hidden" class="selectedThumb{{$scene->id}}" name="selectedThumb" value="{{$scene->thumb_index}}"/>
+
                         <input type="text" value="{{$scene->title}}" class="form-control" name="title"/>
                         <textarea class="form-control" style="margin-top:5px;margin-bottom:5px;" name="description">{{$scene->description}}</textarea>
                         <input name="tags" type="text" class="js-tags-<?=$scene->id?>"/>
@@ -110,8 +112,13 @@
                         <button type="submit" class="btn btn-danger">
                             <i class="fa fa-floppy-o"></i> update
                         </button>
+
                         <button type="button" class="btn-preview-scene btn btn-warning" data-toggle="modal" data-target="#previewModal" data-scene-id="{{$scene->id}}" data-url="{{route('scenePreview', ['locale' => $locale, 'scene_id'=>$scene->id])}}">
                             <i class="fa fa-eye"></i> preview
+                        </button>
+
+                        <button type="button" class="btn-select-thumb btn btn-warning" data-toggle="modal" data-target="#previewModal" data-url="{{route('sceneThumbs', ['locale' => $locale, 'scene_id'=>$scene->id])}}">
+                            <i class="glyphicon glyphicon-picture"></i> thumbnails
                         </button><br/><br/>
 
 
@@ -131,35 +138,43 @@
                     </form>
 
                 </div>
+            <div class="col-md-2" style="margin: 10px 0 0 0">
+                <small><b>Show in:</b></small>
+                @foreach ($languages as $itemLang)
+                    <a href="{{route('content', ['locale'=>$itemLang->code,'scene_id'=> $scene->id])}}" target="_blank"><img src="{{asset("flags/$itemLang->code.png")}}"/></a>
+                @endforeach
+                <br/>
+                <br/>
 
-                <div class="col-md-2" style="margin: 10px 0 0 0">
-                    <small><b>Available in:</b></small><br/>
-                    @foreach ($languages as $itemLang)
-                        <?php $translation = $scene->translations()->where('language_id',$itemLang->id)->first(); ?>
-                            <img src="{{asset("flags/$itemLang->code.png")}}"/>
-                        @if (isset($translation->title))
-                            <small>[T] </small>
-                        @endif
-                        @if (isset($translation->description))
-                            <small>[D] </small>
-                        @endif
-                    @endforeach
-                    <br/>
-                    <br/>
-                    <button type="button" class="btn-publication-info btn btn-success" data-toggle="modal" data-target="#TagTiersModal" data-url="{{route('scenePublicationInfo', ['locale'=>$locale, 'scene_id'=>$scene->id])}}">
-                        <i class="fa fa-random"></i> publication info
-                    </button>
-
-                    @if (count($scene->logspublish()->get()) == 0)
-                        <small>NoPublished</small>
+                <small><b>Available in:</b></small><br/>
+                @foreach ($languages as $itemLang)
+                    <?php $translation = $scene->translations()->where('language_id',$itemLang->id)->first(); ?>
+                    <img src="{{asset("flags/$itemLang->code.png")}}"/>
+                    @if (isset($translation->title))
+                        <small>[T] </small>
                     @endif
+                    @if (isset($translation->description))
+                        <small>[D] </small>
+                    @endif
+                @endforeach
+                <br/>
+                <br/>
+                <button type="button" class="btn-publication-info btn btn-success" data-toggle="modal" data-target="#TagTiersModal" data-url="{{route('scenePublicationInfo', ['locale'=>$locale, 'scene_id'=>$scene->id])}}">
+                    <i class="fa fa-random"></i> publication info
+                </button>
 
-                </div>
-                <form action="{{route('exportScene', ['locale'=>$locale, 'scene_id'=>$scene->id, 'q' => Request::get("q"),'tag_q' => Request::get("tag_q"),  'page' => Request::get("page")])}}" method="post">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+                <br/>
+                @if (count($scene->logspublish()->get()) == 0)
+                    <small>[NoPublished]</small>
+                @endif
 
-                    <div class="col-md-3" style="margin: 15px 0 0 0;text-align:center;">
-                        <div class="row">
+            </div>
+
+
+                <div class="col-md-3" style="margin: 15px 0 0 0;text-align:center;">
+                    <form action="{{route('exportScene', ['locale'=>$locale, 'scene_id'=>$scene->id, 'q' => Request::get("q"),'tag_q' => Request::get("tag_q"),  'page' => Request::get("page")])}}" method="post">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+                            <div class="row">
                             <div class="col-md-12">
                                 <select class="form-control" name="database" style="width:100%" id="site_select_{{$scene->id}}">
                                     @foreach($sites as $site)
@@ -183,9 +198,9 @@
 
                             </div>
                         </div>
-                    </div>
+                    </form>
+                </div>
 
-                </form>
         </div>
 
     @endforeach

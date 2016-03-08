@@ -117,5 +117,29 @@ $( document ).ready(function() {
         });
     });
 
+    $( ".btn-select-thumb" ).click(function() {
+        var action = $(this).attr("data-url");
+
+        $("#previewModal .modal-body").html("Loading...");
+
+        $.ajax({
+            url: action,
+            method: 'get'
+        }).done(function( data ) {
+            $("#previewModal .modal-body").html(data);
+
+            $( ".scene-thumb-image-selector" ).click(function() {
+                var img = $(this).attr("src");
+                var scene_id = $(this).attr("data-scene-id");
+                var thumb_number = $(this).attr("data-thumb-number");
+                $('.selectedThumb'+scene_id).val(thumb_number);
+
+                $('.scene-thumb-image-selector').css("border", "none");
+                $(this).css("border", "solid 4px green");
+                $(".selected-thumb-for-"+scene_id).attr("src", img);
+            });
+
+        });
+    });
 
 });
