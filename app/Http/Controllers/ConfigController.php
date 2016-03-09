@@ -154,6 +154,7 @@ class ConfigController extends Controller
                 $scene->id,
                 $scene->preview,
                 $scene->thumbs,
+                $scene->thumb_index,
                 $scene->iframe,
                 1,
                 $scene->duration,
@@ -164,7 +165,7 @@ class ConfigController extends Controller
                 date("Y-m-d H:i:s"),
             );
 
-            $sql_insert = 'insert into scenes (id, preview, thumbs, iframe, status, duration, rate, channel_id, created_at, updated_at, published_at) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+            $sql_insert = 'insert into scenes (id, preview, thumbs, thumb_index, iframe, status, duration, rate, channel_id, created_at, updated_at, published_at) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
             DB::connection($database)->insert($sql_insert, $values);
 
             foreach ($languages as $lang) {
@@ -187,6 +188,7 @@ class ConfigController extends Controller
             $sql_update = "UPDATE scenes SET status=".$scene->status . ",
                                preview = '".$scene->preview."',
                                thumbs = '".$scene->thumbs."',
+                               thumb_index = ".$scene->thumb_index.",
                                iframe = '".$scene->iframe."',
                                status = ".$scene->status.",
                                rate = ".$scene->rate.",
