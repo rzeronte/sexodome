@@ -86,8 +86,9 @@ class rZeBotSynonyms extends Command
         $crawler = $goutteClient->request('GET', $url.$src_word);
 
         $status_code = $goutteClient->getResponse()->getStatus();
-        
-        $synonyms = ($crawler->filter('.trans > ul > li ')->count() > 0) ? $crawler->filter('.trans > ul > li')->text() : "title-not-available";
+        echo $status_code.PHP_EOL;
+
+        $synonyms = ($crawler->filter('.trans > ul > li ')->count() > 0) ? $crawler->filter('.trans > ul > li')->text() : "";
 
         if (strlen($synonyms) > 0) {
             $words = explode(",", $synonyms);
