@@ -21,6 +21,8 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\rZeBotTranslate::class,
         \App\Console\Commands\rZeBotSyncronizer::class,
         \App\Console\Commands\rZeBotAnalytics::class,
+        \App\Console\Commands\rZeBotSpinner::class,
+        \App\Console\Commands\rZeBotSynonyms::class,
     ];
 
     /**
