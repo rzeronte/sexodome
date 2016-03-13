@@ -55,6 +55,7 @@ class rZeBotSynonyms extends Command
                         $titleWord = str_replace("...", "", $titleWord);
                         $titleWord = str_replace("!", "", $titleWord);
                         $titleWord = str_replace("?", "", $titleWord);
+                        $titleWord = utf8_encode($titleWord);
                         $titleWord = strtolower($titleWord);
 
                         if (strlen($titleWord) >= 4) {
