@@ -58,7 +58,6 @@ class rZeBotSynonyms extends Command
 
                         if (strlen($titleWord) >= 4) {
                             $this->getSynonyms($titleWord, $language);
-                            sleep(0.5);
                         }
                     }
                 }
@@ -116,6 +115,7 @@ class rZeBotSynonyms extends Command
                     $z++;
                 }
             }
+            sleep(3);
 
         }
 

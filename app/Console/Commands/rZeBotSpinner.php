@@ -40,7 +40,8 @@ class rZeBotSpinner extends Command
     {
         $language = $this->argument('language');
         $text = $this->argument('text');
-        $create = $this->option('create');
+
+        $create = $this->option('create', "false");
 
         if ($create === "true") $create = true;
         if ($create === "false") $create = false;
@@ -91,39 +92,40 @@ class rZeBotSpinner extends Command
                 return;
             }
         }
-
-        $numberCurrentSynonyms = $bbddWord->synonyms()->count();
-        if ($numberCurrentSynonyms == 0) {
-            $synonyms = $this->ask("Describe sinónimos para ".$src_word.":");
-        } else {
-            $synonyms ="";
-            foreach($bbddWord->synonyms()->get() as $syn) {
-                $synonyms.=$syn->word.",";
-            }
-            $synonyms = substr($synonyms, 0,  -1);
-            //echo "Recuperando sinónimos de la BBDD para " . $src_word .": " . $synonyms;
-        }
-
-        if (strlen($synonyms) > 0) {
-            $words = explode(",", $synonyms);
-            $z = 0;
-            foreach ($words as $txtWord) {
-                if ($z<=4) {
-                    $txtWord = trim($txtWord);
-                    $synonyms = $bbddWord->synonyms()->where('word', $txtWord)->first();
-                    // Si el sinónimo no existe parala palabra lo creamos
-                    if (!$synonyms) {
-                        $sinonimo = new WordSynonym();
-                        $sinonimo->word_id = $bbddWord->id;
-                        $sinonimo->word = $txtWord;
-                        $sinonimo->save();
-                        echo "Creando WORD_SYNONYM " . $txtWord.PHP_EOL;
-                    }
+        if (intval($this->creation) == 1) {
+            $numberCurrentSynonyms = $bbddWord->synonyms()->count();
+            if ($numberCurrentSynonyms == 0) {
+                $synonyms = $this->ask("Describe sinónimos para ".$src_word.":");
+            } else {
+                $synonyms ="";
+                foreach($bbddWord->synonyms()->get() as $syn) {
+                    $synonyms.=$syn->word.",";
                 }
-                $z++;
+                $synonyms = substr($synonyms, 0,  -1);
+                //echo "Recuperando sinónimos de la BBDD para " . $src_word .": " . $synonyms;
             }
-        } else {
-            echo "Ignorando creación de sinónimos para " . $src_word.PHP_EOL;
+
+            if (strlen($synonyms) > 0) {
+                $words = explode(",", $synonyms);
+                $z = 0;
+                foreach ($words as $txtWord) {
+                    if ($z<=4) {
+                        $txtWord = trim($txtWord);
+                        $synonyms = $bbddWord->synonyms()->where('word', $txtWord)->first();
+                        // Si el sinónimo no existe parala palabra lo creamos
+                        if (!$synonyms) {
+                            $sinonimo = new WordSynonym();
+                            $sinonimo->word_id = $bbddWord->id;
+                            $sinonimo->word = $txtWord;
+                            $sinonimo->save();
+                            echo "Creando WORD_SYNONYM " . $txtWord.PHP_EOL;
+                        }
+                    }
+                    $z++;
+                }
+            } else {
+                echo "Ignorando creación de sinónimos para " . $src_word.PHP_EOL;
+            }
         }
     }
 }

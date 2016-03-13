@@ -106,7 +106,7 @@ class rZeSpinner
 
                         if (substr($synonym->word, -1) != "s") {
                             if (isset($srcWords[$cont-1])) {
-                                $genero2 = $this->detectarGenero($srcWords[$cont-11], $language_id);
+                                $genero2 = $this->detectarGenero($srcWords[$cont-1], $language_id);
                             }
                         }
 
