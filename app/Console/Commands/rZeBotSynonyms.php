@@ -55,6 +55,7 @@ class rZeBotSynonyms extends Command
                         $titleWord = str_replace("...", "", $titleWord);
                         $titleWord = str_replace("!", "", $titleWord);
                         $titleWord = str_replace("?", "", $titleWord);
+                        $titleWord = strtolower($titleWord);
 
                         if (strlen($titleWord) >= 4) {
                             $this->getSynonyms($titleWord, $language);
@@ -67,7 +68,7 @@ class rZeBotSynonyms extends Command
 
     public function getSynonyms($src_word, $language)
     {
-        $bbddWord = Word::where('word', $src_word)->where('language_id', $language->id)->first();
+        $bbddWord = Word::where('word', utf8_encode($src_word))->where('language_id', $language->id)->first();
 
         // Si no existe la palabra, la creamos en el diccionario
         if (!$bbddWord) {
@@ -102,7 +103,7 @@ class rZeBotSynonyms extends Command
                 foreach ($words as $txtWord) {
                     if ($z<=4) {
                         $txtWord = trim($txtWord);
-                        $synonyms = $bbddWord->synonyms()->where('word', $txtWord)->first();
+                        $synonyms = $bbddWord->synonyms()->where('word', utf8_encode($txtWord))->first();
                         // Si el sinónimo no existe parala palabra lo creamos
                         if (!$synonyms) {
                             $sinonimo = new WordSynonym();
