@@ -108,7 +108,7 @@ class rZeBotSynonyms extends Command
                         if (!$synonyms) {
                             $sinonimo = new WordSynonym();
                             $sinonimo->word_id = $bbddWord->id;
-                            $sinonimo->word = $txtWord;
+                            $sinonimo->word = utf8_encode($txtWord);
                             $sinonimo->save();
                             echo "Creando WORD_SYNONYM " . $txtWord.PHP_EOL;
                         }
