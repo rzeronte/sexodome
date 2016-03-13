@@ -78,45 +78,46 @@ class rZeBotSynonyms extends Command
             $word->save();
             $bbddWord = $word;
             echo "Creando WORD " . $src_word.PHP_EOL;
-        }
+            //***************************************************
 
-        //***************************************************
+            $url = "http://www.wordreference.com/sinonimos/";
 
-        $url = "http://www.wordreference.com/sinonimos/";
+            // goutte client
+            $goutteClient = new Client([
+                'timeout'         => 300,
+                'connect_timeout' => 300,
+                'allow_redirects' => true
+            ]);
 
-        // goutte client
-        $goutteClient = new Client([
-            'timeout'         => 300,
-            'connect_timeout' => 300,
-            'allow_redirects' => true
-        ]);
+            // ***************************************************** launch crawler
+            $crawler = $goutteClient->request('GET', $url.$src_word);
 
-        // ***************************************************** launch crawler
-        $crawler = $goutteClient->request('GET', $url.$src_word);
+            $status_code = $goutteClient->getResponse()->getStatus();
+            echo $status_code. " ".$url.$src_word." | ";
 
-        $status_code = $goutteClient->getResponse()->getStatus();
-        echo $status_code. " ".$url.$src_word." | ";
-
-        $synonyms = ($crawler->filter('.trans > ul > li ')->count() > 0) ? $crawler->filter('.trans > ul > li')->text() : "";
-        echo "Synonyms -> ". $synonyms.PHP_EOL;
-        if (strlen($synonyms) > 0) {
-            $words = explode(",", $synonyms);
-            $z = 0;
-            foreach ($words as $txtWord) {
-                if ($z<=4) {
-                    $txtWord = trim($txtWord);
-                    $synonyms = $bbddWord->synonyms()->where('word', $txtWord)->first();
-                    // Si el sinónimo no existe parala palabra lo creamos
-                    if (!$synonyms) {
-                        $sinonimo = new WordSynonym();
-                        $sinonimo->word_id = $bbddWord->id;
-                        $sinonimo->word = $txtWord;
-                        $sinonimo->save();
-                        echo "Creando WORD_SYNONYM " . $txtWord.PHP_EOL;
+            $synonyms = ($crawler->filter('.trans > ul > li ')->count() > 0) ? $crawler->filter('.trans > ul > li')->text() : "";
+            echo "Synonyms -> ". $synonyms.PHP_EOL;
+            if (strlen($synonyms) > 0) {
+                $words = explode(",", $synonyms);
+                $z = 0;
+                foreach ($words as $txtWord) {
+                    if ($z<=4) {
+                        $txtWord = trim($txtWord);
+                        $synonyms = $bbddWord->synonyms()->where('word', $txtWord)->first();
+                        // Si el sinónimo no existe parala palabra lo creamos
+                        if (!$synonyms) {
+                            $sinonimo = new WordSynonym();
+                            $sinonimo->word_id = $bbddWord->id;
+                            $sinonimo->word = $txtWord;
+                            $sinonimo->save();
+                            echo "Creando WORD_SYNONYM " . $txtWord.PHP_EOL;
+                        }
                     }
+                    $z++;
                 }
-                $z++;
             }
+
         }
+
     }
 }

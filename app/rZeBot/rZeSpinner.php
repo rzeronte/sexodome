@@ -110,10 +110,11 @@ class rZeSpinner
                             }
                         }
 
-                        if ($genero !== false && $genero2 !== false) {
-                            //echo "Vamos a forzar el genero de ".$synonym->word." a " . $genero.PHP_EOL;
+                        if ($genero !== false) {
                             $updated_text.=$this->setGenero($synonym->word, $genero, $language_id);
-                        } else {
+                        } else if ($genero2 !== false){
+                            $updated_text .= $this->setGenero($synonym->word, $genero2, $language_id);
+                        } else{
                             $updated_text.=$synonym->word;
                         }
 
