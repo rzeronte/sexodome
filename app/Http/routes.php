@@ -16,6 +16,7 @@ Route::match(['get'], '{locale}/ajax/seo/site/keywords/{site_id}', 'ConfigContro
 Route::match(['get'], '{locale}/ajax/seo/site/referrers/{site_id}', 'ConfigController@siteReferrers')->name('siteReferrers');
 Route::match(['get'], '{locale}/ajax/seo/site/pages/{site_id}', 'ConfigController@sitePageViews')->name('sitePageViews');
 Route::match(['get'], '{locale}/ajax/scene/thumbs/{site_id}', 'ConfigController@sceneThumbs')->name('sceneThumbs');
+Route::match(['get'], '{locale}/ajax/scene/spin/{site_id}', 'ConfigController@spinScene')->name('spinScene');
 
 Route::get('/setLocale/{locale}', 'ConfigController@changeLocale')->name('changeLocale');
 

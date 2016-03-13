@@ -119,8 +119,11 @@
 
                         <button type="button" class="btn-select-thumb btn btn-warning" data-toggle="modal" data-target="#previewModal" data-url="{{route('sceneThumbs', ['locale' => $locale, 'scene_id'=>$scene->id])}}">
                             <i class="glyphicon glyphicon-picture"></i> thumbnails
-                        </button><br/><br/>
+                        </button>
 
+                        <button type="button" class="btn-spin-text btn btn-warning" data-toggle="modal" data-target="#previewModal" data-url="{{route('spinScene', ['locale' => $locale, 'scene_id'=>$scene->id])}}">
+                            <i class="glyphicon glyphicon-education"></i> spin text
+                        </button><br/><br/>
 
                         <script type="text/javascript">
                             var data = [

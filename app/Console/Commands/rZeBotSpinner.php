@@ -64,9 +64,12 @@ class rZeBotSpinner extends Command
 
         $text_synonyms = $spin->addSynonyms($text, $language->id);
 
-        echo PHP_EOL.$text_synonyms.PHP_EOL;
-        echo PHP_EOL.$spin->process($text_synonyms).PHP_EOL;
+        $data = array(
+            'src' => $text_synonyms,
+            'to'  => $spin->process($text_synonyms),
+        );
 
+        print_r($data);
     }
 
     public function getSynonyms($src_word, $language)

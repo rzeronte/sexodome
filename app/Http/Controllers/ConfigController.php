@@ -30,6 +30,7 @@ use App\Model\Site;
 use App\Model\Logpublish;
 use App\rZeBot\rZeBotUtils;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 
 class ConfigController extends Controller
 {
@@ -487,10 +488,49 @@ class ConfigController extends Controller
         if (!$scene) {
             abort(404, "Not found");
         }
+
         return view('_ajax_scene_thumbs', [
             'scene'     => $scene,
             'language'  => $this->language,
             'languages' => $this->languages
+        ]);
+    }
+
+    public function spinScene($locale, $scene_id)
+    {
+        $scene = Scene::find($scene_id);
+        if (!$scene) {
+            abort(404, "Not found");
+        }
+
+        $exitCodeTitle = "not exist title";
+        $exitCodeDescription = "not exist description";
+
+        $translation = $scene->translations()->where('language_id', 1)->first();
+
+        if ($translation->title != "") {
+            $exitCodeTitle = Artisan::call('rZeBot:spinner:text', [
+                'language' => 'es',
+                'text'     => $translation->title
+            ]);
+
+            print_r($exitCodeTitle);
+
+        }
+
+        if ($translation->description != "") {
+            $exitCodeDescription = Artisan::call('rZeBot:spinner:text', [
+                'language' => 'es',
+                'text'     => $translation->description
+            ]);
+        }
+
+        return view('_ajax_spin_scene', [
+            'scene'               => $scene,
+            'language'            => $this->language,
+            'languages'           => $this->languages,
+            'exitCodeTitle'       => $exitCodeTitle,
+            'exitCodeDescription' => $exitCodeDescription
         ]);
     }
 }
