@@ -96,6 +96,7 @@ class rZeSpinner
                     $i = 0;
                     foreach($synonyms as $synonym) {
                         $genero = false;
+                        $genero2 = false;
 
                         if (substr($synonym->word, -1) != "s") {
                             if (isset($srcWords[$cont+1])) {
@@ -103,7 +104,13 @@ class rZeSpinner
                             }
                         }
 
-                        if ($genero !== false) {
+                        if (substr($synonym->word, -1) != "s") {
+                            if (isset($srcWords[$cont-1])) {
+                                $genero2 = $this->detectarGenero($srcWords[$cont-11], $language_id);
+                            }
+                        }
+
+                        if ($genero !== false && $genero2 !== false) {
                             //echo "Vamos a forzar el genero de ".$synonym->word." a " . $genero.PHP_EOL;
                             $updated_text.=$this->setGenero($synonym->word, $genero, $language_id);
                         } else {
