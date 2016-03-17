@@ -1,2 +1,7 @@
-<h4>title</h4>
-{{dump($exitCodeTitle)}}
+<pre>
+    <?php echo $exitCodeTitle ?>
+</pre>
+<pre>
+    <?php echo $exitCodeDescription ?>
+</pre>
+
