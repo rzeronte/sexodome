@@ -24,6 +24,7 @@ class rZeBotSpinner extends Command
      */
     protected $signature = 'rZeBot:spinner:text {source} {language}
                             {--level=false: Level deep spinner}
+                            {--text=false: Determine if get text from source}
                             {--create=false: Determine if ask for create new words}';
 
     /**
@@ -42,17 +43,27 @@ class rZeBotSpinner extends Command
     {
         $language = $this->argument('language');
         $source = $this->argument('source');
+        $isText = $this->option('text');
+        $create = $this->option('create', "false");
+        $level = $this->option('level');
+
+        if ($isText == "true" && $source == "random") {
+            echo PHP_EOL."[ERROR] --text paramete not allowed with 'random' source".PHP_EOL;
+            exit;
+        }
 
         if ($source == "random") {
             echo "Escogiendo escena al azar...".PHP_EOL;
             $sentence = Sentence::all()->random(1);
             $text = $sentence->sentence;
         } else {
-            $text = file_get_contents($source);
+            if ($isText == "true") {
+                $text = $source;
+            } else {
+                $text = file_get_contents($source);
+            }
         }
 
-        $create = $this->option('create', "false");
-        $level = $this->option('level');
 
         if ($create === "true") $create = true;
         if ($create === "false") $create = false;
