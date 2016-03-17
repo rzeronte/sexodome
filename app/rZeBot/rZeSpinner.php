@@ -81,59 +81,78 @@ class rZeSpinner
 
     public function addSynonyms($text, $language_id)
     {
+        $rZeBotUtils = new rZeBotUtils();
+        $blackWordsList = $rZeBotUtils->blacWordskList;
+
         $srcWords = explode(" ", $text);
 
         $updated_text = "";
 
         $cont = 0;
         foreach($srcWords as $key=>$value) {
-            $word = Word::where('word', 'like', $value)->where('language_id', $language_id)->first();
+            $titleWord = str_replace(",", "", $value);
+            $titleWord = str_replace(".", "", $titleWord);
+            $titleWord = str_replace("!", "", $titleWord);
+            $titleWord = str_replace("?", "", $titleWord);
+            $titleWord = trim($titleWord);
+            $titleWord = strtolower($titleWord);
 
-            if ($word) {
-                $synonyms = $word->synonyms()->get();
-                if (count($synonyms) > 0) {
-                    $updated_text.="{";
-                    $i = 0;
-                    foreach($synonyms as $synonym) {
-                        $genero = false;
-                        $genero2 = false;
+            if (!in_array($titleWord, $blackWordsList)) {
+                $word = Word::where('word', 'like', $titleWord)->where('language_id', $language_id)->first();
 
-                        if (substr($synonym->word, -1) != "s") {
-                            if (isset($srcWords[$cont+1])) {
-                                $genero = $this->detectarGenero($srcWords[$cont+1], $language_id);
-                            }
-                        }
-
-                        if (substr($synonym->word, -1) != "s") {
-                            if (isset($srcWords[$cont-1])) {
-                                $genero2 = $this->detectarGenero($srcWords[$cont-1], $language_id);
-                            }
-                        }
-
-                        if ($genero !== false) {
-                            $updated_text.=$this->setGenero($synonym->word, $genero, $language_id);
-                        } else if ($genero2 !== false){
-                            $updated_text .= $this->setGenero($synonym->word, $genero2, $language_id);
-                        } else{
+                if ($word) {
+                    $synonyms = $word->synonyms()->get();
+                    if (count($synonyms) > 0) {
+                        $updated_text.="{";
+                        $i = 0;
+                        foreach($synonyms as $synonym) {
                             $updated_text.=$synonym->word;
-                        }
 
-                        $i++;
+                            $i++;
 
-                        if (!($i == count($synonyms))) {
-                            $updated_text.="|";
+                            if (!($i == count($synonyms))) {
+                                $updated_text.="|";
+                            }
                         }
+                        $updated_text.="} ";
+                    } else {
+                        // Si no hay sinónimos ponemos la palabra directamente
+                        $updated_text.=$value." ";
                     }
-                    $updated_text.="} ";
                 } else {
-                    // Si no hay sinónimos ponemos la palabra directamente
-                    $updated_text.=$value." ";
+                    // Buscamos en sinónimos
+                        $wordSynonym = WordSynonym::where('word', 'like', $titleWord)->first();
+                        if ($wordSynonym) {
+                            echo "Encontrado como sinónimo: ".$titleWord.PHP_EOL;
+                            $word = Word::where('id', $wordSynonym->word_id)->first();
+                            $synonyms = $word->synonyms()->get();
+                            if (count($synonyms) > 0) {
+                                $updated_text.="{";
+                                $i = 0;
+                                foreach($synonyms as $synonym) {
+                                    $updated_text.=$synonym->word;
+
+                                    $i++;
+
+                                    if (!($i == count($synonyms))) {
+                                        $updated_text.="|";
+                                    }
+                                }
+                                $updated_text.="} ";
+                            } else {
+                                // Si no hay sinónimos ponemos la palabra directamente
+                                $updated_text.=$value." ";
+                            }
+                    } else {
+                        //echo "No tenemos sinonimos para " . $value.PHP_EOL;
+                        $updated_text.=$value." ";
+                    }
                 }
             } else {
-                //echo "No tenemos sinonimos para " . $value.PHP_EOL;
+
+                // Si no hay sinónimos ponemos la palabra directamente
                 $updated_text.=$value." ";
             }
-
             $cont++;
         }
 

@@ -23,6 +23,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\rZeBotAnalytics::class,
         \App\Console\Commands\rZeBotSpinner::class,
         \App\Console\Commands\rZeBotSynonyms::class,
+        \App\Console\Commands\rZeBotScrapper::class,
     ];
 
     /**

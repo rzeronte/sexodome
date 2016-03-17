@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Model\Language;
+use App\Model\Sentence;
 use App\rZeBot\rZeSpinner;
 use App\Tag;
 use App\TagClick;
@@ -21,8 +22,9 @@ class rZeBotSpinner extends Command
      *
      * @var string
      */
-    protected $signature = 'rZeBot:spinner:text {language} {text}
-                                    {--create=false: Determine if ask for create new words}';
+    protected $signature = 'rZeBot:spinner:text {source} {language}
+                            {--level=false: Level deep spinner}
+                            {--create=false: Determine if ask for create new words}';
 
     /**
      * The console command description.
@@ -39,37 +41,79 @@ class rZeBotSpinner extends Command
     public function handle()
     {
         $language = $this->argument('language');
-        $text = $this->argument('text');
+        $source = $this->argument('source');
+
+        if ($source == "random") {
+            echo "Escogiendo escena al azar...".PHP_EOL;
+            $sentence = Sentence::all()->random(1);
+            $text = $sentence->sentence;
+        } else {
+            $text = file_get_contents($source);
+        }
 
         $create = $this->option('create', "false");
+        $level = $this->option('level');
 
         if ($create === "true") $create = true;
         if ($create === "false") $create = false;
         $this->creation = $create;
 
+        $veces = 0;
+        if ($level !== "false") {
+             $veces = $level;
+        }
+
         $language = Language::where('code', $language)->first();
 
+        $originalText = $text;
+        $sentences = [];
+
+        for ($i=0; $i<=$veces;$i++) {
+            $dataSpinned = $this->getSpinText($text, $language);
+
+            $datos = array(
+                'spintax' => $dataSpinned['spintax'],
+                'spinned' => $dataSpinned['spinned'],
+            );
+
+            $text = $datos["spinned"];
+
+            $sentences[] = $dataSpinned;
+            $i++;
+        }
+
+        $data = array(
+            'origin'    => $originalText,
+            'sentences' => $sentences
+        );
+
+        print_r($data);
+    }
+
+    public function getSpinText($text, $language)
+    {
         $title_words = explode(" ", $text);
 
         foreach($title_words as $titleWord) {
             $titleWord = trim($titleWord);
             $titleWord = str_replace(",", "",$titleWord);
+            $titleWord = str_replace(".", "", $titleWord);
+            $titleWord = str_replace("!", "", $titleWord);
+            $titleWord = str_replace("?", "", $titleWord);
+            $titleWord = strtolower($titleWord);
+
             if (strlen($titleWord) >= 5) {
                 $this->getSynonyms($titleWord, $language);
             }
         }
 
-
         $spin = new rZeSpinner();
-
         $text_synonyms = $spin->addSynonyms($text, $language->id);
 
-        $data = array(
-            'src' => $text_synonyms,
-            'to'  => $spin->process($text_synonyms),
-        );
-
-        print_r($data);
+        return [
+            'spintax' => $text_synonyms,
+            'spinned' => $spin->process($text_synonyms),
+        ];
     }
 
     public function getSynonyms($src_word, $language)
@@ -95,6 +139,7 @@ class rZeBotSpinner extends Command
                 return;
             }
         }
+
         if (intval($this->creation) == 1) {
             $numberCurrentSynonyms = $bbddWord->synonyms()->count();
             if ($numberCurrentSynonyms == 0) {

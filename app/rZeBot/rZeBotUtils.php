@@ -14,6 +14,30 @@ use DB;
 class rZeBotUtils
 {
     public $validExtensions;
+    public $blacWordskList;
+
+    public function __construct() {
+        $this->invalidExtensions = array(
+            '.exe',
+            '.rar',
+            '.zip',
+            '.txt',
+            '.flw',
+            '.xml',
+            '.json',
+            ':81',
+        );
+
+        $this->blacWordskList = array(
+            'ahora', 'antes', 'después', 'tarde', 'luego', 'ayer', 'temprano', 'ya', 'todavía', 'anteayer',
+            'aún', 'pronto', 'hoy', 'aquí', 'ahí', 'allí', 'cerca', 'lejos', 'fuera', 'dentro', 'alrededor',
+            'aparte', 'encima', 'debajo', 'delante', 'detrás', 'así', 'bien', 'mal', 'despacio', 'deprisa',
+            'como', 'mucho', 'poco', 'muy', 'casi', 'todo', 'nada', 'algo', 'medio',
+            'demasiado', 'bastante', 'más', 'menos', 'además', 'incluso', 'también', 'sí',
+            'también', 'asimismo', 'no', 'tampoco', 'jamás', 'nunca', 'acaso', 'quizá',
+            'tal vez', 'a lo mejor', 'ser'
+        );
+    }
 
     static function checkDomainAccess() {
         $urlData = parse_url($_SERVER["HTTP_HOST"]);
@@ -49,18 +73,6 @@ class rZeBotUtils
         return false;
     }
 
-    public function __construct() {
-        $this->invalidExtensions = array(
-            '.exe',
-            '.rar',
-            '.zip',
-            '.txt',
-            '.flw',
-            '.xml',
-            '.json',
-            ':81',
-        );
-    }
 
     /**
      * format console message

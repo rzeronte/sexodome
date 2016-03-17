@@ -108,6 +108,71 @@ class ConfigController extends Controller
     public function tags($locale)
     {
         $query_string = Request::get('q');
+
+        $tags = Tag::getTranslationSearch($query_string, $this->language->id);
+
+        return view('tags', [
+            'tags'         => $tags->paginate($this->perPageScenes),
+            'query_string' => $query_string,
+            'language'     => $this->language,
+            'languages'    => $this->languages,
+            'locale'       => $this->locale,
+        ]);
+    }
+
+    public function addTag($locale, $permalinkTag)
+    {
+        $tag = TagTranslation::where('permalink', $permalinkTag)->first()->tag;
+
+        // check if already exists
+        if (Language::hasTag($tag->id, $this->language->id)) {
+            Request::session()->flash('error', 'Tag already exists!');
+        } else {
+            Request::session()->flash('success', 'Tag added!');
+            $newLanguageTag = new App\Model\LanguageTag();
+            $newLanguageTag->language_id = $this->language->id;
+            $newLanguageTag->tag_id = $tag->id;
+            $newLanguageTag->save();
+        }
+
+        return redirect()->route('tags', [
+            'language'     => $this->language,
+            'languages'    => $this->languages,
+            'locale'       => $this->locale,
+        ]);
+    }
+
+    public function saveTagTranslation($locale, $tag_id)
+    {
+        $name = Request::input('language_' . $this->language->id);
+
+        $tagTranslation = TagTranslation::where('tag_id', $tag_id)
+            ->where('language_id', $this->language->id)
+            ->first();
+
+        $tagTranslation->name = $name;
+        $tagTranslation->permalink = str_slug($name);
+        $tagTranslation->save();
+
+        $tag = Tag::find($tag_id);
+        $tag->status = Request::input('status');
+        $tag->save();
+
+        // response json if ajax request
+        if(Request::ajax()) {
+            return json_encode(array('status'=>1));
+        } else {
+            return redirect()->route('tags', [
+                'locale' => $this->locale,
+                'q'      => Request::get("q"),
+                'page'   => Request::get("page")
+            ]);
+        }
+    }
+
+    public function tagsCount($locale)
+    {
+        $query_string = Request::get('q');
         $tags = Tag::getTranslationSearch($query_string, $this->language->id);
         $tag_query_string = Request::get('tag_q');
 
@@ -283,22 +348,30 @@ class ConfigController extends Controller
     public function stats()
     {
         $scenes = Scene::getAllTranslated($this->language->id)->get();
+        $sentences = App\Model\Sentence::all();
 
         $amountTitle = "";
-        foreach ($scenes as $scene) {
-            $amountTitle.=$scene->title;
+        foreach ($sentences as $scene) {
+            $amountTitle.=$scene->sentence;
         }
 
-        $words = array_count_values(explode(" ", $amountTitle));
+        $words = explode(" ", $amountTitle);
+//        $words2 = [];
+//        foreach ($words as $w) {
+//            if (strlen($w) >=4) {
+//                $words2[] = $w;
+//            }
+//        }
+        $words = array_count_values($words);
         arsort($words);
 
         return view('stats', [
-            'language'     => $this->language,
-            'languages'    => $this->languages,
-            'locale'       => $this->locale,
-            'title'        => "Admin Panel",
-            'sites'        => $this->sites,
-            'words'        => $words
+            'language'  => $this->language,
+            'languages' => $this->languages,
+            'locale'    => $this->locale,
+            'title'     => "Admin Panel",
+            'sites'     => $this->sites,
+            'words'     => $words
         ]);
     }
 
