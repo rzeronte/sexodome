@@ -584,17 +584,15 @@ class ConfigController extends Controller
         if ($translation->title != "") {
             $exitCodeTitle = Artisan::call('rZeBot:spinner:text', [
                 'language' => 'es',
-                'text'     => $translation->title
+                'source'   => $translation->title
             ]);
-
-            print_r($exitCodeTitle);
-
         }
 
         if ($translation->description != "") {
             $exitCodeDescription = Artisan::call('rZeBot:spinner:text', [
                 'language' => 'es',
-                'text'     => $translation->description
+                'soure'    => $translation->description,
+                'text'    => "true"
             ]);
         }
 
