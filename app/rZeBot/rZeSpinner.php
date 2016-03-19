@@ -123,7 +123,7 @@ class rZeSpinner
                     // Buscamos en sinónimos
                         $wordSynonym = WordSynonym::where('word', 'like', $titleWord)->first();
                         if ($wordSynonym) {
-                            echo "Encontrado como sinónimo: ".$titleWord.PHP_EOL;
+//                            echo "Encontrado como sinónimo: ".$titleWord.PHP_EOL;
                             $word = Word::where('id', $wordSynonym->word_id)->first();
                             $synonyms = $word->synonyms()->get();
                             if (count($synonyms) > 0) {

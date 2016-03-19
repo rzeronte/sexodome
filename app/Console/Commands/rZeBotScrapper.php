@@ -50,7 +50,6 @@ class rZeBotScrapper extends Command
         $paginas = 46;
         $i = 0;
 
-
         for ($i=0; $i<=$paginas;$i++)
         {
 
@@ -69,10 +68,10 @@ class rZeBotScrapper extends Command
                     //$url = $node["textContent"];
                     $texto = $node->text();
 
-                    $sentence = new Sentence();
-                    $sentence->sentence = $texto;
-                    $sentence->url = $url;
-                    $sentence->save();
+//                    $sentence = new Sentence();
+//                    $sentence->sentence = $texto;
+//                    $sentence->url = $url;
+//                    $sentence->save();
                 });
             });
 
