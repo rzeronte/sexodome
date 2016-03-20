@@ -159,6 +159,7 @@
                     @if (isset($translation->description))
                         <small>[D] </small>
                     @endif
+                    <br/>
                 @endforeach
                 <br/>
                 <br/>
