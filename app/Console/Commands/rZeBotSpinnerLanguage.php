@@ -51,7 +51,7 @@ class rZeBotSpinnerLanguage extends Command
         $language = Language::where('code', $language)->first();
 
         foreach($scenes as $scene) {
-            $dateTitle = $this->spinText(Title::all()->random(1)->sentence, $veces, $language);
+            $dateTitle = $this->spinText(Title::all()->random(1)->title, $veces, $language);
             $dateDescription = $this->spinText(Sentence::all()->random(1)->sentence, $veces, $language);
 
             $translation = $scene->translations()->where('language_id', $language->id)->first();
