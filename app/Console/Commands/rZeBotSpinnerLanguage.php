@@ -11,6 +11,7 @@ use App\Model\TagTranslation;
 use Illuminate\Console\Command;
 use App\rZeBot\rZeBotUtils;
 use App\Model\Language;
+use App\Model\Title;
 use App\Model\Scene;
 use App\Model\Tag;
 use App\Model\Host;
@@ -43,17 +44,15 @@ class rZeBotSpinnerLanguage extends Command
     {
         $language = $this->argument('language');
 
-        $veces = 1;
+        $veces = 0;     // depht spin level
 
         $scenes = Scene::all();
 
         $language = Language::where('code', $language)->first();
 
         foreach($scenes as $scene) {
-            $dateTitle = $this->spinText(Sentence::all()->random(1)->sentence, $veces, $language);
+            $dateTitle = $this->spinText(Title::all()->random(1)->sentence, $veces, $language);
             $dateDescription = $this->spinText(Sentence::all()->random(1)->sentence, $veces, $language);
-
-            $dateTitle = substr($dateTitle, 0, rand(50, 60));
 
             $translation = $scene->translations()->where('language_id', $language->id)->first();
 
@@ -66,7 +65,6 @@ class rZeBotSpinnerLanguage extends Command
                 $newTranslation->description = $dateDescription;
                 $newTranslation->permalink = str_slug(substr($dateTitle, 0, 40));
                 $newTranslation->save();
-
             } else {
                 echo "[OK] Update spined translation for language".PHP_EOL;
                 $translation->title = $dateTitle;
