@@ -115,6 +115,8 @@ class rZeBotScenesPublisher extends Command
                             description='" . $translation->description . "' where id=" . $translation->id;
 
                         DB::connection($database)->update($sql_update);
+                    } else {
+                        echo "Translation not found for " . $lang->code.PHP_EOL;
                     }
                 }
             }
