@@ -106,6 +106,7 @@ class rZeBotScenesPublisher extends Command
                     $translation = $scene->translations()->where('language_id', $lang->id)->first();
 
                     if ($translation) {
+                        echo "Actualizando translation " . $lang->code.PHP_EOL;
                         $sql_update = "UPDATE scene_translations SET
                             scene_id=" . $scene->id . ",
                             language_id=" . $lang->id . ",
