@@ -35,10 +35,11 @@ class rZeBotScenesPublisher extends Command
         $database     = $this->argument('database');
         $scenesNumber = $this->argument('scenesNumber');
 
+        $remoteScenes = Scene::getRemoteSceneIdsFor($database);
 
         $languages = Language::all();
 
-        $scenes = Scene::where('status', '<>', 0)->orderBy('rate', 'desc')->limit($scenesNumber)->get();
+        $scenes = Scene::whereNotIn('scenes.id', $remoteScenes)->orderBy('rate', 'desc')->limit($scenesNumber)->get();
 
         foreach($scenes as $scene) {
             echo "Publicando escena " . $scene->id . PHP_EOL;
