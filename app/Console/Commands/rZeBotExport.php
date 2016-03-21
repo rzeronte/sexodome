@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Model\LanguageTag;
+use App\Model\Logpublish;
 use App\Model\SceneClick;
 use App\Model\SceneTranslation;
 use App\Model\TagTranslation;
