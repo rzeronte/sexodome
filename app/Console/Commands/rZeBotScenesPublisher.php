@@ -35,7 +35,7 @@ class rZeBotScenesPublisher extends Command
         $database     = $this->argument('database');
         $scenesNumber = $this->argument('scenesNumber');
 
-        $remoteScenes = Scene::getRemoteSceneIdsFor($database);
+        $remoteScenes = Scene::getRemoteActiveScenesIdsFor($database);
 
         $languages = Language::all();
 

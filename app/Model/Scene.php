@@ -147,6 +147,18 @@ class Scene extends Model
         return $ids;
     }
 
+    static function getRemoteActiveScenesIdsFor($database) {
+        $sql = "SELECT id FROM scenes WHERE status =1";
+        $scenes = DB::connection($database)->select($sql);
+
+        $ids = [];
+        foreach($scenes as $scene) {
+            $ids[] = $scene->id;
+        }
+
+        return $ids;
+    }
+
     public function clicks()
     {
         return $this->hasMany('App\Model\SceneClick');
