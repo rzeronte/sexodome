@@ -152,7 +152,7 @@ return [
         ],
         'pornoseo' => [
             'driver'    => 'mysql',
-            'host'      => env('DB_HOST8', '82.98.134.42'),
+            'host'      => env('DB_HOST8', '82.98.139.92'),
             'database'  => env('DB_DATABASE8', 'pornoseo'),
             'username'  => env('DB_USERNAME8', 'pornoseo'),
             'password'  => env('DB_PASSWORD8', 'elnq8j2p'),
