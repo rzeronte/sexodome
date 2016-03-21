@@ -150,6 +150,17 @@ return [
             'prefix'    => '',
             'strict'    => false,
         ],
+        'pornoseo' => [
+            'driver'    => 'mysql',
+            'host'      => env('DB_HOST8', '82.98.134.42'),
+            'database'  => env('DB_DATABASE8', 'pornoseo'),
+            'username'  => env('DB_USERNAME8', 'pornoseo'),
+            'password'  => env('DB_PASSWORD8', 'elnq8j2p'),
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+            'strict'    => false,
+        ],
         'pgsql' => [
             'driver'   => 'pgsql',
             'host'     => env('DB_HOST', 'localhost'),
