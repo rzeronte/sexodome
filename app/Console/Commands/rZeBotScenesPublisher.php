@@ -93,6 +93,7 @@ class rZeBotScenesPublisher extends Command
                 $sql_update = "UPDATE scenes SET status=" . $scene->status . ",
                                preview = '" . $scene->preview . "',
                                thumbs = '" . $scene->thumbs . "',
+                               published_at = '" . date('Y-m-d H:i:s') . "',
                                iframe = '" . $scene->iframe . "',
                                status = 1,
                                rate = " . $scene->rate . "
