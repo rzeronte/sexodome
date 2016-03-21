@@ -36,7 +36,7 @@ class rZeBotExport extends Command
      *
      * @var string
      */
-    protected $description = 'Export to other databases';
+    protected $description = 'Export all tags/scenes to other sites';
 
     /**
      * Execute the console command.

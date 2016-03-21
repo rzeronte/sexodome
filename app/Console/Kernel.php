@@ -26,6 +26,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\rZeBotSpinner::class,
         \App\Console\Commands\rZeBotSpinnerLanguage::class,
         \App\Console\Commands\rZeBotDuplicateLanguage::class,
+        \App\Console\Commands\rZeBotScenesPublisher::class,
     ];
 
     /**
