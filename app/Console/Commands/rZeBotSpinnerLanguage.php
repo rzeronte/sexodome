@@ -63,13 +63,13 @@ class rZeBotSpinnerLanguage extends Command
                 $newTranslation->language_id = $language->id;
                 $newTranslation->title = $dateTitle;
                 $newTranslation->description = $dateDescription;
-                $newTranslation->permalink = str_slug(substr($dateTitle, 0, 40));
+                $newTranslation->permalink = str_slug($dateTitle);
                 $newTranslation->save();
             } else {
                 echo "[OK] Update spined translation for language".PHP_EOL;
                 $translation->title = $dateTitle;
                 $translation->description = $dateDescription;
-                $translation->permalink = str_slug(substr($dateTitle, 0, 40));
+                $translation->permalink = str_slug($dateTitle);
                 $translation->save();
             }
         }
