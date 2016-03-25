@@ -431,10 +431,11 @@ class ConfigController extends Controller
                 if ($site->iframe_site_id != null) {
                     $src = Site::find($site->iframe_site_id)->domain;
                 } else {
+                    $src = null;
 
                 }
                 DB::connection($site->name)->table('languages')->where('id', $site->id)->update([
-                    'iframe_src' => null
+                    'iframe_src' => $src
                 ]);
 
                 //tiers
