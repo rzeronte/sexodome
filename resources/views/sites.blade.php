@@ -150,11 +150,30 @@
                         </script>
                     </div>
                     <div class="col-md-8">
-                        <p style="float:right;">[ Ga View ID ]<input name="ga_view_{{$site->id}}" value="{{$site->ga_account}}" class="form-control" style="width:100px;"/></p>
-                        <button type="button" class="seo-info-keywords btn btn-success btn-xs" data-toggle="modal" data-target="#SEOInfoModal" data-url="{{route('siteKeywords', ['locale'=>$locale, 'site_id'=>$site->id])}}"><i class="glyphicon glyphicon-link"></i> Top Keywords</button>
-                        <button type="button" class="seo-info-keywords btn btn-success btn-xs" data-toggle="modal" data-target="#SEOInfoModal" data-url="{{route('siteReferrers', ['locale'=>$locale, 'site_id'=>$site->id])}}"><i class="glyphicon glyphicon-send"></i> Top Referrers</button>
-                        <button type="button" class="seo-info-keywords btn btn-success btn-xs" data-toggle="modal" data-target="#SEOInfoModal" data-url="{{route('sitePageViews', ['locale'=>$locale, 'site_id'=>$site->id])}}"><i class="glyphicon glyphicon-thumbs-up"></i> Most Visited pages</button>
+                        <div class="col-md-6">
+                            <button type="button" class="seo-info-keywords btn btn-success btn-xs" data-toggle="modal" data-target="#SEOInfoModal" data-url="{{route('siteKeywords', ['locale'=>$locale, 'site_id'=>$site->id])}}"><i class="glyphicon glyphicon-link"></i> Top Keywords</button>
+                            <button type="button" class="seo-info-keywords btn btn-success btn-xs" data-toggle="modal" data-target="#SEOInfoModal" data-url="{{route('siteReferrers', ['locale'=>$locale, 'site_id'=>$site->id])}}"><i class="glyphicon glyphicon-send"></i> Top Referrers</button>
+                            <button type="button" class="seo-info-keywords btn btn-success btn-xs" data-toggle="modal" data-target="#SEOInfoModal" data-url="{{route('sitePageViews', ['locale'=>$locale, 'site_id'=>$site->id])}}"><i class="glyphicon glyphicon-thumbs-up"></i> Most Visited pages</button>
+                        </div>
 
+                        <div class="col-md-6">
+                            <div class="col-md-6">
+                                <label for="iframe_site_id">Iframe</label>
+                                <select name="iframe_site_id_{{$site->id}}" class="form-control">
+                                    <option value="">No iframe</option>
+                                    @foreach($sites as $sit)
+                                        <option value="{{$sit->id}}" @if ($site->iframe_site_id == $sit->id) selected @endif>{{$sit->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+
+                                <label for="iframe_site_id">Ga View ID</label>
+                                <input name="ga_view_{{$site->id}}" value="{{$site->ga_account}}" class="form-control" style="width:100px;"/>
+
+                            </div>
+
+                        </div>
                         <br/>
                         <br/>
                         <div class="col-md-12">

@@ -424,6 +424,7 @@ class ConfigController extends Controller
                 ;
 
                 $site->ga_account = Request::input('ga_view_'.$site->id);
+                $site->iframe_site_id = (Request::input('iframe_site_id_'.$site->id) != "") ? Request::input('iframe_site_id_'.$site->id) : null;
                 $site->save();
 
                 //tiers
