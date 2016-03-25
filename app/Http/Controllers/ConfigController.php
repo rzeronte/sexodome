@@ -428,8 +428,13 @@ class ConfigController extends Controller
                 $site->save();
 
                 // sync remote databases
-                $remoteSite = DB::connection($site->name)->table('languages')->where('id', $site->id)->update([
-                    'iframe_src' => Site::find($site->iframe_site_id)->domain
+                if ($site->iframe_site_id != null) {
+                    $src = Site::find($site->iframe_site_id)->domain;
+                } else {
+
+                }
+                DB::connection($site->name)->table('languages')->where('id', $site->id)->update([
+                    'iframe_src' => null
                 ]);
 
                 //tiers
