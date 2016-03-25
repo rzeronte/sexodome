@@ -427,6 +427,11 @@ class ConfigController extends Controller
                 $site->iframe_site_id = (Request::input('iframe_site_id_'.$site->id) != "") ? Request::input('iframe_site_id_'.$site->id) : null;
                 $site->save();
 
+                // sync remote databases
+                $remoteSite = DB::connection($site->name)->table('languages')->where('id', $site->id)->update([
+                    'iframe_src' => Site::find($site->iframe_site_id)->domain
+                ]);
+
                 //tiers
                 for($i=1 ; $i<= Site::getNumTiers(); $i++) {
 
