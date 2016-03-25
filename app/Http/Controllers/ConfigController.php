@@ -434,7 +434,7 @@ class ConfigController extends Controller
                     $src = null;
 
                 }
-                DB::connection($site->name)->table('languages')->where('id', $site->id)->update([
+                DB::connection($site->name)->table('languages')->update([
                     'iframe_src' => $src
                 ]);
 
