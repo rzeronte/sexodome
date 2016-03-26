@@ -1,0 +1,12 @@
+<?php
+
+namespace App\Model;
+
+use Illuminate\Database\Eloquent\Model;
+
+class CategoryTranslation extends Model
+{
+    protected $table = 'categories_translations';
+
+    public $timestamps = false;
+}

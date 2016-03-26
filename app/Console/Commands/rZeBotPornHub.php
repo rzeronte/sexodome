@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Model\Category;
+use App\Model\CategoryTranslation;
 use App\Model\LanguageTag;
 use App\Model\SceneClick;
 use App\Model\SceneTranslation;
@@ -24,13 +26,14 @@ class rZeBotPornHub extends Command
      */
     protected $signature = 'rZeBot:pornhub:dump
                             {--truncate=false : Truncate before dump}
-                            {--stop=false : Stop with nothing to do}
-                            {--max=false : Number to import}
-                            {--tags=false : Tags imported}
-                            {--rate=false : rate min imported}
-                            {--views=false : views min imported}
-                            {--duration=false : duration min imported}
-                            {--clicks=false: Generate random visits}';
+                            {--stop=false : Stop with nothing to do. Not include truncate}
+                            {--max=false : Number max scenes to import}
+                            {--tags=false : Only tags imported}
+                            {--rate=false : Only rate min imported}
+                            {--views=false : Only views min imported}
+                            {--duration=false : Only duration min imported}
+                            {--only_categories=false : Only import categories to universo}
+                            {--clicks=false: Generate random visits (hard cpu, slow)}';
 
     /**
      * The console command description.
@@ -60,7 +63,7 @@ class rZeBotPornHub extends Command
         $rate     = $this->option('rate');
         $minViews = $this->option('views');
         $minDuration = $this->option('duration');
-
+        $only_categories = $this->option('only_categories');
         if ($truncate == 'true') {
             echo "Truncando...".PHP_EOL.PHP_EOL;
             SceneTranslation::truncate();
@@ -91,7 +94,6 @@ class rZeBotPornHub extends Command
             while (($datos = fgetcsv($gestor, 10000, "|")) !== FALSE) {
                 echo "=============================================>$fila" . PHP_EOL;
                 $fila++;
-
                 // check limit import
                 if ($max != 'false' && is_numeric($max) && $added >= $max) {
                     break;
@@ -103,19 +105,45 @@ class rZeBotPornHub extends Command
                 }
 
                 $video = array(
-                    "iframe"   => $datos[0],
-                    "preview"  => $datos[1],
-                    "thumbs"   => explode(";", $datos[2]),
-                    "title"    => $datos[3],
-                    "tags"     => explode(";", $datos[4]),
-                    "duration" => $datos[7],
-                    "likes"    => $datos[8],
-                    "views"    => $datos[9],
-                    "unlikes"  => $datos[10],
-                    "rate"     => $videorate
+                    "iframe"     => $datos[0],
+                    "preview"    => $datos[1],
+                    "thumbs"     => explode(";", $datos[2]),
+                    "title"      => $datos[3],
+                    "tags"       => explode(";", $datos[4]),
+                    "categories" => explode(";", $datos[5]),
+                    "duration"   => $datos[7],
+                    "likes"      => $datos[8],
+                    "views"      => $datos[9],
+                    "unlikes"    => $datos[10],
+                    "rate"       => $videorate
                 );
 
+                if ($only_categories !== false) {
+                    foreach ($video["categories"] as $category) {
+                        if (trim($category) != "" && strpos($category, 'http://') !== 0) {
+                            $bbddCategory = CategoryTranslation::where('name', trim($category))->first();
 
+                            if (!$bbddCategory) {
+                                $newCategory = new Category();
+                                $newCategory->status = 1;
+                                $newCategory->text = $category  ;
+                                $newCategory->save();
+                                echo "[CATEGORY ADD] ".$category.PHP_EOL;
+
+                                foreach($languages as $lng) {
+                                    $newCategoryTrans = new CategoryTranslation();
+                                    $newCategoryTrans->language_id = $lng->id;
+                                    $newCategoryTrans->name = $category;
+                                    $newCategoryTrans->category_id = $newCategory->id;
+                                    $newCategoryTrans->save();
+                                }
+                            }
+                        }
+                    }
+                    continue;
+                }
+
+                // preview is used to check if already exists
                 if(Scene::where('preview', $video["preview"])->count() == 0) {
                     $mixed_check = true;
 
@@ -232,7 +260,7 @@ class rZeBotPornHub extends Command
                         }
                     }
                 } else {
-                    echo "SCENE: ya existente";
+                    echo "SCENE: ya existente".PHP_EOL;
                 }
             }
 
