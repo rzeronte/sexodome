@@ -90,7 +90,7 @@ class Scene extends Model
     static function hasCategory($scene_id, $category_id)
     {
         $category = Scene::select('scenes.*')
-            ->join('scene_tag', 'scene_tag.scene_id', '=', 'scenes.id')
+            ->join('scene_category', 'scene_category.scene_id', '=', 'scenes.id')
             ->where('scene_category.scene_id', $scene_id)
             ->where('scene_category.category_id', $category_id)->count();
 
