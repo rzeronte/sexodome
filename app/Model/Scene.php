@@ -91,8 +91,8 @@ class Scene extends Model
     {
         $category = Scene::select('scenes.*')
             ->join('scene_tag', 'scene_tag.scene_id', '=', 'scenes.id')
-            ->where('scene_categories.scene_id', $scene_id)
-            ->where('scene_categories.category_id', $category_id)->count();
+            ->where('scene_category.scene_id', $scene_id)
+            ->where('scene_category.category_id', $category_id)->count();
 
         if ($category > 0) {
             return true;
