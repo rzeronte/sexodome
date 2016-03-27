@@ -4,6 +4,7 @@ Route::match(['get', 'post'], '/', 'ConfigController@home')->name('home');
 Route::match(['get', 'post'], '{locale}/', 'ConfigController@index')->name('content');
 Route::match(['get', 'post'], '{locale}/export_scene/{scene_id}', 'ConfigController@exportScene')->name('exportScene');
 Route::match(['get', 'post'], '{locale}/tags/', 'ConfigController@tags')->name('tags');
+Route::match(['get', 'post'], '{locale}/categories/', 'ConfigController@categories')->name('categories');
 Route::match(['get', 'post'], '{locale}/stats/', 'ConfigController@stats')->name('stats');
 Route::match(['get', 'post'], '{locale}/sites', 'ConfigController@sites')->name('sites');
 
@@ -23,5 +24,6 @@ Route::get('/setLocale/{locale}', 'ConfigController@changeLocale')->name('change
 Route::match(['get', 'post'], '{locale}/saveTranslation/{scene_id}', 'ConfigController@saveTranslation')->name('saveTranslation');
 
 
-Route::match(['get', 'post'], '{locale}/admin/saveTagTranslation/{scene_id}', 'ConfigController@saveTagTranslation')->name('saveTagTranslation');
+Route::match(['get', 'post'], '{locale}/admin/saveTagTranslation/{tag_id}', 'ConfigController@saveTagTranslation')->name('saveTagTranslation');
+Route::match(['get', 'post'], '{locale}/admin/saveCategoryTranslation/{scene_id}', 'ConfigController@saveCategoryTranslation')->name('saveCategoryTranslation');
 Route::match(['get', 'post'], '{locale}/admin/translateTag/{tag_id}', 'ConfigController@translateTag')->name('translateTag');

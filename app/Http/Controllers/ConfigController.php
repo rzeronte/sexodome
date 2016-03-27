@@ -14,6 +14,8 @@ use App\Model\Host;
 use App\Model\Video;
 use App\Model\Scene;
 use App\Model\SceneTranslation;
+use App\Model\Category;
+use App\Model\CategoryTranslation;
 use App\Model\SceneClick;
 use App\Model\SceneTag;
 use App\Model\Tag;
@@ -120,6 +122,21 @@ class ConfigController extends Controller
         ]);
     }
 
+    public function categories($locale)
+    {
+        $query_string = Request::get('q');
+
+        $categories = Category::getTranslationSearch($query_string, $this->language->id);
+
+        return view('categories', [
+            'categories'   => $categories->paginate($this->perPageScenes),
+            'query_string' => $query_string,
+            'language'     => $this->language,
+            'languages'    => $this->languages,
+            'locale'       => $this->locale,
+        ]);
+    }
+
     public function addTag($locale, $permalinkTag)
     {
         $tag = TagTranslation::where('permalink', $permalinkTag)->first()->tag;
@@ -163,6 +180,34 @@ class ConfigController extends Controller
             return json_encode(array('status'=>1));
         } else {
             return redirect()->route('tags', [
+                'locale' => $this->locale,
+                'q'      => Request::get("q"),
+                'page'   => Request::get("page")
+            ]);
+        }
+    }
+
+    public function saveCategoryTranslation($locale, $category_id)
+    {
+        $name = Request::input('language_' . $this->language->id);
+
+        $categoryTranslation =  CategoryTranslation::where('category_id', $category_id)
+            ->where('language_id', $this->language->id)
+            ->first();
+
+        $categoryTranslation->name = $name;
+        $categoryTranslation->permalink = str_slug($name);
+        $categoryTranslation->save();
+
+        $category = App\Model\Category::find($category_id);
+        $category->status = Request::input('status');
+        $category->save();
+
+        // response json if ajax request
+        if(Request::ajax()) {
+            return json_encode(array('status'=>1));
+        } else {
+            return redirect()->route('categories', [
                 'locale' => $this->locale,
                 'q'      => Request::get("q"),
                 'page'   => Request::get("page")
