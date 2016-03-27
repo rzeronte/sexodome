@@ -9,12 +9,14 @@ class Scene extends Model
 {
     protected $table = 'scenes';
 
-    /**
-     * Get the tags for the scene.
-     */
     public function tags()
     {
         return $this->belongsToMany('App\Model\Tag', 'scene_tag', 'scene_id', 'tag_id');
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany('App\Model\Category', 'scene_category', 'scene_id', 'category_id');
     }
 
     public function translations()
@@ -79,6 +81,20 @@ class Scene extends Model
             ->where('scene_tag.tag_id', $tag_id)->count();
 
         if ($tag > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    static function hasCategory($scene_id, $category_id)
+    {
+        $category = Scene::select('scenes.*')
+            ->join('scene_tag', 'scene_tag.scene_id', '=', 'scenes.id')
+            ->where('scene_categories.scene_id', $scene_id)
+            ->where('scene_categories.category_id', $category_id)->count();
+
+        if ($category > 0) {
             return true;
         } else {
             return false;

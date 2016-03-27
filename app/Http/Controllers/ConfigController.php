@@ -352,6 +352,8 @@ class ConfigController extends Controller
         $selectedThumb = Request::input('selectedThumb', null);
         $tags_string = Request::input('tags');
         $tags_string = explode(",", $tags_string);
+        $categories_string = Request::input('categories');
+        $categories_string = explode(",", $categories_string);
 
         $sceneTranslation = SceneTranslation::where('scene_id', $scene_id)
             ->where('language_id', $this->language->id)
@@ -380,6 +382,20 @@ class ConfigController extends Controller
                     $tagScene->save();
                 }
             }
+
+            // categories
+            DB::connection('mysql')->table('scene_category')->where('scene_id', $scene_id)->delete();
+            foreach($categories_string as $category_string) {
+                // Si no tiene la categoría, lo asociamos
+                $category = Category::getTranslationByName($category_string, $this->language->id)->first();
+                if (!Scene::hasCategory($scene_id, $category->id)) {
+                    $categoryScene = new App\Model\SceneCategory();
+                    $categoryScene->scene_id = $scene_id;
+                    $categoryScene->category_id = $category->id;
+                    $categoryScene->save();
+                }
+            }
+
             return json_encode(array(
                 'description' => $sceneTranslation->description,
                 'scene_id'    => $scene_id,
@@ -433,6 +449,19 @@ class ConfigController extends Controller
         return json_encode($select_tags);
     }
 
+    public function ajaxCategories($locale)
+    {
+        $term = Request::get('term');
+        $categories = Category::getTranslationSearch($term, $this->language->id)->get();
+
+        $select_categories = [];
+        foreach($categories as $category) {
+            $select_categories[] = $category->name;
+        }
+
+        return json_encode($select_categories);
+    }
+
     public function scenePreview($locale, $scene_id)
     {
 
@@ -472,42 +501,16 @@ class ConfigController extends Controller
                 $site->iframe_site_id = (Request::input('iframe_site_id_'.$site->id) != "") ? Request::input('iframe_site_id_'.$site->id) : null;
                 $site->save();
 
-                // sync remote databases
+                // sync remote databases for iframe
                 if ($site->iframe_site_id != null) {
                     $src = Site::find($site->iframe_site_id)->domain;
                 } else {
                     $src = null;
-
                 }
+
                 DB::connection($site->name)->table('languages')->update([
                     'iframe_src' => $src
                 ]);
-
-                //tiers
-                for($i=1 ; $i<= Site::getNumTiers(); $i++) {
-
-                    $tags_string = Request::input('tier'.$i.'_'.$site->id);
-
-                    if (strlen($tags_string)) {
-                        $tags_string = explode(",", $tags_string);
-
-                        foreach($tags_string as $tag_string) {
-                            // Si no tiene el tag, lo asociamos
-                            $tag = Tag::getTranslationByName($tag_string, $this->language->id)->first();
-
-                            if ($tag) {
-                                if (!Site::hasTag($site->id, $tag->id, "tier".$i)) {
-                                    $tagSite = new App\Model\SiteTagTier();
-                                    $tagSite->site_id = $site->id;
-                                    $tagSite->tag_id = $tag->id;
-                                    $tagSite->tipo= "tier".$i;
-
-                                    $tagSite->save();
-                                }
-                            }
-                        }
-                    }
-                }
             }
         }
 

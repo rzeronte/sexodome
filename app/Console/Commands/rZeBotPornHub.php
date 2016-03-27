@@ -34,7 +34,6 @@ class rZeBotPornHub extends Command
                             {--views=false : Only views min imported}
                             {--only_update=false : Only update scenes }
                             {--duration=false : Only duration min imported}
-                            {--only_categories=false : Only import categories to universo}
                             {--clicks=false: Generate random visits (hard cpu, slow)}';
 
     /**
@@ -65,7 +64,6 @@ class rZeBotPornHub extends Command
         $rate     = $this->option('rate');
         $minViews = $this->option('views');
         $minDuration = $this->option('duration');
-        $only_categories = $this->option('only_categories');
         $only_update = $this->option('only_update');
 
         if ($truncate == 'true') {
@@ -121,31 +119,6 @@ class rZeBotPornHub extends Command
                     "unlikes"    => $datos[10],
                     "rate"       => $videorate
                 );
-
-                if ($only_categories !== "false") {
-                    foreach ($video["categories"] as $category) {
-                        if (trim($category) != "" && strpos($category, 'http://') !== 0) {
-                            $bbddCategory = CategoryTranslation::where('name', trim($category))->first();
-
-                            if (!$bbddCategory) {
-                                $newCategory = new Category();
-                                $newCategory->status = 1;
-                                $newCategory->text = $category  ;
-                                $newCategory->save();
-                                echo "[CATEGORY ADD] ".$category.PHP_EOL;
-
-                                foreach($languages as $lng) {
-                                    $newCategoryTrans = new CategoryTranslation();
-                                    $newCategoryTrans->language_id = $lng->id;
-                                    $newCategoryTrans->name = $category;
-                                    $newCategoryTrans->category_id = $newCategory->id;
-                                    $newCategoryTrans->save();
-                                }
-                            }
-                        }
-                    }
-                    continue;
-                }
 
                 // preview is used to check if already exists
                 if(Scene::where('preview', $video["preview"])->count() == 0) {
@@ -219,6 +192,7 @@ class rZeBotPornHub extends Command
                                 $sceneClick->save();
                             }
                         }
+
                         //translations
                         foreach ($languages as $language) {
                             $sceneTranslation = new SceneTranslation();
@@ -268,44 +242,45 @@ class rZeBotPornHub extends Command
                             $sceneTag->save();
                             //echo "TAG: asociando el tag $tagTxt" . PHP_EOL;
                         }
+
+                        // categories
+                        foreach ($video["categories"] as $categoryTxt) {
+
+                            if (CategoryTranslation::where('name', $categoryTxt)->where('language_id', 2)->count() == 0) {
+                                $category = new Category();
+                                $category->status = 1;
+                                $category->save();
+                                $category_id=$category->id;
+
+                                // tag translations
+                                foreach ($languages as $language) {
+                                    $categoryTranslation = new CategoryTranslation();
+                                    $categoryTranslation->language_id = $language->id;
+                                    $categoryTranslation->category_id = $category_id;
+
+                                    if ($language->id == 2) {
+                                        $categoryTranslation->permalink = str_slug($categoryTxt);
+                                        $categoryTranslation->name = $categoryTxt;
+                                    }
+
+                                    $categoryTranslation->save();
+                                }
+                            } else {
+                                $categoryTranslation = CategoryTranslation::where('name', $categoryTxt)->where('language_id', 2)->first();
+                                $category_id = $categoryTranslation->category_id;
+                            }
+
+                            $scene = Scene::where('preview', $video["preview"])->first();
+                            echo "Creando link scene_category".PHP_EOL;
+                            $sceneCategory = new SceneCategory();
+                            $sceneCategory->scene_id = $scene->id;
+                            $sceneCategory->category_id = $category_id;
+                            $sceneCategory->save();
+                        }
                     }
                 } else {
-
                     // Si ya existe recategorizamos categorias
                     echo "SCENE: ya existente".PHP_EOL;
-                    foreach ($video["categories"] as $categoryTxt) {
-
-                        if (CategoryTranslation::where('name', $categoryTxt)->where('language_id', 2)->count() == 0) {
-                            $category = new Category();
-                            $category->status = 1;
-                            $category->save();
-                            $category_id=$category->id;
-
-                            // tag translations
-                            foreach ($languages as $language) {
-                                $categoryTranslation = new CategoryTranslation();
-                                $categoryTranslation->language_id = $language->id;
-                                $categoryTranslation->category_id = $category_id;
-
-                                if ($language->id == 2) {
-                                    $categoryTranslation->permalink = str_slug($categoryTxt);
-                                    $categoryTranslation->name = $categoryTxt;
-                                }
-
-                                $categoryTranslation->save();
-                            }
-                        } else {
-                            $categoryTranslation = CategoryTranslation::where('name', $categoryTxt)->where('language_id', 2)->first();
-                            $category_id = $categoryTranslation->category_id;
-                        }
-
-                        $scene = Scene::where('preview', $video["preview"])->first();
-                        echo "Creando link scene_category".PHP_EOL;
-                        $sceneCategory = new SceneCategory();
-                        $sceneCategory->scene_id = $scene->id;
-                        $sceneCategory->category_id = $category_id;
-                        $sceneCategory->save();
-                    }
                 }
             }
 

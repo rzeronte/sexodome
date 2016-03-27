@@ -22,7 +22,7 @@
             <br/>
         </div>
         <div class="col-md-12">
-            <div id="graph_site_global" style="width:99%; height:300px;border: solid 1px black;margin:5px;"></div>
+            <div id="graph_site_global" style="padding:5px;width:99%; height:300px;border: solid 1px cornflowerblue;margin:5px;"></div>
 
             <script type="text/javascript">
                 $(function () {
@@ -110,11 +110,11 @@
 
                 <div class="row">
                     <div class="col-md-4">
-                        <h4 style="margin-left:5px;">http://{{$site->domain}}</h4>
+                        <h4 style="padding:5px;">http://{{$site->domain}}</h4>
 
                         <?php $data = $site->getAnalytics($fi, $ff)->get(); ?>
 
-                        <div id="graph_site_{{$site->id}}" style="width:100%; height:200px;border: solid 1px black;"></div>
+                        <div id="graph_site_{{$site->id}}" style="padding:5px;width:100%; height:180px;border: solid 1px cornflowerblue;"></div>
                         <script type="text/javascript">
                             $(function () {
                                 serieVisitors = {
@@ -150,10 +150,10 @@
                         </script>
                     </div>
                     <div class="col-md-8">
-                        <div class="col-md-6">
-                            <button type="button" class="seo-info-keywords btn btn-success btn-xs" data-toggle="modal" data-target="#SEOInfoModal" data-url="{{route('siteKeywords', ['locale'=>$locale, 'site_id'=>$site->id])}}"><i class="glyphicon glyphicon-link"></i> Top Keywords</button>
-                            <button type="button" class="seo-info-keywords btn btn-success btn-xs" data-toggle="modal" data-target="#SEOInfoModal" data-url="{{route('siteReferrers', ['locale'=>$locale, 'site_id'=>$site->id])}}"><i class="glyphicon glyphicon-send"></i> Top Referrers</button>
-                            <button type="button" class="seo-info-keywords btn btn-success btn-xs" data-toggle="modal" data-target="#SEOInfoModal" data-url="{{route('sitePageViews', ['locale'=>$locale, 'site_id'=>$site->id])}}"><i class="glyphicon glyphicon-thumbs-up"></i> Most Visited pages</button>
+                        <div class="col-md-3">
+                            <button type="button" class="seo-info-keywords btn btn-success btn-xs" data-toggle="modal" data-target="#SEOInfoModal" data-url="{{route('siteKeywords', ['locale'=>$locale, 'site_id'=>$site->id])}}" style="width:100%;margin-bottom:5px;"><i class="glyphicon glyphicon-link"></i> Top Keywords</button><br/>
+                            <button type="button" class="seo-info-keywords btn btn-success btn-xs" data-toggle="modal" data-target="#SEOInfoModal" data-url="{{route('siteReferrers', ['locale'=>$locale, 'site_id'=>$site->id])}}" style="width:100%;margin-bottom:5px;"><i class="glyphicon glyphicon-send"></i> Top Referrers</button><br/>
+                            <button type="button" class="seo-info-keywords btn btn-success btn-xs" data-toggle="modal" data-target="#SEOInfoModal" data-url="{{route('sitePageViews', ['locale'=>$locale, 'site_id'=>$site->id])}}" style="width:100%"><i class="glyphicon glyphicon-thumbs-up"></i> Most Visited pages</button>
                         </div>
 
                         <div class="col-md-6">
@@ -167,70 +167,13 @@
                                 </select>
                             </div>
                             <div class="col-md-6">
-
                                 <label for="iframe_site_id">Ga View ID</label>
                                 <input name="ga_view_{{$site->id}}" value="{{$site->ga_account}}" class="form-control" style="width:100px;"/>
-
                             </div>
 
                         </div>
                         <br/>
                         <br/>
-                        <div class="col-md-12">
-                            <label>Tier1:</label>
-                            <input name="tier1_{{$site->id}}" type="text" class="js_tags_tier1 ajax-form form-control js-tags1-<?=$site->id?>" style="margin:10px;"/>
-                        </div>
-
-                        <div class="col-md-12">
-                            <label>Tier2:</label>
-                            <input name="tier2_{{$site->id}}" type="text" class="js_tags_tier2 ajax-form form-control js-tags2-<?=$site->id?>" style="margin:10px;"/>
-                        </div>
-
-                        <div class="col-md-12">
-                            <label>Tier3:</label>
-                            <input name="tier3_{{$site->id}}" type="text" class="js_tags_tier3 ajax-form form-control js-tags3-<?=$site->id?>" style="margin:10px;"/>
-
-                            <script type="text/javascript">
-                                var data1 = [
-                                    @foreach ($site->tags()->where('tipo', 'tier1')->get() as $tag)
-                                    <?php $translation = $tag->translations()->where('language_id',$language->id)->first(); ?>
-                                    '<?= $translation->name?>',
-                                    @endforeach
-                                ];
-
-                                var data2 = [
-                                    @foreach ($site->tags()->where('tipo', 'tier2')->get() as $tag)
-                                    <?php $translation = $tag->translations()->where('language_id',$language->id)->first(); ?>
-                                    '<?= $translation->name?>',
-                                    @endforeach
-                                ];
-
-                                var data3 = [
-                                    @foreach ($site->tags()->where('tipo', 'tier3')->get() as $tag)
-                                    <?php $translation = $tag->translations()->where('language_id',$language->id)->first(); ?>
-                                    '<?= $translation->name?>',
-                                    @endforeach
-                                ];
-
-                                $('.js-tags1-<?=$site->id?>').tagEditor({
-                                    initialTags: data1,
-                                    removeDuplicates: true,
-                                    autocomplete: { 'source': $("#ajaxUrls").attr('data-tags-url'), minLength: 3 }
-                                });
-
-                                $('.js-tags2-<?=$site->id?>').tagEditor({
-                                    initialTags: data2,
-                                    removeDuplicates: true,
-                                    autocomplete: { 'source': $("#ajaxUrls").attr('data-tags-url'), minLength: 3 }
-                                });
-
-                                $('.js-tags3-<?=$site->id?>').tagEditor({
-                                    initialTags: data3,
-                                    removeDuplicates: true,
-                                    autocomplete: { 'source': $("#ajaxUrls").attr('data-tags-url'), minLength: 3 }
-                                });
-                            </script>
-                        </div>
 
                     </div>
                 </div>

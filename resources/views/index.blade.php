@@ -5,7 +5,7 @@
 
 <body style="background-color: dimgray;">
 
-<div id="ajaxUrls" data-tags-url="{{route('ajaxTags', ['locale'=> $locale])}}"></div>
+<div id="ajaxUrls" data-categories-url="{{route('ajaxCategories', ['locale'=> $locale])}}" data-tags-url="{{route('ajaxTags', ['locale'=> $locale])}}"></div>
 
 <div class="container">
     <div class="header row">
@@ -106,7 +106,8 @@
 
                         <input type="text" value="{{$scene->title}}" class="form-control" name="title"/>
                         <textarea class="form-control" style="margin-top:5px;margin-bottom:5px;" name="description">{{$scene->description}}</textarea>
-                        <input name="tags" type="text" class="js-tags-<?=$scene->id?>"/>
+                        <input name="tags" type="text" class="js-tags-<?=$scene->id?> js_tags_tier1"/>
+                        <input name="categories" type="text" class="js-categories-<?=$scene->id?> js_tags_tier3"/>
                         {{--<input type="submit" class="btn btn-primary" value="update" style="margin-right:10px;margin-bottom:5px;"/>--}}
 
                         <button type="submit" class="btn btn-danger">
@@ -132,10 +133,23 @@
                                 '<?= $translation->name?>',
                                 @endforeach
                                 ];
+                            var dataCategories = [
+                                @foreach ($scene->categories()->get() as $category)
+                                <?php $translation = $category->translations()->where('language_id',$language->id)->first(); ?>
+                                '<?= $translation->name?>',
+                                @endforeach
+                                ];
+
                             $('.js-tags-<?=$scene->id?>').tagEditor({
                                 initialTags: data,
                                 autocomplete: { 'source': $("#ajaxUrls").attr('data-tags-url'), minLength: 3 }
                             });
+
+                            $('.js-categories-<?=$scene->id?>').tagEditor({
+                                initialTags: dataCategories,
+                                autocomplete: { 'source': $("#ajaxUrls").attr('data-categories-url'), minLength: 3 }
+                            });
+
                         </script>
 
                     </form>
@@ -258,5 +272,23 @@
     }
 
 </style>
+<style>
+    .js_tags+.tag-editor { background: #fafafa; font-size: 12px; }
+    .js_tags+.tag-editor .tag-editor-spacer { width: 7px; }
+    .js_tags+.tag-editor .tag-editor-delete { display: none; }
+    .js_tags_tier1+.tag-editor .tag-editor-tag {
+        color: #ffffff; background: limegreen;
+        border-radius: 2px;
+    }
+    .js_tags_tier2+.tag-editor .tag-editor-tag {
+        color: #ffffff; background: orange;
+        border-radius: 2px;
+    }
+    .js_tags_tier3+.tag-editor .tag-editor-tag {
+        color: #ffffff; background: deepskyblue;
+        border-radius: 2px;
+    }
+</style>
+
 </body>
 </html>

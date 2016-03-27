@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Model\LanguageTag;
 use App\Model\Logpublish;
+use App\Model\SceneCategory;
 use App\Model\SceneClick;
 use App\Model\SceneTranslation;
 use App\Model\TagTranslation;
@@ -24,7 +25,11 @@ class rZeBotSyncronizer extends Command
      *
      * @var string
      */
-    protected $signature = 'rZeBot:syncronizer:scenes {database}';
+    protected $signature = 'rZeBot:syncronize {database}
+                                {--sync_scenes=false : Determine if sync scenes table}
+                                {--sync_translations=false : Determine if sync translation}
+                                {--sync_tags=false : Determine if sync tags}
+                                {--sync_categories=false : Determine if sync categories}';
 
     /**
      * The console command description.
@@ -42,57 +47,78 @@ class rZeBotSyncronizer extends Command
     {
         $database = $this->argument('database');
 
+        $sync_scenes = $this->option('sync_scenes');
+        $sync_translations = $this->option('sync_translations');
+        $sync_tags = $this->option('sync_tags');
+        $sync_categories = $this->option('sync_categories');
+
         echo "Syncronize from " . $database . PHP_EOL;
-        $logPublisheds = Logpublish::where('site', 'like', $database)
-            ->groupBy('scene_id')
-            ->orderBy('id', 'ASC')
-            ->get()
-        ;
-        $ids = [];
-        foreach($logPublisheds as $publish) {
-            $ids[] = $publish->scene_id;
-        }
 
-        $total = count($ids);
+        $remoteIds = Scene::getRemoteActiveScenesIdsFor($database);
+        $total = count($remoteIds);
         $i=0;
-        foreach($ids as $id) {
+        foreach($remoteIds as $id) {
             $scene = Scene::find($id);
-            echo "[ " . number_format(($i*100)/ $total, 0) ."% ".date('Y-m-d H:i:s')."] " . $scene->id . PHP_EOL;
-            $i++;
-            $this->exportScene($database, $scene);
-            sleep(1);
-        }
-    }
+            if ($scene) {
+                echo "[ " . number_format(($i*100)/ $total, 0) ."% ".date('Y-m-d H:i:s')."] " . $scene->id . PHP_EOL;
+                $i++;
 
-    public function exportScene($database, $scene) {
-        $languages = Language::all();
-
-        $sql_update = "UPDATE scenes SET status=".$scene->status . ",
+                // scenes data
+                if ($sync_scenes == 'true') {
+                    $sql_update = "UPDATE scenes SET status=".$scene->status . ",
                            preview = '".$scene->preview."',
                            thumbs = '".$scene->thumbs."',
                            iframe = '".$scene->iframe."',
                            status = ".$scene->status.",
-                           rate = ".$scene->rate.",
-                           published_at = '".date('Y-m-d H:i:s')."',
-                           updated_at = '".date('Y-m-d H:i:s')."'
+                           rate = ".$scene->rate."
                             WHERE id=".$scene->id;
 
-        DB::connection($database)->update($sql_update);
+                    DB::connection($database)->update($sql_update);
+                } else {
+                    echo "[JUMPING SCENES]".PHP_EOL;
+                }
 
-        //$this->syncSceneTags($database, $scene, $domain_scene);
+                // scene tags
+                if ($sync_tags == 'true') {
+                    $this->syncSceneTags($database, $scene);
+                } else {
+                    echo "[JUMPING TAGS]".PHP_EOL;
+                }
 
-//        foreach ($languages as $lang) {
-//            $translation = $scene->translations()->where('language_id', $lang->id)->first();
-//
-//            $sql_update = "UPDATE scene_translations SET
-//                        scene_id=" . $scene->id . ",
-//                        language_id=" . $lang->id. ",
-//                        title=" . DB::connection()->getPdo()->quote((($translation->title != "") ? $translation->title : "")). ",
-//                        permalink=" . DB::connection()->getPdo()->quote((($translation->permalink != "") ? $translation->permalink : "")) . ",
-//                        description=" . DB::connection()->getPdo()->quote((($translation->description != "") ? $translation->description : "")) . "
-//                        where id=" . $translation->id;
-//            DB::connection($database)->update($sql_update);
-//        }
+                // scene categories
+                if ($sync_categories == 'true') {
+                    $this->syncSceneCategories($database, $scene);
+                } else {
+                    echo "[JUMPING CATEGORIES]".PHP_EOL;
+                }
+
+                // scene translations
+                if ($sync_translations == 'true') {
+                    $this->syncSceneTranslations($database, $scene);
+                } else {
+                    echo "[JUMPING TRANSLATIONS]".PHP_EOL;
+                }
+            }
+        }
+    }
+
+
+    public function syncSceneTranslations($database, $scene)
+    {
+        $languages = Language::all();
+
+        foreach ($languages as $lang) {
+            $translation = $scene->translations()->where('language_id', $lang->id)->first();
+
+            $sql_update = "UPDATE scene_translations SET
+                        scene_id=" . $scene->id . ",
+                        language_id=" . $lang->id. ",
+                        title=" . DB::connection()->getPdo()->quote((($translation->title != "") ? $translation->title : "")). ",
+                        permalink=" . DB::connection()->getPdo()->quote((($translation->permalink != "") ? $translation->permalink : "")) . ",
+                        description=" . DB::connection()->getPdo()->quote((($translation->description != "") ? $translation->description : "")) . "
+                        where id=" . $translation->id;
+            DB::connection($database)->update($sql_update);
+        }
     }
 
     public function syncSceneTags($database, $scene)
@@ -104,6 +130,19 @@ class rZeBotSyncronizer extends Command
         foreach ($tagsScene as $tag) {
             $scene_tag = SceneTag::where('scene_id', $scene->id)->where('tag_id', $tag->id)->first();
             $sql_insert = "insert into scene_tag (id, tag_id, scene_id) values ($scene_tag->id, $tag->id, $scene->id)";
+            DB::connection($database)->insert($sql_insert);
+        }
+    }
+
+    public function syncSceneCategories($database, $scene)
+    {
+        $categoriesScene = $scene->categories()->get();
+
+        DB::connection($database)->table('scene_categories')->where('scene_id', $scene->id)->delete();
+
+        foreach ($categoriesScene as $category) {
+            $scene_category = SceneCategory::where('scene_id', $scene->id)->where('category_id', $category->id)->first();
+            $sql_insert = "insert into scene_category (id, category_id, scene_id) values ($scene_category->id, $category->id, $scene->id)";
             DB::connection($database)->insert($sql_insert);
         }
     }

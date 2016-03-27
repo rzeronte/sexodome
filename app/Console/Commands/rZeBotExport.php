@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Model\Category;
 use App\Model\LanguageTag;
 use App\Model\Logpublish;
 use App\Model\SceneClick;
@@ -29,6 +30,7 @@ class rZeBotExport extends Command
                                 {--truncatedatabase=false : Truncate origin before dump}
                                 {--scenes_export=true : Determine if export scenes}
                                 {--tags_export=true : Determine if export scenes}
+                                {--categories_export=true : Determine if export categories}
                                 {--noupdatescenes=false : No update scenes}';
 
     /**
@@ -51,6 +53,7 @@ class rZeBotExport extends Command
         $noupdatescenes = $this->option('noupdatescenes');
         $exportScenes= $this->option('scenes_export');
         $exportTags = $this->option('tags_export');
+        $exportCategories = $this->option('categories_export');
 
         echo "Export to " . $database . PHP_EOL;
 
@@ -71,6 +74,12 @@ class rZeBotExport extends Command
             //DB::connection($database)->table('tags')->delete();
             DB::connection($database)->table('scenes')->delete();
             DB::connection($database)->table('language_tag')->delete();
+        }
+
+        if ($exportCategories == 'true') {
+            $this->syncCategories($database);
+        } else {
+            echo "[CATEGORIES] Jumping...".PHP_EOL;
         }
 
         if ($exportTags == 'true') {
@@ -152,7 +161,11 @@ class rZeBotExport extends Command
                     $sql_insert = 'insert into scenes (id, preview, thumbs, iframe, status, duration, rate, channel_id, created_at, updated_at) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
                     DB::connection($database)->insert($sql_insert, $values);
 
+                    // sync tags
                     $this->syncSceneTags($database, $scene, $domain_scene);
+
+                    // sync categories
+                    $this->syncSceneCategories($database, $scene, $domain_scene);
 
                     foreach ($languages as $lang) {
                         $translation = $scene->translations()->where('language_id', $lang->id)->first();
@@ -180,7 +193,11 @@ class rZeBotExport extends Command
 
                         DB::connection($database)->update($sql_update);
 
+                        // sync tags
                         $this->syncSceneTags($database, $scene, $domain_scene);
+
+                        // sync categories
+                        $this->syncSceneCategories($database, $scene, $domain_scene);
 
                         foreach ($languages as $lang) {
                             $translation = $scene->translations()->where('language_id', $lang->id)->first();
@@ -211,6 +228,19 @@ class rZeBotExport extends Command
         foreach ($tagsScene as $tag) {
             $scene_tag = SceneTag::where('scene_id', $scene->id)->where('tag_id', $tag->id)->first();
             $sql_insert = "insert into scene_tag (id, tag_id, scene_id) values ($scene_tag->id, $tag->id, $scene->id)";
+            DB::connection($database)->insert($sql_insert);
+        }
+    }
+
+    public function syncSceneCategories($database, $scene, $domainScene)
+    {
+        $categoriesScene = $scene->categories()->get();
+
+        DB::connection($database)->table('scene_category')->where('scene_id', $scene->id)->delete();
+
+        foreach ($categoriesScene  as $category) {
+            $scene_category = SceneCategory::where('scene_id', $scene->id)->where('category_id', $category->id)->first();
+            $sql_insert = "insert into scene_category (id, category_id, scene_id) values ($scene_category->id, $category->id, $scene->id)";
             DB::connection($database)->insert($sql_insert);
         }
     }
@@ -267,6 +297,67 @@ class rZeBotExport extends Command
 
                     $sql_update = "UPDATE tag_translations SET
                             tag_id=" . $tag->id . ",
+                            name='" . $translation->name . "',
+                            permalink='" . $translation->permalink . "',
+                            language_id=" . $lang->id. " where id=" . $translation->id;
+
+                    DB::connection($database)->update($sql_update);
+                }
+            }
+            echo PHP_EOL;
+        }
+    }
+
+    public function syncCategories($database)
+    {
+        $languages = Language::all();
+        $categories = Category::all();
+
+        $total = count($categories);
+        $i=0;
+        foreach ($categories as $category) {
+            echo "[ " . number_format(($i*100)/ $total, 0) ."% ] ";
+            $i++;
+
+            $sql = "SELECT * FROM categories WHERE id=".$category->id;
+            $domain_category= DB::connection($database)->select($sql);
+
+            if (!$domain_category) {
+                echo "Añadimos la categoría " . $category->id. ": ".PHP_EOL;
+                $values = array(
+                    $category->id,
+                    $category->status
+                );
+
+                DB::connection($database)->insert('insert into categories (id, status) values (?, ?)', $values);
+
+                foreach ($languages as $lang) {
+                    $translation = $category->translations()->where('language_id', $lang->id)->first();
+
+                    $values = array(
+                        $translation->id,
+                        $category->id,
+                        $translation->name,
+                        $translation->permalink,
+                        $lang->id,
+                    );
+
+                    echo $translation->name."|";
+
+                    DB::connection($database)->insert('insert into categories_translations (id, category_id, name, permalink, language_id) values (?, ?, ?, ?, ?)', $values);
+                }
+            } else {
+                echo "Actualizando la categoría " . $category->id . ": ";
+                $sql_update = "UPDATE categories SET status=".$category->status . " WHERE id=" . $category->id;
+                DB::connection($database)->update($sql_update);
+
+                foreach ($languages as $lang) {
+                    $translation = $category->translations()->where('language_id', $lang->id)->first();
+
+                    echo $translation->name."|";
+
+                    $sql_update = "UPDATE categories_translations SET
+                            category_id=" . $category->id . ",
                             name='" . $translation->name . "',
                             permalink='" . $translation->permalink . "',
                             language_id=" . $lang->id. " where id=" . $translation->id;
