@@ -138,7 +138,7 @@ class rZeBotSyncronizer extends Command
     {
         $categoriesScene = $scene->categories()->get();
 
-        DB::connection($database)->table('scene_categories')->where('scene_id', $scene->id)->delete();
+        DB::connection($database)->table('scene_category')->where('scene_id', $scene->id)->delete();
 
         foreach ($categoriesScene as $category) {
             $scene_category = SceneCategory::where('scene_id', $scene->id)->where('category_id', $category->id)->first();
