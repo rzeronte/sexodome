@@ -142,7 +142,7 @@ class rZeBotSyncronizer extends Command
 
         foreach ($categoriesScene as $category) {
             $scene_category = SceneCategory::where('scene_id', $scene->id)->where('category_id', $category->id)->first();
-            $sql_insert = "insert into scene_category (id, category_id, scene_id) values ($scene_category->id, $category->id, $scene->id)";
+            $sql_insert = "insert ignore into scene_category (id, category_id, scene_id) values ($scene_category->id, $category->id, $scene->id)";
             DB::connection($database)->insert($sql_insert);
         }
     }
