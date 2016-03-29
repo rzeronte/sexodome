@@ -351,7 +351,7 @@ class ConfigController extends Controller
     {
         $categoriesScene = $scene->categories()->get();
 
-        DB::connection($database)->table('scene_tag')->where('scene_id', $scene->id)->delete();
+        DB::connection($database)->table('scene_category')->where('scene_id', $scene->id)->delete();
 
         foreach ($categoriesScene as $category) {
             $scene_category = App\Model\SceneCategory::where('scene_id', $scene->id)->where('tag_id', $category->id)->first();
