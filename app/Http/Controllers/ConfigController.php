@@ -294,6 +294,7 @@ class ConfigController extends Controller
                 DB::connection($database)->insert('insert into scene_translations (id, scene_id, language_id, title, permalink, description) values (?, ?, ?, ?, ?, ?)', $values);
             }
             $this->syncSceneTags($database, $scene, $domain_scene);
+            $this->syncSceneCategories($database, $scene, $domain_scene);
 
         } else {
             $sql_update = "UPDATE scenes SET status=".$scene->status . ",
@@ -322,6 +323,7 @@ class ConfigController extends Controller
                 DB::connection($database)->update($sql_update);
             }
             $this->syncSceneTags($database, $scene, $domain_scene);
+            $this->syncSceneCategories($database, $scene, $domain_scene);
         }
 
         return redirect()->route('content', [
@@ -341,6 +343,19 @@ class ConfigController extends Controller
         foreach ($tagsScene as $tag) {
             $scene_tag = SceneTag::where('scene_id', $scene->id)->where('tag_id', $tag->id)->first();
             $sql_insert = "insert into scene_tag (id, tag_id, scene_id) values ($scene_tag->id, $tag->id, $scene->id)";
+            DB::connection($database)->insert($sql_insert);
+        }
+    }
+
+    public function syncSceneCategories($database, $scene, $domainScene)
+    {
+        $categoriesScene = $scene->categories()->get();
+
+        DB::connection($database)->table('scene_tag')->where('scene_id', $scene->id)->delete();
+
+        foreach ($categoriesScene as $category) {
+            $scene_category = App\Model\SceneCategory::where('scene_id', $scene->id)->where('tag_id', $category->id)->first();
+            $sql_insert = "insert into scene_category (id, category_id, scene_id) values ($scene_category->id, $category->id, $scene->id)";
             DB::connection($database)->insert($sql_insert);
         }
     }
