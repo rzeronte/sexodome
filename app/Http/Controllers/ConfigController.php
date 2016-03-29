@@ -302,7 +302,7 @@ class ConfigController extends Controller
                                thumbs = '".$scene->thumbs."',
                                thumb_index = ".(!strlen($scene->thumb_index)?"NULL": $scene->thumb_index).",
                                iframe = '".$scene->iframe."',
-                               status = ".$scene->status.",
+                               status = 1,
                                rate = ".$scene->rate.",
                                updated_at = '".date('Y-m-d H:i:s')."',
                                published_at = '".date('Y-m-d H:i:s')."'
