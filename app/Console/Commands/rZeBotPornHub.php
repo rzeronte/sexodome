@@ -129,6 +129,36 @@ class rZeBotPornHub extends Command
                     "rate"       => $videorate
                 );
 
+                // check tags matched
+                $mixed_tag = true;
+                if ($tags !== false) {
+                    $mixed_check = false;
+                    foreach ($video["tags"] as $tagTxt) {
+                        if (in_array($tagTxt, $tags)) {
+                            $mixed_check = true;
+                        }
+                    }
+                }
+
+                if (!$mixed_tag) {
+                    continue;
+                }
+
+                // check categories matched
+                $mixed_tag = true;
+                if ($categories !== false) {
+                    $mixed_check = false;
+                    foreach ($video["categories"] as $categoryTxt) {
+                        if (in_array($categoryTxt, $categories)) {
+                            $mixed_check = true;
+                        }
+                    }
+                }
+
+                if (!$mixed_tag) {
+                    continue;
+                }
+
                 // preview is used to check if already exists
                 if(Scene::where('preview', $video["preview"])->count() == 0) {
                     $mixed_check = true;
