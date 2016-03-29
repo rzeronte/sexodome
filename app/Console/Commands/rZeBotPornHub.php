@@ -130,7 +130,7 @@ class rZeBotPornHub extends Command
                 );
 
                 // check tags matched
-                $mixed_tag = true;
+                $mixed_check = true;
                 if ($tags !== false) {
                     $mixed_check = false;
                     foreach ($video["tags"] as $tagTxt) {
@@ -140,12 +140,12 @@ class rZeBotPornHub extends Command
                     }
                 }
 
-                if (!$mixed_tag) {
+                if (!$mixed_check) {
                     continue;
                 }
 
                 // check categories matched
-                $mixed_tag = true;
+                $mixed_check = true;
                 if ($categories !== false) {
                     $mixed_check = false;
                     foreach ($video["categories"] as $categoryTxt) {
@@ -155,7 +155,7 @@ class rZeBotPornHub extends Command
                     }
                 }
 
-                if (!$mixed_tag) {
+                if (!$mixed_check) {
                     continue;
                 }
 
