@@ -347,7 +347,7 @@ class ConfigController extends Controller
             // Si intentamos sincronizar
             if (!$remoteTag) {
                 $languages = Language::all();
-                $insert_tag = "insert into tag (id, status) values ($tag->id, 1)";
+                $insert_tag = "insert into tags (id, status) values ($tag->id, 1)";
                 DB::connection($database)->insert($insert_tag);
 
                 foreach($languages as $language) {
