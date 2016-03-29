@@ -30,6 +30,7 @@ class rZeBotPornHub extends Command
                             {--stop=false : Stop with nothing to do. Not include truncate}
                             {--max=false : Number max scenes to import}
                             {--tags=false : Only tags imported}
+                            {--categories=false : Only categories imported}
                             {--rate=false : Only rate min imported}
                             {--views=false : Only views min imported}
                             {--only_update=false : Only update scenes }
@@ -61,6 +62,7 @@ class rZeBotPornHub extends Command
         $stop     = $this->option('stop');
         $max      = $this->option('max');
         $tags     = $this->option('tags');
+        $categories = $this->option('categories');
         $rate     = $this->option('rate');
         $minViews = $this->option('views');
         $minDuration = $this->option('duration');
@@ -87,6 +89,13 @@ class rZeBotPornHub extends Command
         } else {
             $tags = false;
         }
+
+        if ($categories !== 'false') {
+            $categories = explode(",", $categories);
+        } else {
+            $categories = false;
+        }
+
 
         $fila = 1;
         $languages = Language::all();
@@ -130,7 +139,7 @@ class rZeBotPornHub extends Command
                         continue;
                     }
 
-                    // check tags limit
+                    // check tags matched
                     if ($tags !== false) {
                         $mixed_check = false;
                         foreach ($video["tags"] as $tagTxt) {
@@ -140,8 +149,18 @@ class rZeBotPornHub extends Command
                         }
                     }
 
+                    // check categories matched
+                    if ($categories !== false) {
+                        $mixed_check = false;
+                        foreach ($video["categories"] as $categoryTxt) {
+                            if (in_array($categoryTxt, $categories)) {
+                                $mixed_check = true;
+                            }
+                        }
+                    }
+
                     if (!$mixed_check) {
-                        echo "TAGS: No tiene ningún tag solicitado" . PHP_EOL;
+                        echo "TAGS/CATEGORIES -> SKIPPED" . PHP_EOL;
                     }
 
                     // rate check
