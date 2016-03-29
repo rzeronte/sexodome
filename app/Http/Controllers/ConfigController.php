@@ -341,6 +341,23 @@ class ConfigController extends Controller
         DB::connection($database)->table('scene_tag')->where('scene_id', $scene->id)->delete();
 
         foreach ($tagsScene as $tag) {
+            $sql = "SELECT * FROM tags WHERE id=".$tag->id;
+            $remoteTag= DB::connection($database)->select($sql);
+
+            // Si intentamos sincronizar
+            if (!$remoteTag) {
+                $languages = Language::all();
+                $insert_tag = "insert into tag (id, status) values ($tag->id, 1)";
+                DB::connection($database)->insert($insert_tag);
+
+                foreach($languages as $language) {
+                    $langTranslation = $language->translations()->where('language_id', $language->id)->first();
+
+                    $insert_trans = "insert into tag_translations (id, tag_id, name, permalink, language_id) values ($langTranslation->id, $tag->id, $langTranslation->name, $langTranslation->permalink, $language->id)";
+                    DB::connection($database)->insert($insert_trans);
+                }
+            }
+
             $scene_tag = SceneTag::where('scene_id', $scene->id)->where('tag_id', $tag->id)->first();
             $sql_insert = "insert into scene_tag (id, tag_id, scene_id) values ($scene_tag->id, $tag->id, $scene->id)";
             DB::connection($database)->insert($sql_insert);
