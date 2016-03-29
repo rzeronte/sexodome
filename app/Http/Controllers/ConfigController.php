@@ -354,7 +354,7 @@ class ConfigController extends Controller
         DB::connection($database)->table('scene_category')->where('scene_id', $scene->id)->delete();
 
         foreach ($categoriesScene as $category) {
-            $scene_category = App\Model\SceneCategory::where('scene_id', $scene->id)->where('tag_id', $category->id)->first();
+            $scene_category = App\Model\SceneCategory::where('scene_id', $scene->id)->where('category_id', $category->id)->first();
             $sql_insert = "insert into scene_category (id, category_id, scene_id) values ($scene_category->id, $category->id, $scene->id)";
             DB::connection($database)->insert($sql_insert);
         }
