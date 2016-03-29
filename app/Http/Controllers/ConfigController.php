@@ -353,7 +353,7 @@ class ConfigController extends Controller
                 foreach($languages as $language) {
                     $langTranslation = $tag->translations()->where('language_id', $language->id)->first();
 
-                    $insert_trans = "insert into tag_translations (id, tag_id, name, permalink, language_id) values ($langTranslation->id, $tag->id, $langTranslation->name, $langTranslation->permalink, $language->id)";
+                    $insert_trans = "insert into tag_translations (id, tag_id, name, permalink, language_id) values ($langTranslation->id, $tag->id, '$langTranslation->name', '$langTranslation->permalink', $language->id)";
                     DB::connection($database)->insert($insert_trans);
                 }
             }
