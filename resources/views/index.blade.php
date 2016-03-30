@@ -18,7 +18,15 @@
                 <input id="query_string" name="q" type="text" placeholder="title search" class="form-control query_string" value="{{$query_string}}" style="width:100%;">
             </div>
             <div class="col-md-2">
-                <input id="query_tags" name="tag_q" type="text" placeholder="tag search" class="form-control query_string" value="{{$tag_q}}" style="width:100%;">
+                <select name="category_id" class="form-control" style="width:100%;">
+                    <option value="">all categories</option>
+                    @foreach($categories as $category)
+                        <option value="{{$category->id}}" @if (\Illuminate\Support\Facades\Request::input('category_id') == $category->id) selected @endif>{{$category->translations('language_id', $language->id)->first()->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-1">
+                <input id="query_tags" name="tag_q" type="text" placeholder="tag" class="form-control query_string" value="{{$tag_q}}" style="width:100%;">
             </div>
             <div class="col-md-2">
                 <select name="duration" class="form-control">
@@ -45,6 +53,10 @@
                     @endforeach
                 </select>
             </div>
+            <div class="col-md-1 text-center">
+                Empty<br/>
+                <input name="empty" type="checkbox" @if (\Illuminate\Support\Facades\Request::input('empty') == "on") checked @endif>
+            </div>
 
             <div class="col-md-1">
                 <button type="submit" class="btn btn-primary">search</button>
@@ -56,9 +68,9 @@
         <div class="col-md-12">
             <p><b>{{ number_format($total_scenes, 0, ",", ".") }}</b> scenes found for:
             @if ($query_string != "")
-                    <b><i>"{{$query_string}}"</i></b> in title
+                <b><i>"{{$query_string}}"</i></b> in title
             @else
-                    <b><i>any title</i></b>
+                <b><i>any title</i></b>
             @endif
             @if ($tag_q != "")
                 and <b><i>"{{$tag_q}}"</i></b> tag

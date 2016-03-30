@@ -101,7 +101,7 @@ class Scene extends Model
         }
     }
 
-    static function getScenesForExporterSearch($query_string, $tag_query_string, $remote_scenes, $language, $duration, $publish_for, $scene_id) {
+    static function getScenesForExporterSearch($query_string, $tag_query_string, $remote_scenes, $language, $duration, $publish_for, $scene_id, $category_id, $empty) {
         $scenes = Scene::select('scenes.*', 'scene_translations.title', 'scene_translations.description', 'scene_translations.permalink')
             ->join('scene_translations', 'scenes.id', '=', 'scene_translations.scene_id')
             ->where('scene_translations.language_id', $language)
@@ -136,8 +136,20 @@ class Scene extends Model
             $scenes->where('scene_translations.title', 'like', "%".$query_string."%");
         }
 
-        if ($duration!= "") {
+        if ($duration != "") {
             $scenes->where('scenes.duration', '>=', $duration);
+        }
+
+        if ($category_id != "") {
+            $scenes->join('scene_category', 'scenes.id', '=', 'scene_category.scene_id')
+                ->where('scene_category.category_id', $category_id)
+            ;
+        }
+
+        if ($empty !== false) {
+            $scenes->whereNull('scene_translations.title');
+            $scenes->whereNull('scene_translations.description');
+
         }
 
         if ($remote_scenes !== false) {

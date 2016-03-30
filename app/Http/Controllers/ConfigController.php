@@ -76,6 +76,8 @@ class ConfigController extends Controller
         $publish_for = Request::get('publish_for');  //site or 'notpublished'
         $duration = Request::get('duration');
         $scene_id = Request::get('scene_id');
+        $category_id = Request::get('category_id');
+        $empty = (Request::get('empty') == "on")?true:false;
 
         $remote_scenes = false;
         if ($publish_for && $publish_for !== 'notpublished') {
@@ -89,7 +91,9 @@ class ConfigController extends Controller
             $this->language->id,
             $duration,
             $publish_for,
-            $scene_id
+            $scene_id,
+            $category_id,
+            $empty
         );
 
         return view('index', [
@@ -103,7 +107,8 @@ class ConfigController extends Controller
             'locale'       => $this->locale,
             'title'        => "Admin Panel",
             'sites'        => $this->sites,
-            'duration'     => $duration
+            'duration'     => $duration,
+            'categories'   => Category::all()
         ]);
     }
 
