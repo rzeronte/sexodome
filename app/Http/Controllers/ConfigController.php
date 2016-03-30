@@ -94,7 +94,7 @@ class ConfigController extends Controller
 
         return view('index', [
             'scenes'       => $scenes->orderBy('scenes.id', 'desc')->paginate($this->perPageScenes),
-            'total_scenes' => $scenes->count(),
+            'total_scenes' => $scenes->orderBy('scenes.id', 'desc')->count(),
             'query_string' => $query_string,
             'tag_q'        => $tag_query_string,
             'publish_for'  => $publish_for,
