@@ -126,6 +126,7 @@ class Scene extends Model
                 ->join('tags', 'scene_tag.tag_id', '=', 'tags.id')
                 ->join('tag_translations', 'tags.id', '=', 'tag_translations.tag_id')
                 ->where('tag_translations.language_id', $language)
+                ->groupBy('scenes.id')
             ;
 
             $scenes->where('tag_translations.permalink', 'like', '%'.$tag_query_string.'%');
