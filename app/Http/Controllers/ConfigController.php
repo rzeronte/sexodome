@@ -77,7 +77,8 @@ class ConfigController extends Controller
         $duration = Request::get('duration');
         $scene_id = Request::get('scene_id');
         $category_id = Request::get('category_id');
-        $empty = (Request::get('empty') == "on")?true:false;
+        $empty_title = (Request::get('empty_title') == "on")?true:false;
+        $empty_description = (Request::get('empty_description') == "on")?true:false;
 
         $remote_scenes = false;
         if ($publish_for && $publish_for !== 'notpublished') {
@@ -93,7 +94,8 @@ class ConfigController extends Controller
             $publish_for,
             $scene_id,
             $category_id,
-            $empty
+            $empty_title,
+            $empty_description
         );
 
         return view('index', [

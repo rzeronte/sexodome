@@ -40,7 +40,7 @@
                 </select>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <select class="form-control" name="publish_for" style="width:100%">
                     <option value="">all</option>
                     <option value="notpublished">not published</option>
@@ -53,9 +53,12 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col-md-1 text-center">
-                Empty<br/>
-                <input name="empty" type="checkbox" @if (\Illuminate\Support\Facades\Request::input('empty') == "on") checked @endif>
+            <div class="col-md-2 text-left">
+                <input name="empty_title" type="checkbox" @if (\Illuminate\Support\Facades\Request::input('empty_title') == "on") checked @endif>
+                Title empty<br/>
+                <input name="empty_title" type="checkbox" @if (\Illuminate\Support\Facades\Request::input('empty_title') == "on") checked @endif>
+                Description empty<br/>
+
             </div>
 
             <div class="col-md-1">
