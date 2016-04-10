@@ -56,7 +56,7 @@
             <div class="col-md-2 text-left">
                 <input name="empty_title" type="checkbox" @if (\Illuminate\Support\Facades\Request::input('empty_title') == "on") checked @endif>
                 Title empty<br/>
-                <input name="empty_title" type="checkbox" @if (\Illuminate\Support\Facades\Request::input('empty_title') == "on") checked @endif>
+                <input name="empty_description" type="checkbox" @if (\Illuminate\Support\Facades\Request::input('empty_description') == "on") checked @endif>
                 Description empty<br/>
 
             </div>
