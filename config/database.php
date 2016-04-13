@@ -64,7 +64,7 @@ return [
         ],
         'assassinsporn' => [
             'driver'    => 'mysql',
-            'host'      => env('DB_HOST2', '82.98.139.161'),
+            'host'      => env('DB_HOST2', '82.98.139.160'),
             'database'  => env('DB_DATABASE2', 'assassinsp'),
             'username'  => env('DB_USERNAME2', 'assassinsp'),
             'password'  => env('DB_PASSWORD2', 'rZeronteLabs12'),
@@ -75,7 +75,7 @@ return [
         ],
         'mamasfollando' => [
             'driver'    => 'mysql',
-            'host'      => env('DB_HOST3', '82.98.139.161'),
+            'host'      => env('DB_HOST3', '82.98.139.160'),
             'database'  => env('DB_DATABASE3', 'mamasfollando'),
             'username'  => env('DB_USERNAME3', 'mamasfollando'),
             'password'  => env('DB_PASSWORD3', 'rZeronteLabs12'),
