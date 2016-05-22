@@ -21,7 +21,7 @@
                 <select name="category_id" class="form-control" style="width:100%;">
                     <option value="">all categories</option>
                     @foreach($categories as $category)
-                        <option value="{{$category->id}}" @if (\Illuminate\Support\Facades\Request::input('category_id') == $category->id) selected @endif>{{$category->translations()->where('language_id', "=", $language->id)->first()->name}}</option>
+                        <option value="{{$category->id}}" @if (\Illuminate\Support\Facades\Request::input('category_id') == $category->id) selected @endif>({{$language->code}}) {{$category->translations()->where('language_id', "=", $language->id)->first()->name}}</option>
                     @endforeach
                 </select>
             </div>
