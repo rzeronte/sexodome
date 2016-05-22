@@ -414,6 +414,9 @@ class rZeBotUtils
                                 //echo "TAG: ya existente en la colección" . PHP_EOL;
                             }
 
+
+
+
                             $sceneTag = new SceneTag();
                             $sceneTag->scene_id = $scene->id;
                             $sceneTag->tag_id = $tag_id;
@@ -423,6 +426,10 @@ class rZeBotUtils
 
                         // categories
                         foreach ($video["categories"] as $categoryTxt) {
+                            if(strlen($categoryTxt) == 0) {
+                                continue;
+                            }
+
                             if (CategoryTranslation::where('name', $categoryTxt)->where('language_id', 2)->count() == 0) {
 
                                 rZeBotUtils::message("Creando categoría $categoryTxt", "green");
