@@ -22,6 +22,7 @@ class YouPornFeed
     //5 |
     //6 05m15s
 
+
     function mappingColumns()
     {
         $mapped_columns = array(
@@ -48,7 +49,14 @@ class YouPornFeed
             "thumbs_separator"     => ",",
             "tags_separator"       => ";",
             "categories_separator" => ",",
-            "skip_first_list"      => true
+            "skip_first_list"      => true,
+            "parse_duration"       => function($string) {
+                $values = explode("m", $string);
+                $min = intval($values[0]);
+                $sec = intval($values[1]);
+
+                return ($min*60)+$sec;
+            }
         );
 
         return $feed_config;

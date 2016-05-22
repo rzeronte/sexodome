@@ -228,7 +228,7 @@ class rZeBotUtils
                     "iframe"   => $datos[$mapped_colums['iframe']],
                     "title"    => $datos[$mapped_colums['title']],
                     "tags"     => explode($feed_config["tags_separator"], $datos[$mapped_colums['tags']]),
-                    "duration" => $datos[$mapped_colums['duration']],
+                    "duration" => $feed_config["parse_duration"]($datos[$mapped_colums['duration']]),
                     "likes"    => $likes,
                     "unlikes"  => $unlikes,
                     "views"    => ($mapped_colums['views'] !== false) ? $datos[$mapped_colums['views']] : 0,
@@ -358,14 +358,14 @@ class rZeBotUtils
 
                     if ($mixed_check) {
                         $added++;
-                        rZeBotUtils::message("[SUCCESS - $fila] Creando escena '". $video['title']."'", "cyan");
+                        rZeBotUtils::message("[SUCCESS - $fila] Creando escena '". $video['title']."' (Duration: ".$video["duration"].")", "cyan");
 
                         $scene = new Scene();
                         $scene->preview    = $video["preview"];
                         $scene->iframe     = $video["iframe"];
                         $scene->status     = $default_status;
                         $scene->views      = $video["views"];
-                        $scene->channel_id = $feed->id;         //pornhub
+                        $scene->channel_id = $feed->id;
                         $scene->thumbs     = utf8_encode(json_encode($video["thumbs"]));
                         $scene->duration   = $video["duration"];
                         $scene->rate       = $video["rate"];

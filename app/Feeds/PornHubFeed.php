@@ -18,20 +18,6 @@ class PornHubFeed
     //9 426|
     //10 169
 
-    function configFeed()
-    {
-        $feed_config = array(
-            "totalCols"            => 11,
-            "fields_separator"     => "|",
-            "thumbs_separator"     => ";",
-            "tags_separator"       => ";",
-            "categories_separator" => ";",
-            "skip_first_list"      => true
-        );
-
-        return $feed_config;
-    }
-
     function mappingColumns()
     {
         $mapped_columns = array(
@@ -50,4 +36,22 @@ class PornHubFeed
 
         return $mapped_columns;
     }
+
+    function configFeed()
+    {
+        $feed_config = array(
+            "totalCols"            => 11,
+            "fields_separator"     => "|",
+            "thumbs_separator"     => ";",
+            "tags_separator"       => ";",
+            "categories_separator" => ";",
+            "skip_first_list"      => true,
+            "parse_duration"       => function($string) {
+                return $string;
+            }
+        );
+
+        return $feed_config;
+    }
+
 }

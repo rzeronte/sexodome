@@ -27,7 +27,7 @@ class rZeBotFeedFetcher extends Command
      *
      * @var string
      */
-    protected $signature = 'rZeBot:feed:fetch {feed_id}
+    protected $signature = 'rZeBot:feed:fetch {feed_name}
                             {--max=false : Number max scenes to import}
                             {--tags=false : Only tags imported}
                             {--categories=false : Only categories imported}
@@ -51,7 +51,7 @@ class rZeBotFeedFetcher extends Command
      */
     public function handle()
     {
-        $feed_id     = $this->argument('feed_id');
+        $feed_name     = $this->argument('feed_name');
 
         $max         = $this->option('max');
         $tags        = $this->option('tags', false);
@@ -65,7 +65,12 @@ class rZeBotFeedFetcher extends Command
         $categories = $this->parseCategoriesOption($categories);
 
         // get feed
-        $feed = Channel::find($feed_id);
+        $feed = Channel::where("name", "=", $feed_name)->first();
+
+        if (!$feed) {
+            rZeBotUtils::message("[ERROR] El feed '$feed_name' indicado no existe. Abortando ejecución.", "red");
+            exit;
+        }
 
         // instance class dynamically from mapping_class field in bbdd
         $cfg = new $feed->mapping_class;
