@@ -24,7 +24,8 @@ Route::get('/setLocale/{locale}', 'ConfigController@changeLocale')->name('change
 
 Route::match(['get', 'post'], '{locale}/saveTranslation/{scene_id}', 'ConfigController@saveTranslation')->name('saveTranslation');
 
-
 Route::match(['get', 'post'], '{locale}/admin/saveTagTranslation/{tag_id}', 'ConfigController@saveTagTranslation')->name('saveTagTranslation');
 Route::match(['get', 'post'], '{locale}/admin/saveCategoryTranslation/{scene_id}', 'ConfigController@saveCategoryTranslation')->name('saveCategoryTranslation');
 Route::match(['get', 'post'], '{locale}/admin/translateTag/{tag_id}', 'ConfigController@translateTag')->name('translateTag');
+
+Route::match(['get', 'post'], '{locale}/feeds', 'ConfigController@feeds')->name('feeds');

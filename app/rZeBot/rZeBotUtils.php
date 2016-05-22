@@ -8,7 +8,13 @@ use App\Model\Video;
 use App\Model\Tag;
 use App\Model\Domain;
 use App\Model\Language;
-
+use App\Model\Scene;
+use App\Model\SceneTranslation;
+use App\Model\TagTranslation;
+use App\Model\SceneTag;
+use App\Model\CategoryTranslation;
+use App\Model\SceneCategory;
+use App\Model\Category;
 use DB;
 
 class rZeBotUtils
@@ -80,7 +86,7 @@ class rZeBotUtils
      * @param $message
      * @param string $type
      */
-    public function message($message, $type = 'default') {
+    static function message($message, $type = 'default') {
         switch($type) {
             case 'green':
                 $initColor = "\033[32m";
@@ -105,139 +111,7 @@ class rZeBotUtils
         }
 
         $endColor = "\033[0m";
-        echo $initColor.$message.$endColor;
-    }
-
-    /**
-     * check if url can be crawled
-     *
-     * @param $url
-     * @return bool
-     */
-    public function checkIsValidUrl($url, $base_url) {
-        $result = true;
-
-        // mailto:
-        if ($this->checkIfMailLink($url)) {
-            //$this->message("[WARNING] URL is mail link: ".$url.PHP_EOL, 'red');
-            $result = false;
-        }
-
-        // check if crawlable
-        if (!$this->checkIfCrawlable($url)) {
-            //$this->message("[WARNING] URL not crawlable: ".$url.PHP_EOL, 'red');
-            $result = false;
-        }
-
-        // check if external
-        if ($this::checkIfExternal($url, $base_url)) {
-            //$this->message(PHP_EOL."[WARNING] URL External: ".$url.PHP_EOL, 'red');
-            $result = false;
-        }
-
-        // check if bad extension
-        if (!$this::checkFilterBadExtensions($url)) {
-            $this->message("[WARNING] Invalid extension: ".$url.PHP_EOL, 'red');
-            $result = false;
-        }
-
-        return $result;
-    }
-
-    /**
-     * check extension for file links
-     */
-    public function checkFilterBadExtensions($url)
-    {
-
-        $filename = basename($url);
-
-        foreach ($this->invalidExtensions as $extension) {
-            if (strpos($url, $extension) > 0) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * checks the uri if can be crawled or not
-     * in order to prevent links like "javascript:void(0)" or "#something" from being crawled again
-     * @param string $uri
-     * @return boolean
-     */
-    public function checkIfCrawlable($uri) {
-        if (empty($uri)) {
-            return false;
-        }
-
-        $stop_links = array(//returned deadlinks
-            '@^javascript\:void\(0\)$@',
-            '@^#.*@',
-        );
-
-        foreach ($stop_links as $ptrn) {
-            if (preg_match($ptrn, $uri)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * check if url is mail link
-     * @param $url
-     * @return bool
-     */
-    public function checkIfMailLink($url) {
-        $result = strpos($url, 'mailto:');
-        if ($result >= 0 and is_numeric($result)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * check if the link leads to external site or not
-     * @param string $url
-     * @return boolean
-     */
-    public function checkIfExternal($url, $base_url) {
-
-        $urlData = parse_url($url);
-        if (isset($urlData['host'])) {
-            if ($urlData['host'] != $base_url) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Check Internet Connection.
-     *
-     * @param string $sCheckHost
-     * @return bool
-     */
-    public function check_internet_connection($sCheckHost = '212.89.0.56')
-    {
-        return (bool) @fsockopen($sCheckHost, 80, $iErrno, $sErrStr, 3);
-    }
-
-
-    /**
-     * go sleep mode
-     */
-    public function goSleepMode()
-    {
-        while(!$this->check_internet_connection()) {
-            sleep(1);
-            $this->Utils->message(PHP_EOL."[ERROR] Internet has gone! sleeping mode...", 'yellow');
-        }
+        echo $initColor.$message.$endColor.PHP_EOL;
     }
 
     /**
@@ -256,22 +130,6 @@ class rZeBotUtils
         return false;
     }
 
-    /**
-     * check if video url already exists in database
-     *
-     * @param $url
-     * @return bool
-     */
-    public function existsVideoInDatabase($url)
-    {
-        $videos = Video::where('url','like', $url)->count();
-
-        if ($videos !== 0) {
-            return true;
-        }
-
-        return false;
-    }
 
     /**
      * slugify
@@ -304,21 +162,6 @@ class rZeBotUtils
         return $text;
     }
 
-    /**
-     * regenerate permalinks from name tags
-     */
-    static public function parseAndFixTagsPermalink()
-    {
-        $tags = Tag::all();
-
-        foreach($tags as $tag) {
-            $permalink = rZeBotUtils::slugify($tag->name);
-            $tag->permalink = $permalink;
-            $tag->save();
-        }
-
-    }
-
     static public function getTagsByLanguage($language_id)
     {
         $tags = Tag::where('language_id',"=", $language_id)
@@ -335,14 +178,297 @@ class rZeBotUtils
             ->whereIn('permalink', $permalinks)
             ->get();
 
-//        $tags = Tag::where('language_id',"=", $language_id)
-//            ->where('status', 1)
-//            ->orderBy('name')
-//            ->get();
-
         return $tags;
     }
 
+    static public function parseCSVLine($feed, $fileCSV, $max, $mapped_colums, $feed_config, $tags, $categories, $only_update, $rate, $minViews, $minDuration, $default_status)
+    {
+        $fila = 1;
+        $languages = Language::all();
+        $added = 0;
+
+        if (($gestor = fopen($fileCSV, "r")) !== FALSE) {
+            while (($datos = fgetcsv($gestor, 10000, $feed_config["fields_separator"])) !== FALSE) {
+
+                $fila++;
+
+                if ($feed_config["skip_first_list"] == true && $fila == 2) {
+                    rZeBotUtils::message("[WARNING] Saltando primera linea del fichero...", "yellow");
+                    continue;
+                }
+
+                // check total cols matched CSV <-> config array
+                if ($feed_config["totalCols"] != count($datos)) {
+                    rZeBotUtils::message("Error en el número de columnas, deteniendo ejecución...", "red");
+                    print_r($datos);
+                    exit;
+                }
+
+                // check limit import
+                if ($max != 'false' && is_numeric($max) && $added >= $max) {
+                    rZeBotUtils::message("[DONE] Alcanzado número máximo de escenas indicado: $max", "cyan");
+                    break;
+                }
+
+                // likes/unlikes
+                $videorate = 0;
+                if ($mapped_colums['unlikes'] !== false && $mapped_colums['likes'] !== false) {
+                    $unlikes = $datos[$mapped_colums['unlikes']];
+                    $likes = $datos[$mapped_colums['likes']];
+                } else {
+                    $unlikes = $likes = 0;
+                }
+
+                if ($likes+$unlikes != 0) {
+                    $videorate = ($likes*100)/($likes+$unlikes);
+                }
+
+                // mount $video data array
+                $video = array(
+                    "iframe"   => $datos[$mapped_colums['iframe']],
+                    "title"    => $datos[$mapped_colums['title']],
+                    "tags"     => explode($feed_config["tags_separator"], $datos[$mapped_colums['tags']]),
+                    "duration" => $datos[$mapped_colums['duration']],
+                    "likes"    => $likes,
+                    "unlikes"  => $unlikes,
+                    "views"    => ($mapped_colums['views'] !== false) ? $datos[$mapped_colums['views']] : 0,
+                    "rate"     => $videorate
+                );
+
+                // ************************************************************ parse field individually
+
+                // categories
+                if ($mapped_colums['categories'] !== false) {
+                    $video["categories"] = explode($feed_config["categories_separator"], $datos[$mapped_colums['categories']]);
+                } else {
+                    $video["categories"] = null;
+                }
+
+                // thumbs
+                if ($mapped_colums['thumbs'] !== false) {
+                    $video["thumbs"] = explode($feed_config["thumbs_separator"], $datos[$mapped_colums['thumbs']]);
+                } else {
+                    // if not have thumbs, try set only preview, else, empty
+                    if ($mapped_colums['preview'] !== false) {
+                        $video["thumbs"] = array($datos[$mapped_colums['preview']]);
+                    } else {
+                        $video["thumbs"] = null;
+                    }
+                }
+
+                // preview
+                if ($mapped_colums['preview'] !== false) {
+                    $video["preview"] = $datos[$mapped_colums['preview']];
+                } else {
+                    // if not have preview, try set only preview, else, empty
+                    if ($mapped_colums['thumbs'] !== false) {
+                        $video["preview"] = explode($feed_config["thumbs_separator"], $datos[$mapped_colums['thumbs']])[0];
+                    } else {
+                        $video["preview"] = null;
+                    }
+                }
+
+                // check tags matched
+                $mixed_check = true;
+                if ($tags !== false) {
+                    $mixed_check = false;
+                    foreach ($video["tags"] as $tagTxt) {
+                        if (in_array($tagTxt, $tags)) {
+                            $mixed_check = true;
+                        }
+                    }
+                }
+
+                if (!$mixed_check) {
+                    continue;
+                }
+
+                // check categories matched
+                $mixed_check = true;
+                if ($categories !== false) {
+                    $mixed_check = false;
+                    foreach ($video["categories"] as $categoryTxt) {
+                        if (in_array($categoryTxt, $categories)) {
+                            $mixed_check = true;
+                        }
+                    }
+                }
+
+                if (!$mixed_check) {
+                    continue;
+                }
+
+                // preview is used to check if already exists
+                if(Scene::where('preview', $video["preview"])->count() == 0) {
+                    $mixed_check = true;
+
+                    if ($only_update !== "false") {
+                        $mixed_check = false;
+                        echo "SKIPPED".PHP_EOL;
+                        continue;
+                    }
+
+                    // check tags matched
+                    if ($tags !== false) {
+                        $mixed_check = false;
+                        foreach ($video["tags"] as $tagTxt) {
+                            if (in_array($tagTxt, $tags)) {
+                                $mixed_check = true;
+                            }
+                        }
+                    }
+
+                    // check categories matched
+                    if ($categories !== false) {
+                        $mixed_check = false;
+                        foreach ($video["categories"] as $categoryTxt) {
+                            if (in_array($categoryTxt, $categories)) {
+                                $mixed_check = true;
+                            }
+                        }
+                    }
+
+                    if (!$mixed_check) {
+                        echo "TAGS/CATEGORIES -> SKIPPED" . PHP_EOL;
+                    }
+
+                    // rate check
+                    if ($rate !== 'false') {
+                        if ($video["rate"] < $rate) {
+                            $mixed_check = false;
+                            echo "RATE: Rate insuficiente" . PHP_EOL;
+                        }
+                    }
+
+                    // views check
+                    if ($minViews !== 'false') {
+                        if ($video["views"] < $minViews) {
+                            $mixed_check = false;
+                            echo "VIEWS: Views insuficiente" . PHP_EOL;
+                        }
+                    }
+
+                    // duration check
+                    if ($minDuration !== 'false') {
+                        if ($video["duration"] < $minDuration) {
+                            $mixed_check = false;
+                            echo "DURATION: duration insuficiente" . PHP_EOL;
+                        }
+                    }
+
+                    if ($mixed_check) {
+                        $added++;
+                        rZeBotUtils::message("[SUCCESS - $fila] Creando escena '". $video['title']."'", "cyan");
+
+                        $scene = new Scene();
+                        $scene->preview    = $video["preview"];
+                        $scene->iframe     = $video["iframe"];
+                        $scene->status     = $default_status;
+                        $scene->views      = $video["views"];
+                        $scene->channel_id = $feed->id;         //pornhub
+                        $scene->thumbs     = utf8_encode(json_encode($video["thumbs"]));
+                        $scene->duration   = $video["duration"];
+                        $scene->rate       = $video["rate"];
+                        $scene->save();
+
+                        //translations
+                        foreach ($languages as $language) {
+                            $sceneTranslation = new SceneTranslation();
+                            $sceneTranslation->scene_id = $scene->id;
+                            $sceneTranslation->language_id = $language->id;
+
+                            if ($language->id == 2) {
+                                $sceneTranslation->title = $video["title"];
+                                $sceneTranslation->permalink = rZeBotUtils::slugify($video["title"]);
+                            }
+
+                            $sceneTranslation->save();
+                        }
+
+                        // tags
+                        foreach ($video["tags"] as $tagTxt) {
+
+                            if (TagTranslation::where('name', $tagTxt)->where('language_id', 2)->count() == 0) {
+                                //echo "TAG: creando tag en la colección" . PHP_EOL;
+                                $tag = new Tag();
+                                $tag->status = 2;
+                                $tag->save();
+                                $tag_id=$tag->id;
+
+                                // tag translations
+                                foreach ($languages as $language) {
+                                    $tagTranslation = new TagTranslation();
+                                    $tagTranslation->language_id = $language->id;
+                                    $tagTranslation->tag_id = $tag_id;
+
+                                    if ($language->id == 2) {
+                                        $tagTranslation->permalink = rZeBotUtils::slugify($tagTxt);;
+                                        $tagTranslation->name = $tagTxt;
+                                    }
+
+                                    $tagTranslation->save();
+                                }
+                            } else {
+                                $tagTranslation = TagTranslation::where('name', $tagTxt)->where('language_id', 2)->first();
+                                $tag_id = $tagTranslation->tag_id;
+                                //echo "TAG: ya existente en la colección" . PHP_EOL;
+                            }
+
+                            $sceneTag = new SceneTag();
+                            $sceneTag->scene_id = $scene->id;
+                            $sceneTag->tag_id = $tag_id;
+                            $sceneTag->save();
+                            //echo "TAG: asociando el tag $tagTxt" . PHP_EOL;
+                        }
+
+                        // categories
+                        foreach ($video["categories"] as $categoryTxt) {
+
+                            if (CategoryTranslation::where('name', $categoryTxt)->where('language_id', 2)->count() == 0) {
+                                $category = new Category();
+                                $category->status = 1;
+                                $category->save();
+                                $category_id=$category->id;
+
+                                // tag translations
+                                foreach ($languages as $language) {
+                                    $categoryTranslation = new CategoryTranslation();
+                                    $categoryTranslation->language_id = $language->id;
+                                    $categoryTranslation->category_id = $category_id;
+
+                                    if ($language->id == 2) {
+                                        $categoryTranslation->permalink = str_slug($categoryTxt);
+                                        $categoryTranslation->name = $categoryTxt;
+                                    }
+
+                                    $categoryTranslation->save();
+                                }
+                            } else {
+                                $categoryTranslation = CategoryTranslation::where('name', $categoryTxt)->where('language_id', 2)->first();
+                                $category_id = $categoryTranslation->category_id;
+                            }
+
+                            //rZeBotUtils::message("Creando relación scene_category", "green");
+                            $sceneCategory = new SceneCategory();
+                            $sceneCategory->scene_id = $scene->id;
+                            $sceneCategory->category_id = $category_id;
+                            $sceneCategory->save();
+                        }
+                    }
+                } else {
+                    // Si ya existe recategorizamos categorias
+                    rZeBotUtils::message("[WARNING] Scene ya existente, saltando...", "yellow");
+                }
+            }
+
+            fclose($gestor);
+        }
+    }
+
+    public static function getDumpsFolder()
+    {
+        return env("DEFAULT_DUMPS_FOLDER", "../");
+    }
 }
 
 

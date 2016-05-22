@@ -704,4 +704,16 @@ class ConfigController extends Controller
             'exitCodeDescription' => $exitCodeDescription
         ]);
     }
+
+    public function feeds($locale)
+    {
+        $channels = App\Model\Channel::all();
+
+        return view('feeds', [
+            'channels'  => $channels,
+            'locale'    => $this->locale,
+            'language'  => $this->language,
+            'languages' => $this->languages,
+        ]);
+    }
 }
