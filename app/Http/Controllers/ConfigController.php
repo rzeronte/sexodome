@@ -73,7 +73,7 @@ class ConfigController extends Controller
     {
         $query_string = Request::get('q');
         $tag_query_string = Request::get('tag_q');
-        $publish_for = Request::get('publish_for');  //site or 'notpublished'
+        $publish_for = Request::get('publish_for');  //site_id or 'notpublished'
         $duration = Request::get('duration');
         $scene_id = Request::get('scene_id');
         $category_id = Request::get('category_id');
