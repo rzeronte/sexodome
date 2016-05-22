@@ -17,7 +17,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\rZeBotExport::class,
         \App\Console\Commands\rZeBotFeedFetcher::class,
         \App\Console\Commands\rZeBotTranslate::class,
-        \App\Console\Commands\rZeBotSyncronizer::class,
+        \App\Console\Commands\rZeBotSyncRemoteWithUniverso::class,
         \App\Console\Commands\rZeBotAnalytics::class,
         \App\Console\Commands\rZeBotSynonyms::class,
         \App\Console\Commands\rZeBotScrapper::class,
@@ -25,6 +25,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\rZeBotSpinnerLanguage::class,
         \App\Console\Commands\rZeBotDuplicateLanguage::class,
         \App\Console\Commands\rZeBotScenesPublisher::class,
+        \App\Console\Commands\rZeBotSyncFeeds::class,
     ];
 
     /**

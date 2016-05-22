@@ -18,14 +18,14 @@ use App\Model\SceneTag;
 use App\Model\TagClick;
 use DB;
 
-class rZeBotSyncronizer extends Command
+class rZeBotSyncRemoteWithUniverso extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'rZeBot:syncronize {database}
+    protected $signature = 'sync:remote:universo {database}
                                 {--sync_scenes=false : Determine if sync scenes table}
                                 {--sync_translations=false : Determine if sync translation}
                                 {--sync_tags=false : Determine if sync tags}
@@ -36,7 +36,7 @@ class rZeBotSyncronizer extends Command
      *
      * @var string
      */
-    protected $description = 'Sync remote databases';
+    protected $description = 'Sync remotes scenes from site with Universo';
 
     /**
      * Execute the console command.
