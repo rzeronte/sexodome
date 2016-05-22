@@ -132,7 +132,7 @@ class rZeBotScenesPublisher extends Command
 
         foreach ($tagsScene as $tag) {
             $scene_tag = SceneTag::where('scene_id', $scene->id)->where('tag_id', $tag->id)->first();
-            $sql_insert = "insert into scene_tag (id, tag_id, scene_id) values ($scene_tag->id, $tag->id, $scene->id)";
+            $sql_insert = "insert ignore into scene_tag (id, tag_id, scene_id) values ($scene_tag->id, $tag->id, $scene->id)";
             DB::connection($database)->insert($sql_insert);
         }
     }
