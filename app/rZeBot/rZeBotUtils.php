@@ -423,10 +423,13 @@ class rZeBotUtils
 
                         // categories
                         foreach ($video["categories"] as $categoryTxt) {
-
                             if (CategoryTranslation::where('name', $categoryTxt)->where('language_id', 2)->count() == 0) {
+
+                                rZeBotUtils::message("Creando categoría $categoryTxt", "green");
+
                                 $category = new Category();
                                 $category->status = 1;
+                                $category->text   = $categoryTxt;
                                 $category->save();
                                 $category_id=$category->id;
 
@@ -448,7 +451,6 @@ class rZeBotUtils
                                 $category_id = $categoryTranslation->category_id;
                             }
 
-                            //rZeBotUtils::message("Creando relación scene_category", "green");
                             $sceneCategory = new SceneCategory();
                             $sceneCategory->scene_id = $scene->id;
                             $sceneCategory->category_id = $category_id;

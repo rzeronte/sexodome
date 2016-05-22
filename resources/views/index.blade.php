@@ -110,6 +110,7 @@
                         <i class="glyphicon glyphicon-thumbs-up"></i> <b>{{number_format($scene->rate, 2)}}%</b><br/>
                         <i class="glyphicon glyphicon-time"></i> <b>{{gmdate("i:s", $scene->duration)}}</b><br/>
                         <i class="glyphicon glyphicon-eye-open"></i> <b>{{ $scene->views+0}} views</b><br/>
+                        <i class="glyphicon glyphicon-open-file"></i> <b>{{ $scene->channel->name}}</b><br/>
                     </small>
 
                 </div>
