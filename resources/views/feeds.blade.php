@@ -23,12 +23,13 @@
                     $bgColor = 'lightyellow';
                 }
             ?>
-            <div class="row" style="background-color:<?=$bgColor?>;padding: 5px;">
+            <div class="row" style="background-color:<?=$bgColor?>;margin:0px;">
                 <div class="col-md-1">
-                    {{$channel->name}}
+                    {{$channel->name}}<br/>
+                    <small>({{$channel->permalink}})</small>
                 </div>
-                <div class="col-md-1">
-                    {{$channel->url}}
+                <div class="col-md-3">
+                    <small>{{$channel->url}}</small>
                 </div>
                 <div class="col-md-3">
                     {{$channel->file}}
@@ -39,6 +40,14 @@
                 <div class="col-md-3">
                     {{$channel->mapping_class}}
                 </div>
+                <div class="col-md-1">
+                    @if ($channel->embed == 1 )
+                        Embed
+                    @else
+                        No embed
+                    @endif
+                </div>
+
             </div>
         @endforeach
     </div>

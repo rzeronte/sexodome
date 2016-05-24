@@ -187,6 +187,12 @@ class rZeBotUtils
         $languages = Language::all();
         $added = 0;
 
+        if (!file_exists($fileCSV)) {
+            rZeBotUtils::message("[WARNING] No existe el fichero '$fileCSV', intentando descargar...".PHP_EOL, "yellow");
+            $cmd = "wget -c '" . $feed->url . "' --output-document=". $fileCSV;
+            exec($cmd);
+        }
+
         if (($gestor = fopen($fileCSV, "r")) !== FALSE) {
             while (($datos = fgetcsv($gestor, 10000, $feed_config["fields_separator"])) !== FALSE) {
 

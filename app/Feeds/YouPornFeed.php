@@ -51,6 +51,7 @@ class YouPornFeed
             "categories_separator" => ",",
             "skip_first_list"      => true,
             "parse_duration"       => function($string) {
+                //00m00s format
                 $values = explode("m", $string);
                 $min = intval($values[0]);
                 $sec = intval($values[1]);
