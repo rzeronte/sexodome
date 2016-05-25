@@ -20,6 +20,7 @@ class rZeBotScenesPublisher extends Command
      * @var string
      */
     protected $signature = 'rZeBot:scenes:publisher {database} {scenesNumber}
+                            {--duration=false : Min duration for publish}
                             {--channel=false : Publish only for this channel}';
 
     /**
@@ -40,6 +41,7 @@ class rZeBotScenesPublisher extends Command
         $scenesNumber = $this->argument('scenesNumber');
 
         $channel = $this->option('channel');
+        $duration = $this->option('duration');
 
         $remoteScenes = Scene::getRemoteActiveScenesIdsFor($database);
 
@@ -56,7 +58,16 @@ class rZeBotScenesPublisher extends Command
                 rZeBotUtils::message("[ERROR] El channel '$channel' no ha sido encontrado, saliendo..." . PHP_EOL, "red");
                 exit;
             } else {
-                $query->where('channel_id', $bbddChannel->id);
+                $query->where('channel_id', "=", $bbddChannel->id);
+            }
+        }
+
+        if ($duration != 'false'){
+            if (!is_numeric($duration)) {
+                rZeBotUtils::message("[ERROR] --duration debe ser numérico" . PHP_EOL, "red");
+                exit;
+            } else {
+                $query->where('duration', ">=", $duration);
             }
         }
 
