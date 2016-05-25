@@ -86,7 +86,7 @@ class rZeBotScenesPublisher extends Command
             $domain_scene = DB::connection($database)->select($sql);
 
             if (!$domain_scene) {
-                echo "[SCENE] Añadimos la scene " . $scene->id . PHP_EOL;
+                echo "[SCENE] Creando escena '$scene->id' en '$database'";
                 $values = array(
                     $scene->id,
                     $scene->preview,
@@ -96,11 +96,12 @@ class rZeBotScenesPublisher extends Command
                     $scene->duration,
                     $scene->rate,
                     $scene->channel_id,
-                    date("Y-m-d H:i:s"),
+                    $scene->created_at,
+                    $scene->published_at,
                     date("Y-m-d H:i:s"),
                 );
 
-                $sql_insert = 'insert into scenes (id, preview, thumbs, iframe, status, duration, rate, channel_id, created_at, updated_at) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+                $sql_insert = 'insert into scenes (id, preview, thumbs, iframe, status, duration, rate, channel_id, created_at, updated_at, published_at) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
                 DB::connection($database)->insert($sql_insert, $values);
 
                 $this->syncSceneTags($database, $scene, $domain_scene);
@@ -120,7 +121,7 @@ class rZeBotScenesPublisher extends Command
                     try {
                         DB::connection($database)->insert('insert into scene_translations (id, scene_id, language_id, title, permalink, description) values (?, ?, ?, ?, ?, ?)', $values);
                     } catch(\Exception $e) {
-                        rZeBotUtils::   message("Error al procesar scene_translation.id:" . $translation->id.PHP_EOL, "red");
+                        rZeBotUtils::message("Error al procesar scene_translation.id:" . $translation->id.PHP_EOL, "red");
                     }
                 }
             } else {
@@ -128,6 +129,8 @@ class rZeBotScenesPublisher extends Command
                 $sql_update = "UPDATE scenes SET status=" . $scene->status . ",
                                preview = '" . $scene->preview . "',
                                thumbs = '" . $scene->thumbs . "',
+                               created_at = '" . $scene->created_at  . "',
+                               updated_at= '" . $scene->updated_at . "',
                                published_at = '" . date('Y-m-d H:i:s') . "',
                                iframe = '" . $scene->iframe . "',
                                status = 1,

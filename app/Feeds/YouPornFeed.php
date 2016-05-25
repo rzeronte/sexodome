@@ -47,7 +47,7 @@ class YouPornFeed
             "totalCols"            => 7,
             "fields_separator"     => "|",
             "thumbs_separator"     => ",",
-            "tags_separator"       => ";",
+            "tags_separator"       => ",",
             "categories_separator" => ",",
             "skip_first_list"      => true,
             "parse_duration"       => function($string) {

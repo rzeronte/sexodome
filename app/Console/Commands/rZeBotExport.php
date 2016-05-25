@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Model\Category;
 use App\Model\LanguageTag;
 use App\Model\Logpublish;
+use App\Model\SceneCategory;
 use App\Model\SceneClick;
 use App\Model\SceneTranslation;
 use App\Model\TagTranslation;
