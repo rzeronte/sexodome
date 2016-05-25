@@ -44,7 +44,7 @@ class rZeBotSyncFeeds extends Command
 
                 } else {
                     rZeBotUtils::message("[WARNING] Channel '$channel->name' already exists in $site->name", "yellow");
-                    $sql_update = "UPDATE channels SET status=".$channel->status. " WHERE id=" . $channel->id . " LIMIT 1";
+                    $sql_update = "UPDATE channels SET embed=".$channel->embed. " WHERE id=" . $channel->id . " LIMIT 1";
                     DB::connection($site->name)->insert($sql_update);
                 }
             }
