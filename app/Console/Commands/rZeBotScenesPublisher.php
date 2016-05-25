@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Model\Channel;
 use Illuminate\Console\Command;
 use App\Model\Language;
 use App\Model\Scene;
@@ -16,7 +17,8 @@ class rZeBotScenesPublisher extends Command
      *
      * @var string
      */
-    protected $signature = 'rZeBot:scenes:publisher {database} {scenesNumber}';
+    protected $signature = 'rZeBot:scenes:publisher {database} {scenesNumber}
+                            {--channel=false : Publish only for this channel}';
 
     /**
      * The console command description.
@@ -35,13 +37,29 @@ class rZeBotScenesPublisher extends Command
         $database     = $this->argument('database');
         $scenesNumber = $this->argument('scenesNumber');
 
+        $channel = $this->option('channel');
+
         $remoteScenes = Scene::getRemoteActiveScenesIdsFor($database);
 
         $languages = Language::all();
 
-        $scenes = Scene::whereNotIn('scenes.id', $remoteScenes)->orderBy('rate', 'desc')->limit($scenesNumber)->get();
+        $query = Scene::whereNotIn('scenes.id', $remoteScenes)
+            ->orderBy('rate', 'desc')
+            ->limit($scenesNumber)
+        ;
 
-        foreach($scenes as $scene) {
+        if ($channel !== 'false') {
+            $channel = Channel::where('name', '=', $channel);
+            if (!$channel) {
+                echo "El channel $channel no ha sido encontrado, saliendo..." . PHP_EOL;
+                exit;
+            } else {
+                $query->where('channel_id', $channel->id);
+            }
+        }
+
+        exit;
+        foreach($query->get() as $scene) {
             echo "Publicando escena " . $scene->id . PHP_EOL;
             $logdatabase = $scene->logspublish()->where('site', $database)->count();
 
