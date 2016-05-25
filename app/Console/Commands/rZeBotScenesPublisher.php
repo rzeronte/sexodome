@@ -3,12 +3,14 @@
 namespace App\Console\Commands;
 
 use App\Model\Channel;
+use App\rZeBot\rZeBotUtils;
 use Illuminate\Console\Command;
 use App\Model\Language;
 use App\Model\Scene;
 use App\Model\Logpublish;
 use App\Model\SceneTag;
 use DB;
+use Mockery\CountValidator\Exception;
 
 class rZeBotScenesPublisher extends Command
 {
@@ -49,16 +51,15 @@ class rZeBotScenesPublisher extends Command
         ;
 
         if ($channel !== 'false') {
-            $channel = Channel::where('name', '=', $channel);
-            if (!$channel) {
-                echo "El channel $channel no ha sido encontrado, saliendo..." . PHP_EOL;
+            $bbddChannel = Channel::where('name', '=', $channel)->first();
+            if (!$bbddChannel) {
+                rZeBotUtils::message("[ERROR] El channel '$channel' no ha sido encontrado, saliendo..." . PHP_EOL, "red");
                 exit;
             } else {
-                $query->where('channel_id', $channel->id);
+                $query->where('channel_id', $bbddChannel->id);
             }
         }
 
-        exit;
         foreach($query->get() as $scene) {
             echo "Publicando escena " . $scene->id . PHP_EOL;
             $logdatabase = $scene->logspublish()->where('site', $database)->count();
@@ -104,7 +105,12 @@ class rZeBotScenesPublisher extends Command
                         $translation->permalink,
                         $translation->description,
                     );
-                    DB::connection($database)->insert('insert into scene_translations (id, scene_id, language_id, title, permalink, description) values (?, ?, ?, ?, ?, ?)', $values);
+
+                    try {
+                        DB::connection($database)->insert('insert into scene_translations (id, scene_id, language_id, title, permalink, description) values (?, ?, ?, ?, ?, ?)', $values);
+                    } catch(\Exception $e) {
+                        rZeBotUtils::   message("Error al procesar scene_translation.id:" . $translation->id.PHP_EOL, "red");
+                    }
                 }
             } else {
                 echo "[SCENE] Actualizando scene " . $scene->id . " ya existe" . PHP_EOL;
