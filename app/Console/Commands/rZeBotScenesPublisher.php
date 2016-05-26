@@ -97,7 +97,7 @@ class rZeBotScenesPublisher extends Command
                     $scene->rate,
                     $scene->channel_id,
                     $scene->created_at,
-                    $scene->published_at,
+                    date("Y-m-d H:i:s"),
                     date("Y-m-d H:i:s"),
                 );
 
