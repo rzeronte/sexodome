@@ -81,7 +81,7 @@ class rZeBotScenesPublisher extends Command
         foreach($query->get() as $scene) {
 
             if ($exclude_categories !== 'false') {
-                if ( $this->haveOneAtLessCategories($scene->categories(), $exclude_categories) ) {
+                if ( $this->haveOneAtLessCategories($scene->categories(), $exclude_categories, true) ) {
                     echo "[VIDEO] Saltando video " . $scene->id . PHP_EOL;
                     continue;
                 }
@@ -206,7 +206,7 @@ class rZeBotScenesPublisher extends Command
         }
     }
 
-    public function haveOneAtLessCategories($sceneCategories, $categoriesToFind)
+    public function haveOneAtLessCategories($sceneCategories, $categoriesToFind, $stringSearchMode = false)
     {
         $find = false;
 
@@ -214,6 +214,14 @@ class rZeBotScenesPublisher extends Command
             $translation = $sceneCategory->translations('language_id', 2)->first();
             if (in_array(trim(strtolower($translation->name)), $categoriesToFind)) {
                 $find = true;
+            }
+
+            if ($stringSearchMode !== false) {
+                foreach ($categoriesToFind as $catToFind) {
+                    if (strpos($translation->name, $catToFind) !== false) {
+                        $find = true;
+                    }
+                }
             }
         }
 
