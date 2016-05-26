@@ -218,7 +218,7 @@ class rZeBotScenesPublisher extends Command
 
             if ($stringSearchMode !== false) {
                 foreach ($categoriesToFind as $catToFind) {
-                    if (strpos($translation->name, $catToFind) !== false) {
+                    if (strpos(strtolower($translation->name), $catToFind) !== false) {
                         $find = true;
                     }
                 }
