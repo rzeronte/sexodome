@@ -81,7 +81,7 @@ class rZeBotScenesPublisher extends Command
         foreach($query->get() as $scene) {
 
             if ($exclude_categories !== 'false') {
-                if ( $this->haveOneAtLessCategories($scene->categories(), $exclude_categories, true) ) {
+                if ( $this->haveOneAtLessCategories($scene->categories()->get(), $exclude_categories, true) ) {
                     echo "[VIDEO] Saltando video " . $scene->id . PHP_EOL;
                     continue;
                 }
@@ -218,8 +218,7 @@ class rZeBotScenesPublisher extends Command
 
             if ($stringSearchMode !== false) {
                 foreach ($categoriesToFind as $catToFind) {
-                    echo strtolower($translation->name)  . " - " . $catToFind.PHP_EOL;
-                    if (strpos(strtolower($translation->name), $catToFind) !== false) {
+                    if (strpos(strtolower($translation->name), $catToFind) >= 0) {
                         $find = true;
                     }
                 }
