@@ -9,6 +9,7 @@ use App\Model\Language;
 use App\Model\Scene;
 use App\Model\Logpublish;
 use App\Model\SceneTag;
+use App\Model\SceneCategory;
 use DB;
 use Mockery\CountValidator\Exception;
 
