@@ -105,6 +105,7 @@ class rZeBotScenesPublisher extends Command
                 DB::connection($database)->insert($sql_insert, $values);
 
                 $this->syncSceneTags($database, $scene, $domain_scene);
+                $this->syncSceneCategories($database, $scene, $domain_scene);
 
                 foreach ($languages as $lang) {
                     $translation = $scene->translations()->where('language_id', $lang->id)->first();
@@ -140,6 +141,7 @@ class rZeBotScenesPublisher extends Command
                 DB::connection($database)->update($sql_update);
 
                 $this->syncSceneTags($database, $scene, $domain_scene);
+                $this->syncSceneCategories($database, $scene, $domain_scene);
 
                 foreach ($languages as $lang) {
                     $translation = $scene->translations()->where('language_id', $lang->id)->first();
@@ -159,6 +161,19 @@ class rZeBotScenesPublisher extends Command
                     }
                 }
             }
+        }
+    }
+
+    public function syncSceneCategories($database, $scene, $domainScene)
+    {
+        $categoriesScene = $scene->categories()->get();
+
+        DB::connection($database)->table('scene_category')->where('scene_id', $scene->id)->delete();
+
+        foreach ($categoriesScene  as $category) {
+            $scene_category = SceneCategory::where('scene_id', $scene->id)->where('category_id', $category->id)->first();
+            $sql_insert = "insert into scene_category (id, category_id, scene_id) values ($scene_category->id, $category->id, $scene->id)";
+            DB::connection($database)->insert($sql_insert);
         }
     }
 
