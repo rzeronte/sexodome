@@ -87,7 +87,6 @@ class rZeBotScenesPublisher extends Command
                 }
             }
 
-            continue;
             echo "Publicando escena " . $scene->id . PHP_EOL;
 
             $logdatabase = $scene->logspublish()->where('site', $database)->count();
@@ -217,8 +216,6 @@ class rZeBotScenesPublisher extends Command
                 $find = true;
             }
         }
-
-        echo intVal($find);
 
         return $find;
     }
