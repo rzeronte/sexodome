@@ -102,7 +102,7 @@ class rZeBotScenesPublisher extends Command
             $domain_scene = DB::connection($database)->select($sql);
 
             if (!$domain_scene) {
-                echo "[SCENE] Creando escena '$scene->id' en '$database'";
+                echo "[SCENE] Creando escena '$scene->id' en '$database'".PHP_EOL;
                 $values = array(
                     $scene->id,
                     $scene->preview,
@@ -218,6 +218,7 @@ class rZeBotScenesPublisher extends Command
 
             if ($stringSearchMode !== false) {
                 foreach ($categoriesToFind as $catToFind) {
+                    echo strtolower($translation->name)  . " - " . $catToFind.PHP_EOL;
                     if (strpos(strtolower($translation->name), $catToFind) !== false) {
                         $find = true;
                     }
