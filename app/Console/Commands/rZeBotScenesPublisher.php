@@ -22,6 +22,7 @@ class rZeBotScenesPublisher extends Command
      */
     protected $signature = 'rZeBot:scenes:publisher {database} {scenesNumber}
                             {--duration=false : Min duration for publish}
+                            {--exclude_categories=false : Categories to exclude scene publish}
                             {--channel=false : Publish only for this channel}';
 
     /**
@@ -43,6 +44,7 @@ class rZeBotScenesPublisher extends Command
 
         $channel = $this->option('channel');
         $duration = $this->option('duration');
+        $exclude_categories = $this->option('exclude_categories');
 
         $remoteScenes = Scene::getRemoteActiveScenesIdsFor($database);
 
@@ -72,7 +74,18 @@ class rZeBotScenesPublisher extends Command
             }
         }
 
+        if ($exclude_categories != 'false') {
+            $exclude_categories = explode(",", $exclude_categories);
+        }
+
         foreach($query->get() as $scene) {
+            if ($exclude_categories !== 'false') {
+                if ( $this->haveOneAtLessCategories($scene->categories(), $exclude_categories) ) {
+                    echo "[VIDEO] Saltando video " . $scene->id . PHP_EOL;
+                    continue;
+                }
+            }
+
             echo "Publicando escena " . $scene->id . PHP_EOL;
             $logdatabase = $scene->logspublish()->where('site', $database)->count();
 
@@ -190,4 +203,18 @@ class rZeBotScenesPublisher extends Command
             DB::connection($database)->insert($sql_insert);
         }
     }
+
+    public function haveOneAtLessCategories($sceneCategories, $categoriesToFind)
+    {
+        $find = false;
+        foreach($sceneCategories as $sceneCategory) {
+            $translation = $sceneCategory->translations('language_id', 2)->first();
+            if (in_array(trim($translation->name), $categoriesToFind)) {
+                $find = true;
+            }
+        }
+
+        return $find;
+    }
+
 }
