@@ -82,13 +82,12 @@ class rZeBotScenesPublisher extends Command
 
             if ($exclude_categories !== 'false') {
                 if ( $this->haveOneAtLessCategories($scene->categories()->get(), $exclude_categories, true) ) {
-                    echo "[VIDEO] Saltando video " . $scene->id . PHP_EOL;
+                    rZeBotUtils::message("[VIDEO] Saltando video " . $scene->id, "yellow");
                     continue;
                 }
             }
 
-            echo "Publicando escena " . $scene->id . PHP_EOL;
-
+            rZeBotUtils::message("[SUCCESS] Publicando escena " . $scene->id, "green");
             $logdatabase = $scene->logspublish()->where('site', $database)->count();
 
             if ($logdatabase == 0) {
@@ -102,7 +101,7 @@ class rZeBotScenesPublisher extends Command
             $domain_scene = DB::connection($database)->select($sql);
 
             if (!$domain_scene) {
-                echo "[SCENE] Creando escena '$scene->id' en '$database'".PHP_EOL;
+                rZeBotUtils::message("[SCENE] Creando escena '$scene->id' en '$database'", "green");
                 $values = array(
                     $scene->id,
                     $scene->preview,
@@ -142,7 +141,7 @@ class rZeBotScenesPublisher extends Command
                     }
                 }
             } else {
-                echo "[SCENE] Actualizando scene " . $scene->id . " ya existe" . PHP_EOL;
+                rZeBotUtils::message("[SUCCESS] Actualizando scene " . $scene->id . " ya existe", "green");
                 $sql_update = "UPDATE scenes SET status=" . $scene->status . ",
                                preview = '" . $scene->preview . "',
                                thumbs = '" . $scene->thumbs . "',
@@ -163,7 +162,7 @@ class rZeBotScenesPublisher extends Command
                     $translation = $scene->translations()->where('language_id', $lang->id)->first();
 
                     if ($translation) {
-                        echo "Actualizando translation " . $lang->code.PHP_EOL;
+                        rZeBotUtils::message("Actualizando translation " . $lang->code, "green");
                         $sql_update = "UPDATE scene_translations SET
                             scene_id=" . $scene->id . ",
                             language_id=" . $lang->id . ",
@@ -173,7 +172,7 @@ class rZeBotScenesPublisher extends Command
 
                         DB::connection($database)->update($sql_update);
                     } else {
-                        echo "Translation not found for " . $lang->code.PHP_EOL;
+                        rZeBotUtils::message("Translation not found for " . $lang->code, "red");;
                     }
                 }
             }
@@ -211,14 +210,15 @@ class rZeBotScenesPublisher extends Command
         $find = false;
 
         foreach($sceneCategories as $sceneCategory) {
-            $translation = $sceneCategory->translations('language_id', 2)->first();
+            $translation = $sceneCategory->translations()->where('language_id', 2)->first();
+
             if (in_array(trim(strtolower($translation->name)), $categoriesToFind)) {
                 $find = true;
             }
 
             if ($stringSearchMode !== false) {
                 foreach ($categoriesToFind as $catToFind) {
-                    if (strpos(strtolower($translation->name), $catToFind) !== false) {
+                    if (strpos(strtolower($translation->permalink), $catToFind) !== false) {
                         $find = true;
                     }
                 }
