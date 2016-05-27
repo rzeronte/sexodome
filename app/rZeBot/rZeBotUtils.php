@@ -181,7 +181,7 @@ class rZeBotUtils
         return $tags;
     }
 
-    static public function parseCSVLine($feed, $fileCSV, $max, $mapped_colums, $feed_config, $tags, $categories, $only_update, $rate, $minViews, $minDuration, $default_status)
+    static public function parseCSVLine($feed, $fileCSV, $max, $mapped_colums, $feed_config, $tags, $categories, $only_update, $rate, $minViews, $minDuration, $default_status, $test)
     {
         $fila = 1;
         $languages = Language::all();
@@ -364,6 +364,13 @@ class rZeBotUtils
 
                     if ($mixed_check) {
                         $added++;
+
+                        if ($test !== 'false') {
+                            echo "[TEST MAPPING FROM FEED" . PHP_EOL;
+                            print_r($video);
+                            exit;
+                        }
+
                         rZeBotUtils::message("[SUCCESS - $fila] Creando escena '". $video['title']."' (Duration: ".$video["duration"].")", "cyan");
 
                         $scene = new Scene();

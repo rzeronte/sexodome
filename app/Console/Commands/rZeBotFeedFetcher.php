@@ -35,7 +35,7 @@ class rZeBotFeedFetcher extends Command
                             {--views=false : Only views min imported}
                             {--only_update=false : Only update scenes }
                             {--duration=false : Only duration min imported}
-                            {--clicks=false: Generate random visits (hard cpu, slow)}';
+                            {--test=false : Test}';
 
     /**
      * The console command description.
@@ -60,6 +60,7 @@ class rZeBotFeedFetcher extends Command
         $minViews    = $this->option('views');
         $minDuration = $this->option('duration');
         $only_update = $this->option('only_update');
+        $test        = $this->option('test');
 
         $tags       = $this->parseTagsOption($tags);
         $categories = $this->parseCategoriesOption($categories);
@@ -87,7 +88,8 @@ class rZeBotFeedFetcher extends Command
             $rate,
             $minViews,
             $minDuration,
-            $default_status = 1
+            $default_status = 1,
+            $test
         );
     }
 
