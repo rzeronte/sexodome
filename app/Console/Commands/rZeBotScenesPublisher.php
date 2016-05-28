@@ -52,7 +52,7 @@ class rZeBotScenesPublisher extends Command
 
         $query = Scene::whereNotIn('scenes.id', $remoteScenes)
             ->orderBy('rate', 'desc')
-            ->limit($scenesNumber)
+            ->random($scenesNumber)
         ;
 
         if ($channel !== 'false') {
