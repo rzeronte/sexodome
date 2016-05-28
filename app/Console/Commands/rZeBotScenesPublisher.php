@@ -51,8 +51,8 @@ class rZeBotScenesPublisher extends Command
         $languages = Language::all();
 
         $query = Scene::whereNotIn('scenes.id', $remoteScenes)
-            ->orderBy('rate', 'desc')
-            ->random($scenesNumber)
+            ->orderBy(DB::raw('RAND()'))
+            ->limit($scenesNumber)
         ;
 
         if ($channel !== 'false') {
