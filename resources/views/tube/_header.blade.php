@@ -4,7 +4,11 @@
             @if (file_exists(\App\rZeBot\rZeBotCommons::getLogosFolder()."/".md5($site->id).".png"))
                 <img src="{{asset('/logos/'.md5($site->id).".png")}}" style="max-height: 50px;"/>
             @else
-                {{$site->domain}}
+                @if ($site->have_domain == 1)
+                    {{$site->domain}}
+                @else
+                    {{$site->name}}
+                @endif
             @endif
         </a>
     </div>
