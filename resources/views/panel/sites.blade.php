@@ -85,14 +85,14 @@
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
 
                         <div class="col-md-2">
-                            <input type="text" name="color" class="color form-control"/>
+                            <input type="text" name="color" class="color form-control" value="{{$site->color}}"/>
                         </div>
 
                         <div class="col-md-2">
-                            <input type="text" name="color2" class="color form-control" />
+                            <input type="text" name="color2" class="color form-control" value="{{$site->color2}}"/>
                         </div>
                         <div class="col-md-2">
-                            <input type="text" name="color3" class="color form-control" />
+                            <input type="text" name="color3" class="color form-control" value="{{$site->color3}}"/>
                         </div>
 
                         <div class="col-md-2">
