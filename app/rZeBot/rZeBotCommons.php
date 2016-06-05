@@ -53,13 +53,12 @@ class rZeBotCommons extends Controller {
 
         // go to admin panel if no site
         $this->site = rZeBotUtils::getSiteFromHost();
-
+	
         // current language
         if ($this->site) {
             $this->language = Language::where('id', '=', $this->site->language_id)->first();
             $locale = $this->language->code;
         } else {
-
             $this->language = Language::where('code', '=', $locale)->first();
         }
 
