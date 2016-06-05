@@ -76,11 +76,13 @@
                     <div class="col-md-2">
                         <select class="form-control" name="duration" style="width:100%" required>
                             <option value="">-- secs --</option>
-                            <option value="1">1</option>
-                            <option value="5">5</option>
-                            <option value="25">25</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
+                            <option value="50">min. 50 secs</option>
+                            <option value="100">min. 100 secs</option>
+                            <option value="200">min. 200 secs</option>
+                            <option value="300">min. 300 secs</option>
+                            <option value="400">min. 400 secs</option>
+                            <option value="500">min. 500 secs</option>
+                            <option value="600">min. 600 secs</option>
                         </select>
                     </div>
 
