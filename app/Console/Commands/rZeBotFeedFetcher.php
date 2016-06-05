@@ -75,6 +75,14 @@ class rZeBotFeedFetcher extends Command
             exit;
         }
 
+        // check site
+        $site = Site::find($site_id);
+
+        if (!$site) {
+            rZeBotUtils::message("[ERROR] El sitio '$site_id' indicado no existe. Abortando ejecución.", "red");
+            exit;
+        }
+
         // instance class dynamically from mapping_class field in bbdd
         $cfg = new $feed->mapping_class;
 
