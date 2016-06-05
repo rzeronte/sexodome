@@ -12,7 +12,6 @@ Route::group(['domain' => "www.".\App\rZeBot\rZeBotCommons::getMainPlataformDoma
 
 // Zona accounts
 Route::group(['domain' => 'accounts.'.\App\rZeBot\rZeBotCommons::getMainPlataformDomain()], function () {
-
     Route::match(['get', 'post'], "/", ['as' => 'home', 'uses' => 'ConfigController@home']);
     Route::match(['get', 'post'], "/fetch", ['as' => 'fetch', 'uses' => 'ConfigController@fetch']);
 
