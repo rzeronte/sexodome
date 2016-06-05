@@ -58,12 +58,12 @@
 
     .tubethumbnail .post_title{
         background-color: {{$site->color}};
-        color: {{$site->color2}};
+        color: {{$site->color2}} !important;
     }
 
     .videos .fleft{
         background-color: {{$site->color3}};
-        color: {{$site->color2}};
+        color: {{$site->color2}} !important;
     }
 
     .videos .fleft a{
