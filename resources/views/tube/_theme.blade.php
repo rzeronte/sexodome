@@ -57,7 +57,7 @@
     }
 
     .tubethumbnail .post_title{
-        background-color: {{$site->color}};
+        background-color: {{$site->color2}};
     }
 
     .videos .fleft{
@@ -66,7 +66,7 @@
     }
 
     .videos .fleft a{
-        color: {{$site->color}} !important;
+        color: {{$site->color2}} !important;
     }
 
     .video_post .inner .screencast .media-length {
