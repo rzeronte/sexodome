@@ -56,14 +56,6 @@
                 </div>
                 <div class="clearfix"></div>
 
-                <div class="col-md-2 col-md-offset-5" style="text-align: center;padding:10px;">
-                    <select class="form-control" name="language_id" placeholder="language"  required>
-                        @foreach ($languages as $language)
-                            <option value="{{$language->id}}">{{$language->name}}</option>
-                        @endforeach
-                    </select>
-                </div>
-
                 <div class="clearfix"></div>
                 <div class="col-md-2 col-md-offset-5" style="text-align: center;padding:10px;">
                     <input type="submit" value="create new site" class="btn btn-primary" style="width:100%;"/>

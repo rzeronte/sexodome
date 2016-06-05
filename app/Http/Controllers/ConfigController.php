@@ -595,7 +595,7 @@ class ConfigController extends Controller
             $newSite              = new Site();
             $newSite->user_id     = Auth::user()->id;
             $newSite->name        = Input::get('subdomain');
-            $newSite->language_id = Input::get('language_id');
+            $newSite->language_id = env("DEFAULT_FETCH_LANGUAGE", 2);
             $newSite->domain      = Input::get('domain');
             $newSite->have_domain = Input::get('type_site');
 
