@@ -72,7 +72,7 @@
                     @if (count($categories) == 0)
                         <p>This language dont have categories associated.</p>
                     @endif
-                        
+
                     <?php echo $categories->appends(['q' => $query_string])->render(); ?>
                 </div>
             </div>

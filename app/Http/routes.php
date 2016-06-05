@@ -2,7 +2,7 @@
 
 // Web Plataforma
 Route::group(['domain' => \App\rZeBot\rZeBotCommons::getMainPlataformDomain()], function () {
-    Route::match(['get', 'post'], "/", [ 'as' => 'home', 'uses' => 'WebController@home' ]);
+    Route::match(['get', 'post'], "/", [ 'as' => 'home_website', 'uses' => 'WebController@home' ]);
 });
 
 // Zona accounts
@@ -92,5 +92,3 @@ Route::group(['domain' => '{host}'], function () {
     Route::match(['get'], '/2257/', 'TubeController@C2257')->name('C2257');
     Route::match(['get'], '/contact/', 'TubeController@contact')->name('contact');
 });
-
-

@@ -8,7 +8,7 @@
 <div class="container">
     <div class="row" style="margin-top:25px;">
         <div class="col-md-3 col-md-offset-4 text-center">
-            <img src="{{asset('images/logo.png')}}" alt="logo sexodome" />
+            <a href="{{ route('home_website') }}"><img src="{{asset('images/logo.png')}}" alt="logo sexodome" /></a>
         </div>
     </div>
 
