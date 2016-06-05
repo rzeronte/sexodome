@@ -71,8 +71,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
-                    <h1 class="brand-heading">porn webmaster tool</h1>
-                    <p class="intro-text" style="opacity: 0.8;background-color: black;color: white;font-family:Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif">Agile platform for creating web pages porn<br>No technical knowledge</p>
+                    <h1 class="brand-heading" style="opacity: 0.6;background-color: red;">porn webmaster tool</h1>
+                    <p class="intro-text" style="opacity: 0.8;background-color: black;color: white;font-family:Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif">Agile platform for creating web pages porn<br>Hard job is done!</p>
                     <a href="#howitworks" class="btn btn-circle page-scroll">
                         <i class="fa fa-angle-double-down animated"></i>
                     </a>
