@@ -7,7 +7,7 @@
                 @if ($site->have_domain == 1)
                     {{$site->domain}}
                 @else
-                    <p class="logo">{{$site->name}}</p>
+                    <p class="logo" style="padding-top:15px;">{{$site->name}}</p>
                 @endif
             @endif
         </a>
