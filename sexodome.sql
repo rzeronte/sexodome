@@ -1,24 +1,27 @@
-/*
-Navicat MySQL Data Transfer
+-- MySQL dump 10.13  Distrib 5.6.28, for debian-linux-gnu (x86_64)
+--
+-- Host: localhost    Database: universo
+-- ------------------------------------------------------
+-- Server version	5.6.28-0ubuntu0.15.04.1
 
-Source Server         : localhost
-Source Server Version : 50628
-Source Host           : localhost:3306
-Source Database       : universo
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-Target Server Type    : MYSQL
-Target Server Version : 50628
-File Encoding         : 65001
+--
+-- Table structure for table `ads`
+--
 
-Date: 2016-06-05 18:28:14
-*/
-
-SET FOREIGN_KEY_CHECKS=0;
-
--- ----------------------------
--- Table structure for ads
--- ----------------------------
 DROP TABLE IF EXISTS `ads`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ads` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) DEFAULT NULL,
@@ -30,15 +33,24 @@ CREATE TABLE `ads` (
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of ads
--- ----------------------------
+--
+-- Dumping data for table `ads`
+--
 
--- ----------------------------
--- Table structure for analytics
--- ----------------------------
+LOCK TABLES `ads` WRITE;
+/*!40000 ALTER TABLE `ads` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ads` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `analytics`
+--
+
 DROP TABLE IF EXISTS `analytics`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `analytics` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `date` date DEFAULT NULL,
@@ -47,15 +59,24 @@ CREATE TABLE `analytics` (
   `site_id` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=250 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of analytics
--- ----------------------------
+--
+-- Dumping data for table `analytics`
+--
 
--- ----------------------------
--- Table structure for categories
--- ----------------------------
+LOCK TABLES `analytics` WRITE;
+/*!40000 ALTER TABLE `analytics` DISABLE KEYS */;
+/*!40000 ALTER TABLE `analytics` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `categories`
+--
+
 DROP TABLE IF EXISTS `categories`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `categories` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `status` int(10) DEFAULT NULL,
@@ -63,15 +84,24 @@ CREATE TABLE `categories` (
   `site_id` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=814 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of categories
--- ----------------------------
+--
+-- Dumping data for table `categories`
+--
 
--- ----------------------------
--- Table structure for categories_translations
--- ----------------------------
+LOCK TABLES `categories` WRITE;
+/*!40000 ALTER TABLE `categories` DISABLE KEYS */;
+/*!40000 ALTER TABLE `categories` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `categories_translations`
+--
+
 DROP TABLE IF EXISTS `categories_translations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `categories_translations` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `category_id` int(10) DEFAULT NULL,
@@ -81,15 +111,24 @@ CREATE TABLE `categories_translations` (
   `thumb` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5642 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of categories_translations
--- ----------------------------
+--
+-- Dumping data for table `categories_translations`
+--
 
--- ----------------------------
--- Table structure for channels
--- ----------------------------
+LOCK TABLES `categories_translations` WRITE;
+/*!40000 ALTER TABLE `categories_translations` DISABLE KEYS */;
+/*!40000 ALTER TABLE `categories_translations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `channels`
+--
+
 DROP TABLE IF EXISTS `channels`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `channels` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
@@ -103,19 +142,25 @@ CREATE TABLE `channels` (
   `is_compressed` int(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of channels
--- ----------------------------
-INSERT INTO `channels` VALUES ('1', 'PornHub', 'http://www.pornhub.com/pornhub.com-db.zip', 'pornhub.com-db.csv', 'pornhub', '\\App\\Feeds\\PornHubFeed', '1', '2209660', 'pornhub.png', '1');
-INSERT INTO `channels` VALUES ('2', 'YouPorn', 'http://www.youporn.com/YouPorn-Embed-Videos-Dump.zip', 'YouPorn-Embed-Videos-Dump.csv', 'youporn', '\\App\\Feeds\\YouPornFeed', '1', '585614', 'youporn.png', '1');
-INSERT INTO `channels` VALUES ('3', 'xHamster', 'http://partners.xhamster.com/2export.php?ch=!&cnt=3&tcnt=5&rt=3&url=on&dlm=%7C&tl=on&vid=on&ttl=on&chs=on&sz=on', 'xhamster.dump', 'xhamster', '\\App\\Feeds\\xHamsterFeed', '0', '5001', 'xhamster.png', '0');
-INSERT INTO `channels` VALUES ('4', 'Tube8', 'http://www.tube8.com/api.php?action=webMaster&orientation=straight&categories=6,13,12,7,4,11,5,22,1,14,8,2,10,3&count=100&size=small&rating=80000&delimiter=%7C&fields=url,categories,rating,title,tags,duration,pornstars,thumbnail&period=all&order=tr&format=CSV&utm_source=paid&utm_medium=hubtraffic&utm_campaign=hubtraffic_assassinsporn', 'tube8.dump', 'tube8', '\\App\\Feeds\\Tube8Feed', '0', '100', 'tube8.png', '0');
+--
+-- Dumping data for table `channels`
+--
 
--- ----------------------------
--- Table structure for failed_jobs
--- ----------------------------
+LOCK TABLES `channels` WRITE;
+/*!40000 ALTER TABLE `channels` DISABLE KEYS */;
+INSERT INTO `channels` VALUES (1,'PornHub','http://www.pornhub.com/pornhub.com-db.zip','pornhub.com-db.csv','pornhub','\\App\\Feeds\\PornHubFeed',1,2209660,'pornhub.png',1),(2,'YouPorn','http://www.youporn.com/YouPorn-Embed-Videos-Dump.zip','YouPorn-Embed-Videos-Dump.csv','youporn','\\App\\Feeds\\YouPornFeed',1,585614,'youporn.png',1),(3,'xHamster','http://partners.xhamster.com/2export.php?ch=!&cnt=3&tcnt=5&rt=3&url=on&dlm=%7C&tl=on&vid=on&ttl=on&chs=on&sz=on','xhamster.dump','xhamster','\\App\\Feeds\\xHamsterFeed',0,5001,'xhamster.png',0),(4,'Tube8','http://www.tube8.com/api.php?action=webMaster&orientation=straight&categories=6,13,12,7,4,11,5,22,1,14,8,2,10,3&count=100&size=small&rating=80000&delimiter=%7C&fields=url,categories,rating,title,tags,duration,pornstars,thumbnail&period=all&order=tr&format=CSV&utm_source=paid&utm_medium=hubtraffic&utm_campaign=hubtraffic_assassinsporn','tube8.dump','tube8','\\App\\Feeds\\Tube8Feed',0,100,'tube8.png',0);
+/*!40000 ALTER TABLE `channels` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `failed_jobs`
+--
+
 DROP TABLE IF EXISTS `failed_jobs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `failed_jobs` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `connection` text COLLATE utf8_unicode_ci NOT NULL,
@@ -124,15 +169,24 @@ CREATE TABLE `failed_jobs` (
   `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of failed_jobs
--- ----------------------------
+--
+-- Dumping data for table `failed_jobs`
+--
 
--- ----------------------------
--- Table structure for jobs
--- ----------------------------
+LOCK TABLES `failed_jobs` WRITE;
+/*!40000 ALTER TABLE `failed_jobs` DISABLE KEYS */;
+/*!40000 ALTER TABLE `failed_jobs` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `jobs`
+--
+
 DROP TABLE IF EXISTS `jobs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `jobs` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `queue` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -145,15 +199,24 @@ CREATE TABLE `jobs` (
   PRIMARY KEY (`id`),
   KEY `jobs_queue_reserved_reserved_at_index` (`queue`,`reserved`,`reserved_at`)
 ) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of jobs
--- ----------------------------
+--
+-- Dumping data for table `jobs`
+--
 
--- ----------------------------
--- Table structure for languages
--- ----------------------------
+LOCK TABLES `jobs` WRITE;
+/*!40000 ALTER TABLE `jobs` DISABLE KEYS */;
+/*!40000 ALTER TABLE `jobs` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `languages`
+--
+
 DROP TABLE IF EXISTS `languages`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `languages` (
   `id` int(1) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
@@ -161,38 +224,48 @@ CREATE TABLE `languages` (
   `code` varchar(3) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of languages
--- ----------------------------
-INSERT INTO `languages` VALUES ('1', 'Spanish', '1', 'es');
-INSERT INTO `languages` VALUES ('2', 'English', '1', 'en');
-INSERT INTO `languages` VALUES ('3', 'Italian', '1', 'it');
-INSERT INTO `languages` VALUES ('4', 'German', '1', 'de');
-INSERT INTO `languages` VALUES ('5', 'French', '1', 'fr');
-INSERT INTO `languages` VALUES ('6', 'Brazilian', '1', 'br');
+--
+-- Dumping data for table `languages`
+--
 
--- ----------------------------
--- Table structure for migrations
--- ----------------------------
+LOCK TABLES `languages` WRITE;
+/*!40000 ALTER TABLE `languages` DISABLE KEYS */;
+INSERT INTO `languages` VALUES (1,'Spanish',1,'es'),(2,'English',1,'en'),(3,'Italian',1,'it'),(4,'German',1,'de'),(5,'French',1,'fr'),(6,'Brazilian',1,'br');
+/*!40000 ALTER TABLE `languages` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `migrations`
+--
+
 DROP TABLE IF EXISTS `migrations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `migrations` (
   `migration` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of migrations
--- ----------------------------
-INSERT INTO `migrations` VALUES ('2014_10_12_000000_create_users_table', '1');
-INSERT INTO `migrations` VALUES ('2014_10_12_100000_create_password_resets_table', '2');
-INSERT INTO `migrations` VALUES ('2016_05_30_222208_create_jobs_table', '2');
-INSERT INTO `migrations` VALUES ('2016_05_30_224838_create_failed_jobs_table', '3');
+--
+-- Dumping data for table `migrations`
+--
 
--- ----------------------------
--- Table structure for password_resets
--- ----------------------------
+LOCK TABLES `migrations` WRITE;
+/*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
+INSERT INTO `migrations` VALUES ('2014_10_12_000000_create_users_table',1),('2014_10_12_100000_create_password_resets_table',2),('2016_05_30_222208_create_jobs_table',2),('2016_05_30_224838_create_failed_jobs_table',3);
+/*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `password_resets`
+--
+
 DROP TABLE IF EXISTS `password_resets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `password_resets` (
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `token` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -200,30 +273,48 @@ CREATE TABLE `password_resets` (
   KEY `password_resets_email_index` (`email`),
   KEY `password_resets_token_index` (`token`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of password_resets
--- ----------------------------
+--
+-- Dumping data for table `password_resets`
+--
 
--- ----------------------------
--- Table structure for scene_category
--- ----------------------------
+LOCK TABLES `password_resets` WRITE;
+/*!40000 ALTER TABLE `password_resets` DISABLE KEYS */;
+/*!40000 ALTER TABLE `password_resets` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `scene_category`
+--
+
 DROP TABLE IF EXISTS `scene_category`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `scene_category` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `category_id` int(10) DEFAULT NULL,
   `scene_id` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=43183 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of scene_category
--- ----------------------------
+--
+-- Dumping data for table `scene_category`
+--
 
--- ----------------------------
--- Table structure for scene_tag
--- ----------------------------
+LOCK TABLES `scene_category` WRITE;
+/*!40000 ALTER TABLE `scene_category` DISABLE KEYS */;
+/*!40000 ALTER TABLE `scene_category` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `scene_tag`
+--
+
 DROP TABLE IF EXISTS `scene_tag`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `scene_tag` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `tag_id` int(10) DEFAULT NULL,
@@ -234,15 +325,24 @@ CREATE TABLE `scene_tag` (
   CONSTRAINT `fk_st_1` FOREIGN KEY (`tag_id`) REFERENCES `tags` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_st_2` FOREIGN KEY (`scene_id`) REFERENCES `scenes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=145738 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of scene_tag
--- ----------------------------
+--
+-- Dumping data for table `scene_tag`
+--
 
--- ----------------------------
--- Table structure for scene_translations
--- ----------------------------
+LOCK TABLES `scene_tag` WRITE;
+/*!40000 ALTER TABLE `scene_tag` DISABLE KEYS */;
+/*!40000 ALTER TABLE `scene_tag` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `scene_translations`
+--
+
 DROP TABLE IF EXISTS `scene_translations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `scene_translations` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `scene_id` int(10) DEFAULT NULL,
@@ -257,15 +357,24 @@ CREATE TABLE `scene_translations` (
   CONSTRAINT `fk_str_1` FOREIGN KEY (`scene_id`) REFERENCES `scenes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_str_2` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=108963 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of scene_translations
--- ----------------------------
+--
+-- Dumping data for table `scene_translations`
+--
 
--- ----------------------------
--- Table structure for scenes
--- ----------------------------
+LOCK TABLES `scene_translations` WRITE;
+/*!40000 ALTER TABLE `scene_translations` DISABLE KEYS */;
+/*!40000 ALTER TABLE `scene_translations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `scenes`
+--
+
 DROP TABLE IF EXISTS `scenes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `scenes` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `preview` varchar(255) DEFAULT NULL,
@@ -283,15 +392,24 @@ CREATE TABLE `scenes` (
   `site_id` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=33836 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of scenes
--- ----------------------------
+--
+-- Dumping data for table `scenes`
+--
 
--- ----------------------------
--- Table structure for scenes_clicks
--- ----------------------------
+LOCK TABLES `scenes` WRITE;
+/*!40000 ALTER TABLE `scenes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `scenes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `scenes_clicks`
+--
+
 DROP TABLE IF EXISTS `scenes_clicks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `scenes_clicks` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `scene_id` int(10) DEFAULT NULL,
@@ -302,45 +420,72 @@ CREATE TABLE `scenes_clicks` (
   KEY `fk_scli_1` (`scene_id`),
   CONSTRAINT `fk_scli_1` FOREIGN KEY (`scene_id`) REFERENCES `scenes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=180 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of scenes_clicks
--- ----------------------------
+--
+-- Dumping data for table `scenes_clicks`
+--
 
--- ----------------------------
--- Table structure for sentences
--- ----------------------------
+LOCK TABLES `scenes_clicks` WRITE;
+/*!40000 ALTER TABLE `scenes_clicks` DISABLE KEYS */;
+/*!40000 ALTER TABLE `scenes_clicks` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sentences`
+--
+
 DROP TABLE IF EXISTS `sentences`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sentences` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `sentence` text,
   `url` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5267 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of sentences
--- ----------------------------
+--
+-- Dumping data for table `sentences`
+--
 
--- ----------------------------
--- Table structure for site_category
--- ----------------------------
+LOCK TABLES `sentences` WRITE;
+/*!40000 ALTER TABLE `sentences` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sentences` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `site_category`
+--
+
 DROP TABLE IF EXISTS `site_category`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `site_category` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `site_id` int(10) DEFAULT NULL,
   `category_id` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of site_category
--- ----------------------------
+--
+-- Dumping data for table `site_category`
+--
 
--- ----------------------------
--- Table structure for site_tag
--- ----------------------------
+LOCK TABLES `site_category` WRITE;
+/*!40000 ALTER TABLE `site_category` DISABLE KEYS */;
+/*!40000 ALTER TABLE `site_category` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `site_tag`
+--
+
 DROP TABLE IF EXISTS `site_tag`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `site_tag` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `site_id` int(10) DEFAULT NULL,
@@ -351,15 +496,24 @@ CREATE TABLE `site_tag` (
   CONSTRAINT `fk_lt2` FOREIGN KEY (`tag_id`) REFERENCES `tags` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_lt_1` FOREIGN KEY (`site_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of site_tag
--- ----------------------------
+--
+-- Dumping data for table `site_tag`
+--
 
--- ----------------------------
--- Table structure for sites
--- ----------------------------
+LOCK TABLES `site_tag` WRITE;
+/*!40000 ALTER TABLE `site_tag` DISABLE KEYS */;
+/*!40000 ALTER TABLE `site_tag` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sites`
+--
+
 DROP TABLE IF EXISTS `sites`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sites` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
@@ -381,15 +535,24 @@ CREATE TABLE `sites` (
   `have_domain` int(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of sites
--- ----------------------------
+--
+-- Dumping data for table `sites`
+--
 
--- ----------------------------
--- Table structure for tag_translations
--- ----------------------------
+LOCK TABLES `sites` WRITE;
+/*!40000 ALTER TABLE `sites` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sites` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tag_translations`
+--
+
 DROP TABLE IF EXISTS `tag_translations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tag_translations` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `tag_id` int(10) DEFAULT NULL,
@@ -403,15 +566,24 @@ CREATE TABLE `tag_translations` (
   CONSTRAINT `fk_tt_1` FOREIGN KEY (`tag_id`) REFERENCES `tags` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_tt_2` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=54358 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of tag_translations
--- ----------------------------
+--
+-- Dumping data for table `tag_translations`
+--
 
--- ----------------------------
--- Table structure for tags
--- ----------------------------
+LOCK TABLES `tag_translations` WRITE;
+/*!40000 ALTER TABLE `tag_translations` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tag_translations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tags`
+--
+
 DROP TABLE IF EXISTS `tags`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tags` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `status` int(1) DEFAULT NULL,
@@ -420,15 +592,24 @@ CREATE TABLE `tags` (
   `site_id` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11159 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of tags
--- ----------------------------
+--
+-- Dumping data for table `tags`
+--
 
--- ----------------------------
--- Table structure for tags_clicks
--- ----------------------------
+LOCK TABLES `tags` WRITE;
+/*!40000 ALTER TABLE `tags` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tags` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tags_clicks`
+--
+
 DROP TABLE IF EXISTS `tags_clicks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tags_clicks` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `tag_id` int(10) DEFAULT NULL,
@@ -439,30 +620,48 @@ CREATE TABLE `tags_clicks` (
   KEY `fk_tags_clicks_1` (`tag_id`),
   CONSTRAINT `fk_sclicks_1` FOREIGN KEY (`tag_id`) REFERENCES `tags` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of tags_clicks
--- ----------------------------
+--
+-- Dumping data for table `tags_clicks`
+--
 
--- ----------------------------
--- Table structure for titles
--- ----------------------------
+LOCK TABLES `tags_clicks` WRITE;
+/*!40000 ALTER TABLE `tags_clicks` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tags_clicks` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `titles`
+--
+
 DROP TABLE IF EXISTS `titles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `titles` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) DEFAULT NULL,
   `language_id` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1127 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of titles
--- ----------------------------
+--
+-- Dumping data for table `titles`
+--
 
--- ----------------------------
--- Table structure for tweets
--- ----------------------------
+LOCK TABLES `titles` WRITE;
+/*!40000 ALTER TABLE `titles` DISABLE KEYS */;
+/*!40000 ALTER TABLE `titles` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tweets`
+--
+
 DROP TABLE IF EXISTS `tweets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tweets` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `description` varchar(140) DEFAULT NULL,
@@ -471,15 +670,24 @@ CREATE TABLE `tweets` (
   `status` int(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of tweets
--- ----------------------------
+--
+-- Dumping data for table `tweets`
+--
 
--- ----------------------------
--- Table structure for users
--- ----------------------------
+LOCK TABLES `tweets` WRITE;
+/*!40000 ALTER TABLE `tweets` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tweets` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
 DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -491,46 +699,73 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of users
--- ----------------------------
-INSERT INTO `users` VALUES ('3', 'eduardo', 'eduardo.rzeronte@gmail.com', '$2y$10$SAw7tXWkVsEJZ4aaVDyzYOIBqgtqg/dq2fobc5iEh9UZR1ic/1j5.', 'eiO7dnQgM2aDTxmxYnq1sAYZebEewKehFfuzYLft5X765JWXzlFzuRJp0mFp', '2016-05-30 22:24:22', '2016-06-05 01:45:38');
+--
+-- Dumping data for table `users`
+--
 
--- ----------------------------
--- Table structure for words
--- ----------------------------
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (3,'eduardo','eduardo.rzeronte@gmail.com','$2y$10$SAw7tXWkVsEJZ4aaVDyzYOIBqgtqg/dq2fobc5iEh9UZR1ic/1j5.','eiO7dnQgM2aDTxmxYnq1sAYZebEewKehFfuzYLft5X765JWXzlFzuRJp0mFp','2016-05-30 20:24:22','2016-06-04 23:45:38');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `words`
+--
+
 DROP TABLE IF EXISTS `words`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `words` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `word` varchar(255) DEFAULT NULL,
   `language_id` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6160 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of words
--- ----------------------------
+--
+-- Dumping data for table `words`
+--
 
--- ----------------------------
--- Table structure for words_synonym
--- ----------------------------
+LOCK TABLES `words` WRITE;
+/*!40000 ALTER TABLE `words` DISABLE KEYS */;
+/*!40000 ALTER TABLE `words` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `words_synonym`
+--
+
 DROP TABLE IF EXISTS `words_synonym`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `words_synonym` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `word_id` int(10) DEFAULT NULL,
   `word` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=25415 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of words_synonym
--- ----------------------------
+--
+-- Dumping data for table `words_synonym`
+--
 
--- ----------------------------
--- Table structure for zones
--- ----------------------------
+LOCK TABLES `words_synonym` WRITE;
+/*!40000 ALTER TABLE `words_synonym` DISABLE KEYS */;
+/*!40000 ALTER TABLE `words_synonym` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `zones`
+--
+
 DROP TABLE IF EXISTS `zones`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `zones` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
@@ -538,10 +773,25 @@ CREATE TABLE `zones` (
   `code` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of zones
--- ----------------------------
-INSERT INTO `zones` VALUES ('1', 'Home', null, 'home');
-INSERT INTO `zones` VALUES ('2', 'Search', null, 'search');
-INSERT INTO `zones` VALUES ('3', 'Video', null, 'video');
+--
+-- Dumping data for table `zones`
+--
+
+LOCK TABLES `zones` WRITE;
+/*!40000 ALTER TABLE `zones` DISABLE KEYS */;
+INSERT INTO `zones` VALUES (1,'Home',NULL,'home'),(2,'Search',NULL,'search'),(3,'Video',NULL,'video');
+/*!40000 ALTER TABLE `zones` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2016-06-05 18:33:56
