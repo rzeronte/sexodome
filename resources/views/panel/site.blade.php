@@ -208,7 +208,7 @@
                         </div>
                     </div>
 
-                    <div class="row" style="padding:10px;background-color: white;">
+                    <div class="row" style="padding:10px;">
                         <div class="col-md-7 col-md-offset-3">
                             <input type="submit" class="btn btn-primary" value="Save settings for {{$site->domain}}" style="width:100%;"/>
                         </div>
@@ -218,6 +218,11 @@
             </form>
 
         </div>
+
+        <div style="border-top: solid 1px darkorange;margin-top:20px;">
+            <p class="text-right">panel v.0.16</p>
+        </div>
+
     </div>
 </body>
 </html>

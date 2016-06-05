@@ -10,7 +10,7 @@
         @include('panel._header_config')
     </div>
 
-    <div class="row" style="background-color:white;margin-top:20px;">
+    <div class="row" style="margin-top:20px;">
         <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
             <p><b>Add a new site</b></p>
         </div>
@@ -49,9 +49,8 @@
                             <p class='check_domain_ko'>{{ Session::get('error_domain') }}</p>
                         @endif
                         <div class="alert alert-warning">
-                            <p>Remember set your DNS records:</p>
-                            <p>ivan.ns.cloudflare.com</p>
-                            <p>nola.ns.cloudflare.com</p>
+                            <p>Configure your DNS to resolve in:</p>
+                            <p>91.121.81.154</p>
                         </div>
                     </div>
                 </div>
@@ -84,6 +83,12 @@
         </form>
 
     </div>
+
+    <div style="border-top: solid 1px darkorange;margin-top:20px;">
+        <p class="text-right">panel v.0.16</p>
+    </div>
+
 </div>
+
 </body>
 </html>

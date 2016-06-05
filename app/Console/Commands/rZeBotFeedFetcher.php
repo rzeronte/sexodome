@@ -81,7 +81,6 @@ class rZeBotFeedFetcher extends Command
         rZeBotUtils::parseCSVLine(
             $site_id,
             $feed,
-            rZeBotCommons::getDumpsFolder().$feed->file,
             $max,
             $cfg->mappingColumns(),
             $cfg->configFeed(),

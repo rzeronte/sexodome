@@ -117,7 +117,12 @@ class rZeBotCommons extends Controller {
 
     public static function getDumpsFolder()
     {
-        return env("DEFAULT_DUMPS_FOLDER", "../");
+        return env("DEFAULT_DUMPS_FOLDER", "../dumps/");
+    }
+
+    public static function getDumpsFolderTmp()
+    {
+        return rZeBotCommons::getDumpsFolder()."tmp/";
     }
 
 }

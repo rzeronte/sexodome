@@ -296,6 +296,10 @@
         </div>
     </div>
 
+    <div style="border-top: solid 1px darkorange;margin-top:20px;">
+        <p class="text-right">panel v.0.16</p>
+    </div>
+
 </div>
 
 <style>

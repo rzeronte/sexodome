@@ -639,26 +639,6 @@ class ConfigController extends Controller
 
             // check if already exists
             if (Input::get('type_site') == 1) {
-                $result = dns_get_record(Input::get('domain'));
-                $founded = 0;
-                foreach ($result as $record_dns) {
-                    if ($record_dns["type"] == "NS") {
-                        if ($record_dns["target"] == "ivan.ns.cloudflare.com" || $record_dns["target"] == "nola.ns.cloudflare.com") {
-                            $founded++;
-                        }
-                    }
-                }
-
-                if ($founded !== 2) {
-                    Request::session()->flash('error_domain', 'Domain <'.trim(Input::get('domain')).'> font have right DNS');
-
-                    return view('panel.add_site', [
-                        'language'     => $this->commons->language,
-                        'languages'    => $this->commons->languages,
-                        'locale'       => $this->commons->locale,
-                    ]);
-                }
-
                 $site = Site::where('domain', '=', trim(Input::get('domain')))->first();
             } else {
                 $site = Site::where('name', '=', trim(Input::get('subdomain')))->first();

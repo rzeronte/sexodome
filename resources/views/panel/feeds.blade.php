@@ -91,6 +91,11 @@
                 </form>
             </div>
         @endforeach
+
+        <div style="border-top: solid 1px darkorange;margin-top:20px;">
+            <p class="text-right">panel v.0.16</p>
+        </div>
+
     </div>
 
     <div class="modal fade" tabindex="-1" role="dialog">
@@ -109,6 +114,7 @@
             </div>
         </div>
     </div>
+
 </div>
 </body>
 </html>

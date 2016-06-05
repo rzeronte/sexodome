@@ -289,16 +289,25 @@ class rZeBotUtils
         return $tags;
     }
 
-    static public function parseCSVLine($site_id, $feed, $fileCSV, $max, $mapped_colums, $feed_config, $tags, $categories, $only_update, $rate, $minViews, $minDuration, $default_status, $test)
+    static public function parseCSVLine($site_id, $feed, $max, $mapped_colums, $feed_config, $tags, $categories, $only_update, $rate, $minViews, $minDuration, $default_status, $test)
     {
         $fila = 1;
         $languages = Language::all();
         $added = 0;
+        $fileCSV = rZeBotCommons::getDumpsFolder().$feed->file;
 
-        if (!file_exists($fileCSV)) {
-            rZeBotUtils::message("[WARNING] No existe el fichero '$fileCSV', intentando descargar...".PHP_EOL, "yellow");
-            $cmd = "wget -c '" . $feed->url . "' --output-document=". $fileCSV;
+        if ($feed->is_compressed !== 1) {
+            if (!file_exists($fileCSV)) {
+                rZeBotUtils::message("[WARNING] No existe el fichero '$fileCSV', intentando descargar...".PHP_EOL, "yellow");
+                $cmd = "wget -c '" . $feed->url . "' --output-document=". $fileCSV;
+                exec($cmd);
+            }
+        } else {
+            rZeBotUtils::message("[WARNING] El fichero de la url '$feed->url' está comprimido. Descargamos con nombre original, pero detenemos inserción.".PHP_EOL, "yellow");
+            $cmd = "wget -c '" . $feed->url . "' --directory-prefix=".rZeBotCommons::getDumpsFolderTmp();
             exec($cmd);
+            rZeBotUtils::message("[STOP] Ejecución detenida, Debes descomprimir el fichero del channel.".PHP_EOL, "yellow");
+            exit;
         }
 
         if (($gestor = fopen($fileCSV, "r")) !== FALSE) {
@@ -594,6 +603,27 @@ class rZeBotUtils
             fclose($gestor);
         }
     }
+
+    public static function checkCFDNS($domain)
+    {
+        $result = dns_get_record($domain);
+
+        $founded = 0;
+
+        foreach ($result as $record_dns) {
+            if ($record_dns["type"] == "NS") {
+                if ($record_dns["target"] == "ivan.ns.cloudflare.com" || $record_dns["target"] == "nola.ns.cloudflare.com") {
+                    $founded++;
+                }
+            }
+        }
+
+        if ($founded !== 2) {
+            Request::session()->flash('error_domain', 'Domain <'.trim(Input::get('domain')).'> font have right DNS');
+
+            return false;
+        }
+
+        return true;
+    }
 }
-
-
