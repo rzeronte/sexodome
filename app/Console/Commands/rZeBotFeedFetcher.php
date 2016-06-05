@@ -20,6 +20,7 @@ use App\Model\Host;
 use App\Model\SceneTag;
 use App\Model\TagClick;
 use App\Feeds\YouPornFeed;
+use App\Model\Site;
 
 class rZeBotFeedFetcher extends Command
 {
