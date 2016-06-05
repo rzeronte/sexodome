@@ -210,7 +210,7 @@
 
                     <div class="row" style="padding:10px;">
                         <div class="col-md-7 col-md-offset-3">
-                            <input type="submit" class="btn btn-primary" value="Save settings for {{$site->domain}}" style="width:100%;"/>
+                            <input type="submit" class="btn btn-primary" value="Save settings for @if ($site->have_domain == 1){{$site->domain}}@else{{$site->name}}@endif" style="width:100%;"/>
                         </div>
                     </div>
 
