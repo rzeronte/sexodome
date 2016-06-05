@@ -46,6 +46,31 @@ $( document ).ready(function() {
         $(this).parent().parent().parent().find('.detail-logo').toggle('fast');
     });
 
+    $( ".colors-show-info" ).click(function() {
+        $(this).parent().parent().parent().find('.detail-colors').toggle('fast');
+    });
+
+    $( ".form-update-color-data" ).submit(function( event ) {
+        var action = $(this).attr("action");
+        var form = $(this);
+
+        $.ajax({
+            url: action,
+            data: $(this).serialize(),
+            method: 'post'
+        }).done(function( data ) {
+            jsonData = $.parseJSON(data);
+            if (jsonData["status"] == true) {
+                $('.modal .modal-body').html("<div class='alert alert-success' role='alert'>Color saved successful</div>");
+            } else {
+                $('.modal .modal-body').html("<div class='alert alert-danger' role='alert'>Have an error! Try in a few minutes...</div>");
+            }
+            $('.modal').modal()
+
+        });
+        event.preventDefault();
+    });
+
     $( ".form-update-google-data" ).submit(function( event ) {
         var action = $(this).attr("action");
         var form = $(this);

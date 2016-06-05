@@ -1,20 +1,20 @@
 <div class="container">
     <div class="col-md-2 col-xs-12 col-sm-12 header_col_logo">
-        <a href="{{route('index', ['profile' => $profile])}}" title="{{$language->title}}">
+        <a href="{{route('index', ['profile' => $profile])}}" title="{{$site->title}}">
             @if (file_exists(\App\rZeBot\rZeBotCommons::getLogosFolder()."/".md5($site->id).".png"))
                 <img src="{{asset('/logos/'.md5($site->id).".png")}}" style="max-height: 50px;"/>
             @else
                 @if ($site->have_domain == 1)
                     {{$site->domain}}
                 @else
-                    {{$site->name}}
+                    <p class="logo">{{$site->name}}</p>
                 @endif
             @endif
         </a>
     </div>
 
     <div class="col-md-4 col-xs-12 col-sm-12 header_col_billboard">
-        <h1 class="text-center"><?php if (isset($tagTranslation)):?>{{$tagTranslation->name}} | <?php endif?>{{$language->head_billboard}}</h1>
+        <h1 class="text-center"><?php if (isset($tagTranslation)):?>{{$tagTranslation->name}} | <?php endif?>{{$site->head_billboard}}</h1>
     </div>
 
     <div class="col-md-3 header_query_string" style="text-align: right; margin-top:15px;">

@@ -31,4 +31,8 @@
 
     {{-- high charts--}}
     <script src="http://code.highcharts.com/highcharts.js"></script>
+
+    {{-- bootstrap colorpicker--}}
+    <script src="{{asset('bootstrap-colorpicker/js/bootstrap-colorpicker.min.js')}}"></script>
+    <link rel="stylesheet" href="{{asset('bootstrap-colorpicker/css/bootstrap-colorpicker.min.css')}}" />
 </head>

@@ -26,4 +26,5 @@
 
     @include('tube._footer')
     @include('tube._javascripts')
+    @include('tube._theme')
 </body>

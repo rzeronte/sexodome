@@ -20,3 +20,19 @@ hr{
 .check_domain_ko {
     color: red;
 }
+
+.js_tags+.tag-editor { background: #fafafa; font-size: 12px; }
+.js_tags+.tag-editor .tag-editor-spacer { width: 7px; }
+.js_tags+.tag-editor .tag-editor-delete { display: none; }
+.js_tags_tier1+.tag-editor .tag-editor-tag {
+    color: #ffffff; background: limegreen;
+    border-radius: 2px;
+}
+.js_tags_tier2+.tag-editor .tag-editor-tag {
+    color: #ffffff; background: orange;
+    border-radius: 2px;
+}
+.js_tags_tier3+.tag-editor .tag-editor-tag {
+    color: #ffffff; background: deepskyblue;
+    border-radius: 2px;
+}

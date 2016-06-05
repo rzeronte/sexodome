@@ -51,28 +51,57 @@
                     <p>
                         <b><i class="glyphicon glyphicon-globe"></i>
                             @if ($site->have_domain == 1)
-                                <a href="http://{{$site->domain}}">http://{{$site->domain}}</a>
+                                <a href="http://{{$site->domain}}" target="_blank">http://{{$site->domain}}</a>
                             @else
-                                <a href="http://{{$site->name}}.{{\App\rZeBot\rZeBotCommons::getMainPlataformDomain()}}">http://{{$site->name}}.{{\App\rZeBot\rZeBotCommons::getMainPlataformDomain()}}</a>
+                                <a href="http://{{$site->name}}.{{\App\rZeBot\rZeBotCommons::getMainPlataformDomain()}}" target="_blank">http://{{$site->name}}.{{\App\rZeBot\rZeBotCommons::getMainPlataformDomain()}}</a>
                             @endif
                         </b>
                     </p>
                 </div>
 
                 <div class="row">
-                    <div class="col-md-8">
+
+                    <div class="col-md-9">
                         <a class="btn btn-primary logo-show-info" style="margin-bottom:10px;margin-right:5px;"><i class="glyphicon glyphicon-picture"></i> Logo</a>
                         <a href="{{route('site', ["locale" =>$language->code, "site_id"=>$site->id])}}" class="btn btn-primary" style="margin-bottom:10px;margin-right:5px;"><i class="glyphicon glyphicon-pencil"></i> SEO</a>
                         <a class="btn btn-primary google-show-info" style="margin-bottom:10px;margin-right:5px;"><i class="glyphicon glyphicon-signal"></i> Google</a>
                         <a href="{{route('tags_admin', ['locale'=>$language->code, "site_id"=>$site->id])}}" class="btn btn-primary" style="margin-bottom:10px;margin-right:5px;"><i class="glyphicon glyphicon-tags"></i> Tags</a>
                         <a href="{{route('categories_admin', ['locale'=>$language->code, "site_id"=>$site->id])}}" class="btn btn-primary" style="margin-bottom:10px;margin-right:5px;"><i class="glyphicon glyphicon-tag"></i> Categories</a>
                         <a class="btn btn-primary iframe-show-info" style="margin-bottom:10px;margin-right:5px;"><i class="glyphicon glyphicon-screenshot"></i> IFrame</a>
+                        <a class="btn btn-primary colors-show-info" style="margin-bottom:10px;margin-right:5px;"><i class="glyphicon glyphicon-tint"></i> Colors</a>
                         <a href="{{route('deleteSite', ['locale'=>$language->code, "site_id"=>$site->id])}}" class="btn btn-danger" style="margin-bottom:10px;margin-right:5px;"><i class="glyphicon glyphicon-trash"></i> DELETE SITE</a>
                     </div>
 
                 </div>
 
                 <div class="clearfix"></div>
+
+                <div class="col-md-12 detail-colors" style="display:none">
+                    <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
+                        <p><b>Colors</b></p>
+                    </div>
+
+                    <form action="{{route('updateColors', ['locale' => $locale, 'site_id' => $site->id])}}" class="form-update-color-data">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+
+                        <div class="col-md-2">
+                            <input type="text" name="color" class="color form-control"/>
+                        </div>
+
+                        <div class="col-md-2">
+                            <input type="text" name="color2" class="color form-control" />
+                        </div>
+                        <div class="col-md-2">
+                            <input type="text" name="color3" class="color form-control" />
+                        </div>
+
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-disk"></i> Update</button>
+                        </div>
+
+                    </form>
+
+                </div>
 
                 <div class="col-md-12 detail-logo" style="display:none">
                     <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
@@ -300,23 +329,9 @@
 
 </div>
 
-<style>
-    .js_tags+.tag-editor { background: #fafafa; font-size: 12px; }
-    .js_tags+.tag-editor .tag-editor-spacer { width: 7px; }
-    .js_tags+.tag-editor .tag-editor-delete { display: none; }
-    .js_tags_tier1+.tag-editor .tag-editor-tag {
-        color: #ffffff; background: limegreen;
-        border-radius: 2px;
-    }
-    .js_tags_tier2+.tag-editor .tag-editor-tag {
-        color: #ffffff; background: orange;
-        border-radius: 2px;
-    }
-    .js_tags_tier3+.tag-editor .tag-editor-tag {
-        color: #ffffff; background: deepskyblue;
-        border-radius: 2px;
-    }
+<script type="text/javascript">
+    $('.color').colorpicker({});
+</script>
 
-</style>
 </body>
 </html>

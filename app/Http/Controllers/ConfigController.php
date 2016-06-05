@@ -760,4 +760,27 @@ class ConfigController extends Controller
 
         return redirect()->route('sites', ['locale' => $this->commons->locale]);
     }
+
+    public function updateColors($locale, $site_id)
+    {
+        $site = Site::find($site_id);
+
+        if (!$site) {
+            abort(404, "Site not found");
+        }
+
+        $site->color = (Request::input('color') != "") ? Request::input('color') : null;
+        $site->color2 = (Request::input('color2') != "") ? Request::input('color2') : null;
+        $site->color3 = (Request::input('color3') != "") ? Request::input('color3') : null;
+
+        try {
+            $site->save();
+            $status = true;
+        } catch (\Exception $e) {
+            $status = false;
+        }
+
+        return json_encode(array('status' => $status));
+
+    }
 }
