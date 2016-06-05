@@ -134,7 +134,7 @@
     }
 
     .channel_link{
-        background-color: {{$site->color3}};
-        color: {{$site->color2}};
+        background-color: {{$site->color3}} !important;
+        color: {{$site->color2}} !important;
     }
 </style>
