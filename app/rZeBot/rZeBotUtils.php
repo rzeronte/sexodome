@@ -424,7 +424,7 @@ class rZeBotUtils
                 }
 
                 // preview is used to check if already exists
-                if(Scene::where('preview', $video["preview"])->count() == 0) {
+                if(Scene::where('preview', $video["preview"])->where('site_id', $site_id)->count() == 0) {
                     $mixed_check = true;
 
                     if ($only_update !== "false") {
