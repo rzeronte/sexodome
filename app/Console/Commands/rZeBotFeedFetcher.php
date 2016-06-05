@@ -99,7 +99,7 @@ class rZeBotFeedFetcher extends Command
             $rate,
             $minViews,
             $minDuration,
-            $default_status = 0,
+            $default_status = env("DEFAULT_FETCH_STATUS", 1),
             $test
         );
     }
