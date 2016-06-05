@@ -10,6 +10,7 @@ use App\Model\SceneCategory;
 use App\Model\SceneClick;
 use App\Model\SceneTranslation;
 use App\Model\TagTranslation;
+use App\rZeBot\rZeBotCommons;
 use Illuminate\Console\Command;
 use App\rZeBot\rZeBotUtils;
 use App\Model\Language;
@@ -27,7 +28,7 @@ class rZeBotFeedFetcher extends Command
      *
      * @var string
      */
-    protected $signature = 'rZeBot:feed:fetch {feed_name}
+    protected $signature = 'rZeBot:feed:fetch {feed_name} {site_id}
                             {--max=false : Number max scenes to import}
                             {--tags=false : Only tags imported}
                             {--categories=false : Only categories imported}
@@ -42,7 +43,7 @@ class rZeBotFeedFetcher extends Command
      *
      * @var string
      */
-    protected $description = 'Launch rZeBot Fetcher scenes from feed';
+    protected $description = 'Fetch scenes from feeds to one site';
 
     /**
      * Execute the console command.
@@ -52,6 +53,7 @@ class rZeBotFeedFetcher extends Command
     public function handle()
     {
         $feed_name     = $this->argument('feed_name');
+        $site_id       = $this->argument('site_id');
 
         $max         = $this->option('max');
         $tags        = $this->option('tags', false);
@@ -77,8 +79,9 @@ class rZeBotFeedFetcher extends Command
         $cfg = new $feed->mapping_class;
 
         rZeBotUtils::parseCSVLine(
+            $site_id,
             $feed,
-            rZeBotUtils::getDumpsFolder().$feed->file,
+            rZeBotCommons::getDumpsFolder().$feed->file,
             $max,
             $cfg->mappingColumns(),
             $cfg->configFeed(),
@@ -88,7 +91,7 @@ class rZeBotFeedFetcher extends Command
             $rate,
             $minViews,
             $minDuration,
-            $default_status = 1,
+            $default_status = 0,
             $test
         );
     }

@@ -15,6 +15,8 @@ use App\Model\SceneTag;
 use App\Model\CategoryTranslation;
 use App\Model\SceneCategory;
 use App\Model\Category;
+use App\Model\Site;
+
 use DB;
 
 class rZeBotUtils
@@ -45,36 +47,142 @@ class rZeBotUtils
         );
     }
 
-    static function checkDomainAccess() {
+    static function checkSubDomainAccess($locale) {
         $urlData = parse_url($_SERVER["HTTP_HOST"]);
         $path = $urlData["path"];
 
         $parts = explode(".", $path);
 
-        // xx.assassinsporn.com
+
+        // subdomain.assassinsporn.com
         if (count($parts) == 3) {
-
             $subdomain = $parts[0];
+            $domain    = $parts[1];
+            $ext       = $parts[2];
+            $full = $domain.".".$ext;
 
-            if ($subdomain == "www") {
-                return "en";
+            if ($subdomain == "www" && $full == rZeBotCommons::getMainPlataformDomain()) {
+                return true;
+            }else if ($subdomain == "accounts" && $full == rZeBotCommons::getMainPlataformDomain()) {
+                return false;
             }
 
-            $language = Language::where('code', $subdomain)
-                ->where('status', 1)
-                ->first();
+        }
 
-            if ($language) {
-                return $language->code;
+        if (count($parts) == 2) {
+            $domain    = $parts[0];
+            $ext       = $parts[1];
+            $full = $domain.".".$ext;
+
+            if ($full == rZeBotCommons::getMainPlataformDomain()) {
+                return true;
+            }
+        }
+
+        return false;
+
+    }
+
+    static function getSiteFromHost() {
+        $urlData = parse_url($_SERVER["HTTP_HOST"]);
+        $path = $urlData["path"];
+
+        $parts = explode(".", $path);
+
+        if (count($parts) == 2 && $_SERVER["HTTP_HOST"] === rZeBotCommons::getMainPlataformDomain()) {
+            // ----------------------------------- Dominio de la propia plataforma formato 'domain.com'
+            return false;
+        } elseif (count($parts) == 2 && $_SERVER["HTTP_HOST"] != rZeBotCommons::getMainPlataformDomain()) {
+            // ----------------------------------- Dominio externo formato 'domain.com'
+            $domain = $parts[0];
+            $ext = $parts[1];
+            $fullDomain = $domain . "." . $ext;
+
+            return Site::where('name', $fullDomain)->first();
+
+        } elseif (count($parts) == 3 && $parts[0] == 'www' && $_SERVER["HTTP_HOST"] === "www.".rZeBotCommons::getMainPlataformDomain()) {
+            // ----------------------------------- Dominio de la propia plataforma formato 'www.domain.com'
+            return false;
+        } elseif (count($parts) == 3 && $parts[0] == 'www' && $_SERVER["HTTP_HOST"] != "www.".rZeBotCommons::getMainPlataformDomain()) {
+            // ----------------------------------- Dominio externo formato 'www.domain.com'
+            $domain = $parts[1];
+            $ext    = $parts[2];
+            $fullDomain = $domain.".".$ext;
+
+            $site = Site::where('domain', $fullDomain)->first();
+            if (!$site) {
+                return false;
+            } else {
+                return $site;
+            }
+        } elseif (count($parts) == 3 && $parts[0] !== 'www' && $_SERVER["HTTP_HOST"] != "www.".rZeBotCommons::getMainPlataformDomain()) {
+            // ----------------------------------- Subdominio de la plataforma formato 'subdominio.plataforma.com'
+            $subdomain = $parts[0];
+            $site = Site::where('name', $subdomain)->first();
+
+            if (!$site) {
+                return false;
+            } else {
+                return $site;
             }
 
+        } elseif (count($parts) > 3) {
             return false;
         }
 
-        // assassinsporn.com
-        if (count($parts) == 2) {
-            return "en";
-        }
+        // subdomain.assassinsporn.com
+//        if (count($parts) == 3) {
+//            $subdomain = $parts[0];
+//            $domain    = $parts[1];
+//            $ext       = $parts[2];
+//            $full = $domain.".".$ext;
+//
+//            if ($subdomain == "www" && $full == rZeBotCommons::getMainPlataformDomain()) {
+//                return false;
+//            }else if ($subdomain == "accounts" && $full == rZeBotCommons::getMainPlataformDomain()) {
+//                return false;
+//            } else {
+//                // profile domain
+//                if ($subdomain == "www") {
+//                    $site = Site::where('domain', '=', $full)->first();
+//
+//                    if ($site) {
+//                        return $site;
+//                    } else {
+//                        abort(404, "Site not Found");
+//                    }
+//                } else {
+//                    // profile subdomain
+//                    $site = Site::where('name', '=', $subdomain)->first();
+//
+//                    if ($site) {
+//                        return $site;
+//                    } else {
+//                        abort(404, "Site not Found");
+//                    }
+//
+//                }
+//            }
+//
+//        }
+//
+//        if (count($parts) == 2) {
+//            $domain    = $parts[0];
+//            $ext       = $parts[1];
+//            $full = $domain.".".$ext;
+//
+//            if ($full == rZeBotCommons::getMainPlataformDomain()) {
+//                return false;
+//            } else {
+//                $site = Site::where('domain', '=', $full)->first();
+//
+//                if (!$site) {
+//                    abort(404, "Site not Found");
+//                } else {
+//                    return $site;
+//                }
+//            }
+//        }
 
         return false;
     }
@@ -181,7 +289,7 @@ class rZeBotUtils
         return $tags;
     }
 
-    static public function parseCSVLine($feed, $fileCSV, $max, $mapped_colums, $feed_config, $tags, $categories, $only_update, $rate, $minViews, $minDuration, $default_status, $test)
+    static public function parseCSVLine($site_id, $feed, $fileCSV, $max, $mapped_colums, $feed_config, $tags, $categories, $only_update, $rate, $minViews, $minDuration, $default_status, $test)
     {
         $fila = 1;
         $languages = Language::all();
@@ -382,6 +490,7 @@ class rZeBotUtils
                         $scene->thumbs     = utf8_encode(json_encode($video["thumbs"]));
                         $scene->duration   = $video["duration"];
                         $scene->rate       = $video["rate"];
+                        $scene->site_id    = $site_id;
                         $scene->save();
 
                         //translations
@@ -405,8 +514,9 @@ class rZeBotUtils
                                 //echo "TAG: creando tag en la colección" . PHP_EOL;
                                 $tag = new Tag();
                                 $tag->status = 2;
+                                $tag->site_id = $site_id;
                                 $tag->save();
-                                $tag_id=$tag->id;
+                                $tag_id = $tag->id;
 
                                 // tag translations
                                 foreach ($languages as $language) {
@@ -426,9 +536,6 @@ class rZeBotUtils
                                 $tag_id = $tagTranslation->tag_id;
                                 //echo "TAG: ya existente en la colección" . PHP_EOL;
                             }
-
-
-
 
                             $sceneTag = new SceneTag();
                             $sceneTag->scene_id = $scene->id;
@@ -450,6 +557,7 @@ class rZeBotUtils
                                 $category = new Category();
                                 $category->status = 1;
                                 $category->text   = $categoryTxt;
+                                $category->site_id = $site_id;
                                 $category->save();
                                 $category_id=$category->id;
 
@@ -485,11 +593,6 @@ class rZeBotUtils
 
             fclose($gestor);
         }
-    }
-
-    public static function getDumpsFolder()
-    {
-        return env("DEFAULT_DUMPS_FOLDER", "../");
     }
 }
 

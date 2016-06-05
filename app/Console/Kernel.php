@@ -26,6 +26,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\rZeBotDuplicateLanguage::class,
         \App\Console\Commands\rZeBotScenesPublisher::class,
         \App\Console\Commands\rZeBotSyncFeeds::class,
+        \App\Console\Commands\rZeBotUpdateNumberScenesFromDumps::class,
     ];
 
     /**

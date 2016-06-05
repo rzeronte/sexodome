@@ -9,6 +9,11 @@ class Scene extends Model
 {
     protected $table = 'scenes';
 
+    public function site()
+    {
+        return $this->belongsTo('App\Model\Site');
+    }
+
     public function tags()
     {
         return $this->belongsToMany('App\Model\Tag', 'scene_tag', 'scene_id', 'tag_id');
@@ -37,12 +42,19 @@ class Scene extends Model
         return $scenes;
     }
 
-    static function getTranslationByPermalink($permalink, $language_id)
+    static function getTranslationByPermalink($permalink, $language_id, $site_id = false)
     {
-        return Scene::select('scenes.*', 'scene_translations.title', 'scene_translations.permalink')
+        $scene = Scene::select('scenes.*', 'scene_translations.title', 'scene_translations.permalink')
             ->join('scene_translations', 'scenes.id', '=', 'scene_translations.scene_id')
             ->where('scene_translations.language_id', $language_id)
-            ->where('scene_translations.permalink', 'like', $permalink)->first();
+            ->where('scene_translations.permalink', 'like', $permalink)
+        ;
+
+        if ($site_id !== false) {
+            $scene->where('site_id', '=', $site_id);
+        }
+
+        return $scene->first();
     }
 
     static function getTranslationByTitle($title, $language_id)
@@ -101,8 +113,15 @@ class Scene extends Model
         }
     }
 
-    static function getScenesForExporterSearch($query_string, $tag_query_string, $remote_scenes, $language, $duration, $publish_for, $scene_id, $category_id, $empty_title, $empty_description) {
-        $scenes = Scene::select('scenes.*', 'scene_translations.title', 'scene_translations.description', 'scene_translations.permalink')
+    static function getScenesForExporterSearch($query_string, $tag_query_string, $language, $duration, $publish_for, $scene_id, $category_id, $empty_title, $empty_description, $user_id = false) {
+        $scenes = Scene::select(
+            'scenes.*',
+            'scene_translations.title',
+            'scene_translations.description',
+            'scene_translations.permalink',
+            'channels.embed'
+            )
+            ->join('channels', 'channels.id', '=', 'scenes.channel_id')
             ->join('scene_translations', 'scenes.id', '=', 'scene_translations.scene_id')
             ->where('scene_translations.language_id', $language)
         ;
@@ -111,14 +130,8 @@ class Scene extends Model
             $scenes->where('scenes.id', $scene_id);
         }
 
-        if ($publish_for == "notpublished") {
-            $scenesPublished= Scene::select('scenes.id')
-                ->join('logpublish', 'logpublish.scene_id', '=', 'scenes.id')
-                ->groupBy('scenes.id')
-            ;
-
-            $ids = $scenesPublished->get();
-            $scenes->whereNotIn('scenes.id', $ids);
+        if ($publish_for !== "notpublished" && $publish_for != false) {
+            $scenes->where('scenes.site_id', '=', $publish_for);
         }
 
         if ($tag_query_string != "") {
@@ -154,12 +167,10 @@ class Scene extends Model
             $scenes->whereNull('scene_translations.description');
         }
 
-        if ($remote_scenes !== false) {
-            if (count($remote_scenes)) {
-                $scenes->whereIn('scenes.id', $remote_scenes);
-            } else {
-                $scenes->where('scenes.id', 0);
-            }
+        if ($user_id !== false) {
+            $scenes->join('sites', 'sites.id', '=', 'scenes.site_id')
+                ->where('sites.user_id', '=', $user_id)
+            ;
         }
 
         return $scenes;
@@ -203,4 +214,21 @@ class Scene extends Model
     {
         return $this->hasMany('App\Model\Logpublish');
     }
+
+    static function getTranslationsForCategory($category_permalink, $language_id)
+    {
+        return Scene::select('scenes.*', 'scene_translations.title', 'scene_translations.description', 'scene_translations.permalink')
+            ->join('scene_translations', 'scenes.id', '=', 'scene_translations.scene_id')
+            ->join('scene_category', 'scenes.id', '=', 'scene_category.scene_id')
+            ->join('categories', 'scene_category.category_id', '=', 'categories.id')
+            ->join('categories_translations', 'categories.id', '=', 'categories_translations.category_id')
+            ->where('categories_translations.permalink', 'like', $category_permalink)
+            ->where('categories_translations.language_id', $language_id)
+            ->where('scene_translations.language_id', $language_id)
+            ->whereNotNull('scene_translations.permalink')
+            ->whereNotNull('scene_translations.title')
+            ->orderBy('scenes.id', 'desc')
+            ;
+    }
 }
+

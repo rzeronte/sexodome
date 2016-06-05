@@ -40,4 +40,31 @@ class Category extends Model
 
         return $categories;
     }
+
+    static function getTranslationByStatus($status, $language_id)
+    {
+        $categories = Category::select('categories.*', 'categories_translations.name', 'categories_translations.permalink', 'categories_translations.thumb')
+            ->join('categories_translations', 'categories_translations.category_id', '=', 'categories.id')
+            ->where('categories_translations.language_id', $language_id)
+            ->where('categories.status',$status)
+            ->orderBy('categories_translations.name', 'asc');
+
+        return $categories;
+    }
+
+    public function countScenesLang($language_id)
+    {
+        return Scene::select('scenes.id')
+            ->join('scene_translations', 'scenes.id', '=', 'scene_translations.scene_id')
+            ->join('scene_category', 'scene_category.scene_id', '=', 'scenes.id')
+            ->join('categories', 'categories.id', '=', 'scene_category.category_id')
+            ->join('categories_translations', 'categories_translations.category_id', '=', 'scene_category.category_id')
+            ->where('categories_translations.language_id', '=', $language_id)
+            ->where('categories.id', '=', $this->id)
+            ->where('scene_translations.language_id', '=', $language_id)
+            ->whereNotNull('categories_translations.permalink')
+            ->whereNotNull('scene_translations.permalink')
+            ->whereNotNull('scene_translations.title')
+            ->count();
+    }
 }

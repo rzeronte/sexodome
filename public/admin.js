@@ -34,11 +34,79 @@ function clearAjaxCSS() {
 
 $( document ).ready(function() {
 
-    $( ".btn-show" ).click(function() {
+    $( ".google-show-info" ).click(function() {
+        $(this).parent().parent().parent().find('.detail-analytics').toggle('fast');
+    });
 
-        $( "#book" ).toggle( "slow", function() {
-            // Animation complete.
+    $( ".iframe-show-info" ).click(function() {
+        $(this).parent().parent().parent().find('.detail-iframe').toggle('fast');
+    });
+
+    $( ".logo-show-info" ).click(function() {
+        $(this).parent().parent().parent().find('.detail-logo').toggle('fast');
+    });
+
+    $( ".form-update-google-data" ).submit(function( event ) {
+        var action = $(this).attr("action");
+        var form = $(this);
+
+        $.ajax({
+            url: action,
+            data: $(this).serialize(),
+            method: 'post'
+        }).done(function( data ) {
+            jsonData = $.parseJSON(data);
+            if (jsonData["status"] == true) {
+                $('.modal .modal-body').html("<div class='alert alert-success' role='alert'>Google info saved successful</div>");
+            } else {
+                $('.modal .modal-body').html("<div class='alert alert-danger' role='alert'>Have an error! Try in a few minutes...</div>");
+            }
+            $('.modal').modal()
+
         });
+        event.preventDefault();
+    });
+
+    $( ".form-update-iframe-data" ).submit(function( event ) {
+        var action = $(this).attr("action");
+        var form = $(this);
+
+        $.ajax({
+            url: action,
+            data: $(this).serialize(),
+            method: 'post'
+        }).done(function( data ) {
+            jsonData = $.parseJSON(data);
+            if (jsonData["status"] == true) {
+                $('.modal .modal-body').html("<div class='alert alert-success' role='alert'>IFrame saved successful</div>");
+            } else {
+                $('.modal .modal-body').html("<div class='alert alert-danger' role='alert'>Have an error! Try in a few minutes...</div>");
+            }
+            $('.modal').modal()
+
+        });
+        event.preventDefault();
+    });
+
+    $( ".submit-feed-site-form" ).submit(function( event ) {
+        var action = $(this).attr("action");
+        var form = $(this);
+
+        $.ajax({
+            url: action,
+            data: $(this).serialize(),
+            method: 'post'
+        }).done(function( data ) {
+            jsonData = $.parseJSON(data);
+            if (jsonData["status"] == true) {
+                $('.modal .modal-body').html("<div class='alert alert-success' role='alert'>Your jobs is queued successful</div>");
+            } else {
+                $('.modal .modal-body').html("<div class='alert alert-danger' role='alert'>Your job cant be queued, try in a few seconds...</div>");
+            }
+            $('.modal').modal()
+
+        });
+        event.preventDefault();
     });
 
     $( ".ajax-form" ).submit(function( event ) {
@@ -167,4 +235,89 @@ $( document ).ready(function() {
         });
     });
 
+    $( "#add_site_type" ).change(function() {
+        if ($(this).val() == 0) {
+            $('.div_input_domain').hide();
+            $(".div_input_domain :input").prop('required', null);
+            $(".div_input_name :input").prop('required', true);
+            $('.div_input_name').show();
+        } else {
+            $('.div_input_domain').show();
+            $('.div_input_name').hide();
+            $(".div_input_domain :input").prop('required', true);
+            $(".div_input_name :input").prop('required', null);
+        }
+    });
+
+
+
+
+    console.log("[DEBUG] All load");
 });
+
+function checkSubdomain(me) {
+    var subdomain = $(me).val();
+
+    if (subdomain.length <=3) {
+        $(".result_subdomain").html('min. 3 characters');
+        return false;
+    }
+
+    var action = $("#form_check_subdomain").attr("action");
+    $("#form_check_subdomain .subdomain").val(subdomain);
+
+    $.ajax({
+        url: action,
+        data: $("#form_check_subdomain").serialize(),
+        method: 'post'
+    }).done(function( data ) {
+        jsonData = $.parseJSON(data);
+        if (jsonData["status"] == true) {
+            $(".result_subdomain").html('<p>Subdomain is <b>available</b></p>');
+            $(".result_subdomain").removeClass('check_domain_ok');
+            $(".result_subdomain").removeClass('check_domain_ko');
+
+            $(".result_subdomain").addClass('check_domain_ok');
+        } else {
+            $(".result_subdomain").html('<p>Subdomain is <b>unavailable</b></p>');
+            $(".result_subdomain").removeClass('check_domain_ko');
+            $(".result_subdomain").removeClass('check_domain_ko');
+
+            $(".result_subdomain").addClass('check_domain_ko');
+        }
+    });
+}
+
+function checkDomain(me) {
+    var domain = $(me).val();
+
+    if (domain.length <=3) {
+        $(".result_domain").html('min. 3 characters');
+        return false;
+    }
+
+    var action = $("#form_check_domain").attr("action");
+    $("#form_check_domain .domain").val(domain);
+
+    $.ajax({
+        url: action,
+        data: $("#form_check_domain").serialize(),
+        method: 'post'
+    }).done(function( data ) {
+        jsonData = $.parseJSON(data);
+        if (jsonData["status"] == true) {
+            $(".result_domain").html('<p>Domain is <b>available</b></p>');
+            $(".result_domain").removeClass('check_domain_ok');
+            $(".result_domain").removeClass('check_domain_ko');
+
+            $(".result_domain").addClass('check_domain_ok');
+        } else {
+            $(".result_domain").html('<p>Domain is <b>unavailable</b></p>');
+            $(".result_domain").removeClass('check_domain_ko');
+            $(".result_domain").removeClass('check_domain_ko');
+
+            $(".result_domain").addClass('check_domain_ko');
+        }
+    });
+
+}

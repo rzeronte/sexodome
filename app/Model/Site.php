@@ -12,7 +12,13 @@ class Site extends Model
 
     public function tags()
     {
-        return $this->belongsToMany('App\Model\Tag', 'site_tagtiers', 'site_id', 'tag_id');
+        return $this->belongsToMany('App\Model\Tag', 'site_tag', 'site_id', 'tag_id');
+    }
+
+
+    public function categories()
+    {
+        return $this->belongsToMany('App\Model\Category', 'site_category', 'site_id', 'category_id');
     }
 
     public function getAnalytics($fi, $ff)
@@ -23,5 +29,20 @@ class Site extends Model
         ;
 
         return $analytics;
+    }
+
+    static function hasCategory($category_id, $site_id)
+    {
+        $category = Site::select('sites.*')
+            ->join('site_category', 'site_category.site_id', '=', 'sites.id')
+            ->join('categories', 'categories.id', '=', 'site_category.category_id')
+            ->where('site_category.site_id', $site_id)
+            ->where('categories.id', $category_id)->count();
+
+        if ($category > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

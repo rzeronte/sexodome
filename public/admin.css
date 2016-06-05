@@ -1,3 +1,7 @@
+body{
+    background-color: #f5f5f5;
+}
+
 .tag-editor {
     border: solid 1px darkgray;
     margin-bottom: 5px;
@@ -7,4 +11,12 @@ hr{
     padding:0;
     margin:5px;
 
+}
+
+.check_domain_ok {
+    color: green;
+}
+
+.check_domain_ko {
+    color: red;
 }

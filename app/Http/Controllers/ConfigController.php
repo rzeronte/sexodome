@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App;
 use DB;
+use Doctrine\Instantiator\Exception\InvalidArgumentException;
+use okw\CF\Exception\CFException;
 use Request;
 use Spatie\LaravelAnalytics\LaravelAnalyticsFacade;
+use Symfony\Component\Debug\ExceptionHandler;
 use Validator;
 use Input;
 use Session;
@@ -16,7 +19,6 @@ use App\Model\Scene;
 use App\Model\SceneTranslation;
 use App\Model\Category;
 use App\Model\CategoryTranslation;
-use App\Model\SceneClick;
 use App\Model\SceneTag;
 use App\Model\Tag;
 use App\Model\TagTranslation;
@@ -24,52 +26,36 @@ use App\Model\Origin;
 use App\Model\Language;
 use App\Model\SceneTagTier;
 use App\Model\LanguageTag;
-use App\Model\TagClick;
 use App\Model\Tweet;
 use App\Model\Zone;
 use App\Model\Ad;
 use App\Model\Site;
 use App\Model\Logpublish;
-use App\rZeBot\rZeBotUtils;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
+use App\Model\SiteCategory;
+use App\Jobs\importScenesFromFeed;
+use Illuminate\Support\Facades\Log;
+use okw\CF\CF;
+use Auth;
+use App\rZeBot\rZeBotCommons;
 
 class ConfigController extends Controller
 {
-    private $language;
-    private $languages;
-    private $locale;
-    private $perPageScenes;
-    private $sites;
+    var $commons;
 
     public function __construct()
     {
-        $locale = Route::current()->getParameter('locale', "es");
+        $this->commons = new rZeBotCommons();
 
-        App::setLocale($locale);
-
-        // set locale
-        $this->locale = $locale;
-
-        // current language
-        $this->language = Language::where('code', 'like', $locale)->first();
-        // all valid languages
-        $this->languages = Language::where('status', 1)->get();
-
-        // results per page
-        $this->perPageTags = 50;
-        $this->perPageScenes = 10;
-
-        //sites
-        $this->sites = Site::all();
+        $this->middleware('auth');
     }
 
     public function home()
     {
-        return redirect()->route('content', ['locale' => "es"]);
+        return redirect()->route('sites', ['locale' => $this->commons->locale]);
     }
 
-    public function index($locale)
+    public function index()
     {
         $query_string = Request::get('q');
         $tag_query_string = Request::get('tag_q');
@@ -80,67 +66,74 @@ class ConfigController extends Controller
         $empty_title = (Request::get('empty_title') == "on")?true:false;
         $empty_description = (Request::get('empty_description') == "on")?true:false;
 
-        $remote_scenes = false;
-        if ($publish_for && $publish_for !== 'notpublished') {
-            $remote_scenes = Scene::getRemoteSceneIdsFor($publish_for);
-        }
-
         $scenes = Scene::getScenesForExporterSearch(
             $query_string,
             $tag_query_string,
-            $remote_scenes,
-            $this->language->id,
+            $this->commons->language->id,
             $duration,
             $publish_for,
             $scene_id,
             $category_id,
             $empty_title,
-            $empty_description
+            $empty_description,
+            Auth::user()->id
         );
 
-        return view('index', [
-            'scenes'       => $scenes->orderBy('scenes.id', 'desc')->paginate($this->perPageScenes),
-            'total_scenes' => $scenes->orderBy('scenes.id', 'desc')->count(),
+        return view('panel.index', [
+            'scenes'       => $scenes->orderBy('scenes.id', 'desc')->paginate($this->commons->perPageScenes),
             'query_string' => $query_string,
             'tag_q'        => $tag_query_string,
             'publish_for'  => $publish_for,
-            'language'     => $this->language,
-            'languages'    => $this->languages,
-            'locale'       => $this->locale,
+            'language'     => $this->commons->language,
+            'languages'    => $this->commons->languages,
+            'locale'       => $this->commons->locale,
             'title'        => "Admin Panel",
-            'sites'        => $this->sites,
+            'sites'        => $this->commons->sites,
             'duration'     => $duration,
             'categories'   => Category::all()
         ]);
     }
 
-    public function tags($locale)
+    public function tags($locale, $site_id)
     {
         $query_string = Request::get('q');
 
-        $tags = Tag::getTranslationSearch($query_string, $this->language->id);
+        $site = Site::find($site_id);
+        if (!$site) {
+            abort(404, "Site not found");
+        }
 
-        return view('tags', [
-            'tags'         => $tags->paginate($this->perPageScenes),
+        $tags = Tag::getTranslationSearch($query_string, $this->commons->language->id);
+
+
+        return view('panel.tags', [
+            'site'         => $site,
+            'tags'         => $tags->paginate($this->commons->perPageScenes),
             'query_string' => $query_string,
-            'language'     => $this->language,
-            'languages'    => $this->languages,
-            'locale'       => $this->locale,
+            'language'     => $this->commons->language,
+            'languages'    => $this->commons->languages,
+            'locale'       => $this->commons->locale,
         ]);
     }
 
-    public function categories($locale)
+    public function categories($locale, $site_id)
     {
         $query_string = Request::get('q');
 
-        $categories = Category::getTranslationSearch($query_string, $this->language->id);
+        $site = Site::find($site_id);
+        if (!$site) {
+            abort(404, "Site not found");
+        }
 
-        return view('categories', [
-            'categories'   => $categories->paginate($this->perPageScenes),
+        $categories = Category::getTranslationSearch($query_string, $this->commons->language->id);
+
+        return view('panel.categories', [
+            'site'         => $site,
+            'categories'   => $categories->paginate($this->commons->perPageScenes),
             'query_string' => $query_string,
-            'language'     => $this->language,
-            'languages'    => $this->languages,
-            'locale'       => $this->locale,
+            'language'     => $this->commons->language,
+            'languages'    => $this->commons->languages,
+            'locale'       => $this->commons->locale,
         ]);
     }
 
@@ -160,18 +153,18 @@ class ConfigController extends Controller
         }
 
         return redirect()->route('tags', [
-            'language'     => $this->language,
-            'languages'    => $this->languages,
-            'locale'       => $this->locale,
+            'language'  => $this->commons->language,
+            'languages' => $this->commons->languages,
+            'locale'    => $this->commons->locale,
         ]);
     }
 
     public function saveTagTranslation($locale, $tag_id)
     {
-        $name = Request::input('language_' . $this->language->id);
+        $name = Request::input('language_' . $this->commons->language->id);
 
         $tagTranslation = TagTranslation::where('tag_id', $tag_id)
-            ->where('language_id', $this->language->id)
+            ->where('language_id', $this->commons->language->id)
             ->first();
 
         $tagTranslation->name = $name;
@@ -183,23 +176,15 @@ class ConfigController extends Controller
         $tag->save();
 
         // response json if ajax request
-        if(Request::ajax()) {
-            return json_encode(array('status'=>1));
-        } else {
-            return redirect()->route('tags', [
-                'locale' => $this->locale,
-                'q'      => Request::get("q"),
-                'page'   => Request::get("page")
-            ]);
-        }
+        return json_encode(array('status'=>1));
     }
 
     public function saveCategoryTranslation($locale, $category_id)
     {
-        $name = Request::input('language_' . $this->language->id);
+        $name = Request::input('language_' . $this->commons->language->id);
 
         $categoryTranslation =  CategoryTranslation::where('category_id', $category_id)
-            ->where('language_id', $this->language->id)
+            ->where('language_id', $this->commons->language->id)
             ->first();
 
         $categoryTranslation->name = $name;
@@ -213,128 +198,35 @@ class ConfigController extends Controller
         // response json if ajax request
         if(Request::ajax()) {
             return json_encode(array('status'=>1));
-        } else {
-            return redirect()->route('categories', [
-                'locale' => $this->locale,
-                'q'      => Request::get("q"),
-                'page'   => Request::get("page")
-            ]);
         }
-    }
-
-    public function tagsCount($locale)
-    {
-        $query_string = Request::get('q');
-        $tags = Tag::getTranslationSearch($query_string, $this->language->id);
-        $tag_query_string = Request::get('tag_q');
-
-        return view('tags', [
-            'tags'       => $tags->paginate($this->perPageTags),
-            'query_string' => $query_string,
-            'tag_q'        => $tag_query_string,
-            'language'     => $this->language,
-            'languages'    => $this->languages,
-            'locale'       => $this->locale,
-            'title'        => "Admin Panel",
-            'sites'        => $this->sites
-        ]);
-
     }
 
     public function changeLocale($locale)
     {
         App::setLocale($locale);
 
-        return redirect()->route('content', ['locale' => $this->locale]);
+        return redirect()->route('content', ['locale' => $this->commons->locale]);
     }
 
     public function exportScene($locale, $scene_id)
     {
         $scene = Scene::find($scene_id);
-        $database = Request::input('database');
+        $site_id = Request::input('site_id');
 
-        $logdatabase = $scene->logspublish()->where('site', $database)->count();
+        $logdatabase = $scene->logspublish()->where('site', $site_id)->count();
 
         if ($logdatabase == 0) {
             $log = new Logpublish();
             $log->scene_id = $scene->id;
-            $log->site = $database;
+            $log->site = $site_id;
             $log->save();
         }
 
-        $languages = Language::all();
-
-        $sql = "SELECT * FROM scenes WHERE id = ".$scene->id;
-        $domain_scene = DB::connection($database)->select($sql);
-
-        if (!$domain_scene) {
-            $values = array(
-                $scene->id,
-                $scene->preview,
-                $scene->thumbs,
-                (!strlen($scene->thumb_index)?"NULL": $scene->thumb_index),
-                $scene->iframe,
-                1,
-                $scene->duration,
-                $scene->rate,
-                $scene->channel_id,
-                date("Y-m-d H:i:s"),
-                date("Y-m-d H:i:s"),
-                date("Y-m-d H:i:s"),
-            );
-
-            $sql_insert = 'insert into scenes (id, preview, thumbs, thumb_index, iframe, status, duration, rate, channel_id, created_at, updated_at, published_at) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-            DB::connection($database)->insert($sql_insert, $values);
-
-            foreach ($languages as $lang) {
-                $translation = $scene->translations()->where('language_id', $lang->id)->first();
-
-                $values = array(
-                    $translation->id,
-                    $scene->id,
-                    $lang->id,
-                    ($translation->title != "") ? $translation->title : null,
-                    ($translation->permalink != "") ? $translation->permalink : null,
-                    ($translation->description != "") ? $translation->description : null,
-                );
-
-                DB::connection($database)->insert('insert into scene_translations (id, scene_id, language_id, title, permalink, description) values (?, ?, ?, ?, ?, ?)', $values);
-            }
-            $this->syncSceneTags($database, $scene, $domain_scene);
-            $this->syncSceneCategories($database, $scene, $domain_scene);
-
-        } else {
-            $sql_update = "UPDATE scenes SET status=".$scene->status . ",
-                               preview = '".$scene->preview."',
-                               thumbs = '".$scene->thumbs."',
-                               thumb_index = ".(!strlen($scene->thumb_index)?"NULL": $scene->thumb_index).",
-                               iframe = '".$scene->iframe."',
-                               status = 1,
-                               rate = ".$scene->rate.",
-                               updated_at = '".date('Y-m-d H:i:s')."',
-                               published_at = '".date('Y-m-d H:i:s')."'
-                                WHERE id=".$scene->id;
-
-            DB::connection($database)->update($sql_update);
-
-            foreach ($languages as $lang) {
-                $translation = $scene->translations()->where('language_id', $lang->id)->first();
-
-                $sql_update = "UPDATE scene_translations SET
-                            scene_id=" . $scene->id . ",
-                            language_id=" . $lang->id. ",
-                            title=" . DB::connection()->getPdo()->quote((($translation->title != "") ? $translation->title : "")). ",
-                            permalink=" . DB::connection()->getPdo()->quote((($translation->permalink != "") ? $translation->permalink : "")) . ",
-                            description=" . DB::connection()->getPdo()->quote((($translation->description != "") ? $translation->description : "")) . "
-                            where id=" . $translation->id;
-                DB::connection($database)->update($sql_update);
-            }
-            $this->syncSceneTags($database, $scene, $domain_scene);
-            $this->syncSceneCategories($database, $scene, $domain_scene);
-        }
+        $scene->status=1;
+        $scene->save();
 
         return redirect()->route('content', [
-            'locale' => $this->locale,
+            'locale' => $this->commons->locale,
             'q'      => Request::get("q"),
             'tag_q'  => Request::get("tag_q"),
             'page'   => Request::get("page")
@@ -395,7 +287,7 @@ class ConfigController extends Controller
         $categories_string = explode(",", $categories_string);
 
         $sceneTranslation = SceneTranslation::where('scene_id', $scene_id)
-            ->where('language_id', $this->language->id)
+            ->where('language_id', $this->commons->language->id)
             ->first();
 
         $scene = Scene::find($scene_id);
@@ -413,7 +305,7 @@ class ConfigController extends Controller
             DB::connection('mysql')->table('scene_tag')->where('scene_id', $scene_id)->delete();
             foreach($tags_string as $tag_string) {
                 // Si no tiene el tag, lo asociamos
-                $tag = Tag::getTranslationByName($tag_string, $this->language->id)->first();
+                $tag = Tag::getTranslationByName($tag_string, $this->commons->language->id)->first();
                 if (!Scene::hasTag($scene_id, $tag->id)) {
                     $tagScene = new SceneTag();
                     $tagScene->scene_id = $scene_id;
@@ -426,7 +318,7 @@ class ConfigController extends Controller
             DB::connection('mysql')->table('scene_category')->where('scene_id', $scene_id)->delete();
             foreach($categories_string as $category_string) {
                 // Si no tiene la categoría, lo asociamos
-                $category = Category::getTranslationByName($category_string, $this->language->id)->first();
+                $category = Category::getTranslationByName($category_string, $this->commons->language->id)->first();
                 if (!Scene::hasCategory($scene_id, $category->id)) {
                     $categoryScene = new App\Model\SceneCategory();
                     $categoryScene->scene_id = $scene_id;
@@ -445,40 +337,10 @@ class ConfigController extends Controller
         }
     }
 
-    public function stats()
-    {
-        $scenes = Scene::getAllTranslated($this->language->id)->get();
-        $sentences = App\Model\Sentence::all();
-
-        $amountTitle = "";
-        foreach ($sentences as $scene) {
-            $amountTitle.=$scene->sentence;
-        }
-
-        $words = explode(" ", $amountTitle);
-//        $words2 = [];
-//        foreach ($words as $w) {
-//            if (strlen($w) >=4) {
-//                $words2[] = $w;
-//            }
-//        }
-        $words = array_count_values($words);
-        arsort($words);
-
-        return view('stats', [
-            'language'  => $this->language,
-            'languages' => $this->languages,
-            'locale'    => $this->locale,
-            'title'     => "Admin Panel",
-            'sites'     => $this->sites,
-            'words'     => $words
-        ]);
-    }
-
     public function ajaxTags($locale)
     {
         $term = Request::get('term');
-        $tags = Tag::getTranslationSearch($term, $this->language->id)->get();
+        $tags = Tag::getTranslationSearch($term, $this->commons->language->id)->get();
 
         $select_tags = [];
         foreach($tags as $tag) {
@@ -491,7 +353,7 @@ class ConfigController extends Controller
     public function ajaxCategories($locale)
     {
         $term = Request::get('term');
-        $categories = Category::getTranslationSearch($term, $this->language->id)->get();
+        $categories = Category::getTranslationSearch($term, $this->commons->language->id)->get();
 
         $select_categories = [];
         foreach($categories as $category) {
@@ -503,22 +365,49 @@ class ConfigController extends Controller
 
     public function scenePreview($locale, $scene_id)
     {
-
         $scene = Scene::find($scene_id);
 
         if (!$scene) {
             abort("404", "Scene not found");
         }
 
-        return view('_ajax_preview', [
-            'language'     => $this->language,
-            'languages'    => $this->languages,
-            'locale'       => $this->locale,
+        return view('panel._ajax_preview', [
+            'language'     => $this->commons->language,
+            'languages'    => $this->commons->languages,
+            'locale'       => $this->commons->locale,
             'title'        => "Admin Panel",
-            'sites'        => $this->sites,
+            'sites'        => $this->commons->sites,
             'scene'        => $scene
         ]);
 
+    }
+
+    public function fetch()
+    {
+        if (Request::isMethod('post')) {
+
+            $queueParams = [
+                'feed_name' => Input::get('feed_name'),
+                'site_id'   => Input::get('site_id'),
+                'max'       => Input::get('max'),
+                'duration'  => Input::get('duration')
+            ];
+
+            try {
+                $job = (new importScenesFromFeed($queueParams));
+                $this->dispatch($job);
+
+                return json_encode(['status' => true]);
+
+            } catch(\Exception $e) {
+                Log::info('[ERROR Al lanzar importScenesFromFeed]');
+
+                return json_encode(['status' => false]);
+            }
+
+        }
+
+        return json_encode(['status' => false]);
     }
 
     public function sites()
@@ -526,64 +415,14 @@ class ConfigController extends Controller
         $ff = date("Y-m-d");
         $fi = date("Y-m-d", strtotime($ff." -7 days"));
 
-        if (Request::isMethod('post')) {
-
-            //sites
-            foreach($this->sites as $site) {
-                DB::connection('mysql')
-                    ->table('site_tagtiers')
-                    ->where('site_id', $site->id)
-                    ->delete()
-                ;
-
-                $site->ga_account = Request::input('ga_view_'.$site->id);
-                $site->iframe_site_id = (Request::input('iframe_site_id_'.$site->id) != "") ? Request::input('iframe_site_id_'.$site->id) : null;
-                $site->save();
-
-                // sync remote databases for iframe
-                if ($site->iframe_site_id != null) {
-                    $src = Site::find($site->iframe_site_id)->domain;
-                } else {
-                    $src = null;
-                }
-
-                DB::connection($site->name)->table('languages')->update([
-                    'iframe_src' => $src
-                ]);
-            }
-        }
-
-        return view('sites', [
-            'language'     => $this->language,
-            'languages'    => $this->languages,
-            'locale'       => $this->locale,
-            'title'        => "Admin Panel",
-            'sites'        => $this->sites,
-            'fi'           => $fi,
-            'ff'           => $ff,
-        ]);
-    }
-
-    public function tagTiersInfo($locale)
-    {
-        $site_name = Request::input("site"); // sitename == database name
-
-        $site = Site::where('name', $site_name)->first();
-
-        if (!$site) {
-            abort(404, 'Site not found');
-        }
-
-        $tier1 = $site->tags()->where('tipo', 'tier1')->get();
-        $tier2 = $site->tags()->where('tipo', 'tier2')->get();
-        $tier3 = $site->tags()->where('tipo', 'tier3')->get();
-
-        return view('_ajax_tagtiers', [
-            'tier1'     => $tier1,
-            'tier2'     => $tier2,
-            'tier3'     => $tier3,
-            'language'  => $this->language,
-            'database'  => $site_name
+        return view('panel.sites', [
+            'language'  => $this->commons->language,
+            'languages' => $this->commons->languages,
+            'locale'    => $this->commons->locale,
+            'title'     => "Admin Panel",
+            'sites'     => $this->commons->sites,
+            'fi'        => $fi,
+            'ff'        => $ff,
         ]);
     }
 
@@ -595,10 +434,10 @@ class ConfigController extends Controller
             abort(404, 'Scene not found');
         }
 
-        return view('_ajax_publication_info', [
+        return view('panel._ajax_publication_info', [
             'scene'     => $scene,
-            'language'  => $this->language,
-            'languages' => $this->languages
+            'language'  => $this->commons->language,
+            'languages' => $this->commons->languages
         ]);
     }
 
@@ -612,10 +451,10 @@ class ConfigController extends Controller
 
         $keywords = LaravelAnalyticsFacade::setSiteId('ga:'.$site->ga_account)->getTopKeyWords(90, $maxResults = 30);
 
-        return view('_ajax_site_keywords', [
+        return view('panel._ajax_site_keywords', [
             'keywords' => $keywords,
-            'language'  => $this->language,
-            'languages' => $this->languages
+            'language'  => $this->commons->language,
+            'languages' => $this->commons->languages
         ]);
     }
 
@@ -629,10 +468,10 @@ class ConfigController extends Controller
 
         $referrers= LaravelAnalyticsFacade::setSiteId('ga:'.$site->ga_account)->getTopReferrers(90, $maxResults = 30);
 
-        return view('_ajax_site_referrers', [
+        return view('panel._ajax_site_referrers', [
             'referrers' => $referrers,
-            'language'  => $this->language,
-            'languages' => $this->languages
+            'language'  => $this->commons->language,
+            'languages' => $this->commons->languages
         ]);
 
     }
@@ -647,10 +486,10 @@ class ConfigController extends Controller
 
         $pageViews = LaravelAnalyticsFacade::setSiteId('ga:'.$site->ga_account)->getMostVisitedPages(90, $maxResults = 30);
 
-        return view('_ajax_site_pageviews', [
+        return view('panel._ajax_site_pageviews', [
             'pageViews' => $pageViews,
-            'language'  => $this->language,
-            'languages' => $this->languages
+            'language'  => $this->commons->language,
+            'languages' => $this->commons->languages
         ]);
     }
 
@@ -661,10 +500,10 @@ class ConfigController extends Controller
             abort(404, "Not found");
         }
 
-        return view('_ajax_scene_thumbs', [
+        return view('panel._ajax_scene_thumbs', [
             'scene'     => $scene,
-            'language'  => $this->language,
-            'languages' => $this->languages
+            'language'  => $this->commons->language,
+            'languages' => $this->commons->languages
         ]);
     }
 
@@ -696,10 +535,10 @@ class ConfigController extends Controller
             ]);
         }
 
-        return view('_ajax_spin_scene', [
+        return view('panel._ajax_spin_scene', [
             'scene'               => $scene,
-            'language'            => $this->language,
-            'languages'           => $this->languages,
+            'language'            => $this->commons->language,
+            'languages'           => $this->commons->languages,
             'exitCodeTitle'       => $exitCodeTitle,
             'exitCodeDescription' => $exitCodeDescription
         ]);
@@ -709,11 +548,303 @@ class ConfigController extends Controller
     {
         $channels = App\Model\Channel::all();
 
-        return view('feeds', [
+        return view('panel.feeds', [
             'channels'  => $channels,
-            'locale'    => $this->locale,
-            'language'  => $this->language,
-            'languages' => $this->languages,
+            'sites'     => $this->commons->sites,
+            'locale'    => $this->commons->locale,
+            'language'  => $this->commons->language,
+            'languages' => $this->commons->languages,
         ]);
+    }
+
+    public function site($locale, $site_id)
+    {
+        $site = Site::find($site_id);
+
+        if (!$site) {
+            abort(404, "Site not found");
+        }
+
+        if (Request::isMethod('post')) {
+            $site->title_index = Request::input('title_index');
+            $site->title_category = Request::input('title_category');
+            $site->title_tag = Request::input('title_tag');
+            $site->title_topscenes = Request::input('title_topscenes');
+
+            $site->description_index = Request::input('description_index');
+            $site->description_category = Request::input('description_category');
+            $site->description_tag = Request::input('description_tag');
+            $site->description_topscenes = Request::input('description_topscenes');
+
+            $site->domain = Request::input('domain');
+            $site->head_billboard = Request::input('head_billboard');
+            $site->google_analytics = Request::input('google_analytics');
+            $site->save();
+        }
+
+        $category_query_string = Request::input('category_query_string');
+
+        if ($category_query_string) {
+            $categories = Category::getTranslationSearch($category_query_string, $this->language->id)
+                ->paginate($this->commons->perPageTags)
+            ;
+        } else {
+            $categories = Category::paginate($this->commons->perPageTags);
+        }
+
+        return view('panel.site', [
+            'site'         => $site,
+            'categories'   => $categories,
+            'query_string' => "",
+            'language'     => $this->commons->language,
+            'languages'    => $this->commons->languages,
+            'locale'       => $this->commons->locale,
+            'title'        => "Admin Panel",
+        ]);
+    }
+
+    public function removeCategory($locale, $category_id, $site_id)
+    {
+        $siteCategory = SiteCategory::where('category_id', $category_id)->where('site_id', $site_id)->first();
+        $siteCategory->delete();
+
+        return redirect()->route('site', ['locale' => $this->locale, $site_id]);
+    }
+
+    public function addCategory($locale, $category_id, $site_id)
+    {
+        $category = Category::find($category_id);
+
+        // check if already exists
+        if (Site::hasCategory($category->id, $site_id)) {
+            Request::session()->flash('error', 'Category already exists!');
+        } else {
+            Request::session()->flash('success', 'Category added!');
+            $newSiteCategory = new SiteCategory();
+            $newSiteCategory->site_id = $site_id;
+            $newSiteCategory->category_id = $category->id;
+            $newSiteCategory->save();
+        }
+
+        return redirect()->route('site', [
+            'locale'  => $this->commons->locale,
+            'site_id' => $site_id,
+            'page'    => Request::input('page')
+        ]);
+    }
+
+    public function addSite($locale)
+    {
+        if (Request::isMethod('post')) {
+
+            // check if already exists
+            if (Input::get('type_site') == 1) {
+                $result = dns_get_record(Input::get('domain'));
+                $founded = 0;
+                foreach ($result as $record_dns) {
+                    if ($record_dns["type"] == "NS") {
+                        if ($record_dns["target"] == "ivan.ns.cloudflare.com" || $record_dns["target"] == "nola.ns.cloudflare.com") {
+                            $founded++;
+                        }
+                    }
+                }
+
+                if ($founded !== 2) {
+                    Request::session()->flash('error_domain', 'Domain <'.trim(Input::get('domain')).'> font have right DNS');
+
+                    return view('panel.add_site', [
+                        'language'     => $this->commons->language,
+                        'languages'    => $this->commons->languages,
+                        'locale'       => $this->commons->locale,
+                    ]);
+                }
+
+                $site = Site::where('domain', '=', trim(Input::get('domain')))->first();
+            } else {
+                $site = Site::where('name', '=', trim(Input::get('subdomain')))->first();
+            }
+
+            // if exists return with custom error
+            if ( $site ) {
+                if (Input::get('type_site') == 1) {
+                    Request::session()->flash('error_domain', 'Domain <'.trim(Input::get('domain')).'> already exists!');
+                } else {
+                    Request::session()->flash('error_subdomain', 'Subdomain <'.trim(Input::get('subdomain')).'> already exists!');
+                }
+
+                return view('panel.add_site', [
+                    'language'     => $this->commons->language,
+                    'languages'    => $this->commons->languages,
+                    'locale'       => $this->commons->locale,
+                ]);
+            }
+
+            // create new site for current user
+            $newSite              = new Site();
+            $newSite->user_id     = Auth::user()->id;
+            $newSite->name        = Input::get('name');
+            $newSite->language_id = Input::get('language_id');
+            $newSite->domain      = Input::get('domain');
+            $newSite->have_domain = Input::get('type_site');
+
+            $newSite->save();
+
+            if ($newSite->have_domain == 0) {
+                // Alta del subdominio en CF
+                $clientCF = new CF($this->commons->cloudFlareCfg['email'],$this->commons->cloudFlareCfg['key']);
+                try {
+                    $subdomain = Input::get('name');
+                    $clientCF->rec_new(array(
+                        'z'       => $this->commons->cloudFlareCfg['zone'],
+                        'name'    => $subdomain.".".$this->commons->cloudFlareCfg['zone'],
+                        'ttl'     => 1,
+                        'type'    => 'A',
+                        'content' => $this->commons->cloudFlareCfg['ip']
+                    ));
+
+                    return redirect()->route('sites', [
+                        'locale'  => $this->commons->locale
+                    ]);
+
+                } catch(CFException $e) {
+                    Request::session()->flash('error_subdomain', '(DNS) subdomain <'.Input::get('subdomain').'> already exists!');
+                }
+            } else {
+                return redirect()->route('sites', [
+                    'locale'  => $this->commons->locale
+                ]);
+            }
+        }
+
+        return view('panel.add_site', [
+            'language'     => $this->commons->language,
+            'languages'    => $this->commons->languages,
+            'locale'       => $this->commons->locale,
+        ]);
+    }
+
+    public function deleteSite($locale, $site_id)
+    {
+        $site = Site::find($site_id);
+
+        if (!$site) {
+            abort(404, "Site not found");
+        }
+
+        $site->delete();
+
+        return redirect()->route('sites', ['locale' => $this->commons->locale]);
+    }
+
+    public function checkSubdomain($locale)
+    {
+        $subdomain = Input::get('subdomain');
+
+        if (strlen($subdomain) == 0) {
+            abort(404,'Not allowed');
+        }
+
+        $sites = Site::where('name', '=', $subdomain)->count();
+
+        if ($sites == 0) {
+            $status = 1;
+        } else {
+            $status = 0;
+        }
+
+        return json_encode(array('status' => $status));
+    }
+
+    public function checkDomain($locale)
+    {
+        $domain = Input::get('domain');
+
+        if (strlen($domain) == 0) {
+            abort(404,'Not allowed');
+        }
+
+        $sites = Site::where('domain', '=', $domain)->count();
+
+        if ($sites == 0) {
+            $status = 1;
+        } else {
+            $status = 0;
+        }
+
+        return json_encode(array('status' => $status));
+    }
+
+    public function updateGoogleData($locale, $site_id)
+    {
+        $site = Site::find($site_id);
+
+        if (!$site) {
+            abort(404, "Site not found");
+        }
+
+        $site->ga_account = Request::input('ga_view_'.$site->id);
+
+        try {
+            $site->save();
+            $status = true;
+        } catch (\Exception $e) {
+            $status = false;
+        }
+
+        return json_encode(array('status' => $status));
+    }
+
+    public function updateIframeData($locale, $site_id)
+    {
+        $site = Site::find($site_id);
+
+        if (!$site) {
+            abort(404, "Site not found");
+        }
+
+        $site->iframe_site_id = (Request::input('iframe_site_id_'.$site->id) != "") ? Request::input('iframe_site_id_'.$site->id) : null;
+
+        try {
+            $site->save();
+            $status = true;
+        } catch (\Exception $e) {
+            $status = false;
+        }
+
+        return json_encode(array('status' => $status));
+    }
+
+    public function updateLogo($locale, $site_id)
+    {
+        $site = Site::find($site_id);
+
+        if (!$site) {
+            abort(404, "Site not found");
+        }
+
+        echo rZeBotCommons::getLogosFolder().PHP_EOL;
+
+        $v = Validator::make(Request::all(), [
+            'logo'       => 'required|mimes:png',      // max=50*1024; min=3*1024
+        ]);
+
+        $v->after(function($validator) {
+            $extensions_acepted = array("png");
+            $extension = Input::file('logo')->getClientOriginalExtension();
+
+            if (!in_array(strtolower($extension), $extensions_acepted)) {
+                Request::session()->flash('error', 'Logo invalid!');
+            }
+        });
+
+
+        if (Request::hasFile('logo') && !$v->fails()) {
+            Request::session()->flash('success', 'Logo uploaded successful');
+            Request::file('logo')->move(rZeBotCommons::getLogosFolder(), md5($site_id).".".Request::file('logo')->getClientOriginalExtension());
+        } else {
+            Request::session()->flash('error', 'Upload invalid file. Check your file, size ane extension (pngs only)!');
+        }
+
+        return redirect()->route('sites', ['locale' => $this->commons->locale]);
     }
 }

@@ -10,11 +10,6 @@ class Language extends Model
 
     public $timestamps = false;
 
-    public function tags()
-    {
-        return $this->belongsToMany('App\Model\Tag', 'language_tag', 'language_id', 'tag_id');
-    }
-
     static function hasTag($tag_id, $language_id)
     {
         $tag = Language::select('languages.*')

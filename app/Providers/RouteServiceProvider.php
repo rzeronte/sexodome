@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use App\Model\Site;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -24,7 +25,11 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot(Router $router)
     {
-        //
+//        $router->bind('site', function($value) {
+//            return Site::where('domain', $value)->first();
+//        });
+
+        $router->pattern('host', '[a-z0-9.]+');
 
         parent::boot($router);
     }
