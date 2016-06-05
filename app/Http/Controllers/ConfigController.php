@@ -594,7 +594,7 @@ class ConfigController extends Controller
             // create new site for current user
             $newSite              = new Site();
             $newSite->user_id     = Auth::user()->id;
-            $newSite->name        = Input::get('name');
+            $newSite->name        = Input::get('subdomain');
             $newSite->language_id = Input::get('language_id');
             $newSite->domain      = Input::get('domain');
             $newSite->have_domain = Input::get('type_site');
@@ -605,7 +605,8 @@ class ConfigController extends Controller
                 // Alta del subdominio en CF
                 $clientCF = new CF($this->commons->cloudFlareCfg['email'],$this->commons->cloudFlareCfg['key']);
                 try {
-                    $subdomain = Input::get('name');
+                    $subdomain = Input::get('subdomain');
+
                     $clientCF->rec_new(array(
                         'z'       => $this->commons->cloudFlareCfg['zone'],
                         'name'    => $subdomain.".".$this->commons->cloudFlareCfg['zone'],
