@@ -77,20 +77,24 @@
     /******************************************************************** Pagination */
     .pagination a {
         border: 1px solid #00ff4e !important;
-        color: {{$site->color2}} !important;
+        color: {{$site->color3}} !important;
     }
+
     .pagination a:hover,
     .pagination .active a {
         background-color: {{$site->color}} !important;
         color: {{$site->color2}} !important;
     }
+
     .pagination .active a {
         color: {{$site->color2}};
         background-color: {{$site->color}} !important;
     }
+
     .pagination .active span{
         background-color: {{$site->color}};
     }
+
     .pagination .disabled span,
     .pagination .disabled a,
     .pagination .disabled a:hover {
