@@ -44,7 +44,7 @@
                                     <a href="{{ route('category', array('profile' => $profile, 'permalink'=> str_slug($translation->name) )) }}">{{$translation->name}}</a>
                                 <?php endif;?>
                             @endforeach<br/>
-                            <a href="#" style="background-color: white !important;">{{$scene->channel->name}}</a>
+                            <a href="#" class="channel_link">{{$scene->channel->name}}</a>
                         </div>
                     </div>
                 </div>

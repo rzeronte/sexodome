@@ -58,7 +58,7 @@
 
     .tubethumbnail .post_title{
         background-color: {{$site->color}};
-        background-color: {{$site->color2}};
+        color: {{$site->color2}};
     }
 
     .videos .fleft{
@@ -130,6 +130,11 @@
 
     .tag-category{
         background-color: {{$site->color}};
+        color: {{$site->color2}};
+    }
+
+    .channel_link{
+        background-color: {{$site->color3}};
         color: {{$site->color2}};
     }
 </style>
