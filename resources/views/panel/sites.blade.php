@@ -204,7 +204,6 @@
 
             </div>
         @endforeach
-        @if ($site->ga_account)
 
         <div class="col-md-12" style="display: none;">
             <div id="graph_site_global" style="padding:5px;width: 100%; height:300px;border: solid 1px cornflowerblue;margin:5px;"></div>
@@ -278,7 +277,6 @@
                 });
             </script>
         </div>
-        @endif
 
     </div>
 

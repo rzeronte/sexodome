@@ -29,7 +29,6 @@ Route::group(['domain' => 'accounts.'.\App\rZeBot\rZeBotCommons::getMainPlatafor
     Route::post('password/reset', 'Auth\PasswordController@postReset')->name('reset');
 
     // ConfigController
-    Route::match(['get', 'post'], '{locale}/export_scene/{scene_id}', 'ConfigController@exportScene')->name('exportScene');
     Route::match(['get', 'post'], '{locale}/tags/{site_id}', 'ConfigController@tags')->name('tags_admin');
     Route::match(['get', 'post'], '{locale}/categories/{site_id}', 'ConfigController@categories')->name('categories_admin');
     Route::match(['get', 'post'], '{locale}/sites', 'ConfigController@sites')->name('sites');
