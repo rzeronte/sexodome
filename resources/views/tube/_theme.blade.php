@@ -63,7 +63,7 @@
 
     .videos .fleft{
         background-color: {{$site->color3}};
-        color: {{$site->color3}};
+        color: {{$site->color2}};
     }
 
     .videos .fleft a{
