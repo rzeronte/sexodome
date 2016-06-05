@@ -1,7 +1,12 @@
 <?php
 
-// Web Plataforma
+// Web Plataforma formato domain.com
 Route::group(['domain' => \App\rZeBot\rZeBotCommons::getMainPlataformDomain()], function () {
+    Route::match(['get', 'post'], "/", [ 'as' => 'home_website', 'uses' => 'WebController@home' ]);
+});
+
+// Web Plataforma formato www.domain.com
+Route::group(['domain' => "www.".\App\rZeBot\rZeBotCommons::getMainPlataformDomain()], function () {
     Route::match(['get', 'post'], "/", [ 'as' => 'home_website', 'uses' => 'WebController@home' ]);
 });
 
