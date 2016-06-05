@@ -101,14 +101,14 @@
         color: {{$site->color2}};
     }
     .pagination li:first-child a {
-        color: {{$site->color2}} !important;
+        color: {{$site->color}} !important;
     }
     .pagination li:last-child a {
-        color: {{$site->color2}} !important;
+        color: {{$site->color}} !important;
     }
     .pagination .disabled span{
-        border-color: {{$site->color2}} !important;
-        color: {{$site->color2}} !important;
+        border-color: {{$site->color}} !important;
+        color: {{$site->color}} !important;
     }
 
     /******************************************************************** Video Duration */
