@@ -57,6 +57,7 @@
     }
 
     .tubethumbnail .post_title{
+        background-color: {{$site->color}};
         background-color: {{$site->color2}};
     }
 
