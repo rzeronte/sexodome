@@ -76,7 +76,7 @@
     }
     /******************************************************************** Pagination */
     .pagination a {
-        border: 1px solid #00ff4e !important;
+        border: 1px solid {{$site->color}} !important;
         color: {{$site->color3}} !important;
     }
 
