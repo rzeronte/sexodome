@@ -132,9 +132,13 @@ class TubeController extends Controller
         }
 
         $categoryTranslation = CategoryTranslation::where('permalink', $permalinkCategory)
-            ->where('language_id', $this->commons->site->id)
+            ->where('language_id', $this->commons->site->language_id)
             ->first()
         ;
+
+        if (!$categoryTranslation) {
+            abort(404, "Category not found");
+        }
 
         $category = $categoryTranslation->category;
 
