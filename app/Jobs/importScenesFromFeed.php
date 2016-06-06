@@ -40,8 +40,8 @@ class importScenesFromFeed extends Job implements SelfHandling, ShouldQueue
         $exitCode = \Artisan::call('rZeBot:feed:fetch', [
             'feed_name'  => $this->queueParams["feed_name"],
             'site_id'    => $this->queueParams["site_id"],
-            '--max'      => $this->queueParams["max"],
-            '--duration' => $this->queueParams["duration"]
+            '--max'      => ($this->queueParams["max"] != "") ? $this->queueParams["max"]: 'false',
+            '--duration' => ($this->queueParams["duration"] != "") ? $this->queueParams["duration"] : 'false'
         ]);
     }
 }

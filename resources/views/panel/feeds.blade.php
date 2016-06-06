@@ -74,7 +74,7 @@
                         </select>
                     </div>
                     <div class="col-md-2">
-                        <select class="form-control" name="duration" style="width:100%" required>
+                        <select class="form-control" name="duration" style="width:100%">
                             <option value="">-- secs --</option>
                             <option value="50">min. 50 secs</option>
                             <option value="100">min. 100 secs</option>
