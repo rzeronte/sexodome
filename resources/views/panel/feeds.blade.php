@@ -71,13 +71,15 @@
                             <option value="25">25</option>
                             <option value="50">50</option>
                             <option value="100">100</option>
+                            <option value="100">1000</option>
+                            <option value="100">5000</option>
+                            <option value="100">10000</option>
+                            <option value="100">25000</option>
                         </select>
                     </div>
                     <div class="col-md-2">
                         <select class="form-control" name="duration" style="width:100%">
                             <option value="">-- secs --</option>
-                            <option value="50">min. 50 secs</option>
-                            <option value="100">min. 100 secs</option>
                             <option value="200">min. 200 secs</option>
                             <option value="300">min. 300 secs</option>
                             <option value="400">min. 400 secs</option>
