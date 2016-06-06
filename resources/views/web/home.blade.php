@@ -116,7 +116,7 @@
                         <p>Integration with free content channels</p>
                     </div>
                     <div class="col-md-3">
-                        <p>Publisher configurable automatic</p>
+                        <p>Automatic & configurable publisher </p>
                     </div>
                     <div class="col-md-3">
                         <p>Taxonomies: tags and categories</p>
@@ -126,12 +126,6 @@
                     </div>
                     <div class="col-md-3">
                         <p>SEO settings for each website</p>
-                    </div>
-                    <div class="col-md-3">
-                        <p>Setting simple subjects per site</p>
-                    </div>
-                    <div class="col-md-3">
-                        <p>Iframes associated with your own websites</p>
                     </div>
                     <div class="col-md-3">
                         <p>Several languages available</p>
