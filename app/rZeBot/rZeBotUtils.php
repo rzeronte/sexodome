@@ -111,6 +111,7 @@ class rZeBotUtils
 
             $site = Site::where('domain', $fullDomain)->first();
             if (!$site) {
+                abort("403", "Domain not allowed");
                 return false;
             } else {
                 return $site;
