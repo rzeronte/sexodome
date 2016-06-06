@@ -36,7 +36,7 @@
                                 <p class='check_domain_ko'>{{{ Session::get('error_subdomain') }}}</p>
                             @endif
                                 <div class="alert alert-warning">
-                                    <p>Subdomain activation can take a few minutes...please, wait.</p>
+                                    <p>Subdomain activation <br/>can take a few <br/>minutes...please, wait.</p>
                                 </div>
                         </div>
                     </div>
