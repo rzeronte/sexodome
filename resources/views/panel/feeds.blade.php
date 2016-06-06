@@ -71,10 +71,10 @@
                             <option value="25">25</option>
                             <option value="50">50</option>
                             <option value="100">100</option>
-                            <option value="100">1000</option>
-                            <option value="100">5000</option>
-                            <option value="100">10000</option>
-                            <option value="100">25000</option>
+                            <option value="1000">1000</option>
+                            <option value="5000">5000</option>
+                            <option value="10000">10000</option>
+                            <option value="25000">25000</option>
                         </select>
                     </div>
                     <div class="col-md-2">
