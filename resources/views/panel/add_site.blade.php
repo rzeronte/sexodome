@@ -38,7 +38,7 @@
                         </div>
                     </div>
                     <div class="clearfix"></div>
-                    <div class="col-md-5 col-md-offset-5">
+                    <div class="col-md-2 col-md-offset-5">
                         <div class="alert alert-warning">
                             <p>Subdomain activation <br/>can take a few <br/>minutes...please, wait.</p>
                         </div>
