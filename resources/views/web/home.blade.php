@@ -130,6 +130,12 @@
                     <div class="col-md-3">
                         <p>Several languages available</p>
                     </div>
+                    <div class="col-md-3">
+                        <p>Custom Colors for site</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p>SEO config for site</p>
+                    </div>
 
                 </div>
 
