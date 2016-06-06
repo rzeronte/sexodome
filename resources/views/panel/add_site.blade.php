@@ -35,12 +35,14 @@
                             @if (Session::get('error_subdomain'))
                                 <p class='check_domain_ko'>{{{ Session::get('error_subdomain') }}}</p>
                             @endif
-                                <div class="alert alert-warning">
-                                    <p>Subdomain activation <br/>can take a few <br/>minutes...please, wait.</p>
-                                </div>
                         </div>
                     </div>
                     <div class="clearfix"></div>
+                    <div class="col-md-5 col-md-offset-5">
+                        <div class="alert alert-warning">
+                            <p>Subdomain activation <br/>can take a few <br/>minutes...please, wait.</p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="div_input_domain" style="@if(!Session::get('error_domain')) display:none; @endif">
