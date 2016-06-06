@@ -98,7 +98,7 @@ class rZeBotUtils
             $ext = $parts[1];
             $fullDomain = $domain . "." . $ext;
 
-            return Site::where('name', $fullDomain)->first();
+            return Site::where('domain', $fullDomain)->first();
 
         } elseif (count($parts) == 3 && $parts[0] == 'www' && $_SERVER["HTTP_HOST"] === "www.".rZeBotCommons::getMainPlataformDomain()) {
             // ----------------------------------- Dominio de la propia plataforma formato 'www.domain.com'
@@ -108,7 +108,6 @@ class rZeBotUtils
             $domain = $parts[1];
             $ext    = $parts[2];
             $fullDomain = $domain.".".$ext;
-
             $site = Site::where('domain', $fullDomain)->first();
             if (!$site) {
                 abort("403", "Domain not allowed");
