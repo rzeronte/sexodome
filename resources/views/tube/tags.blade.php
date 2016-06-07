@@ -19,6 +19,5 @@
 
     @include('TubeFront::layout._footer')
     @include('TubeFront::layout._javascripts')
-    @include('tube._theme')
 
 </body>
