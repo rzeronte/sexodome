@@ -270,6 +270,7 @@ class TubeController extends Controller
         return response()->view('tube.categories', [
             'profile'         => $profile,
             'categories'      => $categories,
+            'categories_head' => $this->commons->site->categories()->get(),
             'resultsPerPage'  => $this->commons->perPage,
             'query_string'    => $query_string,
             'language'        => $this->commons->language,

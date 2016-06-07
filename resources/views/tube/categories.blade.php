@@ -12,7 +12,7 @@
 </section>
 
 <section class="container tags_header">
-    @include('tube._categories')
+    @include('tube._categories', ["categories" =>$categories_head])
 </section>
 
 <section class="row tags_header">
