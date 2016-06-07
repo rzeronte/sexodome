@@ -100,7 +100,7 @@ class rZeBotUtils
 
             return Site::where('domain', $fullDomain)->first();
 
-        } elseif (count($parts) == 3 && $parts[0] == 'accounts' && $_SERVER["HTTP_HOST"] === "www.".rZeBotCommons::getMainPlataformDomain()) {
+        } elseif (count($parts) == 3 && $_SERVER["HTTP_HOST"] === "accounts.".rZeBotCommons::getMainPlataformDomain()) {
             // ----------------------------------- Dominio de miembros formato 'accounts.domain.com'
             return false;
 
