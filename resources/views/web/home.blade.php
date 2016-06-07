@@ -66,6 +66,9 @@
                     <a class="page-scroll" href="#features">Features</a>
                 </li>
                 <li>
+                    <a href="http://demo.sexodome.com" class="page-scroll" href="#contact">Demo</a>
+                </li>
+                <li>
                     <a href="{{ route('login') }}" class="page-scroll" href="#contact">Login</a>
                 </li>
             </ul>
