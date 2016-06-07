@@ -42,7 +42,7 @@
 
     .tags_header .tag{
         color: {{$site->color2}} !important;
-        background-color: {{$site->color}};
+        background-color: {{$site->color}} !important;
     }
 
     .tags_index{
