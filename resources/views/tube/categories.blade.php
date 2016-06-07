@@ -11,6 +11,10 @@
     @include('tube._header')
 </section>
 
+<section class="container tags_header">
+    @include('tube._categories')
+</section>
+
 <section class="row tags_header">
     <div class="container">
         @foreach($categories as $category)
