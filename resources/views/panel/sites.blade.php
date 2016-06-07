@@ -110,9 +110,9 @@
                     <form action="{{route('updateLogo', ['locale' => $locale, 'site_id' => $site->id])}}" enctype="multipart/form-data" method="post">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
 
-                        <div class="col-md-1">
+                        <div class="col-md-2">
                             @if (file_exists(\App\rZeBot\rZeBotCommons::getLogosFolder()."/".md5($site->id).".png"))
-                                <img src="{{asset('/logos/'.md5($site->id).".png")}}" style="border: solid 1px gray; max-height: 50px;"/>
+                                <img src="{{asset('/logos/'.md5($site->id).".png")}}" style="border: solid 1px gray; width:100%;"/>
                             @endif
                         </div>
 
@@ -141,7 +141,6 @@
                                 <select name="iframe_site_id_{{$site->id}}" class="form-control">
                                     <option value="">No iframe</option>
                                     @foreach($sites as $sit)
-                                        @if ($sit->have_domain == 1)
                                             <option value="{{$sit->id}}" @if ($site->iframe_site_id == $sit->id) selected @endif>{{$sit->domain}}</option>
                                         @else
                                             <option value="{{$sit->id}}" @if ($site->iframe_site_id == $sit->id) selected @endif>{{$sit->name}}</option>
