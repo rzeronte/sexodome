@@ -126,7 +126,6 @@ class TubeController extends Controller
 
     public function category($profile, $permalinkCategory)
     {
-	echo "entro";exit;
         // check if tag exists, else redirect to route
         if (CategoryTranslation::where('permalink', $permalinkCategory)->count() == 0) {
             return redirect()->route('index');
