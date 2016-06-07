@@ -11,6 +11,11 @@ class Site extends Model
 
     public $timestamps = false;
 
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
     public function tags()
     {
         return $this->belongsToMany('App\Model\Tag', 'site_tag', 'site_id', 'tag_id');
