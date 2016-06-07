@@ -121,6 +121,7 @@ class rZeBotUtils
             $site = Site::where('name', $subdomain)->first();
 
             if (!$site) {
+                abort("403", "Subdomain not allowed");
                 return false;
             } else {
                 return $site;
@@ -521,7 +522,7 @@ class rZeBotUtils
                         // tags
                         foreach ($video["tags"] as $tagTxt) {
 
-                            if (TagTranslation::where('name', $tagTxt)->where('language_id', 2)->count() == 0) {
+                            if (TagTranslation::where('site_id', '=', $site_id)->where('name', $tagTxt)->where('language_id', 2)->count() == 0) {
                                 //echo "TAG: creando tag en la colección" . PHP_EOL;
                                 $tag = new Tag();
                                 $tag->status = 2;
