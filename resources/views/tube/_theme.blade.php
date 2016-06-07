@@ -57,7 +57,7 @@
     }
 
     .tubethumbnail .post_title{
-        background-color: {{$site->color}};
+        background-color: {{$site->color}} !important;
         color: {{$site->color2}} !important;
     }
 
@@ -119,7 +119,7 @@
 
     /******************************************************************** Thumbnail Detail */
     .show-video h2{
-        color: {{$site->color2}};
+        color: {{$site->color2}} !important;
     }
     /******************************************************************** */
 
