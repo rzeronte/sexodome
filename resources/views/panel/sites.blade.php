@@ -141,6 +141,7 @@
                                 <select name="iframe_site_id_{{$site->id}}" class="form-control">
                                     <option value="">No iframe</option>
                                     @foreach($sites as $sit)
+                                        @if ($site->have_domain == 1)
                                             <option value="{{$sit->id}}" @if ($site->iframe_site_id == $sit->id) selected @endif>{{$sit->domain}}</option>
                                         @else
                                             <option value="{{$sit->id}}" @if ($site->iframe_site_id == $sit->id) selected @endif>{{$sit->name}}</option>
