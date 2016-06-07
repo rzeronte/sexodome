@@ -81,8 +81,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
-                    <h1 class="brand-heading" style="opacity: 0.6;background-color: red;">porn webmaster tool</h1>
-                    <p class="intro-text" style="opacity: 0.8;background-color: black;color: white;font-family:Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif">Agile platform for creating web pages porn<br>Hard job is done!</p>
+                    <h1 class="brand-heading" style="opacity: 0.6;background-color: red;">porn webmaster tool</h1><small>ALPHA VERSION</small>
+                    <p class="intro-text" style="opacity: 0.8;background-color: black;color: white;font-family:Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif">Create your custom porn website in seconds. <br/>The hard work is <b>dome*</b>!</p>
                     <a href="#howitworks" class="btn btn-circle page-scroll">
                         <i class="fa fa-angle-double-down animated"></i>
                     </a>
@@ -97,8 +97,8 @@
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2" style="font-family:Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif">
             <h2>How it works</h2>
-            <p>In <strong style="color:red">sexodome</strong> you can generate your porn web pages for free. Also allow link your own domains if you have them without additional costs.</p>
-            <p><strong style="color:red">sexodome</strong> integrates with most providers of free content on the internet and allows your selections content of them for your website without technical knowledge.</p>
+            <p>Generate your porn web pages for free in <strong style="color:red">sexodome</strong>. Link your domain, setup your ads and start your own online business at no cost! </p>
+            <p>sexodome combines direct connection to world class free porn providers and advanced SEO configuration tools to achieve top ranks.</p>
             <p><b>the hard work is <strong style="color:red">done</strong>!</b></p>
         </div>
     </div>
@@ -113,28 +113,31 @@
 
                 <div class="row" style="font-family:Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif">
                     <div class="col-md-3">
-                        <p>Integration with free content channels</p>
+                        <p style="font-size:14px ;line-height:25px;">Direct integration with top notch porn providers: 100% free legal porn!</p>
                     </div>
                     <div class="col-md-3">
-                        <p>Automatic & configurable publisher </p>
+                        <p style="font-size:14px ;line-height:25px;">No technical knowledge required: Link your own domain and forget about hosting!</p>
                     </div>
                     <div class="col-md-3">
-                        <p>Taxonomies: tags and categories</p>
+                        <p style="font-size:14px ;line-height:25px;">Content manager: Customized porn channels per site</p>
                     </div>
                     <div class="col-md-3">
-                        <p>Integration with Google Analytics</p>
+                        <p style="font-size:14px ;line-height:25px;">Configurable video taxonomies: Tags and categories</p>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="col-md-3">
+                        <p style="font-size:14px ;line-height:25px;">Autopilot mode: Fully configurable automatic video publisher</p>
                     </div>
                     <div class="col-md-3">
-                        <p>SEO settings for each website</p>
+                        <p style="font-size:14px ;line-height:25px;">Outrank your competitors: Advanced SEO settings per page</p>
                     </div>
                     <div class="col-md-3">
-                        <p>Several languages available</p>
+                        <p style="font-size:14px ;line-height:25px;">Spread the word: Automated multilingual sites </p>
                     </div>
                     <div class="col-md-3">
-                        <p>Custom Colors for site</p>
-                    </div>
-                    <div class="col-md-3">
-                        <p>SEO config for site</p>
+                        <p style="font-size:14px ;line-height:25px;">Track your results: Google Analytics integration</p>
                     </div>
 
                 </div>
