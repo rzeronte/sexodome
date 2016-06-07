@@ -23,6 +23,11 @@
             </a>
         @endforeach
     </div>
+
+    <div class="col-md-12 text-center">
+        <?php echo $categories->appends(['q' => $query_string])->render(); ?>
+    </div>
+
 </section>
 
 
