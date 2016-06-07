@@ -18,7 +18,7 @@
                 <div class="col-md-1 col-sm-4 col-xs-4 tube_cat" style="text-align: center;">
                     <img src="{{$category->thumb}}" />
                     <div class="clearfix"></div>
-                    <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}" target="_blank"><small>{{ str_limit(ucfirst($category->name), $limit = 15, $end = '...') }} ({{$category->countScenesLang($language->id)}})</small></a>
+                    <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}" target="_blank"><small>{{ str_limit(ucfirst($category->name), $limit = 15 , $end = '...') }} ({{$category->countScenesLang($language->id)}})</small></a>
             </div>
             </a>
         @endforeach
