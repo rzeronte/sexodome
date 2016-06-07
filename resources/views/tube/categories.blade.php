@@ -15,13 +15,10 @@
     <div class="container">
         @foreach($categories as $category)
             <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}" target="_blank">
-            <div class="col-md-2 col-sm-4 col-xs-4" style="text-align: center;">
-                    <img src="{{$category->thumb}}" class="img-thumbnail"/>
-                <br/>
-
-                <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}" target="_blank"><small>{{ucfirst($category->name)}} <br/>({{$category->countScenesLang($language->id)}})</small></a>
-                <br/>
-                <br/>
+                <div class="col-md-1 col-sm-4 col-xs-4 tube_cat" style="text-align: center;">
+                    <img src="{{$category->thumb}}" />
+                    <div class="clearfix"></div>
+                    <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}" target="_blank"><small>{{ucfirst($category->name)}} ({{$category->countScenesLang($language->id)}})</small></a>
             </div>
             </a>
         @endforeach
