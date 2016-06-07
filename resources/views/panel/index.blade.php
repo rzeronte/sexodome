@@ -136,7 +136,7 @@
                     <i class="glyphicon glyphicon-time"></i> {{gmdate("i:s", $scene->duration)}}<br/>
                     <i class="glyphicon glyphicon-eye-open"></i> {{ $scene->views+0}} views<br/>
                     <i class="glyphicon glyphicon-open-file"></i> {{ $scene->channel->name}}<br/>
-                    @if ($sit->have_domain == 1)
+                    @if ($site->have_domain == 1)
                         <b>http://{{ $scene->site->domain}}</b><br/>
                     @else
                         <b>http://{{ $scene->site->name}}</b><br/>
