@@ -1,5 +1,5 @@
 <head>
-    <title>Exporter from Universo</title>
+    <title>Panel v.0.16 | sexodome.com </title>
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
