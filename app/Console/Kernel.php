@@ -21,6 +21,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\rZeBotScenesPublisher::class,
         \App\Console\Commands\rZeBotUpdateCategoriesThumbnails::class,
         \App\Console\Commands\rZeBotUpdateNumberScenesFromDumps::class,
+        \App\Console\Commands\rZeBotSitesList::class,
 //        \App\Console\Commands\rZeBotSyncRemoteWithUniverso::class,
 //        \App\Console\Commands\rZeBotExport::class,
 //        \App\Console\Commands\rZeBotSynonyms::class,

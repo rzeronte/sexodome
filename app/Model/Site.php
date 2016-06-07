@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use App\rZeBot\rZeBotCommons;
 use Illuminate\Database\Eloquent\Model;
 
 class Site extends Model
@@ -48,8 +49,8 @@ class Site extends Model
 
     public function getHost()
     {
-        if ($this->have_domain == 1) {
-            return $this->name.rZeBotCommons::getMainPlataformDomain();
+        if ($this->have_domain == 0) {
+            return $this->name.".".rZeBotCommons::getMainPlataformDomain();
         } else {
             return  $this->domain;
         }
