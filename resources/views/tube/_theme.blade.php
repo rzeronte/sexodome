@@ -1,11 +1,11 @@
 <style>
     .header .logo{
-        color: {{$site->color2}};
-        font-size: 20px;
+        color: {{$site->color2}} !important;
+        font-size: 20px !important;
     }
 
     .header .header_col_billboard{
-        color: {{$site->color}};
+        color: {{$site->color}} !important;
     }
 
     .header h1{
@@ -13,16 +13,16 @@
     }
 
     .header .header_query_string button{
-        background-color: {{$site->color}};
-        color: {{$site->color2}};
+        background-color: {{$site->color}} !important;
+        color: {{$site->color2}} !important;
     }
 
     .header .header_webcams a{
-        color: {{$site->color}};
+        color: {{$site->color}} !important;
     }
 
     .header .header_languages a{
-        color:{{$site->color}};
+        color:{{$site->color}} !important;
     }
 
     .header_query_string .btn {
@@ -31,13 +31,13 @@
     }
 
     #query_string{
-        color: {{$site->color2}};
+        color: {{$site->color2}} !important;
     }
 
     /******************************************************************** Tags */
     .header_menu .btn{
-        background-color: {{$site->color}};
-        color: {{$site->color2}};
+        background-color: {{$site->color}} !important;
+        color: {{$site->color2}} !important;
     }
 
     .tags_header .tag{
@@ -46,14 +46,14 @@
     }
 
     .tags_index{
-        background-color: {{$site->color}};
+        background-color: {{$site->color}}  !important;
     }
 
     /******************************************************************** Videos */
 
     .videos .post_container_extras a{
-        background-color: {{$site->color}};
-        color: {{$site->color2}};
+        background-color: {{$site->color}}  !important;
+        color: {{$site->color2}}  !important;
     }
 
     .tubethumbnail .post_title{
@@ -92,7 +92,7 @@
     }
 
     .pagination .active span{
-        background-color: {{$site->color}};
+        background-color: {{$site->color}} !important;
     }
 
     .pagination .disabled span,
@@ -124,16 +124,16 @@
     /******************************************************************** */
 
     footer{
-        background-color: {{$site->color}};
+        background-color: {{$site->color}} !important;
     }
 
     .tag-video{
-        background-color: {{$site->color}};
+        background-color: {{$site->color}} !important;
         color: {{$site->color2}};
     }
 
     .tag-category{
-        background-color: {{$site->color}};
+        background-color: {{$site->color}} !important;
         color: {{$site->color2}};
     }
 
