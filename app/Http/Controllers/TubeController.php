@@ -145,7 +145,7 @@ class TubeController extends Controller
         // get scenes
         $scenes = Scene::getTranslationsForCategory($permalinkCategory, $this->commons->language->id)
             ->where('scenes.site_id', $this->commons->site->id)
-            ->paginate($this->commons->perPage)
+            ->paginate($this->commons->perPageCategories)
         ;
 
         // seo

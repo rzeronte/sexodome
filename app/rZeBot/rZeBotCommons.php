@@ -35,6 +35,7 @@ class rZeBotCommons extends Controller {
     public $site;
     public $routeParameters;
     public $cloudFlareCfg;
+    public $perPageCategories;
 
     public function __construct()
     {
@@ -65,6 +66,8 @@ class rZeBotCommons extends Controller {
         $this->perPage = 48;
         $this->perPageScenes = 10;
         $this->perPageTags = 30;
+        $this->perPageCategories = 48;
+
         // set locale
         Request::setLocale($locale);
         $this->locale = $locale;
