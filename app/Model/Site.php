@@ -45,4 +45,13 @@ class Site extends Model
             return false;
         }
     }
+
+    public function getHost()
+    {
+        if ($this->have_domain == 1) {
+            return $this->name.rZeBotCommons::getMainPlataformDomain();
+        } else {
+            return  $this->domain;
+        }
+    }
 }

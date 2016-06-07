@@ -15,6 +15,11 @@ class Category extends Model
         return $this->hasMany('App\Model\CategoryTranslation');
     }
 
+    public function scenes()
+    {
+        return $this->belongsToMany('App\Model\Scene', 'scene_category', 'category_id', 'scene_id');
+    }
+
     static function getTranslationSearch($query_string = false, $language_id)
     {
         $categories = Category::select('categories.*', 'categories_translations.name', 'categories_translations.permalink', 'categories_translations.id as translationId')

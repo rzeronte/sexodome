@@ -14,19 +14,21 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         \App\Console\Commands\Inspire::class,
-//        \App\Console\Commands\rZeBotExport::class,
         \App\Console\Commands\rZeBotFeedFetcher::class,
         \App\Console\Commands\rZeBotTranslate::class,
-//        \App\Console\Commands\rZeBotSyncRemoteWithUniverso::class,
         \App\Console\Commands\rZeBotAnalytics::class,
+        \App\Console\Commands\rZeBotDuplicateLanguage::class,
+        \App\Console\Commands\rZeBotScenesPublisher::class,
+        \App\Console\Commands\rZeBotUpdateCategoriesThumbnails::class,
+        \App\Console\Commands\rZeBotUpdateNumberScenesFromDumps::class,
+//        \App\Console\Commands\rZeBotSyncRemoteWithUniverso::class,
+//        \App\Console\Commands\rZeBotExport::class,
 //        \App\Console\Commands\rZeBotSynonyms::class,
 //        \App\Console\Commands\rZeBotScrapper::class,
 //        \App\Console\Commands\rZeBotSpinner::class,
 //        \App\Console\Commands\rZeBotSpinnerLanguage::class,
-        \App\Console\Commands\rZeBotDuplicateLanguage::class,
-        \App\Console\Commands\rZeBotScenesPublisher::class,
 //        \App\Console\Commands\rZeBotSyncFeeds::class,
-        \App\Console\Commands\rZeBotUpdateNumberScenesFromDumps::class,
+
     ];
 
     /**
