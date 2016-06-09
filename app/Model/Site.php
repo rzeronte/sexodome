@@ -43,7 +43,8 @@ class Site extends Model
             ->join('site_category', 'site_category.site_id', '=', 'sites.id')
             ->join('categories', 'categories.id', '=', 'site_category.category_id')
             ->where('site_category.site_id', $site_id)
-            ->where('categories.id', $category_id)->count();
+            ->where('categories.id', $category_id)->count()
+        ;
 
         if ($category > 0) {
             return true;

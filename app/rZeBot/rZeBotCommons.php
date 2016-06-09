@@ -31,6 +31,7 @@ class rZeBotCommons extends Controller {
     public $zones;
     public $perPageScenes;
     public $perPageTags;
+    public $perPageJobs;
     public $sites;
     public $site;
     public $routeParameters;
@@ -67,7 +68,7 @@ class rZeBotCommons extends Controller {
         $this->perPageScenes = 10;
         $this->perPageTags = 30;
         $this->perPageCategories = 84;
-
+        $this->perPageJobs = 4;
         // set locale
         Request::setLocale($locale);
         $this->locale = $locale;

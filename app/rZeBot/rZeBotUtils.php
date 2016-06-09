@@ -294,7 +294,7 @@ class rZeBotUtils
         return $tags;
     }
 
-    static public function parseCSVLine($site_id, $feed, $max, $mapped_colums, $feed_config, $tags, $categories, $only_update, $rate, $minViews, $minDuration, $default_status, $test)
+    static public function parseCSV($site_id, $feed, $max, $mapped_colums, $feed_config, $tags, $categories, $only_update, $rate, $minViews, $minDuration, $default_status, $test)
     {
         $fila = 1;
         $languages = Language::all();
@@ -331,7 +331,7 @@ class rZeBotUtils
                 if ($feed_config["totalCols"] != count($datos)) {
                     rZeBotUtils::message("Error en el número de columnas, deteniendo ejecución...", "red");
                     print_r($datos);
-                    exit;
+                    continue;
                 }
 
                 // check limit import
@@ -512,7 +512,6 @@ class rZeBotUtils
                         //translations
                         foreach ($languages as $language) {
                             $sceneTranslation = new SceneTranslation();
-                            $sceneTranslation->scene_id = $scene->id;
                             $sceneTranslation->language_id = $language->id;
 
                             if ($language->id == 2) {
@@ -526,7 +525,7 @@ class rZeBotUtils
                         // tags
                         foreach ($video["tags"] as $tagTxt) {
 
-                            if (TagTranslation::where('site_id', '=', $site_id)->where('name', $tagTxt)->where('language_id', 2)->count() == 0) {
+                            if (TagTranslation::join('tags', 'tags.id', '=', 'tag_translations.tag_id')->where('site_id', '=', $site_id)->where('name', $tagTxt)->where('language_id', 2)->count() == 0) {
                                 //echo "TAG: creando tag en la colección" . PHP_EOL;
                                 $tag = new Tag();
                                 $tag->status = 2;

@@ -42,6 +42,7 @@ Route::group(['domain' => 'accounts.'.\App\rZeBot\rZeBotCommons::getMainPlatafor
     Route::match(['get'], '{locale}/ajax/categories/', 'ConfigController@ajaxCategories')->name('ajaxCategories');
 
     Route::match(['get'], '{locale}/ajax/sceneinfo/{scene_id}', 'ConfigController@scenePublicationInfo')->name('scenePublicationInfo');
+    Route::match(['get'], '{locale}/works/', 'ConfigController@works')->name('works');
 
     Route::match(['get'], '{locale}/ajax/preview/{scene_id}', 'ConfigController@scenePreview')->name('scenePreview');
 

@@ -30,7 +30,9 @@ use App\Model\Tweet;
 use App\Model\Zone;
 use App\Model\Ad;
 use App\Model\Site;
+use App\Model\Channel;
 use App\Model\Logpublish;
+use App\Model\InfoJobs;
 use Illuminate\Support\Facades\Artisan;
 use App\Model\SiteCategory;
 use App\Jobs\importScenesFromFeed;
@@ -318,14 +320,28 @@ class ConfigController extends Controller
     {
         if (Request::isMethod('post')) {
 
+            $channel = Channel::where('name', '=', Input::get('feed_name'))->first();
+
+            if (!$channel) {
+                abort(404, "Channel not found");
+            }
+
+            $newInfoJob = new InfoJobs();
+            $newInfoJob->site_id = Input::get('site_id');
+            $newInfoJob->feed_id = $channel->id;
+            $newInfoJob->created_at = date("Y:m:d H:i:s");
+            $newInfoJob->save();
+
             $queueParams = [
                 'feed_name' => Input::get('feed_name'),
                 'site_id'   => Input::get('site_id'),
                 'max'       => Input::get('max'),
-                'duration'  => Input::get('duration')
+                'duration'  => Input::get('duration'),
+                'job'       => $newInfoJob->id
             ];
 
             try {
+
                 $job = (new importScenesFromFeed($queueParams));
                 $this->dispatch($job);
 
@@ -478,10 +494,9 @@ class ConfigController extends Controller
 
     public function feeds($locale)
     {
-        $channels = App\Model\Channel::all();
-
         return view('panel.feeds', [
-            'channels'  => $channels,
+            'infojobs'  => InfoJobs::getUserJobs()->get(),
+            'channels'  => App\Model\Channel::all(),
             'sites'     => $this->commons->sites,
             'locale'    => $this->commons->locale,
             'language'  => $this->commons->language,
@@ -782,5 +797,14 @@ class ConfigController extends Controller
 
         return json_encode(array('status' => $status));
 
+    }
+
+    public function works($locale)
+    {
+        return view('panel.works', [
+            'language'  => $this->commons->language,
+            'languages' => $this->commons->languages,
+            'infojobs' => InfoJobs::getUserJobs()->paginate($this->commons->perPageJobs),
+        ]);
     }
 }

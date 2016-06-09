@@ -9,7 +9,7 @@ class Scene extends Model
 {
     protected $table = 'scenes';
 
-    public function site()
+        public function site()
     {
         return $this->belongsTo('App\Model\Site');
     }

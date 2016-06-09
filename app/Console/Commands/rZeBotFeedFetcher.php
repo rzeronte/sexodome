@@ -2,25 +2,13 @@
 
 namespace App\Console\Commands;
 
-use App\Model\Category;
-use App\Model\CategoryTranslation;
 use App\Model\Channel;
 use App\Model\LanguageTag;
-use App\Model\SceneCategory;
-use App\Model\SceneClick;
-use App\Model\SceneTranslation;
-use App\Model\TagTranslation;
-use App\rZeBot\rZeBotCommons;
 use Illuminate\Console\Command;
 use App\rZeBot\rZeBotUtils;
-use App\Model\Language;
-use App\Model\Scene;
-use App\Model\Tag;
 use App\Model\Host;
-use App\Model\SceneTag;
-use App\Model\TagClick;
-use App\Feeds\YouPornFeed;
 use App\Model\Site;
+use App\Model\InfoJobs;
 
 class rZeBotFeedFetcher extends Command
 {
@@ -37,6 +25,7 @@ class rZeBotFeedFetcher extends Command
                             {--views=false : Only views min imported}
                             {--only_update=false : Only update scenes }
                             {--duration=false : Only duration min imported}
+                            {--job=false : Infojob Id}
                             {--test=false : Test}';
 
     /**
@@ -64,6 +53,7 @@ class rZeBotFeedFetcher extends Command
         $minDuration = $this->option('duration');
         $only_update = $this->option('only_update');
         $test        = $this->option('test');
+        $job         = $this->option('job');
 
         $tags       = $this->parseTagsOption($tags);
         $categories = $this->parseCategoriesOption($categories);
@@ -87,7 +77,12 @@ class rZeBotFeedFetcher extends Command
         // instance class dynamically from mapping_class field in bbdd
         $cfg = new $feed->mapping_class;
 
-        rZeBotUtils::parseCSVLine(
+        // Info debug
+        if ($job !== "false") {
+            rZeBotUtils::message('Job: '. $job, "green");
+        }
+
+        rZeBotUtils::parseCSV(
             $site_id,
             $feed,
             $max,
@@ -102,6 +97,15 @@ class rZeBotFeedFetcher extends Command
             $default_status = env("DEFAULT_FETCH_STATUS", 1),
             $test
         );
+
+        // delete infojob
+        if ($job !== "false") {
+            rZeBotUtils::message('Finalizamos InfoJob: '. $job, "yellow");
+            $infojob = InfoJobs::find($job);
+            $infojob->finished = true;
+            $infojob->finished_at = date("Y-m-d H:i:s");
+            $infojob->save();
+        }
     }
 
     public function parseTagsOption($tags)

@@ -3,6 +3,9 @@
 namespace App\Jobs;
 
 use App\Jobs\Job;
+use App\Model\Channel;
+use App\Model\InfoJobs;
+
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;
@@ -41,7 +44,8 @@ class importScenesFromFeed extends Job implements SelfHandling, ShouldQueue
             'feed_name'  => $this->queueParams["feed_name"],
             'site_id'    => $this->queueParams["site_id"],
             '--max'      => ($this->queueParams["max"] != "") ? $this->queueParams["max"]: 'false',
-            '--duration' => ($this->queueParams["duration"] != "") ? $this->queueParams["duration"] : 'false'
-        ]);
+            '--duration' => ($this->queueParams["duration"] != "") ? $this->queueParams["duration"] : 'false',
+            '--job'      => $this->queueParams["job"]
+       ]);
     }
 }

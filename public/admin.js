@@ -115,6 +115,7 @@ $( document ).ready(function() {
 
     $( ".submit-feed-site-form" ).submit(function( event ) {
         var action = $(this).attr("action");
+        var action_ajax = $(this).attr("action-ajax");
         var form = $(this);
 
         $.ajax({
