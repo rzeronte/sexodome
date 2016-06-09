@@ -18,13 +18,15 @@
 <section class="row tags_header">
     <div class="container">
         @foreach($categories as $category)
-            <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}" target="_blank">
-                <div class="col-md-1 col-sm-4 col-xs-4 tube_cat" style="text-align: center;">
-                    <img src="{{$category->thumb}}" />
+                <div class="col-md-2 col-sm-4 col-xs-4 tube_cat" style="text-align: center;padding:0:margin:0;">
+                    <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}" target="_blank">
+                        <img src="{{$category->thumb}}" />
+                    </a>
                     <div class="clearfix"></div>
-                    <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}" target="_blank"><small>{{ str_limit(ucfirst($category->name), $limit = 8 , $end = '...') }} ({{$category->countScenesLang($language->id)}})</small></a>
-            </div>
-            </a>
+                    <div class="text_link">
+                        <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}" target="_blank">{{ str_limit(ucfirst($category->name), $limit = 8 , $end = '...') }} ({{$category->countScenesLang($language->id)}})</a>
+                    </div>
+                </div>
         @endforeach
     </div>
 
