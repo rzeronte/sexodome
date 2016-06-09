@@ -334,7 +334,9 @@ footer a:hover{
 
 .tube_cat .text_link{
     height: 30px;
-    border: solid 1px black;
+}
+
+.tube_cat .text_link a {
     font-family: "Permanent Marker" !important;
 }
 

@@ -141,4 +141,9 @@
         background-color: {{$site->color3}} !important;
         color: {{$site->color2}} !important;
     }
+    /*Categorias*/
+    .tube_cat .text_link a {
+        color: {{$site->color}} !important;
+    }
+
 </style>
