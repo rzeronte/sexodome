@@ -16,6 +16,7 @@ use App\Model\CategoryTranslation;
 use App\Model\SceneCategory;
 use App\Model\Category;
 use App\Model\Site;
+use Redirect;
 
 use DB;
 
@@ -91,7 +92,8 @@ class rZeBotUtils
 
         if (count($parts) == 2 && $_SERVER["HTTP_HOST"] === rZeBotCommons::getMainPlataformDomain()) {
             // ----------------------------------- Dominio de la propia plataforma formato 'domain.com'
-            return false;
+            Redirect::to("www.".rZeBotCommons::getMainPlataformDomain(), 301);
+            die();
         } elseif (count($parts) == 2 && $_SERVER["HTTP_HOST"] != rZeBotCommons::getMainPlataformDomain()) {
             // ----------------------------------- Dominio externo formato 'domain.com'
             $domain = $parts[0];
