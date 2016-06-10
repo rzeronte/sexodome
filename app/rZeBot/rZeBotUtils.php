@@ -92,8 +92,7 @@ class rZeBotUtils
 
         if (count($parts) == 2 && $_SERVER["HTTP_HOST"] === rZeBotCommons::getMainPlataformDomain()) {
             // ----------------------------------- Dominio de la propia plataforma formato 'domain.com'
-            Redirect::to("www.".rZeBotCommons::getMainPlataformDomain(), 301);
-            die();
+            return Redirect::to("www.".rZeBotCommons::getMainPlataformDomain(), 301);
         } elseif (count($parts) == 2 && $_SERVER["HTTP_HOST"] != rZeBotCommons::getMainPlataformDomain()) {
             // ----------------------------------- Dominio externo formato 'domain.com'
             $domain = $parts[0];
