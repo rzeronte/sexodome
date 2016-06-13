@@ -123,6 +123,8 @@ class rZeBotFeedFetcher extends Command
     {
         if ($categories !== 'false') {
             $categories = explode(",", $categories);
+            echo "Categories selected:".PHP_EOL;
+            print_r($categories);
         } else {
             $categories = false;
         }

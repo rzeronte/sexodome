@@ -27,7 +27,7 @@
                     $bgColor = 'lightyellow';
                 }
             ?>
-            <div class="row" style="background-color:<?=$bgColor?>;margin:0px;padding-top:15px;">
+            <div class="row" style="background-color:<?=$bgColor?>;margin:0px;padding:15px;">
                 <form action="{{route('fetch')}}" class="submit-feed-site-form">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                     <input type="hidden" name="feed_name" value="{{ $channel->name }}"/>
@@ -36,19 +36,17 @@
                         <img src="{{asset('channels/'.$channel->logo)}}" style="width:60px; border: solid 1px black;"/><br/>
                         <p>{{$channel->name}}</p><br/>
                     </div>
-                    <div class="col-md-1">
-                        {{$channel->permalink}}
-                    </div>
-                    <div class="col-md-1">
-                        {{number_format($channel->nvideos, 0, ",", ".")}} scenes
-                    </div>
+                    <div class="col-md-2">
+                        {{$channel->permalink}}<br/>
 
-                    <div class="col-md-1">
                         @if ($channel->embed == 1 )
                             Embed
                         @else
                             No embed
                         @endif
+                        <br/>
+                        {{number_format($channel->nvideos, 0, ",", ".")}} scenes
+
                     </div>
                     <div class="col-md-2">
                         <select class="form-control" name="site_id" style="width:100%" required>
@@ -65,7 +63,7 @@
 
                     <div class="col-md-2">
                         <select class="form-control" name="max" style="width:100%" required>
-                            <option value="">-- amount --</option>
+                            <option value="">-- select amount --</option>
                             <option value="1">1</option>
                             <option value="5">5</option>
                             <option value="25">25</option>
@@ -78,13 +76,25 @@
                         </select>
                     </div>
                     <div class="col-md-2">
+                        <select class="form-control" name="categories[]" style="width:100%;height:150px;" multiple>
+                            <option value=""> -- any category -- </option>
+                            @foreach($categories as $category)
+                                <?php $trans = $category->translations()->where('language_id', $language->id)->first() ?>
+                                <option value="{{$trans->name}}">{{$trans->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
                         <select class="form-control" name="duration" style="width:100%">
-                            <option value="">-- secs --</option>
-                            <option value="200">min. 200 secs</option>
-                            <option value="300">min. 300 secs</option>
-                            <option value="400">min. 400 secs</option>
-                            <option value="500">min. 500 secs</option>
-                            <option value="600">min. 600 secs</option>
+                            <option value="">-- any minutes --</option>
+                            <option value="60">1 min.</option>
+                            <option value="300">5 min.</option>
+                            <option value="600">10 min.</option>
+                            <option value="900">15 min</option>
+                            <option value="1200">20 min</option>
+                            <option value="1500">25 min</option>
+                            <option value="1800">30 min</option>
                         </select>
                     </div>
 

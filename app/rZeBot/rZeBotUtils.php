@@ -318,7 +318,7 @@ class rZeBotUtils
         }
 
         if (($gestor = fopen($fileCSV, "r")) !== FALSE) {
-            while (($datos = fgetcsv($gestor, 10000, $feed_config["fields_separator"])) !== FALSE) {
+            while (($datos = fgetcsv($gestor, 30000, $feed_config["fields_separator"])) !== FALSE) {
 
                 $fila++;
 
@@ -420,11 +420,13 @@ class rZeBotUtils
                     foreach ($video["categories"] as $categoryTxt) {
                         if (in_array($categoryTxt, $categories)) {
                             $mixed_check = true;
+                            echo "Found category: " . $categoryTxt.PHP_EOL;
                         }
                     }
                 }
 
                 if (!$mixed_check) {
+                    rZeBotUtils::message("mixed_check continue;");
                     continue;
                 }
 

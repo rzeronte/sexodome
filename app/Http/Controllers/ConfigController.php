@@ -332,12 +332,21 @@ class ConfigController extends Controller
             $newInfoJob->created_at = date("Y:m:d H:i:s");
             $newInfoJob->save();
 
+            $categories = Input::get('categories');
+
+            if (count($categories == 1) && !strlen($categories[0])) {
+                $categories = 'false';
+            } else {
+                $categories = implode(",", $categories);
+            }
+
             $queueParams = [
-                'feed_name' => Input::get('feed_name'),
-                'site_id'   => Input::get('site_id'),
-                'max'       => Input::get('max'),
-                'duration'  => Input::get('duration'),
-                'job'       => $newInfoJob->id
+                'feed_name'  => Input::get('feed_name'),
+                'site_id'    => Input::get('site_id'),
+                'max'        => Input::get('max'),
+                'duration'   => Input::get('duration'),
+                'categories' => $categories,
+                'job'        => $newInfoJob->id
             ];
 
             try {
@@ -497,6 +506,7 @@ class ConfigController extends Controller
         return view('panel.feeds', [
             'infojobs'  => InfoJobs::getUserJobs()->get(),
             'channels'  => App\Model\Channel::all(),
+            'categories'=> Category::all(),
             'sites'     => $this->commons->sites,
             'locale'    => $this->commons->locale,
             'language'  => $this->commons->language,
