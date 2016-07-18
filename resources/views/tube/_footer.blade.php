@@ -9,7 +9,7 @@
             @endif
         </div>
         <div class="col-md-4">
-            <a href="{{route('index', ['profile' => $profile])}}" title="{{$language->title}}">
+            <a href="{{route('categories', ['profile' => $profile])}}" title="{{$language->title}}">
                 @if (file_exists(\App\rZeBot\rZeBotCommons::getLogosFolder()."/".md5($site->id).".png"))
                     <img src="{{asset('/logos/'.md5($site->id).".png")}}" style="max-height: 50px;"/>
                 @else

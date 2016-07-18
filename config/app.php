@@ -146,6 +146,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         'Jenssegers\Agent\AgentServiceProvider',
         'Spatie\LaravelAnalytics\LaravelAnalyticsServiceProvider',
+        'Roumen\Sitemap\SitemapServiceProvider',
+
     ],
 
     /*

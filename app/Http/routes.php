@@ -79,17 +79,16 @@ Route::group(['domain' => 'accounts.'.\App\rZeBot\rZeBotCommons::getMainPlatafor
 
 });
 
-
 // TubeFronts domains
 Route::group(['domain' => '{host}'], function () {
-    Route::get('/', 'TubeController@index')->name('index');
+    Route::match(['get'], '/', 'TubeController@categories')->name('categories');
+
     Route::get('/search', 'TubeController@search')->name('search');
     Route::get('/tag/{permalinkTag}', 'TubeController@tag')->name('tag');
     Route::get('/category/{permalinkCategory}', 'TubeController@category')->name('category');
     Route::match(['get'], '/video/{permalink}', 'TubeController@video')->name('video');
     Route::match(['get'], '/iframe/{scene_id}', 'TubeController@iframe')->name('iframe');
     Route::match(['get'], '/topscenes/', 'TubeController@topscenes')->name('topscenes');
-    Route::match(['get'], '/categories/', 'TubeController@categories')->name('categories');
     Route::match(['get'], '/ads/', 'TubeController@ads')->name('ads');
 
     Route::match(['get'], '/dmca/', 'TubeController@dmca')->name('dmca');
