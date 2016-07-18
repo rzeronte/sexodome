@@ -61,4 +61,14 @@ class Site extends Model
             return  $this->domain;
         }
     }
+
+    public function getTotalScenes()
+    {
+        $scenes = Scene::where('site_id', $this->id)
+            ->where('status',1)
+            ->count()
+        ;
+
+        return $scenes;
+    }
 }

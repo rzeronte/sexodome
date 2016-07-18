@@ -20,7 +20,7 @@
     <div class="col-md-4 header_query_string" style="text-align: right; margin-top:15px;">
         <form action="{{ route('search', ['profile' => $profile]) }}" method="get">
             <div class="input-group">
-                <input id="query_string" name="q" type="text" placeholder="@if (isset($scenes)){{ number_format($scenes->total(), 0, ".", ",") }} videos @endif" class="form-control input_search" value="{{$query_string}}">
+                <input id="query_string" name="q" type="text" placeholder="@if (isset($scenes)){{ number_format($scenes->total(), 0, ".", ",") }} videos @endif @if (isset($total_scenes)){{ number_format($total_scenes, 0, ".", ",") }} videos @endif" class="form-control input_search" value="{{$query_string}}">
                 <span class="input-group-btn">
                     <button type="submit" class="btn"><i class="glyphicon glyphicon-search"></i> search</button>
                 </span>

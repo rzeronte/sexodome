@@ -25,36 +25,6 @@ class TubeController extends Controller
         $this->commons = new rZeBotCommons();
     }
 
-    public function index($host)
-    {
-        $query_string = Request::get('q');
-
-        // scenes
-        $scenes = Scene::getAllTranslated($this->commons->language->id)
-            ->where('status', 1)
-            ->where('site_id', $this->commons->site->id)
-            ->orderBy('published_at', 'desc')
-            ->paginate($this->commons->perPage)
-        ;
-
-        // seo
-        $seo_title = str_replace("{domain}", $this->commons->site->domain, $this->commons->site->title_index);
-        $seo_description = str_replace("{domain}", $this->commons->site->domain, $this->commons->site->description_index);
-
-        return response()->view('tube.index', [
-            'profile'         => $host,
-            'scenes'          => $scenes,
-            'categories'      => $this->commons->site->categories()->get(),
-            'query_string'    => $query_string,
-            'resultsPerPage'  => $this->commons->perPage,
-            'language'        => $this->commons->language,
-            'languages'       => $this->commons->languages,
-            'site'            => $this->commons->site,
-            'seo_title'       => $seo_title,
-            'seo_description' => $seo_description
-        ]);
-    }
-
     public function search($profile)
     {
         $query_string = Request::get('q', false);
@@ -277,7 +247,7 @@ class TubeController extends Controller
             'seo_title'       => $seo_title,
             'seo_description' => $seo_description,
             'site'            => $this->commons->site,
-
+            'total_scenes'    => $this->commons->site->getTotalScenes(),
         ])->header('Cache-control', 'max-age=3600');
     }
 
