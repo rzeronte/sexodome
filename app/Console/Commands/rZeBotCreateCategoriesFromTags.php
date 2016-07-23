@@ -62,7 +62,7 @@ class rZeBotCreateCategoriesFromTags extends Command
                 $countScenes = $tag->scenes()->where('status', 1)->count();
 
                 // Si existe un umbral de escenas suficiente, el tag es una potencial categoría
-                if ($countScenes >= $SCENES_MIN) {
+                if ($countScenes >= $SCENES_MIN && strlen($tag->name) > 0) {
 
                     $singular = str_singular($tag->name);
                     $plural = str_plural($tag->name);
