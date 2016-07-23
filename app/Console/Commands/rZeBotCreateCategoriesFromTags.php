@@ -59,7 +59,7 @@ class rZeBotCreateCategoriesFromTags extends Command
                 echo "Procesando tag: " . $tag->name;
 
                 // Contamos el ńumero de escenas para este tags
-                $countScenes = $tag->scenes()->where('site_id', $site_id)->where('status', 1)->count();
+                $countScenes = $tag->scenes()->where('status', 1)->count();
 
                 // Si existe un umbral de escenas suficiente, el tag es una potencial categoría
                 if ($countScenes >= $SCENES_MIN && strlen($tag->name) > 0) {
@@ -111,7 +111,7 @@ class rZeBotCreateCategoriesFromTags extends Command
                         // sync scenes to category
                         $ids_sync = [];
 
-                        foreach($tag->scenes()->where('site_id', $site_id)->where('status', 1)->select("scenes.id")->get() as $video) {
+                        foreach($tag->scenes()->where('status', 1)->select("scenes.id")->get() as $video) {
                             $ids_sync[] = $video->id;
                         }
 
@@ -129,7 +129,7 @@ class rZeBotCreateCategoriesFromTags extends Command
                         // Obtenemos la categoría partiendo de la traducción
                         $category = Category::find($categoryTranslation->category_id);
 
-                        foreach($tag->scenes()->where('site_id', $site_id)->where('status', 1)->select("scenes.id")->get() as $video) {
+                        foreach($tag->scenes()->where('status', 1)->select("scenes.id")->get() as $video) {
                             try {
                                 $sceneCategory = new SceneCategory();
                                 $sceneCategory->scene_id = $video->id;
