@@ -54,13 +54,26 @@ class Tag extends Model
         return $scenes->count();
     }
 
-    static function getTranslationSearch($query_string = false, $language_id)
+    static function getTranslationSearch($query_string = false, $language_id = false, $site_id = false)
     {
-        $tags = Tag::select('tags.*', 'tag_translations.name', 'tag_translations.permalink', 'tag_translations.id as translationId')
+        $tags = Tag::select(
+            'tags.*',
+            'tag_translations.name',
+            'tag_translations.permalink',
+            'tag_translations.id as translationId'
+            )
             ->join('tag_translations', 'tag_translations.tag_id', '=', 'tags.id')
-            ->where('tag_translations.language_id', $language_id);
+        ;
 
-        if ($query_string != false) {
+        if ($language_id !== false) {
+            $tags->where('tag_translations.language_id', $language_id);
+        }
+
+        if ($site_id !== false) {
+            $tags->where('tags.site_id', $site_id);
+        }
+
+        if ($query_string !== false) {
             $tags->where('tag_translations.name', 'like', '%'.$query_string.'%');
         }
 
