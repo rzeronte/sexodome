@@ -57,7 +57,7 @@ class Category extends Model
         return $categories;
     }
 
-    public function countScenesLang($language_id)
+    public function countScenesLangAndSite($language_id, $site_id)
     {
         return Scene::select('scenes.id')
             ->join('scene_translations', 'scenes.id', '=', 'scene_translations.scene_id')
@@ -66,6 +66,7 @@ class Category extends Model
             ->join('categories_translations', 'categories_translations.category_id', '=', 'scene_category.category_id')
             ->where('categories_translations.language_id', '=', $language_id)
             ->where('categories.id', '=', $this->id)
+            ->where('scenes.site_id', '=', $site_id)
             ->where('scene_translations.language_id', '=', $language_id)
             ->whereNotNull('categories_translations.permalink')
             ->whereNotNull('scene_translations.permalink')

@@ -26,7 +26,7 @@
                 <div class="clearfix"></div>
 
                 <div class="text_link">
-                    <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}" target="_blank">{{ str_limit(ucfirst($category->name), $limit = 13 , $end = '...') }} ({{$category->countScenesLang($language->id)}})</a>
+                    <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}" target="_blank">{{ str_limit(ucfirst($category->name), $limit = 13 , $end = '...') }} ({{$category->countScenesLangAndSite($language->id, $site->id)}})</a>
                 </div>
             </div>
         @endforeach
