@@ -57,7 +57,7 @@ class rZeBotCreateCategoriesFromTags extends Command
                 echo "Procesando tag: " . $tag->name;
 
                 // Contamos el ńumero de escenas para este tags
-                $countScenes = $tag->scenes()->where('status', 1)->count();
+                $countScenes = $tag->scenes()->where('site_id', $site_id)->where('status', 1)->count();
 
                 // Si existe un umbral de escenas suficiente, el tag es una potencial categoría
                 if ($this->isValidTag($tag->name)) {
@@ -98,7 +98,7 @@ class rZeBotCreateCategoriesFromTags extends Command
                             $newCategoryTranslation = new CategoryTranslation();
                             $newCategoryTranslation->category_id = $newCategory->id;
                             $newCategoryTranslation->language_id = $language->id;
-                            $newCategoryTranslation->thumb = $tag->scenes()->orderByRaw("RAND()")->limit(100)->first()->preview;
+                            $newCategoryTranslation->thumb = $tag->scenes()->where('site_id', $site_id)->orderByRaw("RAND()")->limit(100)->first()->preview;
 
                             if ($language->id == $englishLanguage->id) {
                                 $newCategoryTranslation->permalink = str_slug($plural);
@@ -113,7 +113,7 @@ class rZeBotCreateCategoriesFromTags extends Command
                         // sync scenes to category
                         $ids_sync = [];
 
-                        foreach($tag->scenes()->where('status', 1)->select("scenes.id")->get() as $video) {
+                        foreach($tag->scenes()->where('site_id', $site_id)->where('status', 1)->select("scenes.id")->get() as $video) {
                             $ids_sync[] = $video->id;
                         }
 
@@ -136,7 +136,7 @@ class rZeBotCreateCategoriesFromTags extends Command
                             $category->status = 0;
                         }
 
-                        foreach($tag->scenes()->where('status', 1)->select("scenes.id")->get() as $video) {
+                        foreach($tag->scenes()->where('site_id', $site_id)->where('status', 1)->select("scenes.id")->get() as $video) {
                             try {
                                 $sceneCategory = new SceneCategory();
                                 $sceneCategory->scene_id = $video->id;

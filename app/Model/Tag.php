@@ -66,11 +66,11 @@ class Tag extends Model
         ;
 
         if ($language_id !== false) {
-            $tags->where('tag_translations.language_id', $language_id);
+            $tags->where('tag_translations.language_id', '=', $language_id);
         }
 
         if ($site_id !== false) {
-            $tags->where('tags.site_id', $site_id);
+            $tags->where('tags.site_id', '=', $site_id);
         }
 
         if ($query_string !== false) {
