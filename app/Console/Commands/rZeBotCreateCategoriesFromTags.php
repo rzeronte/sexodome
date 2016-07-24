@@ -74,9 +74,11 @@ class rZeBotCreateCategoriesFromTags extends Command
                         echo " -> Singular";
                     }
 
-                    // Comprobamos si ya existe el tag en plural (las categorías solo serán plural)
-                    $categoryTranslation = CategoryTranslation::where("name", "=", $plural)
-                        ->where("language_id", "=", $englishLanguage->id)
+                    // Comprobamos si ya existe la categoría (las categorías solo serán plural)
+                    $categoryTranslation = CategoryTranslation::join('categories', 'categories.id', '=', 'categories_translations.category_id')
+                        ->where('categories.site_id', '=', $site_id)
+                        ->where("categories_translations.language_id", "=", $englishLanguage->id)
+                        ->where("categories_translations.name", "=", $plural)
                         ->first()
                     ;
 
