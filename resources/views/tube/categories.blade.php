@@ -29,7 +29,7 @@
                 <div class="clearfix"></div>
 
                 <div class="text_link">
-                    <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}" target="_blank">{{ str_limit(ucfirst($category->name), $limit = 13 , $end = '...') }} ({{$category->countScenesLangAndSite($language->id, $site->id)}})</a>
+                    <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}" target="_blank">{{ str_limit(ucfirst($category->name), $limit = 13 , $end = '...') }} ({{$category->nscenes}})</a>
                 </div>
             </div>
             @if ($i % 10 == 0 and $i != 0)
