@@ -25,7 +25,7 @@ class rZeBotCreateCategoriesFromTags extends Command
     public function handle()
     {
         $site_id = $this->argument("site_id");
-        $min_scenes_activation = $this->argument("min_scenes_activation");
+        $min_scenes_activation = $this->option("min_scenes_activation");
 
         $site = Site::find($site_id);
 
