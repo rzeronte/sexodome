@@ -129,7 +129,7 @@ class rZeBotCreateCategoriesFromTags extends Command
 
                         $this->info("[CREATE] Creando categoría $plural en http://".$site->getHost()." y sync para $countScenes escenas");
                         $newCategory->scenes()->sync($ids_sync);
-                        $newCategory->nscenes = count($ids_sync);
+                        $newCategory->nscenes = $countScenes;
                         $newCategory->save();
                     } else {
                         $plural = str_plural($tag->name);
@@ -158,7 +158,7 @@ class rZeBotCreateCategoriesFromTags extends Command
                         $totalIds = array_merge($ids_sync, $currentCategoryScenes);
 
                         $category->scenes()->sync($totalIds);
-                        $category->nscenes = count($totalIds);
+                        $category->nscenes = $countScenes;
                         $category->save();
 
                         $this->info("[WARNING] La categoría: " . $plural. "($categoryTranslation->category_id) ya existe en ".$site->getHost() . ", sync para $countScenes escenas...");
