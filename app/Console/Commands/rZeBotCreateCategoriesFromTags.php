@@ -17,7 +17,7 @@ class rZeBotCreateCategoriesFromTags extends Command
 {
     protected $signature = 'rZeBot:create:categories {site_id}
                     {--truncate=false : Determine if truncate tables}
-                    {--SCENES_MIN=250: Determine if truncate tables}';
+                    {--min_scenes_activation=250: Determine if active category}';
 
 
     protected $description = 'Create categories from tags for a site';
@@ -25,6 +25,7 @@ class rZeBotCreateCategoriesFromTags extends Command
     public function handle()
     {
         $site_id = $this->argument("site_id");
+        $min_scenes_activation = $this->argument("min_scenes_activation");
 
         $site = Site::find($site_id);
 
@@ -34,19 +35,16 @@ class rZeBotCreateCategoriesFromTags extends Command
         }
 
         $truncate = $this->option("truncate");
-        $SCENES_MIN = $this->option("SCENES_MIN");
 
         if ($truncate !== "false") {
             $this->info("Truncamos tablas");
             DB::table('categories')->where("site_id", $site_id)->delete();
-            //DB::table('categories_translations')->delete();
-            //DB::table('scene_category')->where("site_id", $site_id)->delete();
         }
 
         // obtenemos todos los tags en inglés, que es el idioma referencia
         // ya que los dumps originales son en inglés.
         $englishLanguage = Language::where('code', 'en')->first();
-        $tags = Tag::getTranslationSearch("", $englishLanguage->id, $site_id);
+        $tags = Tag::getTranslationSearch(false, $englishLanguage->id, $site_id);
 
         $languages = Language::all();
 
@@ -62,7 +60,7 @@ class rZeBotCreateCategoriesFromTags extends Command
                 $countScenes = $tag->scenes()->where('status', 1)->count();
 
                 // Si existe un umbral de escenas suficiente, el tag es una potencial categoría
-                if ($countScenes >= $SCENES_MIN && strlen($tag->name) > 0) {
+                if ($this->isValidTag($tag->name)) {
 
                     $singular = str_singular($tag->name);
                     $plural = str_plural($tag->name);
@@ -87,7 +85,11 @@ class rZeBotCreateCategoriesFromTags extends Command
                         // create category
                         $newCategory = new Category();
                         $newCategory->text = $tag->name; // será plural, que es el que usamos en el where del tag
-                        $newCategory->status = 1;
+                        if ($countScenes >= $min_scenes_activation) {
+                            $newCategory->status = 1;
+                        } else {
+                            $newCategory->status = 0;
+                        }
                         $newCategory->site_id = $site_id;
                         $newCategory->save();
 
@@ -124,10 +126,15 @@ class rZeBotCreateCategoriesFromTags extends Command
                         echo PHP_EOL;
 
                         $this->info("[WARNING] La categoría: " . $plural. " ya existe en ".$site->getHost() . ", sincronizamos para $countScenes escenas...");
-                        $ids_sync = [];
 
                         // Obtenemos la categoría partiendo de la traducción
                         $category = Category::find($categoryTranslation->category_id);
+
+                        if ($countScenes >= $min_scenes_activation) {
+                            $category->status = 1;
+                        } else {
+                            $category->status = 0;
+                        }
 
                         foreach($tag->scenes()->where('status', 1)->select("scenes.id")->get() as $video) {
                             try {
@@ -141,9 +148,24 @@ class rZeBotCreateCategoriesFromTags extends Command
                             }
                         }
                     }
+                } else {
+                    $this->info("\033[31m[WARNING] Ignorando categoría: " . $tag->name);
                 }
                 echo PHP_EOL;
             }
         }
+    }
+
+    public function isValidTag($tag) {
+
+        if (!strlen($tag->name)) {
+            return false;
+        }
+
+        if (is_numeric($tag->name)) {
+            return false;
+        }
+
+        return true;
     }
 }
