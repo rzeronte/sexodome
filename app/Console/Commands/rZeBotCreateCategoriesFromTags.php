@@ -125,7 +125,7 @@ class rZeBotCreateCategoriesFromTags extends Command
 
                         echo PHP_EOL;
 
-                        $this->info("[WARNING] La categoría: " . $plural. " ya existe en ".$site->getHost() . ", sincronizamos para $countScenes escenas...");
+                        $this->info("[WARNING] La categoría: " . $plural. "($categoryTranslation->category_id) ya existe en ".$site->getHost() . ", sincronizamos para $countScenes escenas...");
 
                         // Obtenemos la categoría partiendo de la traducción
                         $category = Category::find($categoryTranslation->category_id);
