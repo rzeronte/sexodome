@@ -158,11 +158,11 @@ class rZeBotCreateCategoriesFromTags extends Command
 
     public function isValidTag($tag) {
 
-        if (!strlen($tag->name)) {
+        if (!strlen($tag)) {
             return false;
         }
 
-        if (is_numeric($tag->name)) {
+        if (is_numeric($tag)) {
             return false;
         }
 
