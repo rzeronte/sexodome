@@ -95,33 +95,6 @@ class rZeBotTranslate extends Command
 
     }
 
-    public function translateCategories($from, $to, $site_id) {
-        $languageFrom = Language::where('code', $from)->first();
-        $languageTo = Language::where('code', $to)->first();
-
-        $categories = Category::where('site_id', $site_id)->get();
-        $i=0;
-        foreach ($categories as $category) {
-            echo "[ " . number_format(($i*100)/ count($categories), 0) ."% ]";
-            $i++;
-
-            $textFrom = $category->translations()->where('language_id', $languageFrom->id)->first();
-            $translationTo = $category->translations()->where('language_id', $languageTo->id)->first();
-
-            $translationTitle = $this->translateText($textFrom->title, $from, $to);
-
-            if ($translationTitle != false) {
-                $translationTo->title = $translationTitle;
-                $translationTo->permalink = str_slug($translationTitle);
-                $translationTo->save();
-                echo "[CATEGORY] " . $textFrom->title . " - " . $translationTitle.PHP_EOL;
-            } else {
-                echo "[ERROR CATEGORY TRANSLATION] $from <-> $to" . $textFrom->name . " - " . $translationTitle .PHP_EOL;
-            }
-        }
-
-    }
-
     public function translateScenes($from, $to, $site_id)
     {
         $languageFrom = Language::where('code', $from)->first();
@@ -172,6 +145,11 @@ class rZeBotTranslate extends Command
             $textFrom = $tag->translations()->where('language_id', $languageFrom->id)->first();
             $translationTo = $tag->translations()->where('language_id', $languageTo->id)->first();
 
+            if (!$textFrom || !$translationTo) {
+                echo "[ERROR TAG] Can't get from and to objects".PHP_EOL;
+                continue;
+            }
+
             $translationName = $this->translateText($textFrom->name, $from, $to);
 
             if ($translationName != false) {
@@ -184,6 +162,38 @@ class rZeBotTranslate extends Command
             }
 
         }
+    }
+
+    public function translateCategories($from, $to, $site_id) {
+        $languageFrom = Language::where('code', $from)->first();
+        $languageTo = Language::where('code', $to)->first();
+
+        $categories = Category::where('site_id', $site_id)->get();
+        $i=0;
+        foreach ($categories as $category) {
+            echo "[ " . number_format(($i*100)/ count($categories), 0) ."% ]";
+            $i++;
+
+            $textFrom = $category->translations()->where('language_id', $languageFrom->id)->first();
+            $translationTo = $category->translations()->where('language_id', $languageTo->id)->first();
+
+            if (!$textFrom || !$translationTo) {
+                echo "[ERROR CATEGORY] Can't get from and to objects".PHP_EOL;
+                continue;
+            }
+
+            $translationTitle = $this->translateText($textFrom->title, $from, $to);
+
+            if ($translationTitle != false) {
+                $translationTo->title = $translationTitle;
+                $translationTo->permalink = str_slug($translationTitle);
+                $translationTo->save();
+                echo "[CATEGORY] " . $textFrom->title . " - " . $translationTitle.PHP_EOL;
+            } else {
+                echo "[ERROR CATEGORY TRANSLATION] $from <-> $to" . $textFrom->name . " - " . $translationTitle .PHP_EOL;
+            }
+        }
+
     }
 
     public function translateText($text, $from, $to)
