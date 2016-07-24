@@ -158,10 +158,10 @@ class rZeBotCreateCategoriesFromTags extends Command
                         $totalIds = array_merge($ids_sync, $currentCategoryScenes);
 
                         $category->scenes()->sync($totalIds);
-                        $category->nscenes = $countScenes;
+                        $category->nscenes = count($totalIds);
                         $category->save();
 
-                        $this->info("[WARNING] La categoría: " . $plural. "($categoryTranslation->category_id) ya existe en ".$site->getHost() . ", sync para $countScenes escenas...");
+                        $this->info("[WARNING] La categoría: " . $plural. "($categoryTranslation->category_id) ya existe en ".$site->getHost() . ", sync para ".count($totalIds)." escenas...");
                     }
                 } else {
                     $this->info("\033[31m | [WARNING] Ignorando categoría: " . $tag->name);
