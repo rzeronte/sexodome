@@ -96,12 +96,17 @@ class TubeController extends Controller
 
     public function category($profile, $permalinkCategory)
     {
-        // check if tag exists, else redirect to route
-        if (CategoryTranslation::where('permalink', $permalinkCategory)->count() == 0) {
+        if (CategoryTranslation::join('categories','categories.id', '=', 'categories_translations.category_id')
+                ->where('categories.site_id', '=', $this->commons->site->id)
+                ->where('permalink', $permalinkCategory)
+                ->count() == 0
+        ) {
             return redirect()->route('index');
         }
 
-        $categoryTranslation = CategoryTranslation::where('permalink', $permalinkCategory)
+        $categoryTranslation = CategoryTranslation::join('categories','categories.id', '=', 'categories_translations.category_id')
+            ->where('permalink', $permalinkCategory)
+            ->where('categories.site_id', '=', $this->commons->site->id)
             ->where('language_id', $this->commons->site->language_id)
             ->first()
         ;
@@ -109,8 +114,6 @@ class TubeController extends Controller
         if (!$categoryTranslation) {
             abort(404, "Category not found");
         }
-
-        $category = $categoryTranslation->category;
 
         // get scenes
         $scenes = Scene::getTranslationsForCategory($permalinkCategory, $this->commons->language->id)
