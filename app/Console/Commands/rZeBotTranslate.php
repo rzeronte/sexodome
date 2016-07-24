@@ -178,7 +178,7 @@ class rZeBotTranslate extends Command
                 continue;
             }
 
-            $translationTitle = $this->translateText($textFrom->title, $from, $to);
+            $translationTitle = $this->translateText($textFrom->name, $from, $to);
 
             if ($translationTitle != false) {
                 $translationTo->title = $translationTitle;
