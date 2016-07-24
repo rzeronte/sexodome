@@ -184,7 +184,7 @@ class rZeBotTranslate extends Command
                 $translationTo->name= $translationTitle;
                 $translationTo->permalink = str_slug($translationTitle);
                 $translationTo->save();
-                echo "[CATEGORY] " . $textFrom->title . " - " . $translationTitle.PHP_EOL;
+                echo "[CATEGORY] " . $textFrom->name. " - " . $translationTitle.PHP_EOL;
             } else {
                 echo "[ERROR CATEGORY TRANSLATION] $from <-> $to" . $textFrom->name . " - " . $translationTitle .PHP_EOL;
             }
