@@ -21,14 +21,14 @@
 
         @foreach($categories as $category)
             <div class="col-md-2 col-sm-4 col-xs-4 tube_cat" style="text-align: center;padding:0:margin:0;">
-                <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}" target="_blank">
+                <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}">
                     <img src="{{$category->thumb}}" />
                 </a>
 
                 <div class="clearfix"></div>
 
                 <div class="text_link" style="float:left; display: inline-block">
-                    <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}" target="_blank">{{ str_limit(ucfirst($category->name), $limit = 13 , $end = '...') }} ({{$category->nscenes}})</a>
+                    <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}">{{ str_limit(ucfirst($category->name), $limit = 13 , $end = '...') }} ({{$category->nscenes}})</a>
                 </div>
             </div>
         @endforeach
