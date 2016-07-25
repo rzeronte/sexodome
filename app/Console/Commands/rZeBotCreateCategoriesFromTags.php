@@ -123,13 +123,13 @@ class rZeBotCreateCategoriesFromTags extends Command
                         // sync scenes to category
                         $ids_sync = [];
 
-                        foreach($tag->scenes()->where('site_id', $site_id)->where('status', 1)->select("scenes.id")->get() as $video) {
+                        foreach($tag->scenes()->where('status', 1)->select("scenes.id")->get() as $video) {
                             $ids_sync[] = $video->id;
                         }
 
                         $this->info("[CREATE] Creando categoría $plural en http://".$site->getHost()." y sync para $countScenes escenas");
                         $newCategory->scenes()->sync($ids_sync);
-                        $newCategory->nscenes = $countScenes;
+                        $newCategory->nscenes = count($ids_sync);;
                         $newCategory->save();
                     } else {
                         $plural = str_plural($tag->name);
@@ -150,7 +150,7 @@ class rZeBotCreateCategoriesFromTags extends Command
                         // sync scenes to category
                         $ids_sync = [];
 
-                        foreach($tag->scenes()->where('site_id', $site_id)->where('status', 1)->select("scenes.id")->get() as $video) {
+                        foreach($tag->scenes()->where('status', 1)->select("scenes.id")->get() as $video) {
                             $ids_sync[] = $video->id;
                         }
 
