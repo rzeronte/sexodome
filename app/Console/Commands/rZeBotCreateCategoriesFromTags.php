@@ -18,7 +18,7 @@ class rZeBotCreateCategoriesFromTags extends Command
     protected $signature = 'rZeBot:create:categories {site_id}
                     {--truncate=false : Determine if truncate tables}
                     {--only_truncate=false : Determine if only truncate}
-                    {--min_scenes_activation=250: Determine if active category}';
+                    {--min_scenes_activation=30: Determine if active category}';
 
 
     protected $description = 'Create categories from tags for a site';
