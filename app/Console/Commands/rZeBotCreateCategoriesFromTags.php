@@ -67,7 +67,7 @@ class rZeBotCreateCategoriesFromTags extends Command
                 echo "Tag: " . $tag->name;
 
                 // Contamos el ńumero de escenas para este tags
-                $countScenes = $tag->scenes()->where('site_id', $site_id)->where('status', 1)->count();
+                $countScenes = $tag->scenes()->count();
 
                 // Si existe un umbral de escenas suficiente, el tag es una potencial categoría
                 if ($this->isValidTag($tag->name)) {
@@ -75,7 +75,7 @@ class rZeBotCreateCategoriesFromTags extends Command
                     $singular = str_singular($tag->name);
                     $plural = str_plural($tag->name);
 
-                    echo " | $countScenes | ($singular-$plural)";
+                    echo " | Tag scenes count: $countScenes | ($singular-$plural)";
 
                     // Debug en pantalla para ver si el el tag es singular o plural
                     if ($tag->name == $plural) {
@@ -110,7 +110,7 @@ class rZeBotCreateCategoriesFromTags extends Command
                             $newCategoryTranslation = new CategoryTranslation();
                             $newCategoryTranslation->category_id = $newCategory->id;
                             $newCategoryTranslation->language_id = $language->id;
-                            @$newCategoryTranslation->thumb = $tag->scenes()->where('site_id', $site_id)->orderByRaw("RAND()")->limit(100)->first()->preview;
+                            @$newCategoryTranslation->thumb = $tag->scenes()->orderByRaw("RAND()")->limit(100)->first()->preview;
 
                             if ($language->id == $englishLanguage->id) {
                                 $newCategoryTranslation->permalink = str_slug($plural);
@@ -123,7 +123,7 @@ class rZeBotCreateCategoriesFromTags extends Command
                         // sync scenes to category
                         $ids_sync = [];
 
-                        foreach($tag->scenes()->where('status', 1)->select("scenes.id")->get() as $video) {
+                        foreach($tag->scenes()->select("scenes.id")->get() as $video) {
                             $ids_sync[] = $video->id;
                         }
 
@@ -151,19 +151,18 @@ class rZeBotCreateCategoriesFromTags extends Command
                         // sync scenes to category
                         $ids_sync = [];
 
-                        foreach($tag->scenes()->where('status', 1)->select("scenes.id")->get() as $video) {
+                        foreach($tag->scenes()->select("scenes.id")->get() as $video) {
                             $ids_sync[] = $video->id;
                         }
 
-                        // Añadimos a las actuales categorías que hubiese, las nuevas, si las hubiese
-                        $totalIds = array_merge($ids_sync, $currentCategoryScenes);
+                        $totalIds = array_unique(array_merge($ids_sync, $currentCategoryScenes));
 
                         $category->nscenes = count(array_unique($totalIds));
                         $category->save();
 
                         $category->scenes()->sync($totalIds);
 
-                        $this->info("[WARNING] La categoría: " . $plural. "($categoryTranslation->category_id) ya existe en ".$site->getHost() . ", sync para ".count(array_unique($totalIds))." escenas...");
+                        $this->info("[WARNING] La categoría: " . $plural. "($categoryTranslation->category_id) ya existe en ".$site->getHost() . ", sync para ".count($totalIds)." escenas...");
                     }
                 } else {
                     $this->info("\033[31m | [WARNING] Ignorando categoría: " . $tag->name);
