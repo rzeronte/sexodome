@@ -515,6 +515,7 @@ class rZeBotUtils
                         foreach ($languages as $language) {
                             $sceneTranslation = new SceneTranslation();
                             $sceneTranslation->language_id = $language->id;
+                            $sceneTranslation->scene_id = $scene->id;
 
                             if ($language->id == 2) {
                                 $sceneTranslation->title = $video["title"];
