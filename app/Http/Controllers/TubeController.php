@@ -238,8 +238,8 @@ class TubeController extends Controller
         ;
 
         // seo
-        $seo_title = str_replace("{domain}", $this->commons->language->domain, $this->commons->language->title);
-        $seo_description = str_replace("{domain}", $this->commons->language->domain, $this->commons->language->description);
+        $seo_title = str_replace("{domain}", $this->commons->language->domain, $this->commons->language->title_index);
+        $seo_description = str_replace("{domain}", $this->commons->language->domain, $this->commons->language->description_index);
 
         return response()->view('tube.categories', [
             'profile'         => $profile,
