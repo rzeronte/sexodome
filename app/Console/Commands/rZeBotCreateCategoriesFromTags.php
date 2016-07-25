@@ -110,7 +110,7 @@ class rZeBotCreateCategoriesFromTags extends Command
                             $newCategoryTranslation = new CategoryTranslation();
                             $newCategoryTranslation->category_id = $newCategory->id;
                             $newCategoryTranslation->language_id = $language->id;
-                            $newCategoryTranslation->thumb = $tag->scenes()->where('site_id', $site_id)->orderByRaw("RAND()")->limit(100)->first()->preview;
+                            @$newCategoryTranslation->thumb = $tag->scenes()->where('site_id', $site_id)->orderByRaw("RAND()")->limit(100)->first()->preview;
 
                             if ($language->id == $englishLanguage->id) {
                                 $newCategoryTranslation->permalink = str_slug($plural);
