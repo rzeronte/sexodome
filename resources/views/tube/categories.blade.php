@@ -18,7 +18,6 @@
 <section class="row tags_header">
     <div class="container">
         <div class="clearfix"></div>
-        <div class="col-md-1"></div>
 
         @foreach($categories as $category)
             <div class="col-md-2 col-sm-4 col-xs-4 tube_cat" style="text-align: center;padding:0:margin:0;">
