@@ -567,16 +567,20 @@ class rZeBotUtils
                                 continue;
                             }
 
-                            if (CategoryTranslation::where('name', $categoryTxt)->where('language_id', 2)->count() == 0) {
+                            if (CategoryTranslation::join('categories', 'categories.id', '=', 'categories_translations.category_id')
+                                    ->where('name', $categoryTxt)
+                                    ->where('language_id', 2)
+                                    ->count() == 0)
+                            {
 
                                 rZeBotUtils::message("Creando categoría $categoryTxt", "green");
 
                                 $category = new Category();
                                 $category->status = 1;
-                                $category->text   = $categoryTxt;
+                                $category->text = $categoryTxt;
                                 $category->site_id = $site_id;
                                 $category->save();
-                                $category_id=$category->id;
+                                $category_id = $category->id;
 
                                 // tag translations
                                 foreach ($languages as $language) {
@@ -592,7 +596,12 @@ class rZeBotUtils
                                     $categoryTranslation->save();
                                 }
                             } else {
-                                $categoryTranslation = CategoryTranslation::where('name', $categoryTxt)->where('language_id', 2)->first();
+                                $categoryTranslation = CategoryTranslation::join('categories', 'categories.id', '=', 'categories_translations.category_id')
+                                    ->where('categories.site_id', $site_id)
+                                    ->where('name', $categoryTxt)
+                                    ->where('language_id', 2)
+                                    ->first()
+                                ;
                                 $category_id = $categoryTranslation->category_id;
                             }
 
