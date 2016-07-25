@@ -127,9 +127,9 @@ class rZeBotCreateCategoriesFromTags extends Command
                             $ids_sync[] = $video->id;
                         }
 
-                        $this->info("[CREATE] Creando categoría $plural en http://".$site->getHost()." y sync para $countScenes escenas");
+                        $this->info("[CREATE] Creando categoría $plural en http://".$site->getHost()." y sync para ".count($ids_sync)." escenas");
                         $newCategory->scenes()->sync($ids_sync);
-                        $newCategory->nscenes = count($ids_sync);;
+                        $newCategory->nscenes = count($ids_sync);
                         $newCategory->save();
                     } else {
                         $plural = str_plural($tag->name);
