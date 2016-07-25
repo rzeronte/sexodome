@@ -145,5 +145,10 @@
     .tube_cat .text_link a {
         color: {{$site->color}} !important;
     }
+    .tube_cat .text_link {
+    }
+    .tube_cat img {
+        border: solid 1px {{$site->color}} !important;
+    }
 
 </style>
