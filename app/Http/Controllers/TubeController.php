@@ -37,8 +37,8 @@ class TubeController extends Controller
         ;
 
         // seo
-        $seo_title = str_replace("{domain}", $this->commons->language->domain, $this->commons->language->title_index);
-        $seo_description = str_replace("{domain}", $this->commons->language->domain, $this->commons->language->description_index);
+        $seo_title = str_replace("{domain}", $this->commons->site->getHost(), $this->commons->site->title_index);
+        $seo_description = str_replace("{domain}", $this->commons->site->getHost(), $this->commons->site->description_index);
 
         return response()->view('tube.search', [
             'profile'         => $profile,
@@ -72,11 +72,11 @@ class TubeController extends Controller
         ;
 
         // seo
-        $seo_title = str_replace("{tag}", $tagTranslation->name, $this->site->title_tag);
-        $seo_title = str_replace("{domain}", $this->site->domain, $seo_title);
+        $seo_title = str_replace("{tag}", $tagTranslation->name, $this->commons->site->title_tag);
+        $seo_title = str_replace("{domain}", $this->commons->site->getHost(), $seo_title);
 
-        $seo_description = str_replace("{tag}", $tagTranslation->name, $this->site->description_tag);
-        $seo_description = str_replace("{domain}", $this->site->domain, $seo_description);
+        $seo_description = str_replace("{tag}", $tagTranslation->name, $this->commons->site->description_tag);
+        $seo_description = str_replace("{domain}", $this->commons->site->getHost(), $seo_description);
 
         return response()->view('tube.search', [
             'profile'         => $profile,
@@ -125,10 +125,10 @@ class TubeController extends Controller
 
         // seo
         $seo_title = str_replace("{category}", $categoryTranslation->name, $this->commons->site->title_category);
-        $seo_title = str_replace("{domain}", $this->commons->site->domain, $seo_title);
+        $seo_title = str_replace("{domain}", $this->commons->site->getHost(), $seo_title);
 
         $seo_description = str_replace("{category}", $categoryTranslation->name, $this->commons->site->description_category);
-        $seo_description = str_replace("{domain}", $this->commons->site->domain, $seo_description);
+        $seo_description = str_replace("{domain}", $this->commons->site->getHost(), $seo_description);
 
         return response()->view('tube.search', [
             'profile'         => $profile,
@@ -167,8 +167,8 @@ class TubeController extends Controller
         }
 
         // seo
-        $seo_title = str_replace("{domain}", $this->commons->language->domain, $scene->title);
-        $seo_description = str_replace("{domain}", $this->commons->language->domain, $scene->description);
+        $seo_title = str_replace("{domain}", $this->commons->site->getHost(), $scene->title);
+        $seo_description = str_replace("{domain}", $this->commons->site->getHost(), $scene->description);
 
         return response()->view('tube.video', [
             'profile'         => $profile,
@@ -209,8 +209,8 @@ class TubeController extends Controller
             ->paginate(24*3);
 
         // seo
-        $seo_title = str_replace("{domain}", $this->commons->language->domain, $this->commons->language->index_topscenes);
-        $seo_description = str_replace("{domain}", $this->commons->language->domain, $this->commons->language->description_topscenes);
+        $seo_title = str_replace("{domain}", $this->commons->site->getHost(), $this->commons->site->index_topscenes);
+        $seo_description = str_replace("{domain}", $this->commons->site->getHost(), $this->commons->site->description_topscenes);
 
         return response()->view('tube.index', [
             'profile'         => $profile,
@@ -238,8 +238,8 @@ class TubeController extends Controller
         ;
 
         // seo
-        $seo_title = str_replace("{domain}", $this->commons->language->domain, $this->commons->language->title_index);
-        $seo_description = str_replace("{domain}", $this->commons->language->domain, $this->commons->language->description_index);
+        $seo_title = str_replace("{domain}", $this->commons->site->getHost(), $this->commons->site->title_index);
+        $seo_description = str_replace("{domain}", $this->commons->site->getHost(), $this->commons->site->description_index);
 
         return response()->view('tube.categories', [
             'profile'         => $profile,
