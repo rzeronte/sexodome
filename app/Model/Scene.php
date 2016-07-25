@@ -215,20 +215,26 @@ class Scene extends Model
         return $this->hasMany('App\Model\Logpublish');
     }
 
-    static function getTranslationsForCategory($category_permalink, $language_id)
+    static function getTranslationsForCategory($category_permalink, $language_id, $site_id)
     {
-        return Scene::select('scenes.*', 'scene_translations.title', 'scene_translations.description', 'scene_translations.permalink')
+        return Scene::select(
+                'scenes.*',
+                'scene_translations.title',
+                'scene_translations.description',
+                'scene_translations.permalink'
+            )
             ->join('scene_translations', 'scenes.id', '=', 'scene_translations.scene_id')
             ->join('scene_category', 'scenes.id', '=', 'scene_category.scene_id')
             ->join('categories', 'scene_category.category_id', '=', 'categories.id')
             ->join('categories_translations', 'categories.id', '=', 'categories_translations.category_id')
+            ->where('categories.site_id', '=', $site_id)
             ->where('categories_translations.permalink', 'like', $category_permalink)
             ->where('categories_translations.language_id', $language_id)
             ->where('scene_translations.language_id', $language_id)
+            ->where('scenes.site_id', $site_id)
             ->whereNotNull('scene_translations.permalink')
             ->whereNotNull('scene_translations.title')
             ->orderBy('scenes.id', 'desc')
             ;
     }
 }
-
