@@ -8,11 +8,11 @@ use App\rZeBot\rZeBotUtils;
 use App\Model\Site;
 use App\Model\Scene;
 
-class rZeBotUpdateCategoriesThumbnails extends Command
+class BotUpdateCategoriesThumbnails extends Command
 {
-    protected $signature = 'rZeBot:categories:thumbnails {site_id}';
+    protected $signature = 'zbot:categories:thumbnails {site_id}';
 
-    protected $description = 'Actualiza las thumbs de las categorías';
+    protected $description = 'Update category thumbnails for a site';
 
     public function handle()
     {

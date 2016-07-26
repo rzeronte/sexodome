@@ -11,11 +11,11 @@ use App\Model\Tweet;
 use App\rZeBot\TwitterAPIExchange;
 use DB;
 
-class rZeBotSitesList extends Command
+class BotSitesList extends Command
 {
-    protected $signature = 'rZeBot:sites:list';
+    protected $signature = 'zbot:sites:list';
 
-    protected $description = 'List sites';
+    protected $description = 'List sites information';
 
     public function handle()
     {

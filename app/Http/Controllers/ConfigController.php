@@ -797,6 +797,14 @@ class ConfigController extends Controller
         $site->color = (Request::input('color') != "") ? Request::input('color') : null;
         $site->color2 = (Request::input('color2') != "") ? Request::input('color2') : null;
         $site->color3 = (Request::input('color3') != "") ? Request::input('color3') : null;
+        $site->color4 = (Request::input('color4') != "") ? Request::input('color4') : null;
+        $site->color5 = (Request::input('color5') != "") ? Request::input('color5') : null;
+        $site->color6 = (Request::input('color6') != "") ? Request::input('color6') : null;
+        $site->color7 = (Request::input('color7') != "") ? Request::input('color7') : null;
+        $site->color8 = (Request::input('color8') != "") ? Request::input('color8') : null;
+        $site->color9 = (Request::input('color9') != "") ? Request::input('color9') : null;
+        $site->color10 = (Request::input('color10') != "") ? Request::input('color10') : null;
+        $site->color11 = (Request::input('color11') != "") ? Request::input('color11') : null;
 
         try {
             $site->save();

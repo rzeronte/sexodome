@@ -85,17 +85,62 @@
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
 
                         <div class="col-md-2">
+                            <label>General btns bg:</label>
                             <input type="text" name="color" class="color form-control" value="{{$site->color}}"/>
                         </div>
 
                         <div class="col-md-2">
+                            <label>General btns color:</label>
+                            <input type="text" name="color11" class="color form-control" value="{{$site->color11}}"/>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Border scenes</label>
                             <input type="text" name="color2" class="color form-control" value="{{$site->color2}}"/>
                         </div>
+
                         <div class="col-md-2">
+                            <label>Box info scenes:</label>
                             <input type="text" name="color3" class="color form-control" value="{{$site->color3}}"/>
                         </div>
 
                         <div class="col-md-2">
+                            <label>Tube link bg:</label>
+                            <input type="text" name="color4" class="color form-control" value="{{$site->color4}}"/>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Title color:</label>
+                            <input type="text" name="color5" class="color form-control" value="{{$site->color5}}"/>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Title hover color:</label>
+                            <input type="text" name="color6" class="color form-control" value="{{$site->color6}}"/>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Title bg:</label>
+                            <input type="text" name="color7" class="color form-control" value="{{$site->color7}}"/>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Category-tube color:</label>
+                            <input type="text" name="color8" class="color form-control" value="{{$site->color8}}"/>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Category link bg:</label>
+                            <input type="text" name="color9" class="color form-control" value="{{$site->color9}}"/>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Billboard color:</label>
+                            <input type="text" name="color10" class="color form-control" value="{{$site->color10}}"/>
+                        </div>
+
+                        <div class="col-md-2" style="margin-top: 5px;">
+                            <br/>
                             <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-disk"></i> Update</button>
                         </div>
 

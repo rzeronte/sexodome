@@ -116,7 +116,6 @@ h2 {
 }
 
 .videos .post_title{
-    color: #000000!important;
     font-size: 10px;
     line-height: 0px !important;
     text-align: justify;
@@ -125,7 +124,7 @@ h2 {
 }
 
 .videos a.post_title:hover {
-    color: white !important;
+    color: white;
 }
 
 .videos .post_container_title .date_published{
@@ -185,7 +184,7 @@ h2 {
 }
 
 .videos .fleft a{
-    color: black !important;
+    color: black;
 }
 
 .video_post .inner .screencast .media-length {

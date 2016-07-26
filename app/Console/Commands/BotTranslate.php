@@ -12,7 +12,7 @@ use App\Model\Host;
 use App\Model\Site;
 use App\Model\Category;
 
-class rZeBotTranslate extends Command
+class BotTranslate extends Command
 {
 
     public $apiKey;
@@ -23,7 +23,7 @@ class rZeBotTranslate extends Command
      *
      * @var string
      */
-    protected $signature = 'rZeBot:translate {from} {to} {site_id}
+    protected $signature = 'zbot:translate {from} {to} {site_id}
                             {--scenes=true : Determine if translate scenes}
                             {--categories=true : Determine if translate categories}
                             {--tags=true : Determine if translate tags}';
@@ -33,7 +33,7 @@ class rZeBotTranslate extends Command
      *
      * @var string
      */
-    protected $description = 'Launch rZeBot for translations with Google API';
+    protected $description = 'Translate a full language for a site';
 
     function __construct()
     {

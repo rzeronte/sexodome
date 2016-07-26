@@ -10,12 +10,11 @@ use App\Model\Language;
 use Illuminate\Support\Facades\DB;
 use App\Model\Tag;
 use App\rZeBot\rZeBotUtils;
-use App\Model\SceneCategory;
 use App\Model\Site;
 
-class rZeBotCreateCategoriesFromTags extends Command
+class BotCreateCategoriesFromTags extends Command
 {
-    protected $signature = 'rZeBot:create:categories {site_id}
+    protected $signature = 'zbot:categories:create {site_id}
                     {--truncate=false : Determine if truncate tables}
                     {--only_truncate=false : Determine if only truncate}
                     {--min_scenes_activation=30: Determine if active category}';

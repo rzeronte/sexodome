@@ -11,14 +11,14 @@ use App\Model\Scene;
 use Request;
 use App\Model\Site;
 
-class rZeBotSitemapGenerator extends Command
+class BotSitemapGenerator extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'rZeBot:sitemap:generate {site_id}';
+    protected $signature = 'zbot:sitemap:generate {site_id}';
 
     /**
      * The console command description.

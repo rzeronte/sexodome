@@ -13,21 +13,21 @@ use App\Model\Site;
 use App\Model\Analytics;
 use Spatie\LaravelAnalytics\LaravelAnalyticsFacade;
 
-class rZeBotAnalytics extends Command
+class BotAnalytics extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'rZeBot:analytics';
+    protected $signature = 'zbot:sites:analytics';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Captura las datos de Google Analytics';
+    protected $description = 'Update Analytics data for all sites';
 
     /**
      * Execute the console command.

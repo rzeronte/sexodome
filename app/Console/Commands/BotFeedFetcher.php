@@ -10,14 +10,14 @@ use App\Model\Host;
 use App\Model\Site;
 use App\Model\InfoJobs;
 
-class rZeBotFeedFetcher extends Command
+class BotFeedFetcher extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'rZeBot:feed:fetch {feed_name} {site_id}
+    protected $signature = 'zbot:feed:fetch {feed_name} {site_id}
                             {--max=false : Number max scenes to import}
                             {--tags=false : Only tags imported}
                             {--categories=false : Only categories imported}

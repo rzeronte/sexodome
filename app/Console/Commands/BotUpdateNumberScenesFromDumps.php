@@ -11,14 +11,14 @@ use App\rZeBot\TwitterAPIExchange;
 use DB;
 
 
-class rZeBotUpdateNumberScenesFromDumps extends Command
+class BotUpdateNumberScenesFromDumps extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'rZeBot:update:dumps';
+    protected $signature = 'zbot:dumps:update';
 
     /**
      * The console command description.
