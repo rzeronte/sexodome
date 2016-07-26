@@ -48,6 +48,6 @@ class importScenesFromFeed extends Job implements SelfHandling, ShouldQueue
         
         print_r($paramsCommand);
 
-        $exitCode = \Artisan::call('zebot:feed:fetch', $paramsCommand);
+        $exitCode = \Artisan::call('zbot:feed:fetch', $paramsCommand);
     }
 }
