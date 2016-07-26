@@ -569,6 +569,7 @@ class rZeBotUtils
                             }
 
                             if (CategoryTranslation::join('categories', 'categories.id', '=', 'categories_translations.category_id')
+                                    ->where('categories.site_id', $site_id)
                                     ->where('name', $categoryTxt)
                                     ->where('language_id', 2)
                                     ->count() == 0)
