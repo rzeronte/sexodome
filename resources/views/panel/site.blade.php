@@ -90,13 +90,12 @@
                         <div class="col-md-3">
                             <select name="language_id" class="form-control">
                                 @foreach($languages as $lang)
-                                    @if ($language->id == $lang->id)
-                                        <option value="{{$lang->id}}" select>{{$lang->name}}</option>
+                                    @if ($site->language->id == $lang->id)
+                                        <option value="{{$lang->id}}" selected>{{$lang->name}}</option>
                                     @else
                                         <option value="{{$lang->id}}">{{$lang->name}}</option>
                                     @endif
                                 @endforeach
-
                             </select>
                         </div>
                     </div>
