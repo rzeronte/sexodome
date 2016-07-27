@@ -15,7 +15,7 @@
             <div class="col-md-12">
                 <div style="margin-top:20px;">
                     <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
-                        <p><b>Promoted categories for {{$site->domain}}</b></p>
+                        <p><b>Promoted categories for {{$site->getHost()}}</b></p>
                     </div>
                 </div>
 
@@ -77,14 +77,37 @@
                 </div>
             </div>
 
+            <form method="post" action="{{route('site', ['locale'=>$locale, 'site_id'=>$site->id])}}">
 
             <div style="margin-top:20px;">
                 <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
-                    <p><b>SEO for {{$site->domain}}</b></p>
+                    <p><b>Language for {{$site->getHost()}}</b></p>
                 </div>
             </div>
 
-            <form method="post" action="{{route('site', ['locale'=>$locale, 'site_id'=>$site->id])}}">
+                <div class="col-md-12">
+                    <div class="row" style="padding:10px;">
+                        <div class="col-md-3">
+                            <select name="language_id" class="form-control">
+                                @foreach($languages as $lang)
+                                    @if ($language->id == $lang->id)
+                                        <option value="{{$lang->id}}" select>{{$lang->name}}</option>
+                                    @else
+                                        <option value="{{$lang->id}}">{{$lang->name}}</option>
+                                    @endif
+                                @endforeach
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top:20px;">
+                    <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
+                        <p><b>SEO for {{$site->getHost()}}</b></p>
+                    </div>
+                </div>
+
                 <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
                 <div class="col-md-12">
                     <div class="row" style="padding:10px;">
@@ -177,7 +200,7 @@
 
                     <div style="margin-top:20px;">
                         <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
-                            <p><b>Main config for {{$site->domain}}</b></p>
+                            <p><b>Main config for {{$site->getHost()}}</b></p>
                         </div>
                     </div>
 
@@ -186,7 +209,7 @@
                             Domain:
                         </div>
                         <div class="col-md-7">
-                            <input type="text" class="form-control" value="{{$site->domain}}" name="domain" onfocus="blur()">
+                            <input type="text" class="form-control" value="{{$site->getHost()}}" name="domain" onfocus="blur()">
                         </div>
                     </div>
 
@@ -210,7 +233,7 @@
 
                     <div class="row" style="padding:10px;">
                         <div class="col-md-7 col-md-offset-3">
-                            <input type="submit" class="btn btn-primary" value="Save settings for @if ($site->have_domain == 1){{$site->domain}}@else{{$site->name}}@endif" style="width:100%;"/>
+                            <input type="submit" class="btn btn-primary" value="Save settings for @if ($site->have_domain == 1){{$site->getHost()}}@else{{$site->name}}@endif" style="width:100%;"/>
                         </div>
                     </div>
 

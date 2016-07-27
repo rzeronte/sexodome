@@ -62,7 +62,6 @@ class BotSitemapGenerator extends Command
         ;
 
         // Home
-        rZeBotUtils::message(route('categories', []), "cyan");
         $sitemap->add(route('categories', ["host" => $site->getHost()]), date('Y-m-d').'T00:00:00+00:00', '1.0', 'daily');
 
         // Scenes

@@ -536,6 +536,7 @@ class ConfigController extends Controller
             $site->domain = Request::input('domain');
             $site->head_billboard = Request::input('head_billboard');
             $site->google_analytics = Request::input('google_analytics');
+            $site->language_id = Request::input('language_id');
             $site->save();
         }
 
