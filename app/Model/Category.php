@@ -52,7 +52,7 @@ class Category extends Model
             ->join('categories_translations', 'categories_translations.category_id', '=', 'categories.id')
             ->where('categories_translations.language_id', $language_id)
             ->where('categories.status',$status)
-            ->orderBy('categories_translations.name', 'asc');
+            ->orderBy('categories.nvideos', 'DESC');
 
         return $categories;
     }
