@@ -6,7 +6,7 @@
     <meta name="language" content="{{App::getLocale()}}" />
 
     {{--analytics--}}
-    <?=$language->google_analytics?>
+    <?=$site->google_analytics?>
 
     <script type="text/javascript" src="{{asset('js/front.js')}}"></script>
     <!--Favicons-->
