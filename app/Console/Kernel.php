@@ -21,6 +21,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\BotUpdateNumberScenesFromDumps::class,
         \App\Console\Commands\BotSitesList::class,
         \App\Console\Commands\BotSitemapGenerator::class,
+        \App\Console\Commands\BotSitemapGeneratorAll::class,
         \App\Console\Commands\BotCreateCategoriesFromTags::class,
 
     ];

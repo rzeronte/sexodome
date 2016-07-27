@@ -19,7 +19,6 @@ class BotCreateCategoriesFromTags extends Command
                     {--only_truncate=false : Determine if only truncate}
                     {--min_scenes_activation=10: Determine if active category}';
 
-
     protected $description = 'Create categories from tags for a site';
 
     public function handle()
@@ -57,13 +56,14 @@ class BotCreateCategoriesFromTags extends Command
 
         $tags = $tags->get();
         $i = 0;
+        $timer = time();
         foreach($tags as $tag) {
             $i++;
             // Solo se convertirán en categorías tags de una sola palabra
             if ($this->isValidTag($tag->name)) {
-                echo "[" . number_format(($i*100)/ count($tags), 0) ."%]";
+                rZeBotUtils::message("[" . number_format(($i*100)/ count($tags), 0) ."%] ". gmdate("H:i:s", (time()-$timer)) . " |", "white", false);
 
-                rZeBotUtils::message(" " . str_pad($tag->name, 20, " "), "yellow", false);
+                rZeBotUtils::message(" " . str_pad($tag->name, 20, "."), "yellow", false);
 
                 // Contamos el ńumero de escenas para este tags
                 $countScenes = $tag->scenes()->count();
@@ -71,14 +71,14 @@ class BotCreateCategoriesFromTags extends Command
                 $singular = str_singular($tag->name);
                 $plural = str_plural($tag->name);
 
-                echo str_pad(" | Tag scenes count: $countScenes", 25, " ");
-                echo str_pad(" | $singular-$plural", 20, " ");
+                echo str_pad(" | scenes count: $countScenes", 25, ".");
+                echo str_pad(" | [$singular]/[$plural]", 40, ".");
 
                 // Debug en pantalla para ver si el el tag es singular o plural
                 if ($tag->name == $plural) {
-                    echo str_pad(" | Plural", 12, " ");
+                    echo str_pad(" | Plural", 11, ".");
                 } else if ($tag->name == $singular) {
-                    echo str_pad(" | Singular", 12, " ");
+                    echo str_pad(" | Singular", 11, ".");
                 }
 
                 // Comprobamos si ya existe la categoría (las categorías solo serán plural)
@@ -117,10 +117,11 @@ class BotCreateCategoriesFromTags extends Command
                     }
 
                     // sync scenes to category
-                    $ids_sync = $tag->scenes()->get()->pluck('id');
+                    $ids_sync = $tag->scenes()->select('scenes.id')->get()->pluck('id');
                     $ids_sync = $ids_sync->all();
 
-                    $this->info(" | [CREATE CATEGORY] '$plural' | Sync para ".count($ids_sync)." escenas");
+                    rZeBotUtils::message(str_pad(" | [CREATE CATEGORY] '$plural'", 45, "."), "green", false);
+                    rZeBotUtils::message(str_pad(" | Sync ".count($ids_sync), 12, "."), "yellow", false);
                     $newCategory->nscenes = count($ids_sync);
                     $newCategory->save();
 
@@ -132,7 +133,7 @@ class BotCreateCategoriesFromTags extends Command
                     $category = Category::find($categoryTranslation->category_id);
 
                     // Obtenemos las actuales escenas asociadas a esta categoría
-                    $currentCategoryScenes = $category->scenes()->get()->pluck('id');
+                    $currentCategoryScenes = $category->scenes()->select('scenes.id')->get()->pluck('id');
                     $currentCategoryScenes = $currentCategoryScenes->all();
 
                     if ($countScenes >= $min_scenes_activation) {
@@ -142,7 +143,7 @@ class BotCreateCategoriesFromTags extends Command
                     }
 
                     // sync scenes to category
-                    $ids_sync = $tag->scenes()->get()->pluck('id');
+                    $ids_sync = $tag->scenes()->select('scenes.id')->get()->pluck('id');
                     $ids_sync = $ids_sync->all();
 
                     $totalIds = array_unique(array_merge($ids_sync, $currentCategoryScenes));
@@ -152,14 +153,25 @@ class BotCreateCategoriesFromTags extends Command
 
                     $category->scenes()->sync($totalIds);
 
-                    $this->info(" | [WARNING] La categoría: " . $plural. "($categoryTranslation->category_id) ya existe en ".$site->getHost() . ", sync para ".count($totalIds)." escenas...");
+                    rZeBotUtils::message(" | [WARNING] La categoría: " . $plural. "($categoryTranslation->category_id) ya existe en ".$site->getHost() . ", sync para ".count($totalIds)." escenas...", "red", false);
                 }
             } else {
-                $this->info("\033[31m | [WARNING] Ignorando categoría: " . $tag->name);
+                rZeBotUtils::message("[WARNING] Ignorando categoría: " . $tag->name, "red", false);
             }
+            echo PHP_EOL;
         }
+
+        $thumbnailsCommandCode = Artisan::call('zbot:categories:thumbnails', [
+            'site_id' => $site_id
+        ]);
     }
 
+    /**
+     * Check if tag is valid for Category
+     *
+     * @param $tag
+     * @return bool
+     */
     public function isValidTag($tag) {
 
         if (!strlen($tag)) {

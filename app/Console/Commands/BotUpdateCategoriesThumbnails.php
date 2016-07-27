@@ -21,18 +21,19 @@ class BotUpdateCategoriesThumbnails extends Command
         $site = Site::find($site_id);
 
         if (!$site) {
-            rZeBotUtils::message("Error el site id: $site_id no existe");
+            rZeBotUtils::message("Error el site id: $site_id no existe", "red");
             exit;
         }
 
         $categories = Category::where('site_id', '=', $site->id)->get();
 
-        rZeBotUtils::message("Actualizando thumbnails para el sitio " . $site->getHost(), "green");
+        rZeBotUtils::message("Actualizando thumbnails para el sitio " . $site->getHost(), "yellow");
 
         foreach($categories as $category) {
             foreach ($category->translations()->where('language_id', $site->language_id)->get() as $translation) {
-                rZeBotUtils::message("Actualizando thumbnail para la categoría $category->id, Lang: $translation->language_id: $translation->name", "green");
-                $translation->thumb = $category->scenes()->orderByRaw("RAND()")->first()->preview;
+                $img = $category->scenes()->orderByRaw("RAND()")->first()->preview;
+                rZeBotUtils::message("[UPDATE] $category->id: $img, Lang: $translation->language_id: $translation->name", "green");
+                $translation->thumb = $img;
                 $translation->save();
             }
         }

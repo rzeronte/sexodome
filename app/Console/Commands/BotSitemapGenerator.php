@@ -18,7 +18,7 @@ class BotSitemapGenerator extends Command
      *
      * @var string
      */
-    protected $signature = 'zbot:sitemap:generate {site_id}';
+    protected $signature = 'zbot:sitemap:site {site_id}';
 
     /**
      * The console command description.
@@ -50,24 +50,23 @@ class BotSitemapGenerator extends Command
 
         $currentHost = Request::server("HTTP_HOST");
 
+        rZeBotUtils::message("Generating sitemap for " . $site->getHost()  . $currentHost, "green");
+        rZeBotUtils::message("CurrentHost: " . $currentHost, "yellow");
+
         // Scenes only for embed feeds
         $scenes = Scene::join('channels', 'channels.id', '=', 'scenes.channel_id')
             ->select('scenes.*')
             ->where('status', 1)
             ->where('channels.embed', 1)
+            ->where('site_id', $site_id)
             ->limit(40000)
             ->orderBy('published_at', 'desc')
             ->get()
         ;
 
         // Home
-        $sitemap->add(str_replace($currentHost, $site->getHost(), route('index', [])), date('Y-m-d').'T00:00:00+00:00', '1.0', 'daily');
-
-        // Categories
-        $sitemap->add(str_replace($currentHost, $site->getHost(), route('categories', [])), date('Y-m-d').'T00:00:00+00:00', '1.0', 'daily');
-
-        // Top Scenes
-        $sitemap->add(str_replace($currentHost, $site->getHost(), route('topscenes', [])), date('Y-m-d').'T00:00:00+00:00', '1.0', 'daily');
+        rZeBotUtils::message(route('categories', []), "cyan");
+        $sitemap->add(route('categories', ["host" => $site->getHost()]), date('Y-m-d').'T00:00:00+00:00', '1.0', 'daily');
 
         // Scenes
         $i = 0;
@@ -77,8 +76,8 @@ class BotSitemapGenerator extends Command
             if (!$translation) {
                 $this->info("$i - [ERROR] Ignorando URL, la escena " .$scene->id ." no tiene traducción para el idioma id: $language_id");
             } else {
-                $this->info("$i - Añadiendo al sitemap la url: ".route('video', ['permalink'=>$translation->permalink]));
-                $sitemap->add(str_replace($currentHost, $site->domain, route('video', ['permalink'=>$translation->permalink])), date('Y-m-d').'T00:00:00+00:00', '1.0', 'daily');
+                $this->info("$i - [SUCCESS] Url: ".route('video', ['permalink'=>$translation->permalink]));
+                $sitemap->add(route('video', ['permalink'=>$translation->permalink, "host" => $site->getHost()]), date('Y-m-d').'T00:00:00+00:00', '1.0', 'daily');
             }
             $i++;
         }
