@@ -48,10 +48,7 @@ class BotSitemapGenerator extends Command
 
         $language_id = $site->language_id;
 
-        $currentHost = Request::server("HTTP_HOST");
-
-        rZeBotUtils::message("Generating sitemap for " . $site->getHost()  . $currentHost, "green");
-        rZeBotUtils::message("CurrentHost: " . $currentHost, "yellow");
+        rZeBotUtils::message("Generating sitemap for " . $site->getHost() .".xml", "green");
 
         // Scenes only for embed feeds
         $scenes = Scene::join('channels', 'channels.id', '=', 'scenes.channel_id')
