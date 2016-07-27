@@ -60,7 +60,7 @@ class BotCreateCategoriesFromTags extends Command
         foreach($tags as $tag) {
             $i++;
             // Solo se convertirán en categorías tags de una sola palabra
-            if (count(explode(" ", $tag->name)) == 1) {
+            if (count(explode(" ", $tag->name)) == 1 && !str_contains($tag->name, array(".com", ".net", ".es", ".xxx"))) {
                 echo "[ " . number_format(($i*100)/ count($tags), 0) ."% ]";
 
                 echo "Tag: " . $tag->name;
@@ -182,4 +182,6 @@ class BotCreateCategoriesFromTags extends Command
 
         return true;
     }
+
+
 }
