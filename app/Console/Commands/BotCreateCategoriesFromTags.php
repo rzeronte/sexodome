@@ -17,7 +17,7 @@ class BotCreateCategoriesFromTags extends Command
     protected $signature = 'zbot:categories:create {site_id}
                     {--truncate=false : Determine if truncate tables}
                     {--only_truncate=false : Determine if only truncate}
-                    {--min_scenes_activation=30: Determine if active category}';
+                    {--min_scenes_activation=10: Determine if active category}';
 
 
     protected $description = 'Create categories from tags for a site';
