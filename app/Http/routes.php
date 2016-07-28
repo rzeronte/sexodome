@@ -40,6 +40,7 @@ Route::group(['domain' => 'accounts.'.\App\rZeBot\rZeBotCommons::getMainPlatafor
 
     Route::match(['get'], '{locale}/ajax/tags/', 'ConfigController@ajaxTags')->name('ajaxTags');
     Route::match(['get'], '{locale}/ajax/categories/', 'ConfigController@ajaxCategories')->name('ajaxCategories');
+    Route::match(['get'], '{locale}/ajax/categories/options/', 'ConfigController@ajaxCategoriesOptions')->name('ajaxCategoriesOptions');
 
     Route::match(['get'], '{locale}/ajax/sceneinfo/{scene_id}', 'ConfigController@scenePublicationInfo')->name('scenePublicationInfo');
     Route::match(['get'], '{locale}/works/', 'ConfigController@works')->name('works');

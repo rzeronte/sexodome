@@ -36,6 +36,7 @@
                         <img src="{{asset('channels/'.$channel->logo)}}" style="width:60px; border: solid 1px black;"/><br/>
                         <p>{{$channel->name}}</p><br/>
                     </div>
+
                     <div class="col-md-2">
                         permalink: <b>{{$channel->permalink}}</b><br/>
 
@@ -46,10 +47,10 @@
                         @endif
                         <br/>
                         {{number_format($channel->nvideos, 0, ",", ".")}} total scenes
-
                     </div>
+
                     <div class="col-md-2">
-                        <select class="form-control" name="site_id" style="width:100%" required>
+                        <select class="selector_feeds_site form-control" name="site_id" data-ajax="{{route('ajaxCategoriesOptions', ['locale' => $locale])}}" style="width:100%" required>
                             <option value="">-- select site --</option>
                             @foreach($sites as $site)
                                 @if ($site->have_domain == 1)
@@ -76,21 +77,17 @@
                         </select>
                     </div>
                     <div class="col-md-2">
-                        <select class="form-control" name="categories[]" style="width:100%;height:150px;" multiple>
-                            <option value=""> -- any category -- </option>
-                            @foreach($categories as $category)
-                                <?php $trans = $category->translations()->where('language_id', $language->id)->first() ?>
-                                <option value="{{$trans->name}}">{{$trans->name}}</option>
-                            @endforeach
+                        <select class="selector_feed_categories form-control" name="categories[]" style="width:100%;height:150px;" multiple>
+                            <option value=""> -- select site first-- </option>
                         </select>
                     </div>
 
                     <div class="col-md-2">
                         <select class="form-control" name="duration" style="width:100%">
                             <option value="">-- any minutes --</option>
-                            <option value="60">1 min.</option>
-                            <option value="300">5 min.</option>
-                            <option value="600">10 min.</option>
+                            <option value="60">1 min</option>
+                            <option value="300">5 min</option>
+                            <option value="600">10 min</option>
                             <option value="900">15 min</option>
                             <option value="1200">20 min</option>
                             <option value="1500">25 min</option>

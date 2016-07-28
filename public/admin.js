@@ -275,8 +275,23 @@ $( document ).ready(function() {
         }
     });
 
+    $( ".selector_feeds_site" ).change(function() {
+        var site_id = $(this).val();
+        var url = $(this).attr('data-ajax');
+        var selectorCategories = $(this).parent().parent().find('.selector_feed_categories');
 
-
+        $.ajax({
+            url: url,
+            data: {site_id: site_id},
+            method: 'get'
+        }).done(function( data ) {
+            if (data.length > 0) {
+                selectorCategories.html(data);
+            } else {
+                selectorCategories.html("<option value=''>--No categories--</option>");
+            }
+        });
+    });
 
     console.log("[DEBUG] All load");
 });
@@ -345,5 +360,4 @@ function checkDomain(me) {
             $(".result_domain").addClass('check_domain_ko');
         }
     });
-
 }

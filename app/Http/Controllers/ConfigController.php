@@ -297,6 +297,17 @@ class ConfigController extends Controller
         return json_encode($select_categories);
     }
 
+    public function ajaxCategoriesOptions()
+    {
+        $site_id = Request::get('site_id');
+
+        $categories = Category::getTranslationSearch(false, $this->commons->language->id, $site_id)->get();
+
+        return view('panel._ajax_categories_options', [
+            'categories'=> $categories,
+        ]);
+    }
+
     public function scenePreview($locale, $scene_id)
     {
         $scene = Scene::find($scene_id);
