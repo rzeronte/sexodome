@@ -301,7 +301,14 @@ class ConfigController extends Controller
     {
         $site_id = Request::get('site_id');
 
-        $categories = Category::getTranslationSearch(false, $this->commons->language->id, $site_id)->get();
+        $categories = Category::getTranslationSearch(
+                false,
+                $this->commons->language->id,
+                $site_id
+            )
+            ->orderBy('name', 'asc')
+            ->get()
+        ;
 
         return view('panel._ajax_categories_options', [
             'categories'=> $categories,

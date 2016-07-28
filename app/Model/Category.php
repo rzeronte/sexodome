@@ -20,14 +20,18 @@ class Category extends Model
         return $this->belongsToMany('App\Model\Scene', 'scene_category', 'category_id', 'scene_id');
     }
 
-    static function getTranslationSearch($query_string = false, $language_id)
+    static function getTranslationSearch($query_string = false, $language_id = false, $site_id = false)
     {
         $categories = Category::select('categories.*', 'categories_translations.name', 'categories_translations.permalink', 'categories_translations.id as translationId')
             ->join('categories_translations', 'categories_translations.category_id', '=', 'categories.id')
             ->where('categories_translations.language_id', $language_id);
 
-        if ($query_string != false) {
+        if ($query_string !== false) {
             $categories->where('categories_translations.name', 'like', '%'.$query_string.'%');
+        }
+
+        if ($site_id !== false) {
+            $categories->where('categories.site_id', $site_id);
         }
 
         return $categories;
