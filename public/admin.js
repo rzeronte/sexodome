@@ -279,6 +279,7 @@ $( document ).ready(function() {
         var site_id = $(this).val();
         var url = $(this).attr('data-ajax');
         var selectorCategories = $(this).parent().parent().find('.selector_feed_categories');
+        selectorCategories.html("<option value=''>loading...</option>");
 
         $.ajax({
             url: url,
