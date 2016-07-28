@@ -10,18 +10,16 @@
 <div class="container">
     <div class="header row">
         @include('panel._header_config')
+        <br/>
     </div>
 
-    <div class="row" style="margin-top:20px;">
-        <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
-            <p><i class="glyphicon glyphicon-globe"></i> <b>My sites ({{count( $sites )}})</b></p>
+
+    <div class="row" style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
+        <div class="col-md-11">
+            <i class="glyphicon glyphicon-globe"></i> <b>My sites ({{count( $sites )}})</b>
         </div>
-    </div>
-
-    <div class="col-md-12 text-right">
-        <a href="{{route('addSite', ['locale'=>$locale])}}" class="btn btn-primary"><i class="glyphicon glyphicon-plus-sign"></i> Add site </a>
-        <br/>
-        <br/>
+        <div class="col-md-1">
+        </div>
     </div>
 
     @if(Session::get('error'))

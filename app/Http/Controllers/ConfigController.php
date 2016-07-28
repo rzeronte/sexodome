@@ -821,6 +821,7 @@ class ConfigController extends Controller
     public function works($locale)
     {
         return view('panel.works', [
+            'locale'    => $this->commons->locale,
             'language'  => $this->commons->language,
             'languages' => $this->commons->languages,
             'infojobs' => InfoJobs::getUserJobs()->paginate($this->commons->perPageJobs),
