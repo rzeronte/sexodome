@@ -67,13 +67,14 @@ class Site extends Model
         }
     }
 
-    public function getTotalScenes()
+    public function getTotalScenes($feed_id = false)
     {
-        $scenes = Scene::where('site_id', $this->id)
-            ->where('status',1)
-            ->count()
-        ;
+        $scenes = Scene::where('site_id', $this->id)->where('status', 1);
 
-        return $scenes;
+        if ($feed_id !== false) {
+            $scenes->where('feed_id', $feed_id);
+        }
+
+        return $scenes->count();
     }
 }

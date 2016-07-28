@@ -51,9 +51,13 @@
                     <p>
                         <b><i class="glyphicon glyphicon-globe"></i>
                             @if ($site->have_domain == 1)
-                                <a href="http://{{$site->domain}}" target="_blank">http://{{$site->domain}}</a>
+                                <a href="http://{{$site->domain}}" target="_blank">
+                                    http://{{$site->domain}} (<i>{{$site->getTotalScenes()}}</i> active scenes)
+                                </a>
                             @else
-                                <a href="http://{{$site->name}}.{{\App\rZeBot\rZeBotCommons::getMainPlataformDomain()}}" target="_blank">http://{{$site->name}}.{{\App\rZeBot\rZeBotCommons::getMainPlataformDomain()}}</a>
+                                <a href="http://{{$site->name}}.{{\App\rZeBot\rZeBotCommons::getMainPlataformDomain()}}" target="_blank">
+                                    http://{{$site->name}}.{{\App\rZeBot\rZeBotCommons::getMainPlataformDomain()}} (<i>{{$site->getTotalScenes()}} active scenes)</i>
+                                </a>
                             @endif
                         </b>
                     </p>

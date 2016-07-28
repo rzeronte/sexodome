@@ -37,15 +37,15 @@
                         <p>{{$channel->name}}</p><br/>
                     </div>
                     <div class="col-md-2">
-                        {{$channel->permalink}}<br/>
+                        permalink: <b>{{$channel->permalink}}</b><br/>
 
                         @if ($channel->embed == 1 )
-                            Embed
+                            type: <b>Embed</b>
                         @else
-                            No embed
+                            type:<b>No embed</b>
                         @endif
                         <br/>
-                        {{number_format($channel->nvideos, 0, ",", ".")}} scenes
+                        {{number_format($channel->nvideos, 0, ",", ".")}} total scenes
 
                     </div>
                     <div class="col-md-2">
