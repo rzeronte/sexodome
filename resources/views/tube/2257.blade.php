@@ -2,14 +2,14 @@
 <html>
 
 <head>
-    @include('TubeFront::layout._head')
+    @include('tube._head')
     <link rel="stylesheet" href="{{asset('site.css')}}">
     <link href='https://fonts.googleapis.com/css?family=Permanent+Marker' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
 <section class="row header">
-    @include('TubeFront::layout._header')
+    @include('tube._header')
 </section>
 
 <section class="container videos">
@@ -26,10 +26,10 @@
 
 @if ($language->iframe_src != "")
     <section class="container">
-        @include('TubeFront::layout._iframe_network')
+        @include('tube._iframe_network')
     </section>
 @endif
 
-@include('TubeFront::layout._footer')
-@include('TubeFront::layout._javascripts')
+@include('tube._footer')
+@include('tube._javascripts')
 </body>

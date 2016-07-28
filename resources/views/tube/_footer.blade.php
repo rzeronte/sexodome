@@ -2,10 +2,10 @@
     <div class="container">
         <div class="col-md-4 text-left">
             @if (env("PORN_STATIC_LINKS", false))
-                <a href="{{route('dmca')}}" style="color:white;">DMCA/Copyright</a><br/>
-                <a href="{{route('terms')}}" style="color:white;">Terms of use</a><br/>
-                <a href="{{route('C2257')}}" style="color:white;">2257</a><br/>
-                <a href="mailto:dmca.msg@gmail.com" style="color:white;">Contact</a>
+                <a href="{{route('dmca', ["host" => $site->getHost()])}}" style="color:white;">DMCA/Copyright</a><br/>
+                <a href="{{route('terms', ["host" => $site->getHost()])}}" style="color:white;">Terms of use</a><br/>
+                <a href="{{route('C2257', ["host" => $site->getHost()])}}" style="color:white;">2257</a><br/>
+                <a href="mailto:Auth::user()->email" style="color:white;">Contact</a>
             @endif
         </div>
         <div class="col-md-4">
