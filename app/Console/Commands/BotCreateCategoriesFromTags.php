@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\Model\Tag;
 use App\rZeBot\rZeBotUtils;
 use App\Model\Site;
+use Artisan;
 
 class BotCreateCategoriesFromTags extends Command
 {
