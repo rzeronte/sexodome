@@ -84,6 +84,7 @@ class BotCreateCategoriesFromTags extends Command
 
                 // Comprobamos si ya existe la categoría (las categorías solo serán plural)
                 $categoryTranslation = CategoryTranslation::join('categories', 'categories.id', '=', 'categories_translations.category_id')
+                    ->select('categories_translations.id')
                     ->where('categories.site_id', '=', $site_id)
                     ->where("categories_translations.language_id", "=", $englishLanguage->id)
                     ->where("categories_translations.name", "=", utf8_encode($plural))
@@ -108,7 +109,7 @@ class BotCreateCategoriesFromTags extends Command
                         $newCategoryTranslation = new CategoryTranslation();
                         $newCategoryTranslation->category_id = $newCategory->id;
                         $newCategoryTranslation->language_id = $language->id;
-                        @$newCategoryTranslation->thumb = $tag->scenes()->orderByRaw("RAND()")->limit(100)->first()->preview;
+                        //@$newCategoryTranslation->thumb = $tag->scenes()->orderByRaw("RAND()")->limit(100)->first()->preview;
 
                         if ($language->id == $englishLanguage->id) {
                             $newCategoryTranslation->permalink = str_slug($plural);
@@ -154,7 +155,7 @@ class BotCreateCategoriesFromTags extends Command
 
                     $category->scenes()->sync($totalIds);
 
-                    rZeBotUtils::message(" | [WARNING] La categoría: " . $plural. "($categoryTranslation->category_id) ya existe en ".$site->getHost() . ", sync para ".count($totalIds)." escenas...", "red", false);
+                    rZeBotUtils::message(" | [ALREADY EXISTS] " . $plural. " | (" . $categoryTranslation->category_id . ") | sync " . count($totalIds), "red", false);
                 }
             } else {
                 rZeBotUtils::message("[WARNING] Ignorando categoría: " . $tag->name, "red", false);
@@ -162,7 +163,7 @@ class BotCreateCategoriesFromTags extends Command
             echo PHP_EOL;
         }
 
-        $thumbnailsCommandCode = Artisan::call('zbot:categories:thumbnails', [
+        Artisan::call('zbot:categories:thumbnails', [
             'site_id' => $site_id
         ]);
     }
@@ -187,7 +188,7 @@ class BotCreateCategoriesFromTags extends Command
             return false;
         }
 
-        if (str_contains($tag, array(".com", ".net", ".es", ".xxx"))) {
+        if (str_contains($tag, array(".com", ".net", ".es", ".xxx", ".co"))) {
             return false;
         }
 

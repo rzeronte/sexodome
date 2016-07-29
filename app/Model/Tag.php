@@ -34,26 +34,6 @@ class Tag extends Model
             ->count();
     }
 
-    public function countScenesLangIn($language_id, $database)
-    {
-        $remote_scenes = Scene::getRemoteSceneIdsFor($database);
-
-        $scenes = Scene::select('scenes.id')
-            ->join('scene_tag', 'scene_tag.scene_id', '=', 'scenes.id')
-            ->join('tags', 'tags.id', '=', 'scene_tag.tag_id')
-            ->join('tag_translations', 'tag_translations.tag_id', '=', 'scene_tag.tag_id')
-            ->where('tag_translations.language_id', '=', $language_id)
-            ->where('tags.id', '=', $this->id);
-
-        if (count($remote_scenes)) {
-            $scenes->whereIn('scenes.id', $remote_scenes);
-        } else {
-            $scenes->where('scenes.id', 0);
-        }
-
-        return $scenes->count();
-    }
-
     static function getTranslationSearch($query_string = false, $language_id = false, $site_id = false)
     {
         $tags = Tag::select(

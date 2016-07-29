@@ -56,7 +56,7 @@ class rZeBotCommons extends Controller {
         // go to admin panel if no site
         $this->site = rZeBotUtils::getSiteFromHost();
 	
-        // current language
+        // Si estámos en un site, usamos configuramos locale del site
         if ($this->site) {
             $this->language = Language::where('id', '=', $this->site->language_id)->first();
             $locale = $this->language->code;
@@ -67,7 +67,7 @@ class rZeBotCommons extends Controller {
         $this->perPage = 48;
         $this->perPageScenes = 10;
         $this->perPageTags = 30;
-        $this->perPageCategories = 100;
+        $this->perPageCategories = 96;
         $this->perPageJobs = 15;
 
         // set locale

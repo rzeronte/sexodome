@@ -135,60 +135,6 @@ class rZeBotUtils
             return false;
         }
 
-        // subdomain.assassinsporn.com
-//        if (count($parts) == 3) {
-//            $subdomain = $parts[0];
-//            $domain    = $parts[1];
-//            $ext       = $parts[2];
-//            $full = $domain.".".$ext;
-//
-//            if ($subdomain == "www" && $full == rZeBotCommons::getMainPlataformDomain()) {
-//                return false;
-//            }else if ($subdomain == "accounts" && $full == rZeBotCommons::getMainPlataformDomain()) {
-//                return false;
-//            } else {
-//                // profile domain
-//                if ($subdomain == "www") {
-//                    $site = Site::where('domain', '=', $full)->first();
-//
-//                    if ($site) {
-//                        return $site;
-//                    } else {
-//                        abort(404, "Site not Found");
-//                    }
-//                } else {
-//                    // profile subdomain
-//                    $site = Site::where('name', '=', $subdomain)->first();
-//
-//                    if ($site) {
-//                        return $site;
-//                    } else {
-//                        abort(404, "Site not Found");
-//                    }
-//
-//                }
-//            }
-//
-//        }
-//
-//        if (count($parts) == 2) {
-//            $domain    = $parts[0];
-//            $ext       = $parts[1];
-//            $full = $domain.".".$ext;
-//
-//            if ($full == rZeBotCommons::getMainPlataformDomain()) {
-//                return false;
-//            } else {
-//                $site = Site::where('domain', '=', $full)->first();
-//
-//                if (!$site) {
-//                    abort(404, "Site not Found");
-//                } else {
-//                    return $site;
-//                }
-//            }
-//        }
-
         return false;
     }
 
@@ -225,9 +171,8 @@ class rZeBotUtils
 
         $endColor = "\033[0m";
         echo $initColor.$message.$endColor;
+        if ($returnLine !== true) {
 
-        if ($returnLine == true) {
-            echo PHP_EOL;
         }
     }
 
