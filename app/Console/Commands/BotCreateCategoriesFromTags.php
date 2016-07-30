@@ -179,7 +179,7 @@ class BotCreateCategoriesFromTags extends Command
      */
     public function isValidTag($tag) {
 
-        if (!strlen($tag)) {
+        if (strlen($tag) > 3) {
             return false;
         }
 
@@ -191,7 +191,7 @@ class BotCreateCategoriesFromTags extends Command
             return false;
         }
 
-        if (str_contains($tag, array(".com", ".net", ".es", ".xxx", ".co", "-"))) {
+        if (str_contains($tag, array(".com", ".net", ".es", ".xxx", ".tv", ".co", "-"))) {
             return false;
         }
 
