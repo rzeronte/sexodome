@@ -179,7 +179,11 @@ class BotCreateCategoriesFromTags extends Command
      */
     public function isValidTag($tag) {
 
-        if (strlen($tag) > 3) {
+        if (strlen($tag) < 3) {
+            return false;
+        }
+
+        if (!strlen($tag)) {
             return false;
         }
 
