@@ -23,7 +23,8 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\BotSitemapGenerator::class,
         \App\Console\Commands\BotSitemapGeneratorAll::class,
         \App\Console\Commands\BotCreateCategoriesFromTags::class,
-
+        \App\Console\Commands\BotCategoriesRecount::class,
+        \App\Console\Commands\BotCheckDatabase::class,
     ];
 
     /**
