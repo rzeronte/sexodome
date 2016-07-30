@@ -171,8 +171,8 @@ class rZeBotUtils
 
         $endColor = "\033[0m";
         echo $initColor.$message.$endColor;
-        if ($returnLine !== true) {
-
+        if ($returnLine == true) {
+            echo PHP_EOL;
         }
     }
 

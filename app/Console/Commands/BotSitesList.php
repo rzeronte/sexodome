@@ -22,9 +22,9 @@ class BotSitesList extends Command
         $sites = Site::all();
 
         foreach($sites as $site) {
-            rZeBotUtils::message("id: " . $site->id . " | http://". $site->getHost() . " | name: " . $site->user()->first()->name. " | language_id: " . $site->language_id . PHP_EOL, "green");
+            rZeBotUtils::message("id: " . $site->id . " | http://". $site->getHost() . " | name: " . $site->user()->first()->name. " | language_id: " . $site->language_id, "green");
         }
 
-        rZeBotUtils::message("Total: " . Site::all()->count() . " sites".PHP_EOL, "yellow");
+        rZeBotUtils::message("Total: " . Site::all()->count() . " sites", "yellow");
     }
 }
