@@ -26,6 +26,10 @@ class Site extends Model
         return $this->belongsToMany('App\Model\Tag', 'site_tag', 'site_id', 'tag_id');
     }
 
+    public function scenes()
+    {
+        return $this->hasMany('App\Model\Scene');
+    }
 
     public function categories()
     {
