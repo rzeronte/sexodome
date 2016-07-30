@@ -96,7 +96,7 @@ class BotCheckDatabase extends Command
         }
 
         echo PHP_EOL;
-        rZeBotUtils::message("Check categories", "green");
+        rZeBotUtils::message("Check categories", "cyan");
         $totalCategories = Category::all()->count();
         $totalCategoriesTranslations = CategoryTranslation::all()->count();
         rZeBotUtils::message("Total categories: $totalCategories", "green");
