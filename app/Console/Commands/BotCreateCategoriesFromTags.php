@@ -129,7 +129,6 @@ class BotCreateCategoriesFromTags extends Command
 
                     $newCategory->scenes()->sync($ids_sync);
                 } else {
-                    $plural = str_plural($tag->name);
 
                     // Obtenemos la categoría partiendo de la traducción
                     $category = Category::find($categoryTranslation->category_id);
@@ -188,7 +187,7 @@ class BotCreateCategoriesFromTags extends Command
             return false;
         }
 
-        if (str_contains($tag, array(".com", ".net", ".es", ".xxx", ".co"))) {
+        if (str_contains($tag, array(".com", ".net", ".es", ".xxx", ".co", "-"))) {
             return false;
         }
 
