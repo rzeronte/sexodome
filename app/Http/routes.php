@@ -52,8 +52,8 @@ Route::group(['domain' => 'accounts.'.\App\rZeBot\rZeBotCommons::getMainPlatafor
     Route::match(['get'], '{locale}/ajax/seo/site/pages/{site_id}', 'ConfigController@sitePageViews')->name('sitePageViews');
 
     Route::match(['get'], '{locale}/ajax/scene/thumbs/{site_id}', 'ConfigController@sceneThumbs')->name('sceneThumbs');
-    Route::match(['get'], '{locale}/ajax/scene/spin/{site_id}', 'ConfigController@spinScene')->name('spinScene');
 
+    Route::get('/setLocale/{locale}', 'ConfigController@changeLocale')->name('changeLocale');
     Route::get('/setLocale/{locale}', 'ConfigController@changeLocale')->name('changeLocale');
 
     Route::match(['get', 'post'], '{locale}/saveTranslation/{scene_id}', 'ConfigController@saveTranslation')->name('saveTranslation');

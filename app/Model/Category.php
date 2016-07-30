@@ -15,6 +15,11 @@ class Category extends Model
         return $this->hasMany('App\Model\CategoryTranslation');
     }
 
+    public function site()
+    {
+        return $this->belongsTo('App\Model\Site');
+    }
+
     public function scenes()
     {
         return $this->belongsToMany('App\Model\Scene', 'scene_category', 'category_id', 'scene_id');

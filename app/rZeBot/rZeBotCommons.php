@@ -128,5 +128,4 @@ class rZeBotCommons extends Controller {
     {
         return rZeBotCommons::getDumpsFolder()."tmp/";
     }
-
 }

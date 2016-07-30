@@ -105,6 +105,10 @@ class ConfigController extends Controller
             abort(404, "Site not found");
         }
 
+        if (!(Auth::user()->id == $site->user->id)) {
+            abort(401, "Unauthorized");
+        }
+
         $tags = Tag::getTranslationSearch($query_string, $this->commons->language->id);
 
 
@@ -123,8 +127,13 @@ class ConfigController extends Controller
         $query_string = Request::get('q');
 
         $site = Site::find($site_id);
+
         if (!$site) {
             abort(404, "Site not found");
+        }
+
+        if (!(Auth::user()->id == $site->user->id)) {
+            abort(401, "Unauthorized");
         }
 
         $categories = Category::getTranslationSearch($query_string, $this->commons->language->id);
@@ -139,25 +148,13 @@ class ConfigController extends Controller
         ]);
     }
 
-    public function addTag($locale, $permalinkTag)
+    public function works($locale)
     {
-        $tag = TagTranslation::where('permalink', $permalinkTag)->first()->tag;
-
-        // check if already exists
-        if (Language::hasTag($tag->id, $this->language->id)) {
-            Request::session()->flash('error', 'Tag already exists!');
-        } else {
-            Request::session()->flash('success', 'Tag added!');
-            $newLanguageTag = new App\Model\LanguageTag();
-            $newLanguageTag->language_id = $this->language->id;
-            $newLanguageTag->tag_id = $tag->id;
-            $newLanguageTag->save();
-        }
-
-        return redirect()->route('tags', [
+        return view('panel.works', [
+            'locale'    => $this->commons->locale,
             'language'  => $this->commons->language,
             'languages' => $this->commons->languages,
-            'locale'    => $this->commons->locale,
+            'infojobs' => InfoJobs::getUserJobs()->paginate($this->commons->perPageJobs),
         ]);
     }
 
@@ -183,6 +180,16 @@ class ConfigController extends Controller
 
     public function saveCategoryTranslation($locale, $category_id)
     {
+        $category = Category::find($category_id);
+
+        if (!$category) {
+            abort(404, "Category not found");
+        }
+
+        if (!(Auth::user()->id == $category->scene->site->user->id)) {
+            abort(401, "Unauthorized");
+        }
+
         $name = Request::input('language_' . $this->commons->language->id);
 
         $categoryTranslation =  CategoryTranslation::where('category_id', $category_id)
@@ -193,11 +200,9 @@ class ConfigController extends Controller
         $categoryTranslation->permalink = str_slug($name);
         $categoryTranslation->save();
 
-        $category = App\Model\Category::find($category_id);
         $category->status = Request::input('status');
         $category->save();
 
-        // response json if ajax request
         if(Request::ajax()) {
             return json_encode(array('status'=>1));
         }
@@ -212,6 +217,16 @@ class ConfigController extends Controller
 
     public function saveTranslation($locale, $scene_id)
     {
+        $scene = Scene::find($scene_id);
+
+        if (!$scene) {
+            abort(404, "Scene not found");
+        }
+
+        if (!(Auth::user()->id == $scene->site->user->id)) {
+            abort(401, "Unauthorized");
+        }
+
         $title = Request::input('title');
         $description = Request::input('description');
         $selectedThumb = Request::input('selectedThumb', null);
@@ -224,7 +239,6 @@ class ConfigController extends Controller
             ->where('language_id', $this->commons->language->id)
             ->first();
 
-        $scene = Scene::find($scene_id);
         $scene->thumb_index = $selectedThumb;
         $scene->save();
 
@@ -301,6 +315,16 @@ class ConfigController extends Controller
     {
         $site_id = Request::get('site_id');
 
+        $site = Site::find($site_id);
+
+        if (!$site) {
+            abort(404, "Site not found");
+        }
+
+        if (!(Auth::user()->id == $site->user->id)) {
+            abort(401, "Unauthorized");
+        }
+
         $categories = Category::getTranslationSearch(
                 false,
                 $this->commons->language->id,
@@ -323,6 +347,10 @@ class ConfigController extends Controller
             abort("404", "Scene not found");
         }
 
+        if (!(Auth::user()->id == $scene->site->user->id)) {
+            abort(401, "Unauthorized");
+        }
+
         return view('panel._ajax_preview', [
             'language'     => $this->commons->language,
             'languages'    => $this->commons->languages,
@@ -338,6 +366,18 @@ class ConfigController extends Controller
     {
         if (Request::isMethod('post')) {
 
+            $site_id = Input::get('site_id');
+
+            $site = Site::find($site_id);
+
+            if (!$site) {
+                abort(401, "Site not found");
+            }
+
+            if (!(Auth::user()->id == $site->user->id)) {
+                abort(401, "Unauthorized");
+            }
+
             $channel = Channel::where('name', '=', Input::get('feed_name'))->first();
 
             if (!$channel) {
@@ -345,7 +385,7 @@ class ConfigController extends Controller
             }
 
             $newInfoJob = new InfoJobs();
-            $newInfoJob->site_id = Input::get('site_id');
+            $newInfoJob->site_id = $site_id;
             $newInfoJob->feed_id = $channel->id;
             $newInfoJob->created_at = date("Y:m:d H:i:s");
             $newInfoJob->save();
@@ -368,7 +408,6 @@ class ConfigController extends Controller
             ];
 
             try {
-
                 $job = (new importScenesFromFeed($queueParams));
                 $this->dispatch($job);
 
@@ -379,7 +418,6 @@ class ConfigController extends Controller
 
                 return json_encode(['status' => false]);
             }
-
         }
 
         return json_encode(['status' => false]);
@@ -409,6 +447,10 @@ class ConfigController extends Controller
             abort(404, 'Scene not found');
         }
 
+        if (!(Auth::user()->id == $scene->site->user->id)) {
+            abort(401, "Unauthorized");
+        }
+
         return view('panel._ajax_publication_info', [
             'scene'     => $scene,
             'language'  => $this->commons->language,
@@ -422,6 +464,10 @@ class ConfigController extends Controller
 
         if (!$site) {
             abort(404, "Site not found");
+        }
+
+        if (!(Auth::user()->id == $site->user->id)) {
+            abort(401, "Unauthorized");
         }
 
         $keywords = LaravelAnalyticsFacade::setSiteId('ga:'.$site->ga_account)->getTopKeyWords(90, $maxResults = 30);
@@ -441,6 +487,10 @@ class ConfigController extends Controller
             abort(404, "Site not found");
         }
 
+        if (!(Auth::user()->id == $site->user->id)) {
+            abort(401, "Unauthorized");
+        }
+
         $referrers= LaravelAnalyticsFacade::setSiteId('ga:'.$site->ga_account)->getTopReferrers(90, $maxResults = 30);
 
         return view('panel._ajax_site_referrers', [
@@ -448,7 +498,6 @@ class ConfigController extends Controller
             'language'  => $this->commons->language,
             'languages' => $this->commons->languages
         ]);
-
     }
 
     public function sitePageViews($locale, $site_id)
@@ -457,6 +506,10 @@ class ConfigController extends Controller
 
         if (!$site) {
             abort(404, "Site not found");
+        }
+
+        if (!(Auth::user()->id == $site->user->id)) {
+            abort(401, "Unauthorized");
         }
 
         $pageViews = LaravelAnalyticsFacade::setSiteId('ga:'.$site->ga_account)->getMostVisitedPages(90, $maxResults = 30);
@@ -482,43 +535,6 @@ class ConfigController extends Controller
         ]);
     }
 
-    public function spinScene($locale, $scene_id)
-    {
-        $scene = Scene::find($scene_id);
-        if (!$scene) {
-            abort(404, "Not found");
-        }
-
-        $exitCodeTitle = "not exist title";
-        $exitCodeDescription = "not exist description";
-
-        $translation = $scene->translations()->where('language_id', 1)->first();
-
-        if ($translation->title != "") {
-            $exitCodeTitle = Artisan::call('rZeBot:spinner:text', [
-                'language' => 'es',
-                'source'   => $translation->title,
-                '--text'   => "true"
-            ]);
-        }
-
-        if ($translation->description != "") {
-            $exitCodeDescription = Artisan::call('rZeBot:spinner:text', [
-                'language' => 'es',
-                'source'   => $translation->description,
-                '--text'   => "true"
-            ]);
-        }
-
-        return view('panel._ajax_spin_scene', [
-            'scene'               => $scene,
-            'language'            => $this->commons->language,
-            'languages'           => $this->commons->languages,
-            'exitCodeTitle'       => $exitCodeTitle,
-            'exitCodeDescription' => $exitCodeDescription
-        ]);
-    }
-
     public function feeds($locale)
     {
         return view('panel.feeds', [
@@ -538,6 +554,11 @@ class ConfigController extends Controller
 
         if (!$site) {
             abort(404, "Site not found");
+        }
+
+        // Check site is from user
+        if (!(Auth::user()->id == $site->user->id)) {
+            abort(401, "Unauthorized");
         }
 
         if (Request::isMethod('post')) {
@@ -836,13 +857,4 @@ class ConfigController extends Controller
 
     }
 
-    public function works($locale)
-    {
-        return view('panel.works', [
-            'locale'    => $this->commons->locale,
-            'language'  => $this->commons->language,
-            'languages' => $this->commons->languages,
-            'infojobs' => InfoJobs::getUserJobs()->paginate($this->commons->perPageJobs),
-        ]);
-    }
 }
