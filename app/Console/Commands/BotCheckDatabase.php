@@ -59,7 +59,7 @@ class BotCheckDatabase extends Command
         }
 
         echo PHP_EOL;
-        rZeBotUtils::message("Check count scenes and translations", "cyann");
+        rZeBotUtils::message("Check count scenes and translations", "cyan");
         $totalTranslations = SceneTranslation::all()->count();
         $countLanguages = Language::all()->count();
         rZeBotUtils::message("Total languages: " . $countLanguages, "green");
