@@ -132,6 +132,10 @@ class BotCreateCategoriesFromTags extends Command
 
                     // Obtenemos la categoría partiendo de la traducción
                     $category = Category::find($categoryTranslation->category_id);
+                    if (!$category) {
+                        rZeBotUtils::message(" | [CATEGORY NOT FOUND FROM HIS TRANSLATION] " . $plural. " | (" . $categoryTranslation->category_id . ")", "red", false);
+                        continue;
+                    }
 
                     // Obtenemos las actuales escenas asociadas a esta categoría
                     $currentCategoryScenes = $category->scenes()->select('scenes.id')->get()->pluck('id');
