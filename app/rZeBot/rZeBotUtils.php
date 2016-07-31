@@ -369,13 +369,13 @@ class rZeBotUtils
                     foreach ($video["categories"] as $categoryTxt) {
                         if (in_array($categoryTxt, $categories)) {
                             $mixed_check = true;
-                            echo "Found category: " . $categoryTxt.PHP_EOL;
+                            rZeBotUtils::message("Found category: " . $categoryTxt, "green");
                         }
                     }
                 }
 
                 if (!$mixed_check) {
-                    rZeBotUtils::message("mixed_check continue;");
+                    rZeBotUtils::message("mixed_check continue;", "yellow");
                     continue;
                 }
 
@@ -385,7 +385,7 @@ class rZeBotUtils
 
                     if ($only_update !== "false") {
                         $mixed_check = false;
-                        echo "SKIPPED".PHP_EOL;
+                        rZeBotUtils::message("SKIPPED", "yellow");
                         continue;
                     }
 
@@ -410,14 +410,14 @@ class rZeBotUtils
                     }
 
                     if (!$mixed_check) {
-                        echo "TAGS/CATEGORIES -> SKIPPED" . PHP_EOL;
+                        rZeBotUtils::message("TAGS/CATEGORIES -> SKIPPED", "yellow");
                     }
 
                     // rate check
                     if ($rate !== 'false') {
                         if ($video["rate"] < $rate) {
                             $mixed_check = false;
-                            echo "RATE: Rate insuficiente" . PHP_EOL;
+                            rZeBotUtils::message("RATE: Rate insuficiente", "yellow");
                         }
                     }
 
@@ -425,7 +425,7 @@ class rZeBotUtils
                     if ($minViews !== 'false') {
                         if ($video["views"] < $minViews) {
                             $mixed_check = false;
-                            echo "VIEWS: Views insuficiente" . PHP_EOL;
+                            rZeBotUtils::message("VIEWS: Views insuficiente", "yellow");
                         }
                     }
 
@@ -433,7 +433,7 @@ class rZeBotUtils
                     if ($minDuration !== 'false') {
                         if ($video["duration"] < $minDuration) {
                             $mixed_check = false;
-                            echo "DURATION: duration insuficiente" . PHP_EOL;
+                            rZeBotUtils::message("DURATION: duration insuficiente", "yellow");
                         }
                     }
 
@@ -441,7 +441,7 @@ class rZeBotUtils
                         $added++;
 
                         if ($test !== 'false') {
-                            echo "[TEST MAPPING FROM FEED" . PHP_EOL;
+                            rZeBotUtils::message("[TEST MAPPING FROM FEED", "yellow");
                             print_r($video);
                             exit;
                         }
@@ -504,7 +504,11 @@ class rZeBotUtils
                                     $tagTranslation->save();
                                 }
                             } else {
-                                $tagTranslation = TagTranslation::where('name', $tagTxt)->where('language_id', 2)->first();
+                                $tagTranslation = TagTranslation::join('tags', 'tags.id', '=', 'tag_translations.tag_id')
+                                    ->where('name', $tagTxt)
+                                    ->where('site_id', '=', $site_id)
+                                    ->where('language_id', 2)
+                                    ->first();
                                 $tag_id = $tagTranslation->tag_id;
                                 //echo "TAG: ya existente en la colección" . PHP_EOL;
                             }
