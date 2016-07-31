@@ -173,7 +173,7 @@ class rZeBotUtils
         Log::info($initColor.$message.$endColor);
 
         if ($returnLine == true) {
-            echo PHP_EOL;
+            //echo PHP_EOL;
         }
     }
 
