@@ -37,6 +37,7 @@ class BotCreateCategoriesFromTags extends Command
         }
 
 
+
         if ($truncate !== "false") {
             $this->info("Truncamos tablas");
             DB::table('categories')->where("site_id", $site_id)->delete();
@@ -120,7 +121,7 @@ class BotCreateCategoriesFromTags extends Command
 
                     // sync scenes to category
                     $ids_sync = $tag->scenes()->select('scenes.id')->get()->pluck('id');
-                    $ids_sync = $ids_sync->all();
+                    $ids_sync = array_unique($ids_sync->all());
 
                     rZeBotUtils::message(str_pad(" | [CREATE CATEGORY] '$plural'", 45, "."), "green", false);
                     rZeBotUtils::message(str_pad(" | Sync ".count($ids_sync), 12, "."), "yellow", false);
@@ -149,7 +150,7 @@ class BotCreateCategoriesFromTags extends Command
 
                     // sync scenes to category
                     $ids_sync = $tag->scenes()->select('scenes.id')->get()->pluck('id');
-                    $ids_sync = $ids_sync->all();
+                    $ids_sync = array_unique($ids_sync->all());
 
                     $totalIds = array_unique(array_merge($ids_sync, $currentCategoryScenes));
 
