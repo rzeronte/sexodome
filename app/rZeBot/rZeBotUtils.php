@@ -477,7 +477,12 @@ class rZeBotUtils
                         // tags
                         foreach ($video["tags"] as $tagTxt) {
 
-                            if (TagTranslation::join('tags', 'tags.id', '=', 'tag_translations.tag_id')->where('site_id', '=', $site_id)->where('name', $tagTxt)->where('language_id', 2)->count() == 0) {
+                            if (TagTranslation::join('tags', 'tags.id', '=', 'tag_translations.tag_id')
+                                    ->where('site_id', '=', $site_id)
+                                    ->where('name', $tagTxt)
+                                    ->where('language_id', 2)
+                                    ->count() == 0
+                            ) {
                                 //echo "TAG: creando tag en la colección" . PHP_EOL;
                                 $tag = new Tag();
                                 $tag->status = 2;
@@ -593,5 +598,46 @@ class rZeBotUtils
         }
 
         return true;
+    }
+    /**
+     * Check if tag is valid for Category
+     *
+     * @param $tag
+     * @return bool
+     */
+    public static function isValidTag($tag) {
+
+        // menores de 2 carácteres
+        if (strlen($tag) < 2) {
+            return false;
+        }
+
+        // longitud cero
+        if (!strlen($tag)) {
+            return false;
+        }
+
+        // números
+        if (is_numeric($tag)) {
+            return false;
+        }
+
+        // mayores de 2 palabras
+        if (count(explode(" ", $tag)) > 3) {
+            return false;
+        }
+
+        // que contengan alguno de estos textos
+        if (str_contains($tag, array(".com", ".net", ".es", ".xxx", ".tv", ".co"))) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public static function transformTagForCategory($tag) {
+        $transformed = str_replace("-", " ", $tag);
+
+        return $transformed;
     }
 }

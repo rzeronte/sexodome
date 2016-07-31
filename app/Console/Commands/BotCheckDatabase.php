@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Model\CategoryTranslation;
 use App\Model\SceneTranslation;
+use App\Model\Tag;
 use App\rZeBot\rZeBotUtils;
 use Illuminate\Console\Command;
 use App\Model\Scene;
@@ -113,7 +114,15 @@ class BotCheckDatabase extends Command
         $countSceneZeroCategories = 0;
         foreach($scenes as $scene) {
             if ($scene->categories()->count() == 0) {
+                $countTag = $scene->tags()->count();
+                $sceneTags = $scene->tags()->get();
                 $countSceneZeroCategories++;
+                $stringTags="";
+                foreach($sceneTags as $tag) {
+                    $tagTranslation = $tag->translations()->where('language_id', $english = 2)->first();
+                    $stringTags.= ", " . $tagTranslation->name;
+                }
+                //rZeBotUtils::message($scene->id . " => countTag(". $countTag.")" . $stringTags, "red");
             }
         }
         if ($countSceneZeroCategories == 0) {
@@ -123,5 +132,30 @@ class BotCheckDatabase extends Command
         }
         rZeBotUtils::message("Scenes with ZeroCategories: $countSceneZeroCategories", $color);
 
+        echo PHP_EOL;
+        rZeBotUtils::message("Check tags isValid for categories", "cyan");
+
+        $countTags = Tag::all()->count();
+        rZeBotUtils::message("Total tags: $countTags", "green");
+
+        $tags = Tag::all();
+        $countNotValidTag = 0;
+        $countValidTag = 0;
+        foreach ($tags as $tag) {
+            $tagTranslation = $tag->translations()->where('language_id', $english = 2)->first();
+            $transformedTag = rZeBotUtils::transformTagForCategory($tagTranslation->name);
+            if (!rZeBotUtils::isValidTag($transformedTag)) {
+                $countNotValidTag++;
+                rZeBotUtils::message("[NOT VALID]: $transformedTag", "red");
+            } else {
+                $countValidTag++;
+            }
+        }
+        if ($countNotValidTag > 0) {
+            $color = "red";
+        } else {
+            $color = "green";
+        }
+        rZeBotUtils::message("Tags not valid: yes($countValidTag)/no($countNotValidTag)", $color);
     }
 }

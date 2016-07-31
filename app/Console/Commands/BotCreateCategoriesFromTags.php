@@ -59,26 +59,27 @@ class BotCreateCategoriesFromTags extends Command
         $i = 0;
         $timer = time();
         foreach($tags as $tag) {
+            $transformedTag = rZeBotUtils::transformTagForCategory($tag->name);
             $i++;
             // Solo se convertirán en categorías tags de una sola palabra
-            if ($this->isValidTag($tag->name)) {
+            if (rZeBotUtils::isValidTag($transformedTag)) {
                 rZeBotUtils::message("[" . number_format(($i*100)/ count($tags), 0) ."%] ". gmdate("H:i:s", (time()-$timer)) . " |", "white", false);
 
-                rZeBotUtils::message(" " . str_pad($tag->name, 20, "."), "yellow", false);
+                rZeBotUtils::message(" " . str_pad($transformedTag, 20, "."), "yellow", false);
 
                 // Contamos el ńumero de escenas para este tags
                 $countScenes = $tag->scenes()->count();
 
-                $singular = str_singular($tag->name);
-                $plural = str_plural($tag->name);
+                $singular = str_singular($transformedTag);
+                $plural = str_plural($transformedTag);
 
                 echo str_pad(" | scenes count: $countScenes", 25, ".");
                 echo str_pad(" | [$singular]/[$plural]", 40, ".");
 
                 // Debug en pantalla para ver si el el tag es singular o plural
-                if ($tag->name == $plural) {
+                if ($transformedTag == $plural) {
                     echo str_pad(" | Plural", 11, ".");
-                } else if ($tag->name == $singular) {
+                } else if ($transformedTag == $singular) {
                     echo str_pad(" | Singular", 11, ".");
                 }
 
@@ -94,7 +95,7 @@ class BotCreateCategoriesFromTags extends Command
                 if (!$categoryTranslation) {
                     // create category
                     $newCategory = new Category();
-                    $newCategory->text = $tag->name; // será plural, que es el que usamos en el where del tag
+                    $newCategory->text = $transformedTag; // será plural, que es el que usamos en el where del tag
                     if ($countScenes >= $min_scenes_activation) {
                         $newCategory->status = 1;
                     } else {
@@ -160,7 +161,7 @@ class BotCreateCategoriesFromTags extends Command
                     rZeBotUtils::message(" | [ALREADY EXISTS] " . $plural. " | (" . $categoryTranslation->category_id . ") | sync " . count($totalIds), "red", false);
                 }
             } else {
-                rZeBotUtils::message("[WARNING] Ignorando categoría: " . $tag->name, "red", false);
+                rZeBotUtils::message("[WARNING] Ignorando categoría: " . $transformedTag, "red", false);
             }
             echo PHP_EOL;
         }
@@ -170,34 +171,5 @@ class BotCreateCategoriesFromTags extends Command
         ]);
     }
 
-    /**
-     * Check if tag is valid for Category
-     *
-     * @param $tag
-     * @return bool
-     */
-    public function isValidTag($tag) {
 
-        if (strlen($tag) < 3) {
-            return false;
-        }
-
-        if (!strlen($tag)) {
-            return false;
-        }
-
-        if (is_numeric($tag)) {
-            return false;
-        }
-
-        if (count(explode(" ", $tag)) !== 1) {
-            return false;
-        }
-
-        if (str_contains($tag, array(".com", ".net", ".es", ".xxx", ".tv", ".co", "-"))) {
-            return false;
-        }
-
-        return true;
-    }
 }
