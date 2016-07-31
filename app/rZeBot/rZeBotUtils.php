@@ -16,7 +16,7 @@ use App\Model\CategoryTranslation;
 use App\Model\SceneCategory;
 use App\Model\Category;
 use App\Model\Site;
-
+use Log;
 use DB;
 
 class rZeBotUtils
@@ -170,7 +170,8 @@ class rZeBotUtils
         }
 
         $endColor = "\033[0m";
-        echo $initColor.$message.$endColor;
+        Log::info($initColor.$message.$endColor);
+
         if ($returnLine == true) {
             echo PHP_EOL;
         }
