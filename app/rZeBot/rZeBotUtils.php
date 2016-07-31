@@ -174,10 +174,9 @@ class rZeBotUtils
 
         if ($show !== false) {
             echo $initColor.$message.$endColor;
-        }
-
-        if ($returnLine == true) {
-            echo PHP_EOL;
+            if ($returnLine == true) {
+                echo PHP_EOL;
+            }
         }
     }
 

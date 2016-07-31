@@ -64,7 +64,7 @@ class BotCreateCategoriesFromTags extends Command
             if (rZeBotUtils::isValidTag($transformedTag)) {
                 rZeBotUtils::message("[" . number_format(($i*100)/ count($tags), 0) ."%] ". gmdate("H:i:s", (time()-$timer)) . " |", "white", false);
 
-                rZeBotUtils::message(" " . str_pad($transformedTag, 20, "."), "yellow", false);
+                rZeBotUtils::message(" " . $transformedTag, "yellow", false);
 
                 // Contamos el ńumero de escenas para este tags
                 $countScenes = $tag->scenes()->count();
@@ -72,14 +72,14 @@ class BotCreateCategoriesFromTags extends Command
                 $singular = str_singular($transformedTag);
                 $plural = str_plural($transformedTag);
 
-                rZeBotUtils::message( str_pad(" | [$singular]/[$plural]", 40, "."), "white", false);
-                rZeBotUtils::message( str_pad(" | scenes count: $countScenes", 25, "."), "white", false);
+                rZeBotUtils::message( " | [$singular]/[$plural]", "white", false);
+                rZeBotUtils::message( " | scenes count: $countScenes", "white", false);
 
                 // Debug en pantalla para ver si el el tag es singular o plural
                 if ($transformedTag == $plural) {
-                    rZeBotUtils::message( str_pad(" | Plural", 11, "."), "white", false);
+                    rZeBotUtils::message( " | Plural", "white", false);
                 } else if ($transformedTag == $singular) {
-                    rZeBotUtils::message( str_pad(" | Singular", 11, "."), "white", false);
+                    rZeBotUtils::message( " | Singular", "white", false);
                 }
 
                 // Comprobamos si ya existe la categoría (las categorías solo serán plural)
@@ -121,8 +121,8 @@ class BotCreateCategoriesFromTags extends Command
                     $ids_sync = $tag->scenes()->select('scenes.id')->get()->pluck('id');
                     $ids_sync = array_unique($ids_sync->all());
 
-                    rZeBotUtils::message(str_pad(" | [CREATE CATEGORY] '$plural'", 45, "."), "green", false);
-                    rZeBotUtils::message(str_pad(" | Sync ".count($ids_sync), 12, "."), "yellow", false);
+                    rZeBotUtils::message(" | [CREATE CATEGORY] '$plural'", "green", false);
+                    rZeBotUtils::message(" | Sync ".count($ids_sync), "yellow", false);
                     $newCategory->nscenes = count($ids_sync);
                     $newCategory->save();
 
