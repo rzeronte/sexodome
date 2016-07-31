@@ -45,18 +45,11 @@
                 <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
 
                 <div style="border-bottom: solid 1px gray;margin-bottom:20px;">
-
                     <p>
                         <b><i class="glyphicon glyphicon-globe"></i>
-                            @if ($site->have_domain == 1)
-                                <a href="http://{{$site->domain}}" target="_blank">
-                                    http://{{$site->domain}} (<i>{{$site->getTotalScenes()}}</i> active scenes)
-                                </a>
-                            @else
-                                <a href="http://{{$site->name}}.{{\App\rZeBot\rZeBotCommons::getMainPlataformDomain()}}" target="_blank">
-                                    http://{{$site->name}}.{{\App\rZeBot\rZeBotCommons::getMainPlataformDomain()}} (<i>{{$site->getTotalScenes()}} active scenes)</i>
-                                </a>
-                            @endif
+                            <a href="http://{{$site->getHost()}}" target="_blank">
+                                http://{{$site->getHost()}} (<i>{{$site->getTotalScenes()}}</i> active scenes)
+                            </a>
                         </b>
                     </p>
                 </div>
@@ -188,11 +181,7 @@
                                 <select name="iframe_site_id_{{$site->id}}" class="form-control">
                                     <option value="">No iframe</option>
                                     @foreach($sites as $sit)
-                                        @if ($site->have_domain == 1)
-                                            <option value="{{$sit->id}}" @if ($site->iframe_site_id == $sit->id) selected @endif>{{$sit->domain}}</option>
-                                        @else
-                                            <option value="{{$sit->id}}" @if ($site->iframe_site_id == $sit->id) selected @endif>{{$sit->name}}</option>
-                                        @endif
+                                        <option value="{{$sit->id}}" @if ($site->iframe_site_id == $sit->id) selected @endif>{{$sit->getHost()}}</option>
                                     @endforeach
                                 </select>
 
@@ -212,7 +201,7 @@
                     </div>
 
                     <div class="row">
-                        <form class="form-update-google-data" action="{{route('updateGoogleData', ['locale' => $locale, 'site_id' => $site->id])}}">
+                            <form class="form-update-google-data" action="{{route('updateGoogleData', ['locale' => $locale, 'site_id' => $site->id])}}">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
 
                             <div class="col-md-6">
