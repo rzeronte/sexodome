@@ -114,15 +114,7 @@ class BotCheckDatabase extends Command
         $countSceneZeroCategories = 0;
         foreach($scenes as $scene) {
             if ($scene->categories()->count() == 0) {
-                $countTag = $scene->tags()->count();
-                $sceneTags = $scene->tags()->get();
                 $countSceneZeroCategories++;
-                $stringTags="";
-                foreach($sceneTags as $tag) {
-                    $tagTranslation = $tag->translations()->where('language_id', $english = 2)->first();
-                    $stringTags.= ", " . $tagTranslation->name;
-                }
-                //rZeBotUtils::message($scene->id . " => countTag(". $countTag.")" . $stringTags, "red");
             }
         }
         if ($countSceneZeroCategories == 0) {
@@ -146,7 +138,6 @@ class BotCheckDatabase extends Command
             $transformedTag = rZeBotUtils::transformTagForCategory($tagTranslation->name);
             if (!rZeBotUtils::isValidTag($transformedTag)) {
                 $countNotValidTag++;
-                rZeBotUtils::message("[NOT VALID]: $transformedTag", "red");
             } else {
                 $countValidTag++;
             }
