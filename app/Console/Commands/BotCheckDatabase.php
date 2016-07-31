@@ -35,11 +35,13 @@ class BotCheckDatabase extends Command
      */
     public function handle()
     {
+        rZeBotUtils::message("Check Database For Sexodome", "cyan");
+
         $totalScenes = Scene::all()->count();
-        rZeBotUtils::message("Total scenes: " . $totalScenes, "green");
+        rZeBotUtils::message("Total scenes: " . $totalScenes, "white");
 
         $totalSites = Site::all()->count();
-        rZeBotUtils::message("Total sites: " . $totalSites, "green");
+        rZeBotUtils::message("Total sites: " . $totalSites, "white");
 
         echo PHP_EOL;
 
@@ -63,8 +65,8 @@ class BotCheckDatabase extends Command
         rZeBotUtils::message("Check count scenes and translations", "cyan");
         $totalTranslations = SceneTranslation::all()->count();
         $countLanguages = Language::all()->count();
-        rZeBotUtils::message("Total languages: " . $countLanguages, "green");
-        rZeBotUtils::message("Total translations: " . $totalTranslations, "green");
+        rZeBotUtils::message("Total languages: " . $countLanguages, "white");
+        rZeBotUtils::message("Total translations: " . $totalTranslations, "white");
 
         if (($totalTranslations/$countLanguages) != $totalScenes) {
             rZeBotUtils::message("Check languages/Translations failed: $totalTranslations/$countLanguages = ". ($totalTranslations/$countLanguages), "red");
@@ -100,8 +102,8 @@ class BotCheckDatabase extends Command
         rZeBotUtils::message("Check categories", "cyan");
         $totalCategories = Category::all()->count();
         $totalCategoriesTranslations = CategoryTranslation::all()->count();
-        rZeBotUtils::message("Total categories: $totalCategories", "green");
-        rZeBotUtils::message("Total categories translations: $totalCategoriesTranslations", "green");
+        rZeBotUtils::message("Total categories: $totalCategories", "white");
+        rZeBotUtils::message("Total categories translations: $totalCategoriesTranslations", "white");
 
         if (($totalCategoriesTranslations/$countLanguages) != $totalCategories) {
             rZeBotUtils::message("Check languages/Translations failed: $totalCategoriesTranslations/$countLanguages = ". ($totalCategoriesTranslations/$countLanguages), "red");
@@ -128,7 +130,7 @@ class BotCheckDatabase extends Command
         rZeBotUtils::message("Check tags isValid for categories", "cyan");
 
         $countTags = Tag::all()->count();
-        rZeBotUtils::message("Total tags: $countTags", "green");
+        rZeBotUtils::message("Total tags: $countTags", "white");
 
         $tags = Tag::all();
         $countNotValidTag = 0;

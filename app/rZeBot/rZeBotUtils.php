@@ -520,56 +520,56 @@ class rZeBotUtils
                             //echo "TAG: asociando el tag $tagTxt" . PHP_EOL;
                         }
 
-                        // categories
-                        foreach ($video["categories"] as $categoryTxt) {
-                            if(strlen($categoryTxt) == 0) {
-                                continue;
-                            }
-
-                            if (CategoryTranslation::join('categories', 'categories.id', '=', 'categories_translations.category_id')
-                                    ->where('categories.site_id', $site_id)
-                                    ->where('name', $categoryTxt)
-                                    ->where('language_id', 2)
-                                    ->count() == 0)
-                            {
-
-                                rZeBotUtils::message("Creando categoría $categoryTxt", "green");
-
-                                $category = new Category();
-                                $category->status = 1;
-                                $category->text = $categoryTxt;
-                                $category->site_id = $site_id;
-                                $category->save();
-                                $category_id = $category->id;
-
-                                // tag translations
-                                foreach ($languages as $language) {
-                                    $categoryTranslation = new CategoryTranslation();
-                                    $categoryTranslation->language_id = $language->id;
-                                    $categoryTranslation->category_id = $category_id;
-
-                                    if ($language->id == 2) {
-                                        $categoryTranslation->permalink = str_slug($categoryTxt);
-                                        $categoryTranslation->name = $categoryTxt;
-                                    }
-
-                                    $categoryTranslation->save();
-                                }
-                            } else {
-                                $categoryTranslation = CategoryTranslation::join('categories', 'categories.id', '=', 'categories_translations.category_id')
-                                    ->where('categories.site_id', $site_id)
-                                    ->where('name', $categoryTxt)
-                                    ->where('language_id', 2)
-                                    ->first()
-                                ;
-                                $category_id = $categoryTranslation->category_id;
-                            }
-
-                            $sceneCategory = new SceneCategory();
-                            $sceneCategory->scene_id = $scene->id;
-                            $sceneCategory->category_id = $category_id;
-                            $sceneCategory->save();
-                        }
+//                        // categories
+//                        foreach ($video["categories"] as $categoryTxt) {
+//                            if(strlen($categoryTxt) == 0) {
+//                                continue;
+//                            }
+//
+//                            if (CategoryTranslation::join('categories', 'categories.id', '=', 'categories_translations.category_id')
+//                                    ->where('categories.site_id', $site_id)
+//                                    ->where('name', $categoryTxt)
+//                                    ->where('language_id', 2)
+//                                    ->count() == 0)
+//                            {
+//
+//                                rZeBotUtils::message("Creando categoría $categoryTxt", "green");
+//
+//                                $category = new Category();
+//                                $category->status = 1;
+//                                $category->text = $categoryTxt;
+//                                $category->site_id = $site_id;
+//                                $category->save();
+//                                $category_id = $category->id;
+//
+//                                // tag translations
+//                                foreach ($languages as $language) {
+//                                    $categoryTranslation = new CategoryTranslation();
+//                                    $categoryTranslation->language_id = $language->id;
+//                                    $categoryTranslation->category_id = $category_id;
+//
+//                                    if ($language->id == 2) {
+//                                        $categoryTranslation->permalink = str_slug($categoryTxt);
+//                                        $categoryTranslation->name = $categoryTxt;
+//                                    }
+//
+//                                    $categoryTranslation->save();
+//                                }
+//                            } else {
+//                                $categoryTranslation = CategoryTranslation::join('categories', 'categories.id', '=', 'categories_translations.category_id')
+//                                    ->where('categories.site_id', $site_id)
+//                                    ->where('name', $categoryTxt)
+//                                    ->where('language_id', 2)
+//                                    ->first()
+//                                ;
+//                                $category_id = $categoryTranslation->category_id;
+//                            }
+//
+//                            $sceneCategory = new SceneCategory();
+//                            $sceneCategory->scene_id = $scene->id;
+//                            $sceneCategory->category_id = $category_id;
+//                            $sceneCategory->save();
+//                        }
                     }
                 } else {
                     // Si ya existe recategorizamos categorias

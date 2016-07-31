@@ -36,8 +36,6 @@ class BotCreateCategoriesFromTags extends Command
             die();
         }
 
-
-
         if ($truncate !== "false") {
             $this->info("Truncamos tablas");
             DB::table('categories')->where("site_id", $site_id)->delete();
@@ -159,7 +157,7 @@ class BotCreateCategoriesFromTags extends Command
 
                     $category->scenes()->sync($totalIds);
 
-                    rZeBotUtils::message(" | [ALREADY EXISTS] " . $plural. " | (" . $categoryTranslation->category_id . ") | sync " . count($totalIds), "red", false);
+                    rZeBotUtils::message(" | [ALREADY EXISTS] " . $plural. " | (" . $categoryTranslation->category_id . ") | sync " . count($totalIds), "yellow", false);
                 }
             } else {
                 rZeBotUtils::message("[WARNING] Ignorando categoría: " . $transformedTag, "red", false);
