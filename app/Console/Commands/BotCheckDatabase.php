@@ -108,5 +108,20 @@ class BotCheckDatabase extends Command
             rZeBotUtils::message("Check invidual trasnslations success: $totalCategoriesTranslations/$countLanguages = ". ($totalCategoriesTranslations/$countLanguages), "green");
         }
 
+        echo PHP_EOL;
+        rZeBotUtils::message("Check scene with zero categories", "cyan");
+        $countSceneZeroCategories = 0;
+        foreach($scenes as $scene) {
+            if ($scene->categories()->count() == 0) {
+                $countSceneZeroCategories++;
+            }
+        }
+        if ($countSceneZeroCategories == 0) {
+            $color = "green";
+        } else {
+            $color = "red";
+        }
+        rZeBotUtils::message("Scenes with ZeroCategories: $countSceneZeroCategories", $color);
+
     }
 }
