@@ -35,47 +35,47 @@ class BotCheckDatabase extends Command
      */
     public function handle()
     {
-        rZeBotUtils::message("Check Database For Sexodome", "cyan");
+        rZeBotUtils::message("Check Database For Sexodome", "cyan", true, true);
 
         $totalScenes = Scene::all()->count();
-        rZeBotUtils::message("Total scenes: " . $totalScenes, "white");
+        rZeBotUtils::message("Total scenes: " . $totalScenes, "white", true, true);
 
         $totalSites = Site::all()->count();
-        rZeBotUtils::message("Total sites: " . $totalSites, "white");
+        rZeBotUtils::message("Total sites: " . $totalSites, "white", true, true);
 
         echo PHP_EOL;
 
-        rZeBotUtils::message("Check count scenes for individual sites", "cyan");
+        rZeBotUtils::message("Check count scenes for individual sites", "cyan", true, true);
         $sites = Site::all();
 
         $sumScenes = 0;
         foreach($sites as $site) {
             $siteScenesCount = $site->scenes()->count();
             $sumScenes+=$siteScenesCount;
-            rZeBotUtils::message($site->getHost() . ": " . $siteScenesCount, "yellow");
+            rZeBotUtils::message("http://".$site->getHost() . ": " . $siteScenesCount, "yellow", true, true);
         }
 
         if ($totalScenes == $sumScenes) {
-            rZeBotUtils::message("Check individual scenes OK: " . $totalScenes . "/sum(" . $sumScenes.")", "green");
+            rZeBotUtils::message("Check individual scenes OK: " . $totalScenes . "/sum(" . $sumScenes.")", "green", true, true);
         } else {
-            rZeBotUtils::message("Check individual scenes KO: " . $totalScenes . "/sum(" . $sumScenes.")", "red");
+            rZeBotUtils::message("Check individual scenes KO: " . $totalScenes . "/sum(" . $sumScenes.")", "red", true, true);
         }
 
         echo PHP_EOL;
-        rZeBotUtils::message("Check count scenes and translations", "cyan");
+        rZeBotUtils::message("Check count scenes and translations", "cyan", true, true);
         $totalTranslations = SceneTranslation::all()->count();
         $countLanguages = Language::all()->count();
-        rZeBotUtils::message("Total languages: " . $countLanguages, "white");
-        rZeBotUtils::message("Total translations: " . $totalTranslations, "white");
+        rZeBotUtils::message("Total languages: " . $countLanguages, "white", true, true);
+        rZeBotUtils::message("Total translations: " . $totalTranslations, "white", true, true);
 
         if (($totalTranslations/$countLanguages) != $totalScenes) {
-            rZeBotUtils::message("Check languages/Translations failed: $totalTranslations/$countLanguages = ". ($totalTranslations/$countLanguages), "red");
+            rZeBotUtils::message("Check languages/Translations failed: $totalTranslations/$countLanguages = ". ($totalTranslations/$countLanguages), "red", true, true);
         } else {
-            rZeBotUtils::message("Check invidual trasnslations success: $totalTranslations/$countLanguages = ". ($totalTranslations/$countLanguages), "green");
+            rZeBotUtils::message("Check invidual trasnslations success: $totalTranslations/$countLanguages = ". ($totalTranslations/$countLanguages), "green", true, true);
         }
 
         echo PHP_EOL;
-        rZeBotUtils::message("Check individual scene translations", "cyan");
+        rZeBotUtils::message("Check individual scene translations", "cyan", true, true);
         $scenes = Scene::all();
 
         $errorScenes = 0;
@@ -93,26 +93,26 @@ class BotCheckDatabase extends Command
         }
 
         if ($errorScenes > 0) {
-            rZeBotUtils::message("Check invidual trasnslations failed: success($successScenes)/error($errorScenes)", "red");
+            rZeBotUtils::message("Check invidual trasnslations failed: success($successScenes)/error($errorScenes)", "red", true, true);
         } else {
-            rZeBotUtils::message("Check invidual trasnslations success: success($successScenes)/error($errorScenes)", "green");
+            rZeBotUtils::message("Check invidual trasnslations success: success($successScenes)/error($errorScenes)", "green", true, true);
         }
 
         echo PHP_EOL;
-        rZeBotUtils::message("Check categories", "cyan");
+        rZeBotUtils::message("Check categories", "cyan", true, true);
         $totalCategories = Category::all()->count();
         $totalCategoriesTranslations = CategoryTranslation::all()->count();
-        rZeBotUtils::message("Total categories: $totalCategories", "white");
-        rZeBotUtils::message("Total categories translations: $totalCategoriesTranslations", "white");
+        rZeBotUtils::message("Total categories: $totalCategories", "white", true, true);
+        rZeBotUtils::message("Total categories translations: $totalCategoriesTranslations", "white", true, true);
 
         if (($totalCategoriesTranslations/$countLanguages) != $totalCategories) {
-            rZeBotUtils::message("Check languages/Translations failed: $totalCategoriesTranslations/$countLanguages = ". ($totalCategoriesTranslations/$countLanguages), "red");
+            rZeBotUtils::message("Check languages/Translations failed: $totalCategoriesTranslations/$countLanguages = ". ($totalCategoriesTranslations/$countLanguages), "red", true, true);
         } else {
-            rZeBotUtils::message("Check invidual trasnslations success: $totalCategoriesTranslations/$countLanguages = ". ($totalCategoriesTranslations/$countLanguages), "green");
+            rZeBotUtils::message("Check invidual trasnslations success: $totalCategoriesTranslations/$countLanguages = ". ($totalCategoriesTranslations/$countLanguages), "green", true, true);
         }
 
         echo PHP_EOL;
-        rZeBotUtils::message("Check scene with zero categories", "cyan");
+        rZeBotUtils::message("Check scene with zero categories", "cyan", true, true);
         $countSceneZeroCategories = 0;
         foreach($scenes as $scene) {
             if ($scene->categories()->count() == 0) {
@@ -124,13 +124,13 @@ class BotCheckDatabase extends Command
         } else {
             $color = "red";
         }
-        rZeBotUtils::message("Scenes with ZeroCategories: $countSceneZeroCategories", $color);
+        rZeBotUtils::message("Scenes with ZeroCategories: $countSceneZeroCategories", $color, true, true);
 
         echo PHP_EOL;
-        rZeBotUtils::message("Check tags isValid for categories", "cyan");
+        rZeBotUtils::message("Check tags isValid for categories", "cyan", true, true);
 
         $countTags = Tag::all()->count();
-        rZeBotUtils::message("Total tags: $countTags", "white");
+        rZeBotUtils::message("Total tags: $countTags", "white", true, true);
 
         $tags = Tag::all();
         $countNotValidTag = 0;
@@ -149,6 +149,6 @@ class BotCheckDatabase extends Command
         } else {
             $color = "green";
         }
-        rZeBotUtils::message("Tags not valid: yes($countValidTag)/no($countNotValidTag)", $color);
+        rZeBotUtils::message("Tags not valid: yes($countValidTag)/no($countNotValidTag)", $color, true, true);
     }
 }

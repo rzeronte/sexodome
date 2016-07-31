@@ -83,7 +83,7 @@ class BotFeedFetcher extends Command
             rZeBotUtils::message('Job: '. $job, "green");
         }
 
-        rZeBotUtils::parseCSV(
+        $this->parseCSV(
             $site_id,
             $feed,
             $max,
@@ -136,4 +136,343 @@ class BotFeedFetcher extends Command
 
         return $categories;
     }
+
+    public function parseCSV($site_id, $feed, $max, $mapped_colums, $feed_config, $tags, $categories, $only_update, $rate, $minViews, $minDuration, $default_status, $test)
+    {
+        $fila = 1;
+        $languages = Language::all();
+        $added = 0;
+        $fileCSV = rZeBotCommons::getDumpsFolder().$feed->file;
+
+        if (!file_exists($fileCSV)) {
+            if ($feed->is_compressed !== 1) {
+                if (!file_exists($fileCSV)) {
+                    rZeBotUtils::message("[WARNING] No existe el fichero '$fileCSV', intentando descargar...".PHP_EOL, "yellow");
+                    $cmd = "wget -c '" . $feed->url . "' --output-document=". $fileCSV;
+                    exec($cmd);
+                }
+            } else {
+                rZeBotUtils::message("[WARNING] El fichero de la url '$feed->url' está comprimido. Descargamos con nombre original, pero detenemos inserción.".PHP_EOL, "yellow");
+                $cmd = "wget -c '" . $feed->url . "' --directory-prefix=".rZeBotCommons::getDumpsFolderTmp();
+                exec($cmd);
+                rZeBotUtils::message("[STOP] Ejecución detenida, Debes descomprimir el fichero del channel.".PHP_EOL, "yellow");
+                exit;
+            }
+        }
+
+        if (($gestor = fopen($fileCSV, "r")) !== FALSE) {
+            while (($datos = fgetcsv($gestor, 30000, $feed_config["fields_separator"])) !== FALSE) {
+
+                $fila++;
+
+                if ($feed_config["skip_first_list"] == true && $fila == 2) {
+                    rZeBotUtils::message("[WARNING] Saltando primera linea del fichero...", "yellow");
+                    continue;
+                }
+
+                // check total cols matched CSV <-> config array
+                if ($feed_config["totalCols"] != count($datos)) {
+                    rZeBotUtils::message("Error en el número de columnas, deteniendo ejecución...", "red");
+                    print_r($datos);
+                    continue;
+                }
+
+                // check limit import
+                if ($max != 'false' && is_numeric($max) && $added >= $max) {
+                    rZeBotUtils::message("[DONE] Alcanzado número máximo de escenas indicado: $max", "cyan");
+                    break;
+                }
+
+                // likes/unlikes
+                $videorate = 0;
+                if ($mapped_colums['unlikes'] !== false && $mapped_colums['likes'] !== false) {
+                    $unlikes = $datos[$mapped_colums['unlikes']];
+                    $likes = $datos[$mapped_colums['likes']];
+                } else {
+                    $unlikes = $likes = 0;
+                }
+
+                if ($likes+$unlikes != 0) {
+                    $videorate = ($likes*100)/($likes+$unlikes);
+                }
+
+                // mount $video data array
+                $video = array(
+                    "iframe"   => $datos[$mapped_colums['iframe']],
+                    "title"    => $datos[$mapped_colums['title']],
+                    "tags"     => explode($feed_config["tags_separator"], $datos[$mapped_colums['tags']]),
+                    "duration" => $feed_config["parse_duration"]($datos[$mapped_colums['duration']]),
+                    "likes"    => $likes,
+                    "unlikes"  => $unlikes,
+                    "views"    => ($mapped_colums['views'] !== false) ? $datos[$mapped_colums['views']] : 0,
+                    "rate"     => $videorate
+                );
+
+                // ************************************************************ parse field individually
+
+                // categories
+                if ($mapped_colums['categories'] !== false) {
+                    $video["categories"] = explode($feed_config["categories_separator"], $datos[$mapped_colums['categories']]);
+                } else {
+                    $video["categories"] = null;
+                }
+
+                // thumbs
+                if ($mapped_colums['thumbs'] !== false) {
+                    $video["thumbs"] = explode($feed_config["thumbs_separator"], $datos[$mapped_colums['thumbs']]);
+                } else {
+                    // if not have thumbs, try set only preview, else, empty
+                    if ($mapped_colums['preview'] !== false) {
+                        $video["thumbs"] = array($datos[$mapped_colums['preview']]);
+                    } else {
+                        $video["thumbs"] = null;
+                    }
+                }
+
+                // preview
+                if ($mapped_colums['preview'] !== false) {
+                    $video["preview"] = $datos[$mapped_colums['preview']];
+                } else {
+                    // if not have preview, try set only preview, else, empty
+                    if ($mapped_colums['thumbs'] !== false) {
+                        $video["preview"] = explode($feed_config["thumbs_separator"], $datos[$mapped_colums['thumbs']])[0];
+                    } else {
+                        $video["preview"] = null;
+                    }
+                }
+
+                // check tags matched
+                $mixed_check = true;
+                if ($tags !== false) {
+                    $mixed_check = false;
+                    foreach ($video["tags"] as $tagTxt) {
+                        if (in_array($tagTxt, $tags)) {
+                            $mixed_check = true;
+                        }
+                    }
+                }
+
+                if (!$mixed_check) {
+                    continue;
+                }
+
+                // check categories matched
+                $mixed_check = true;
+                if ($categories !== false) {
+                    $mixed_check = false;
+                    foreach ($video["categories"] as $categoryTxt) {
+                        if (in_array($categoryTxt, $categories)) {
+                            $mixed_check = true;
+                            rZeBotUtils::message("Found category: " . $categoryTxt, "green");
+                        }
+                    }
+                }
+
+                if (!$mixed_check) {
+                    rZeBotUtils::message("mixed_check continue;", "yellow");
+                    continue;
+                }
+
+                // preview is used to check if already exists
+                if(Scene::where('preview', $video["preview"])->where('site_id', $site_id)->count() == 0) {
+                    $mixed_check = true;
+
+                    if ($only_update !== "false") {
+                        $mixed_check = false;
+                        rZeBotUtils::message("SKIPPED", "yellow");
+                        continue;
+                    }
+
+                    // check tags matched
+                    if ($tags !== false) {
+                        $mixed_check = false;
+                        foreach ($video["tags"] as $tagTxt) {
+                            if (in_array($tagTxt, $tags)) {
+                                $mixed_check = true;
+                            }
+                        }
+                    }
+
+                    // check categories matched
+                    if ($categories !== false) {
+                        $mixed_check = false;
+                        foreach ($video["categories"] as $categoryTxt) {
+                            if (in_array($categoryTxt, $categories)) {
+                                $mixed_check = true;
+                            }
+                        }
+                    }
+
+                    if (!$mixed_check) {
+                        rZeBotUtils::message("TAGS/CATEGORIES -> SKIPPED", "yellow");
+                    }
+
+                    // rate check
+                    if ($rate !== 'false') {
+                        if ($video["rate"] < $rate) {
+                            $mixed_check = false;
+                            rZeBotUtils::message("RATE: Rate insuficiente", "yellow");
+                        }
+                    }
+
+                    // views check
+                    if ($minViews !== 'false') {
+                        if ($video["views"] < $minViews) {
+                            $mixed_check = false;
+                            rZeBotUtils::message("VIEWS: Views insuficiente", "yellow");
+                        }
+                    }
+
+                    // duration check
+                    if ($minDuration !== 'false') {
+                        if ($video["duration"] < $minDuration) {
+                            $mixed_check = false;
+                            rZeBotUtils::message("DURATION: duration insuficiente", "yellow");
+                        }
+                    }
+
+                    if ($mixed_check) {
+                        $added++;
+
+                        if ($test !== 'false') {
+                            rZeBotUtils::message("[TEST MAPPING FROM FEED", "yellow");
+                            print_r($video);
+                            exit;
+                        }
+
+                        rZeBotUtils::message("[SUCCESS - $fila] Creando escena '". $video['title']."' (Duration: ".$video["duration"].")", "cyan");
+
+                        $scene = new Scene();
+                        $scene->preview    = $video["preview"];
+                        $scene->iframe     = $video["iframe"];
+                        $scene->status     = $default_status;
+                        $scene->views      = $video["views"];
+                        $scene->channel_id = $feed->id;
+                        $scene->thumbs     = utf8_encode(json_encode($video["thumbs"]));
+                        $scene->duration   = $video["duration"];
+                        $scene->rate       = $video["rate"];
+                        $scene->site_id    = $site_id;
+                        $scene->save();
+
+                        //translations
+                        foreach ($languages as $language) {
+                            $sceneTranslation = new SceneTranslation();
+                            $sceneTranslation->language_id = $language->id;
+                            $sceneTranslation->scene_id = $scene->id;
+
+                            if ($language->id == 2) {
+                                $sceneTranslation->title = $video["title"];
+                                $sceneTranslation->permalink = rZeBotUtils::slugify($video["title"]);
+                            }
+
+                            $sceneTranslation->save();
+                        }
+
+                        // tags
+                        foreach ($video["tags"] as $tagTxt) {
+
+                            if (TagTranslation::join('tags', 'tags.id', '=', 'tag_translations.tag_id')
+                                    ->where('site_id', '=', $site_id)
+                                    ->where('name', $tagTxt)
+                                    ->where('language_id', 2)
+                                    ->count() == 0
+                            ) {
+                                //echo "TAG: creando tag en la colección" . PHP_EOL;
+                                $tag = new Tag();
+                                $tag->status = 2;
+                                $tag->site_id = $site_id;
+                                $tag->save();
+                                $tag_id = $tag->id;
+
+                                // tag translations
+                                foreach ($languages as $language) {
+                                    $tagTranslation = new TagTranslation();
+                                    $tagTranslation->language_id = $language->id;
+                                    $tagTranslation->tag_id = $tag_id;
+
+                                    if ($language->id == 2) {
+                                        $tagTranslation->permalink = rZeBotUtils::slugify($tagTxt);;
+                                        $tagTranslation->name = $tagTxt;
+                                    }
+
+                                    $tagTranslation->save();
+                                }
+                            } else {
+                                $tagTranslation = TagTranslation::join('tags', 'tags.id', '=', 'tag_translations.tag_id')
+                                    ->where('name', $tagTxt)
+                                    ->where('site_id', '=', $site_id)
+                                    ->where('language_id', 2)
+                                    ->first();
+                                $tag_id = $tagTranslation->tag_id;
+                                //echo "TAG: ya existente en la colección" . PHP_EOL;
+                            }
+
+                            $sceneTag = new SceneTag();
+                            $sceneTag->scene_id = $scene->id;
+                            $sceneTag->tag_id = $tag_id;
+                            $sceneTag->save();
+                            //echo "TAG: asociando el tag $tagTxt" . PHP_EOL;
+                        }
+
+//                        // categories
+//                        foreach ($video["categories"] as $categoryTxt) {
+//                            if(strlen($categoryTxt) == 0) {
+//                                continue;
+//                            }
+//
+//                            if (CategoryTranslation::join('categories', 'categories.id', '=', 'categories_translations.category_id')
+//                                    ->where('categories.site_id', $site_id)
+//                                    ->where('name', $categoryTxt)
+//                                    ->where('language_id', 2)
+//                                    ->count() == 0)
+//                            {
+//
+//                                rZeBotUtils::message("Creando categoría $categoryTxt", "green");
+//
+//                                $category = new Category();
+//                                $category->status = 1;
+//                                $category->text = $categoryTxt;
+//                                $category->site_id = $site_id;
+//                                $category->save();
+//                                $category_id = $category->id;
+//
+//                                // tag translations
+//                                foreach ($languages as $language) {
+//                                    $categoryTranslation = new CategoryTranslation();
+//                                    $categoryTranslation->language_id = $language->id;
+//                                    $categoryTranslation->category_id = $category_id;
+//
+//                                    if ($language->id == 2) {
+//                                        $categoryTranslation->permalink = str_slug($categoryTxt);
+//                                        $categoryTranslation->name = $categoryTxt;
+//                                    }
+//
+//                                    $categoryTranslation->save();
+//                                }
+//                            } else {
+//                                $categoryTranslation = CategoryTranslation::join('categories', 'categories.id', '=', 'categories_translations.category_id')
+//                                    ->where('categories.site_id', $site_id)
+//                                    ->where('name', $categoryTxt)
+//                                    ->where('language_id', 2)
+//                                    ->first()
+//                                ;
+//                                $category_id = $categoryTranslation->category_id;
+//                            }
+//
+//                            $sceneCategory = new SceneCategory();
+//                            $sceneCategory->scene_id = $scene->id;
+//                            $sceneCategory->category_id = $category_id;
+//                            $sceneCategory->save();
+//                        }
+                    }
+                } else {
+                    // Si ya existe recategorizamos categorias
+                    rZeBotUtils::message("[WARNING] Scene ya existente, saltando...", "yellow");
+                }
+            }
+
+            fclose($gestor);
+        }
+    }
+
 }
