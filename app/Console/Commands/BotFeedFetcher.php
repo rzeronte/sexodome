@@ -9,6 +9,7 @@ use App\rZeBot\rZeBotUtils;
 use App\Model\Host;
 use App\Model\Site;
 use App\Model\InfoJobs;
+use Artisan;
 
 class BotFeedFetcher extends Command
 {
@@ -97,6 +98,10 @@ class BotFeedFetcher extends Command
             $default_status = env("DEFAULT_FETCH_STATUS", 1),
             $test
         );
+
+        Artisan::call('zbot:categories:create', [
+            'site_id' => $site_id
+        ]);
 
         // delete infojob
         if ($job !== "false") {
