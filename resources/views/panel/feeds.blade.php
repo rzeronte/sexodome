@@ -43,7 +43,7 @@
                         @if ($channel->embed == 1 )
                             type: <b>Embed</b>
                         @else
-                            type:<b>No embed</b>
+                            type: <b>No embed</b>
                         @endif
                         <br/>
                         {{number_format($channel->nvideos, 0, ",", ".")}} total scenes

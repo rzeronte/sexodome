@@ -40,7 +40,7 @@
                     @if ($infojob->finished)
                         Finished ({{$infojob->finished_at}})
                     @else
-                        WIP
+                        Work in progress
                     @endif
                 </div>
 
@@ -48,12 +48,24 @@
                     http://{{$infojob->site()->first()->getHost()}}
                 </div>
 
-                <div class="col-md-3">
-                    created at: {{$infojob->created_at}}
+                <div class="col-md-1">
+                    {{date("Y-m-d", strtotime($infojob->created_at))}}
                 </div>
 
-                <div class="col-md-2">
-                    {{$infojob->channel()->first()}}
+                <div class="col-md-1">
+                    @if (!$infojob->channel()->first())
+                        No channel
+                    @else
+                        {{$infojob->channel()->first()->name}}
+                    @endif
+                </div>
+
+                <div class="col-md-4">
+                    @if ($infojob->serialized)
+                        {{var_dump(json_decode($infojob->serialized))}}
+                    @else
+                        No serialized data
+                    @endif
                 </div>
 
                 <div class="clearfix"></div>

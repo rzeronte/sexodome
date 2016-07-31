@@ -18,7 +18,7 @@ class InfoJobs extends Model
 
     public function channel()
     {
-        return $this->belongsTo('App\Model\Channel');
+        return $this->belongsTo('App\Model\Channel', 'feed_id');
     }
 
     public static function getUserJobs()

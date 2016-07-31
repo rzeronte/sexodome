@@ -61,10 +61,9 @@ class BotCreateCategoriesFromTags extends Command
             $transformedTag = rZeBotUtils::transformTagForCategory($tag->name);
             $i++;
             // Solo se convertirán en categorías tags de una sola palabra
+            $msgLog = "[" . number_format(($i*100)/ count($tags), 0) ."%] ". gmdate("H:i:s", (time()-$timer)) . " |";
             if (rZeBotUtils::isValidTag($transformedTag)) {
-                rZeBotUtils::message("[" . number_format(($i*100)/ count($tags), 0) ."%] ". gmdate("H:i:s", (time()-$timer)) . " |", "white", false);
-
-                rZeBotUtils::message(" " . $transformedTag, "yellow", false);
+                $msgLog.= " " . $transformedTag;
 
                 // Contamos el ńumero de escenas para este tags
                 $countScenes = $tag->scenes()->count();
@@ -72,14 +71,14 @@ class BotCreateCategoriesFromTags extends Command
                 $singular = str_singular($transformedTag);
                 $plural = str_plural($transformedTag);
 
-                rZeBotUtils::message( " | [$singular]/[$plural]", "white", false);
-                rZeBotUtils::message( " | scenes count: $countScenes", "white", false);
+                $msgLog.=" | [$singular]/[$plural]";
+                $msgLog.=" | scenes count: $countScenes";
 
                 // Debug en pantalla para ver si el el tag es singular o plural
                 if ($transformedTag == $plural) {
-                    rZeBotUtils::message( " | Plural", "white", false);
+                    $msgLog.= " | Plural";
                 } else if ($transformedTag == $singular) {
-                    rZeBotUtils::message( " | Singular", "white", false);
+                    $msgLog.=" | Singular";
                 }
 
                 // Comprobamos si ya existe la categoría (las categorías solo serán plural)
@@ -121,18 +120,20 @@ class BotCreateCategoriesFromTags extends Command
                     $ids_sync = $tag->scenes()->select('scenes.id')->get()->pluck('id');
                     $ids_sync = array_unique($ids_sync->all());
 
-                    rZeBotUtils::message(" | [CREATE CATEGORY] '$plural'", "green", false);
-                    rZeBotUtils::message(" | Sync ".count($ids_sync), "yellow", false);
+                    $msgLog.=" | [CREATE CATEGORY] '$plural' | Sync ".count($ids_sync);
+
                     $newCategory->nscenes = count($ids_sync);
                     $newCategory->save();
 
                     $newCategory->scenes()->sync($ids_sync);
-                } else {
 
+                    rZeBotUtils::message($msgLog, "green");
+                } else {
                     // Obtenemos la categoría partiendo de la traducción
                     $category = Category::find($categoryTranslation->category_id);
                     if (!$category) {
-                        rZeBotUtils::message(" | [CATEGORY NOT FOUND FROM HIS TRANSLATION] " . $plural. " | (" . $categoryTranslation->category_id . ")", "red");
+                        $msgLog.= " | [CATEGORY NOT FOUND FROM HIS TRANSLATION] " . $plural. " | (" . $categoryTranslation->category_id . ")";
+                        rZeBotUtils::message($msgLog, "red", false, false);
                         continue;
                     }
 
@@ -157,10 +158,11 @@ class BotCreateCategoriesFromTags extends Command
 
                     $category->scenes()->sync($totalIds);
 
-                    rZeBotUtils::message(" | [ALREADY EXISTS] " . $plural. " | (" . $categoryTranslation->category_id . ") | sync " . count($totalIds), "yellow", false);
+                    $msgLog.= " | [ALREADY EXISTS] " . $plural. " | (" . $categoryTranslation->category_id . ") | sync " . count($totalIds);
+                    rZeBotUtils::message($msgLog, "yellow", false, false);
                 }
             } else {
-                rZeBotUtils::message("[WARNING] Ignorando categoría: " . $transformedTag, "red", false);
+                rZeBotUtils::message("[WARNING] Ignorando categoría: " . $transformedTag, "red", false, false);
             }
         }
 

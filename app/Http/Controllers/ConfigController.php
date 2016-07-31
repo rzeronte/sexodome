@@ -384,12 +384,6 @@ class ConfigController extends Controller
                 abort(404, "Channel not found");
             }
 
-            $newInfoJob = new InfoJobs();
-            $newInfoJob->site_id = $site_id;
-            $newInfoJob->feed_id = $channel->id;
-            $newInfoJob->created_at = date("Y:m:d H:i:s");
-            $newInfoJob->save();
-
             $categories = Input::get('categories');
 
             if (count($categories == 1) && !strlen($categories[0])) {
@@ -404,8 +398,16 @@ class ConfigController extends Controller
                 'max'        => Input::get('max'),
                 'duration'   => Input::get('duration'),
                 'categories' => $categories,
-                'job'        => $newInfoJob->id
             ];
+
+            $newInfoJob = new InfoJobs();
+            $newInfoJob->site_id = $site_id;
+            $newInfoJob->feed_id = $channel->id;
+            $newInfoJob->created_at = date("Y:m:d H:i:s");
+            $newInfoJob->serialized = \GuzzleHttp\json_encode($queueParams);
+            $newInfoJob->save();
+
+            $queueParams['job'] = $newInfoJob->id;
 
             try {
                 $job = (new importScenesFromFeed($queueParams));
@@ -709,6 +711,10 @@ class ConfigController extends Controller
             abort(404, "Site not found");
         }
 
+        if (!(Auth::user()->id == $site->user->id)) {
+            abort(401, "Unauthorized");
+        }
+
         $site->delete();
 
         return redirect()->route('sites', ['locale' => $this->commons->locale]);
@@ -834,6 +840,10 @@ class ConfigController extends Controller
             abort(404, "Site not found");
         }
 
+        if (!(Auth::user()->id == $site->user->id)) {
+            abort(401, "Unauthorized");
+        }
+
         $site->color = (Request::input('color') != "") ? Request::input('color') : null;
         $site->color2 = (Request::input('color2') != "") ? Request::input('color2') : null;
         $site->color3 = (Request::input('color3') != "") ? Request::input('color3') : null;
@@ -845,6 +855,7 @@ class ConfigController extends Controller
         $site->color9 = (Request::input('color9') != "") ? Request::input('color9') : null;
         $site->color10 = (Request::input('color10') != "") ? Request::input('color10') : null;
         $site->color11 = (Request::input('color11') != "") ? Request::input('color11') : null;
+        $site->color12 = (Request::input('color12') != "") ? Request::input('color12') : null;
 
         try {
             $site->save();
@@ -854,7 +865,5 @@ class ConfigController extends Controller
         }
 
         return json_encode(array('status' => $status));
-
     }
-
 }

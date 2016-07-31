@@ -44,5 +44,3 @@
     <link href='https://fonts.googleapis.com/css?family=Permanent+Marker' rel='stylesheet' type='text/css'>
 
     @include('tube._theme')
-
-    <meta name="hubtraffic-domain-validation"  content="a896a15b3b3df915" />

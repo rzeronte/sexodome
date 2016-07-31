@@ -134,10 +134,16 @@
                             <input type="text" name="color10" class="color form-control" value="{{$site->color10}}"/>
                         </div>
 
+                        <div class="col-md-2">
+                            <label>Background color:</label>
+                            <input type="text" name="color12" class="color form-control" value="{{$site->color12}}"/>
+                        </div>
+
                         <div class="col-md-2" style="margin-top: 5px;">
                             <br/>
                             <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-disk"></i> Update</button>
                         </div>
+
 
                     </form>
 

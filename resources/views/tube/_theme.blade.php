@@ -1,5 +1,10 @@
 <style>
 
+
+    body{
+        background-color: {{$site->color12}} !important;
+    }
+
     .header .header_col_billboard{
         color: {{$site->color10}} !important;
     }
