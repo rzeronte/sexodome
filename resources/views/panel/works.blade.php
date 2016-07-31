@@ -62,7 +62,7 @@
 
                 <div class="col-md-4">
                     @if ($infojob->serialized)
-                        {{var_dump(json_decode($infojob->serialized))}}
+                        {{dump(json_decode($infojob->serialized))}}
                     @else
                         No serialized data
                     @endif
