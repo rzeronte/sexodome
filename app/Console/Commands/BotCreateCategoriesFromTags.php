@@ -37,10 +37,10 @@ class BotCreateCategoriesFromTags extends Command
         }
 
         if ($truncate !== "false") {
-            $this->info("Truncamos tablas");
+            rZeBotUtils::message("Truncamos tablas", "yellow");
             DB::table('categories')->where("site_id", $site_id)->delete();
             if ($only_truncate !== "false") {
-                $this->info("[EXIT] only_truncated");
+                rZeBotUtils::message("[EXIT] only_truncated", "red");
                 exit;
             }
         }
@@ -52,7 +52,7 @@ class BotCreateCategoriesFromTags extends Command
 
         $languages = Language::all();
 
-        $this->info("Escaneando para ". $tags->count() ." tags para el site ". $site->getHost());
+        rZeBotUtils::message("Escaneando para ". $tags->count() ." tags para el site ". $site->getHost(), "yellow");
 
         $tags = $tags->get();
         $i = 0;
@@ -72,14 +72,14 @@ class BotCreateCategoriesFromTags extends Command
                 $singular = str_singular($transformedTag);
                 $plural = str_plural($transformedTag);
 
-                echo str_pad(" | scenes count: $countScenes", 25, ".");
-                echo str_pad(" | [$singular]/[$plural]", 40, ".");
+                rZeBotUtils::message( str_pad(" | [$singular]/[$plural]", 40, "."), "white", false);
+                rZeBotUtils::message( str_pad(" | scenes count: $countScenes", 25, "."), "white", false);
 
                 // Debug en pantalla para ver si el el tag es singular o plural
                 if ($transformedTag == $plural) {
-                    echo str_pad(" | Plural", 11, ".");
+                    rZeBotUtils::message( str_pad(" | Plural", 11, "."), "white", false);
                 } else if ($transformedTag == $singular) {
-                    echo str_pad(" | Singular", 11, ".");
+                    rZeBotUtils::message( str_pad(" | Singular", 11, "."), "white", false);
                 }
 
                 // Comprobamos si ya existe la categoría (las categorías solo serán plural)
@@ -162,13 +162,10 @@ class BotCreateCategoriesFromTags extends Command
             } else {
                 rZeBotUtils::message("[WARNING] Ignorando categoría: " . $transformedTag, "red", false);
             }
-            echo PHP_EOL;
         }
 
         Artisan::call('zbot:categories:thumbnails', [
             'site_id' => $site_id
         ]);
     }
-
-
 }

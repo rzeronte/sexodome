@@ -19,14 +19,16 @@ class BotDeleteAll extends Command
 
     public function handle()
     {
-        DB::table('scenes')->delete();
-        rZeBotUtils::message("Deleting scenes... ", "yellow");
+        if ($this->confirm("Se eliminarán 'scenes', 'tags' y 'categories' y sus relaciones en cascada? [y|N]")) {
+            DB::table('scenes')->delete();
+            rZeBotUtils::message("Deleting scenes... ", "yellow");
 
-        DB::table('tags')->delete();
-        rZeBotUtils::message("Deleting tags... ", "yellow");
+            DB::table('tags')->delete();
+            rZeBotUtils::message("Deleting tags... ", "yellow");
 
-        DB::table('categories')->delete();
-        rZeBotUtils::message("Deleting categories... ", "yellow");
+            DB::table('categories')->delete();
+            rZeBotUtils::message("Deleting categories... ", "yellow");
+        }
 
     }
 }
