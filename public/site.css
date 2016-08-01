@@ -336,28 +336,39 @@ footer a:hover{
 }
 
 .tube_cat{
-    padding: 0!important;
-    margin: 0 !important;
+    margin: 0px !important;
+    padding: 5px !important;
+    min-height: 205px;
+}
+
+.tube_cat .img_link img{
+    width: 100%;
+    max-height: 150px;
+}
+.tube_cat .img_link{
+    display: block;
+    border-radius: 3px;
+    border: solid 1px red;
+}
+
+.tube_cat .img_link:hover{
+    border: solid 4px red;
 }
 
 .tube_cat .text_link{
     font-size:12px;
-    border-radius: 3px;
     width: 100%;
     margin-top: 3px;
     padding: 0 2px 0 2px;
     min-height: 40px;
+    float: left;
+    box-sizing: border-box !important;
+    text-align: center;
 }
 
 .tube_cat .text_link a {
     vertical-align: middle;
     font-family: "Permanent Marker" !important;
-}
-
-.tube_cat img{
-    width: 99%;
-    max-height: 150px;
-    border-radius: 8px;
 }
 
 .category_header{
