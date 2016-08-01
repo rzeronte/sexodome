@@ -152,11 +152,7 @@ class TubeController extends Controller
             abort(404, 'Scene not found');
         }
 
-        // video log
-        $sceneClick = new SceneClick();
-        $sceneClick->scene_id = $scene->id;
-        $sceneClick->referer = isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER']:"";
-        $sceneClick->save();
+        Scene::addSceneClick($scene);
 
         if ($scene->tags()->count() > 0) {
             $randomTag = $scene->tags()->orderByRaw("RAND()")->first();
@@ -315,5 +311,19 @@ class TubeController extends Controller
             'site'            => $this->commons->site,
 
         ])->header('Cache-control', 'max-age=3600');
+    }
+
+    public function out($profile, $scene_id)
+    {
+        $scene = Scene::find($scene_id);
+
+        if (!$scene) {
+            abort(404, "Scene not found");
+        }
+
+        Scene::addSceneClick($scene);
+
+        // el campo 'iframe' es la url, cuando el video pertenece a un feed no embed
+        return redirect($scene->iframe);
     }
 }

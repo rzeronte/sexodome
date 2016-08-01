@@ -235,4 +235,13 @@ class Scene extends Model
             ->orderBy('scenes.id', 'desc')
             ;
     }
+
+    static function addSceneClick($scene)
+    {
+        // video log
+        $sceneClick = new SceneClick();
+        $sceneClick->scene_id = $scene->id;
+        $sceneClick->referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "";
+        $sceneClick->save();
+    }
 }

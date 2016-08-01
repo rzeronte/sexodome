@@ -3,10 +3,11 @@
 @endif
 
 <div class="row media-grid content_video_posts">
-
+    <?php $i=0 ?>;
     @foreach ($scenes as $scene)
-        <?php
 
+        <?php
+        $i++;
         // select preview thumb
         $thumbs = json_decode($scene->thumbs);
         $index = rand(0, count($thumbs)-1);
@@ -27,7 +28,7 @@
                         {{str_limit($scene->title, 150, $end = '...')}}
                     </a>
                     @else
-                        <a href="{{$scene->iframe}}" class="post_title" target="_blank">
+                        <a href="{{ route('out', ['profile' => $profile, 'scene_id' => $scene->id, 'p' => $i]) }}" class="post_title" target="_blank">
                             {{str_limit($scene->title, 150, $end = '...')}}
                         </a>
                     @endif
