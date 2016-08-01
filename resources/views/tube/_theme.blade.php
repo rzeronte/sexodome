@@ -50,6 +50,11 @@
         color: {{$site->color5}} !important;
     }
 
+    .tubethumbnail:hover{
+        border: solid 4px {{$site->color7}};
+        box-sizing: border-box;
+    }
+
     .tubethumbnail .post_title:hover{
         color: {{$site->color6}} !important;
     }

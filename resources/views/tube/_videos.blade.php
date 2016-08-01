@@ -22,8 +22,16 @@
                     <?php $srcThumbnail = htmlspecialchars($scene->preview)?>
                 @endif
 
-                <div class="tubethumbnail" style="background-image: url({{$srcThumbnail}});" onmouseout="outThumb(this)" onmouseover="changeThumb(this)" data-thumbs="{{$scene->thumbs}}" data-current-frame="{{$index}}" data-status="stop">
-                </div>
+                @if ($scene->channel->embed == 1)
+                    <a href="{{ route('video', ['profile' => $profile, 'permalink' => $scene->permalink]) }}" class="post_title">
+                        <div class="tubethumbnail" style="background-image: url({{$srcThumbnail}});" onmouseout="outThumb(this)" onmouseover="changeThumb(this)" data-thumbs="{{$scene->thumbs}}" data-current-frame="{{$index}}" data-status="stop"></div>
+                    </a>
+                @else
+                    <a href="{{ route('out', ['profile' => $profile, 'scene_id' => $scene->id, 'p' => $i]) }}" class="post_title" target="_blank">
+                        <div class="tubethumbnail" style="background-image: url({{$srcThumbnail}});" onmouseout="outThumb(this)" onmouseover="changeThumb(this)" data-thumbs="{{$scene->thumbs}}" data-current-frame="{{$index}}" data-status="stop"></div>
+                    </a>
+                @endif
+
 
                 <div class="row m0 post_data">
                     <div class="row m0 post_container_extras" style="vertical-align: bottom">

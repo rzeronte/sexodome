@@ -121,6 +121,10 @@ h2 {
     margin-top:4px;
 }
 
+.tubethumbnail:hover{
+    border: solid 4px red;
+}
+
 .videos a.post_title:hover {
     color: white;
 }
@@ -342,9 +346,11 @@ footer a:hover{
     width: 100%;
     margin-top: 3px;
     padding: 0 2px 0 2px;
+    min-height: 40px;
 }
 
 .tube_cat .text_link a {
+    vertical-align: middle;
     font-family: "Permanent Marker" !important;
 }
 
