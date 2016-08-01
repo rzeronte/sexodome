@@ -23,24 +23,28 @@
                 @endif
 
                 <div class="tubethumbnail" style="background-image: url({{$srcThumbnail}});" onmouseout="outThumb(this)" onmouseover="changeThumb(this)" data-thumbs="{{$scene->thumbs}}" data-current-frame="{{$index}}" data-status="stop">
-                    @if ($scene->channel->embed == 1)
-                    <a href="{{ route('video', ['profile' => $profile, 'permalink' => $scene->permalink]) }}" class="post_title">
-                        {{str_limit($scene->title, 150, $end = '...')}}
-                    </a>
-                    @else
-                        <a href="{{ route('out', ['profile' => $profile, 'scene_id' => $scene->id, 'p' => $i]) }}" class="post_title" target="_blank">
-                            {{str_limit($scene->title, 150, $end = '...')}}
-                        </a>
-                    @endif
                 </div>
 
                 <div class="row m0 post_data">
                     <div class="row m0 post_container_extras" style="vertical-align: bottom">
                         <div class="fleft">
-                            <small style="float:left;" class="date_published">{{$scene->updated_at->diffForHumans()}}</small>
-                            <small style="float:left;margin-left: 10px;">{{gmdate("i:s", $scene->duration)}}</small>
-                            <small class="eyethumbnail"><i class="glyphicon glyphicon-eye-open"></i> {{$scene->clicks()->count()+0}}</small>
-                            <br/>
+                            @if ($scene->channel->embed == 1)
+                                <a href="{{ route('video', ['profile' => $profile, 'permalink' => $scene->permalink]) }}" class="post_title">
+                                    {{str_limit($scene->title, 150, $end = '...')}}
+                                </a>
+                            @else
+                                <a href="{{ route('out', ['profile' => $profile, 'scene_id' => $scene->id, 'p' => $i]) }}" class="post_title" target="_blank">
+                                    {{str_limit($scene->title, 150, $end = '...')}}
+                                </a>
+                            @endif
+
+                            <div class="clearfix"></div>
+
+                            <div>
+                                <small class="date_published">{{$scene->updated_at->diffForHumans()}}</small>
+                                <small style="margin-left: 10px;">{{gmdate("i:s", $scene->duration)}}</small>
+                                <small class="eyethumbnail"><i class="glyphicon glyphicon-eye-open"></i> {{$scene->clicks()->count()+0}}</small>
+                            </div>
                             @foreach ($scene->categories()->limit(4)->get() as $category)
                                 <?php $translation = $category->translations()->where('language_id',$language->id)->first(); ?>
                                 <?php if ($translation): ?>

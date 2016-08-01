@@ -115,11 +115,10 @@ h2 {
 }
 
 .videos .post_title{
-    font-size: 10px;
-    line-height: 0px !important;
-    text-align: justify;
+    display: inline-block;
+    line-height: 10px !important;
     width: 100%;
-    font-family: Sans-serif;
+    margin-top:4px;
 }
 
 .videos a.post_title:hover {
@@ -169,7 +168,7 @@ h2 {
     margin: 0;
     padding: 0;
     width: 100%;
-    min-height: 80px;
+    min-height: 120px;
     color: #00ff4e;
     padding-left: 4px;
     padding-right: 4px;
