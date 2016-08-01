@@ -3,7 +3,7 @@
 @endif
 
 <div class="row media-grid content_video_posts">
-    <?php $i=0 ?>;
+    <?php $i=0 ?>
     @foreach ($scenes as $scene)
 
         <?php
