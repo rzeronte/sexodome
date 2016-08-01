@@ -6,7 +6,7 @@
         <a href="{{route('works',   ['locale'=>$language->code])}}" class="btn @if (\Request::route()->getName() == "works") btn-success @else btn-primary @endif" style="margin-top:10px;"><i class="glyphicon glyphicon-cog"></i> Works</a>
         <a href="{{route('feeds',   ['locale'=>$language->code])}}" class="btn @if (\Request::route()->getName() == "feeds") btn-success @else btn-primary @endif" style="margin-top:10px;"><i class="glyphicon glyphicon-open-file"></i> Channels</a>
         <a href="{{route('content', ['locale'=>$language->code])}}" class="btn @if (\Request::route()->getName() == "content") btn-success @else btn-primary @endif" style="margin-top:10px;"><i class="glyphicon glyphicon-th"></i> Scenes</a>
-        <a href="{{route('addSite', ['locale'=>$locale])}}" class="btn btn-primary" style="margin-top:10px;"><i class="glyphicon glyphicon-plus-sign"></i> Add site </a>
+        <a href="{{route('addSite', ['locale'=>$locale])}}" class="btn btn-danger" style="margin-top:10px;"><i class="glyphicon glyphicon-plus-sign"></i> Add site </a>
     </div>
 
 

@@ -152,49 +152,49 @@
                         </div>
                     </div>
 
-                    <div class="row" style="padding:10px;">
-                        <div class="col-md-3">
-                            Title Tag:
-                        </div>
+                    {{--<div class="row" style="padding:10px;">--}}
+                        {{--<div class="col-md-3">--}}
+                            {{--Title Tag:--}}
+                        {{--</div>--}}
 
-                        <div class="col-md-7">
-                            <input type="text" class="form-control" value="{{$site->title_tag}}" name="title_tag">
-                            <small><b>Variables:</b> {domain}, {tag}</small>
-                        </div>
-                    </div>
+                        {{--<div class="col-md-7">--}}
+                            {{--<input type="text" class="form-control" value="{{$site->title_tag}}" name="title_tag">--}}
+                            {{--<small><b>Variables:</b> {domain}, {tag}</small>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
 
-                    <div class="row" style="padding:10px;">
-                        <div class="col-md-3">
-                            Description Tag:
-                        </div>
+                    {{--<div class="row" style="padding:10px;">--}}
+                        {{--<div class="col-md-3">--}}
+                            {{--Description Tag:--}}
+                        {{--</div>--}}
 
-                        <div class="col-md-7">
-                            <input type="text" class="form-control" value="{{$site->description_tag}}" name="description_tag">
-                            <small><b>Variables:</b> {domain}, {tag}</small>
-                        </div>
-                    </div>
+                        {{--<div class="col-md-7">--}}
+                            {{--<input type="text" class="form-control" value="{{$site->description_tag}}" name="description_tag">--}}
+                            {{--<small><b>Variables:</b> {domain}, {tag}</small>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
 
-                    <div class="row" style="padding:10px;">
-                        <div class="col-md-3">
-                            Title Top Scenes:
-                        </div>
+                    {{--<div class="row" style="padding:10px;">--}}
+                        {{--<div class="col-md-3">--}}
+                            {{--Title Top Scenes:--}}
+                        {{--</div>--}}
 
-                        <div class="col-md-7">
-                            <input type="text" class="form-control" value="{{$site->title_topscenes}}" name="title_topscenes">
-                            <small><b>Variables:</b> {domain}</small>
-                        </div>
-                    </div>
+                        {{--<div class="col-md-7">--}}
+                            {{--<input type="text" class="form-control" value="{{$site->title_topscenes}}" name="title_topscenes">--}}
+                            {{--<small><b>Variables:</b> {domain}</small>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
 
-                    <div class="row" style="padding:10px;">
-                        <div class="col-md-3">
-                            Description Top Scenes:
-                        </div>
+                    {{--<div class="row" style="padding:10px;">--}}
+                        {{--<div class="col-md-3">--}}
+                            {{--Description Top Scenes:--}}
+                        {{--</div>--}}
 
-                        <div class="col-md-7">
-                            <input type="text" class="form-control" value="{{$site->description_topscenes}}" name="description_topscenes">
-                            <small><b>Variables:</b> {domain}</small>
-                        </div>
-                    </div>
+                        {{--<div class="col-md-7">--}}
+                            {{--<input type="text" class="form-control" value="{{$site->description_topscenes}}" name="description_topscenes">--}}
+                            {{--<small><b>Variables:</b> {domain}</small>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
 
 
                     <div style="margin-top:20px;">

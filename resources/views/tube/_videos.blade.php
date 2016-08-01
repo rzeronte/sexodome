@@ -1,3 +1,6 @@
+@if (isset($categoryTranslation))
+    <h2 class="category_header"><i class="glyphicon glyphicon-th"></i>  {{$categoryTranslation->name}}</h2>
+@endif
 
 <div class="row media-grid content_video_posts">
 
@@ -10,7 +13,7 @@
         ?>
 
         <article class="col-sm-2 video_post postType3">
-            <div class="inner row m0">
+            <div class="inner row m0" style="border:none;">
                 <?php $srcThumbnail = "" ?>
                 @if ($scene->thumb_index > 0)
                     <?php $srcThumbnail = htmlspecialchars($thumbs[$scene->thumb_index])?>
@@ -27,7 +30,6 @@
                         <a href="{{$scene->iframe}}" class="post_title" target="_blank">
                             {{str_limit($scene->title, 150, $end = '...')}}
                         </a>
-
                     @endif
                 </div>
 

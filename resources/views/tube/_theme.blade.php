@@ -144,5 +144,8 @@
     .tube_cat img {
         border: solid 1px {{$site->color}} !important;
     }
-
+    .category_header{
+        color: {{$site->color}} !important;
+        border-bottom: solid 1px {{$site->color}} !important;
+    }
 </style>

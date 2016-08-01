@@ -107,7 +107,6 @@ h2 {
 }
 
 .videos{
-    padding-top: 15px;
     background-color: transparent;
 }
 
@@ -354,4 +353,10 @@ footer a:hover{
     width: 99%;
     max-height: 150px;
     border-radius: 8px;
+}
+
+.category_header{
+    font-size:20px;
+    padding: 4px;
+    border-bottom: solid 1px white;
 }

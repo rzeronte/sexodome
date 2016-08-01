@@ -133,6 +133,7 @@ class TubeController extends Controller
             'profile'         => $profile,
             'scenes'          => $scenes,
             'categories'      => $this->commons->site->categories()->get(),
+            'categoryTranslation' => $categoryTranslation,
             'resultsPerPage'  => $this->commons->perPage,
             'query_string'    => '',
             'language'        => $this->commons->language,

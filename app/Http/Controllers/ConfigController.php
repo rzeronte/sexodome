@@ -566,13 +566,13 @@ class ConfigController extends Controller
         if (Request::isMethod('post')) {
             $site->title_index = Request::input('title_index');
             $site->title_category = Request::input('title_category');
-            $site->title_tag = Request::input('title_tag');
-            $site->title_topscenes = Request::input('title_topscenes');
+//            $site->title_tag = Request::input('title_tag');
+//            $site->title_topscenes = Request::input('title_topscenes');
 
             $site->description_index = Request::input('description_index');
             $site->description_category = Request::input('description_category');
-            $site->description_tag = Request::input('description_tag');
-            $site->description_topscenes = Request::input('description_topscenes');
+//            $site->description_tag = Request::input('description_tag');
+//            $site->description_topscenes = Request::input('description_topscenes');
 
             $site->domain = Request::input('domain');
             $site->head_billboard = Request::input('head_billboard');

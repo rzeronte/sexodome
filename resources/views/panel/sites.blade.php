@@ -81,62 +81,110 @@
 
                         <div class="col-md-2">
                             <label>General btns bg:</label>
-                            <input type="text" name="color" class="color form-control" value="{{$site->color}}"/>
+                            <div id="theme_color_1" class="input-group colorpicker-component">
+                                <input type="text" name="color" value="{{$site->color}}" class="form-control" />
+                                <span class="input-group-addon"><i></i></span>
+                            </div>
+                            <script>$(function() { $('#theme_color_1').colorpicker({ color: '{{$site->color}}' });});</script>
                         </div>
 
                         <div class="col-md-2">
                             <label>General btns color:</label>
-                            <input type="text" name="color11" class="color form-control" value="{{$site->color11}}"/>
+                            <div id="theme_color_11" class="input-group colorpicker-component">
+                                <input type="text" name="color1" value="{{$site->color11}}" class="form-control" />
+                                <span class="input-group-addon"><i></i></span>
+                            </div>
+                            <script>$(function() { $('#theme_color_11').colorpicker({ color: '{{$site->color11}}' });});</script>
                         </div>
 
                         <div class="col-md-2">
                             <label>Border scenes</label>
-                            <input type="text" name="color2" class="color form-control" value="{{$site->color2}}"/>
+                            <div id="theme_color_2" class="input-group colorpicker-component">
+                                <input type="text" name="color1" value="{{$site->color2}}" class="form-control" />
+                                <span class="input-group-addon"><i></i></span>
+                            </div>
+                            <script>$(function() { $('#theme_color_2').colorpicker({ color: '{{$site->color2}}' });});</script>
                         </div>
 
                         <div class="col-md-2">
                             <label>Box info scenes:</label>
-                            <input type="text" name="color3" class="color form-control" value="{{$site->color3}}"/>
+                            <div id="theme_color_3" class="input-group colorpicker-component">
+                                <input type="text" name="color1" value="{{$site->color3}}" class="form-control" />
+                                <span class="input-group-addon"><i></i></span>
+                            </div>
+                            <script>$(function() { $('#theme_color_3').colorpicker({ color: '{{$site->color3}}' });});</script>
                         </div>
 
                         <div class="col-md-2">
                             <label>Tube link bg:</label>
-                            <input type="text" name="color4" class="color form-control" value="{{$site->color4}}"/>
+                            <div id="theme_color_4" class="input-group colorpicker-component">
+                                <input type="text" name="color4" value="{{$site->color4}}" class="form-control" />
+                                <span class="input-group-addon"><i></i></span>
+                            </div>
+                            <script>$(function() { $('#theme_color_4').colorpicker({ color: '{{$site->color4}}' });});</script>
                         </div>
 
                         <div class="col-md-2">
                             <label>Title color:</label>
-                            <input type="text" name="color5" class="color form-control" value="{{$site->color5}}"/>
+                            <div id="theme_color_5" class="input-group colorpicker-component">
+                                <input type="text" name="color5" value="{{$site->color5}}" class="form-control" />
+                                <span class="input-group-addon"><i></i></span>
+                            </div>
+                            <script>$(function() { $('#theme_color_5').colorpicker({ color: '{{$site->color5}}' });});</script>
                         </div>
 
                         <div class="col-md-2">
                             <label>Title hover color:</label>
-                            <input type="text" name="color6" class="color form-control" value="{{$site->color6}}"/>
+                            <div id="theme_color_6" class="input-group colorpicker-component">
+                                <input type="text" name="color6" value="{{$site->color6}}" class="form-control" />
+                                <span class="input-group-addon"><i></i></span>
+                            </div>
+                            <script>$(function() { $('#theme_color_6').colorpicker({ color: '{{$site->color6}}' });});</script>
                         </div>
 
                         <div class="col-md-2">
                             <label>Title bg:</label>
-                            <input type="text" name="color7" class="color form-control" value="{{$site->color7}}"/>
+                            <div id="theme_color_7" class="input-group colorpicker-component">
+                                <input type="text" name="color7" value="{{$site->color7}}" class="form-control" />
+                                <span class="input-group-addon"><i></i></span>
+                            </div>
+                            <script>$(function() { $('#theme_color_7').colorpicker({ color: '{{$site->color7}}' });});</script>
                         </div>
 
                         <div class="col-md-2">
                             <label>Category-tube color:</label>
-                            <input type="text" name="color8" class="color form-control" value="{{$site->color8}}"/>
+                            <div id="theme_color_8" class="input-group colorpicker-component">
+                                <input type="text" name="color8" value="{{$site->color8}}" class="form-control" />
+                                <span class="input-group-addon"><i></i></span>
+                            </div>
+                            <script>$(function() { $('#theme_color_8').colorpicker({ color: '{{$site->color8}}' });});</script>
                         </div>
 
                         <div class="col-md-2">
                             <label>Category link bg:</label>
-                            <input type="text" name="color9" class="color form-control" value="{{$site->color9}}"/>
+                            <div id="theme_color_9" class="input-group colorpicker-component">
+                                <input type="text" name="color9" value="{{$site->color9}}" class="form-control" />
+                                <span class="input-group-addon"><i></i></span>
+                            </div>
+                            <script>$(function() { $('#theme_color_9').colorpicker({ color: '{{$site->color9}}' });});</script>
                         </div>
 
                         <div class="col-md-2">
                             <label>Billboard color:</label>
-                            <input type="text" name="color10" class="color form-control" value="{{$site->color10}}"/>
+                            <div id="theme_color_10" class="input-group colorpicker-component">
+                                <input type="text" name="color10" value="{{$site->color10}}" class="form-control" />
+                                <span class="input-group-addon"><i></i></span>
+                            </div>
+                            <script>$(function() { $('#theme_color_10').colorpicker({ color: '{{$site->color10}}' });});</script>
                         </div>
 
                         <div class="col-md-2">
                             <label>Background color:</label>
-                            <input type="text" name="color12" class="color form-control" value="{{$site->color12}}"/>
+                            <div id="theme_color_12" class="input-group colorpicker-component">
+                                <input type="text" name="color12" value="{{$site->color12}}" class="form-control" />
+                                <span class="input-group-addon"><i></i></span>
+                            </div>
+                            <script>$(function() { $('#theme_color_12').colorpicker({ color: '{{$site->color12}}' });});</script>
                         </div>
 
                         <div class="col-md-2" style="margin-top: 5px;">
@@ -371,9 +419,9 @@
 
 </div>
 
-<script type="text/javascript">
-    $('.color').colorpicker({});
-</script>
+{{--<script type="text/javascript">--}}
+    {{--$('.color').colorpicker({flat: true});--}}
+{{--</script>--}}
 
 </body>
 </html>
