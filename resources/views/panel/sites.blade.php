@@ -81,11 +81,11 @@
 
                         <div class="col-md-2">
                             <label>General btns bg:</label>
-                            <div id="theme_color_1{{$site->color}}" class="input-group colorpicker-component">
+                            <div id="theme_color_1{{$site->id}}" class="input-group colorpicker-component">
                                 <input type="text" name="color" value="{{$site->color}}" class="form-control" />
                                 <span class="input-group-addon"><i></i></span>
                             </div>
-                            <script>$(function() { $('#theme_color_1{{$site->color}}').colorpicker({ color: '{{$site->color}}' });});</script>
+                            <script>$(function() { $('#theme_color_1{{$site->id}}').colorpicker({ color: '{{$site->color}}' });});</script>
                         </div>
 
                         <div class="col-md-2">
