@@ -339,7 +339,7 @@ class BotFeedFetcher extends Command
                             exit;
                         }
 
-                        rZeBotUtils::message("[SCENE CREATE] $fila -'". $video['title']."' (Duration: ".$video["duration"].")", "green", true, false);
+                        rZeBotUtils::message("[SCENE CREATE] $fila -'". $video['title']."' (site_id: ".$site_id.")", "green", true, false);
 
                         $scene = $this->createScene($video, $default_status, $feed, $site_id, $languages);
                         $this->processTags($video, $site_id, $scene, $languages);

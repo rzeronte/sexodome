@@ -33,6 +33,7 @@ Route::group(['domain' => 'accounts.'.\App\rZeBot\rZeBotCommons::getMainPlatafor
     Route::post('password/reset', 'Auth\PasswordController@postReset')->name('reset');
 
     // ConfigController
+    Route::match(['get', 'post'], '{locale}/cronjobs', 'ConfigController@cronjobs')->name('cronjobs');
     Route::match(['get', 'post'], '{locale}/tags/{site_id}', 'ConfigController@tags')->name('tags_admin');
     Route::match(['get', 'post'], '{locale}/categories/{site_id}', 'ConfigController@categories')->name('categories_admin');
     Route::match(['get', 'post'], '{locale}/sites', 'ConfigController@sites')->name('sites');
@@ -47,13 +48,15 @@ Route::group(['domain' => 'accounts.'.\App\rZeBot\rZeBotCommons::getMainPlatafor
 
     Route::match(['get'], '{locale}/ajax/preview/{scene_id}', 'ConfigController@scenePreview')->name('scenePreview');
 
+    Route::match(['get'], '{locale}/saveCronJob', 'ConfigController@saveCronJob')->name('saveCronJob');
+    Route::match(['get'], '{locale}/deleteCronJob/{cronjob_id}', 'ConfigController@deleteCronJob')->name('deleteCronJob');
+
     Route::match(['get'], '{locale}/ajax/seo/site/keywords/{site_id}', 'ConfigController@siteKeywords')->name('siteKeywords');
     Route::match(['get'], '{locale}/ajax/seo/site/referrers/{site_id}', 'ConfigController@siteReferrers')->name('siteReferrers');
     Route::match(['get'], '{locale}/ajax/seo/site/pages/{site_id}', 'ConfigController@sitePageViews')->name('sitePageViews');
 
     Route::match(['get'], '{locale}/ajax/scene/thumbs/{site_id}', 'ConfigController@sceneThumbs')->name('sceneThumbs');
 
-    Route::get('/setLocale/{locale}', 'ConfigController@changeLocale')->name('changeLocale');
     Route::get('/setLocale/{locale}', 'ConfigController@changeLocale')->name('changeLocale');
 
     Route::match(['get', 'post'], '{locale}/saveTranslation/{scene_id}', 'ConfigController@saveTranslation')->name('saveTranslation');

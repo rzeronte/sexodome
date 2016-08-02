@@ -385,7 +385,6 @@ class ConfigController extends Controller
             }
 
             $categories = Input::get('categories');
-
             if (count($categories == 1) && !strlen($categories[0])) {
                 $categories = 'false';
             } else {
@@ -541,6 +540,19 @@ class ConfigController extends Controller
     {
         return view('panel.feeds', [
             'infojobs'  => InfoJobs::getUserJobs()->get(),
+            'channels'  => App\Model\Channel::all(),
+            'categories'=> Category::all(),
+            'sites'     => $this->commons->sites,
+            'locale'    => $this->commons->locale,
+            'language'  => $this->commons->language,
+            'languages' => $this->commons->languages,
+        ]);
+    }
+
+    public function cronjobs($locale)
+    {
+        return view('panel.cronjobs', [
+            'cronjobs'  => App\Model\CronJob::getUserCronJobs()->get(),
             'channels'  => App\Model\Channel::all(),
             'categories'=> Category::all(),
             'sites'     => $this->commons->sites,
@@ -865,5 +877,58 @@ class ConfigController extends Controller
         }
 
         return json_encode(array('status' => $status));
+    }
+
+    public function saveCronJob($locale)
+    {
+        $channel = Channel::where('name', '=', Input::get('feed_name'))->first();
+
+        if (!$channel) {
+            abort(404, "Channel not found");
+        }
+
+        $categories = Input::get('categories');
+
+        if (count($categories == 1) && !strlen($categories[0])) {
+            $categories = 'false';
+        } else {
+            $categories = implode(",", $categories);
+        }
+
+        $queueParams = [
+            'feed_name'  => Input::get('feed_name'),
+            'site_id'    => Input::get('site_id'),
+            'max'        => Input::get('max'),
+            'duration'   => Input::get('duration'),
+            'categories' => $categories,
+        ];
+
+
+
+        $cronjob = new App\Model\CronJob();
+        $cronjob->site_id = Input::get('site_id');
+        $cronjob->channel_id = $channel->id;
+        $cronjob->params = \GuzzleHttp\json_encode($queueParams);
+        $cronjob->save();
+
+        return redirect()->route('cronjobs', ['locale' => $this->commons->locale]);
+    }
+
+    public function deleteCronJob($locale, $cronjob_id)
+    {
+        $cronjob = App\Model\CronJob::find($cronjob_id);
+
+        if (!$cronjob) {
+            abort(404, "Cronjob not found");
+        }
+
+        if (!(Auth::user()->id == $cronjob->site->user->id)) {
+            abort(401, "Unauthorized");
+        }
+
+        $cronjob->delete();
+
+        return redirect()->route('cronjobs', ['locale' => $this->commons->locale]);
+
     }
 }

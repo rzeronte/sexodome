@@ -26,6 +26,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\BotCategoriesRecount::class,
         \App\Console\Commands\BotCheckDatabase::class,
         \App\Console\Commands\BotDeleteAll::class,
+        \App\Console\Commands\BotCronJobs::class,
     ];
 
     /**

@@ -35,7 +35,7 @@ class importScenesFromFeed extends Job implements SelfHandling, ShouldQueue
      */
     public function handle()
     {
-        Log::info('[importScenesFromFeed]');
+        Log::info('[importScenesFromFeed] ' . $this->queueParams["feed_name"]);
 
         $paramsCommand = [
             'feed_name'    => $this->queueParams["feed_name"],
@@ -45,8 +45,6 @@ class importScenesFromFeed extends Job implements SelfHandling, ShouldQueue
             '--categories' => $this->queueParams["categories"],
             '--job'        => $this->queueParams["job"]
         ];
-        
-        print_r($paramsCommand);
 
         $exitCode = \Artisan::call('zbot:feed:fetch', $paramsCommand);
     }
