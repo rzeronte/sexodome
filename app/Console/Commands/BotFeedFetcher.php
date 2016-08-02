@@ -155,19 +155,7 @@ class BotFeedFetcher extends Command
         $fileCSV = rZeBotCommons::getDumpsFolder().$feed->file;
 
         if (!file_exists($fileCSV)) {
-            if ($feed->is_compressed !== 1) {
-                if (!file_exists($fileCSV)) {
-                    rZeBotUtils::message("[WARNING] No existe el fichero '$fileCSV', intentando descargar...".PHP_EOL, "yellow", true, false);
-                    $cmd = "wget -c '" . $feed->url . "' --output-document=". $fileCSV;
-                    exec($cmd);
-                }
-            } else {
-                rZeBotUtils::message("[WARNING] El fichero de la url '$feed->url' está comprimido. Descargamos con nombre original, pero detenemos inserción.".PHP_EOL, "yellow", true, false);
-                $cmd = "wget -c '" . $feed->url . "' --directory-prefix=".rZeBotCommons::getDumpsFolderTmp();
-                exec($cmd);
-                rZeBotUtils::message("[STOP] Ejecución detenida, Debes descomprimir el fichero del channel.".PHP_EOL, "yellow", true, false);
-                exit;
-            }
+            rZeBotUtils::message("[ERROR] $fileCSV not exist...", "red", true, true);
         }
 
         if (($gestor = fopen($fileCSV, "r")) !== FALSE) {
@@ -500,4 +488,6 @@ class BotFeedFetcher extends Command
             $sceneCategory->save();
         }
     }
+
+
 }

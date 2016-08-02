@@ -18,7 +18,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\BotTranslate::class,
         \App\Console\Commands\BotAnalytics::class,
         \App\Console\Commands\BotUpdateCategoriesThumbnails::class,
-        \App\Console\Commands\BotUpdateNumberScenesFromDumps::class,
+        \App\Console\Commands\BotUpdateDumps::class,
         \App\Console\Commands\BotSitesList::class,
         \App\Console\Commands\BotSitemapGenerator::class,
         \App\Console\Commands\BotSitemapGeneratorAll::class,

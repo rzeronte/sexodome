@@ -308,4 +308,52 @@ class rZeBotUtils
 
         return $transformed;
     }
+
+    public static function downloadDump($feed)
+    {
+        $fileCSV = rZeBotCommons::getDumpsFolderTmp().$feed->file;
+
+        // Si el fichero del feed no existe, intentamos descargar
+        if ($feed->is_compressed !== 1) {
+            // Si no está comprimido directamente descargamos con el nombre en bbdd (forzamos nombre para mayor ordenación)
+            if (!file_exists($fileCSV)) {
+                rZeBotUtils::message("[DOWNLOADING FILE] $fileCSV", "green", true, false);
+                $cmd = "wget -c '" . $feed->url . "' --output-document=". $fileCSV;
+                exec($cmd);
+            }
+        } else {
+            $tgz = $gz = $zip = false;
+
+            // miramos si va comprimido
+            if ((substr($feed->url, -8) == '.tar.gz') OR (substr($feed->url, -4) == '.tgz')) {
+                $tgz = true;
+                $ext = '.tar.gz';  // lo descargaremos con extensión .tar.gz
+            } elseif (substr($feed->url, -4) == '.gz') {
+                $ext = '.gz';  // lo descargaremos con extensión .gz
+                $gz = true;
+            } elseif (substr($feed->url, -4) == '.zip') {
+                $ext = '.zip';  // lo descargaremos con extensión .gz
+                $zip = true;
+            }
+
+            // Si es un fichero comprimido
+            $compressFile = $fileCSV.$ext;
+            $cmd = "wget -c '" . $feed->url . "' --directory-prefix=".rZeBotCommons::getDumpsFolderTmp() . " --output-document=" . $compressFile;
+            exec($cmd);
+
+            rZeBotUtils::message("[EXTRACTING DUMP] $compressFile", "yellow", true, false);
+            if ($zip) {
+                $cmd = "unzip $compressFile -d ". rZeBotCommons::getDumpsFolderTmp();
+            } elseif($tgz) {
+                $cmd = "tar xf $compressFile -C ". rZeBotCommons::getDumpsFolderTmp();
+            }
+            exec($cmd);
+
+            $cmd = "mv " . rZeBotCommons::getDumpsFolderTmp() . $feed->compressed_filename ." " . rZeBotCommons::getDumpsFolderTmp() . $feed->file;
+            rZeBotUtils::message("[RENAMING FILE] $cmd", "yellow", true, false);
+            exec($cmd);
+        }
+
+        return $fileCSV;
+    }
 }
