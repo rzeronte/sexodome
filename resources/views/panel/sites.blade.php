@@ -44,29 +44,21 @@
 
                 <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
 
-                <div style="border-bottom: solid 1px gray;margin-bottom:20px;">
-                    <p>
-                        <b><i class="glyphicon glyphicon-globe"></i>
-                            <a href="http://{{$site->getHost()}}" target="_blank">
-                                http://{{$site->getHost()}} (<i>{{$site->getTotalScenes()}}</i> active scenes)
-                            </a>
-                        </b>
-                    </p>
-                </div>
+                    <b><i class="glyphicon glyphicon-globe"></i>
+                        <a href="http://{{$site->getHost()}}" target="_blank">
+                            http://{{$site->getHost()}} (<i>{{$site->getTotalScenes()}}</i> active scenes)
+                        </a>
+                    </b>
 
-                <div class="row">
-
-                    <div class="col-md-9">
-                        <a class="btn btn-primary logo-show-info" style="margin-bottom:10px;margin-right:5px;"><i class="glyphicon glyphicon-picture"></i> Logo</a>
-                        <a href="{{route('site', ["locale" =>$language->code, "site_id"=>$site->id])}}" class="btn btn-primary" style="margin-bottom:10px;margin-right:5px;"><i class="glyphicon glyphicon-pencil"></i> SEO</a>
-                        <a class="btn btn-primary google-show-info" style="margin-bottom:10px;margin-right:5px;"><i class="glyphicon glyphicon-signal"></i> Google</a>
-                        <a href="{{route('tags_admin', ['locale'=>$language->code, "site_id"=>$site->id])}}" class="btn btn-primary" style="margin-bottom:10px;margin-right:5px;"><i class="glyphicon glyphicon-tags"></i> Tags</a>
-                        <a href="{{route('categories_admin', ['locale'=>$language->code, "site_id"=>$site->id])}}" class="btn btn-primary" style="margin-bottom:10px;margin-right:5px;"><i class="glyphicon glyphicon-tag"></i> Categories</a>
-                        <a class="btn btn-primary iframe-show-info" style="margin-bottom:10px;margin-right:5px;"><i class="glyphicon glyphicon-screenshot"></i> IFrame</a>
-                        <a class="btn btn-primary colors-show-info" style="margin-bottom:10px;margin-right:5px;"><i class="glyphicon glyphicon-tint"></i> Colors</a>
-                        <a href="{{route('deleteSite', ['locale'=>$language->code, "site_id"=>$site->id])}}" class="btn btn-danger" style="margin-bottom:10px;margin-right:5px;"><i class="glyphicon glyphicon-trash"></i> DELETE SITE</a>
-                    </div>
-
+                <div style="float:right;">
+                    <a class="btn btn-primary btn-xs logo-show-info" style="margin-bottom:10px;margin-right:5px;"><i class="glyphicon glyphicon-picture"></i> Logo</a>
+                    <a href="{{route('site', ["locale" =>$language->code, "site_id"=>$site->id])}}" class="btn btn-primary btn-xs" style="margin-bottom:10px;margin-right:5px;"><i class="glyphicon glyphicon-pencil"></i> SEO</a>
+                    <a class="btn btn-primary btn-xs google-show-info" style="margin-bottom:10px;margin-right:5px;"><i class="glyphicon glyphicon-signal"></i> Google</a>
+                    <a href="{{route('tags_admin', ['locale'=>$language->code, "site_id"=>$site->id])}}" class="btn btn-primary btn-xs" style="margin-bottom:10px;margin-right:5px;"><i class="glyphicon glyphicon-tags"></i> Tags</a>
+                    <a href="{{route('categories_admin', ['locale'=>$language->code, "site_id"=>$site->id])}}" class="btn btn-primary btn-xs" style="margin-bottom:10px;margin-right:5px;"><i class="glyphicon glyphicon-tag"></i> Categories</a>
+                    <a class="btn btn-primary btn-xs iframe-show-info" style="margin-bottom:10px;margin-right:5px;"><i class="glyphicon glyphicon-screenshot"></i> IFrame</a>
+                    <a class="btn btn-primary btn-xs colors-show-info" style="margin-bottom:10px;margin-right:5px;"><i class="glyphicon glyphicon-tint"></i> Colors</a>
+                    <a href="{{route('deleteSite', ['locale'=>$language->code, "site_id"=>$site->id])}}" class="btn btn-danger btn-xs" style="margin-bottom:10px;margin-right:5px;"><i class="glyphicon glyphicon-trash"></i> DELETE SITE</a>
                 </div>
 
                 <div class="clearfix"></div>
@@ -191,10 +183,7 @@
                             <br/>
                             <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-disk"></i> Update</button>
                         </div>
-
-
                     </form>
-
                 </div>
 
                 <div class="col-md-12 detail-logo" style="display:none">
