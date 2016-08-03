@@ -112,11 +112,11 @@ class BotFeedFetcher extends Command
         );
 
         if ($skip_create_categories !== 'false') {
+            rZeBotUtils::message('[SKIP CREATE CATEGORIES]', "yellow");
+        } else {
             Artisan::call('zbot:categories:create', [
                 'site_id' => $site_id
             ]);
-        } else {
-            rZeBotUtils::message('[SKIP CREATE CATEGORIES]', "yellow");
         }
 
         // delete infojob
