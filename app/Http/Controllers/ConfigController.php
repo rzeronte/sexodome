@@ -596,7 +596,10 @@ class ConfigController extends Controller
         $category_query_string = Request::input('category_query_string');
 
         if ($category_query_string) {
-            $categories = Category::getTranslationSearch($category_query_string, $this->language->id)
+            $categories = Category::getTranslationSearch(
+                $category_query_string,
+                $this->commons->language->id,
+                $site->id)
                 ->paginate($this->commons->perPageTags)
             ;
         } else {
