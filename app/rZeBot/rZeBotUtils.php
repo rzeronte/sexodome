@@ -305,6 +305,8 @@ class rZeBotUtils
 
     public static function transformTagForCategory($tag) {
         $transformed = str_replace("-", " ", $tag);
+        $transformed = utf8_encode($transformed);
+        $transformed = trim($transformed);
 
         return $transformed;
     }

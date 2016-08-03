@@ -84,8 +84,8 @@ class BotCreateCategoriesFromTags extends Command
                 // Comprobamos si ya existe la categoría (las categorías solo serán plural)
                 $categoryTranslation = CategoryTranslation::join('categories', 'categories.id', '=', 'categories_translations.category_id')
                     ->where('categories.site_id', '=', $site_id)
-                    ->where("categories_translations.language_id", "=", $englishLanguage->id)
-                    ->where("categories_translations.name", "=", utf8_encode($plural))
+                    ->where("categories_translations.language_id", $englishLanguage->id)
+                    ->where("categories_translations.name", $plural)
                     ->first()
                 ;
 
