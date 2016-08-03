@@ -12,7 +12,7 @@
 
     <div class="row" style="margin-top:20px;">
         <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
-            <p><i class="glyphicon glyphicon-open-file"></i> <b>Current hourly cronjobs</b></p>
+            <p><i class="glyphicon glyphicon-time"></i> <b>Current hourly cronjobs</b></p>
         </div>
     </div>
 
