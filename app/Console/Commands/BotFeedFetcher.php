@@ -36,6 +36,7 @@ class BotFeedFetcher extends Command
                             {--views=false : Only views min imported}
                             {--only_update=false : Only update scenes }
                             {--duration=false : Only duration min imported}
+                            {--skip_create_categories=false : Launch update categories}
                             {--job=false : Infojob Id}
                             {--test=false : Test}';
 
@@ -65,6 +66,7 @@ class BotFeedFetcher extends Command
         $only_update = $this->option('only_update');
         $test        = $this->option('test');
         $job         = $this->option('job');
+        $skip_create_categories = $this->option('skip_create_categories');
 
         $tags       = $this->parseTagsOption($tags);
         $categories = $this->parseCategoriesOption($categories);
@@ -109,9 +111,13 @@ class BotFeedFetcher extends Command
             $test
         );
 
-        Artisan::call('zbot:categories:create', [
-            'site_id' => $site_id
-        ]);
+        if ($skip_create_categories !== 'false') {
+            Artisan::call('zbot:categories:create', [
+                'site_id' => $site_id
+            ]);
+        } else {
+            rZeBotUtils::message('[SKIP CREATE CATEGORIES]', "yellow");
+        }
 
         // delete infojob
         if ($job !== "false") {
