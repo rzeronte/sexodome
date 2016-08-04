@@ -57,113 +57,119 @@ class BotCreateCategoriesFromTags extends Command
         $tags = $tags->get();
         $i = 0;
         $timer = time();
-        foreach($tags as $tag) {
-            $transformedTag = rZeBotUtils::transformTagForCategory($tag->name);
-            $i++;
-            // Solo se convertirán en categorías tags de una sola palabra
-            $msgLog = "[" . number_format(($i*100)/ count($tags), 0) ."%] ". gmdate("H:i:s", (time()-$timer)) . " |";
-            if (rZeBotUtils::isValidTag($transformedTag)) {
-                $msgLog.= " " . $transformedTag;
 
-                // Contamos el ńumero de escenas para este tags
-                $countScenes = $tag->scenes()->count();
+        foreach($tags->chunk(500) as $chunk) {
+            DB::transaction(function () use ($chunk, $site_id, $min_scenes_activation, $englishLanguage, $languages, $tags, $i,$timer) {
+                foreach($chunk as $tag) {
+                    $transformedTag = rZeBotUtils::transformTagForCategory($tag->name);
+                    $i++;
+                    // Solo se convertirán en categorías tags de una sola palabra
+                    $msgLog = "[" . number_format(($i*100)/ count($tags), 0) ."%] ". gmdate("H:i:s", (time()-$timer)) . " |";
+                    if (rZeBotUtils::isValidTag($transformedTag)) {
+                        $msgLog.= " " . $transformedTag;
 
-                $singular = str_singular($transformedTag);
-                $plural = str_plural($transformedTag);
+                        // Contamos el ńumero de escenas para este tags
+                        $countScenes = $tag->scenes()->count();
 
-                $msgLog.=" | [$singular]/[$plural]";
-                $msgLog.=" | scenes count: $countScenes";
+                        $singular = str_singular($transformedTag);
+                        $plural = str_plural($transformedTag);
 
-                // Debug en pantalla para ver si el el tag es singular o plural
-                if ($transformedTag == $plural) {
-                    $msgLog.= " | Plural";
-                } else if ($transformedTag == $singular) {
-                    $msgLog.=" | Singular";
-                }
+                        $msgLog.=" | [$singular]/[$plural]";
+                        $msgLog.=" | scenes count: $countScenes";
 
-                // Comprobamos si ya existe la categoría (las categorías solo serán plural)
-                $categoryTranslation = CategoryTranslation::join('categories', 'categories.id', '=', 'categories_translations.category_id')
-                    ->where('categories.site_id', '=', $site_id)
-                    ->where("categories_translations.language_id", $englishLanguage->id)
-                    ->where("categories_translations.name", $plural)
-                    ->first()
-                ;
-
-                // Si no existiese, crearíamos la categoría
-                if (!$categoryTranslation) {
-                    // create category
-                    $newCategory = new Category();
-                    $newCategory->text = $transformedTag; // será plural, que es el que usamos en el where del tag
-                    if ($countScenes >= $min_scenes_activation) {
-                        $newCategory->status = 1;
-                    } else {
-                        $newCategory->status = 0;
-                    }
-                    $newCategory->site_id = $site_id;
-                    $newCategory->save();
-
-                    // create category languages
-                    foreach($languages as $language) {
-                        $newCategoryTranslation = new CategoryTranslation();
-                        $newCategoryTranslation->category_id = $newCategory->id;
-                        $newCategoryTranslation->language_id = $language->id;
-                        //@$newCategoryTranslation->thumb = $tag->scenes()->orderByRaw("RAND()")->limit(100)->first()->preview;
-
-                        if ($language->id == $englishLanguage->id) {
-                            $newCategoryTranslation->permalink = str_slug($plural);
-                            $newCategoryTranslation->name = str_slug($plural);
+                        // Debug en pantalla para ver si el el tag es singular o plural
+                        if ($transformedTag == $plural) {
+                            $msgLog.= " | Plural";
+                        } else if ($transformedTag == $singular) {
+                            $msgLog.=" | Singular";
                         }
-                        $newCategoryTranslation->save();
-                    }
 
-                    // sync scenes to category
-                    $ids_sync = $tag->scenes()->select('scenes.id')->get()->pluck('id');
-                    $ids_sync = array_unique($ids_sync->all());
+                        // Comprobamos si ya existe la categoría (las categorías solo serán plural)
+                        $categoryTranslation = CategoryTranslation::join('categories', 'categories.id', '=', 'categories_translations.category_id')
+                            ->where('categories.site_id', '=', $site_id)
+                            ->where("categories_translations.language_id", $englishLanguage->id)
+                            ->where("categories_translations.name", $plural)
+                            ->first()
+                        ;
 
-                    $msgLog.=" | [CREATE CATEGORY] '$plural' | Sync ".count($ids_sync);
+                        // Si no existiese, crearíamos la categoría
+                        if (!$categoryTranslation) {
+                            // create category
+                            $newCategory = new Category();
+                            $newCategory->text = $transformedTag; // será plural, que es el que usamos en el where del tag
+                            if ($countScenes >= $min_scenes_activation) {
+                                $newCategory->status = 1;
+                            } else {
+                                $newCategory->status = 0;
+                            }
+                            $newCategory->site_id = $site_id;
+                            $newCategory->save();
 
-                    $newCategory->nscenes = count($ids_sync);
-                    $newCategory->save();
+                            // create category languages
+                            foreach($languages as $language) {
+                                $newCategoryTranslation = new CategoryTranslation();
+                                $newCategoryTranslation->category_id = $newCategory->id;
+                                $newCategoryTranslation->language_id = $language->id;
+                                //@$newCategoryTranslation->thumb = $tag->scenes()->orderByRaw("RAND()")->limit(100)->first()->preview;
 
-                    $newCategory->scenes()->sync($ids_sync);
+                                if ($language->id == $englishLanguage->id) {
+                                    $newCategoryTranslation->permalink = str_slug($plural);
+                                    $newCategoryTranslation->name = $plural;
+                                }
+                                $newCategoryTranslation->save();
+                            }
 
-                    rZeBotUtils::message($msgLog, "green");
-                } else {
-                    // Obtenemos la categoría partiendo de la traducción
-                    $category = Category::find($categoryTranslation->category_id);
-                    if (!$category) {
-                        $msgLog.= " | [CATEGORY NOT FOUND FROM HIS TRANSLATION] " . $plural. " | (" . $categoryTranslation->category_id . ")";
-                        rZeBotUtils::message($msgLog, "red", false, false);
-                        continue;
-                    }
+                            // sync scenes to category
+                            $ids_sync = $tag->scenes()->select('scenes.id')->get()->pluck('id');
+                            $ids_sync = array_unique($ids_sync->all());
 
-                    // Obtenemos las actuales escenas asociadas a esta categoría
-                    $currentCategoryScenes = $category->scenes()->select('scenes.id')->get()->pluck('id');
-                    $currentCategoryScenes = $currentCategoryScenes->all();
+                            $msgLog.=" | [CREATE CATEGORY] '$plural' | Sync ".count($ids_sync);
 
-                    if ($countScenes >= $min_scenes_activation) {
-                        $category->status = 1;
+                            $newCategory->nscenes = count($ids_sync);
+                            $newCategory->save();
+
+                            $newCategory->scenes()->sync($ids_sync);
+
+                            rZeBotUtils::message($msgLog, "green");
+                        } else {
+                            // Obtenemos la categoría partiendo de la traducción
+                            $category = Category::find($categoryTranslation->category_id);
+                            if (!$category) {
+                                $msgLog.= " | [CATEGORY NOT FOUND FROM HIS TRANSLATION] " . $plural. " | (" . $categoryTranslation->category_id . ")";
+                                rZeBotUtils::message($msgLog, "red", false, false);
+                                continue;
+                            }
+
+                            // Obtenemos las actuales escenas asociadas a esta categoría
+                            $currentCategoryScenes = $category->scenes()->select('scenes.id')->get()->pluck('id');
+                            $currentCategoryScenes = $currentCategoryScenes->all();
+
+                            if ($countScenes >= $min_scenes_activation) {
+                                $category->status = 1;
+                            } else {
+                                $category->status = 0;
+                            }
+
+                            // sync scenes to category
+                            $ids_sync = $tag->scenes()->select('scenes.id')->get()->pluck('id');
+                            $ids_sync = array_unique($ids_sync->all());
+
+                            $totalIds = array_unique(array_merge($ids_sync, $currentCategoryScenes));
+
+                            $category->nscenes = count(array_unique($totalIds));
+                            $category->save();
+
+                            $category->scenes()->sync($totalIds);
+
+                            $msgLog.= " | [ALREADY EXISTS] " . $plural. " | (" . $categoryTranslation->category_id . ") | sync " . count($totalIds);
+                            rZeBotUtils::message($msgLog, "yellow", false, false);
+                        }
                     } else {
-                        $category->status = 0;
+                        rZeBotUtils::message("[WARNING] Ignorando categoría: " . $transformedTag, "red", false, false);
                     }
 
-                    // sync scenes to category
-                    $ids_sync = $tag->scenes()->select('scenes.id')->get()->pluck('id');
-                    $ids_sync = array_unique($ids_sync->all());
-
-                    $totalIds = array_unique(array_merge($ids_sync, $currentCategoryScenes));
-
-                    $category->nscenes = count(array_unique($totalIds));
-                    $category->save();
-
-                    $category->scenes()->sync($totalIds);
-
-                    $msgLog.= " | [ALREADY EXISTS] " . $plural. " | (" . $categoryTranslation->category_id . ") | sync " . count($totalIds);
-                    rZeBotUtils::message($msgLog, "yellow", false, false);
                 }
-            } else {
-                rZeBotUtils::message("[WARNING] Ignorando categoría: " . $transformedTag, "red", false, false);
-            }
+            });
         }
 
         Artisan::call('zbot:categories:thumbnails', [
