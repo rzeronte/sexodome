@@ -57,14 +57,14 @@ class BotCreateCategoriesFromTags extends Command
         $tags = $tags->get();
         $i = 0;
         $timer = time();
-
+        $abs_total = count($tags);
         foreach($tags->chunk(500) as $chunk) {
-            DB::transaction(function () use ($chunk, $site_id, $min_scenes_activation, $englishLanguage, $languages, $tags, $i,$timer) {
+            DB::transaction(function () use ($chunk, $site_id, $min_scenes_activation, $englishLanguage, $languages, $tags, &$i,$timer, $abs_total) {
                 foreach($chunk as $tag) {
                     $transformedTag = rZeBotUtils::transformTagForCategory($tag->name);
                     $i++;
                     // Solo se convertirán en categorías tags de una sola palabra
-                    $msgLog = "[" . number_format(($i*100)/ count($tags), 0) ."%] ". gmdate("H:i:s", (time()-$timer)) . " |";
+                    $msgLog = "[" . number_format(($i*100)/ $abs_total, 0) ."%] ". gmdate("H:i:s", (time()-$timer)) . " |";
                     if (rZeBotUtils::isValidTag($transformedTag)) {
                         $msgLog.= " " . $transformedTag;
 
