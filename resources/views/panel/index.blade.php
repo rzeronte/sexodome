@@ -30,7 +30,7 @@
 
     <div class="row" style="padding:10px;">
         <form action="{{ route('content', ['locale'=>$locale]) }}" method="get" style="width:100%">
-                <div class="col-md-2">
+            <div class="col-md-2">
                 <input id="query_string" name="q" type="text" placeholder="title search" class="form-control query_string" value="{{$query_string}}" style="width:100%;">
             </div>
             <div class="col-md-2">
@@ -146,36 +146,6 @@
                     <input type="text" value="{{$scene->title}}" class="form-control" name="title"/>
                     <textarea class="form-control" style="margin-top:5px;margin-bottom:5px;height:90px;" name="description" placeholder="Description here...">{{$scene->description}}</textarea>
                     {{--<input type="submit" class="btn btn-primary" value="update" style="margin-right:10px;margin-bottom:5px;"/>--}}
-
-                    {{--<button type="button" class="btn-spin-text btn btn-warning" data-toggle="modal" data-target="#previewModal" data-url="{{route('spinScene', ['locale' => $locale, 'scene_id'=>$scene->id])}}">--}}
-                        {{--<i class="glyphicon glyphicon-education"></i> spin text--}}
-                    {{--</button><br/><br/>--}}
-
-                    <script type="text/javascript">
-                        var data = [
-                            @foreach ($scene->tags()->get() as $tag)
-                            <?php $translation = $tag->translations()->where('language_id',$language->id)->first(); ?>
-                            '<?= $translation->name?>',
-                            @endforeach
-                            ];
-                        var dataCategories = [
-                            @foreach ($scene->categories()->get() as $category)
-                            <?php $translation = $category->translations()->where('language_id',$language->id)->first(); ?>
-                            '<?= $translation->name?>',
-                            @endforeach
-                            ];
-
-                        $('.js-tags-<?=$scene->id?>').tagEditor({
-                            initialTags: data,
-                            autocomplete: { 'source': $("#ajaxUrls").attr('data-tags-url'), minLength: 3 }
-                        });
-
-                        $('.js-categories-<?=$scene->id?>').tagEditor({
-                            initialTags: dataCategories,
-                            autocomplete: { 'source': $("#ajaxUrls").attr('data-categories-url'), minLength: 3 }
-                        });
-
-                    </script>
                 </div>
 
                 <div class="col-md-3" style="margin: 10px 0 0 0">
