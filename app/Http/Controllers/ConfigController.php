@@ -64,7 +64,7 @@ class ConfigController extends Controller
         $publish_for = Request::get('publish_for');  //site_id or 'notpublished'
         $duration = Request::get('duration');
         $scene_id = Request::get('scene_id');
-        $category_id = Request::get('category_id');
+        $category_string= Request::get('category_string');
         $empty_title = (Request::get('empty_title') == "on")?true:false;
         $empty_description = (Request::get('empty_description') == "on")?true:false;
 
@@ -75,7 +75,7 @@ class ConfigController extends Controller
             $duration,
             $publish_for,
             $scene_id,
-            $category_id,
+            $category_string,
             $empty_title,
             $empty_description,
             Auth::user()->id
@@ -92,7 +92,6 @@ class ConfigController extends Controller
             'title'        => "Admin Panel",
             'sites'        => $this->commons->sites,
             'duration'     => $duration,
-            'categories'   => Category::all()
         ]);
     }
 

@@ -34,15 +34,7 @@
                 <input id="query_string" name="q" type="text" placeholder="title search" class="form-control query_string" value="{{$query_string}}" style="width:100%;">
             </div>
             <div class="col-md-2">
-                <select name="category_id" class="form-control" style="width:100%;">
-                    <option value="">all categories</option>
-                    @foreach($categories as $category)
-                        <?php $nameTranslated = $category->translations()->where('language_id', "=", $language->id)->first()->name;?>
-                        @if ($nameTranslated != "")
-                            <option value="{{$category->id}}" @if (\Illuminate\Support\Facades\Request::input('category_id') == $category->id) selected @endif>{{$nameTranslated}} ({{$language->code}}) </option>
-                        @endif
-                    @endforeach
-                </select>
+                <input name="category_string" class="form-control" style="width:100%;" placeholder="category search">
             </div>
             <div class="col-md-1">
                 <input id="query_tags" name="tag_q" type="text" placeholder="tag" class="form-control query_string" value="{{$tag_q}}" style="width:100%;">
