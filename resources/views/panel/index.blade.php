@@ -127,11 +127,9 @@
                     <i class="glyphicon glyphicon-thumbs-up"></i> {{number_format($scene->rate, 2)}}%</b><br/>
                     <i class="glyphicon glyphicon-time"></i> {{gmdate("i:s", $scene->duration)}}<br/>
                     <i class="glyphicon glyphicon-eye-open"></i> {{ $scene->views+0}} views<br/>
-                    <i class="glyphicon glyphicon-open-file"></i> {{ $scene->channel->name}}<br/>
-                    @if ($site->have_domain == 1)
-                        <b>http://{{ $scene->site->domain}}</b><br/>
+                    <i class="glyphicon glyphicon-open-file"></i> {{ $scene->channel_name}}<br/>
+                    @if ($scene->site_have_domain == 1)
                     @else
-                        <b>http://{{ $scene->site->name}}</b><br/>
                     @endif
                     @foreach ($languages as $itemLang)
                         <a href="{{route('content', ['locale'=>$itemLang->code,'scene_id'=> $scene->id])}}" target="_blank"><img src="{{asset("flags/$itemLang->code.png")}}"/></a>
@@ -145,7 +143,6 @@
 
                     <input type="text" value="{{$scene->title}}" class="form-control" name="title"/>
                     <textarea class="form-control" style="margin-top:5px;margin-bottom:5px;height:90px;" name="description" placeholder="Description here...">{{$scene->description}}</textarea>
-                    {{--<input type="submit" class="btn btn-primary" value="update" style="margin-right:10px;margin-bottom:5px;"/>--}}
                 </div>
 
                 <div class="col-md-3" style="margin: 10px 0 0 0">

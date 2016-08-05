@@ -119,8 +119,13 @@ class Scene extends Model
             'scene_translations.title',
             'scene_translations.description',
             'scene_translations.permalink',
-            'channels.embed'
+            'channels.embed',
+            'channels.name AS channel_name',
+            'sites.name AS site_name',
+            'sites.domain AS site_domain',
+            'sites.have_domain AS site_have_domain'
             )
+            ->join('sites', 'sites.id', '=', 'scenes.site_id')
             ->join('channels', 'channels.id', '=', 'scenes.channel_id')
             ->join('scene_translations', 'scenes.id', '=', 'scene_translations.scene_id')
             ->where('scene_translations.language_id', $language)
@@ -172,9 +177,7 @@ class Scene extends Model
         }
 
         if ($user_id !== false) {
-            $scenes->join('sites', 'sites.id', '=', 'scenes.site_id')
-                ->where('sites.user_id', '=', $user_id)
-            ;
+            $scenes->where('sites.user_id', '=', $user_id);
         }
 
         return $scenes;
