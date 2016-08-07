@@ -356,7 +356,7 @@ class ConfigController extends Controller
             }
 
             $categories = Input::get('categories');
-            if (!count($categories)) {
+            if (strlen($categories) == 0) {
                 $categories = 'false';
             }
 
