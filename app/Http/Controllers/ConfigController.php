@@ -81,6 +81,8 @@ class ConfigController extends Controller
             Auth::user()->id
         );
 
+        $sites = Site::where('user_id', '=', Auth::user()->id)->get();
+
         return view('panel.index', [
             'scenes'       => $scenes->orderBy('scenes.id', 'desc')->paginate($this->commons->perPageScenes),
             'query_string' => $query_string,
@@ -90,7 +92,7 @@ class ConfigController extends Controller
             'languages'    => $this->commons->languages,
             'locale'       => $this->commons->locale,
             'title'        => "Admin Panel",
-            'sites'        => $this->commons->sites,
+            'sites'        => $sites,
             'duration'     => $duration,
         ]);
     }
@@ -338,7 +340,6 @@ class ConfigController extends Controller
             'languages'    => $this->commons->languages,
             'locale'       => $this->commons->locale,
             'title'        => "Admin Panel",
-            'sites'        => $this->commons->sites,
             'scene'        => $scene
         ]);
 
@@ -404,13 +405,15 @@ class ConfigController extends Controller
         $ff = date("Y-m-d");
         $fi = date("Y-m-d", strtotime($ff." -7 days"));
 
+        $sites = Site::where('user_id', '=', Auth::user()->id)->paginate(6);
+
         return view('panel.sites', [
             'channels'  => Channel::all(),
             'language'  => $this->commons->language,
             'languages' => $this->commons->languages,
             'locale'    => $this->commons->locale,
             'title'     => "Admin Panel",
-            'sites'     => $this->commons->sites,
+            'sites'     => $sites,
             'fi'        => $fi,
             'ff'        => $ff,
         ]);

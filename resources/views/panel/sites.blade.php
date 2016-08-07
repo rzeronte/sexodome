@@ -82,6 +82,10 @@
 
     </div>
 
+    <div class="row" style="background-color:white;padding:10px;">
+        <?php echo $sites->render(); ?>
+    </div>
+
     <!-- Modal SEO Info -->
     <div class="modal fade" id="SEOInfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">

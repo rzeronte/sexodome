@@ -32,7 +32,6 @@ class rZeBotCommons extends Controller {
     public $perPageScenes;
     public $perPageTags;
     public $perPageJobs;
-    public $sites;
     public $site;
     public $routeParameters;
     public $cloudFlareCfg;
@@ -45,12 +44,6 @@ class rZeBotCommons extends Controller {
         $locale = env('DEFAULT_LOCALE', "en");
         if (isset($this->routeParamters["locale"])) {
             $locale = $this->routeParamters["locale"];
-        }
-
-        if (Auth::user()) {
-            $this->sites = Site::where('user_id', '=', Auth::user()->id)->get();
-        } else {
-            $this->sites = false;
         }
 
         // go to admin panel if no site
