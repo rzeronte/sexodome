@@ -41,18 +41,17 @@
             ?>
 
             <div class="col-md-12" style="background-color:<?=$bgColor?>;padding:10px;">
-
-                <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
-
-                <p>
-                    <i class="glyphicon glyphicon-globe"></i>
-                    <a href="http://{{$site->getHost()}}" target="_blank">
-                        http://{{$site->getHost()}} (<i>{{$site->getTotalScenes()}}</i> active scenes)
-                    </a>
-                </p>
-
                 <div class="row">
-                    @include('panel.site._site_menu')
+                    <div class="col-md-2">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+                        <a href="http://{{$site->getHost()}}" target="_blank">
+                            http://{{$site->getHost()}}<br/> (<i>{{$site->getTotalScenes()}}</i> active scenes)
+                        </a>
+
+                    </div>
+                    <div class="col-md-10">
+                        @include('panel.site._site_menu')
+                    </div>
                 </div>
 
                 <div class="clearfix"></div>
@@ -78,7 +77,6 @@
                 @include('panel.site._site_cronjobs')
             </div>
         @endforeach
-
 
     </div>
 

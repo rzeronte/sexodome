@@ -10,5 +10,5 @@
     <a style="margin-bottom:10px;margin-right:5px;" class="btn btn-primary btn-xs import-show-info"><i class="glyphicon glyphicon-film"></i> Import scenes</a>
     <a style="margin-bottom:10px;margin-right:5px;" class="btn btn-primary btn-xs import-show-cronjobs"><i class="glyphicon glyphicon-time"></i> CronJobs</a>
 
-    <a class="btn btn-xs btn-danger" href="{{route('deleteSite', ['locale'=>$language->code, "site_id"=>$site->id])}}" style="margin-bottom:10px;margin-right:5px;"><i class="glyphicon glyphicon-trash"></i> DELETE SITE</a>
+    <a class="btn btn-xs btn-danger" href="{{route('deleteSite', ['locale'=>$language->code, "site_id"=>$site->id])}}" style="margin-bottom:10px;margin-right:5px;"><i class="glyphicon glyphicon-trash"></i> DELETE</a>
 </div>
