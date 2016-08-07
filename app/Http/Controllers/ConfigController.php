@@ -870,7 +870,7 @@ class ConfigController extends Controller
             'site_id'    => Input::get('site_id'),
             'max'        => Input::get('max'),
             'duration'   => Input::get('duration'),
-            'categories' => $categories,
+            'tags'       => $categories,
         ];
 
 
