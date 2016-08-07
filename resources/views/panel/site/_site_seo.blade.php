@@ -1,4 +1,4 @@
-<div class="col-md-12 detail-seo" style="display:none">
+<div class="col-md-12 detail-seo" style="display:none;margin-top:20px;">
     <form method="post" class="form-update-seo-data" action="{{route('updateSiteSEO', ['locale'=>$locale, 'site_id'=>$site->id])}}">
 
         <div style="margin-top:20px;">

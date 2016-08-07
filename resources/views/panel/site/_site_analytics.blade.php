@@ -1,4 +1,4 @@
-<div class="col-md-12 detail-analytics" style="display:none;">
+<div class="col-md-12 detail-analytics" style="display:none;margin-top:20px;">
     <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
         <p><i class="glyphicon glyphicon-globe"></i> <b>Google Analytics</b></p>
     </div>
