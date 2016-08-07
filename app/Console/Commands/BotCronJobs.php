@@ -45,8 +45,7 @@ class BotCronJobs extends Command
                 'site_id'      => $params->site_id,
                 '--max'        => ($params->max != "") ? $params->max: 'false',
                 '--duration'   => ($params->duration != "") ? $params->duration : 'false',
-                '--categories' => $params->categories,
-                '--skip_create_categories' => 'true'
+                '--tags'       => $params->tags,
             ];
 
             Log::info('[CronJob] ' . $paramsCommand["feed_name"]);
