@@ -38,6 +38,22 @@ $( document ).ready(function() {
         $(this).parent().parent().parent().find('.detail-analytics').toggle('fast');
     });
 
+    $( ".import-show-info" ).click(function() {
+        $(this).parent().parent().parent().find('.detail-import').toggle('fast');
+    });
+
+    $( ".import-show-cronjobs" ).click(function() {
+        $(this).parent().parent().parent().find('.detail-cronjobs').toggle('fast');
+    });
+
+    $( ".tags-show-info" ).click(function() {
+        $(this).parent().parent().parent().find('.detail-tags').toggle('fast');
+    });
+
+    $( ".categories-show-info" ).click(function() {
+        $(this).parent().parent().parent().find('.detail-categories').toggle('fast');
+    });
+
     $( ".iframe-show-info" ).click(function() {
         $(this).parent().parent().parent().find('.detail-iframe').toggle('fast');
     });
@@ -46,8 +62,16 @@ $( document ).ready(function() {
         $(this).parent().parent().parent().find('.detail-logo').toggle('fast');
     });
 
+    $( ".seo-show-info" ).click(function() {
+        $(this).parent().parent().parent().find('.detail-seo').toggle('fast');
+    });
+
     $( ".colors-show-info" ).click(function() {
         $(this).parent().parent().parent().find('.detail-colors').toggle('fast');
+    });
+
+    $( ".works-show-info" ).click(function() {
+        $(this).parent().parent().parent().find('.detail-works').toggle('fast');
     });
 
     $( ".form-update-color-data" ).submit(function( event ) {
@@ -83,6 +107,55 @@ $( document ).ready(function() {
             jsonData = $.parseJSON(data);
             if (jsonData["status"] == true) {
                 $('.modal .modal-body').html("<div class='alert alert-success' role='alert'>Google info saved successful</div>");
+            } else {
+                $('.modal .modal-body').html("<div class='alert alert-danger' role='alert'>Have an error! Try in a few minutes...</div>");
+            }
+            $('.modal').modal()
+
+        });
+        event.preventDefault();
+    });
+
+    $( ".form-create-cronjob" ).submit(function( event ) {
+        var action = $(this).attr("action");
+        var actionUpdateCronJobs = $(this).attr("data-update-cronjobs-url");
+        var form = $(this);
+
+        $.ajax({
+            url: action,
+            data: $(this).serialize(),
+            method: 'post'
+        }).done(function( data ) {
+            jsonData = $.parseJSON(data);
+            if (jsonData["status"] == true) {
+                $.ajax({
+                    url: actionUpdateCronJobs,
+                    data: $(this).serialize(),
+                    method: 'get'
+                }).done(function( data ) {
+                    $('.cronjobs_ajax_container').html(data);
+                });
+            } else {
+                $('.modal .modal-body').html("<div class='alert alert-danger' role='alert'>Have an error! Try in a few minutes...</div>");
+            }
+            $('.modal').modal()
+
+        });
+        event.preventDefault();
+    });
+
+    $( ".form-update-seo-data" ).submit(function( event ) {
+        var action = $(this).attr("action");
+        var form = $(this);
+
+        $.ajax({
+            url: action,
+            data: $(this).serialize(),
+            method: 'post'
+        }).done(function( data ) {
+            jsonData = $.parseJSON(data);
+            if (jsonData["status"] == true) {
+                $('.modal .modal-body').html("<div class='alert alert-success' role='alert'>SEO data saved successful</div>");
             } else {
                 $('.modal .modal-body').html("<div class='alert alert-danger' role='alert'>Have an error! Try in a few minutes...</div>");
             }
@@ -145,45 +218,94 @@ $( document ).ready(function() {
         }).done(function( data ) {
             var data = $.parseJSON(data);
             if (data['status'] == 1) {
-                form.closest('.coloreable').addClass('successAjax');
-                setTimeout("clearAjaxCSS()", 1000);
+                $('.modal .modal-body').html("<div class='alert alert-success' role='alert'>Operation done successful</div>");
             } else {
-                form.closest('.coloreable').addClass('errorAjax');
-                setTimeout("clearAjaxCSS()", 1000);
+                $('.modal .modal-body').html("<div class='alert alert-danger' role='alert'>Operation failed, try in a few seconds...</div>");
             }
+            $('.modal').modal()
         });
         event.preventDefault();
     });
 
-    $( ".btn-show" ).click(function() {
-        console.log("entro");
-    });
+    // Workers paginator
+    eventPaginatorWorkers = function () {
+        $( ".site_workers_paginator .pagination" ).on('click', 'a', function(event) {
+            var url = $(this).attr("href");
 
-    $( ".btn-tag-tiers" ).click(function() {
-        var action = $(this).attr("data-url");
-        var scene = $(this).attr("data-scene-id");
-        var site = $("#site_select_"+scene).val();
+            $.ajax({
+                url: url,
+                method: 'get'
+            }).done(function( data ) {
+                $(".workers_ajax_container").html(data);
+                eventPaginatorWorkers();
+            });
 
-        $("#TagTiersModal .modal-body").html("Loading...");
-
-        $.ajax({
-            url: action+"?site="+site,
-            method: 'get'
-        }).done(function( data ) {
-            $("#TagTiersModal .modal-body").html(data);
+            event.preventDefault();
         });
+
+    }
+    eventPaginatorWorkers();
+
+    //Categories paginator
+    eventPaginatorCategories = function () {
+        $( ".site_categories_paginator .pagination" ).on('click', 'a', function(event) {
+            var url = $(this).attr("href");
+
+            $.ajax({
+                url: url,
+                method: 'get'
+            }).done(function( data ) {
+                $(".categories_ajax_container").html(data);
+                eventPaginatorCategories();
+            });
+
+            event.preventDefault();
+        });
+
+    }
+    eventPaginatorCategories();
+
+    //Tags paginator
+    eventPaginatorTags = function () {
+        $( ".site_tags_paginator .pagination" ).on('click', 'a', function(event) {
+            var url = $(this).attr("href");
+
+            $.ajax({
+                url: url,
+                method: 'get'
+            }).done(function( data ) {
+                $(".tags_ajax_container").html(data);
+                eventPaginatorTags();
+            });
+
+            event.preventDefault();
+        });
+
+    }
+    eventPaginatorTags();
+
+    $( ".btn-show" ).click(function() {
+        console.log(".btn-show");
     });
 
-    $( ".btn-publication-info" ).click(function() {
-        var action = $(this).attr("data-url");
-        $("#TagTiersModal .modal-body").html("Loading...");
-
+    $( ".delete-site-cronjob-btn" ).click(function(event) {
+        var action = $(this).attr("href");
+        var site_container = $(this).parent().parent();
         $.ajax({
             url: action,
             method: 'get'
         }).done(function( data ) {
-            $("#TagTiersModal .modal-body").html(data);
+            jsonData = $.parseJSON(data);
+            if (jsonData["status"] == true) {
+                site_container.remove();
+                $('.modal .modal-body').html("<div class='alert alert-success' role='alert'>CronJob deleted succesfull</div>");
+            } else {
+                $('.modal .modal-body').html("<div class='alert alert-danger' role='alert'>Have an error! Try in a few minutes...</div>");
+            }
+            $('.modal').modal()
         });
+
+        event.preventDefault();
     });
 
     $( ".btn-preview-scene" ).click(function() {
@@ -273,25 +395,6 @@ $( document ).ready(function() {
             $(".div_input_domain :input").prop('required', true);
             $(".div_input_name :input").prop('required', null);
         }
-    });
-
-    $( ".selector_feeds_site" ).change(function() {
-        var site_id = $(this).val();
-        var url = $(this).attr('data-ajax');
-        var selectorCategories = $(this).parent().parent().find('.selector_feed_categories');
-        selectorCategories.html("<option value=''>loading...</option>");
-
-        $.ajax({
-            url: url,
-            data: {site_id: site_id},
-            method: 'get'
-        }).done(function( data ) {
-            if (data.length > 0) {
-                selectorCategories.html(data);
-            } else {
-                selectorCategories.html("<option value=''>--No categories--</option>");
-            }
-        });
     });
 
     console.log("[DEBUG] All load");

@@ -95,7 +95,7 @@ class ConfigController extends Controller
         ]);
     }
 
-    public function tags($locale, $site_id)
+    public function ajaxSiteTags($locale, $site_id)
     {
         $query_string = Request::get('q');
 
@@ -108,20 +108,19 @@ class ConfigController extends Controller
             abort(401, "Unauthorized");
         }
 
-        $tags = Tag::getTranslationSearch($query_string, $this->commons->language->id);
+        $tags = Tag::getTranslationSearch($query_string, $this->commons->language->id)->where('site_id', $site_id)
+            ->paginate($this->commons->perPageScenes);
 
 
-        return view('panel.tags', [
-            'site'         => $site,
-            'tags'         => $tags->paginate($this->commons->perPageScenes),
-            'query_string' => $query_string,
-            'language'     => $this->commons->language,
-            'languages'    => $this->commons->languages,
-            'locale'       => $this->commons->locale,
+        return view('panel._ajax_site_tags', [
+            'site'       => $site,
+            'tags'     => $tags,
+            'locale'   => $this->commons->locale,
+            'language' => $this->commons->language
         ]);
     }
 
-    public function categories($locale, $site_id)
+    public function ajaxSiteCategories($locale, $site_id)
     {
         $query_string = Request::get('q');
 
@@ -135,25 +134,37 @@ class ConfigController extends Controller
             abort(401, "Unauthorized");
         }
 
-        $categories = Category::getTranslationSearch($query_string, $this->commons->language->id);
+        $categories = Category::getTranslationSearch($query_string, $this->commons->language->id)
+            ->paginate($this->commons->perPageScenes);
 
-        return view('panel.categories', [
-            'site'         => $site,
-            'categories'   => $categories->paginate($this->commons->perPageScenes),
-            'query_string' => $query_string,
-            'language'     => $this->commons->language,
-            'languages'    => $this->commons->languages,
-            'locale'       => $this->commons->locale,
+        return view('panel._ajax_site_categories', [
+            'site'       => $site,
+            'categories' => $categories,
+            'locale'     => $this->commons->locale,
+            'language'   => $this->commons->language
         ]);
     }
 
-    public function works($locale)
+    public function ajaxSiteWorkers($locale, $site_id)
     {
-        return view('panel.works', [
+        $site = Site::find($site_id);
+
+        if (!$site) {
+            abort(404, "Site not found");
+        }
+
+        if (!(Auth::user()->id == $site->user->id)) {
+            abort(401, "Unauthorized");
+        }
+
+        $infojobs = $site->infojobs()->paginate(10);
+
+        return view('panel._ajax_site_workers', [
+            'site'      => $site,
             'locale'    => $this->commons->locale,
             'language'  => $this->commons->language,
             'languages' => $this->commons->languages,
-            'infojobs' => InfoJobs::getUserJobs()->paginate($this->commons->perPageJobs),
+            'infojobs'  => $infojobs,
         ]);
     }
 
@@ -185,7 +196,7 @@ class ConfigController extends Controller
             abort(404, "Category not found");
         }
 
-        if (!(Auth::user()->id == $category->scene->site->user->id)) {
+        if (!(Auth::user()->id == $category->site->user->id)) {
             abort(401, "Unauthorized");
         }
 
@@ -333,61 +344,56 @@ class ConfigController extends Controller
 
     }
 
-    public function fetch()
+    public function fetch($site_id)
     {
-        if (Request::isMethod('post')) {
+        $site = Site::find($site_id);
 
-            $site_id = Input::get('site_id');
+        if (!$site) {
+            abort(401, "Site not found");
+        }
 
-            $site = Site::find($site_id);
+        if (!(Auth::user()->id == $site->user->id)) {
+            abort(401, "Unauthorized");
+        }
 
-            if (!$site) {
-                abort(401, "Site not found");
-            }
+        $channel = Channel::where('name', '=', Input::get('feed_name'))->first();
 
-            if (!(Auth::user()->id == $site->user->id)) {
-                abort(401, "Unauthorized");
-            }
+        if (!$channel) {
+            abort(404, "Channel not found");
+        }
 
-            $channel = Channel::where('name', '=', Input::get('feed_name'))->first();
+        $categories = Input::get('categories');
+        if (strlen($categories) == 0) {
+            $categories = 'false';
+        }
 
-            if (!$channel) {
-                abort(404, "Channel not found");
-            }
+        $queueParams = [
+            'feed_name'  => Input::get('feed_name'),
+            'site_id'    => Input::get('site_id'),
+            'max'        => Input::get('max'),
+            'duration'   => Input::get('duration'),
+            'tags'       => $categories,    // usamos los tags para el filtro en el CSV en el fondo
+        ];
 
-            $categories = Input::get('categories');
-            if (strlen($categories) == 0) {
-                $categories = 'false';
-            }
+        $newInfoJob = new InfoJobs();
+        $newInfoJob->site_id = $site_id;
+        $newInfoJob->feed_id = $channel->id;
+        $newInfoJob->created_at = date("Y:m:d H:i:s");
+        $newInfoJob->serialized = \GuzzleHttp\json_encode($queueParams);
+        $newInfoJob->save();
 
-            $queueParams = [
-                'feed_name'  => Input::get('feed_name'),
-                'site_id'    => Input::get('site_id'),
-                'max'        => Input::get('max'),
-                'duration'   => Input::get('duration'),
-                'tags'       => $categories,    // usamos los tags para el filtro en el CSV en el fondo
-            ];
+        $queueParams['job'] = $newInfoJob->id;
 
-            $newInfoJob = new InfoJobs();
-            $newInfoJob->site_id = $site_id;
-            $newInfoJob->feed_id = $channel->id;
-            $newInfoJob->created_at = date("Y:m:d H:i:s");
-            $newInfoJob->serialized = \GuzzleHttp\json_encode($queueParams);
-            $newInfoJob->save();
+        try {
+            $job = (new importScenesFromFeed($queueParams));
+            $this->dispatch($job);
 
-            $queueParams['job'] = $newInfoJob->id;
+            return json_encode(['status' => true]);
 
-            try {
-                $job = (new importScenesFromFeed($queueParams));
-                $this->dispatch($job);
+        } catch(\Exception $e) {
+            Log::info('[ERROR Al lanzar importScenesFromFeed]');
 
-                return json_encode(['status' => true]);
-
-            } catch(\Exception $e) {
-                Log::info('[ERROR Al lanzar importScenesFromFeed]');
-
-                return json_encode(['status' => false]);
-            }
+            return json_encode(['status' => false]);
         }
 
         return json_encode(['status' => false]);
@@ -399,6 +405,7 @@ class ConfigController extends Controller
         $fi = date("Y-m-d", strtotime($ff." -7 days"));
 
         return view('panel.sites', [
+            'channels'  => Channel::all(),
             'language'  => $this->commons->language,
             'languages' => $this->commons->languages,
             'locale'    => $this->commons->locale,
@@ -505,33 +512,22 @@ class ConfigController extends Controller
         ]);
     }
 
-    public function feeds($locale)
+    public function ajaxCronJobs($locale, $site_id)
     {
-        return view('panel.feeds', [
-            'infojobs'  => InfoJobs::getUserJobs()->get(),
-            'channels'  => App\Model\Channel::all(),
-            'categories'=> Category::all(),
-            'sites'     => $this->commons->sites,
-            'locale'    => $this->commons->locale,
+        $site = Site::find($site_id);
+        $scene = Scene::find($site_id);
+
+        return view('panel._ajax_site_cronjobs', [
+            'site'      => $site,
+            'scene'     => $scene,
             'language'  => $this->commons->language,
             'languages' => $this->commons->languages,
+            'locale'    => $this->commons->locale
         ]);
+
     }
 
-    public function cronjobs($locale)
-    {
-        return view('panel.cronjobs', [
-            'cronjobs'  => App\Model\CronJob::getUserCronJobs()->get(),
-            'channels'  => App\Model\Channel::all(),
-            'categories'=> Category::all(),
-            'sites'     => $this->commons->sites,
-            'locale'    => $this->commons->locale,
-            'language'  => $this->commons->language,
-            'languages' => $this->commons->languages,
-        ]);
-    }
-
-    public function site($locale, $site_id)
+    public function updateSiteSEO($locale, $site_id)
     {
         $site = Site::find($site_id);
 
@@ -544,46 +540,19 @@ class ConfigController extends Controller
             abort(401, "Unauthorized");
         }
 
-        if (Request::isMethod('post')) {
-            $site->title_index = Request::input('title_index');
-            $site->title_category = Request::input('title_category');
-//            $site->title_tag = Request::input('title_tag');
-//            $site->title_topscenes = Request::input('title_topscenes');
+        $site->title_index = Request::input('title_index');
+        $site->title_category = Request::input('title_category');
 
-            $site->description_index = Request::input('description_index');
-            $site->description_category = Request::input('description_category');
-//            $site->description_tag = Request::input('description_tag');
-//            $site->description_topscenes = Request::input('description_topscenes');
+        $site->description_index = Request::input('description_index');
+        $site->description_category = Request::input('description_category');
 
-            $site->domain = Request::input('domain');
-            $site->head_billboard = Request::input('head_billboard');
-            $site->google_analytics = Request::input('google_analytics');
-            $site->language_id = Request::input('language_id');
-            $site->save();
-        }
+        $site->domain = Request::input('domain');
+        $site->head_billboard = Request::input('head_billboard');
+        $site->google_analytics = Request::input('google_analytics');
+        $site->language_id = Request::input('language_id');
+        $site->save();
 
-        $category_query_string = Request::input('category_query_string');
-
-        if ($category_query_string) {
-            $categories = Category::getTranslationSearch(
-                $category_query_string,
-                $this->commons->language->id,
-                $site->id)
-                ->paginate($this->commons->perPageTags)
-            ;
-        } else {
-            $categories = Category::paginate($this->commons->perPageTags);
-        }
-
-        return view('panel.site', [
-            'site'         => $site,
-            'categories'   => $categories,
-            'query_string' => "",
-            'language'     => $this->commons->language,
-            'languages'    => $this->commons->languages,
-            'locale'       => $this->commons->locale,
-            'title'        => "Admin Panel",
-        ]);
+        return json_encode(array('status' => true));
     }
 
     public function removeCategory($locale, $category_id, $site_id)
@@ -851,9 +820,9 @@ class ConfigController extends Controller
         return json_encode(array('status' => $status));
     }
 
-    public function saveCronJob($locale)
+    public function ajaxSaveCronJob($locale)
     {
-        $channel = Channel::where('name', '=', Input::get('feed_name'))->first();
+        $channel = Channel::where('name', Input::get('feed_name'))->first();
 
         if (!$channel) {
             abort(404, "Channel not found");
@@ -873,15 +842,15 @@ class ConfigController extends Controller
             'tags'       => $categories,
         ];
 
-
-
         $cronjob = new App\Model\CronJob();
         $cronjob->site_id = Input::get('site_id');
         $cronjob->channel_id = $channel->id;
         $cronjob->params = \GuzzleHttp\json_encode($queueParams);
         $cronjob->save();
 
-        return redirect()->route('cronjobs', ['locale' => $this->commons->locale]);
+        $status = true;
+
+        return json_encode(array('status' => $status));
     }
 
     public function deleteCronJob($locale, $cronjob_id)
@@ -898,7 +867,8 @@ class ConfigController extends Controller
 
         $cronjob->delete();
 
-        return redirect()->route('cronjobs', ['locale' => $this->commons->locale]);
+        $status = true;
 
+        return json_encode(array('status' => $status));
     }
 }

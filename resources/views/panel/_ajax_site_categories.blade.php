@@ -1,39 +1,5 @@
-<!DOCTYPE html>
-<html>
-
-@include('panel._head')
-
-<body>
-<div class="container">
-    <div class="header row">
-        @include('panel._header_config')
-    </div>
-
-    <div class="row" style="margin-top:20px;">
-        <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
-            <p><b>Categories for http://{{$site->domain}}</b></p>
-        </div>
-    </div>
-
-    <div class="row" style="padding:10px;">
-
-        <div class="col-md-3">
-            <form action="{{ route('categories', ['locale'=>$locale]) }}" method="get" style="width:100%;">
-
-                <div class="input-group">
-                    <input id="query_string" name="q" type="text" placeholder="" class="form-control query_string" value="{{$query_string}}">
-                <span class="input-group-btn">
-                    <button type="submit" class="btn btn-primary">Find</button>
-                </span>
-                </div>
-            </form>
-        </div>
-        <div class="col-md-9" style="text-align:right;">
-        </div>
-    </div>
-
-    <?php $loop = 0 ?>
-    <div class="row">
+<?php $loop = 0 ?>
+<div class="row">
 
     @foreach($categories as $category)
         <?php
@@ -81,16 +47,9 @@
         </div>
 
     @endforeach
-    </div>
-
-    <div class="row" style="background-color:white;padding:10px;">
-        <?php echo $categories->appends(['q' => $query_string])->render(); ?>
-    </div>
-
-    <div style="border-top: solid 1px darkorange;margin-top:20px;">
-        <p class="text-right">panel v.0.16</p>
-    </div>
-
 </div>
-</body>
-</html>
+
+<div class="row site_categories_paginator" style="background-color:white;padding:10px;">
+    <?php $categories->setPath('categories/'.$site->id);?>
+    <?php echo $categories->render(); ?>
+</div>

@@ -5,7 +5,11 @@
 
 <body>
 
-<div id="ajaxUrls" data-categories-url="{{route('ajaxCategories', ['locale'=> $locale])}}" data-tags-url="{{route('ajaxTags', ['locale'=> $locale])}}"></div>
+<div id="ajaxUrls"
+     data-categories-url="{{route('ajaxCategories', ['locale'=> $locale])}}"
+     data-tags-url="{{route('ajaxTags', ['locale'=> $locale])}}"
+>
+</div>
 
 <div class="container">
     <div class="header row">

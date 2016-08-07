@@ -36,6 +36,16 @@ class Site extends Model
         return $this->belongsToMany('App\Model\Category', 'site_category', 'site_id', 'category_id');
     }
 
+    public function infojobs()
+    {
+        return $this->hasMany('App\Model\InfoJobs');
+    }
+
+    public function cronjobs()
+    {
+        return $this->hasMany('App\Model\CronJob');
+    }
+
     public function getAnalytics($fi, $ff)
     {
         $analytics = Analytics::where('site_id', $this->id)
