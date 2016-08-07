@@ -35,43 +35,43 @@ function clearAjaxCSS() {
 $( document ).ready(function() {
 
     $( ".google-show-info" ).click(function() {
-        $(this).parent().parent().parent().find('.detail-analytics').toggle('fast');
+        $(this).parent().parent().parent().parent().parent().find('.detail-analytics').toggle();
     });
 
     $( ".import-show-info" ).click(function() {
-        $(this).parent().parent().parent().find('.detail-import').toggle('fast');
+        $(this).parent().parent().parent().parent().find('.detail-import').toggle();
     });
 
     $( ".import-show-cronjobs" ).click(function() {
-        $(this).parent().parent().parent().find('.detail-cronjobs').toggle('fast');
+        $(this).parent().parent().parent().parent().find('.detail-cronjobs').toggle();
     });
 
     $( ".tags-show-info" ).click(function() {
-        $(this).parent().parent().parent().find('.detail-tags').toggle('fast');
+        $(this).parent().parent().parent().parent().find('.detail-tags').toggle();
     });
 
     $( ".categories-show-info" ).click(function() {
-        $(this).parent().parent().parent().find('.detail-categories').toggle('fast');
+        $(this).parent().parent().parent().parent().find('.detail-categories').toggle();
     });
 
     $( ".iframe-show-info" ).click(function() {
-        $(this).parent().parent().parent().find('.detail-iframe').toggle('fast');
+        $(this).parent().parent().parent().parent().find('.detail-iframe').toggle();
     });
 
     $( ".logo-show-info" ).click(function() {
-        $(this).parent().parent().parent().find('.detail-logo').toggle('fast');
+        $(this).parent().parent().parent().parent().find('.detail-logo').toggle();
     });
 
     $( ".seo-show-info" ).click(function() {
-        $(this).parent().parent().parent().find('.detail-seo').toggle('fast');
+        $(this).parent().parent().parent().parent().find('.detail-seo').toggle();
     });
 
     $( ".colors-show-info" ).click(function() {
-        $(this).parent().parent().parent().find('.detail-colors').toggle('fast');
+        $(this).parent().parent().parent().parent().find('.detail-colors').toggle();
     });
 
     $( ".works-show-info" ).click(function() {
-        $(this).parent().parent().parent().find('.detail-works').toggle('fast');
+        $(this).parent().parent().parent().parent().find('.detail-works').toggle();
     });
 
     $( ".form-update-color-data" ).submit(function( event ) {
