@@ -50,7 +50,7 @@
                     </div>
 
                     <div class="col-md-2">
-                        <select class="selector_feeds_site form-control" name="site_id" data-ajax="{{route('ajaxCategoriesOptions', ['locale' => $locale])}}" style="width:100%" required>
+                        <select class="selector_feeds_site form-control" name="site_id" style="width:100%" required>
                             <option value="">-- select site --</option>
                             @foreach($sites as $site)
                                 @if ($site->have_domain == 1)
@@ -74,15 +74,13 @@
                             <option value="5000">5000</option>
                         </select>
                     </div>
-                    <div class="col-md-2">
-                        <select class="selector_feed_categories form-control" name="categories[]" style="width:100%;height:150px;" multiple>
-                            <option value=""> -- select site first-- </option>
-                        </select>
+                    <div class="col-md-3">
+                        <input type="text" name="categories" class="form-control" placeholder="categories comma separated">
                     </div>
 
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                         <select class="form-control" name="duration" style="width:100%">
-                            <option value="">-- any minutes --</option>
+                            <option value="">time</option>
                             <option value="60">1 min</option>
                             <option value="300">5 min</option>
                             <option value="600">10 min</option>

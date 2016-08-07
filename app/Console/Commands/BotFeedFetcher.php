@@ -30,13 +30,13 @@ class BotFeedFetcher extends Command
      */
     protected $signature = 'zbot:feed:fetch {feed_name} {site_id}
                             {--max=false : Number max scenes to import}
-                            {--tags=false : Only tags imported}
-                            {--categories=false : Only categories imported}
+                            {--tags=false : Process tags from scene}
+                            {--categories=false : Process tags from scene}
                             {--rate=false : Only rate min imported}
                             {--views=false : Only views min imported}
                             {--only_update=false : Only update scenes }
                             {--duration=false : Only duration min imported}
-                            {--skip_create_categories=false : Launch update categories}
+                            {--create_categories_from_tags=false : Launch update categories}
                             {--job=false : Infojob Id}
                             {--test=false : Test}';
 
@@ -66,7 +66,7 @@ class BotFeedFetcher extends Command
         $only_update = $this->option('only_update');
         $test        = $this->option('test');
         $job         = $this->option('job');
-        $skip_create_categories = $this->option('skip_create_categories');
+        $create_categories_from_tags = $this->option('create_categories_from_tags');
 
         $tags       = $this->parseTagsOption($tags);
         $categories = $this->parseCategoriesOption($categories);
@@ -108,16 +108,13 @@ class BotFeedFetcher extends Command
             $minViews,
             $minDuration,
             $default_status = env("DEFAULT_FETCH_STATUS", 1),
-            $test
+            $test,
+            $create_categories_from_tags
         );
 
-        if ($skip_create_categories !== 'false') {
-            rZeBotUtils::message('[SKIP CREATE CATEGORIES]', "yellow");
-        } else {
-            Artisan::call('zbot:categories:create', [
-                'site_id' => $site_id
-            ]);
-        }
+        Artisan::call('zbot:categories:thumbnails', [
+            'site_id' => $site_id
+        ]);
 
         // delete infojob
         if ($job !== "false") {
@@ -153,7 +150,7 @@ class BotFeedFetcher extends Command
         return $categories;
     }
 
-    public function parseCSV($site_id, $feed, $max, $mapped_colums, $feed_config, $tags, $categories, $only_update, $rate, $minViews, $minDuration, $default_status, $test)
+    public function parseCSV($site_id, $feed, $max, $mapped_colums, $feed_config, $tags, $categories, $only_update, $rate, $minViews, $minDuration, $default_status, $test, $create_categories_from_tags)
     {
         $fila = 1;
         $languages = Language::all();
@@ -348,8 +345,18 @@ class BotFeedFetcher extends Command
                         rZeBotUtils::message("[SCENE CREATE] $fila -'". $video['title']."' (site_id: ".$site_id.")", "green", true, false);
 
                         $scene = $this->createScene($video, $default_status, $feed, $site_id, $languages);
+
+                        // Create tags from CSV
                         $this->processTags($video, $site_id, $scene, $languages);
+
+                        // Create categories from CSV
                         //$this->processCategories($video, $site_id, $scene, $languages);
+
+                        // Create categories from tags
+                        if ($create_categories_from_tags !== "false") {
+                            rZeBotUtils::message("[CREATING CATEGORIES FROM TAGS FOR scene_id: $scene->id] ", "cyan", true, false);
+                            $this->createCategoriesFromTags($scene, $languages);
+                        }
                     }
                 } else {
                     rZeBotUtils::message("[WARNING] Scene ya existente, saltando...", "yellow", true, false);
@@ -357,6 +364,23 @@ class BotFeedFetcher extends Command
             }
 
             fclose($gestor);
+        }
+    }
+
+    public function createCategoriesFromTags($scene, $languages) {
+
+        $sceneTags = Tag::getTranslationByScene($scene, $englishLanguage = 2);
+
+        foreach($sceneTags->get() as $tag) {
+            rZeBotUtils::createCategoryFromTag(
+                $tag,
+                $scene->site_id,
+                $min_scenes_activation = env("MIN_SCENES_CATEGORY_ACTIVATION", 30),
+                $languages,
+                $englishLanguage = 2,
+                $abs_total = 1,
+                $timer = 0
+            );
         }
     }
 

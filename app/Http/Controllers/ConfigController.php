@@ -310,34 +310,6 @@ class ConfigController extends Controller
         return json_encode($select_categories);
     }
 
-    public function ajaxCategoriesOptions()
-    {
-        $site_id = Request::get('site_id');
-
-        $site = Site::find($site_id);
-
-        if (!$site) {
-            abort(404, "Site not found");
-        }
-
-        if (!(Auth::user()->id == $site->user->id)) {
-            abort(401, "Unauthorized");
-        }
-
-        $categories = Category::getTranslationSearch(
-                false,
-                $this->commons->language->id,
-                $site_id
-            )
-            ->orderBy('name', 'asc')
-            ->get()
-        ;
-
-        return view('panel._ajax_categories_options', [
-            'categories'=> $categories,
-        ]);
-    }
-
     public function scenePreview($locale, $scene_id)
     {
         $scene = Scene::find($scene_id);
@@ -384,10 +356,8 @@ class ConfigController extends Controller
             }
 
             $categories = Input::get('categories');
-            if (count($categories == 1) && !strlen($categories[0])) {
+            if (!count($categories)) {
                 $categories = 'false';
-            } else {
-                $categories = implode(",", $categories);
             }
 
             $queueParams = [
@@ -395,7 +365,7 @@ class ConfigController extends Controller
                 'site_id'    => Input::get('site_id'),
                 'max'        => Input::get('max'),
                 'duration'   => Input::get('duration'),
-                'categories' => $categories,
+                'tags'       => $categories,    // usamos los tags para el filtro en el CSV en el fondo
             ];
 
             $newInfoJob = new InfoJobs();

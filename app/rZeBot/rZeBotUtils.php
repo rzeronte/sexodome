@@ -21,38 +21,17 @@ use DB;
 
 class rZeBotUtils
 {
-    public $validExtensions;
-    public $blacWordskList;
-
-    public function __construct() {
-        $this->invalidExtensions = array(
-            '.exe',
-            '.rar',
-            '.zip',
-            '.txt',
-            '.flw',
-            '.xml',
-            '.json',
-            ':81',
-        );
-
-        $this->blacWordskList = array(
-            'ahora', 'antes', 'después', 'tarde', 'luego', 'ayer', 'temprano', 'ya', 'todavía', 'anteayer',
-            'aún', 'pronto', 'hoy', 'aquí', 'ahí', 'allí', 'cerca', 'lejos', 'fuera', 'dentro', 'alrededor',
-            'aparte', 'encima', 'debajo', 'delante', 'detrás', 'así', 'bien', 'mal', 'despacio', 'deprisa',
-            'como', 'mucho', 'poco', 'muy', 'casi', 'todo', 'nada', 'algo', 'medio',
-            'demasiado', 'bastante', 'más', 'menos', 'además', 'incluso', 'también', 'sí',
-            'también', 'asimismo', 'no', 'tampoco', 'jamás', 'nunca', 'acaso', 'quizá',
-            'tal vez', 'a lo mejor', 'ser'
-        );
-    }
-
+    /**
+     * Check SUBDOMAIN access
+     *
+     * @param $locale
+     * @return bool
+     */
     static function checkSubDomainAccess($locale) {
         $urlData = parse_url($_SERVER["HTTP_HOST"]);
         $path = $urlData["path"];
 
         $parts = explode(".", $path);
-
 
         // subdomain.assassinsporn.com
         if (count($parts) == 3) {
@@ -83,6 +62,11 @@ class rZeBotUtils
 
     }
 
+    /**
+     * get site or run exceptions from host
+     *
+     * @return bool
+     */
     static function getSiteFromHost() {
         $urlData = parse_url($_SERVER["HTTP_HOST"]);
         $path = $urlData["path"];
@@ -226,25 +210,11 @@ class rZeBotUtils
         return $text;
     }
 
-    static public function getTagsByLanguage($language_id)
-    {
-        $tags = Tag::where('language_id',"=", $language_id)
-            ->where('status', 1)
-            ->orderBy('name')
-            ->get();
-        return $tags;
-    }
-
-    static public function getTagsByPermalinksForLanguage($permalinks, $language_id)
-    {
-        $tags = DB::table('tags')
-            ->where("language_id", "=", $language_id)
-            ->whereIn('permalink', $permalinks)
-            ->get();
-
-        return $tags;
-    }
-
+    /**
+     * Check if domain have sexodome's CF DNS
+     * @param $domain
+     * @return bool
+     */
     public static function checkCFDNS($domain)
     {
         $result = dns_get_record($domain);
@@ -267,6 +237,7 @@ class rZeBotUtils
 
         return true;
     }
+
     /**
      * Check if tag is valid for Category
      *
@@ -303,6 +274,12 @@ class rZeBotUtils
         return true;
     }
 
+    /**
+     * Limpieza del texto de un tag antes de crear una categoría.
+     *
+     * @param $tag
+     * @return mixed|string
+     */
     public static function transformTagForCategory($tag) {
         $transformed = str_replace("-", " ", $tag);
         $transformed = utf8_encode($transformed);
@@ -311,6 +288,12 @@ class rZeBotUtils
         return $transformed;
     }
 
+    /**
+     * Download dump for a dump
+     *
+     * @param $feed
+     * @return string
+     */
     public static function downloadDump($feed)
     {
         $fileCSV = rZeBotCommons::getDumpsFolderTmp().$feed->file;
@@ -326,15 +309,14 @@ class rZeBotUtils
         } else {
             $tgz = $gz = $zip = false;
 
-            // miramos si va comprimido
             if ((substr($feed->url, -8) == '.tar.gz') OR (substr($feed->url, -4) == '.tgz')) {
                 $tgz = true;
-                $ext = '.tar.gz';  // lo descargaremos con extensión .tar.gz
+                $ext = '.tar.gz';
             } elseif (substr($feed->url, -4) == '.gz') {
-                $ext = '.gz';  // lo descargaremos con extensión .gz
+                $ext = '.gz';
                 $gz = true;
             } elseif (substr($feed->url, -4) == '.zip') {
-                $ext = '.zip';  // lo descargaremos con extensión .gz
+                $ext = '.zip';
                 $zip = true;
             }
 
@@ -357,5 +339,149 @@ class rZeBotUtils
         }
 
         return $fileCSV;
+    }
+
+    /**
+     * create a category if is possible from tag
+     *
+     * @param $tag
+     * @param $site_id
+     * @param int $min_scenes_activation
+     * @param $languages
+     * @param int $englishLanguage
+     * @param int $abs_total
+     * @param int $timer
+     * @param int $i
+     */
+    public static function createCategoryFromTag($tag, $site_id, $min_scenes_activation = 30, $languages, $englishLanguage = 2, $abs_total = 1, $timer = 0, &$i = 0)
+    {
+        $transformedTag = rZeBotUtils::transformTagForCategory($tag->name);
+        $i++;
+        // Solo se convertirán en categorías tags de una sola palabra
+        $msgLog = "[" . number_format(($i*100)/ $abs_total, 0) ."%]";
+        if (rZeBotUtils::isValidTag($transformedTag)) {
+            $msgLog.= " " . $transformedTag;
+
+            // Contamos el ńumero de escenas para este tags
+            $countScenes = $tag->scenes()->count();
+
+            $singular = str_singular($transformedTag);
+            $plural = str_plural($transformedTag);
+
+            $msgLog.=" | [$singular]/[$plural]";
+            $msgLog.=" | scenes count: $countScenes";
+
+            // Debug en pantalla para ver si el el tag es singular o plural
+            if ($transformedTag == $plural) {
+                $msgLog.= " | Plural";
+            } else if ($transformedTag == $singular) {
+                $msgLog.=" | Singular";
+            }
+
+            // Comprobamos si ya existe la categoría (las categorías solo serán plural)
+            $categoryTranslation = CategoryTranslation::join('categories', 'categories.id', '=', 'categories_translations.category_id')
+                ->where('categories.site_id', '=', $site_id)
+                ->where("categories_translations.language_id", $englishLanguage)
+                ->where("categories_translations.name", $plural)
+                ->first()
+            ;
+
+            // Si no existiese, crearíamos la categoría
+            if (!$categoryTranslation) {
+                // create category
+                $newCategory = new Category();
+                $newCategory->text = $transformedTag; // será plural, que es el que usamos en el where del tag
+                if ($countScenes >= $min_scenes_activation) {
+                    $newCategory->status = 1;
+                } else {
+                    $newCategory->status = 0;
+                }
+                $newCategory->site_id = $site_id;
+                $newCategory->save();
+
+                // create category languages
+                foreach($languages as $language) {
+                    $newCategoryTranslation = new CategoryTranslation();
+                    $newCategoryTranslation->category_id = $newCategory->id;
+                    $newCategoryTranslation->language_id = $language->id;
+                    //@$newCategoryTranslation->thumb = $tag->scenes()->orderByRaw("RAND()")->limit(100)->first()->preview;
+
+                    if ($language->id == $englishLanguage) {
+                        $newCategoryTranslation->permalink = str_slug($plural);
+                        $newCategoryTranslation->name = $plural;
+                    }
+                    $newCategoryTranslation->save();
+                }
+
+                // sync scenes to category
+                $ids_sync = $tag->scenes()->select('scenes.id')->get()->pluck('id');
+                $ids_sync = array_unique($ids_sync->all());
+
+                $msgLog.=" | [CREATE CATEGORY] '$plural' | Sync ".count($ids_sync);
+
+                $newCategory->nscenes = count($ids_sync);
+                $newCategory->save();
+
+                $newCategory->scenes()->sync($ids_sync);
+                //rZeBotUtils::updateCategoryThumbnail($newCategory);
+
+                rZeBotUtils::message($msgLog, "green");
+            } else {
+                // Obtenemos la categoría partiendo de la traducción
+                $category = Category::find($categoryTranslation->category_id);
+                if (!$category) {
+                    $msgLog.= " | [CATEGORY NOT FOUND FROM HIS TRANSLATION] " . $plural. " | (" . $categoryTranslation->category_id . ")";
+                    rZeBotUtils::message($msgLog, "red", false, false);
+                    return;
+                }
+
+                // Obtenemos las actuales escenas asociadas a esta categoría
+                $currentCategoryScenes = $category->scenes()->select('scenes.id')->get()->pluck('id');
+                $currentCategoryScenes = $currentCategoryScenes->all();
+
+                if ($countScenes >= $min_scenes_activation) {
+                    $category->status = 1;
+                } else {
+                    $category->status = 0;
+                }
+
+                // sync scenes to category
+                $ids_sync = $tag->scenes()->select('scenes.id')->get()->pluck('id');
+                $ids_sync = array_unique($ids_sync->all());
+
+                $totalIds = array_unique(array_merge($ids_sync, $currentCategoryScenes));
+
+                $category->nscenes = count(array_unique($totalIds));
+                $category->save();
+
+                $category->scenes()->sync($totalIds);
+
+                $msgLog.= " | [ALREADY EXISTS] " . $plural. " | (" . $categoryTranslation->category_id . ") | sync " . count($totalIds);
+                rZeBotUtils::message($msgLog, "yellow", false, false);
+            }
+        } else {
+            rZeBotUtils::message("[WARNING] !isValidTag(" . $transformedTag.")", "red", false, false);
+        }
+    }
+
+    /**
+     * update thumbnail for a category
+     *
+     * @param $category
+     */
+    public static function updateCategoryThumbnail($category)
+    {
+        $sceneRND = $category->scenes()->select('preview')->orderByRaw("RAND()")->first();
+
+        if ($sceneRND) {
+            $img = $sceneRND->preview;
+
+            foreach($category->translations()->get() as $translation) {
+                $translation->thumb = $img;
+                $translation->save();
+            }
+        } else {
+            rZeBotUtils::message("[WARNING THUMBNAIL (site_id: $category->site_id)] $category->text($category->id), tiene " . $category->scenes()->count() . " escenas", "red", false, false);
+        }
     }
 }

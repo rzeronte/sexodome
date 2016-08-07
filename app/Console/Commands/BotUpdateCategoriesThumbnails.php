@@ -30,12 +30,7 @@ class BotUpdateCategoriesThumbnails extends Command
         rZeBotUtils::message("Actualizando thumbnails para el sitio " . $site->getHost(), "yellow");
 
         foreach($categories as $category) {
-            foreach ($category->translations()->where('language_id', $site->language_id)->get() as $translation) {
-                $img = $category->scenes()->orderByRaw("RAND()")->first()->preview;
-                rZeBotUtils::message("[UPDATE] $category->id: $img, Lang: $translation->language_id: $translation->name", "green");
-                $translation->thumb = $img;
-                $translation->save();
-            }
+            rZeBotUtils::updateCategoryThumbnail($category);
         }
     }
 }

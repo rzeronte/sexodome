@@ -114,6 +114,7 @@ class Scene extends Model
     }
 
     static function getScenesForExporterSearch($query_string, $tag_query_string, $language, $duration, $publish_for, $scene_id, $category_string, $empty_title, $empty_description, $user_id = false) {
+
         $scenes = Scene::select(
             'scenes.*',
             'scene_translations.title',
@@ -147,7 +148,6 @@ class Scene extends Model
             ;
 
             $scenes->where('tag_translations.permalink', 'like', '%'.$tag_query_string.'%');
-
         }
 
         if ($query_string != "") {
