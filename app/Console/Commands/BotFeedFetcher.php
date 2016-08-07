@@ -130,6 +130,11 @@ class BotFeedFetcher extends Command
     {
         if ($tags !== 'false') {
             $tags = explode(",", $tags);
+            $tmp = [];
+            foreach($tags as $tag) {
+                $tmp[] = trim($tag);
+            }
+            $tags = $tmp;
         } else {
             $tags = false;
         }
