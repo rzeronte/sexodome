@@ -477,7 +477,7 @@ class rZeBotUtils
             $img = $sceneRND->preview;
 
             foreach($category->translations()->where('language_id', $category->site->language_id)->get() as $translation) {
-                rZeBotUtils::message("[WARNING THUMBNAIL (site_id: $category->site_id)] $category->text($category->id), tiene " . $category->scenes()->count() . " escenas", "red", false, false);
+                rZeBotUtils::message("[UPDATING THUMBNAIL (site_id: $category->site_id)] $category->text($category->id), tiene " . $category->scenes()->count() . " escenas", "green", false, false);
                 $translation->thumb = $img;
                 $translation->save();
             }

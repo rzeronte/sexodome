@@ -132,7 +132,7 @@ class BotFeedFetcher extends Command
             $tags = explode(",", $tags);
             $tmp = [];
             foreach($tags as $tag) {
-                $tmp[] = trim($tag);
+                $tmp[] = trim(strtolower($tag));
             }
             $tags = $tmp;
         } else {
@@ -252,7 +252,7 @@ class BotFeedFetcher extends Command
                 if ($tags !== false) {
                     $mixed_check = false;
                     foreach ($video["tags"] as $tagTxt) {
-                        if (in_array($tagTxt, $tags)) {
+                        if (in_array(strtolower($tagTxt), $tags)) {
                             $mixed_check = true;
                         }
                     }
