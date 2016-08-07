@@ -44,14 +44,12 @@
 
                 <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
 
-                <div style="border-bottom: solid 1px gray;margin-bottom:20px;">
-                    <p>
-                        <i class="glyphicon glyphicon-globe"></i>
-                        <a href="http://{{$site->getHost()}}" target="_blank">
-                            http://{{$site->getHost()}} (<i>{{$site->getTotalScenes()}}</i> active scenes)
-                        </a>
-                    </p>
-                </div>
+                <p>
+                    <i class="glyphicon glyphicon-globe"></i>
+                    <a href="http://{{$site->getHost()}}" target="_blank">
+                        http://{{$site->getHost()}} (<i>{{$site->getTotalScenes()}}</i> active scenes)
+                    </a>
+                </p>
 
                 <div class="row">
                     @include('panel.site._site_menu')
