@@ -16,7 +16,7 @@
 
     <div class="row" style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
         <div class="col-md-11">
-            <i class="glyphicon glyphicon-globe"></i> <b>My sites ({{count( $sites )}})</b>
+            <i class="glyphicon glyphicon-globe"></i> <b>My sites ({{$sites->getTotal()}})</b>
         </div>
         <div class="col-md-1">
         </div>
