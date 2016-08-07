@@ -45,8 +45,10 @@
                     <div class="col-md-2">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                         <a href="http://{{$site->getHost()}}" target="_blank">
-                            http://{{$site->getHost()}}<br/> (<i>{{$site->getTotalScenes()}}</i> active scenes)
+                            <b>http://{{$site->getHost()}}</b>
                         </a>
+                        <br/>
+                        <small>({{$site->getTotalScenes()}} active scenes)</small>
 
                     </div>
                     <div class="col-md-10">
