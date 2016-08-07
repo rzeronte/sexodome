@@ -861,10 +861,8 @@ class ConfigController extends Controller
 
         $categories = Input::get('categories');
 
-        if (count($categories == 1) && !strlen($categories[0])) {
+        if (!count($categories)) {
             $categories = 'false';
-        } else {
-            $categories = implode(",", $categories);
         }
 
         $queueParams = [
