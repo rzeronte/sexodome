@@ -111,7 +111,7 @@ class BotFeedFetcher extends Command
             $test,
             $create_categories_from_tags
         );
-        
+
         // delete infojob
         if ($job !== "false") {
             rZeBotUtils::message('Finalizamos InfoJob: '. $job, "yellow");
