@@ -94,13 +94,13 @@
                             <option value="25">25</option>
                         </select>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <input type="text" name="categories" class="form-control" placeholder="categories comma separated">
                     </div>
 
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                         <select class="form-control" name="duration" style="width:100%">
-                            <option value="">-- any minutes --</option>
+                            <option value="">time</option>
                             <option value="60">1 min</option>
                             <option value="300">5 min</option>
                             <option value="600">10 min</option>
