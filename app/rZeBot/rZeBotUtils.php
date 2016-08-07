@@ -423,7 +423,7 @@ class rZeBotUtils
                 $newCategory->save();
 
                 $newCategory->scenes()->sync($ids_sync);
-                //rZeBotUtils::updateCategoryThumbnail($newCategory);
+                rZeBotUtils::updateCategoryThumbnail($newCategory);
 
                 rZeBotUtils::message($msgLog, "green");
             } else {

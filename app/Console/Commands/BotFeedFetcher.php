@@ -111,11 +111,7 @@ class BotFeedFetcher extends Command
             $test,
             $create_categories_from_tags
         );
-
-        Artisan::call('zbot:categories:thumbnails', [
-            'site_id' => $site_id
-        ]);
-
+        
         // delete infojob
         if ($job !== "false") {
             rZeBotUtils::message('Finalizamos InfoJob: '. $job, "yellow");
