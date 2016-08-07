@@ -5,7 +5,7 @@ $( document ).ready(function() {
     $( ".btn_site_menu_option" ).click(function() {
         $(this).toggleClass('btn-success');
         var divShow = $(this).attr('data-div-show');
-        $(this).parent().parent().parent().parent().parent().find('.' + divShow).toggle();
+        $(this).parent().parent().parent().parent().find('.' + divShow).toggle();
     });
 
     $( ".form-update-color-data" ).submit(function( event ) {
