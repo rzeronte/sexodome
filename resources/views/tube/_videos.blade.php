@@ -23,13 +23,13 @@
                 @endif
 
                 @if ($scene->channel->embed == 1)
-                    <a href="{{ route('video', ['profile' => $profile, 'permalink' => $scene->permalink]) }}" class="post_title">
+                    <a href="{{ route('video', ['profile' => $profile, 'permalink' => $scene->permalink]) }}">
                         <div class="tubethumbnail" style="background-image: url({{$srcThumbnail}});" onmouseout="$(this).find('.play-thumbnail').hide();outThumb(this)" onmouseover="$(this).find('.play-thumbnail').show();changeThumb(this)" data-thumbs="{{$scene->thumbs}}" data-current-frame="{{$index}}" data-status="stop">
                             <div class="play-thumbnail"></div>
                         </div>
                     </a>
                 @else
-                    <a href="{{ route('out', ['profile' => $profile, 'scene_id' => $scene->id, 'p' => $i]) }}" class="post_title" target="_blank">
+                    <a href="{{ route('out', ['profile' => $profile, 'scene_id' => $scene->id, 'p' => $i]) }}" target="_blank">
                         <div class="tubethumbnail" style="background-image: url({{$srcThumbnail}});" onmouseout="$(this).find('.play-thumbnail').hide();outThumb(this)" onmouseover="$(this).find('.play-thumbnail').show();changeThumb(this)" data-thumbs="{{$scene->thumbs}}" data-current-frame="{{$index}}" data-status="stop">
                             <div class="play-thumbnail"></div>
                         </div>
@@ -60,7 +60,7 @@
                             @foreach ($scene->categories()->limit(4)->get() as $category)
                                 <?php $translation = $category->translations()->where('language_id',$language->id)->first(); ?>
                                 <?php if ($translation): ?>
-                                    <a href="{{ route('category', array('profile' => $profile, 'permalink'=> str_slug($translation->name) )) }}">{{$translation->name}}</a>
+                                    <a href="{{ route('category', array('profile' => $profile, 'permalink'=> str_slug($translation->name) )) }}" class="link_category">{{$translation->name}}</a>
                                 <?php endif;?>
                             @endforeach
                                 <a href="#" class="channel_link">{{$scene->channel->name}}</a>

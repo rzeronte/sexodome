@@ -8,6 +8,11 @@
     {{--analytics--}}
     <?=$site->google_analytics?>
 
+    <script src="{{asset('js/jquery-2.1.4.min.js')}}"></script>
+
+    <!--Bootstrap JS-->
+    <script src="{{asset('js/bootstrap.min.js')}}"></script>
+
     <script type="text/javascript" src="{{asset('js/front.js')}}"></script>
     <!--Favicons-->
     <link rel="apple-touch-icon" sizes="57x57" href="{{asset('favicon/apple-icon-57x57.png')}}">
@@ -43,4 +48,3 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link href='https://fonts.googleapis.com/css?family=Permanent+Marker' rel='stylesheet' type='text/css'>
 
-    @include('tube._theme')
