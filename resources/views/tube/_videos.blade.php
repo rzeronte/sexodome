@@ -42,11 +42,11 @@
                         <div class="fleft">
                             @if ($scene->channel->embed == 1)
                                 <a href="{{ route('video', ['profile' => $profile, 'permalink' => $scene->permalink]) }}" class="post_title">
-                                    {{str_limit($scene->title, 65, $end = '...')}}
+                                    {{str_limit($scene->title, 50, $end = '...')}}
                                 </a>
                             @else
                                 <a href="{{ route('out', ['profile' => $profile, 'scene_id' => $scene->id, 'p' => $i]) }}" class="post_title" target="_blank">
-                                    {{str_limit($scene->title, 65, $end = '...')}}
+                                    {{str_limit($scene->title, 50, $end = '...')}}
                                 </a>
                             @endif
 
