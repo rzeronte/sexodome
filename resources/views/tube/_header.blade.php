@@ -2,7 +2,7 @@
     <div class="col-md-2 col-xs-12 col-sm-12 header_col_logo">
         <a href="{{route('categories', ['profile' => $profile])}}" title="{{$site->title}}">
             @if (file_exists(\App\rZeBot\rZeBotCommons::getLogosFolder()."/".md5($site->id).".png"))
-                <img src="{{asset('/logos/'.md5($site->id).".png")}}" style="max-height: 50px;"/>
+                <img src="{{asset('/logos/'.md5($site->id).".png")}}" style="height: 50px;"/>
             @else
                 @if ($site->have_domain == 1)
                     {{$site->domain}}
