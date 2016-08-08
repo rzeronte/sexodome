@@ -120,7 +120,7 @@ class TubeController extends Controller
             $categoryTranslation->category->id,
             $this->commons->language->id
         )
-        ->paginate($this->commons->perPageScenes);
+        ->paginate($this->commons->perPageCategories);
 
         // seo
         $seo_title = str_replace("{category}", $categoryTranslation->name, $this->commons->site->title_category);
