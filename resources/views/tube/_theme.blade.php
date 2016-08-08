@@ -157,6 +157,10 @@
         border: solid 1px {{$site->color2}} !important;
     }
 
+    .tube_cat:hover{
+        background-color: {{$site->color}} !important;
+    }
+
     .category_header{
         color: {{$site->color11}} !important;
     }

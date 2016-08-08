@@ -349,14 +349,18 @@ footer a:hover{
     min-height: 175px;
 }
 
+.tube_cat:hover{
+    background-color: green;
+    border-radius: 5px;
+}
+
 .tube_cat .img_link img{
     width: 100%;
     max-height: 150px;
 }
 .tube_cat .img_link{
     display: block;
-    border-radius: 3px;
-    border: solid 1px red;
+    border-radius: 5px;
 }
 
 .tube_cat .img_link:hover{
