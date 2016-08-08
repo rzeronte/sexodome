@@ -151,9 +151,6 @@
         border: solid 1px {{$site->color}} !important;
     }
 
-    .tube_cat .img_link:hover{
-        border: solid 4px {{$site->color}} !important;
-    }
     .category_header{
         color: {{$site->color}} !important;
     }
