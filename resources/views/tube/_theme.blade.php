@@ -164,4 +164,19 @@
     .scene_extra_info{
         color: {{$site->color6}} !important;
     }
+    ::-webkit-input-placeholder {
+        color: {{$site->color6}} !important;
+    }
+
+    :-moz-placeholder { /* Firefox 18- */
+        color: {{$site->color6}} !important;
+    }
+
+    ::-moz-placeholder {  /* Firefox 19+ */
+        color: {{$site->color6}} !important;
+    }
+
+    :-ms-input-placeholder {
+        color: {{$site->color6}} !important;
+    }
 </style>
