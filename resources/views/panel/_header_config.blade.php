@@ -1,7 +1,6 @@
 <div class="row">
 
     <div class="col-md-8">
-        <a href="{{route('home_website')}}"><img src="{{ asset('images/logo.png') }}" style="width:100px; margin-top:5px;margin-left:10px;"></a>
         <a href="{{route('sites',   ['locale'=>$language->code])}}" class="btn @if (\Request::route()->getName() == "sites") btn-success @else btn-primary @endif" style="margin-top:10px;"><i class="glyphicon glyphicon-globe"></i> Sites</a>
         <a href="{{route('content', ['locale'=>$language->code])}}" class="btn @if (\Request::route()->getName() == "content") btn-success @else btn-primary @endif" style="margin-top:10px;"><i class="glyphicon glyphicon-th"></i> Scenes</a>
         <a href="{{route('addSite', ['locale'=>$locale])}}" class="btn btn-warning" style="margin-top:10px;"><i class="glyphicon glyphicon-plus-sign"></i> Add site </a>
