@@ -18,7 +18,7 @@
         <div class="col-md-2">
             <label>General btns color:</label>
             <div id="theme_color_11{{$site->id}}" class="input-group colorpicker-component">
-                <input type="text" name="color1" value="{{$site->color11}}" class="form-control" />
+                <input type="text" name="color11" value="{{$site->color11}}" class="form-control" />
                 <span class="input-group-addon"><i></i></span>
             </div>
             <script>$(function() { $('#theme_color_11{{$site->id}}').colorpicker({ color: '{{$site->color11}}' });});</script>
@@ -27,7 +27,7 @@
         <div class="col-md-2">
             <label>Border scenes</label>
             <div id="theme_color_2{{$site->id}}" class="input-group colorpicker-component">
-                <input type="text" name="color1" value="{{$site->color2}}" class="form-control" />
+                <input type="text" name="color2" value="{{$site->color2}}" class="form-control" />
                 <span class="input-group-addon"><i></i></span>
             </div>
             <script>$(function() { $('#theme_color_2{{$site->id}}').colorpicker({ color: '{{$site->color2}}' });});</script>
