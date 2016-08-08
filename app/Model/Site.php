@@ -91,4 +91,9 @@ class Site extends Model
 
         return $scenes->count();
     }
+
+    public function getSitemap()
+    {
+        return $this->getHost() .".xml";
+    }
 }

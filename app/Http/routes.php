@@ -83,6 +83,7 @@ Route::group(['domain' => 'accounts.'.\App\rZeBot\rZeBotCommons::getMainPlatafor
 // TubeFronts domains
 Route::group(['domain' => '{host}'], function () {
     Route::match(['get'], '/', 'TubeController@categories')->name('categories');
+    Route::match(['get'], '/sitemap.xml', 'TubeController@sitemap')->name('sitemap');
 
     Route::get('/search', 'TubeController@search')->name('search');
     Route::get('/tag/{permalinkTag}', 'TubeController@tag')->name('tag');

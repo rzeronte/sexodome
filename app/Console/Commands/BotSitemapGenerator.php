@@ -34,8 +34,7 @@ class BotSitemapGenerator extends Command
      */
     public function handle()
     {
-        $sitemap = App::make("sitemap");
-
+        $sitemap = new Sitemap(["use_styles" => false]);
 
         $site_id = $this->argument('site_id');
 
@@ -48,7 +47,7 @@ class BotSitemapGenerator extends Command
 
         $language_id = $site->language_id;
 
-        rZeBotUtils::message("Generating sitemap for " . $site->getHost() .".xml", "green");
+        rZeBotUtils::message("Generating sitemap for " . $site->getSitemap(), "green");
 
         // Scenes only for embed feeds
         $scenes = Scene::join('channels', 'channels.id', '=', 'scenes.channel_id')

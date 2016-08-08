@@ -12,9 +12,9 @@ use URL;
 use Auth;
 use App\rZeBot\rZeBotCommons;
 use App\Model\Scene;
-use App\Model\SceneClick;
 use App\Model\CategoryTranslation;
 use App\Model\Category;
+use Storage;
 
 class TubeController extends Controller
 {
@@ -120,7 +120,7 @@ class TubeController extends Controller
             $categoryTranslation->category->id,
             $this->commons->language->id
         )
-        ->paginate($this->commons->perPageCategories);
+        ->paginate(1);
 
         // seo
         $seo_title = str_replace("{category}", $categoryTranslation->name, $this->commons->site->title_category);
@@ -325,5 +325,12 @@ class TubeController extends Controller
 
         // el campo 'iframe' es la url, cuando el video pertenece a un feed no embed
         return redirect($scene->iframe);
+    }
+
+    public function sitemap() {
+        $sitemapFile = $this->commons->site->getSitemap();
+        $file = Storage::disk('web')->get($sitemapFile);
+
+        return response($file, "200")->header('Content-Type', "application/xml");
     }
 }
