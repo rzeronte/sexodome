@@ -813,12 +813,8 @@ class ConfigController extends Controller
         $site->color11 = (Request::input('color11') != "") ? Request::input('color11') : null;
         $site->color12 = (Request::input('color12') != "") ? Request::input('color12') : null;
 
-        try {
-            $site->save();
-            $status = true;
-        } catch (\Exception $e) {
-            $status = false;
-        }
+        $site->save();
+        $status = true;
 
         return json_encode(array('status' => $status));
     }
