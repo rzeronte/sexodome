@@ -328,8 +328,13 @@ class TubeController extends Controller
     }
 
     public function sitemap() {
-        $sitemapFile = $this->commons->site->getSitemap();
-        $file = Storage::disk('web')->get($sitemapFile);
+        if ($this->commons->site) {
+            $sitemapFile = $this->commons->site->getSitemap();
+            $file = Storage::disk('web')->get($sitemapFile);
+        } else {
+            $file = Storage::disk('web')->get('sexodome-sitemap.xml');
+        }
+
 
         return response($file, "200")->header('Content-Type', "application/xml");
     }
