@@ -25,13 +25,13 @@
                 @if ($scene->channel->embed == 1)
                     <a href="{{ route('video', ['profile' => $profile, 'permalink' => $scene->permalink]) }}">
                         <div class="tubethumbnail" style="background-image: url({{$srcThumbnail}});" onmouseout="$(this).find('.play-thumbnail').hide();outThumb(this)" onmouseover="$(this).find('.play-thumbnail').show();changeThumb(this)" data-thumbs="{{$scene->thumbs}}" data-current-frame="{{$index}}" data-status="stop">
-                            <div class="play-thumbnail"></div>
+                            <div class="play-thumbnail"><i class="glyphicon glyphicon-play"></i></div>
                         </div>
                     </a>
                 @else
                     <a href="{{ route('out', ['profile' => $profile, 'scene_id' => $scene->id, 'p' => $i]) }}" target="_blank">
                         <div class="tubethumbnail" style="background-image: url({{$srcThumbnail}});" onmouseout="$(this).find('.play-thumbnail').hide();outThumb(this)" onmouseover="$(this).find('.play-thumbnail').show();changeThumb(this)" data-thumbs="{{$scene->thumbs}}" data-current-frame="{{$index}}" data-status="stop">
-                            <div class="play-thumbnail"></div>
+                            <div class="play-thumbnail"><i class="glyphicon glyphicon-play"></i></div>
                         </div>
                     </a>
                 @endif

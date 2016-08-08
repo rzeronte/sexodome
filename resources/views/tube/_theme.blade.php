@@ -183,4 +183,8 @@
     :-ms-input-placeholder {
         color: {{$site->color6}} !important;
     }
+
+    .play-thumbnail{
+        color: {{$site->color}} !important;
+    }
 </style>

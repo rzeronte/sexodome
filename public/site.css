@@ -153,14 +153,11 @@ h2 {
 
 .play-thumbnail {
     display: none;
+    font-size: 50px;
+    text-align: center;
     width: 100%;
-    min-height: 150px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-image: url('images/play-btn.png') !important;
-    background-position: center;
-    background-repeat: no-repeat;
+    height: 100%;
+    margin-top: 38px;
 }
 
 .tubethumbnail .post_title{
