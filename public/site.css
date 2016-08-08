@@ -126,8 +126,8 @@ h2 {
     color: white;
 }
 
-.videos .post_container_title .date_published{
-    font-size: 10px;
+.scene_extra_info{
+    font-size: 12px;
 }
 
 .videos .post_container_extras a{
@@ -186,17 +186,11 @@ h2 {
     margin: 0;
     padding: 0;
     width: 100%;
-    min-height: 120px;
+    min-height: 85px;
     color: #00ff4e;
     padding-left: 4px;
     padding-right: 4px;
     border-radius: 8px;
-}
-
-.eyethumbnail {
-    float:right;
-    margin-left:3px;
-    font-size: 12px;
 }
 
 .videos .fleft a{

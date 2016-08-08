@@ -52,18 +52,19 @@
 
                             <div class="clearfix"></div>
 
-                            <div>
-                                <small class="date_published">{{$scene->updated_at->diffForHumans()}}</small>
-                                <small style="margin-left: 10px;">{{gmdate("i:s", $scene->duration)}}</small>
-                                <small class="eyethumbnail"><i class="glyphicon glyphicon-eye-open"></i> {{$scene->clicks()->count()+0}}</small>
+                            <div class="scene_extra_info">
+                                <small>{{gmdate("i:s", $scene->duration)}}</small>
+                                <small>{{$scene->updated_at->diffForHumans()}}</small>
+                                <small><i class="glyphicon glyphicon-eye-open"></i> {{$scene->clicks()->count()+0}}</small>
                             </div>
                             @foreach ($scene->categories()->limit(4)->get() as $category)
                                 <?php $translation = $category->translations()->where('language_id',$language->id)->first(); ?>
                                 <?php if ($translation): ?>
                                     <a href="{{ route('category', array('profile' => $profile, 'permalink'=> str_slug($translation->name) )) }}">{{$translation->name}}</a>
                                 <?php endif;?>
-                            @endforeach<br/>
-                            <a href="#" class="channel_link">{{$scene->channel->name}}</a>
+                            @endforeach
+                                <a href="#" class="channel_link">{{$scene->channel->name}}</a>
+
                         </div>
                     </div>
                 </div>
