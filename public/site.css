@@ -121,9 +121,6 @@ h2 {
     margin-top:4px;
 }
 
-.tubethumbnail:hover{
-    border: solid 4px red;
-}
 
 .videos a.post_title:hover {
     color: white;
@@ -143,11 +140,28 @@ h2 {
     text-decoration: underline;
 }
 
-.tubethumbnail{
+
+.tubethumbnail {
     background-size:cover;
     min-height: 150px;
     border: solid 1px black;
     border-radius: 8px;
+}
+
+.tubethumbnail:hover{
+    border: solid 4px red;
+}
+
+.play-thumbnail {
+    display: none;
+    width: 100%;
+    min-height: 150px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-image: url('images/play-btn.png') !important;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .tubethumbnail .post_title{

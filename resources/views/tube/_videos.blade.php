@@ -24,11 +24,15 @@
 
                 @if ($scene->channel->embed == 1)
                     <a href="{{ route('video', ['profile' => $profile, 'permalink' => $scene->permalink]) }}" class="post_title">
-                        <div class="tubethumbnail" style="background-image: url({{$srcThumbnail}});" onmouseout="outThumb(this)" onmouseover="changeThumb(this)" data-thumbs="{{$scene->thumbs}}" data-current-frame="{{$index}}" data-status="stop"></div>
+                        <div class="tubethumbnail" style="background-image: url({{$srcThumbnail}});" onmouseout="$(this).find('.play-thumbnail').hide();outThumb(this)" onmouseover="$(this).find('.play-thumbnail').show();changeThumb(this)" data-thumbs="{{$scene->thumbs}}" data-current-frame="{{$index}}" data-status="stop">
+                            <div class="play-thumbnail"></div>
+                        </div>
                     </a>
                 @else
                     <a href="{{ route('out', ['profile' => $profile, 'scene_id' => $scene->id, 'p' => $i]) }}" class="post_title" target="_blank">
-                        <div class="tubethumbnail" style="background-image: url({{$srcThumbnail}});" onmouseout="outThumb(this)" onmouseover="changeThumb(this)" data-thumbs="{{$scene->thumbs}}" data-current-frame="{{$index}}" data-status="stop"></div>
+                        <div class="tubethumbnail" style="background-image: url({{$srcThumbnail}});" onmouseout="$(this).find('.play-thumbnail').hide();outThumb(this)" onmouseover="$(this).find('.play-thumbnail').show();changeThumb(this)" data-thumbs="{{$scene->thumbs}}" data-current-frame="{{$index}}" data-status="stop">
+                            <div class="play-thumbnail"></div>
+                        </div>
                     </a>
                 @endif
 
