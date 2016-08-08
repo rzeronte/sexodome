@@ -150,7 +150,7 @@
 
     /*Categorias*/
     .tube_cat .text_link a {
-        color: {{$site->color}} !important;
+        color: {{$site->color11}} !important;
     }
 
     .tube_cat .img_link{
