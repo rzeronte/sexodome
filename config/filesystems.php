@@ -49,7 +49,7 @@ return [
         ],
 
         'web' => [
-            'driver' => 'local', 
+            'driver' => 'local',
             'root'   => public_path(),
         ],
 

@@ -37,7 +37,6 @@ class BotSitemapGenerator extends Command
         $sitemap = new Sitemap(["use_styles" => false]);
 
         $site_id = $this->argument('site_id');
-
         $site = Site::find($site_id);
 
         if (!$site) {
