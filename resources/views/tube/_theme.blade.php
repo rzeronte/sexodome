@@ -23,6 +23,12 @@
         border: solid 1px {{$site->color2}} !important;
     }
 
+    .header .pornstar_btn{
+        background-color: {{$site->color}} !important;
+        color: white !important;
+        border: solid 1px {{$site->color2}} !important;
+    }
+
     #query_string{
         color: {{$site->color2}} !important;
     }

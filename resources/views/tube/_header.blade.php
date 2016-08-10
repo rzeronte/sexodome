@@ -29,7 +29,7 @@
     </div>
 
     <div class="col-md-1 col-xs-1 col-sm-1 header_col_billboard">
-        <a href="{{route('pornstars', ["profile" => $profile])}}" class="btn btn-default">Pornstars</a>
+        <a href="{{route('pornstars', ["profile" => $profile])}}" class="btn btn-default pornstar_btn">Pornstars</a>
     </div>
 
 </div>
