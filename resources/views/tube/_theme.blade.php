@@ -13,13 +13,13 @@
 
     .header .header_query_string button {
         background-color: {{$site->color}} !important;
-        color: white !important;
+        color: {{$site->color}} !important;
         border: solid 1px {{$site->color2}} !important;
     }
 
     .header .header_query_string input{
         background-color: {{$site->color}} !important;
-        color: white !important;
+        color: {{$site->color}} !important;
         border: solid 1px {{$site->color2}} !important;
     }
 
