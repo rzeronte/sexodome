@@ -297,6 +297,25 @@ class ConfigController extends Controller
         }
     }
 
+    public function ajaxSitePornstars($locale, $site_id)
+    {
+        $site = Site::find($site_id);
+
+        if (!$site) {
+            abort(404, "Site not found");
+        }
+
+        $pornstars = \App\Model\Pornstar::where('site_id', '=', $site_id)->paginate($this->commons->perPagePanelPornstars);
+
+        return view('panel._ajax_site_pornstars', [
+            'site'      => $site,
+            'pornstars' => $pornstars,
+            'language'  => $this->commons->language,
+            'languages' => $this->commons->languages,
+            'locale'    => $this->commons->locale
+        ]);
+    }
+
     public function ajaxTags($locale)
     {
         $term = Request::get('term');

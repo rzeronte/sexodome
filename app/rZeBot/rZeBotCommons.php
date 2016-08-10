@@ -36,6 +36,8 @@ class rZeBotCommons extends Controller {
     public $routeParameters;
     public $cloudFlareCfg;
     public $perPageCategories;
+    public $redirectWWWToNoWWW301 = false;
+    public $perPagePanelPornstars;
 
     public function __construct()
     {
@@ -48,7 +50,12 @@ class rZeBotCommons extends Controller {
 
         // go to admin panel if no site
         $this->site = rZeBotUtils::getSiteFromHost();
-	
+
+        $needRedirect301 = rZeBotUtils::checkRedirection301($this->site);
+//        if ($needRedirect301 !== false) {
+//            $this->redirectWWWToNoWWW301 = $needRedirect301;
+//        }
+
         // Si estámos en un site, usamos configuramos locale del site
         if ($this->site) {
             $this->language = Language::where('id', '=', $this->site->language_id)->first();
@@ -62,7 +69,7 @@ class rZeBotCommons extends Controller {
         $this->perPageTags = 30;
         $this->perPageCategories = 96;
         $this->perPageJobs = 15;
-
+        $this->perPagePanelPornstars = 10;
         // set locale
         Request::setLocale($locale);
         $this->locale = $locale;

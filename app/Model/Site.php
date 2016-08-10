@@ -36,6 +36,11 @@ class Site extends Model
         return $this->belongsToMany('App\Model\Category', 'site_category', 'site_id', 'category_id');
     }
 
+    public function pornstars()
+    {
+        return $this->hasMany('App\Model\Pornstar');
+    }
+
     public function infojobs()
     {
         return $this->hasMany('App\Model\InfoJobs');

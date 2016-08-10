@@ -13,7 +13,7 @@
         </a>
     </div>
 
-    <div class="col-md-6 col-xs-12 col-sm-12 header_col_billboard">
+    <div class="col-md-5 col-xs-12 col-sm-12 header_col_billboard">
         <h1 class="text-center"><?php if (isset($tagTranslation)):?>{{$tagTranslation->name}} | <?php endif?>{{$site->head_billboard}}</h1>
     </div>
 
@@ -27,4 +27,9 @@
             </div>
         </form>
     </div>
+
+    <div class="col-md-1 col-xs-1 col-sm-1 header_col_billboard">
+        <a href="{{route('pornstars', ["profile" => $profile])}}" class="btn btn-default">Pornstars</a>
+    </div>
+
 </div>

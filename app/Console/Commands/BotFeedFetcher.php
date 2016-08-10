@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Model\Channel;
 use App\Model\LanguageTag;
+use App\Model\ScenePornstar;
 use Illuminate\Console\Command;
 use App\rZeBot\rZeBotUtils;
 use App\Model\Host;
@@ -19,6 +20,7 @@ use App\Model\CategoryTranslation;
 use App\Model\SceneTag;
 use App\Model\SceneCategory;
 use App\rZeBot\rZeBotCommons;
+use App\Model\Pornstar;
 use Artisan;
 
 class BotFeedFetcher extends Command
@@ -200,14 +202,15 @@ class BotFeedFetcher extends Command
 
                 // mount $video data array
                 $video = array(
-                    "iframe"   => $datos[$mapped_colums['iframe']],
-                    "title"    => $datos[$mapped_colums['title']],
-                    "tags"     => explode($feed_config["tags_separator"], $datos[$mapped_colums['tags']]),
-                    "duration" => $feed_config["parse_duration"]($datos[$mapped_colums['duration']]),
-                    "likes"    => $likes,
-                    "unlikes"  => $unlikes,
-                    "views"    => ($mapped_colums['views'] !== false) ? $datos[$mapped_colums['views']] : 0,
-                    "rate"     => $videorate
+                    "iframe"    => $datos[$mapped_colums['iframe']],
+                    "title"     => $datos[$mapped_colums['title']],
+                    "tags"      => explode($feed_config["tags_separator"], $datos[$mapped_colums['tags']]),
+                    "pornstars" => explode($feed_config["pornstars_separator"], $datos[$mapped_colums['pornstars']]),
+                    "duration"  => $feed_config["parse_duration"]($datos[$mapped_colums['duration']]),
+                    "likes"     => $likes,
+                    "unlikes"   => $unlikes,
+                    "views"     => ($mapped_colums['views'] !== false) ? $datos[$mapped_colums['views']] : 0,
+                    "rate"      => $videorate
                 );
 
                 // ************************************************************ parse field individually
@@ -350,6 +353,8 @@ class BotFeedFetcher extends Command
                         // Create tags from CSV
                         $this->processTags($video, $site_id, $scene, $languages);
 
+                        $this->processPornstars($video, $site_id, $scene);
+
                         // Create categories from CSV
                         //$this->processCategories($video, $site_id, $scene, $languages);
 
@@ -415,6 +420,44 @@ class BotFeedFetcher extends Command
         }
 
         return $scene;
+    }
+
+    public function processPornstars($video, $site_id, $scene)
+    {
+        foreach ($video["pornstars"] as $pornstarTxt) {
+            if (strlen($pornstarTxt) > 0) {
+                $pornstar = Pornstar::where('site_id', $site_id)->where('name', $pornstarTxt)->first();
+
+                if (!$pornstar) {
+
+                    $pornstar = new Pornstar();
+                    $pornstar->site_id = $site_id;
+                    $pornstar->name = ucwords($pornstarTxt);
+                    $sceneRND = $pornstar->scenes()->select('preview')->orderByRaw("RAND()")->first();
+                    if ($sceneRND) {
+                        $pornstar->thumbnail = $sceneRND->preview;
+                    }
+                    $pornstar->save();
+                }
+
+                $scenePornstar = new ScenePornstar();
+                $scenePornstar->scene_id = $scene->id;
+                $scenePornstar->pornstar_id = $pornstar->id;
+                $scenePornstar->save();
+
+                // Si no hemos podido ponerle thumbnails, reintentamos por si era el primero
+                if (!$sceneRND) {
+                    $sceneRND = $pornstar->scenes()->select('preview')->orderByRaw("RAND()")->first();
+                    if (!$sceneRND) {
+                        rZeBotUtils::message("[ERROR] Pornstar thumbnail not found", "red");
+                    } else {
+                        $sceneRND = $pornstar->scenes()->select('preview')->orderByRaw("RAND()")->first();
+                        $pornstar->thumbnail = $sceneRND->preview;
+                        $pornstar->save();
+                    }
+                }
+            }
+        }
     }
 
     public function processTags($video, $site_id, $scene, $languages)
@@ -519,6 +562,4 @@ class BotFeedFetcher extends Command
             $sceneCategory->save();
         }
     }
-
-
 }

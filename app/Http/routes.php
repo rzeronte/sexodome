@@ -60,6 +60,8 @@ Route::group(['domain' => 'accounts.'.\App\rZeBot\rZeBotCommons::getMainPlatafor
 
     Route::match(['get', 'post'], '{locale}/saveTranslation/{scene_id}', 'ConfigController@saveTranslation')->name('saveTranslation');
 
+    Route::match(['get', 'post'], '{locale}/pornstars/{site_id}', 'ConfigController@ajaxSitePornstars')->name('ajaxSitePornstars');
+
     Route::match(['get', 'post'], '{locale}/admin/saveTagTranslation/{tag_id}', 'ConfigController@saveTagTranslation')->name('saveTagTranslation');
     Route::match(['get', 'post'], '{locale}/admin/saveCategoryTranslation/{scene_id}', 'ConfigController@saveCategoryTranslation')->name('saveCategoryTranslation');
     Route::match(['get', 'post'], '{locale}/admin/translateTag/{tag_id}', 'ConfigController@translateTag')->name('translateTag');
@@ -83,10 +85,12 @@ Route::group(['domain' => 'accounts.'.\App\rZeBot\rZeBotCommons::getMainPlatafor
 // TubeFronts domains
 Route::group(['domain' => '{host}'], function () {
     Route::match(['get'], '/', 'TubeController@categories')->name('categories');
+    Route::match(['get'], '/pornstars', 'TubeController@pornstars')->name('pornstars');
 
     Route::get('/search', 'TubeController@search')->name('search');
     Route::get('/tag/{permalinkTag}', 'TubeController@tag')->name('tag');
     Route::get('/category/{permalinkCategory}', 'TubeController@category')->name('category');
+    Route::get('/pornstar/{permalinkPornstar}', 'TubeController@pornstar')->name('pornstar');
     Route::match(['get'], '/video/{permalink}', 'TubeController@video')->name('video');
     Route::match(['get'], '/out/{scene_id_id}', 'TubeController@out')->name('out');
     Route::match(['get'], '/iframe/{scene_id}', 'TubeController@iframe')->name('iframe');

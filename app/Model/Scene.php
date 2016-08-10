@@ -19,6 +19,11 @@ class Scene extends Model
         return $this->belongsToMany('App\Model\Tag', 'scene_tag', 'scene_id', 'tag_id');
     }
 
+    public function pornstars()
+    {
+        return $this->belongsToMany('App\Model\Pornstar', 'scene_pornstar', 'scene_id', 'pornstar_id');
+    }
+
     public function categories()
     {
         return $this->belongsToMany('App\Model\Category', 'scene_category', 'scene_id', 'category_id');
@@ -239,6 +244,26 @@ class Scene extends Model
             ->where('scene_translations.language_id', $language_id)
             ->whereNotNull('scene_translations.permalink')
             ->whereNotNull('scene_translations.title')
+            ->orderBy('scenes.id', 'desc')
+            ;
+    }
+
+    static function getTranslationsForPornstar($pornstar_id, $language_id)
+    {
+        return Scene::select(
+            'scenes.*',
+            'scene_translations.title',
+            'scene_translations.description',
+            'scene_translations.permalink'
+        )
+            ->join('scene_translations', 'scenes.id', '=', 'scene_translations.scene_id')
+            ->join('scene_pornstar', 'scenes.id', '=', 'scene_pornstar.scene_id')
+            ->join('pornstars', 'scene_pornstar.pornstar_id', '=', 'pornstars.id')
+            ->where('pornstars.id', $pornstar_id)
+            ->where('scene_translations.language_id', $language_id)
+            ->whereNotNull('scene_translations.permalink')
+            ->whereNotNull('scene_translations.title')
+            ->where('status', 1)
             ->orderBy('scenes.id', 'desc')
             ;
     }

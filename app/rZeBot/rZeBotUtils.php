@@ -305,6 +305,9 @@ class rZeBotUtils
                 rZeBotUtils::message("[DOWNLOADING FILE] $fileCSV", "green", true, false);
                 $cmd = "wget -c '" . $feed->url . "' --output-document=". $fileCSV;
                 exec($cmd);
+            } else {
+                rZeBotUtils::message("[ALREADY EXISTSh] $fileCSV", "yellow", true, false);
+
             }
         } else {
             $tgz = $gz = $zip = false;
@@ -484,5 +487,21 @@ class rZeBotUtils
         } else {
             rZeBotUtils::message("[WARNING THUMBNAIL (site_id: $category->site_id)] $category->text($category->id), tiene " . $category->scenes()->count() . " escenas", "red", false, false);
         }
+    }
+
+    public static function checkRedirection301($site)
+    {
+        $urlData = parse_url($_SERVER["HTTP_HOST"]);
+        $path = $urlData["path"];
+        $parts = explode(".", $path);
+
+        if ($site != false) {
+            // dominio externo formato www.dominio.com
+            if (count($parts) == 3 && $parts[0] == 'www') {
+                return "http://".$site->getHost();
+            }
+        }
+
+        return false;
     }
 }

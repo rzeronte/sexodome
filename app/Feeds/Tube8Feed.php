@@ -42,6 +42,7 @@ class Tube8Feed
             "thumbs_separator"     => ";",
             "tags_separator"       => ";",
             "categories_separator" => ";",
+            "pornstars_separator"  => ";",
             "skip_first_list"      => true,
             "parse_duration"       => function($string) {
                 return $string;

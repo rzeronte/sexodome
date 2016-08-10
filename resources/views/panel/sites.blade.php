@@ -77,6 +77,8 @@
                 @include('panel.site._site_import_scenes')
 
                 @include('panel.site._site_cronjobs')
+
+                @include('panel.site._site_pornstars')
             </div>
         @endforeach
 

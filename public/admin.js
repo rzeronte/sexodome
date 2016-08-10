@@ -161,6 +161,25 @@ $( document ).ready(function() {
         event.preventDefault();
     });
 
+    // Pornstars paginator
+    eventPaginatorPornstars = function () {
+        $( ".site_pornstars_paginator .pagination" ).on('click', 'a', function(event) {
+            var url = $(this).attr("href");
+
+            $.ajax({
+                url: url,
+                method: 'get'
+            }).done(function( data ) {
+                $(".pornstars_ajax_container").html(data);
+                eventPaginatorPornstars();
+            });
+
+            event.preventDefault();
+        });
+
+    }
+    eventPaginatorPornstars();
+
     // Workers paginator
     eventPaginatorWorkers = function () {
         $( ".site_workers_paginator .pagination" ).on('click', 'a', function(event) {

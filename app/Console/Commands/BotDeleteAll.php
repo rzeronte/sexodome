@@ -28,6 +28,10 @@ class BotDeleteAll extends Command
 
             DB::table('categories')->delete();
             rZeBotUtils::message("Deleting categories... ", "yellow");
+
+            DB::table('pornstars')->delete();
+            rZeBotUtils::message("Deleting pornstars... ", "yellow");
+
         }
 
     }
