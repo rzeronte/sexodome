@@ -29,6 +29,7 @@ class Tube8Feed
             "views"      => false,
             "likes"      => false,
             "unlikes"    => false,
+            "pornstars"  => false,
         );
 
         return $mapped_columns;

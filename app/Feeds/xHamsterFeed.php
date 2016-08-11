@@ -27,7 +27,8 @@ class xHamsterFeed
             "views"      => false,
             "likes"      => false,
             "unlikes"    => false,
-            "totalCols"  => false
+            "totalCols"  => false,
+            "pornstars" => false,
         );
 
         return $mapped_columns;
