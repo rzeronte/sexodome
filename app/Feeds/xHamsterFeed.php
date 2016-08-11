@@ -42,6 +42,7 @@ class xHamsterFeed
             "tags_separator"       => ";",
             "categories_separator" => ";",
             "pornstars_separator"  => ";",
+            "pornstars_separator"  => ";",
             "skip_first_list"      => true,
             "parse_duration"       => function($string) {
                 //00m00s format
