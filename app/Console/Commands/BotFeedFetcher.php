@@ -428,6 +428,10 @@ class BotFeedFetcher extends Command
 
     public function processPornstars($video, $site_id, $scene)
     {
+        if ($video["pornstars"] == null) {
+            return false;
+        }
+        
         foreach ($video["pornstars"] as $pornstarTxt) {
             if (strlen($pornstarTxt) > 0) {
                 $pornstar = Pornstar::where('site_id', $site_id)->where('name', $pornstarTxt)->first();
