@@ -42,16 +42,14 @@
 
             <div class="col-md-12" style="background-color:<?=$bgColor?>;padding:10px;">
                 <div class="row">
-                    <div class="col-md-2">
+                    <div class="col-md-12">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                         <a href="http://{{$site->getHost()}}" target="_blank">
                             <b>http://{{$site->getHost()}}</b>
                         </a>
-                        <br/>
                         <small>({{$site->getTotalScenes()}} active scenes)</small>
-
                     </div>
-                    <div class="col-md-10">
+                    <div class="col-md-12">
                         @include('panel.site._site_menu')
                     </div>
                 </div>
