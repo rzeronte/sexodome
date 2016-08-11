@@ -47,7 +47,6 @@ class YouPornFeed
             "categories_separator" => ",",
             "pornstars_separator"  => ";",
             "skip_first_list"      => true,
-            "pornstars_separator"  => ";",
             "parse_duration"       => function($string) {
                 return $string;
             }

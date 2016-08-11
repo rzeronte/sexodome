@@ -221,7 +221,7 @@ class BotFeedFetcher extends Command
 
                 // pornstars
                 if ($mapped_colums['pornstars'] !== false) {
-                    $video["pornstars"] = explode($feed_config["pornstar_separator"], $datos[$mapped_colums['pornstars']]);
+                    $video["pornstars"] = explode($feed_config["pornstars_separator"], $datos[$mapped_colums['pornstars']]);
                 } else {
                     $video["pornstars"] = null;
                 }
@@ -431,7 +431,7 @@ class BotFeedFetcher extends Command
         if ($video["pornstars"] == null) {
             return false;
         }
-        
+
         foreach ($video["pornstars"] as $pornstarTxt) {
             if (strlen($pornstarTxt) > 0) {
                 $pornstar = Pornstar::where('site_id', $site_id)->where('name', $pornstarTxt)->first();
