@@ -96,7 +96,6 @@ class BotFeedFetcher extends Command
         if ($job !== "false") {
             rZeBotUtils::message('Job: '. $job, "green");
         }
-
         $this->parseCSV(
             $site_id,
             $feed,
@@ -199,13 +198,11 @@ class BotFeedFetcher extends Command
                 if ($likes+$unlikes != 0) {
                     $videorate = ($likes*100)/($likes+$unlikes);
                 }
-
                 // mount $video data array
                 $video = array(
                     "iframe"    => $datos[$mapped_colums['iframe']],
                     "title"     => $datos[$mapped_colums['title']],
                     "tags"      => explode($feed_config["tags_separator"], $datos[$mapped_colums['tags']]),
-                    "pornstars" => explode($feed_config["pornstars_separator"], $datos[$mapped_colums['pornstars']]),
                     "duration"  => $feed_config["parse_duration"]($datos[$mapped_colums['duration']]),
                     "likes"     => $likes,
                     "unlikes"   => $unlikes,
@@ -220,6 +217,13 @@ class BotFeedFetcher extends Command
                     $video["categories"] = explode($feed_config["categories_separator"], $datos[$mapped_colums['categories']]);
                 } else {
                     $video["categories"] = null;
+                }
+
+                // pornstars
+                if ($mapped_colums['pornstars'] !== false) {
+                    $video["pornstars"] = explode($feed_config["pornstar_separator"], $datos[$mapped_colums['pornstars']]);
+                } else {
+                    $video["pornstars"] = null;
                 }
 
                 // thumbs

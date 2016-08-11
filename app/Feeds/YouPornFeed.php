@@ -6,36 +6,32 @@ use App\Model\Video;
 
 class YouPornFeed
 {
-    //    [0] => EMBEDIFRAMECODE
-    //    [1] => THUMB
-    //    [2] => TITLE
-    //    [3] => TAG
-    //    [4] => CATEGORY
-    //    [5] => PORNSTAR
-    //    [6] => DURATION
-
-    //0 "<iframe src='http://www.youporn.com/embed/910/real-rubber-doll/' frameborder='0' height='481' width='608' scrolling='no' name='yp_embed_video'><a href='http://www.youporn.com/watch/910/real-rubber-doll/'>Real rubber doll</a> powered by <a href='http://www.youporn.com'>YouPorn</a>.</iframe><br /><a href='http://www.youporn.com/watch/910/real-rubber-doll/'>Real rubber doll</a> powered by <a href='http://www.youporn.com'>YouPorn</a>."
-    //1 http://cdn4.image.youporn.phncdn.com/200609/25/910/original/1.jpg?m=eSuQKe,http://cdn5.image.youporn.phncdn.com/200609/25/910/original/2.jpg?m=eSuQKe,http://cdn4.image.youporn.phncdn.com/200609/25/910/original/3.jpg?m=eSuQKe,http://cdn4.image.youporn.phncdn.com/200609/25/910/original/4.jpg?m=eSuQKe,http://cdn4.image.youporn.phncdn.com/200609/25/910/original/5.jpg?m=eSuQKe,http://cdn4.image.youporn.phncdn.com/200609/25/910/original/6.jpg?m=eSuQKe,http://cdn4.image.youporn.phncdn.com/200609/25/910/original/7.jpg?m=eSuQKe,http://cdn4.image.youporn.phncdn.com/200609/25/910/original/8.jpg?m=eSuQKe,http://cdn4.image.youporn.phncdn.com/200609/25/910/original/9.jpg?m=eSuQKe,http://cdn5.image.youporn.phncdn.com/200609/25/910/original/10.jpg?m=eSuQKe,http://cdn4.image.youporn.phncdn.com/200609/25/910/original/11.jpg?m=eSuQKe,http://cdn4.image.youporn.phncdn.com/200609/25/910/original/12.jpg?m=eSuQKe,http://cdn5.image.youporn.phncdn.com/200609/25/910/original/13.jpg?m=eSuQKe,http://cdn4.image.youporn.phncdn.com/200609/25/910/original/14.jpg?m=eSuQKe,http://cdn5.image.youporn.phncdn.com/200609/25/910/original/15.jpg?m=eSuQKe,http://cdn4.image.youporn.phncdn.com/200609/25/910/original/16.jpg?m=eSuQKe|
-    //2 "Real rubber doll"|
-    //3 |
-    //4 Fetish,Fantasy,Dildos/Toys|
-    //5 |
-    //6 05m15s
-
+    //0 "<iframe src='http://www.youporn.com/embed/12707645/throating-my-wife-with-this-tattooed-cock/' frameborder='0' height='481' width='608' scrolling='no' name='yp_embed_video'><a href='http://www.youporn.com/embed/12707645/throating-my-wife-with-this-tattooed-cock/'>throating my wife with this tattooed cock</a> powered by <a href='http://www.youporn.com'>YouPorn</a>.</iframe>"|
+    //1 http://www.youporn.com/watch/12707645/throating-my-wife-with-this-tattooed-cock/|
+    //2 |
+    //3 100|
+    //4 emandj420|
+    //5 "throating my wife with this tattooed cock"|
+    //6 big-cock;big-tattooed-cock-bj;butt;cock-throating;point-of-view|
+    //7 419|
+    //8 |
+    //9 http://cdnph1.image.youporn.phncdn.com/m=eGcEKe/videos/201604/24/74789541/original/8.jpg|
+    //10 http://cdnph1.image.youporn.phncdn.com/m=eGcEKe/videos/201604/24/74789541/original/1.jpg;http://cdnph1.image.youporn.phncdn.com/m=eGcEKe/videos/201604/24/74789541/original/2.jpg;http://cdnph1.image.youporn.phncdn.com/m=eGcEKe/videos/201604/24/74789541/original/3.jpg;http://cdnph1.image.youporn.phncdn.com/m=eGcEKe/videos/201604/24/74789541/original/4.jpg;http://cdnph1.image.youporn.phncdn.com/m=eGcEKe/videos/201604/24/74789541/original/5.jpg;http://cdnph1.image.youporn.phncdn.com/m=eGcEKe/videos/201604/24/74789541/original/6.jpg;http://cdnph1.image.youporn.phncdn.com/m=eGcEKe/videos/201604/24/74789541/original/7.jpg;http://cdnph1.image.youporn.phncdn.com/m=eGcEKe/videos/201604/24/74789541/original/8.jpg;http://cdnph1.image.youporn.phncdn.com/m=eGcEKe/videos/201604/24/74789541/original/9.jpg;http://cdnph1.image.youporn.phncdn.com/m=eGcEKe/videos/201604/24/74789541/original/10.jpg;http://cdnph1.image.youporn.phncdn.com/m=eGcEKe/videos/201604/24/74789541/original/11.jpg;http://cdnph1.image.youporn.phncdn.com/m=eGcEKe/videos/201604/24/74789541/original/12.jpg;http://cdnph1.image.youporn.phncdn.com/m=eGcEKe/videos/201604/24/74789541/original/13.jpg;http://cdnph1.image.youporn.phncdn.com/m=eGcEKe/videos/201604/24/74789541/original/14.jpg;http://cdnph1.image.youporn.phncdn.com/m=eGcEKe/videos/201604/24/74789541/original/15.jpg;http://cdnph1.image.youporn.phncdn.com/m=eGcEKe/videos/201604/24/74789541/original/16.jpg
 
     function mappingColumns()
     {
         $mapped_columns = array(
-            "iframe"     => 0,
-            "preview"    => false,
-            "thumbs"     => 1,
-            "title"      => 2,
-            "tags"       => 3,
-            "categories" => 4,
-            "duration"   => 6,
-            "views"      => false,
+            "iframe"     => 1,
+            "preview"    => 9,
+            "thumbs"     => 10,
+            "title"      => 5,
+            "tags"       => 6,
+            "categories" => false,
+            "duration"   => 7,
+            "views"      => 3,
             "likes"      => false,
             "unlikes"    => false,
+            "pornstars"  => false,
         );
 
         return $mapped_columns;
@@ -44,24 +40,18 @@ class YouPornFeed
     function configFeed()
     {
         $feed_config = array(
-            "totalCols"            => 7,
+            "totalCols"            => 11,
             "fields_separator"     => "|",
-            "thumbs_separator"     => ",",
-            "tags_separator"       => ",",
+            "thumbs_separator"     => ";",
+            "tags_separator"       => ";",
             "categories_separator" => ",",
             "pornstars_separator"  => ";",
             "skip_first_list"      => true,
             "parse_duration"       => function($string) {
-                //00m00s format
-                $values = explode("m", $string);
-                $min = intval($values[0]);
-                $sec = intval($values[1]);
-
-                return ($min*60)+$sec;
+                return $string;
             }
         );
 
         return $feed_config;
     }
-
 }
