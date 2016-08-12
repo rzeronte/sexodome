@@ -36,8 +36,8 @@ Route::group(['domain' => 'accounts.'.\App\rZeBot\rZeBotCommons::getMainPlatafor
     // ConfigController
     Route::match(['get', 'post'], "/fetch/{site_id}", ['as' => 'fetch', 'uses' => 'ConfigController@fetch']);
 
-    Route::match(['get', 'post'], '{locale}/tags/{site_id}', 'ConfigController@ajaxSiteTags')->name('ajaxSiteTags');
-    Route::match(['get', 'post'], '{locale}/categories/{site_id}', 'ConfigController@ajaxSiteCategories')->name('ajaxSiteCategories');
+    Route::match(['get', 'post'], '{locale}/site/tags/{site_id}', 'ConfigController@ajaxSiteTags')->name('ajaxSiteTags');
+    Route::match(['get', 'post'], '{locale}/site/categories/{site_id}', 'ConfigController@ajaxSiteCategories')->name('ajaxSiteCategories');
     Route::match(['get', 'post'], '{locale}/ajax/updateSiteSEO/{site_id}', 'ConfigController@updateSiteSEO')->name('updateSiteSEO');
 
     Route::match(['get'], '{locale}/ajax/tags/', 'ConfigController@ajaxTags')->name('ajaxTags');
