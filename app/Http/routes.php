@@ -13,7 +13,8 @@ Route::group(['domain' => "www.".\App\rZeBot\rZeBotCommons::getMainPlataformDoma
 // Zona accounts
 Route::group(['domain' => 'accounts.'.\App\rZeBot\rZeBotCommons::getMainPlataformDomain()], function () {
     Route::match(['get', 'post'], "/", ['as' => 'home', 'uses' => 'ConfigController@home']);
-    Route::match(['get', 'post'], "/fetch/{site_id}", ['as' => 'fetch', 'uses' => 'ConfigController@fetch']);
+    Route::match(['get', 'post'], '{locale}/sites', 'ConfigController@sites')->name('sites');
+    Route::match(['get', 'post'], '{locale}/site/{site_id}', 'ConfigController@site')->name('site');
 
     // Authentication routes...
     Route::get('auth/login', 'Auth\AuthController@getLogin')->name('login');
@@ -33,9 +34,10 @@ Route::group(['domain' => 'accounts.'.\App\rZeBot\rZeBotCommons::getMainPlatafor
     Route::post('password/reset', 'Auth\PasswordController@postReset')->name('reset');
 
     // ConfigController
+    Route::match(['get', 'post'], "/fetch/{site_id}", ['as' => 'fetch', 'uses' => 'ConfigController@fetch']);
+
     Route::match(['get', 'post'], '{locale}/tags/{site_id}', 'ConfigController@ajaxSiteTags')->name('ajaxSiteTags');
     Route::match(['get', 'post'], '{locale}/categories/{site_id}', 'ConfigController@ajaxSiteCategories')->name('ajaxSiteCategories');
-    Route::match(['get', 'post'], '{locale}/sites', 'ConfigController@sites')->name('sites');
     Route::match(['get', 'post'], '{locale}/ajax/updateSiteSEO/{site_id}', 'ConfigController@updateSiteSEO')->name('updateSiteSEO');
 
     Route::match(['get'], '{locale}/ajax/tags/', 'ConfigController@ajaxTags')->name('ajaxTags');
@@ -73,7 +75,7 @@ Route::group(['domain' => 'accounts.'.\App\rZeBot\rZeBotCommons::getMainPlatafor
     Route::match(['get', 'post'], '{locale}/check_subdomain/', 'ConfigController@checkSubdomain')->name('checkSubdomain');
     Route::match(['get', 'post'], '{locale}/check_domain/', 'ConfigController@checkDomain')->name('checkDomain');
 
-    Route::match(['get', 'post'], '{locale}/', ['as' => 'content','uses' => 'ConfigController@index']);
+    Route::match(['get', 'post'], '{locale}/scenes', 'ConfigController@scenes')->name('content');
 
     Route::match(['get', 'post'], '{locale}/updateGoogleData/{site_id}', ['as'=> 'updateGoogleData','uses' => 'ConfigController@updateGoogleData']);
     Route::match(['get', 'post'], '{locale}/updateIframeData/{site_id}', ['as'=> 'updateIframeData','uses' => 'ConfigController@updateIframeData']);

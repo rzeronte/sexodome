@@ -1,7 +1,4 @@
-<div class="col-md-12 detail-colors" style="display:none;margin-top:20px;">
-    <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
-        <p><i class="glyphicon glyphicon-tint"></i> <b>Colors</b></p>
-    </div>
+<div class="col-md-12 detail-colors">
 
     <form action="{{route('updateColors', ['locale' => $locale, 'site_id' => $site->id])}}" class="form-update-color-data">
         <input type="hidden" name="_token" value="{{ csrf_token() }}"/>

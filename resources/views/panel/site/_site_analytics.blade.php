@@ -1,4 +1,4 @@
-<div class="col-md-12 detail-analytics" style="display:none;margin-top:20px;">
+<div class="col-md-12 detail-analytics">
     <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
         <p><i class="glyphicon glyphicon-globe"></i> <b>Google Analytics</b></p>
     </div>
@@ -13,7 +13,7 @@
                         <input name="ga_view_{{$site->id}}" value="{{$site->ga_account}}" class="form-control" style="width: 100px;margin-bottom:10px;" placeholder="GAView"/>
                     </div>
                     <div class="col-md-6">
-                        <button type="submit" class=" btn btn-primary" data-toggle="modal" data-target="#SEOInfoModal" data-url="{{route('siteKeywords', ['locale'=>$locale, 'site_id'=>$site->id])}}" style=""><i class="glyphicon glyphicon-floppy-disk"></i> Update</button>
+                        <button type="submit" class=" btn btn-primary"style=""><i class="glyphicon glyphicon-floppy-disk"></i> Update</button>
                     </div>
                 </div>
             </div>

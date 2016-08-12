@@ -19,11 +19,10 @@ $( document ).ready(function() {
         }).done(function( data ) {
             jsonData = $.parseJSON(data);
             if (jsonData["status"] == true) {
-                $('.modal .modal-body').html("<div class='alert alert-success' role='alert'>Color saved successful</div>");
+                showGenericalSuccessMessage();
             } else {
-                $('.modal .modal-body').html("<div class='alert alert-danger' role='alert'>Have an error! Try in a few minutes...</div>");
+                showGenericalErrorMessage();
             }
-            $('.modal').modal()
 
         });
         event.preventDefault();
@@ -40,11 +39,10 @@ $( document ).ready(function() {
         }).done(function( data ) {
             jsonData = $.parseJSON(data);
             if (jsonData["status"] == true) {
-                $('.modal .modal-body').html("<div class='alert alert-success' role='alert'>Google info saved successful</div>");
+                showGenericalSuccessMessage();
             } else {
-                $('.modal .modal-body').html("<div class='alert alert-danger' role='alert'>Have an error! Try in a few minutes...</div>");
+                showGenericalErrorMessage();
             }
-            $('.modal').modal()
 
         });
         event.preventDefault();
@@ -70,9 +68,8 @@ $( document ).ready(function() {
                     $('.cronjobs_ajax_container').html(data);
                 });
             } else {
-                $('.modal .modal-body').html("<div class='alert alert-danger' role='alert'>Have an error! Try in a few minutes...</div>");
+                showGenericalErrorMessage();
             }
-            $('.modal').modal()
 
         });
         event.preventDefault();
@@ -89,11 +86,10 @@ $( document ).ready(function() {
         }).done(function( data ) {
             jsonData = $.parseJSON(data);
             if (jsonData["status"] == true) {
-                $('.modal .modal-body').html("<div class='alert alert-success' role='alert'>SEO data saved successful</div>");
+                showGenericalSuccessMessage();
             } else {
-                $('.modal .modal-body').html("<div class='alert alert-danger' role='alert'>Have an error! Try in a few minutes...</div>");
+                showGenericalErrorMessage();
             }
-            $('.modal').modal()
 
         });
         event.preventDefault();
@@ -110,11 +106,10 @@ $( document ).ready(function() {
         }).done(function( data ) {
             jsonData = $.parseJSON(data);
             if (jsonData["status"] == true) {
-                $('.modal .modal-body').html("<div class='alert alert-success' role='alert'>IFrame saved successful</div>");
+                showGenericalSuccessMessage();
             } else {
-                $('.modal .modal-body').html("<div class='alert alert-danger' role='alert'>Have an error! Try in a few minutes...</div>");
+                showGenericalErrorMessage();
             }
-            $('.modal').modal()
 
         });
         event.preventDefault();
@@ -132,12 +127,10 @@ $( document ).ready(function() {
         }).done(function( data ) {
             jsonData = $.parseJSON(data);
             if (jsonData["status"] == true) {
-                $('.modal .modal-body').html("<div class='alert alert-success' role='alert'>Your jobs is queued successful</div>");
+                showGenericalSuccessMessage();
             } else {
-                $('.modal .modal-body').html("<div class='alert alert-danger' role='alert'>Your job cant be queued, try in a few seconds...</div>");
+                showGenericalErrorMessage();
             }
-            $('.modal').modal()
-
         });
         event.preventDefault();
     });
@@ -152,11 +145,10 @@ $( document ).ready(function() {
         }).done(function( data ) {
             var data = $.parseJSON(data);
             if (data['status'] == 1) {
-                $('.modal .modal-body').html("<div class='alert alert-success' role='alert'>Operation done successful</div>");
+                showGenericalSuccessMessage();
             } else {
-                $('.modal .modal-body').html("<div class='alert alert-danger' role='alert'>Operation failed, try in a few seconds...</div>");
+                showGenericalErrorMessage();
             }
-            $('.modal').modal()
         });
         event.preventDefault();
     });
@@ -247,11 +239,10 @@ $( document ).ready(function() {
             jsonData = $.parseJSON(data);
             if (jsonData["status"] == true) {
                 site_container.remove();
-                $('.modal .modal-body').html("<div class='alert alert-success' role='alert'>CronJob deleted succesfull</div>");
+                showGenericalSuccessMessage();
             } else {
-                $('.modal .modal-body').html("<div class='alert alert-danger' role='alert'>Have an error! Try in a few minutes...</div>");
+                showGenericalErrorMessage();
             }
-            $('.modal').modal()
         });
 
         event.preventDefault();
@@ -305,6 +296,10 @@ $( document ).ready(function() {
             });
 
         });
+    });
+    $( "#selector_site" ).change(function() {
+        var option = $(this).find('option:selected', this).attr('data-action');
+        window.location = option;
     });
 
     $( "#add_site_type" ).change(function() {
@@ -417,3 +412,20 @@ function changeThumb(video) {
 
     timer = setTimeout(function(){ changeThumb(video); }, 1000);
 }
+
+function showGenericalErrorMessage() {
+    $("#sticker").removeClass('sticker_ok');
+    $("#sticker").addClass('sticker_ok');
+    $("#sticker").find('.text-muted').html('Oops, please try in a few minutes...');
+    $("#sticker").fadeIn('slow').animate({opacity: 1.0}, 1500).effect("pulsate", { times: 2 }, 800).fadeOut('slow');
+
+}
+
+function showGenericalSuccessMessage() {
+    $("#sticker").removeClass('sticker_ko');
+    $("#sticker").addClass('sticker_ok');
+    $("#sticker").find('.text-muted').html('Operation done successfully');
+    $("#sticker").fadeIn('slow').animate({opacity: 1.0}, 1500).effect("pulsate", { times: 2 }, 800).fadeOut('slow');
+
+}
+

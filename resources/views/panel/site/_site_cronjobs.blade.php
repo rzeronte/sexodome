@@ -1,15 +1,11 @@
-<div class="col-md-12 detail-cronjobs" style="display:none;margin-top:20px;">
-
-    <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
-        <p><i class="glyphicon glyphicon-time"></i> <b>CronJobs</b></p>
-    </div>
+<div class="col-md-12 detail-cronjobs">
 
     <div class="row cronjobs_ajax_container" style="background-color:white;">
         <?php $loop = 0 ?>
 
         @if ($site->cronjobs()->count() == 0)
             <div class="row" style="margin:0px;padding:15px;">
-                No current cronjobs founded
+                Currently no cronjobs
             </div>
         @endif
 
@@ -73,10 +69,11 @@
                         </select>
                     </div>
                     <div class="col-md-3">
-                        <input type="text" name="categories" class="form-control" placeholder="categories comma separated">
+                        <input type="text" name="categories" class="form-control" placeholder="categories comma separated" style="margin-bottom:5px;">
+                        <input type="text" name="tags" class="form-control" placeholder="tags comma separated">
                     </div>
 
-                    <div class="col-md-1">
+                    <div class="col-md-2">
                         <select class="form-control" name="duration" style="width:100%">
                             <option value="">time</option>
                             <option value="60">1 min</option>

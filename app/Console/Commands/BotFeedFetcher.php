@@ -202,7 +202,6 @@ class BotFeedFetcher extends Command
                 $video = array(
                     "iframe"    => $datos[$mapped_colums['iframe']],
                     "title"     => $datos[$mapped_colums['title']],
-                    "tags"      => explode($feed_config["tags_separator"], $datos[$mapped_colums['tags']]),
                     "duration"  => $feed_config["parse_duration"]($datos[$mapped_colums['duration']]),
                     "likes"     => $likes,
                     "unlikes"   => $unlikes,
@@ -210,7 +209,14 @@ class BotFeedFetcher extends Command
                     "rate"      => $videorate
                 );
 
-                // ************************************************************ parse field individually
+                // ************************************************************ parse field individually arrays
+
+                // tags
+                if ($mapped_colums['tags'] !== false) {
+                    $video["tags"] = explode($feed_config["tags_separator"], $datos[$mapped_colums['tags']]);
+                } else {
+                    $video["tags"] = null;
+                }
 
                 // categories
                 if ($mapped_colums['categories'] !== false) {
@@ -251,35 +257,31 @@ class BotFeedFetcher extends Command
                 }
 
                 // check tags matched
-                $mixed_check = true;
+                $tags_check = true;
                 if ($tags !== false) {
-                    $mixed_check = false;
+                    $tags_check = false;
                     foreach ($video["tags"] as $tagTxt) {
                         if (in_array(strtolower($tagTxt), $tags)) {
-                            $mixed_check = true;
+                            $tags_check = true;
+                            rZeBotUtils::message("Found tag: " . $tagTxt, "green", true, false);
                         }
                     }
                 }
 
-                if (!$mixed_check) {
-                    rZeBotUtils::message("mixed_check tags continue;", "yellow", true, false);
-                    continue;
-                }
-
                 // check categories matched
-                $mixed_check = true;
+                $categories_check = true;
                 if ($categories !== false) {
-                    $mixed_check = false;
+                    $categories_check = false;
                     foreach ($video["categories"] as $categoryTxt) {
                         if (in_array($categoryTxt, $categories)) {
-                            $mixed_check = true;
+                            $categories_check = true;
                             rZeBotUtils::message("Found category: " . $categoryTxt, "green", true, false);
                         }
                     }
                 }
 
-                if (!$mixed_check) {
-                    rZeBotUtils::message("mixed_check categories continue;", "yellow", true, false);
+                if (!$tags_check && !$categories_check) {
+                    rZeBotUtils::message("mixed_check tags/categories continue;", "yellow", true, false);
                     continue;
                 }
 
@@ -441,6 +443,7 @@ class BotFeedFetcher extends Command
                     $pornstar = new Pornstar();
                     $pornstar->site_id = $site_id;
                     $pornstar->name = ucwords($pornstarTxt);
+                    $pornstar->permalink = str_slug($pornstarTxt);
                     $sceneRND = $pornstar->scenes()->select('preview')->orderByRaw("RAND()")->first();
                     if ($sceneRND) {
                         $pornstar->thumbnail = $sceneRND->preview;

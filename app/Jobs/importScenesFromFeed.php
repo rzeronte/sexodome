@@ -21,7 +21,7 @@ class importScenesFromFeed extends Job implements SelfHandling, ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param $queueParams
      */
     public function __construct($queueParams)
     {
@@ -43,6 +43,7 @@ class importScenesFromFeed extends Job implements SelfHandling, ShouldQueue
             '--max'        => ($this->queueParams["max"] != "") ? $this->queueParams["max"]: 'false',
             '--duration'   => ($this->queueParams["duration"] != "") ? $this->queueParams["duration"] : 'false',
             '--categories' => $this->queueParams["categories"],
+            '--tags'       => $this->queueParams["tags"],
             '--job'        => $this->queueParams["job"]
         ];
 

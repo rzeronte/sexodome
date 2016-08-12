@@ -1,10 +1,8 @@
-<div class="col-md-12 detail-seo" style="display:none;margin-top:20px;">
+<div class="col-md-12 detail-seo">
     <form method="post" class="form-update-seo-data" action="{{route('updateSiteSEO', ['locale'=>$locale, 'site_id'=>$site->id])}}">
 
-        <div style="margin-top:20px;">
-            <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
-                <p><i class="glyphicon glyphicon-signal"></i> <b>Language for {{$site->getHost()}}</b></p>
-            </div>
+        <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
+            <p><i class="glyphicon glyphicon-signal"></i> <b>Language for {{$site->getHost()}}</b></p>
         </div>
 
         <div class="col-md-12">

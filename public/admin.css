@@ -36,3 +36,29 @@ hr{
     color: #ffffff; background: deepskyblue;
     border-radius: 2px;
 }
+
+.sticker{
+    background-color: blue;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    height: 25px;
+    position: absolute;
+    width: 100%;
+    display: none;
+    z-index:1000;
+    border-bottom: solid 1px black;
+}
+
+.sticker p{
+    color: white;
+    padding-top: 2px;
+}
+
+.sticker_ok{
+    background-color: #5cb85c !important;
+}
+
+.sticker_ko{
+    background-color: #d9534f !important;
+}

@@ -1,8 +1,13 @@
 <div class="row">
 
-    <div class="col-md-8">
-        <a href="{{route('sites',   ['locale'=>$language->code])}}" class="btn @if (\Request::route()->getName() == "sites") btn-success @else btn-primary @endif" style="margin-top:10px;"><i class="glyphicon glyphicon-globe"></i> Sites</a>
-        <a href="{{route('content', ['locale'=>$language->code])}}" class="btn @if (\Request::route()->getName() == "content") btn-success @else btn-primary @endif" style="margin-top:10px;"><i class="glyphicon glyphicon-th"></i> Scenes</a>
+    <div class="col-md-5">
+        <div style="margin-top:10px;" data-width="100%">
+            @include('panel._selector_site')
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <a href="{{route('content', ['locale'=>$language->code])}}" class="btn @if (\Request::route()->getName() == "content") btn-success @else btn-primary @endif" style="margin-top:10px;"><i class="glyphicon glyphicon-th"></i> Content panel</a>
         <a href="{{route('addSite', ['locale'=>$locale])}}" class="btn btn-warning" style="margin-top:10px;"><i class="glyphicon glyphicon-plus-sign"></i> Add site </a>
     </div>
 

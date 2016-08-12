@@ -4,11 +4,9 @@ namespace App\Http\Controllers;
 
 use App;
 use DB;
-use Doctrine\Instantiator\Exception\InvalidArgumentException;
 use okw\CF\Exception\CFException;
 use Request;
 use Spatie\LaravelAnalytics\LaravelAnalyticsFacade;
-use Symfony\Component\Debug\ExceptionHandler;
 use Validator;
 use Input;
 use Session;
@@ -23,7 +21,6 @@ use App\Model\SceneTag;
 use App\Model\Tag;
 use App\Model\TagTranslation;
 use App\Model\Origin;
-use App\Model\Language;
 use App\Model\SceneTagTier;
 use App\Model\LanguageTag;
 use App\Model\Tweet;
@@ -31,11 +28,10 @@ use App\Model\Zone;
 use App\Model\Ad;
 use App\Model\Site;
 use App\Model\Channel;
-use App\Model\Logpublish;
 use App\Model\InfoJobs;
-use Illuminate\Support\Facades\Artisan;
 use App\Model\SiteCategory;
 use App\Jobs\importScenesFromFeed;
+use App\Model\Pornstar;
 use Illuminate\Support\Facades\Log;
 use okw\CF\CF;
 use Auth;
@@ -57,7 +53,7 @@ class ConfigController extends Controller
         return redirect()->route('sites', ['locale' => $this->commons->locale]);
     }
 
-    public function index()
+    public function scenes()
     {
         $query_string = Request::get('q');
         $tag_query_string = Request::get('tag_q');
@@ -83,7 +79,7 @@ class ConfigController extends Controller
 
         $sites = Site::where('user_id', '=', Auth::user()->id)->get();
 
-        return view('panel.index', [
+        return view('panel.scenes', [
             'scenes'       => $scenes->orderBy('scenes.id', 'desc')->paginate($this->commons->perPageScenes),
             'query_string' => $query_string,
             'tag_q'        => $tag_query_string,
@@ -382,9 +378,15 @@ class ConfigController extends Controller
             abort(404, "Channel not found");
         }
 
+        // categories y tags son 'false' en string, por requisito del comando (refact)
         $categories = Input::get('categories');
         if (strlen($categories) == 0) {
             $categories = 'false';
+        }
+
+        $tags = Input::get('tags');
+        if (strlen($tags) == 0) {
+            $tags = 'false';
         }
 
         $queueParams = [
@@ -392,7 +394,8 @@ class ConfigController extends Controller
             'site_id'    => Input::get('site_id'),
             'max'        => Input::get('max'),
             'duration'   => Input::get('duration'),
-            'tags'       => $categories,    // usamos los tags para el filtro en el CSV en el fondo
+            'tags'       => $tags,
+            'categories' => $categories,
         ];
 
         $newInfoJob = new InfoJobs();
@@ -433,6 +436,34 @@ class ConfigController extends Controller
             'locale'    => $this->commons->locale,
             'title'     => "Admin Panel",
             'sites'     => $sites,
+            'fi'        => $fi,
+            'ff'        => $ff,
+        ]);
+    }
+
+    public function site($locale, $site_id)
+    {
+        $site = Site::find($site_id);
+
+        if (!$site) {
+            abort(404, "Site not found");
+        }
+
+        if (!(Auth::user()->id == $site->user->id)) {
+            abort(401, "Unauthorized");
+        }
+
+        $ff = date("Y-m-d");
+        $fi = date("Y-m-d", strtotime($ff." -7 days"));
+
+        return view('panel.site', [
+            'channels'  => Channel::all(),
+            'language'  => $this->commons->language,
+            'languages' => $this->commons->languages,
+            'locale'    => $this->commons->locale,
+            'title'     => "Admin Panel",
+            'site'      => $site,
+            'sites'     => Site::where('user_id', '=', Auth::user()->id)->get(),
             'fi'        => $fi,
             'ff'        => $ff,
         ]);

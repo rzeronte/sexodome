@@ -18,23 +18,27 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
     {{-- json Editor --}}
-    <script src="{{asset('jsoneditor/jsoneditor.js')}}"></script>
-    <link rel="stylesheet" href="{{asset('jsoneditor/jsoneditor.css')}}" />
+    {{--<script src="{{asset('jsoneditor/jsoneditor.js')}}"></script>--}}
+    {{--<link rel="stylesheet" href="{{asset('jsoneditor/jsoneditor.css')}}" />--}}
 
     {{-- tagEditor --}}
-    <script src="{{asset('tagEditor/jquery.caret.min.js')}}"></script>
-    <script src="{{asset('tagEditor/jquery.tag-editor.js')}}"></script>
-    <link rel="stylesheet" href="{{asset('tagEditor/jquery.tag-editor.css')}}" />
+    {{--<script src="{{asset('tagEditor/jquery.caret.min.js')}}"></script>--}}
+    {{--<script src="{{asset('tagEditor/jquery.tag-editor.js')}}"></script>--}}
+    {{--<link rel="stylesheet" href="{{asset('tagEditor/jquery.tag-editor.css')}}" />--}}
 
     <script src="{{asset('admin.js')}}" type="text/javascript"></script>
     <link rel="stylesheet" href="{{asset('admin.css')}}" />
 
-    {{-- high charts--}}
+    {{-- high charts --}}
     <script src="http://code.highcharts.com/highcharts.js"></script>
 
-    {{-- bootstrap colorpicker--}}
+    {{-- bootstrap colorpicker --}}
     <script src="{{asset('bootstrap-colorpicker/js/bootstrap-colorpicker.min.js')}}"></script>
     <link rel="stylesheet" href="{{asset('bootstrap-colorpicker/css/bootstrap-colorpicker.min.css')}}" />
+
+    {{-- bootstrap select --}}
+    <script src="{{asset('bootstrap-select/js/bootstrap-select.min.js')}}"></script>
+    <link rel="stylesheet" href="{{asset('bootstrap-select/css/bootstrap-select.min.css')}}" />
 
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

@@ -1,8 +1,4 @@
-<div class="col-md-12 detail-import" style="display:none;margin-top:20px;">
-
-    <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
-        <p><i class="glyphicon glyphicon-film"></i> <b>Import scenes</b></p>
-    </div>
+<div class="col-md-12 detail-import">
 
     <div class="row" style="background-color:white;">
         <?php $loop = 0 ?>
@@ -50,10 +46,11 @@
                         </select>
                     </div>
                     <div class="col-md-3">
-                        <input type="text" name="categories" class="form-control" placeholder="categories comma separated">
+                        <input type="text" name="categories" class="form-control" placeholder="categories comma separated" style="margin-bottom: 5px;">
+                        <input type="text" name="tags" class="form-control" placeholder="tags comma separated">
                     </div>
 
-                    <div class="col-md-1">
+                    <div class="col-md-2">
                         <select class="form-control" name="duration" style="width:100%">
                             <option value="">time</option>
                             <option value="60">1 min</option>
