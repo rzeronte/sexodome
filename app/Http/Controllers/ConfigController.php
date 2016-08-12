@@ -50,7 +50,13 @@ class ConfigController extends Controller
 
     public function home()
     {
-        return redirect()->route('sites', ['locale' => $this->commons->locale]);
+        $site = Site::where('user_id', '=', Auth::user()->id)->first();
+
+        if (!$site) {
+            return redirect()->route('sites', ['locale' => $this->commons->locale]);
+        } else {
+            return redirect()->route('site', ['locale' => $this->commons->locale, "site_id" => $site->id]);
+        }
     }
 
     public function scenes()
@@ -427,7 +433,7 @@ class ConfigController extends Controller
         $ff = date("Y-m-d");
         $fi = date("Y-m-d", strtotime($ff." -7 days"));
 
-        $sites = Site::where('user_id', '=', Auth::user()->id)->paginate(6);
+        $sites = Site::where('user_id', '=', Auth::user()->id)->get();
 
         return view('panel.sites', [
             'channels'  => Channel::all(),
