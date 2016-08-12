@@ -1,7 +1,7 @@
 <div>
     <ul class="nav nav-tabs siz" role="tablist">
-        <li role="presentation" class="active"><a href="#detail-logo" aria-controls="detail-logo" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-picture"></i> Logo</a></li>
-        <li role="presentation"><a href="#detail-seo" aria-controls="detail-seo" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-signal"></i> SEO</a></li>
+        <li role="presentation" class="active"><a href="#detail-seo" aria-controls="detail-seo" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-signal"></i> SEO</a></li>
+        <li role="presentation"><a href="#detail-logo" aria-controls="detail-logo" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-picture"></i> Logo</a></li>
         <li role="presentation"><a href="#detail-categories" aria-controls="detail-categories" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-th-large"></i> Categories</a></li>
         <li role="presentation"><a href="#detail-pornstars" aria-controls="detail-pornstars" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-film"></i> Pornstars</a></li>
         <li role="presentation"><a href="#detail-tags" aria-controls="detail-tags" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-th"></i> Tags</a></li>
@@ -14,8 +14,8 @@
         {{--<li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-trash"></i> DELETE</a></li>--}}
     </ul>
     <div class="tab-content" style="margin-top: 20px;background-color: white;">
-        <div role="tabpanel" class="tab-pane active" id="detail-logo">@include('panel.site._site_logo')</div>
-        <div role="tabpanel" class="tab-pane" id="detail-seo">@include('panel.site._site_seo')</div>
+        <div role="tabpanel" class="tab-pane active" id="detail-seo">@include('panel.site._site_seo')</div>
+        <div role="tabpanel" class="tab-pane" id="detail-logo">@include('panel.site._site_logo')</div>
         <div role="tabpanel" class="tab-pane" id="detail-categories">@include('panel.site._site_categories')</div>
         <div role="tabpanel" class="tab-pane" id="detail-pornstars">@include('panel.site._site_pornstars')</div>
         <div role="tabpanel" class="tab-pane" id="detail-tags">@include('panel.site._site_tags')</div>

@@ -385,7 +385,6 @@ function checkDomain(me) {
     });
 }
 
-
 function outThumb(video){
     var status = $(video).attr("data-status");
     var thumbs = $(video).attr("data-thumbs");
@@ -418,7 +417,6 @@ function showGenericalErrorMessage() {
     $("#sticker").addClass('sticker_ok');
     $("#sticker").find('.text-muted').html('Oops, please try in a few minutes...');
     $("#sticker").fadeIn('slow').animate({opacity: 1.0}, 1500).effect("pulsate", { times: 2 }, 800).fadeOut('slow');
-
 }
 
 function showGenericalSuccessMessage() {
@@ -426,6 +424,20 @@ function showGenericalSuccessMessage() {
     $("#sticker").addClass('sticker_ok');
     $("#sticker").find('.text-muted').html('Operation done successfully');
     $("#sticker").fadeIn('slow').animate({opacity: 1.0}, 1500).effect("pulsate", { times: 2 }, 800).fadeOut('slow');
-
 }
 
+function fixDiv() {
+    var $cache = $('#sticker');
+    if ($(window).scrollTop() > 25)
+        $cache.css({
+            'position': 'fixed',
+            'top': '0px'
+        });
+    else
+        $cache.css({
+            'position': 'relative',
+            'top': 'auto'
+        });
+}
+$(window).scroll(fixDiv);
+fixDiv();

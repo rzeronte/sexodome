@@ -47,7 +47,7 @@ hr{
     width: 100%;
     display: none;
     z-index:1000;
-    border-bottom: solid 1px black;
+    border-bottom: solid 1px gray;
 }
 
 .sticker p{
