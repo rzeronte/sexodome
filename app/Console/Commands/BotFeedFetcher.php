@@ -473,6 +473,10 @@ class BotFeedFetcher extends Command
 
     public function processTags($video, $site_id, $scene, $languages)
     {
+        if ( $video["tags"]== null ) {
+            return false;
+        }
+
         // tags
         foreach ($video["tags"] as $tagTxt) {
 
@@ -522,6 +526,10 @@ class BotFeedFetcher extends Command
 
     public function processCategories($video, $site_id, $scene, $languages)
     {
+        if ( $video["categories"]== null ) {
+            return false;
+        }
+
         // categories
         foreach ($video["categories"] as $categoryTxt) {
             if(strlen($categoryTxt) == 0) {
