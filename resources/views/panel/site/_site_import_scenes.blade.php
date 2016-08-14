@@ -65,7 +65,7 @@
 
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" name="only_with_pornstars" value="1"> Only with pornstars
+                                <input type="checkbox" name="only_with_pornstars" value="1"> <small>Only with pornstars</small>
                             </label>
                         </div>
                     </div>
