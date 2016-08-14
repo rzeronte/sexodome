@@ -85,12 +85,10 @@
                             <option value="1800">30 min</option>
                         </select>
 
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" name="only_with_pornstars" value="1"> Only with pornstars
-                                </label>
-                            </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="only_with_pornstars" value="1"> Only with pornstars
+                            </label>
                         </div>
 
                     </div>
