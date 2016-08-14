@@ -647,6 +647,8 @@ class ConfigController extends Controller
 
     public function addSite($locale)
     {
+        $sites = Site::where('user_id', '=', Auth::user()->id)->get();
+
         if (Request::isMethod('post')) {
 
             // check if already exists
@@ -665,9 +667,10 @@ class ConfigController extends Controller
                 }
 
                 return view('panel.add_site', [
-                    'language'     => $this->commons->language,
-                    'languages'    => $this->commons->languages,
-                    'locale'       => $this->commons->locale,
+                    'language'  => $this->commons->language,
+                    'languages' => $this->commons->languages,
+                    'locale'    => $this->commons->locale,
+                    'sites'     => $sites
                 ]);
             }
 
@@ -710,9 +713,10 @@ class ConfigController extends Controller
         }
 
         return view('panel.add_site', [
-            'language'     => $this->commons->language,
-            'languages'    => $this->commons->languages,
-            'locale'       => $this->commons->locale,
+            'language'  => $this->commons->language,
+            'languages' => $this->commons->languages,
+            'locale'    => $this->commons->locale,
+            'sites'     => $sites
         ]);
     }
 
