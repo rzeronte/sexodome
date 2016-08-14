@@ -395,7 +395,6 @@ class ConfigController extends Controller
         if (strlen($tags) == 0) {
             $tags = 'false';
         }
-
         $queueParams = [
             'feed_name'  => Input::get('feed_name'),
             'site_id'    => Input::get('site_id'),
@@ -404,6 +403,12 @@ class ConfigController extends Controller
             'tags'       => $tags,
             'categories' => $categories,
         ];
+
+        if (Input::get('only_with_pornstars') == 1) {
+            $queueParams['only_with_pornstars'] = 'true';
+        } else {
+            $queueParams['only_with_pornstars'] = 'false';
+        }
 
         $newInfoJob = new InfoJobs();
         $newInfoJob->site_id = $site_id;
@@ -896,9 +901,14 @@ class ConfigController extends Controller
         }
 
         $categories = Input::get('categories');
+        $tags = Input::get('tags');
 
         if (strlen($categories) == 0) {
             $categories = 'false';
+        }
+
+        if (strlen($tags) == 0) {
+            $tags = 'false';
         }
 
         $queueParams = [
@@ -906,8 +916,15 @@ class ConfigController extends Controller
             'site_id'    => Input::get('site_id'),
             'max'        => Input::get('max'),
             'duration'   => Input::get('duration'),
-            'tags'       => $categories,
+            'categories' => $categories,
+            'tags'       => $tags,
         ];
+
+        if (Input::get('only_with_pornstars') == 1) {
+            $queueParams['only_with_pornstars'] = 'true';
+        } else {
+            $queueParams['only_with_pornstars'] = 'false';
+        }
 
         $cronjob = new App\Model\CronJob();
         $cronjob->site_id = Input::get('site_id');

@@ -44,7 +44,9 @@ class importScenesFromFeed extends Job implements SelfHandling, ShouldQueue
             '--duration'   => ($this->queueParams["duration"] != "") ? $this->queueParams["duration"] : 'false',
             '--categories' => $this->queueParams["categories"],
             '--tags'       => $this->queueParams["tags"],
-            '--job'        => $this->queueParams["job"]
+            '--job'        => $this->queueParams["job"],
+            '--only_with_pornstars' => $this->queueParams["only_with_pornstars"]
+
         ];
 
         $exitCode = \Artisan::call('zbot:feed:fetch', $paramsCommand);

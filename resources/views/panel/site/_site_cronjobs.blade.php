@@ -53,7 +53,7 @@
                 <form class="form-create-cronjob" data-update-cronjobs-url="{{route('ajaxCronJobs', ['locale' => $locale, 'site_id' => $site->id])}}" action="{{route('ajaxSaveCronJob', ['locale' => $locale])}}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                     <input type="hidden" name="feed_name" value="{{ $channel->name }}"/>
-                    <input type="hidden" name="site_id" value="{{ $site->id}}"/>
+                    <input type="hidden" name="site_id" value="{{$site->id}}"/>
 
                     <div class="col-md-1" style="text-align:center;">
                         <img src="{{asset('channels/'.$channel->logo)}}" style="width:40px; border: solid 1px black;"/><br/>
@@ -84,6 +84,15 @@
                             <option value="1500">25 min</option>
                             <option value="1800">30 min</option>
                         </select>
+
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="only_with_pornstars" value="1"> Only with pornstars
+                                </label>
+                            </div>
+                        </div>
+
                     </div>
 
                     <div class="col-md-2">

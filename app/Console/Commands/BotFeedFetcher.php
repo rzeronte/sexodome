@@ -117,9 +117,13 @@ class BotFeedFetcher extends Command
         if ($job !== "false") {
             rZeBotUtils::message('Finalizamos InfoJob: '. $job, "yellow");
             $infojob = InfoJobs::find($job);
-            $infojob->finished = true;
-            $infojob->finished_at = date("Y-m-d H:i:s");
-            $infojob->save();
+            if ($infojob) {
+                $infojob->finished = true;
+                $infojob->finished_at = date("Y-m-d H:i:s");
+                $infojob->save();
+            } else {
+                rZeBotUtils::message('[ERROR : '. $job, "yellow");
+            }
         }
     }
 

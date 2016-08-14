@@ -15,6 +15,7 @@
                 <form action="{{route('fetch', ['site_id' => $site->id])}}" class="submit-feed-site-form">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                     <input type="hidden" name="feed_name" value="{{ $channel->name }}"/>
+                    <input type="hidden" name="site_id" value="{{$site->id}}"/>
 
                     <div class="col-md-1" style="text-align:center;">
                         <img src="{{asset('channels/'.$channel->logo)}}" style="width:60px; border: solid 1px black;"/><br/>
@@ -61,6 +62,14 @@
                             <option value="1500">25 min</option>
                             <option value="1800">30 min</option>
                         </select>
+
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="only_with_pornstars" value="1"> Only with pornstars
+                                </label>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="col-md-1">
