@@ -4,7 +4,7 @@
 
         <div class="col-md-12">
             <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
-                <p><i class="glyphicon glyphicon-signal"></i> <b>Language for {{$site->getHost()}}</b></p>
+                <p><i class="glyphicon glyphicon-signal"></i> <b>Language</b></p>
             </div>
 
             <div class="row" style="padding:10px;">
@@ -25,7 +25,7 @@
         <div class="col-md-12">
             <div style="margin-top:20px;">
                 <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
-                    <p><i class="glyphicon glyphicon-signal"></i> <b>SEO for {{$site->getHost()}}</b></p>
+                    <p><i class="glyphicon glyphicon-signal"></i> <b>SEO</b></p>
                 </div>
             </div>
 
@@ -70,6 +70,50 @@
                     <div class="col-md-7">
                         <input type="text" class="form-control" value="{{$site->description_category}}" name="description_category">
                         <small><b>Variables:</b> {domain}, {category}</small>
+                    </div>
+                </div>
+
+                <div class="row" style="padding:10px;">
+                    <div class="col-md-3">
+                        Title Pornstars:
+                    </div>
+
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" value="{{$site->title_pornstars}}" name="title_pornstars">
+                        <small><b>Variables:</b> {domain}, {pornstar}</small>
+                    </div>
+                </div>
+
+                <div class="row" style="padding:10px;">
+                    <div class="col-md-3">
+                        Description Pornstars:
+                    </div>
+
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" value="{{$site->description_pornstars}}" name="description_pornstars">
+                        <small><b>Variables:</b> {domain}</small>
+                    </div>
+                </div>
+
+                <div class="row" style="padding:10px;">
+                    <div class="col-md-3">
+                        Title Pornstar:
+                    </div>
+
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" value="{{$site->title_pornstar}}" name="title_pornstar">
+                        <small><b>Variables:</b> {domain}, {pornstar}</small>
+                    </div>
+                </div>
+
+                <div class="row" style="padding:10px;">
+                    <div class="col-md-3">
+                        Description Pornstar:
+                    </div>
+
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" value="{{$site->description_pornstar}}" name="description_pornstar">
+                        <small><b>Variables:</b> {domain}, {pornstar}</small>
                     </div>
                 </div>
 

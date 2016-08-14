@@ -606,10 +606,17 @@ class ConfigController extends Controller
         $site->description_index = Request::input('description_index');
         $site->description_category = Request::input('description_category');
 
+        $site->title_pornstars = Request::input('title_pornstars');
+        $site->title_pornstar = Request::input('title_pornstar');
+
+        $site->description_pornstars = Request::input('description_pornstars');
+        $site->description_pornstar = Request::input('description_pornstar');
+
         $site->domain = Request::input('domain');
         $site->head_billboard = Request::input('head_billboard');
         $site->google_analytics = Request::input('google_analytics');
         $site->language_id = Request::input('language_id');
+
         $site->save();
 
         return json_encode(array('status' => true));
