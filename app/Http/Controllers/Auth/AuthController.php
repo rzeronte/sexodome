@@ -19,7 +19,7 @@ class AuthController extends Controller
     public function __construct()
     {
         $this->middleware('guest', ['except' => 'getLogout']);
-        $this->redirectPath = route('sites', ['locale' => Request::getLocale()]);
+        $this->redirectPath = route('home', ['locale' => Request::getLocale()]);
     }
 
     /**
