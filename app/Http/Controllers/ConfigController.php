@@ -455,6 +455,7 @@ class ConfigController extends Controller
 
     public function site($locale, $site_id)
     {
+
         $site = Site::find($site_id);
 
         if (!$site) {
