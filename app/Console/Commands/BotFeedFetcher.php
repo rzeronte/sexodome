@@ -446,6 +446,8 @@ class BotFeedFetcher extends Command
             if (strlen($pornstarTxt) > 0) {
                 $pornstar = Pornstar::where('site_id', $site_id)->where('name', $pornstarTxt)->first();
 
+                $sceneRND = false;
+
                 if (!$pornstar) {
 
                     $pornstar = new Pornstar();
