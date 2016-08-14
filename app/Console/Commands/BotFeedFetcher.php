@@ -36,8 +36,8 @@ class BotFeedFetcher extends Command
                             {--categories=false : Process tags from scene}
                             {--rate=false : Only rate min imported}
                             {--views=false : Only views min imported}
-                            {--only_update=false : Only update scenes }
                             {--duration=false : Only duration min imported}
+                            {--only_with_pornstars=false : Only import scenes with pornstars}
                             {--create_categories_from_tags=false : Launch update categories}
                             {--job=false : Infojob Id}
                             {--test=false : Test}';
@@ -65,10 +65,10 @@ class BotFeedFetcher extends Command
         $rate        = $this->option('rate');
         $minViews    = $this->option('views');
         $minDuration = $this->option('duration');
-        $only_update = $this->option('only_update');
         $test        = $this->option('test');
         $job         = $this->option('job');
         $create_categories_from_tags = $this->option('create_categories_from_tags');
+        $only_with_pornstars = $this->option('only_with_pornstars');
 
         $tags       = $this->parseTagsOption($tags);
         $categories = $this->parseCategoriesOption($categories);
@@ -104,13 +104,13 @@ class BotFeedFetcher extends Command
             $cfg->configFeed(),
             $tags,
             $categories,
-            $only_update,
             $rate,
             $minViews,
             $minDuration,
             $default_status = env("DEFAULT_FETCH_STATUS", 1),
             $test,
-            $create_categories_from_tags
+            $create_categories_from_tags,
+            $only_with_pornstars
         );
 
         // delete infojob
@@ -152,7 +152,7 @@ class BotFeedFetcher extends Command
         return $categories;
     }
 
-    public function parseCSV($site_id, $feed, $max, $mapped_colums, $feed_config, $tags, $categories, $only_update, $rate, $minViews, $minDuration, $default_status, $test, $create_categories_from_tags)
+    public function parseCSV($site_id, $feed, $max, $mapped_colums, $feed_config, $tags, $categories, $rate, $minViews, $minDuration, $default_status, $test, $create_categories_from_tags, $only_with_pornstars)
     {
         $fila = 1;
         $languages = Language::all();
@@ -212,21 +212,21 @@ class BotFeedFetcher extends Command
                 // ************************************************************ parse field individually arrays
 
                 // tags
-                if ($mapped_colums['tags'] !== false) {
+                if ($mapped_colums['tags'] !== false && strlen($datos[$mapped_colums['tags']])) {
                     $video["tags"] = explode($feed_config["tags_separator"], $datos[$mapped_colums['tags']]);
                 } else {
                     $video["tags"] = null;
                 }
 
                 // categories
-                if ($mapped_colums['categories'] !== false) {
+                if ($mapped_colums['categories'] !== false && strlen($datos[$mapped_colums['categories']]) > 0) {
                     $video["categories"] = explode($feed_config["categories_separator"], $datos[$mapped_colums['categories']]);
                 } else {
                     $video["categories"] = null;
                 }
 
                 // pornstars
-                if ($mapped_colums['pornstars'] !== false) {
+                if ($mapped_colums['pornstars'] !== false && strlen($datos[$mapped_colums['pornstars']]) > 0) {
                     $video["pornstars"] = explode($feed_config["pornstars_separator"], $datos[$mapped_colums['pornstars']]);
                 } else {
                     $video["pornstars"] = null;
@@ -253,6 +253,20 @@ class BotFeedFetcher extends Command
                         $video["preview"] = explode($feed_config["thumbs_separator"], $datos[$mapped_colums['thumbs']])[0];
                     } else {
                         $video["preview"] = null;
+                    }
+                }
+
+                if ($only_with_pornstars !== "false") {
+
+                    // Si el feed no tiene pornstars directamente fuera
+                    if ( $video["pornstars"] == null) {
+                        rZeBotUtils::message("[PORNSTAR FLAG SKIPPED. CHANNEL NOT HAVE PORNSTAR]", "yellow", true, false);
+                        continue;
+                    } else {
+                        if (count($video["pornstars"]) == 0) {
+                            rZeBotUtils::message("[PORNSTAR FLAG SKIPPED. NO PORNSTARS IN SCENE]", "yellow", true, false);
+                            continue;
+                        }
                     }
                 }
 
@@ -288,12 +302,6 @@ class BotFeedFetcher extends Command
                 // preview is used to check if already exists
                 if(Scene::where('preview', $video["preview"])->where('site_id', $site_id)->count() == 0) {
                     $mixed_check = true;
-
-                    if ($only_update !== "false") {
-                        $mixed_check = false;
-                        rZeBotUtils::message("SKIPPED", "yellow", true, false);
-                        continue;
-                    }
 
                     // check tags matched
                     if ($tags !== false) {
@@ -467,6 +475,7 @@ class BotFeedFetcher extends Command
                         $pornstar->save();
                     }
                 }
+                rZeBotUtils::message("[ADD/UPDATING FOR PORNSTAR] " . ucwords($pornstarTxt), "cyan", true, false);
             }
         }
     }
