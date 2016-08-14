@@ -1,5 +1,6 @@
 <div class="row">
     <div class="col-md-12">
+        <img class="loading-panel-img" src="{{asset('images/loading.gif')}}" style="width: 30px;"/>
         <div class="form-group">
             <select id="selector_site" name="site_id" class="selectpicker show-tick" data-width="100%" data-live-search="true" data-style="btn-primary" >
                 @foreach($sites as $s)

@@ -1,6 +1,9 @@
 var timer;
 
 $( document ).ready(function() {
+    $('#selector_site').on('loaded.bs.select', function (e) {
+       $('.loading-panel-img').hide();
+    });
 
     $( ".btn_site_menu_option" ).click(function() {
         $(this).toggleClass('btn-success');
@@ -432,6 +435,7 @@ function showGenericalSuccessMessage() {
     $("#sticker").fadeIn('slow').animate({opacity: 1.0}, 1500).effect("pulsate", { times: 2 }, 800).fadeOut('slow');
 }
 
+// Mantiene bien colocado el sticker que usamos para notificaciones.
 function fixDiv() {
     var $cache = $('#sticker');
     if ($(window).scrollTop() > 25)
@@ -445,5 +449,9 @@ function fixDiv() {
             'top': 'auto'
         });
 }
+// Vinculamos al evento scroll la recolocación del sticker de notificaciones
 $(window).scroll(fixDiv);
 fixDiv();
+
+
+

@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" style="min-height:50px;">
 
     <div class="col-md-6">
         <div style="margin-top:10px;" data-width="100%">
