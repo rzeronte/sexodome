@@ -69,7 +69,8 @@ class rZeBotCommons extends Controller {
         $this->perPageTags = 30;
         $this->perPageCategories = 96;
         $this->perPageJobs = 15;
-        $this->perPagePanelPornstars = 10;
+        $this->perPagePanelPornstars = 12;
+        
         // set locale
         Request::setLocale($locale);
         $this->locale = $locale;
