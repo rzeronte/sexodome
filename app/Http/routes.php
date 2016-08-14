@@ -62,7 +62,7 @@ Route::group(['domain' => 'accounts.'.\App\rZeBot\rZeBotCommons::getMainPlatafor
 
     Route::match(['get', 'post'], '{locale}/saveTranslation/{scene_id}', 'ConfigController@saveTranslation')->name('saveTranslation');
 
-    Route::match(['get', 'post'], '{locale}/pornstars/{site_id}', 'ConfigController@ajaxSitePornstars')->name('ajaxSitePornstars');
+    Route::match(['get', 'post'], '{locale}/site/pornstars/{site_id}', 'ConfigController@ajaxSitePornstars')->name('ajaxSitePornstars');
 
     Route::match(['get', 'post'], '{locale}/admin/saveTagTranslation/{tag_id}', 'ConfigController@saveTagTranslation')->name('saveTagTranslation');
     Route::match(['get', 'post'], '{locale}/admin/saveCategoryTranslation/{scene_id}', 'ConfigController@saveCategoryTranslation')->name('saveCategoryTranslation');
