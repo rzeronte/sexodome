@@ -16,7 +16,7 @@
         @include('panel._header_config')
     </div>
 
-    <div class="row" style="margin-top:20px;">
+    <div class="row">
         <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
             <p><i class="glyphicon glyphicon-th"></i> <b>Scenes</b>
             <b>{{ number_format($scenes->total(), 0, ",", ".") }}</b> found for:
@@ -219,32 +219,6 @@
         </div>
     </div>
 </div>
-
-<style>
-    .successAjax{
-        border: solid 3px green;
-    }
-
-    .errorAjax{
-        border: solid 3px red;
-    }
-
-    .js_tags+.tag-editor { background: #fafafa; font-size: 12px; }
-    .js_tags+.tag-editor .tag-editor-spacer { width: 7px; }
-    .js_tags+.tag-editor .tag-editor-delete { display: none; }
-    .js_tags_tier1+.tag-editor .tag-editor-tag {
-        color: #ffffff; background: limegreen;
-        border-radius: 2px;
-    }
-    .js_tags_tier2+.tag-editor .tag-editor-tag {
-        color: #ffffff; background: orange;
-        border-radius: 2px;
-    }
-    .js_tags_tier3+.tag-editor .tag-editor-tag {
-        color: #ffffff; background: deepskyblue;
-        border-radius: 2px;
-    }
-</style>
 
 </body>
 </html>

@@ -1,5 +1,10 @@
 <?php $loop = 0 ?>
 <div class="row">
+    @if (count($categories) == 0)
+        <div class="row" style="margin:0px;padding:15px;">
+            Currently no categories
+        </div>
+    @endif
 
     @foreach($categories as $category)
         <?php
@@ -49,7 +54,7 @@
     @endforeach
 </div>
 
-<div class="row site_categories_paginator" style="background-color:white;padding:10px;">
+<div class="row site_categories_paginator" style="padding:10px;">
     <?php $categories->setPath('categories/'.$site->id);?>
     <?php echo $categories->render(); ?>
 </div>

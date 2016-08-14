@@ -1,5 +1,11 @@
 <?php $loop = 0 ?>
 <div class="row">
+    @if (count($tags) == 0)
+        <div class="row" style="margin:0px;padding:15px;">
+            Currently no tags
+        </div>
+    @endif
+
     @foreach($tags as $tag)
         <?php
         $loop++;

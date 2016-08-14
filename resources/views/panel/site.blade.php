@@ -10,10 +10,6 @@
 <div class="container">
     <div class="header row">
         @include('panel._header_config')
-        <br/>
-    </div>
-
-    <div class="row">
     </div>
 
     @if(Session::get('error'))
@@ -22,7 +18,7 @@
 
     <div class="row">
 
-        <div class="col-md-12" style=";padding:10px;">
+        <div class="col-md-12">
             <div class="row">
                 <div class="col-md-12">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}"/>

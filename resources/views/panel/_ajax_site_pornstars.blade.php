@@ -1,5 +1,11 @@
 <?php $loop = 0 ?>
 <div class="row">
+    @if (count($pornstars) == 0)
+        <div class="row" style="margin:0px;padding:15px;">
+            Currently no pornstars
+        </div>
+    @endif
+
     @foreach($pornstars as $pornstar)
         <?php
         $loop++;

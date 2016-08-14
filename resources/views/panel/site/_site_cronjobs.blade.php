@@ -1,6 +1,6 @@
 <div class="col-md-12 detail-cronjobs">
 
-    <div class="row cronjobs_ajax_container" style="background-color:white;">
+    <div class="row cronjobs_ajax_container">
         <?php $loop = 0 ?>
 
         @if ($site->cronjobs()->count() == 0)
@@ -38,7 +38,7 @@
         </div>
     </div>
 
-    <div class="row" style="background-color:white;">
+    <div class="row">
         <?php $loop = 0 ?>
         @foreach($channels as $channel)
             <?php
