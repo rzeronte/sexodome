@@ -40,29 +40,32 @@ class BotAnalytics extends Command
 
         foreach($sites as $site) {
             if ($site->ga_account != '') {
-                $analyticsData = LaravelAnalyticsFacade::setSiteId('ga:'.$site->ga_account)->getVisitorsAndPageViews(2);
-                rZeBotUtils::message("[ANALYTICS ". $site->getHost(). "]", "yellow", true, true);
+                try {
+                    $analyticsData = LaravelAnalyticsFacade::setSiteId('ga:' . $site->ga_account)->getVisitorsAndPageViews(2);
+                    rZeBotUtils::message("[ANALYTICS " . $site->getHost() . "]", "yellow", true, true);
 
-                foreach ($analyticsData as $data) {
+                    foreach ($analyticsData as $data) {
 
-                    $fecha = $data["date"];
-                    $arrayData = array(
-                        "fecha"     => date("Y-m-d", strtotime($fecha)),
-                        "visitors"  => $data["visitors"],
-                        "pageViews" => $data["pageViews"]
-                    );
+                        $fecha = $data["date"];
+                        $arrayData = array(
+                            "fecha" => date("Y-m-d", strtotime($fecha)),
+                            "visitors" => $data["visitors"],
+                            "pageViews" => $data["pageViews"]
+                        );
 
-                    rZeBotUtils::message("[ANALYTICS] " . $fecha." | ".$arrayData["visitors"]." | ".$arrayData["pageViews"], true, true);
+                        rZeBotUtils::message("[ANALYTICS] " . $fecha . " | " . $arrayData["visitors"] . " | " . $arrayData["pageViews"], true, true);
 
-                    Analytics::where('site_id', $site->id)->where('date', $arrayData["fecha"])->delete();
+                        Analytics::where('site_id', $site->id)->where('date', $arrayData["fecha"])->delete();
 
-                    $analytics = new Analytics();
-                    $analytics->site_id = $site->id;
-                    $analytics->date = $arrayData["fecha"];
-                    $analytics->visitors = $arrayData["visitors"];
-                    $analytics->pageviews = $arrayData["pageViews"];
-                    $analytics->save();
-
+                        $analytics = new Analytics();
+                        $analytics->site_id = $site->id;
+                        $analytics->date = $arrayData["fecha"];
+                        $analytics->visitors = $arrayData["visitors"];
+                        $analytics->pageviews = $arrayData["pageViews"];
+                        $analytics->save();
+                    }
+                } catch(\Exception $e) {
+                    rZeBotUtils::message("[ERROR ANALYTICS: " . $site->getHost() . "]", "red", true, true);
                 }
             }
         }
