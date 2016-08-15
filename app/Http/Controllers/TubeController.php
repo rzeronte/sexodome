@@ -257,7 +257,9 @@ class TubeController extends Controller
 
     public function ads($profile)
     {
-        $siteIframe = Site::find($this->commons->site->iframe_site_id);
+        $site = Site::find($this->commons->site->id);
+        $siteIframe = Site::find($site->iframe_site_id);
+        
         if (!$siteIframe) {
             abort(404, "Site for Iframe not found");
         }
