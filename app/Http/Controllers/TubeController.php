@@ -15,7 +15,7 @@ use App\Model\Scene;
 use App\Model\CategoryTranslation;
 use App\Model\Category;
 use Storage;
-use Illuminate\Support\Facades\Redirect;
+
 class TubeController extends Controller
 {
     var $commons;
@@ -256,7 +256,7 @@ class TubeController extends Controller
 
     public function ads($profile)
     {
-        $siteIframe = App\Model\Site::find($this->commons->site->iframe_site_id);
+        $siteIframe = Site::find($this->commons->site->iframe_site_id);
         if (!$siteIframe) {
             abort(404, "Site for Iframe not found");
         }
