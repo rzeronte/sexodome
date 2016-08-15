@@ -40,6 +40,8 @@
 </section>
 
 
+@include('tube._iframe_network')
+
 @include('tube._footer')
 @include('tube._javascripts')
 
