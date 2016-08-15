@@ -12,6 +12,7 @@ use URL;
 use Auth;
 use App\rZeBot\rZeBotCommons;
 use App\Model\Scene;
+use App\Model\Site;
 use App\Model\CategoryTranslation;
 use App\Model\Category;
 use Storage;
