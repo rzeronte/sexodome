@@ -12,10 +12,6 @@
         @include('tube._header')
     </section>
 
-    <section class="container tags_header">
-        @include('tube._categories')
-    </section>
-
     <section class="container videos">
         <div class="col-md-12">
             @include('tube._videos')

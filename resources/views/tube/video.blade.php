@@ -12,10 +12,6 @@
         @include('tube._header')
     </section>
 
-    <section class="container tags_header">
-        @include('tube._categories')
-    </section>
-
     @include('tube._video')
 
     @if ($language->iframe_src != "")
