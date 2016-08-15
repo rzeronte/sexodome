@@ -11,10 +11,6 @@
     @include('tube._header')
 </section>
 
-<section class="container tags_header">
-    @include('tube._categories', ["categories" =>$categories_head])
-</section>
-
 <section class="row tags_header">
     <div class="container">
         <div class="clearfix"></div>
