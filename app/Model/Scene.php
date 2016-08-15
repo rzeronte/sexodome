@@ -26,7 +26,7 @@ class Scene extends Model
 
     public function categories()
     {
-        return $this->belongsToMany('App\Model\Category', 'scene_category', 'category_id', 'scene_id');
+        return $this->belongsToMany('App\Model\Category', 'scene_category', 'scene_id', 'category_id');
     }
 
     public function translations()
