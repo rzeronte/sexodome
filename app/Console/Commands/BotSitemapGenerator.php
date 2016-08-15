@@ -62,6 +62,9 @@ class BotSitemapGenerator extends Command
         // Home
         $sitemap->add(route('categories', ["host" => $site->getHost()]), date('Y-m-d').'T00:00:00+00:00', '1.0', 'daily');
 
+        // Pornstars
+        $sitemap->add(route('pornstars', ["host" => $site->getHost()]), date('Y-m-d').'T00:00:00+00:00', '1.0', 'daily');
+
         // Scenes
         $i = 0;
         foreach ($scenes as $scene) {
@@ -73,6 +76,14 @@ class BotSitemapGenerator extends Command
                 $this->info("$i - [SUCCESS] Url: ".route('video', ['permalink'=>$translation->permalink]));
                 $sitemap->add(route('video', ['permalink'=>$translation->permalink, "host" => $site->getHost()]), date('Y-m-d').'T00:00:00+00:00', '1.0', 'daily');
             }
+            $i++;
+        }
+
+        // Pornstars
+        $i = 0;
+        foreach ($site->pornstars()->get() as $pornstar) {
+            $this->info("$i - [SUCCESS] Url: ".route('pornstar', ['permalinkPornstar' => $pornstar->permalink]));
+            $sitemap->add(route('pornstar', ['permalinkPornstar' => $pornstar->permalink, "host" => $site->getHost()]), date('Y-m-d').'T00:00:00+00:00', '1.0', 'daily');
             $i++;
         }
 
