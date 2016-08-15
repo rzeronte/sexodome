@@ -273,7 +273,7 @@ class TubeController extends Controller
             'title'          => "Iframe - Ads",
             'categories'     => $categories,
             'site'           => $this->commons->site,
-
+            'siteIframe'     => $siteIframe
         ])->header('Cache-control', 'max-age=3600');
     }
 

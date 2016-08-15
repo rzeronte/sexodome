@@ -13,7 +13,7 @@
     <div id="adsCarousel" class="carousel slide" data-ride="carousel">
         <!-- Wrapper for slides -->
         <?php $i = 0 ?>
-        <h2 style="color:white">{{$site->getHost()}}</h2>
+        <h2 style="color:white">{{$siteIframe->getHost()}}</h2>
         <div class="carousel-inner" role="listbox">
         @foreach ($categories->chunk(6) as $chunk)
             <div class="item @if ($i==0)active @endif">
@@ -21,7 +21,7 @@
                     <div class="scene">
                         <?php $translation = $scene->translations()->where('language_id',$language->id)->first(); ?>
                         @if ($translation)
-                            <a href="{{route('category', ['profile'=>$site->getHost(),'permalink' => $translation->permalink])}}?utm_source=ads_{{$language->domain}}" alt="{{$translation->title}}" target="_blank">
+                            <a href="{{route('category', ['profile'=>$siteIframe->getHost(),'permalink' => $translation->permalink])}}?utm_source=ads_{{$language->domain}}" alt="{{$translation->title}}" target="_blank">
                                 <p class="text">{{$translation->name}}</p>
                                 <img src="{{$translation->thumb}}" alt="{{$translation->name}}">
                             </a>
