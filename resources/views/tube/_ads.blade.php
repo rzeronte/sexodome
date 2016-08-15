@@ -21,7 +21,7 @@
                     <div class="scene">
                         <?php $translation = $scene->translations()->where('language_id',$language->id)->first(); ?>
                         @if ($translation)
-                            <a href="{{route('category', ['profile'=>$siteIframe->getHost(),'permalink' => $translation->permalink])}}?utm_source=ads_{{$language->domain}}" alt="{{$translation->title}}" target="_blank">
+                            <a href="{{route('category', ['profile'=>$siteIframe    ->getHost(),'permalink' => $translation->permalink])}}?utm_source=ads_{{$language->domain}}" alt="{{$translation->title}}" target="_blank">
                                 <p class="text">{{$translation->name}}</p>
                                 <img src="{{$translation->thumb}}" alt="{{$translation->name}}">
                             </a>

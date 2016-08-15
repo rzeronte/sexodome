@@ -161,6 +161,8 @@ $( document ).ready(function() {
         $( ".site_pornstars_paginator .pagination" ).on('click', 'a', function(event) {
             var url = $(this).attr("href");
 
+            $(".pornstars_ajax_container .pagination").append("<img src='/images/loading.gif'>").fadeIn('fast');
+
             $.ajax({
                 url: url,
                 method: 'get'
@@ -179,6 +181,8 @@ $( document ).ready(function() {
     eventPaginatorWorkers = function () {
         $( ".site_workers_paginator .pagination" ).on('click', 'a', function(event) {
             var url = $(this).attr("href");
+
+            $(".workers_ajax_container .pagination").append("<img src='/images/loading.gif'>").fadeIn('fast');
 
             $.ajax({
                 url: url,
@@ -199,6 +203,8 @@ $( document ).ready(function() {
         $( ".site_categories_paginator .pagination" ).on('click', 'a', function(event) {
             var url = $(this).attr("href");
 
+            $(".categories_ajax_container .pagination").append("<img src='/images/loading.gif'>").fadeIn('fast');
+
             $.ajax({
                 url: url,
                 method: 'get'
@@ -217,6 +223,8 @@ $( document ).ready(function() {
     eventPaginatorTags = function () {
         $( ".site_tags_paginator .pagination" ).on('click', 'a', function(event) {
             var url = $(this).attr("href");
+
+            $(".tags_ajax_container .pagination").append("<img src='/images/loading.gif'>").fadeIn('fast');
 
             $.ajax({
                 url: url,
@@ -421,17 +429,18 @@ function changeThumb(video) {
     timer = setTimeout(function(){ changeThumb(video); }, 1000);
 }
 
+// Sticker messages
 function showGenericalErrorMessage() {
     $("#sticker").removeClass('sticker_ok');
     $("#sticker").addClass('sticker_ok');
-    $("#sticker").find('.text-muted').html('Oops, please try in a few minutes...');
+    $("#sticker").find('.text-muted').html("<i class='glyphicon glyphicon-remove-sign'></i> Oops, please try in a few minutes...");
     $("#sticker").fadeIn('slow').animate({opacity: 1.0}, 1500).effect("pulsate", { times: 2 }, 800).fadeOut('slow');
 }
 
 function showGenericalSuccessMessage() {
     $("#sticker").removeClass('sticker_ko');
     $("#sticker").addClass('sticker_ok');
-    $("#sticker").find('.text-muted').html('Operation done successfully');
+    $("#sticker").find('.text-muted').html("<i class='glyphicon glyphicon-ok-sign'></i> Operation done successfully");
     $("#sticker").fadeIn('slow').animate({opacity: 1.0}, 1500).effect("pulsate", { times: 2 }, 800).fadeOut('slow');
 }
 

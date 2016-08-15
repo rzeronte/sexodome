@@ -3,8 +3,8 @@
         <li role="presentation" class="active"><a href="#detail-seo" aria-controls="detail-seo" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-signal"></i> SEO</a></li>
         <li role="presentation"><a href="#detail-logo" aria-controls="detail-logo" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-picture"></i> Logo</a></li>
         <li role="presentation"><a href="#detail-categories" aria-controls="detail-categories" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-th-large"></i> Categories</a></li>
-        <li role="presentation"><a href="#detail-pornstars" aria-controls="detail-pornstars" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-film"></i> Pornstars</a></li>
         <li role="presentation"><a href="#detail-tags" aria-controls="detail-tags" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-th"></i> Tags</a></li>
+        <li role="presentation"><a href="#detail-pornstars" aria-controls="detail-pornstars" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-film"></i> Pornstars</a></li>
         <li role="presentation"><a href="#detail-analytics" aria-controls="detail-analytics" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-globe"></i> Google</a></li>
         <li role="presentation"><a href="#detail-iframe" aria-controls="detail-iframe" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-screenshot"></i> IFrame</a></li>
         <li role="presentation"><a href="#detail-colors" aria-controls="detail-colors" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-tint"></i> Colors</a></li>

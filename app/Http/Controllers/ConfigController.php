@@ -386,12 +386,12 @@ class ConfigController extends Controller
         }
 
         // categories y tags son 'false' en string, por requisito del comando (refact)
-        $categories = Input::get('categories');
+        $categories = Input::get('categories', false);
         if (strlen($categories) == 0) {
             $categories = 'false';
         }
 
-        $tags = Input::get('tags');
+        $tags = Input::get('tags', false);
         if (strlen($tags) == 0) {
             $tags = 'false';
         }
@@ -901,8 +901,8 @@ class ConfigController extends Controller
             abort(404, "Channel not found");
         }
 
-        $categories = Input::get('categories');
-        $tags = Input::get('tags');
+        $categories = Input::get('categories', false);
+        $tags = Input::get('tags', false);
 
         if (strlen($categories) == 0) {
             $categories = 'false';

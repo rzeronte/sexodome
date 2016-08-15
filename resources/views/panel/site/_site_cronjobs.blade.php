@@ -69,8 +69,25 @@
                         </select>
                     </div>
                     <div class="col-md-3">
-                        <input type="text" name="categories" class="form-control" placeholder="categories comma separated" style="margin-bottom:5px;">
-                        <input type="text" name="tags" class="form-control" placeholder="tags comma separated">
+                        <?php $cfg = new $channel->mapping_class; ?>
+                        <?php $mappedColumn = $cfg->mappingColumns(); ?>
+
+                        @if (!$mappedColumn['tags'])
+                            <div class="alert alert-danger" role="alert" style="margin-top:10px;">
+                                <i class='glyphicon glyphicon-ban-circle'></i> No tags filter available
+                            </div>
+                        @else
+                            <input type="text" name="tags" class="form-control" placeholder="tags comma separated">
+                        @endif
+
+                        @if (!$mappedColumn['categories'])
+                            <div class="alert alert-danger" role="alert" style="margin-top:10px;">
+                                <i class='glyphicon glyphicon-ban-circle'></i> No categories filter available
+                            </div>
+                        @else
+                            <input type="text" name="categories" class="form-control" placeholder="categories comma separated" style="margin-top: 10px;">
+                        @endif
+
                     </div>
 
                     <div class="col-md-2">

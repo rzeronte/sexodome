@@ -36,14 +36,12 @@ class BotAnalytics extends Command
      */
     public function handle()
     {
-        echo PHP_EOL."INIT RZEBOT-ANALYTICS".PHP_EOL;
-
         $sites = Site::all();
 
         foreach($sites as $site) {
             if ($site->ga_account != '') {
-                echo PHP_EOL."Getting for ".$site->domain.PHP_EOL;
                 $analyticsData = LaravelAnalyticsFacade::setSiteId('ga:'.$site->ga_account)->getVisitorsAndPageViews(2);
+                rZeBotUtils::message("[ANALYTICS ". $site->getHost(). "]", "yellow", true, true);
 
                 foreach ($analyticsData as $data) {
 
@@ -54,7 +52,7 @@ class BotAnalytics extends Command
                         "pageViews" => $data["pageViews"]
                     );
 
-                    echo PHP_EOL.$fecha." | ".$arrayData["visitors"]." | ".$arrayData["pageViews"].PHP_EOL;
+                    rZeBotUtils::message("[ANALYTICS] " . $fecha." | ".$arrayData["visitors"]." | ".$arrayData["pageViews"], true, true);
 
                     Analytics::where('site_id', $site->id)->where('date', $arrayData["fecha"])->delete();
 
@@ -66,7 +64,6 @@ class BotAnalytics extends Command
                     $analytics->save();
 
                 }
-
             }
         }
     }

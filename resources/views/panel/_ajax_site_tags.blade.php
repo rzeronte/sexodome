@@ -53,7 +53,7 @@
 
 </div>
 
-<div class="row site_tags_paginator" style="background-color:white;padding:10px;">
+<div class="row site_tags_paginator" style="padding:10px;">
     <?php $tags->setPath('tags/'.$site->id);?>
     <?php echo $tags->render(); ?>
 </div>
