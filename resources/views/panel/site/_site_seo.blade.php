@@ -29,135 +29,128 @@
                 </div>
             </div>
 
-            <div class="col-md-6">
-                <div class="row" style="padding:10px;">
-                    <div class="col-md-3">
-                        Title Index:
-                    </div>
-                    <div class="col-md-7">
-                        <input type="text" class="form-control" value="{{$site->title_index}}" name="title_index">
-                        <small><b>Variables:</b> {domain}</small>
-                    </div>
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Title Index:
                 </div>
-
-                <div class="row" style="padding:10px;">
-                    <div class="col-md-3">
-                        Description Index:
-                    </div>
-
-                    <div class="col-md-7">
-                        <input type="text" class="form-control" value="{{$site->description_index}}" name="description_index">
-                        <small><b>Variables:</b> {domain}</small>
-                    </div>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" value="{{$site->title_index}}" name="title_index">
+                    <small><b>Variables:</b> {domain}</small>
                 </div>
-
-                <div class="row" style="padding:10px;">
-                    <div class="col-md-3">
-                        Title Category:
-                    </div>
-
-                    <div class="col-md-7">
-                        <input type="text" class="form-control" value="{{$site->title_category}}" name="title_category">
-                        <small><b>Variables:</b> {domain}, {category}</small>
-                    </div>
-                </div>
-
-                <div class="row" style="padding:10px;">
-                    <div class="col-md-3">
-                        Description Category:
-                    </div>
-
-                    <div class="col-md-7">
-                        <input type="text" class="form-control" value="{{$site->description_category}}" name="description_category">
-                        <small><b>Variables:</b> {domain}, {category}</small>
-                    </div>
-                </div>
-
-                <div class="row" style="padding:10px;">
-                    <div class="col-md-3">
-                        Title Pornstars:
-                    </div>
-
-                    <div class="col-md-7">
-                        <input type="text" class="form-control" value="{{$site->title_pornstars}}" name="title_pornstars">
-                        <small><b>Variables:</b> {domain}, {pornstar}</small>
-                    </div>
-                </div>
-
-                <div class="row" style="padding:10px;">
-                    <div class="col-md-3">
-                        Description Pornstars:
-                    </div>
-
-                    <div class="col-md-7">
-                        <input type="text" class="form-control" value="{{$site->description_pornstars}}" name="description_pornstars">
-                        <small><b>Variables:</b> {domain}</small>
-                    </div>
-                </div>
-
-                <div class="row" style="padding:10px;">
-                    <div class="col-md-3">
-                        Title Pornstar:
-                    </div>
-
-                    <div class="col-md-7">
-                        <input type="text" class="form-control" value="{{$site->title_pornstar}}" name="title_pornstar">
-                        <small><b>Variables:</b> {domain}, {pornstar}</small>
-                    </div>
-                </div>
-
-                <div class="row" style="padding:10px;">
-                    <div class="col-md-3">
-                        Description Pornstar:
-                    </div>
-
-                    <div class="col-md-7">
-                        <input type="text" class="form-control" value="{{$site->description_pornstar}}" name="description_pornstar">
-                        <small><b>Variables:</b> {domain}, {pornstar}</small>
-                    </div>
-                </div>
-
             </div>
 
-            <div class="col-md-6">
-
-                <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
-
-                <div class="row" style="padding:10px;">
-                    <div class="col-md-3">
-                        Domain:
-                    </div>
-                    <div class="col-md-7">
-                        <input type="text" class="form-control" value="{{$site->getHost()}}" name="domain" onfocus="blur()">
-                    </div>
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Description Index:
                 </div>
 
-                <div class="row" style="padding:10px;">
-                    <div class="col-md-3">
-                        Billboard Text:
-                    </div>
-                    <div class="col-md-7">
-                        <input type="text" class="form-control" value="{{$site->head_billboard}}" name="head_billboard">
-                    </div>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" value="{{$site->description_index}}" name="description_index">
+                    <small><b>Variables:</b> {domain}</small>
                 </div>
-
-                <div class="row" style="padding:10px;">
-                    <div class="col-md-3">
-                        GAnalytics:
-                    </div>
-                    <div class="col-md-7">
-                        <textarea name="google_analytics" class="form-control">{{$site->google_analytics}}</textarea>
-                    </div>
-                </div>
-
-                <div class="row" style="padding:10px;">
-                    <div class="col-md-7 col-md-offset-3">
-                        <input type="submit" class="btn btn-primary" value="Save settings for @if ($site->have_domain == 1){{$site->getHost()}}@else{{$site->name}}@endif" style="width:100%;"/>
-                    </div>
-                </div>
-
-
             </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Title Category:
+                </div>
+
+                <div class="col-md-7">
+                    <input type="text" class="form-control" value="{{$site->title_category}}" name="title_category">
+                    <small><b>Variables:</b> {domain}, {category}</small>
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Description Category:
+                </div>
+
+                <div class="col-md-7">
+                    <input type="text" class="form-control" value="{{$site->description_category}}" name="description_category">
+                    <small><b>Variables:</b> {domain}, {category}</small>
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Title index Pornstars:
+                </div>
+
+                <div class="col-md-7">
+                    <input type="text" class="form-control" value="{{$site->title_pornstars}}" name="title_pornstars">
+                    <small><b>Variables:</b> {domain}</small>
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Description index Pornstars:
+                </div>
+
+                <div class="col-md-7">
+                    <input type="text" class="form-control" value="{{$site->description_pornstars}}" name="description_pornstars">
+                    <small><b>Variables:</b> {domain}</small>
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Title Pornstar:
+                </div>
+
+                <div class="col-md-7">
+                    <input type="text" class="form-control" value="{{$site->title_pornstar}}" name="title_pornstar">
+                    <small><b>Variables:</b> {domain}, {pornstar}</small>
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Description Pornstar:
+                </div>
+
+                <div class="col-md-7">
+                    <input type="text" class="form-control" value="{{$site->description_pornstar}}" name="description_pornstar">
+                    <small><b>Variables:</b> {domain}, {pornstar}</small>
+                </div>
+            </div>
+            <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Domain:
+                </div>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" value="{{$site->getHost()}}" name="domain" onfocus="blur()">
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Billboard Text:
+                </div>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" value="{{$site->head_billboard}}" name="head_billboard">
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    GAnalytics:
+                </div>
+                <div class="col-md-7">
+                    <textarea name="google_analytics" class="form-control">{{$site->google_analytics}}</textarea>
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-7 col-md-offset-3">
+                    <input type="submit" class="btn btn-primary" value="Save settings for @if ($site->have_domain == 1){{$site->getHost()}}@else{{$site->name}}@endif" style="width:100%;"/>
+                </div>
+            </div>
+
+
         </div>
     </form>
 
