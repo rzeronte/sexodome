@@ -46,7 +46,7 @@ class BotSitemapGenerator extends Command
 
         $language_id = $site->language_id;
 
-        rZeBotUtils::message("Generating sitemap for " . $site->getSitemap(), "green");
+        rZeBotUtils::message("Generating sitemap for " . $site->getSitemap(), "green", true, true);
 
         // Scenes only for embed feeds
         $scenes = Scene::join('channels', 'channels.id', '=', 'scenes.channel_id')
@@ -58,6 +58,20 @@ class BotSitemapGenerator extends Command
             ->orderBy('published_at', 'desc')
             ->get()
         ;
+
+        $categories = $site->categories()->get();
+        $i = 0;
+        foreach($categories as $category) {
+            $categoryTranslation = $category->translations()->whereNotNull('permalink')->where('language_id', $language_id)->first();
+
+            if (!$categoryTranslation) {
+                $this->info("$i - [ERROR] Ignorando URL, la categoría " .$category->id ." no tiene traducción para el idioma id: $language_id");
+            } else {
+                $this->info("$i - [SUCCESS] Url: ".route('category', ['permalink'=>$categoryTranslation->permalink]));
+                $sitemap->add(route('category', ['permalink'=>$categoryTranslation->permalink, "host" => $site->getHost()]), date('Y-m-d').'T00:00:00+00:00', '1.0', 'daily');
+            }
+            $i++;
+        }
 
         // Home
         $sitemap->add(route('categories', ["host" => $site->getHost()]), date('Y-m-d').'T00:00:00+00:00', '1.0', 'daily');
