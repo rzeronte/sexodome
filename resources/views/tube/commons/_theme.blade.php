@@ -57,7 +57,7 @@
 
     .header_title_section{
         border-bottom: solid 2px {{$site->color2}} !important;
-        color: {{$site->color10}};
+        color: {{$site->color8}};
     }
 
     /****************************************************************************************** Video*/
