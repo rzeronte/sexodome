@@ -316,7 +316,7 @@ $( document ).ready(function() {
 
     $( "#selector_site" ).change(function() {
         var option = $(this).find('option:selected', this).attr('data-action');
-        if (option != "") {
+        if (option.length > 0) {
             window.location = option;
         }
     });
