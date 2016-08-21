@@ -18,7 +18,7 @@
             </a>
         </div>
         <div class="col-md-4 text-right">
-            <a href="http://www.sexodome.com">powered by sexodome.com</a>
+            <a href="http://www.sexodome.com" target="_blank">made in by sexodome.com</a>
         </div>
     </div>
 </section>
