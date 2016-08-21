@@ -52,7 +52,7 @@
     }
 
     .category_outer .category_info .link_nvideos {
-        color: {{$site->color10}};
+        color: {{$site->color5}};
     }
 
     .header_title_section{
