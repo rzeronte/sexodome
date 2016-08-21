@@ -34,7 +34,6 @@
 
     {{--<!--Bootstrap and Other Vendors-->--}}
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{asset('css/front.css')}}">
 
     <!--[if lt IE 9]>
     <script src="{{asset('js/html5shiv.min.js')}}"></script>
