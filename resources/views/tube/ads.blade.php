@@ -56,6 +56,7 @@
     .container {
         width: 100%;
         padding: 40px;
+        padding-top: 0px;
     }
 
     .jcarousel-wrapper{
