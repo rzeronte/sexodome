@@ -33,7 +33,7 @@
         <div class="col-md-2">
             <label>Main text:</label>
             <div id="theme_color_4{{$site->id}}" class="input-group colorpicker-component">
-                <input type="text" name="color5" value="{{$site->color4}}" class="form-control" />
+                <input type="text" name="color4" value="{{$site->color4}}" class="form-control" />
                 <span class="input-group-addon"><i></i></span>
             </div>
             <script>$(function() { $('#theme_color_4{{$site->id}}').colorpicker({ color: '{{$site->color4}}', format: 'hex'  });});</script>

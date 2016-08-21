@@ -48,7 +48,7 @@
     }
 
     .category_outer .category_info .link_category {
-        color: {{$site->color4}};
+        color: {{$site->color4}} !important;
     }
 
     .category_outer .category_info .link_nvideos {
