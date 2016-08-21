@@ -7,73 +7,82 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{asset('css/jquery.jcarousel.min.css')}}">
+    <script src="{{asset('js/jquery.jcarousel.min.js')}}"></script>
+    <script src="{{asset('js/jcarousel.responsive.js')}}"></script>
 </head>
 
 <body>
-    <div id="adsCarousel" class="carousel slide" data-ride="carousel">
         <!-- Wrapper for slides -->
         <?php $i = 0 ?>
-        <h2>{{$siteIframe->getHost()}}</h2>
-        <div class="carousel-inner" role="listbox">
-        @foreach ($categories->chunk(6) as $chunk)
-            <div class="item @if ($i==0)active @endif">
-                @foreach ($chunk as $scene)
-                    <div class="scene">
-                        <?php $translation = $scene->translations()->where('language_id',$language->id)->first(); ?>
-                        @if ($translation)
-                            <a href="{{route('category', ['profile'=>$siteIframe    ->getHost(),'permalink' => $translation->permalink])}}?utm_source=ads_{{$language->domain}}" alt="{{$translation->title}}" target="_blank">
-                                <p class="text">{{$translation->name}}</p>
-                                <img src="{{$translation->thumb}}" alt="{{$translation->name}}">
-                            </a>
-                        @endif
-                    </div>
-                @endforeach
+        <div class="container">
+            <h2>{{$siteIframe->getHost()}}</h2>
+
+            <div class="jcarousel-wrapper">
+                <div class="jcarousel">
+                    <ul>
+                        @foreach ($categories as $scene)
+                            <li>
+                                <?php $translation = $scene->translations()->where('language_id',$language->id)->first(); ?>
+                                <div class="scene">
+                                    @if ($translation)
+                                        <a href="{{route('category', ['profile'=>$siteIframe    ->getHost(),'permalink' => $translation->permalink])}}?utm_source=ads_{{$language->domain}}" alt="{{$translation->title}}" target="_blank">
+                                            <p class="text">{{$translation->name}}</p>
+                                            <img src="{{$translation->thumb}}" alt="{{$translation->name}}">
+                                        </a>
+                                    @endif
+                                </div>
+                            </li>
+                            <?php $i++;?>
+                        @endforeach
+                    </ul>
+                </div>
+                <a href="#" class="jcarousel-control-prev">&lsaquo;</a>
+                <a href="#" class="jcarousel-control-next">&rsaquo;</a>
+
+                <p class="jcarousel-pagination"></p>
             </div>
-            <?php $i++;?>
-        @endforeach
+
         </div>
 
-                <!-- Left and right controls -->
-        <a class="left carousel-control" href="#adsCarousel" role="button" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="right carousel-control" href="#adsCarousel" role="button" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-</div>
 
 <style>
+
     body{
-        overflow: hidden;
         margin: 0;
         padding: 0;
     }
-    .item{
+
+    .container {
+        width: 100%;
+        padding: 40px;
     }
+
+    .jcarousel-wrapper{
+        width: 100%;
+        height: auto;
+    }
+
     .scene{
-        width:175px;
-        float:left;
-        margin-right: 4px !important;
-        border: solid 1px black;
-        box-sizing: border-box;
+        width: 100%;
     }
+
+    .scene img{
+        width: 100%;
+        height: 150px !important;
+    }
+
+    .scene a{
+        width: 100%;
+        height: 100%;
+    }
+
     .scene:hover{
         font-weight: bold;
         text-decoration: none;
     }
 
-    .scene img{
-        width: 100%;
-        height: 130px;
-    }
-
-    .carousel-inner{
-        margin-left: 150px;
-    }
-
-    .text{
+    .text {
         width: 100%;
         font-size: 14px;
         background-color: black;
@@ -83,17 +92,18 @@
         padding: 0;
         margin: 0;
     }
-    h2{
+
+    h2 {
         margin:0;
         padding: 0;
-        margin-left: 150px;
     }
 
-    #adsCarousel{
-        background-color: gray;
-        padding-bottom: 20px;
-    }
 </style>
 
+<script>
+    $('.jcarousel').jcarousel({
+        'visible': 6
+    });
+</script>
 </body>
 </html>
