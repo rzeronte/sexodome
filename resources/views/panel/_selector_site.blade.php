@@ -3,6 +3,7 @@
         <img class="loading-panel-img" src="{{asset('images/loading.gif')}}" style="width: 30px;"/>
         <div class="form-group">
             <select id="selector_site" name="site_id" class="selectpicker show-tick" data-width="100%" data-live-search="true" data-style="btn-primary" >
+                <option> -- Select your website -- </option>
                 @foreach($sites as $s)
                     @if (isset($site))
                         @if ($s->id != $site->id)

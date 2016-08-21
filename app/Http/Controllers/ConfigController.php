@@ -50,14 +50,7 @@ class ConfigController extends Controller
 
     public function home()
     {
-        $nSites = Site::where('user_id', '=', Auth::user()->id)->count();
-
-        if ($nSites == 0) {
-            return redirect()->route('sites', ['locale' => $this->commons->locale]);
-        } else {
-            $site = Site::where('user_id', '=', Auth::user()->id)->first();
-            return redirect()->route('site', ['locale' => $this->commons->locale, "site_id" => $site->id]);
-        }
+        return redirect()->route('sites', ['locale' => $this->commons->locale]);
     }
 
     public function scenes()
