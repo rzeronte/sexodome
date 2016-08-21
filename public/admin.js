@@ -316,7 +316,9 @@ $( document ).ready(function() {
 
     $( "#selector_site" ).change(function() {
         var option = $(this).find('option:selected', this).attr('data-action');
-        window.location = option;
+        if (option != "undefined") {
+            window.location = option;
+        }
     });
 
     $( "#add_site_type" ).change(function() {
