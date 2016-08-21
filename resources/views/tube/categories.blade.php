@@ -2,47 +2,18 @@
 <html>
 
 <head>
-    @include('tube._head')
-    <link rel="stylesheet" href="{{asset('site.css')}}">
+    @include('tube.commons._head')
 </head>
 
 <body>
-<section class="row header">
-    @include('tube._header')
-</section>
 
-<section class="row tags_header">
-    <div class="container">
-        <div class="clearfix"></div>
+    @include('tube.commons._header')
 
-        <div class="row">
-            @foreach($categories as $category)
-                <div class="col-md-2 col-sm-4 col-xs-4 tube_cat">
-                    <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}" class="img_link">
-                        <img src="{{$category->thumb}}"/>
-                    </a>
-
-                    <div class="clearfix"></div>
-
-                    <div class="text_link" style="float:left; display: inline-block">
-                        <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}">{{ str_limit(ucfirst($category->name), $limit = 13 , $end = '...') }} ({{$category->nscenes}})</a>
-                    </div>
-                </div>
-            @endforeach
-
-        </div>
-    </div>
-
-    <div class="col-md-12 text-center">
-        <?php echo $categories->appends(['q' => $query_string])->render(); ?>
-    </div>
-
-</section>
+    @include('tube.commons._categories')
 
 
-@include('tube._iframe_network')
-
-@include('tube._footer')
-@include('tube._javascripts')
+    @include('tube.commons._iframe_network')
+    @include('tube.commons._footer')
+    @include('tube.commons._javascripts')
 
 </body>

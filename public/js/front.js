@@ -1,3 +1,17 @@
+$(document).ready(function(){
+    equalizeDivHeight('.info_video');
+
+    $('.border-thumb').mouseenter(function () {
+        $(this).animate({
+            borderWidth: 6
+        }, 100);
+    }).mouseleave(function () {
+        $(this).animate({
+            borderWidth: 0
+        }, 100);
+    });
+});
+
 var timer;
 
 function outThumb(video){
@@ -38,9 +52,9 @@ function preloadImage(source, destElem) {
     image.src = source;
 
     image.onload = function () {
-        var cssBackground = 'url(' + image.src + ')';
-
-        $(destElem).css('background-image', cssBackground);
+        $(destElem).fadeTo(200,0.30, function() {
+            $(destElem).attr('src', image.src);
+        }).fadeTo(500,1);
     };
 }
 
@@ -81,3 +95,13 @@ function eraseCookie(name) {
 //            OpenInNewTab('http://www.nudeangelscams.com');
 //        }
 
+function equalizeDivHeight(fullClassSelector) {
+    var highestInfoVideo = 0;
+    $(fullClassSelector).each(function(){
+        if($(this).height() > highestInfoVideo){
+            highestInfoVideo = $(this).height();
+        }
+    });
+
+    $(fullClassSelector).height(highestInfoVideo);
+}

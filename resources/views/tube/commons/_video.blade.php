@@ -1,5 +1,5 @@
 <section class="row">
-    <div class="container show-video">
+    <div class="container">
         <h2>{{$video->title}}</h2>
         <?php
         $iframe = $video->iframe;
@@ -16,7 +16,7 @@
             <div class="col-md-10">
                 <?php echo $iframe;?>
                     @if ($video->description && $video->description != 'NULL')
-                        <p class="video_description">{{$video->description}}</p>
+                        <p>{{$video->description}}</p>
                     @endif
 
             </div>

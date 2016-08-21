@@ -96,6 +96,11 @@ class BotTranslate extends Command
         $languageFrom = Language::where('code', $from)->first();
         $languageTo = Language::where('code', $to)->first();
 
+        if (!$languageFrom || !$languageTo) {
+            echo "[ERROR] Languages not found. Remember use his code. (es, de, it, en, de, br)";
+            exit;
+        }
+
         $scenes = Scene::where('site_id', $site_id)->get();
         $i=0;
         foreach ($scenes as $scene) {

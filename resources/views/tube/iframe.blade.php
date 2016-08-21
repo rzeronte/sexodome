@@ -19,9 +19,9 @@
 </head>
 
 <?php echo $scene->iframe?>
-<div class="main_tags row" style="main_tagspadding: 10px 0 30px 0;">
+<div class="row">
     <div class="col-md-6">
-        <a href="{{route('index')}}" target="_blank" class="logo_search" alt="{{$language->title}}"><img src="{{asset('logo.png')}}"/></a>
+        <a href="{{route('index')}}" target="_blank" alt="{{$language->title}}"><img src="{{asset('logo.png')}}"/></a>
     </div>
 
     <div class="col-md-6">

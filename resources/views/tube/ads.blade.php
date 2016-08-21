@@ -13,7 +13,7 @@
     <div id="adsCarousel" class="carousel slide" data-ride="carousel">
         <!-- Wrapper for slides -->
         <?php $i = 0 ?>
-        <h2 style="color:white">{{$siteIframe->getHost()}}</h2>
+        <h2>{{$siteIframe->getHost()}}</h2>
         <div class="carousel-inner" role="listbox">
         @foreach ($categories->chunk(6) as $chunk)
             <div class="item @if ($i==0)active @endif">

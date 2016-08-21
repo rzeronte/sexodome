@@ -31,20 +31,19 @@
     <link rel="manifest" href="{{asset('favicon/manifest.json')}}">
     <meta name="msapplication-TileColor" content="#e74c3c">
     <meta name="msapplication-TileImage" content="favicon/ms-icon-144x144.png">
-    <meta name="theme-color" content="#e74c3c">
 
     {{--<!--Bootstrap and Other Vendors-->--}}
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
-
-    {{--<!--Theme Styles-->--}}
-    <link rel="stylesheet" href="{{asset('css/default/style.css')}}">
-    <link rel="stylesheet" href="{{asset('css/responsive/responsive.css')}}">
+    <link rel="stylesheet" href="{{asset('css/front.css')}}">
 
     <!--[if lt IE 9]>
     <script src="{{asset('js/html5shiv.min.js')}}"></script>
     <script src="{{asset('js/respond.min.js')}}"></script>
     <![endif]-->
 
+    {{-- Theme Styles --}}
+    <link rel="stylesheet" href="{{asset('css/default/style.css')}}">
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link href='https://fonts.googleapis.com/css?family=Permanent+Marker' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
 

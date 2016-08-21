@@ -2,28 +2,22 @@
 <html>
 
 <head>
-    @include('tube._head')
-    <link rel="stylesheet" href="{{asset('site.css')}}">
-    <link href='https://fonts.googleapis.com/css?family=Permanent+Marker' rel='stylesheet' type='text/css'>
+    @include('tube.commons._head')
 </head>
 
 <body>
-    <section class="row header">
-        @include('tube._header')
-    </section>
+    @include('tube.commons._header')
 
-    <section class="container videos">
-        <div class="col-md-12">
-            @include('tube._videos')
-        </div>
+    <section>
+        @include('tube.commons._videos')
     </section>
 
     @if ($language->iframe_src != "")
         <section class="container">
-            @include('tube._iframe_network')
+            @include('tube.commons._iframe_network')
         </section>
     @endif
 
-    @include('tube._footer')
-    @include('tube._javascripts')
+    @include('tube.commons._footer')
+    @include('tube.commons._javascripts')
 </body>

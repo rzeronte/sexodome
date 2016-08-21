@@ -222,39 +222,6 @@ class TubeController extends Controller
         ]);
     }
 
-    public function topscenes($profile)
-    {
-        $query_string = Request::get('q');
-
-        // scenes
-        $scenes = Scene::getAllTranslated($this->commons->language->id)
-            ->where('status', 1)
-            ->where('site_id', $this->commons->site->id)
-            ->orderBy('duration', 'desc')
-            ->orderBy('rate', 'desc')
-            ->paginate(24*3);
-
-        // seo
-        $seo_title = str_replace("{domain}", $this->commons->site->getHost(), $this->commons->site->index_topscenes);
-        $seo_description = str_replace("{domain}", $this->commons->site->getHost(), $this->commons->site->description_topscenes);
-
-        return response()->view('tube.index', [
-            'profile'         => $profile,
-            'scenes'          => $scenes,
-            'removePaginator' => false,
-            'categories'      => $this->commons->site->categories()->get(),
-            'query_string'    => $query_string,
-            'resultsPerPage'  => $this->commons->perPage,
-            'language'        => $this->commons->language,
-            'languages'       => $this->commons->languages,
-            'seo_title'       => $seo_title,
-            'seo_description' => $seo_description,
-            'site'            => $this->commons->site,
-
-        ])->header('Cache-control', 'max-age=3600');
-    }
-
-
     public function ads($profile)
     {
         $siteIframe = Site::find($this->commons->site->iframe_site_id);
@@ -265,7 +232,7 @@ class TubeController extends Controller
 
         $categories = $siteIframe->categories()->limit(18)->get();
 
-        return response()->view('tube._ads', [
+        return response()->view('tube.ads', [
             'profile'        => $profile,
             'resultsPerPage' => $this->commons->perPage,
             'language'       => $this->commons->language,
@@ -399,7 +366,7 @@ class TubeController extends Controller
             'seo_title'       => $seo_title,
             'seo_description' => $seo_description,
             'site'            => $this->commons->site,
-
+            'pornstar'        => $pornstar
         ])->header('Cache-control', 'max-age=3600');
     }
 }
