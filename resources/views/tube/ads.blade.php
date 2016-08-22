@@ -15,35 +15,41 @@
 <body>
         <!-- Wrapper for slides -->
         <?php $i = 0 ?>
-        <div class="container">
-            <h2>{{$siteIframe->getHost()}}</h2>
+        <section>
+            <div class="container">
+                <div class="row">
+                    <h2>{{$siteIframe->getHost()}}</h2>
 
-            <div class="jcarousel-wrapper">
-                <div class="jcarousel">
-                    <ul>
-                        @foreach ($categories as $scene)
-                            <li>
-                                <?php $translation = $scene->translations()->where('language_id',$language->id)->first(); ?>
-                                <div class="scene">
-                                    @if ($translation)
-                                        <a href="{{route('category', ['profile'=>$siteIframe    ->getHost(),'permalink' => $translation->permalink])}}?utm_source=ads_{{$language->domain}}" alt="{{$translation->title}}" target="_blank">
-                                            <p class="text">{{$translation->name}}</p>
-                                            <img src="{{$translation->thumb}}" alt="{{$translation->name}}">
-                                        </a>
-                                    @endif
-                                </div>
-                            </li>
-                            <?php $i++;?>
-                        @endforeach
-                    </ul>
+                    <div class="jcarousel-wrapper col-md-12">
+                        <div class="jcarousel">
+                            <ul>
+                                @foreach ($categories as $scene)
+                                    <li>
+                                        <?php $translation = $scene->translations()->where('language_id',$language->id)->first(); ?>
+                                        <div class="scene">
+                                            @if ($translation)
+                                                <a href="{{route('category', ['profile'=>$siteIframe    ->getHost(),'permalink' => $translation->permalink])}}?utm_source=ads_{{$language->domain}}" alt="{{$translation->title}}" target="_blank">
+                                                    <p class="text">{{$translation->name}}</p>
+                                                    <img src="{{$translation->thumb}}" alt="{{$translation->name}}">
+                                                </a>
+                                            @endif
+                                        </div>
+                                    </li>
+                                    <?php $i++;?>
+                                @endforeach
+                            </ul>
+                        </div>
+                        <a href="#" class="jcarousel-control-prev">&lsaquo;</a>
+                        <a href="#" class="jcarousel-control-next">&rsaquo;</a>
+
+                        <p class="jcarousel-pagination"></p>
+                    </div>
+
                 </div>
-                <a href="#" class="jcarousel-control-prev">&lsaquo;</a>
-                <a href="#" class="jcarousel-control-next">&rsaquo;</a>
 
-                <p class="jcarousel-pagination"></p>
             </div>
 
-        </div>
+        </section>
 
 
 <style>

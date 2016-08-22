@@ -2,8 +2,8 @@
     <?php $agent = new \Jenssegers\Agent\Agent() ?>;
 
     @if (!$agent->isMobile())
-        <section>
+        <div class="container">
             <iframe src="http://{{$site->getHost()}}/ads" width="100%" style="border: none;height:305px;overflow:hidden !important;"></iframe>
-        </section>
+        </div>
     @endif
 @endif
