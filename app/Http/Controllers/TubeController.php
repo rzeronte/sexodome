@@ -89,7 +89,7 @@ class TubeController extends Controller
     {
         // check if tag exists, else redirect to route
         if (TagTranslation::where('permalink', $permalinkTag)->count() == 0) {
-            return redirect()->route('index');
+            return redirect()->route('categories', ['domain' => $this->commons->site->getHost()]);
         }
 
         $tagTranslation = TagTranslation::where('permalink', $permalinkTag)->first();
