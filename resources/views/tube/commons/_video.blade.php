@@ -40,8 +40,8 @@
 
         </div>
 
-        @include('tube._iframe_share')
-        @include('tube._related', ['videos'=>$related])
+        @include('tube.commons._iframe_share')
+        @include('tube.commons._related', ['videos'=>$related])
 
     </div>
 </section>
