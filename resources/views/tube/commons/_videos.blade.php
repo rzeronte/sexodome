@@ -90,10 +90,10 @@
 
     <div class="clearfix"></div>
 
-    <div class="col-md-12 text-center">
-        @if (!isset($removePaginator))
-            <?php echo $scenes->appends(['q' => $query_string])->render(); ?>
-        @endif
-    </div>
+    @if (!isset($removePaginator))
+        <div class="row text-center">
+                <?php echo $scenes->appends(['q' => $query_string])->render(); ?>
+        </div>
+    @endif
 
 </div>
