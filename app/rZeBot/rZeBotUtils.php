@@ -262,7 +262,7 @@ class rZeBotUtils
         }
 
         // mayores de 2 palabras
-        if (count(explode(" ", $tag)) > 3) {
+        if (count(explode(" ", $tag)) > 2) {
             return false;
         }
 
@@ -360,7 +360,7 @@ class rZeBotUtils
     {
         $transformedTag = rZeBotUtils::transformTagForCategory($tag->name);
         $i++;
-        // Solo se convertirán en categorías tags de una sola palabra
+
         $msgLog = "[" . number_format(($i*100)/ $abs_total, 0) ."%]";
         if (rZeBotUtils::isValidTag($transformedTag)) {
             $msgLog.= " " . $transformedTag;
@@ -376,16 +376,16 @@ class rZeBotUtils
 
             // Debug en pantalla para ver si el el tag es singular o plural
             if ($transformedTag == $plural) {
-                $msgLog.= " | Plural";
+                $msgLog.= " | is in plural";
             } else if ($transformedTag == $singular) {
-                $msgLog.=" | Singular";
+                $msgLog.=" | is in singular";
             }
 
             // Comprobamos si ya existe la categoría (las categorías solo serán plural)
             $categoryTranslation = CategoryTranslation::join('categories', 'categories.id', '=', 'categories_translations.category_id')
                 ->where('categories.site_id', '=', $site_id)
                 ->where("categories_translations.language_id", $englishLanguage)
-                ->where("categories_translations.name", $plural)
+                ->where("categories_translations.name", $singular)
                 ->first()
             ;
 
@@ -407,11 +407,10 @@ class rZeBotUtils
                     $newCategoryTranslation = new CategoryTranslation();
                     $newCategoryTranslation->category_id = $newCategory->id;
                     $newCategoryTranslation->language_id = $language->id;
-                    //@$newCategoryTranslation->thumb = $tag->scenes()->orderByRaw("RAND()")->limit(100)->first()->preview;
 
                     if ($language->id == $englishLanguage) {
-                        $newCategoryTranslation->permalink = str_slug($plural);
-                        $newCategoryTranslation->name = $plural;
+                        $newCategoryTranslation->permalink = str_slug($singular);
+                        $newCategoryTranslation->name = $singular;
                     }
                     $newCategoryTranslation->save();
                 }
@@ -420,7 +419,7 @@ class rZeBotUtils
                 $ids_sync = $tag->scenes()->select('scenes.id')->get()->pluck('id');
                 $ids_sync = array_unique($ids_sync->all());
 
-                $msgLog.=" | [CREATE CATEGORY] '$plural' | Sync ".count($ids_sync);
+                $msgLog.=" | [CREATE CATEGORY] '$singular' | Sync ".count($ids_sync);
 
                 $newCategory->nscenes = count($ids_sync);
                 $newCategory->save();
@@ -433,7 +432,7 @@ class rZeBotUtils
                 // Obtenemos la categoría partiendo de la traducción
                 $category = Category::find($categoryTranslation->category_id);
                 if (!$category) {
-                    $msgLog.= " | [CATEGORY NOT FOUND FROM HIS TRANSLATION] " . $plural. " | (" . $categoryTranslation->category_id . ")";
+                    $msgLog.= " | [CATEGORY NOT FOUND FROM HIS TRANSLATION] " . $singular. " | (" . $categoryTranslation->category_id . ")";
                     rZeBotUtils::message($msgLog, "red", false, false);
                     return;
                 }
@@ -459,7 +458,7 @@ class rZeBotUtils
 
                 $category->scenes()->sync($totalIds);
 
-                $msgLog.= " | [ALREADY EXISTS] " . $plural. " | (" . $categoryTranslation->category_id . ") | sync " . count($totalIds);
+                $msgLog.= " | [ALREADY EXISTS] " . $singular. " | (" . $categoryTranslation->category_id . ") | sync " . count($totalIds);
                 rZeBotUtils::message($msgLog, "yellow", false, false);
             }
         } else {

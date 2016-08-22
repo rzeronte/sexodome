@@ -278,22 +278,27 @@ class BotFeedFetcher extends Command
                 $tags_check = true;
                 if ($tags !== false) {
                     $tags_check = false;
-                    foreach ($video["tags"] as $tagTxt) {
-                        if (in_array(strtolower($tagTxt), $tags)) {
-                            $tags_check = true;
-                            rZeBotUtils::message("Found tag: " . $tagTxt, "green", true, false);
+                    if (is_array($video["tags"])) {
+                        foreach ($video["tags"] as $tagTxt) {
+                            if (in_array(strtolower($tagTxt), $tags)) {
+                                $tags_check = true;
+                                rZeBotUtils::message("Found tag: " . $tagTxt, "green", true, false);
+                            }
                         }
                     }
+
                 }
 
                 // check categories matched
                 $categories_check = true;
                 if ($categories !== false) {
                     $categories_check = false;
-                    foreach ($video["categories"] as $categoryTxt) {
-                        if (in_array($categoryTxt, $categories)) {
-                            $categories_check = true;
-                            rZeBotUtils::message("Found category: " . $categoryTxt, "green", true, false);
+                    if (is_array($video["categories"])) {
+                        foreach ($video["categories"] as $categoryTxt) {
+                            if (in_array($categoryTxt, $categories)) {
+                                $categories_check = true;
+                                rZeBotUtils::message("Found category: " . $categoryTxt, "green", true, false);
+                            }
                         }
                     }
                 }
@@ -374,7 +379,7 @@ class BotFeedFetcher extends Command
                         $this->processPornstars($video, $site_id, $scene);
 
                         // Create categories from CSV
-                        //$this->processCategories($video, $site_id, $scene, $languages);
+                        $this->processCategories($video, $site_id, $scene, $languages);
 
                         // Create categories from tags
                         if ($create_categories_from_tags !== "false") {
@@ -541,7 +546,7 @@ class BotFeedFetcher extends Command
 
     public function processCategories($video, $site_id, $scene, $languages)
     {
-        if ( $video["categories"]== null ) {
+        if ( $video["categories"] == null ) {
             return false;
         }
 
@@ -564,7 +569,10 @@ class BotFeedFetcher extends Command
                 $category->status = 1;
                 $category->text = $categoryTxt;
                 $category->site_id = $site_id;
+                $category->nscenes = 1;
+                $category->status = 0;
                 $category->save();
+
                 $category_id = $category->id;
 
                 // tag translations
@@ -580,6 +588,15 @@ class BotFeedFetcher extends Command
 
                     $categoryTranslation->save();
                 }
+
+                $sceneCategory = new SceneCategory();
+                $sceneCategory->scene_id = $scene->id;
+                $sceneCategory->category_id = $category_id;
+                $sceneCategory->save();
+
+                $category = Category::find($category_id);
+                rZeBotUtils::updateCategoryThumbnail($category);
+
             } else {
                 $categoryTranslation = CategoryTranslation::join('categories', 'categories.id', '=', 'categories_translations.category_id')
                     ->where('categories.site_id', $site_id)
@@ -587,13 +604,32 @@ class BotFeedFetcher extends Command
                     ->where('language_id', 2)
                     ->first()
                 ;
+
                 $category_id = $categoryTranslation->category_id;
+
+                $sceneCategory = new SceneCategory();
+                $sceneCategory->scene_id = $scene->id;
+                $sceneCategory->category_id = $category_id;
+                $sceneCategory->save();
+
+                $category = Category::find($category_id);
+
+                $nscenes = $category->scenes()->count();
+
+                $category->nscenes = $nscenes;
+                if ($nscenes > env('MIN_SCENES_CATEGORY_ACTIVATION', 30)) {
+                    $category->status = 1;
+                } else {
+                    $category->status = 0;
+                }
+
+                $category->save();
+
+                rZeBotUtils::updateCategoryThumbnail($category);
+
             }
 
-            $sceneCategory = new SceneCategory();
-            $sceneCategory->scene_id = $scene->id;
-            $sceneCategory->category_id = $category_id;
-            $sceneCategory->save();
+
         }
     }
 }

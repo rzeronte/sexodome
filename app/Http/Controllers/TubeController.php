@@ -141,9 +141,10 @@ class TubeController extends Controller
             ->first()
         ;
 
-        if (!$categoryTranslation) {
-            abort(404, "Category not found");
-        }
+        // No va a suceder nunca, ya que le enviamos a la home en línea 134
+//        if (!$categoryTranslation) {
+//            abort(404, "Category not found");
+//        }
 
         // get scenes
         $scenes = Scene::getTranslationsForCategory(
