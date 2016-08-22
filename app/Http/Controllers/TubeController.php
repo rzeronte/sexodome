@@ -131,7 +131,7 @@ class TubeController extends Controller
                 ->where('permalink', $permalinkCategory)
                 ->count() == 0
         ) {
-            return redirect()->route('index');
+            return redirect()->route('categories', ['domain' => $this->commons->site->getHost()]);
         }
 
         $categoryTranslation = CategoryTranslation::join('categories','categories.id', '=', 'categories_translations.category_id')
