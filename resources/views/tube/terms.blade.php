@@ -78,7 +78,7 @@
         </div>
     </section>
 
-    @if ($language->iframe_src != "")
+    @if ($site->iframe_site_id != "")
         <section class="container">
             @include('tube._iframe_network')
         </section>
