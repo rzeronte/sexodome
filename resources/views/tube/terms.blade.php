@@ -84,6 +84,6 @@
         </section>
     @endif
 
-    @include('tube._footer')
-    @include('tube._javascripts')
+    @include('tube.commons_footer')
+    @include('tube.commons._javascripts')
 </body>
