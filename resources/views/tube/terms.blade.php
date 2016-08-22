@@ -2,11 +2,11 @@
 <html>
 
 <head>
-    @include('tube._head')
+    @include('tube.commons._head')
 </head>
 
 <body>
-    @include('tube._header')
+    @include('tube.commons._header')
 
     <section class="container">
         <div class="col-md-12">
