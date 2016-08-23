@@ -32,6 +32,7 @@ use App\Model\InfoJobs;
 use App\Model\SiteCategory;
 use App\Jobs\importScenesFromFeed;
 use App\Model\Pornstar;
+use App\Model\Popunder;
 use Illuminate\Support\Facades\Log;
 use okw\CF\CF;
 use Auth;
@@ -110,7 +111,7 @@ class ConfigController extends Controller
             ->paginate($this->commons->perPageScenes);
 
 
-        return view('panel._ajax_site_tags', [
+        return view('panel.ajax._ajax_site_tags', [
             'site'       => $site,
             'tags'     => $tags,
             'locale'   => $this->commons->locale,
@@ -135,7 +136,7 @@ class ConfigController extends Controller
         $categories = Category::getTranslationSearch($query_string, $this->commons->language->id)
             ->paginate($this->commons->perPageScenes);
 
-        return view('panel._ajax_site_categories', [
+        return view('panel.ajax._ajax_site_categories', [
             'site'       => $site,
             'categories' => $categories,
             'locale'     => $this->commons->locale,
@@ -157,7 +158,7 @@ class ConfigController extends Controller
 
         $infojobs = $site->infojobs()->paginate(10);
 
-        return view('panel._ajax_site_workers', [
+        return view('panel.ajax._ajax_site_workers', [
             'site'      => $site,
             'locale'    => $this->commons->locale,
             'language'  => $this->commons->language,
@@ -303,7 +304,7 @@ class ConfigController extends Controller
 
         $pornstars = \App\Model\Pornstar::where('site_id', '=', $site_id)->paginate($this->commons->perPagePanelPornstars);
 
-        return view('panel._ajax_site_pornstars', [
+        return view('panel.ajax._ajax_site_pornstars', [
             'site'      => $site,
             'pornstars' => $pornstars,
             'language'  => $this->commons->language,
@@ -350,7 +351,7 @@ class ConfigController extends Controller
             abort(401, "Unauthorized");
         }
 
-        return view('panel._ajax_preview', [
+        return view('panel.ajax._ajax_preview', [
             'language'     => $this->commons->language,
             'languages'    => $this->commons->languages,
             'locale'       => $this->commons->locale,
@@ -475,25 +476,6 @@ class ConfigController extends Controller
         ]);
     }
 
-    public function scenePublicationInfo($locale, $sceneId)
-    {
-        $scene = Scene::find($sceneId);
-
-        if (!$scene) {
-            abort(404, 'Scene not found');
-        }
-
-        if (!(Auth::user()->id == $scene->site->user->id)) {
-            abort(401, "Unauthorized");
-        }
-
-        return view('panel._ajax_publication_info', [
-            'scene'     => $scene,
-            'language'  => $this->commons->language,
-            'languages' => $this->commons->languages
-        ]);
-    }
-
     public function siteKeywords($locale, $site_id)
     {
         $site = Site::find($site_id);
@@ -508,7 +490,7 @@ class ConfigController extends Controller
 
         $keywords = LaravelAnalyticsFacade::setSiteId('ga:'.$site->ga_account)->getTopKeyWords(90, $maxResults = 30);
 
-        return view('panel._ajax_site_keywords', [
+        return view('panel.ajax._ajax_site_keywords', [
             'keywords' => $keywords,
             'language'  => $this->commons->language,
             'languages' => $this->commons->languages
@@ -529,7 +511,7 @@ class ConfigController extends Controller
 
         $referrers= LaravelAnalyticsFacade::setSiteId('ga:'.$site->ga_account)->getTopReferrers(90, $maxResults = 30);
 
-        return view('panel._ajax_site_referrers', [
+        return view('panel.ajax._ajax_site_referrers', [
             'referrers' => $referrers,
             'language'  => $this->commons->language,
             'languages' => $this->commons->languages
@@ -550,7 +532,7 @@ class ConfigController extends Controller
 
         $pageViews = LaravelAnalyticsFacade::setSiteId('ga:'.$site->ga_account)->getMostVisitedPages(90, $maxResults = 30);
 
-        return view('panel._ajax_site_pageviews', [
+        return view('panel.ajax._ajax_site_pageviews', [
             'pageViews' => $pageViews,
             'language'  => $this->commons->language,
             'languages' => $this->commons->languages
@@ -564,7 +546,7 @@ class ConfigController extends Controller
             abort(404, "Not found");
         }
 
-        return view('panel._ajax_scene_thumbs', [
+        return view('panel.ajax._ajax_scene_thumbs', [
             'scene'     => $scene,
             'language'  => $this->commons->language,
             'languages' => $this->commons->languages
@@ -576,7 +558,7 @@ class ConfigController extends Controller
         $site = Site::find($site_id);
         $scene = Scene::find($site_id);
 
-        return view('panel._ajax_site_cronjobs', [
+        return view('panel.ajax._ajax_site_cronjobs', [
             'site'      => $site,
             'scene'     => $scene,
             'language'  => $this->commons->language,
@@ -948,5 +930,59 @@ class ConfigController extends Controller
         $status = true;
 
         return json_encode(array('status' => $status));
+    }
+
+    public function ajaxPopunders($locale, $site_id)
+    {
+        $site = Site::find($site_id);
+
+        if (!$site) {
+            abort(404, "Site not found");
+        }
+
+        $popunders = $site->popunders()->get();
+
+        return view('panel.ajax._ajax_site_popunders', [
+            'popunders' => $popunders,
+            'language'  => $this->commons->language,
+            'languages' => $this->commons->languages,
+            'locale'    => $this->commons->locale,
+        ]);
+    }
+
+    public function ajaxSavePopunder($locale, $site_id)
+    {
+        $site = Site::find($site_id);
+
+        if (!$site) {
+            abort(404, "Site not found");
+        }
+
+        $url = Input::get('url', false);
+
+        $newPopunder = new App\Model\Popunder();
+        $newPopunder->url = $url;
+        $newPopunder->site_id = $site->id;
+        $newPopunder->save();
+
+        return json_encode(array('status' => $status = true));
+    }
+
+    public function ajaxDeletePopunder($locale, $popunder_id)
+    {
+        $popunder = Popunder::find($popunder_id);
+
+        if (!$popunder) {
+            abort(404, "Popunder not found");
+        }
+
+//        if (!(Auth::user()->id == $popunder->site->user->id)) {
+//            abort(401, "Unauthorized");
+//        }
+
+        $popunder->delete();
+
+        return json_encode(array('status' => $status = true));
+
     }
 }

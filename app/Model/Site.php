@@ -26,6 +26,11 @@ class Site extends Model
         return $this->belongsToMany('App\Model\Tag', 'site_tag', 'site_id', 'tag_id');
     }
 
+    public function popunders()
+    {
+        return $this->hasMany('App\Model\Popunder');
+    }
+
     public function scenes()
     {
         return $this->hasMany('App\Model\Scene');

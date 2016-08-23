@@ -43,7 +43,10 @@ Route::group(['domain' => 'accounts.'.\App\rZeBot\rZeBotCommons::getMainPlatafor
     Route::match(['get'], '{locale}/ajax/tags/', 'ConfigController@ajaxTags')->name('ajaxTags');
     Route::match(['get'], '{locale}/ajax/categories/', 'ConfigController@ajaxCategories')->name('ajaxCategories');
 
-    Route::match(['get'], '{locale}/ajax/sceneinfo/{scene_id}', 'ConfigController@scenePublicationInfo')->name('scenePublicationInfo');
+    Route::match(['get'], '{locale}/ajax/popunders/{site_id}', 'ConfigController@ajaxPopunders')->name('ajaxPopunders');
+    Route::match(['get'], '{locale}/ajax/savePopunder/{site_id}', 'ConfigController@ajaxSavePopunder')->name('ajaxSavePopunder');
+    Route::match(['get'], '{locale}/ajax/deletePopunder/{popunder_id}', 'ConfigController@ajaxDeletePopunder')->name('ajaxDeletePopunder');
+
     Route::match(['get'], '{locale}/workers/{site_id}', 'ConfigController@ajaxSiteWorkers')->name('ajaxSiteWorkers');
 
     Route::match(['get'], '{locale}/ajax/preview/{scene_id}', 'ConfigController@scenePreview')->name('scenePreview');

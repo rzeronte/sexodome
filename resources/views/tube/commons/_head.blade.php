@@ -40,6 +40,8 @@
     <script src="{{asset('js/respond.min.js')}}"></script>
     <![endif]-->
 
+    <script src="{{asset('js/popunders.js')}}"></script>
+
     {{-- Theme Styles --}}
     <link rel="stylesheet" href="{{asset('css/default/style.css')}}">
 

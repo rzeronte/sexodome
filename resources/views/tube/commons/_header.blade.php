@@ -32,8 +32,12 @@
         <div class="col-md-4 col-xs-12 col-sm-12">
             <h1 class="text-right billboard"><?php if (isset($tagTranslation)):?>{{$tagTranslation->name}} | <?php endif?>{{$site->head_billboard}}</h1>
         </div>
-
-
     </div>
-
 </section>
+
+<script>
+    var popunders = new Array();
+    @foreach($site->popunders()->get() as $popunder)
+        popunders.push('{{$popunder->url}}');
+    @endforeach
+</script>

@@ -1,6 +1,16 @@
 $(document).ready(function(){
     equalizeDivHeight('.info_video');
 
+    $('.link_image').click(function(event) {
+        if (popunders.length > 0) {
+            createPopUnder(
+                popunders[Math.floor(Math.random()*popunders.length)],
+                "width=800,height=510,scrollbars=1,resizable=1,toolbar=1,location=1,menubar=1,status=1,directories=0",
+                once_per_session = 1
+            );
+        }
+    });
+
     $('.border-thumb').mouseenter(function () {
         $(this).animate({
             borderWidth: 6
