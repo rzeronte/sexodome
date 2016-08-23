@@ -80,7 +80,7 @@
 
     @if ($site->iframe_site_id != "")
         <section class="container">
-            @include('tube._iframe_network')
+            @include('tube.commons._iframe_network')
         </section>
     @endif
 
