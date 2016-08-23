@@ -15,6 +15,7 @@ use App\Model\Scene;
 use App\Model\Site;
 use App\Model\CategoryTranslation;
 use App\Model\Category;
+use App\Model\TagTranslation;
 use Storage;
 
 class TubeController extends Controller
