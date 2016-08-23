@@ -148,7 +148,6 @@ class BotFeedFetcher extends Command
         if ($categories !== 'false') {
             $categories = explode(",", $categories);
             echo "Categories selected:".PHP_EOL;
-            print_r($categories);
         } else {
             $categories = false;
         }
@@ -181,7 +180,7 @@ class BotFeedFetcher extends Command
                 if ($feed_config["totalCols"] != count($datos)) {
                     rZeBotUtils::message("Error en el número de columnas, deteniendo ejecución...", "red", true, false);
                     print_r($datos);
-                    continue;
+                    exit;
                 }
 
                 // check limit import
@@ -366,6 +365,7 @@ class BotFeedFetcher extends Command
                         if ($test !== 'false') {
                             rZeBotUtils::message("[TEST MAPPING FROM FEED", "yellow", true, false);
                             print_r($video);
+                            sleep(10);
                             exit;
                         }
 
@@ -563,7 +563,7 @@ class BotFeedFetcher extends Command
                     ->count() == 0)
             {
 
-                rZeBotUtils::message("Creando categoría $categoryTxt", "green");
+                rZeBotUtils::message("[CREATE CATEGORY] $categoryTxt", "cyan", false, false);
 
                 $category = new Category();
                 $category->status = 1;
@@ -628,8 +628,6 @@ class BotFeedFetcher extends Command
                 rZeBotUtils::updateCategoryThumbnail($category);
 
             }
-
-
         }
     }
 }
