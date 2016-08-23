@@ -1,6 +1,6 @@
 @if (count($popunders) == 0)
     <div class="row" style="margin:0px;padding-top:15px;">
-        No jobs in queue
+        No popunders for this site
     </div>
 @endif
 
