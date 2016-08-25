@@ -39,7 +39,7 @@
             $index = rand(0, count($thumbs)-1);
             ?>
 
-            <div class="col-md-2 video_outer col-sm-4 col-xs-4">
+            <div class="col-md-2 video_outer col-sm-6 col-xs-6">
                 <figure>
                     <?php $srcThumbnail = "" ?>
                     @if ($scene->thumb_index > 0)
