@@ -50,11 +50,11 @@
 
                     @if ($scene->channel->embed == 1)
                         <a href="{{ route('video', ['profile' => $profile, 'permalink' => $scene->permalink]) }}" class="link_image">
-                            <img class="border-thumb" src="{{$srcThumbnail}})" onmouseout="outThumb(this)" onmouseover="changeThumb(this)" data-thumbs="{{$scene->thumbs}}" data-current-frame="{{$index}}" data-status="stop"/>
+                            <img class="border-thumb img-thumbnail" src="{{$srcThumbnail}})" onmouseout="outThumb(this)" onmouseover="changeThumb(this)" data-thumbs="{{$scene->thumbs}}" data-current-frame="{{$index}}" data-status="stop"/>
                         </a>
                     @else
                         <a href="{{ route('out', ['profile' => $profile, 'scene_id' => $scene->id, 'p' => $i]) }}" target="_blank"  class="link_image">
-                            <img class="border-thumb" src="{{$srcThumbnail}}" onmouseout="outThumb(this)" onmouseover="changeThumb(this)" data-thumbs="{{$scene->thumbs}}" data-current-frame="{{$index}}" data-status="stop"/>
+                            <img class="border-thumb img-thumbnail" src="{{$srcThumbnail}}" onmouseout="outThumb(this)" onmouseover="changeThumb(this)" data-thumbs="{{$scene->thumbs}}" data-current-frame="{{$index}}" data-status="stop"/>
                         </a>
                     @endif
 

@@ -284,3 +284,12 @@ body{
 
 @media only screen and (max-device-width: 480px) {
 }
+
+.border-thumb{
+    border: none !important;
+    border-radius: 0 !important;
+}
+
+.thumbnail{
+    border: 0 !important;
+}
