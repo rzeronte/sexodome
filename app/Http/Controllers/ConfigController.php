@@ -581,6 +581,8 @@ class ConfigController extends Controller
             abort(401, "Unauthorized");
         }
 
+        $site->contact_email = Request::input('contact_email');
+
         $site->title_index = Request::input('title_index');
         $site->title_category = Request::input('title_category');
 

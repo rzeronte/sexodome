@@ -31,6 +31,16 @@
 
             <div class="row" style="padding:10px;">
                 <div class="col-md-3">
+                    Contact email:
+                </div>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" value="{{$site->contact_email}}" name="contact_email">
+                </div>
+            </div>
+
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
                     Title Index:
                 </div>
                 <div class="col-md-7">

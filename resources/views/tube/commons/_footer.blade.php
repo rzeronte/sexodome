@@ -5,7 +5,7 @@
                 <a href="{{route('dmca', ["host" => $site->getHost()])}}">DMCA/Copyright</a> |
                 <a href="{{route('terms', ["host" => $site->getHost()])}}">Terms of use</a> |
                 <a href="{{route('C2257', ["host" => $site->getHost()])}}">2257</a> |
-                <a href="mailto:{{$site->user->email}}">Contact</a>
+                <a href="mailto:{{$site->contact_email}}">Contact</a>
             @endif
         </div>
         <div class="col-md-4 text-center">
