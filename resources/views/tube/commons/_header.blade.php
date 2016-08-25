@@ -9,12 +9,12 @@
                     @if ($site->have_domain == 1)
                         {{$site->domain}}
                     @else
-                        <h1>{{$site->name}}</h1>
+                        <h1 class="text-center">{{$site->name}}</h1>
                     @endif
                 @endif
             </a>
         </div>
-        <div class="col-md-1 col-xs-1 col-sm-1 text-right col-header-right">
+        <div class="col-md-1 col-xs-12 col-sm-12 text-center col-header-right">
             <a href="{{route('pornstars', ["profile" => $profile])}}" class="btn btn-header-pornstars">Pornstars</a>
         </div>
 
