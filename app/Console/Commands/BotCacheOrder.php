@@ -28,9 +28,10 @@ class BotCacheOrder extends Command
 
             $i = 1;
             foreach($scenes as $scene) {
-                rZeBotUtils::message("Scene: " . $scene->id . ", Clicks: " . $scene->clicks, "green", true, true);
+                rZeBotUtils::message("Scene: " . $scene->id . ", Clicks: " . $scene->clicks . ", order: " . $i, "green", true, true);
                 $scene->cache_order = $i;
                 $scene->save();
+                $i++;
             }
         }
     }
