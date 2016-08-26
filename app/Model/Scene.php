@@ -250,7 +250,7 @@ class Scene extends Model
             if ($order === "newest") {
                 $query->orderBy('scenes.id', 'desc');
             } elseif ($order === "popular") {
-                $query->orderBy('scenes.cache_order', 'asc');
+                $query->orderBy('scenes.cache_order', 'desc');
             }
         } else {
             $query->orderBy('scenes.id', 'desc');
