@@ -142,15 +142,11 @@ class TubeController extends Controller
             ->first()
         ;
 
-        // No va a suceder nunca, ya que le enviamos a la home en línea 134
-//        if (!$categoryTranslation) {
-//            abort(404, "Category not found");
-//        }
-
         // get scenes
         $scenes = Scene::getTranslationsForCategory(
             $categoryTranslation->category->id,
-            $this->commons->language->id
+            $this->commons->language->id,
+            Input::get('order', false)
         )
         ->paginate($this->commons->perPageCategories);
 
@@ -173,7 +169,7 @@ class TubeController extends Controller
             'seo_title'       => $seo_title,
             'seo_description' => $seo_description,
             'site'            => $this->commons->site,
-
+            'permalinkCategory'=> $permalinkCategory,
         ])->header('Cache-control', 'max-age=3600');
     }
 

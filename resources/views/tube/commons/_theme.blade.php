@@ -26,7 +26,7 @@
 
     .input-search .btn{
         background-color: {{$site->color6}};
-        color: {{$site->color7}};
+        color: {{$site->color7}} !important;
     }
 
     .btn-header-pornstars{
@@ -129,6 +129,11 @@
     .pagination .disabled > span:hover{
         background-color: {{$site->color2}};
         color: {{$site->color5}};
+    }
+
+    .link_order{
+        background-color: {{$site->color6}} !important;
+        color: {{$site->color7}} !important;
     }
 
 </style>

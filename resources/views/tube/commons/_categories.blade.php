@@ -2,7 +2,9 @@
     <div class="container header_title_section">
         <h2>
             {{$categories->total()}} categories, @if (isset($scenes)){{ number_format($scenes->total(), 0, ".", ",") }} porn videos @endif
-            @if (isset($total_scenes)){{ number_format($total_scenes, 0, ".", ",") }} porn videos @endif</h2>
+            @if (isset($total_scenes)){{ number_format($total_scenes, 0, ".", ",") }} porn videos @endif
+            @yield('orders')
+        </h2>
     </div>
 
     <div class="container">

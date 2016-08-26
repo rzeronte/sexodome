@@ -34,6 +34,21 @@ class Scene extends Model
         return $this->hasMany('App\Model\SceneTranslation');
     }
 
+    public function clicks()
+    {
+        return $this->hasMany('App\Model\SceneClick');
+    }
+
+    public function channel()
+    {
+        return $this->belongsTo('App\Model\Channel');
+    }
+
+    public function logspublish()
+    {
+        return $this->hasMany('App\Model\Logpublish');
+    }
+
     static function getTranslationSearch($query_string = false, $language_id)
     {
         $scenes = Scene::select('scenes.*', 'scene_translations.title', 'scene_translations.permalink')
@@ -212,24 +227,9 @@ class Scene extends Model
         return $ids;
     }
 
-    public function clicks()
+    static function getTranslationsForCategory($category_id, $language_id, $order = false)
     {
-        return $this->hasMany('App\Model\SceneClick');
-    }
-
-    public function channel()
-    {
-        return $this->belongsTo('App\Model\Channel');
-    }
-
-    public function logspublish()
-    {
-        return $this->hasMany('App\Model\Logpublish');
-    }
-
-    static function getTranslationsForCategory($category_id, $language_id)
-    {
-        return Scene::select(
+        $query = Scene::select(
                 'scenes.*',
                 'scene_translations.title',
                 'scene_translations.description',
@@ -244,8 +244,19 @@ class Scene extends Model
             ->where('scene_translations.language_id', $language_id)
             ->whereNotNull('scene_translations.permalink')
             ->whereNotNull('scene_translations.title')
-            ->orderBy('scenes.id', 'desc')
-            ;
+        ;
+
+        if ($order !== false) {
+            if ($order === "newest") {
+                $query->orderBy('scenes.id', 'desc');
+            } elseif ($order === "popular") {
+                $query->orderBy('scenes.cache_order', 'asc');
+            }
+        } else {
+            $query->orderBy('scenes.id', 'desc');
+        }
+
+        return $query;
     }
 
     static function getTranslationsForPornstar($pornstar_id, $language_id)
@@ -275,5 +286,18 @@ class Scene extends Model
         $sceneClick->scene_id = $scene->id;
         $sceneClick->referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "";
         $sceneClick->save();
+    }
+
+    static function getScenesOrderBySceneClicks($site_id)
+    {
+        $query = Scene::select('scenes.id', DB::raw('count(*) as clicks'))
+            ->where('site_id', $site_id)
+            ->join('scenes_clicks', 'scenes_clicks.scene_id', '=', 'scenes.id', 'left')
+            ->groupBy('scenes.id')
+            ->orderBy('clicks')
+            ->orderBy('scenes.id', 'desc')
+        ;
+
+        return $query;
     }
 }

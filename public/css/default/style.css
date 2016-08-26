@@ -282,5 +282,14 @@ body{
 
 /**************************************************************************************************************** MOBILE */
 
-@media only screen and (max-device-width: 480px) {
+.link_order_container {
+    float: right;
+}
+
+.link_order {
+    text-align: right;
+    float: right;
+    color: white;
+    border: none;
+    border-radius: 0;
 }
