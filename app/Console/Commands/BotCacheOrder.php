@@ -23,16 +23,20 @@ class BotCacheOrder extends Command
         $sites = Site::all();
 
         foreach($sites as $site) {
-            rZeBotUtils::message("Generating CACHE ORDER for " . $site->getSitemap(), "green", true, true);
-            $scenes = Scene::getScenesOrderBySceneClicks($site->id)->get();
+            DB::transaction(function () use ($site) {
+                rZeBotUtils::message("Generating CACHE ORDER for " . $site->getSitemap(), "green", true, true);
+                $scenes = Scene::getScenesOrderBySceneClicks($site->id)->get();
 
-            $i = 1;
-            foreach($scenes as $scene) {
-                rZeBotUtils::message("Scene: " . $scene->id . ", Clicks: " . $scene->clicks . ", order: " . $i, "green", true, true);
-                $scene->cache_order = $i;
-                $scene->save();
-                $i++;
-            }
+                $i = 1;
+                foreach($scenes as $scene) {
+                    rZeBotUtils::message("Scene: " . $scene->id . ", Clicks: " . $scene->clicks . ", order: " . $i, "green", true, true);
+                    $scene->cache_order = $i;
+                    $scene->save();
+                    $i++;
+                }
+
+            });
+
         }
     }
 }
