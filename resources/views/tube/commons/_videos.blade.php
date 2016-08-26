@@ -8,8 +8,8 @@
                 @endif
 
                 <div class="link_order_container">
-                    <a href="{{route('category', ['profile' => $site->getHost(), 'permalink' => $permalinkCategory, 'order' => 'popular'])}}" class="btn btn-primary link_order"> @if (Request::get('order') == false || Request::get('order') == 'popular') <b>Most popular porn videos</b> @else Most popular porn videos @endif </a>
-                    <a href="{{route('category', ['profile' => $site->getHost(), 'permalink' => $permalinkCategory, 'order' => 'newest'])}}" class="btn btn-primary link_order">@if (Request::get('order') == 'newest') <b>Newest porn videos</b> @else Newest porn videos @endif </a>
+                    <a href="{{route('category', ['profile' => $site->getHost(), 'permalink' => $permalinkCategory, 'order' => 'popular'])}}" class="btn btn-primary link_order"> @if (Request::get('order') == 'popular') <b>Most popular porn videos</b> @else Most popular porn videos @endif </a>
+                    <a href="{{route('category', ['profile' => $site->getHost(), 'permalink' => $permalinkCategory, 'order' => 'newest'])}}" class="btn btn-primary link_order">@if (Request::get('order') == false || Request::get('order') == 'newest') <b>Newest porn videos</b> @else Newest porn videos @endif </a>
                 </div>
             </h2>
         @endif
