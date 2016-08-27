@@ -27,45 +27,49 @@
         </form>
     </div>
 
-    <?php $data = $site->getAnalytics($fi, $ff)->get(); ?>
+    @if ($site->ga_account)
+        <?php $data = $site->getAnalytics($fi, $ff)->get(); ?>
 
-    <div class="row">
-        <div class="col-md-12">
-            <div id="graph_site_{{$site->id}}" style="padding:5px;width:1024px; height:150px;border: solid 1px cornflowerblue;margin-top:10px;" class="text-center"></div>
+        <div class="row">
+            <div class="col-md-12">
+                <div id="graph_site_{{$site->id}}" style="padding:5px;width:1024px; height:150px;border: solid 1px cornflowerblue;margin-top:10px;" class="text-center"></div>
+            </div>
         </div>
-    </div>
-    <script type="text/javascript">
-        $(function () {
-            serieVisitors = {
-                name: 'Visitors',
-                data: [
-                    @foreach($data as $day) {{$day->visitors}}, @endforeach
+        <script type="text/javascript">
+            $(function () {
+                serieVisitors = {
+                    name: 'Visitors',
+                    data: [
+                        @foreach($data as $day) {{$day->visitors}}, @endforeach
                                         ]
-            };
+                };
 
-            seriePageView = {
-                name: 'PageViews',
-                data: [
-                    @foreach($data as $day) {{$day->pageviews}}, @endforeach
+                seriePageView = {
+                    name: 'PageViews',
+                    data: [
+                        @foreach($data as $day) {{$day->pageviews}}, @endforeach
                                         ]
-            };
+                };
 
-            $('#graph_site_<?=$site->id?>').highcharts({
-                chart: {
-                    type: 'line'
-                },
-                title: false,
-                xAxis: {
-                    categories: ['Days']
-                },
-                yAxis: {
-                    title: {
-                        text: 'Number'
-                    }
-                },
-                series: [serieVisitors, seriePageView]
+                $('#graph_site_<?=$site->id?>').highcharts({
+                    chart: {
+                        type: 'line'
+                    },
+                    title: false,
+                    xAxis: {
+                        categories: ['Days']
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Number'
+                        }
+                    },
+                    series: [serieVisitors, seriePageView]
+                });
             });
-        });
-    </script>
+        </script>
+    @else
+    <p>No chart available</p>
+    @endif
 
 </div>

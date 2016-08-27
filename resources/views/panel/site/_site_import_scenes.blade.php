@@ -96,5 +96,16 @@
         @endforeach
 
     </div>
+    <div class="row">
+        <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;margin-top: 20px;">
+            <p><i class="glyphicon glyphicon-hd-video"></i> <b>Historical imports</b></p>
+        </div>
+
+        <?php $infojobs = $site->infojobs()->paginate(10); ?>
+
+        <div class="workers_ajax_container">
+            @include('panel.ajax._ajax_site_workers')
+        </div>
+    </div>
 
 </div>

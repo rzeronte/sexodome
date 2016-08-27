@@ -16,11 +16,11 @@
             $bgColor = 'lightyellow';
         }
         ?>
-        <div class="alert alert-success" style="background-color:<?=$bgColor?>;margin:0px;padding-top:15px;">
+        <div class="row" style="background-color:<?=$bgColor?>;margin:0px;padding-top:15px;">
 
-            <div class="col-md-3">
+            <div class="col-md-2">
                 @if ($infojob->finished)
-                    Finished ({{$infojob->finished_at}})
+                    Finished at: ({{$infojob->finished_at}})
                 @else
                     Work in progress
                 @endif
@@ -28,23 +28,46 @@
 
             <div class="col-md-2">
                 http://{{$infojob->site()->first()->getHost()}}
+                <br/>
+                Created at: {{date("Y-m-d", strtotime($infojob->created_at))}}
+
             </div>
 
-            <div class="col-md-1">
-                {{date("Y-m-d", strtotime($infojob->created_at))}}
-            </div>
-
-            <div class="col-md-1">
-                {{--@if (!$infojob->channel()->first())--}}
-                    {{--No channel--}}
-                {{--@else--}}
-                    {{--{{$infojob->channel()->first()->name}}--}}
-                {{--@endif--}}
-            </div>
-
-            <div class="col-md-4">
+            <div class="col-md-8">
                 @if ($infojob->serialized)
-                    {{dump(json_decode($infojob->serialized))}}
+                    <?php $cronjobData = \GuzzleHttp\json_decode($infojob->serialized) ?>
+
+                    @if (isset($cronjobData->feed_name))
+                        <span class='label label-success' style="margin-right:5px;margin-top:4px;">
+                            {{$cronjobData->feed_name}}
+                        </span>
+                    @endif
+                    @if (isset($cronjobData->max))
+                        <span class='label label-success' style="margin-right:5px;margin-top:4px;">
+                        Max scenes: {{$cronjobData->max}}
+                        </span>
+                    @endif
+                    @if (isset($cronjobData->duration))
+                        <span class='label label-success' style="margin-right:5px;margin-top:4px;">
+                        Min duration: {{$cronjobData->duration}}
+                        </span>
+                    @endif
+                    @if (isset($cronjobData->categories))
+                        <span class='label label-success' style="margin-right:5px;margin-top:4px;">
+                        Categories: {{$cronjobData->categories}}
+                        </span>
+                    @endif
+                    @if (isset($cronjobData->tags))
+                        <span class='label label-success' style="margin-right:5px;margin-top:4px;">
+                        Tags: {{$cronjobData->tags}}
+                        </span>
+                    @endif
+                    @if (isset($cronjobData->only_with_pornstars))
+                        <span class='label label-success' style="margin-right:5px;margin-top:4px;">
+                            Only with pornstar: {{$cronjobData->only_with_pornstars}}
+                        </span>
+                    @endif
+
                 @else
                     No serialized data
                 @endif
@@ -56,6 +79,6 @@
 </div>
 
 <div class="row site_workers_paginator">
-    <?php $infojobs->setPath('workers/'.$site->id);?>
+    <?php $infojobs->setPath("/".$locale.'/workers/'.$site->id);?>
     <?php echo $infojobs->render(); ?>
 </div>

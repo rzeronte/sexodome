@@ -67,7 +67,7 @@
         </div>
 
         <div class="col-md-2">
-            <label>Head text:</label>
+            <label>Header nº scenes:</label>
             <div id="theme_color_8{{$site->id}}" class="input-group colorpicker-component">
                 <input type="text" name="color8" value="{{$site->color8}}" class="form-control" />
                 <span class="input-group-addon"><i></i></span>
@@ -85,7 +85,7 @@
         </div>
 
         <div class="col-md-2">
-            <label>Video extra info:</label>
+            <label>Video info:</label>
             <div id="theme_color_10{{$site->id}}" class="input-group colorpicker-component">
                 <input type="text" name="color10" value="{{$site->color10}}" class="form-control" />
                 <span class="input-group-addon"><i></i></span>

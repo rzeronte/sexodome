@@ -8,7 +8,6 @@
         <li role="presentation"><a href="#detail-analytics" aria-controls="detail-analytics" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-globe"></i> Google</a></li>
         <li role="presentation"><a href="#detail-iframe" aria-controls="detail-iframe" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-screenshot"></i> IFrame</a></li>
         <li role="presentation"><a href="#detail-colors" aria-controls="detail-colors" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-tint"></i> Colors</a></li>
-        <li role="presentation"><a href="#detail-works" aria-controls="detail-works" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-cd"></i> Historical</a></li>
         <li role="presentation"><a href="#detail-import" aria-controls="detail-import" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-film"></i> Import</a></li>
         <li role="presentation"><a href="#detail-cronjobs" aria-controls="detail-cronjobs" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-time"></i> CronJobs</a></li>
         <li role="presentation"><a href="#detail-popunders" aria-controls="detail-popunders" role="tab" data-toggle="tab"><i class="glyphicon glyphicon glyphicon-duplicate"></i> Popunders</a></li>
@@ -24,7 +23,6 @@
         <div role="tabpanel" class="tab-pane" id="detail-analytics">@include('panel.site._site_analytics')</div>
         <div role="tabpanel" class="tab-pane" id="detail-iframe">@include('panel.site._site_iframe')</div>
         <div role="tabpanel" class="tab-pane" id="detail-colors">@include('panel.site._site_colors')</div>
-        <div role="tabpanel" class="tab-pane" id="detail-works">@include('panel.site._site_workers')</div>
         <div role="tabpanel" class="tab-pane" id="detail-import">@include('panel.site._site_import_scenes')</div>
         <div role="tabpanel" class="tab-pane" id="detail-cronjobs">@include('panel.site._site_cronjobs')</div>
         <div role="tabpanel" class="tab-pane" id="detail-popunders">@include('panel.site._site_popunders')</div>
