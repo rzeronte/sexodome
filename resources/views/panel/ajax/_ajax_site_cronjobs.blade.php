@@ -18,7 +18,6 @@
     <div class="row" style="background-color:<?=$bgColor?>;margin:0px;padding:15px;">
         <div class="col-md-6">
             <img src="{{asset('channels/'.$cronjob->channel->logo)}}" style="width:40px; border: solid 1px black;"/>
-            <b>http://{{$cronjob->site->getHost()}}</b>
         </div>
         <div class="col-md-6">
             <a href="{{route('deleteCronJob', ['locale' => $locale, "cronjob_id" => $cronjob->id])}}" class="btn btn-danger delete-site-cronjob-btn" style="float:right;">DELETE CRONJOB</a>
