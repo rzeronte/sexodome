@@ -153,7 +153,7 @@ class BotTranslateVideo extends Command
                 $translationTo->save();
                 rZeBotUtils::message('[TRANSLATION TAG] ' . $textFrom->name . " - " . $translationName, "green", false, false);
             } else {
-                rZeBotUtils::message('[ERROR API TRANSLATION] tag_id: ' . $tag->id, "red", false, false);
+                //rZeBotUtils::message('[ERROR API TRANSLATION] tag_id: ' . $tag->id, "red", false, false);
             }
         }
     }
@@ -191,7 +191,7 @@ class BotTranslateVideo extends Command
                 $translationTo->save();
                 rZeBotUtils::message('[TRANSLATION CATEGORY] ' . $textFrom->name . " - " . $translationName, "green", false, false);
             } else {
-                rZeBotUtils::message('[ERROR API TRANSLATION] category_id: ' . $category->id, "red", false, false);
+                //rZeBotUtils::message('[ERROR API TRANSLATION] category_id: ' . $category->id, "red", false, false);
             }
         }
     }

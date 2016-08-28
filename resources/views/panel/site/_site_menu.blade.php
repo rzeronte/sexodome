@@ -5,7 +5,7 @@
         <li role="presentation"><a href="#detail-categories" aria-controls="detail-categories" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-th-large"></i> Categories</a></li>
         <li role="presentation"><a href="#detail-tags" aria-controls="detail-tags" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-th"></i> Tags</a></li>
         <li role="presentation"><a href="#detail-pornstars" aria-controls="detail-pornstars" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-film"></i> Pornstars</a></li>
-        <li role="presentation"><a href="#detail-analytics" aria-controls="detail-analytics" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-globe"></i> Google</a></li>
+        <li role="presentation"><a href="#detail-analytics" aria-controls="detail-analytics" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-globe"></i> Analytics</a></li>
         <li role="presentation"><a href="#detail-iframe" aria-controls="detail-iframe" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-screenshot"></i> IFrame</a></li>
         <li role="presentation"><a href="#detail-colors" aria-controls="detail-colors" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-tint"></i> Colors</a></li>
         <li role="presentation"><a href="#detail-import" aria-controls="detail-import" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-film"></i> Import</a></li>
