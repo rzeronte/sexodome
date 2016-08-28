@@ -2,8 +2,10 @@
     <?php $agent = new \Jenssegers\Agent\Agent() ?>;
 
     @if (!$agent->isMobile())
-        <div class="container">
-            <iframe src="http://{{$site->getHost()}}/ads" width="100%" style="border: none;height:305px;overflow:hidden !important;"></iframe>
-        </div>
+        @if ($site->iframe_site_id != "")
+            <div class="container">
+                <iframe src="http://{{$site->getHost()}}/ads" width="100%" style="border: none;height:305px;overflow:hidden !important;"></iframe>
+            </div>
+        @endif
     @endif
 @endif
