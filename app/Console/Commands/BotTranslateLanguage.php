@@ -12,7 +12,7 @@ use App\Model\Host;
 use App\Model\Site;
 use App\Model\Category;
 
-class BotTranslate extends Command
+class BotTranslateLanguage extends Command
 {
 
     public $apiKey;
@@ -23,7 +23,7 @@ class BotTranslate extends Command
      *
      * @var string
      */
-    protected $signature = 'zbot:translate {from} {to} {site_id}
+    protected $signature = 'zbot:translate:language {from} {to} {site_id}
                             {--scenes=true : Determine if translate scenes}
                             {--categories=true : Determine if translate categories}
                             {--tags=true : Determine if translate tags}';

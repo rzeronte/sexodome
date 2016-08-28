@@ -15,7 +15,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         \App\Console\Commands\Inspire::class,
         \App\Console\Commands\BotFeedFetcher::class,
-        \App\Console\Commands\BotTranslate::class,
+        \App\Console\Commands\BotTranslateLanguage::class,
+        \App\Console\Commands\BotTranslateVideo::class,
         \App\Console\Commands\BotAnalytics::class,
         \App\Console\Commands\BotUpdateCategoriesThumbnails::class,
         \App\Console\Commands\BotUpdateDumps::class,

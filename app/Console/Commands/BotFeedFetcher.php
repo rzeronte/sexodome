@@ -97,7 +97,7 @@ class BotFeedFetcher extends Command
             rZeBotUtils::message('Job: '. $job, "green");
         }
         $this->parseCSV(
-            $site_id,
+            $site,
             $feed,
             $max,
             $cfg->mappingColumns(),
@@ -155,8 +155,10 @@ class BotFeedFetcher extends Command
         return $categories;
     }
 
-    public function parseCSV($site_id, $feed, $max, $mapped_colums, $feed_config, $tags, $categories, $rate, $minViews, $minDuration, $default_status, $test, $create_categories_from_tags, $only_with_pornstars)
+    public function parseCSV($site, $feed, $max, $mapped_colums, $feed_config, $tags, $categories, $rate, $minViews, $minDuration, $default_status, $test, $create_categories_from_tags, $only_with_pornstars)
     {
+        $site_id = $site->id;
+
         $fila = 1;
         $languages = Language::all();
         $added = 0;
@@ -385,6 +387,14 @@ class BotFeedFetcher extends Command
                         if ($create_categories_from_tags !== "false") {
                             rZeBotUtils::message("[CREATING CATEGORIES FROM TAGS FOR scene_id: $scene->id] ", "cyan", true, false);
                             $this->createCategoriesFromTags($scene, $languages);
+                        }
+
+                        if ($site->language_id !== 2) {
+                            $exitCodeTranslation = Artisan::call('zbot:translate:video', [
+                                'from'     => 'en',
+                                'to'       => $site->language->code,
+                                'scene_id' => $scene->id,
+                            ]);
                         }
                     }
                 } else {
