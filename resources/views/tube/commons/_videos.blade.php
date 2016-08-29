@@ -29,7 +29,6 @@
                 @if (isset($scenes))
                     {{$scenes->total()}} porn videos  for '<b>{{$query_string}}</b>'
                 @endif
-                @yield('orders')
             </h2>
         @endif
 
