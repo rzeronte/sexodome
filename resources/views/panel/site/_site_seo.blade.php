@@ -150,7 +150,7 @@
                     GAnalytics:
                 </div>
                 <div class="col-md-7">
-                    <textarea name="google_analytics" class="form-control">{{$site->google_analytics}}</textarea>
+                    <input type="text" name="google_analytics" class="form-control" value="{{$site->google_analytics}}"/>
                 </div>
             </div>
 
