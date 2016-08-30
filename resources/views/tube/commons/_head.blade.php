@@ -53,6 +53,8 @@
 
     <script src="{{asset('js/popunders.js')}}"></script>
 
+    <link rel="shortcut icon" href="favicon.ico"/>
+
     {{-- Theme Styles --}}
     <link rel="stylesheet" href="{{asset('css/default/style.css')}}">
 
