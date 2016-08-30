@@ -14,11 +14,11 @@
                 @endif
             </a>
         </div>
-        <div class="col-md-1 col-xs-12 col-sm-12 text-center col-header-right">
+        <div class="col-md-1 col-xs-3 col-sm-3 text-center col-header-right">
             <a href="{{route('pornstars', ["profile" => $profile])}}" class="btn btn-header-pornstars">Pornstars</a>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-4 col-xs-9 col-sm-9">
             <form action="{{ route('search', ['profile' => $profile]) }}" method="get">
                 <div class="input-group input-search">
                     <input name="q" type="text" placeholder="what you wanna watch?" class="form-control" value="{{$query_string}}">

@@ -8,8 +8,8 @@
 <body>
     @section('orders')
         <div class="link_order_container">
-            <a href="{{route('categories', ['order' => 'latest'])}}" class="btn btn-primary link_order">Latest porn videos</a>
-            <a href="{{route('categories', ['order' => 'newest'])}}" class="btn btn-primary link_order">Newest porn videos</a>
+            <a href="{{route('categories', ['order' => 'latest'])}}" class="link_order">Latest porn videos</a>
+            <a href="{{route('categories', ['order' => 'newest'])}}" class="link_order">Newest porn videos</a>
         </div>
     @endsection
 

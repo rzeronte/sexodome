@@ -1,5 +1,6 @@
 $(document).ready(function(){
     equalizeDivHeight('.info_video');
+    equalizeDivHeight('.category_info');
 
     $('.link_image').click(function(event) {
         if (popunders.length > 0) {

@@ -8,8 +8,8 @@
                 @endif
 
                 <div class="link_order_container">
-                    <a href="{{route('category', ['profile' => $site->getHost(), 'permalink' => $permalinkCategory, 'order' => 'popular'])}}" class="btn btn-primary link_order"> @if (Request::get('order') == 'popular') <b>Most popular porn videos</b> @else Most popular porn videos @endif </a>
-                    <a href="{{route('category', ['profile' => $site->getHost(), 'permalink' => $permalinkCategory, 'order' => 'newest'])}}" class="btn btn-primary link_order">@if (Request::get('order') == false || Request::get('order') == 'newest') <b>Newest porn videos</b> @else Newest porn videos @endif </a>
+                    <a href="{{route('category', ['profile' => $site->getHost(), 'permalink' => $permalinkCategory, 'order' => 'popular'])}}" class="link_order"> @if (Request::get('order') == 'popular') <b>Most popular porn videos</b> @else Most popular porn videos @endif </a>
+                    <a href="{{route('category', ['profile' => $site->getHost(), 'permalink' => $permalinkCategory, 'order' => 'newest'])}}" class="link_order">@if (Request::get('order') == false || Request::get('order') == 'newest') <b>Newest porn videos</b> @else Newest porn videos @endif </a>
                 </div>
             </h2>
         @endif
@@ -72,6 +72,7 @@
                             </a>
 
                             <div class="clearfix"></div>
+                            <?php $agent = new \Jenssegers\Agent\Agent() ?>;
 
                             <div class="extra_info">
                                 <small>
@@ -82,12 +83,14 @@
                                 </small>
                             </div>
 
+                            @if (!$agent->isMobile())
                             @foreach ($scene->categories()->limit(3)->get() as $category)
                                 <?php $translation = $category->translations()->where('language_id',$language->id)->first(); ?>
                                 <?php if ($translation && count(explode(" ", $translation->name)) <=2): ?>
                                 <a class="category_link" href="{{ route('category', array('profile' => $profile, 'permalink'=> str_slug($translation->name) )) }}">{{$translation->name}}</a>
                                 <?php endif?>
                             @endforeach
+                            @endif
 
 
                         </div>
