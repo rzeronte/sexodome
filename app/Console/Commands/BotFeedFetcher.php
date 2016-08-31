@@ -174,13 +174,13 @@ class BotFeedFetcher extends Command
                 $fila++;
 
                 if ($feed_config["skip_first_list"] == true && $fila == 2) {
-                    rZeBotUtils::message("[WARNING] Saltando primera linea del fichero...", "yellow", true, false);
+                    rZeBotUtils::message("[WARNING] Saltando primera linea del fichero...", "yellow", true, true);
                     continue;
                 }
 
                 // check total cols matched CSV <-> config array
                 if ($feed_config["totalCols"] != count($datos)) {
-                    rZeBotUtils::message("Error en el número de columnas, deteniendo ejecución...", "red", true, false);
+                    rZeBotUtils::message("Error en el número de columnas, deteniendo ejecución...", "red", true, true);
                     print_r($datos);
                     exit;
                 }
