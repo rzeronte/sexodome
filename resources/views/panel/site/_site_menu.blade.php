@@ -10,7 +10,8 @@
         <li role="presentation"><a href="#detail-colors" aria-controls="detail-colors" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-tint"></i> Colors</a></li>
         <li role="presentation"><a href="#detail-import" aria-controls="detail-import" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-film"></i> Import</a></li>
         <li role="presentation"><a href="#detail-cronjobs" aria-controls="detail-cronjobs" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-time"></i> CronJobs</a></li>
-        <li role="presentation"><a href="#detail-popunders" aria-controls="detail-popunders" role="tab" data-toggle="tab"><i class="glyphicon glyphicon glyphicon-duplicate"></i> Popunders</a></li>
+        <li role="presentation"><a href="#detail-popunders" aria-controls="detail-popunders" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-duplicate"></i> Popunders</a></li>
+        <li role="presentation"><a href="#detail-clicks" aria-controls="detail-clicks" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-hand-up"></i> Clicks</a></li>
         {{--<li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-trash"></i> DELETE</a></li>--}}
 
     </ul>
@@ -26,5 +27,6 @@
         <div role="tabpanel" class="tab-pane" id="detail-import">@include('panel.site._site_import_scenes')</div>
         <div role="tabpanel" class="tab-pane" id="detail-cronjobs">@include('panel.site._site_cronjobs')</div>
         <div role="tabpanel" class="tab-pane" id="detail-popunders">@include('panel.site._site_popunders')</div>
+        <div role="tabpanel" class="tab-pane" id="detail-clicks">@include('panel.site._site_clicks')</div>
     </div>
 </div>

@@ -343,6 +343,26 @@ class rZeBotUtils
 
         return $fileCSV;
     }
+    /**
+     * Download dump deletedfor a dump
+     *
+     * @param $feed
+     * @return string
+     */
+    public static function downloadDumpDeleted($feed)
+    {
+        $fileCSV = rZeBotCommons::getDumpsFolderTmp()."deleted_".$feed->file;
+
+        if (!file_exists($fileCSV)) {
+            rZeBotUtils::message("[DOWNLOADING FILE] $fileCSV", "green", true, false);
+            $cmd = "wget -c '" . $feed->url_deleted . "' --output-document=". $fileCSV;
+            exec($cmd);
+        } else {
+            rZeBotUtils::message("[ALREADY EXISTSh] $fileCSV", "yellow", true, false);
+        }
+
+        return $fileCSV;
+    }
 
     /**
      * create a category if is possible from tag
@@ -502,5 +522,19 @@ class rZeBotUtils
         }
 
         return false;
+    }
+
+    public static function date_range($first, $last, $step = '+1 day', $output_format = 'd/m/Y' ) {
+
+        $dates = array();
+        $current = strtotime($first);
+        $last = strtotime($last);
+
+        while( $current <= $last ) {
+
+            $dates[] = date($output_format, $current);
+            $current = strtotime($step, $current);
+        }
+        return $dates;
     }
 }

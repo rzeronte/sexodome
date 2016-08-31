@@ -4,6 +4,7 @@ namespace App\Model;
 
 use App\rZeBot\rZeBotCommons;
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class Site extends Model
 {
@@ -105,5 +106,16 @@ class Site extends Model
     public function getSitemap()
     {
         return $this->getHost() .".xml";
+    }
+
+    public function getClicks($fi, $ff)
+    {
+        $query = SceneClick::select(DB::raw("count(*) as total, DATE(scenes_clicks.created_at) as dia"))
+            ->join('scenes', 'scenes.id', '=', 'scenes_clicks.scene_id')
+            ->where('scenes.site_id', '=', $this->id)
+            ->groupBy('dia')
+        ;
+
+        return $query;
     }
 }
