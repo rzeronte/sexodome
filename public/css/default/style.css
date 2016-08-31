@@ -284,14 +284,18 @@ body{
 
 .link_order_container {
     float: right;
+    height: 100%;
 }
 
 .link_order {
+    font-size: 14px;
     text-align: right;
     float: right;
     color: white;
     border: none;
-    border-radius: 0;
+    margin: 5px;
+    padding: 5px;
+    margin-right: 0;
 }
 /****************************************************************************************** paginator */
 
