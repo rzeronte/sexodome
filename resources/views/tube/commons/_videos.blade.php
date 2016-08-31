@@ -72,7 +72,7 @@
                             </a>
 
                             <div class="clearfix"></div>
-                            <?php $agent = new \Jenssegers\Agent\Agent() ?>;
+                            <?php $agent = new \Jenssegers\Agent\Agent() ?>
 
                             <div class="extra_info">
                                 <small>
