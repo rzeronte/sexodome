@@ -8,26 +8,31 @@
         </div>
     </div>
     <script type="text/javascript">
+        <?php
+        $array = [];
+        $arrayDates = [];
+        foreach($rangeDates as $date) {
+            $dateExists = false;
+            foreach($dataClicks as $dayClick) {
+                if ($dayClick->dia == $date) {
+                    $array[] = $dayClick->total;
+                    $arrayDates[] = $date;
+                    $dateExists = true;
+                }
+            }
+            if ($dateExists == false) {
+                    $array[] = 0;
+                    $arrayDates[] = $date;
+            }
+        }
+        ?>
+
+        // Built in Highcharts date formatter based on the PHP strftime (see API reference for usage)
+        Highcharts.dateFormat("Month: %m Day: %d Year: %Y", 20, false);
         $(function () {
             serieVisitors = {
                 name: 'Clicks',
-                data: [
-                    <?php $array = [];
-                    foreach($rangeDates as $date) {
-                        $dateExists = false;
-                        foreach($dataClicks as $dayClick) {
-                            if ($dayClick->dia == $date) {
-                                $array[] = $dayClick->total;
-                                $dateExists = true;
-                            }
-                        }
-                        if ($dateExists == false) {
-                            $array[] = 0;
-                        }
-                    }
-                    echo implode(",", $array);
-                    ?>
-                ]
+                data: <?php echo json_encode($array) ?>
             };
 
             $('#graph_site_clicks_<?=$site->id?>').highcharts({
@@ -36,7 +41,7 @@
                 },
                 title: false,
                 xAxis: {
-                    categories: ['Days']
+                    categories: <?php echo json_encode($arrayDates) ?>
                 },
                 yAxis: {
                     title: {

@@ -461,7 +461,7 @@ class ConfigController extends Controller
         }
 
         $ff = date("Y-m-d");
-        $fi = date("Y-m-d", strtotime($ff." -7 days"));
+        $fi = date("Y-m-d", strtotime($ff." -50 days"));
 
         return view('panel.site', [
             'channels'  => Channel::all(),
