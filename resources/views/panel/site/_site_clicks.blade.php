@@ -4,7 +4,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <div id="graph_site_clicks_{{$site->id}}" style="padding:5px;width:1024px; height:150px;border: solid 1px cornflowerblue;margin-top:10px;" class="text-center"></div>
+            <div id="graph_site_clicks_{{$site->id}}" style="padding:5px;width:1024px; height:400px;border: solid 1px cornflowerblue;margin-top:10px;" class="text-center"></div>
         </div>
     </div>
     <script type="text/javascript">
