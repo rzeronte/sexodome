@@ -26,13 +26,14 @@
     <div class="col-md-3" style="margin-top:10px;">
         <a href="{{route('content', ['locale'=>$language->code])}}" class="btn @if (\Request::route()->getName() == "content") btn-success @else btn-primary @endif"><i class="glyphicon glyphicon-th"></i> Scenes</a>
         <a href="{{route('addSite', ['locale'=>$locale])}}" class="btn btn-warning" ><i class="glyphicon glyphicon-plus-sign"></i> Add site </a>
-        <a href="{{route('logout')}}" class="btn btn-danger"><i class="glyphicon glyphicon-off"></i> Exit</a>
+        <a href="#" class="btn btn-success">
+            <i class="glyphicon glyphicon-user"></i>
+        </a>
+
     </div>
 
 
     <div class="col-md-1"  style="margin-top:10px;">
-        <a href="#" class="btn btn-success">
-            <i class="glyphicon glyphicon-user"></i>
-        </a>
+        <a href="{{route('logout')}}" class="btn btn-danger"><i class="glyphicon glyphicon-off"></i></a>
     </div>
 </div>
