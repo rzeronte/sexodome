@@ -29,6 +29,7 @@
 
     @if ($site->ga_account)
         <?php $data = $site->getAnalytics($fi, $ff)->get(); ?>
+        <?php $rangeDates = \App\rZeBot\rZeBotUtils::date_range($fi, $ff, '+1 day', 'Y-m-d')?>
 
         <div class="row">
             <div class="col-md-12">
@@ -36,19 +37,22 @@
             </div>
         </div>
         <script type="text/javascript">
+            <?php
+            $arrayDates = [];
+            foreach($rangeDates as $date) {
+                $arrayDates[] = $date;
+            }
+            ?>
+
             $(function () {
                 serieVisitors = {
                     name: 'Visitors',
-                    data: [
-                        @foreach($data as $day) {{$day->visitors}}, @endforeach
-                                        ]
+                    data: [@foreach($data as $day) {{$day->visitors}}, @endforeach]
                 };
 
                 seriePageView = {
                     name: 'PageViews',
-                    data: [
-                        @foreach($data as $day) {{$day->pageviews}}, @endforeach
-                                        ]
+                    data: [@foreach($data as $day) {{$day->pageviews}}, @endforeach]
                 };
 
                 $('#graph_site_<?=$site->id?>').highcharts({
@@ -57,7 +61,7 @@
                     },
                     title: false,
                     xAxis: {
-                        categories: ['Days']
+                        categories: <?php echo json_encode($arrayDates) ?>
                     },
                     yAxis: {
                         title: {
