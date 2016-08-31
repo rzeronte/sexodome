@@ -10,7 +10,7 @@
     <script type="text/javascript">
         $(function () {
             serieVisitors = {
-                name: 'Visitors',
+                name: 'Clicks',
                 data: [
                     <?php $array = [];
                     foreach($rangeDates as $date) {
