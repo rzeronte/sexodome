@@ -287,7 +287,7 @@ class TubeController extends Controller
         ])->header('Cache-control', 'max-age=3600');
     }
 
-    public function out($profile, $scene_id)
+    public function out($profile, $scene_id, Request $request)
     {
         $scene = Scene::find($scene_id);
 
@@ -295,7 +295,7 @@ class TubeController extends Controller
             abort(404, "Scene not found");
         }
 
-        Scene::addSceneClick($scene);
+        Scene::addSceneClick($scene, $ua = $request::header('User-Agent'));
 
         // el campo 'iframe' es la url, cuando el video pertenece a un feed no embed
         return redirect($scene->iframe);

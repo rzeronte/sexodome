@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 
@@ -279,12 +280,17 @@ class Scene extends Model
             ;
     }
 
-    static function addSceneClick($scene)
+    static function addSceneClick($scene, $ua = false)
     {
         // video log
         $sceneClick = new SceneClick();
         $sceneClick->scene_id = $scene->id;
         $sceneClick->referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "";
+
+        if ($ua !== false) {
+            $sceneClick->ua = $ua;
+        }
+
         $sceneClick->save();
     }
 
