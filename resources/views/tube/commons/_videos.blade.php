@@ -78,8 +78,8 @@
                                 <small>
                                     {{gmdate("i:s", $scene->duration)}},
                                     {{$scene->updated_at->diffForHumans()}},
-                                    {{$scene->clicks()->count()+0}} views,
-                                    <a href="#" class="channel_link">{{strtolower($scene->channel->name)}}</a>
+                                    {{$scene->clicks()->count()+0}} views
+                                    {{--<a href="#" class="channel_link">{{strtolower($scene->channel->name)}}</a>--}}
                                 </small>
                             </div>
 
