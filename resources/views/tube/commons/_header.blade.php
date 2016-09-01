@@ -21,7 +21,7 @@
         <div class="col-md-4 col-xs-9 col-sm-9">
             <form action="{{ route('search', ['profile' => $profile]) }}" method="get">
                 <div class="input-group input-search">
-                    <input name="q" type="text" placeholder="what you wanna watch?" class="form-control" value="{{$query_string}}">
+                    <input name="q" type="text" placeholder="what you wanna watch?" class="form-control" value="{{$query_string}}" required>
                     <span class="input-group-btn">
                         <button type="submit" class="btn"><i class="glyphicon glyphicon-search"></i> search</button>
                     </span>
