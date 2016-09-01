@@ -12,7 +12,7 @@
         @foreach($categories as $category)
             <div class="col-md-2 col-sm-4 col-xs-4 category_outer">
                 <figure>
-                    <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}" class="link_image">
+                    <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}" class="link_image" title="{{$category->name}}">
                         <img src="{{$category->thumb}}" class="border-thumb"/>
                     </a>
 
