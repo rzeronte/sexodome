@@ -18,7 +18,7 @@
         ?>
 
         <div class="col-md-2 text-center" style="padding:10px;background-color:<?=$bgColor?>;">
-            <img src="{{$pornstar->thumbnail}}" style="border: solid 1px black;"/>
+            <img src="{{$pornstar->thumbnail}}" style="border: solid 1px black;width:100%;"/>
             <br/>
             {{$pornstar->name}}
         </div>
