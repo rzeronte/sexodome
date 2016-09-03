@@ -431,7 +431,7 @@ class ConfigController extends Controller
     public function sites()
     {
         $ff = date("Y-m-d");
-        $fi = date("Y-m-d", strtotime($ff." -7 days"));
+        $fi = date("Y-m-d", strtotime($ff." -30 days"));
 
         $sites = Site::where('user_id', '=', Auth::user()->id)->get();
 

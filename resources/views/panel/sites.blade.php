@@ -18,6 +18,14 @@
     </div>
 
     <script type="text/javascript">
+        <?php $rangeDates = \App\rZeBot\rZeBotUtils::date_range($fi, $ff, '+1 day', 'Y-m-d')?>
+        <?php
+        $arrayDates = [];
+        foreach($rangeDates as $date) {
+            $arrayDates[] = $date;
+        }
+        ?>
+
         $(function () {
             serieVisitorsGlobal = {
                 name: 'Visitors',
@@ -74,7 +82,7 @@
                 width:1024,
                 title: false,
                 xAxis: {
-                    categories: ['Days']
+                    categories: <?php echo json_encode($arrayDates) ?>
                 },
                 yAxis: {
                     title: {
