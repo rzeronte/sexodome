@@ -19,9 +19,9 @@
             </div>
             <div class="col-md-6 text-right">
                 @if ($site->ga_account)
-                    <button type="button" class="seo-info-keywords btn btn-success text-right" data-toggle="modal" data-target="#SEOInfoModal" data-url="{{route('siteKeywords', ['locale'=>$locale, 'site_id'=>$site->id])}}" style=""><i class="glyphicon glyphicon-link"></i> Top Keywords</button>
-                    <button type="button" class="seo-info-keywords btn btn-success" data-toggle="modal" data-target="#SEOInfoModal" data-url="{{route('siteReferrers', ['locale'=>$locale, 'site_id'=>$site->id])}}" style=""><i class="glyphicon glyphicon-send"></i> Top Referrers</button>
-                    <button type="button" class="seo-info-keywords btn btn-success" data-toggle="modal" data-target="#SEOInfoModal" data-url="{{route('sitePageViews', ['locale'=>$locale, 'site_id'=>$site->id])}}" style=""><i class="glyphicon glyphicon-thumbs-up"></i> Most Visited pages</button>
+                    <button type="button" class="seo-info-keywords btn btn-success text-right" data-toggle="modal" data-target="#modal-sexodome" data-url="{{route('siteKeywords', ['locale'=>$locale, 'site_id'=>$site->id])}}" style=""><i class="glyphicon glyphicon-link"></i> Top Keywords</button>
+                    <button type="button" class="seo-info-keywords btn btn-success" data-toggle="modal" data-target="#modal-sexodome" data-url="{{route('siteReferrers', ['locale'=>$locale, 'site_id'=>$site->id])}}" style=""><i class="glyphicon glyphicon-send"></i> Top Referrers</button>
+                    <button type="button" class="seo-info-keywords btn btn-success" data-toggle="modal" data-target="#modal-sexodome" data-url="{{route('sitePageViews', ['locale'=>$locale, 'site_id'=>$site->id])}}" style=""><i class="glyphicon glyphicon-thumbs-up"></i> Most Visited pages</button>
                 @endif
             </div>
         </form>
