@@ -12,7 +12,7 @@ use App\rZeBot\TwitterAPIExchange;
 use App\Model\Scene;
 use DB;
 use Spatie\LaravelAnalytics\LaravelAnalyticsFacade;
-
+use App\Model\CategoryTranslation;
 class BotCacheOrder extends Command
 {
     protected $signature = 'zbot:cache:order';
@@ -41,6 +41,22 @@ class BotCacheOrder extends Command
                 }
             }
 
+            DB::table('categories')->where('site_id', $site->id)->update(['cache_order' => 0]);
+            rZeBotUtils::message("RESETTING CACHE CATEGORY ORDER for " . $site->getHost(), "green", true, true);
+
+            foreach($categoriesOrder as $categoryOrder) {
+                $category = CategoryTranslation::join('categories','categories.id', '=', 'categories_translations.category_id')
+                    ->where('categories.site_id', '=', $site->id)
+                    ->where('permalink', $categoryOrder['permalink'])
+                    ->first();
+
+                if ($category) {
+                    $category->cache_order = $categoryOrder["views"];
+                    $category->save();
+                    rZeBotUtils::message("[SETTING ORDER FROM ANALYTICS] " . $categoryOrder['permalink'] . ": " . $categoryOrder['views'] . " for " . $site->getHost(), "green", true, true);
+                }
+            }
+
             // ORDER SCENES
             DB::transaction(function () use ($site) {
                 rZeBotUtils::message("Generating CACHE SCENES ORDER for " . $site->getHost(), "green", true, true);
@@ -56,22 +72,6 @@ class BotCacheOrder extends Command
 
             });
 
-            DB::table('categories')->where('site_id', $site->id)->update(['cache_order' => 0]);
-            rZeBotUtils::message("RESETTING CACHE CATEGORY ORDER for " . $site->getHost(), "green", true, true);
-
-            foreach($categoriesOrder as $categoryOrder) {
-                $category = CategoryTranslation::join('categories','categories.id', '=', 'categories_translations.category_id')
-                        ->where('categories.site_id', '=', $site->id)
-                        ->where('permalink', $categoryOrder['permalink'])
-                        ->first();
-
-                if ($category) {
-                    $category->cache_order = $categoryOrder["views"];
-                    $category->save();
-                    rZeBotUtils::message("[SETTING ORDER FROM ANALYTICS] " . $categoryOrder['permalink'] . ": " . $categoryOrder['views'] . " for " . $site->getHost(), "green", true, true);
-                }
-
-            }
         }
     }
 }
