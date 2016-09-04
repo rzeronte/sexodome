@@ -484,9 +484,9 @@ class ConfigController extends Controller
             abort(404, "Site not found");
         }
 
-        if (!(Auth::user()->id == $site->user->id)) {
-            abort(401, "Unauthorized");
-        }
+//        if (!(Auth::user()->id == $site->user->id)) {
+//            abort(401, "Unauthorized");
+//        }
 
         $keywords = LaravelAnalyticsFacade::setSiteId('ga:'.$site->ga_account)->getTopKeyWords(90, $maxResults = 30);
 
@@ -505,9 +505,9 @@ class ConfigController extends Controller
             abort(404, "Site not found");
         }
 
-        if (!(Auth::user()->id == $site->user->id)) {
-            abort(401, "Unauthorized");
-        }
+//        if (!(Auth::user()->id == $site->user->id)) {
+//            abort(401, "Unauthorized");
+//        }
 
         $referrers= LaravelAnalyticsFacade::setSiteId('ga:'.$site->ga_account)->getTopReferrers(90, $maxResults = 30);
 
@@ -522,9 +522,9 @@ class ConfigController extends Controller
     {
         $site = Site::find($site_id);
 
-        if (!$site) {
-            abort(404, "Site not found");
-        }
+//        if (!$site) {
+//            abort(404, "Site not found");
+//        }
 
         if (!(Auth::user()->id == $site->user->id)) {
             abort(401, "Unauthorized");
