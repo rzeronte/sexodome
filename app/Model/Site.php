@@ -118,4 +118,15 @@ class Site extends Model
 
         return $query;
     }
+
+    public function getUAs($fi, $ff)
+    {
+        $query = SceneClick::select(DB::raw("count(*) as y, ua as name"))
+            ->join('scenes', 'scenes.id', '=', 'scenes_clicks.scene_id')
+            ->where('scenes.site_id', '=', $this->id)
+            ->groupBy('ua')
+        ;
+
+        return $query;
+    }
 }

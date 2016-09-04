@@ -13,7 +13,7 @@
         <br/>
     </div>
 
-    <div id="graph_site_global" style="width:100%;height:200px;border: solid 1px black;">
+    <div id="graph_site_global" style="width:100%;height:400px;border: solid 1px gray;">
 
     </div>
 
@@ -29,7 +29,6 @@
         $(function () {
             serieVisitorsGlobal = {
                 name: 'Visitors',
-                color: '#FF0000',
                 data: [
                     <?php
 
@@ -53,7 +52,6 @@
             };
             seriePageViewGlobal = {
                 name: 'PageViews',
-                color: '#0000FF',
                 data: [
                     <?php
                         $begin = new DateTime( $fi );
@@ -79,8 +77,10 @@
                 chart: {
                     zoomType: 'xy'
                 },
+                title: {
+                    text: 'Global analytics from your network'
+                },
                 width:1024,
-                title: false,
                 xAxis: {
                     categories: <?php echo json_encode($arrayDates) ?>
                 },
