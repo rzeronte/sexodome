@@ -1,5 +1,5 @@
 @if (env("SHOW_IFRAME_NETWORK", true))
-    <?php $agent = new \Jenssegers\Agent\Agent() ?>;
+    <?php $agent = new \Jenssegers\Agent\Agent() ?>
 
     @if (!$agent->isMobile())
         @if ($site->iframe_site_id != "")
