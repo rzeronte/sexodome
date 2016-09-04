@@ -14,11 +14,19 @@
                 @endif
             </a>
         </div>
-        <div class="col-md-1 col-xs-3 col-sm-3 text-center col-header-right">
+        <div class="col-md-2 col-xs-3 col-sm-3 text-center col-header-right text-right">
+            @if ($site->button1_url != "" and $site->button1_text != "")
+                <a href="{{$site->button1_url}}" target="_blank" class="btn btn-custom-user">{{$site->button1_text}}</a>
+            @endif
+
+            @if ($site->button2_url != "" and $site->button2_text != "")
+                <a href="{{$site->button2_url}}" class="btn btn-custom-user">{{$site->button2_text}}</a>
+            @endif
+
             <a href="{{route('pornstars', ["profile" => $profile])}}" class="btn btn-header-pornstars">Pornstars</a>
         </div>
 
-        <div class="col-md-4 col-xs-9 col-sm-9">
+        <div class="col-md-3 col-xs-8 col-sm-8">
             <form action="{{ route('search', ['profile' => $profile]) }}" method="get">
                 <div class="input-group input-search">
                     <input name="q" type="text" placeholder="what you wanna watch?" class="form-control" value="{{$query_string}}" required>

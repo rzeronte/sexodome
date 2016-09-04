@@ -84,7 +84,16 @@ body{
     color: white;
     text-decoration: underline;
 }
-
+.btn-custom-user{
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 0;
+}
+.btn-custom-user:hover{
+    color: white;
+    text-decoration: underline;
+}
 /****************************************************************************************** Categories*/
 .category_outer {
     padding: 0;

@@ -155,6 +155,48 @@
             </div>
 
             <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
+                <p><i class="glyphicon glyphicon-random"></i> <b>Header buttons</b></p>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-6">
+                    <div class="col-md-3">
+                        Button URL #1:
+                    </div>
+                    <div class="col-md-7">
+                        <input type="text" name="button1_url" class="form-control" value="{{$site->button1_url}}"/>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-3">
+                        Button Text #1:
+                    </div>
+                    <div class="col-md-7">
+                        <input type="text" name="button1_text" class="form-control" value="{{$site->button1_text}}"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-6">
+                    <div class="col-md-3">
+                        Button URL #2:
+                    </div>
+                    <div class="col-md-7">
+                        <input type="text" name="button2_url" class="form-control" value="{{$site->button2_url}}"/>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-3">
+                        Button Text #2:
+                    </div>
+                    <div class="col-md-7">
+                        <input type="text" name="button2_text" class="form-control" value="{{$site->button2_text}}"/>
+                    </div>
+                </div>
+            </div>
+
+            <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
                 <p><i class="glyphicon glyphicon-object-align-left"></i> <b>Banners</b></p>
             </div>
 

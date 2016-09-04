@@ -38,6 +38,15 @@
         color: {{$site->color7}};
     }
 
+    .btn-custom-user{
+        background-color: {{$site->color6}};
+        color: {{$site->color7}};
+    }
+
+    .btn-custom-user:hover{
+        color: {{$site->color7}};
+    }
+
     /****************************************************************************************** Categories*/
     .category_outer .link_image img {
         border: solid 0px {{$site->color2}};

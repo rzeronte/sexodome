@@ -602,6 +602,11 @@ class ConfigController extends Controller
 
         $site->banner_script1 = Request::input('banner_script1');
 
+        $site->button1_url = Request::input('button1_url');
+        $site->button2_url = Request::input('button2_url');
+        $site->button1_text = Request::input('button1_text');
+        $site->button2_text = Request::input('button2_text');
+
         $site->save();
 
         return json_encode(array('status' => true));
