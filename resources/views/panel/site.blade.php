@@ -45,5 +45,6 @@
 </div>
 
 @include('panel._sticker')
+@include('panel._modal')
 </body>
 </html>

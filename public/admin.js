@@ -321,13 +321,13 @@ $( document ).ready(function() {
     $( ".seo-info-keywords" ).click(function() {
         var action = $(this).attr("data-url");
 
-        $("#SEOInfoModal .modal-body").html("Loading...");
+        $("#modal-sexodome .modal-body").html("Loading...");
 
         $.ajax({
             url: action,
             method: 'get'
         }).done(function( data ) {
-            $("#SEOInfoModal  .modal-body").html(data);
+            $("#modal-sexodome .modal-body").html(data);
         });
     });
 
