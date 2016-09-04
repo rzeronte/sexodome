@@ -20,7 +20,6 @@
                 @if (isset($scenes))
                     ({{$scenes->total()}} porn videos)
                 @endif
-                @yield('orders')
             </h2>
         @endif
 
