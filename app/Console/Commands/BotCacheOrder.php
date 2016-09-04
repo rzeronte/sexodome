@@ -11,6 +11,7 @@ use App\Model\Tweet;
 use App\rZeBot\TwitterAPIExchange;
 use App\Model\Scene;
 use DB;
+use Spatie\LaravelAnalytics\LaravelAnalyticsFacade;
 
 class BotCacheOrder extends Command
 {
