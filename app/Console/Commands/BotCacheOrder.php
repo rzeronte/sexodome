@@ -24,9 +24,22 @@ class BotCacheOrder extends Command
         $sites = Site::all();
 
         foreach($sites as $site) {
-            $pageViews = LaravelAnalyticsFacade::setSiteId('ga:'.$site->ga_account)->getMostVisitedPages(90, $maxResults = 100);
-            print_r($pageViews);
-            continue;
+
+            $categoriesOrder = [];
+
+            if ($site->ga_account != "") {
+                $pageViews = LaravelAnalyticsFacade::setSiteId('ga:'.$site->ga_account)->getMostVisitedPages(90, $maxResults = 100);
+
+                foreach ($pageViews as $pv) {
+                    if (str_contains($pv["url"], "/category/") == true && str_contains($pv["url"], "?") == false) {
+                        $txt_category = str_replace("/category/", "", $pv["url"]);
+                        $categoriesOrder[] = [
+                            'permalink' => $txt_category,
+                            'views'     => $pv["pageViews"]
+                        ];
+                    }
+                }
+            }
 
             // ORDER SCENES
             DB::transaction(function () use ($site) {
@@ -43,24 +56,22 @@ class BotCacheOrder extends Command
 
             });
 
+            DB::table('categories')->where('site_id', $site->id)->update(['cache_order' => 0]);
+            rZeBotUtils::message("RESETTING CACHE CATEGORY ORDER for " . $site->getHost(), "green", true, true);
 
+            foreach($categoriesOrder as $categoryOrder) {
+                $category = CategoryTranslation::join('categories','categories.id', '=', 'categories_translations.category_id')
+                        ->where('categories.site_id', '=', $site->id)
+                        ->where('permalink', $categoryOrder['permalink'])
+                        ->first();
 
-
-            // ORDER CATEGORIES
-            DB::transaction(function () use ($site) {
-                rZeBotUtils::message("Generating CACHE CATEGORIES ORDER for " . $site->getHost(), "green", true, true);
-                $categories = $site->categories()->get();
-
-                $i = 1;
-                foreach($categories as $category) {
-                    rZeBotUtils::message("Category: " . $category->id . ", order: " . $i, "green", true, true);
-                    $category->cache_order = $i;
+                if ($category) {
+                    $category->cache_order = $categoryOrder["views"];
                     $category->save();
-                    $i++;
+                    rZeBotUtils::message("[SETTING ORDER FROM ANALYTICS] " . $categoryOrder['permalink'] . ": " . $categoryOrder['views'] . " for " . $site->getHost(), "green", true, true);
                 }
 
-            });
-
+            }
         }
     }
 }
