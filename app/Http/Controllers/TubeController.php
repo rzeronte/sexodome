@@ -34,6 +34,8 @@ class TubeController extends Controller
 
         $categories = Category::getTranslationByStatus(1, $this->commons->language->id)
             ->where('site_id', '=', $this->commons->site->id)
+            ->orderBy('categories.cache_order', 'DESC')
+            ->orderBy('categories.nscenes', 'DESC')
             ->paginate($this->commons->perPageCategories)
         ;
 
