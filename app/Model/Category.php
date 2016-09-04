@@ -60,8 +60,7 @@ class Category extends Model
         $categories = Category::select('categories.*', 'categories_translations.name', 'categories_translations.permalink', 'categories_translations.thumb')
             ->join('categories_translations', 'categories_translations.category_id', '=', 'categories.id')
             ->where('categories_translations.language_id', $language_id)
-            ->where('categories.status',$status)
-            ->orderBy('categories.nscenes', 'DESC');
+            ->where('categories.status',$status);
 
         return $categories;
     }
