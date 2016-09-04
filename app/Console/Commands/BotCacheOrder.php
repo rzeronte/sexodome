@@ -13,6 +13,8 @@ use App\Model\Scene;
 use DB;
 use Spatie\LaravelAnalytics\LaravelAnalyticsFacade;
 use App\Model\CategoryTranslation;
+use App\Model\Category;
+
 class BotCacheOrder extends Command
 {
     protected $signature = 'zbot:cache:order';
@@ -45,12 +47,13 @@ class BotCacheOrder extends Command
             rZeBotUtils::message("RESETTING CACHE CATEGORY ORDER for " . $site->getHost(), "green", true, true);
 
             foreach($categoriesOrder as $categoryOrder) {
-                $category = CategoryTranslation::join('categories','categories.id', '=', 'categories_translations.category_id')
+                $categoryTranslation = CategoryTranslation::join('categories','categories.id', '=', 'categories_translations.category_id')
                     ->where('categories.site_id', '=', $site->id)
                     ->where('permalink', $categoryOrder['permalink'])
                     ->first();
 
-                if ($category) {
+                if ($categoryTranslation) {
+                    $category = Category::find($categoryTranslation->category_id);
                     $category->cache_order = $categoryOrder["views"];
                     $category->save();
                     rZeBotUtils::message("[SETTING ORDER FROM ANALYTICS] " . $categoryOrder['permalink'] . ": " . $categoryOrder['views'] . " for " . $site->getHost(), "green", true, true);
