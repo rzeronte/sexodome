@@ -4,7 +4,7 @@
 
         <div class="col-md-12">
             <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
-                <p><i class="glyphicon glyphicon-signal"></i> <b>Language</b></p>
+                <p><i class="glyphicon glyphicon-comment"></i> <b>Language</b></p>
             </div>
 
             <div class="row" style="padding:10px;">
@@ -55,7 +55,7 @@
                 </div>
 
                 <div class="col-md-7">
-                    <input type="text" class="form-control" value="{{$site->description_index}}" name="description_index">
+                    <textarea class="form-control" name="description_index">{{$site->description_index}}</textarea>
                     <small><b>Variables:</b> {domain}</small>
                 </div>
             </div>
@@ -77,7 +77,7 @@
                 </div>
 
                 <div class="col-md-7">
-                    <input type="text" class="form-control" value="{{$site->description_category}}" name="description_category">
+                    <textarea class="form-control" name="description_category">{{$site->description_category}}</textarea>
                     <small><b>Variables:</b> {domain}, {category}</small>
                 </div>
             </div>
@@ -99,7 +99,7 @@
                 </div>
 
                 <div class="col-md-7">
-                    <input type="text" class="form-control" value="{{$site->description_pornstars}}" name="description_pornstars">
+                    <textarea class="form-control" name="description_pornstars">{{$site->description_pornstars}}</textarea>
                     <small><b>Variables:</b> {domain}</small>
                 </div>
             </div>
@@ -121,7 +121,7 @@
                 </div>
 
                 <div class="col-md-7">
-                    <input type="text" class="form-control" value="{{$site->description_pornstar}}" name="description_pornstar">
+                    <textarea class="form-control" name="description_pornstar">{{$site->description_pornstar}}</textarea>
                     <small><b>Variables:</b> {domain}, {pornstar}</small>
                 </div>
             </div>
@@ -151,6 +151,19 @@
                 </div>
                 <div class="col-md-7">
                     <input type="text" name="google_analytics" class="form-control" value="{{$site->google_analytics}}"/>
+                </div>
+            </div>
+
+            <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
+                <p><i class="glyphicon glyphicon-object-align-left"></i> <b>Banners</b></p>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Script for footer banner:
+                </div>
+                <div class="col-md-7">
+                    <textarea name="banner_script1" class="form-control">{{$site->banner_script1}}</textarea>
                 </div>
             </div>
 

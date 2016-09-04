@@ -1,7 +1,7 @@
 <div>
     <ul class="nav nav-tabs siz small" role="tablist">
         <li role="presentation" class="active"><a href="#detail-clicks" aria-controls="detail-clicks" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-hand-up"></i> Clicks</a></li>
-        <li role="presentation"><a href="#detail-seo" aria-controls="detail-seo" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-signal"></i> SEO</a></li>
+        <li role="presentation"><a href="#detail-seo" aria-controls="detail-seo" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-wrench"></i> Config</a></li>
         <li role="presentation"><a href="#detail-logo" aria-controls="detail-logo" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-picture"></i> Logo</a></li>
         <li role="presentation"><a href="#detail-categories" aria-controls="detail-categories" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-th-large"></i> Categories</a></li>
         <li role="presentation"><a href="#detail-tags" aria-controls="detail-tags" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-th"></i> Tags</a></li>

@@ -1,3 +1,8 @@
+<section class="banner_footer">
+    @if ($site->banner_script1 != "")
+        <?php echo $site->banner_script1 ?>
+    @endif
+</section>
 <section class="footer">
     <div class="container">
         <div class="row">

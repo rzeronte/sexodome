@@ -600,6 +600,8 @@ class ConfigController extends Controller
         $site->google_analytics = Request::input('google_analytics');
         $site->language_id = Request::input('language_id');
 
+        $site->banner_script1 = Request::input('banner_script1');
+
         $site->save();
 
         return json_encode(array('status' => true));
