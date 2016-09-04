@@ -91,7 +91,7 @@
                     colorByPoint: true,
                     data: [
                         @foreach($dataUAs as $ua )
-                            { name:@if ($ua->name) '{{$ua->name}}' @else 'Undefined' @endif, y: {{$ua->y}} },
+                            { name:@if ($ua->name) '{{str_limit($ua->name, 25, $end = '...')}}' @else 'Undefined' @endif, y: {{$ua->y}} },
                         @endforeach
                     ]
                 }]
