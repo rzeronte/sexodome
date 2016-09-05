@@ -55,4 +55,13 @@ class PornHubFeed
         return $feed_config;
     }
 
+    function configDeleteFeed() {
+        $mapping = array(
+            "csv"       => false,
+            "separator" => false,
+            "index_url" => false,
+        );
+
+        return $mapping;
+    }
 }

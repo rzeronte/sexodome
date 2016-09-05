@@ -60,4 +60,13 @@ class RedtubeFeed
         return $feed_config;
     }
 
+    function configDeleteFeed() {
+        $mapping = array(
+            "csv"       => true,
+            "separator" => "|",
+            "index_url" => 1,
+        );
+
+        return $mapping;
+    }
 }

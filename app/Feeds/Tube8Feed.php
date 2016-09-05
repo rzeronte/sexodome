@@ -56,4 +56,13 @@ class Tube8Feed
         return $feed_config;
     }
 
+    function configDeleteFeed() {
+        $mapping = array(
+            "csv"       => false,
+            "separator" => false,
+            "index_url" => false,
+        );
+
+        return $mapping;
+    }
 }

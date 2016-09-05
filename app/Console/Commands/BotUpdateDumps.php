@@ -40,6 +40,7 @@ class BotUpdateDumps extends Command
         foreach ($channels as $feed) {
             rZeBotUtils::message("[$feed->name] $feed->url", "green", true, false);
             rZeBotUtils::downloadDump($feed);
+            rZeBotUtils::downloadDumpDeleted($feed);
 
             $totalLines = intval(exec("wc -l '".rZeBotCommons::getDumpsFolderTmp().$feed->file."'"));
             $feed->nvideos = $totalLines;

@@ -2,13 +2,16 @@
 
 namespace App\Model;
 
-use GuzzleHttp\Psr7\Request;
-use Illuminate\Database\Eloquent\Model;
 use DB;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Scene extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'scenes';
+    protected $dates = ['deleted_at'];
 
     public function site()
     {
