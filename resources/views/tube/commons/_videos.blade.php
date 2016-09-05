@@ -4,12 +4,12 @@
             <h2>
                 {{$categoryTranslation->name}}
                 @if (isset($scenes))
-                    ({{$scenes->total()}} porn videos)
+                    ({{$scenes->total()}} {{trans('tube.h1_info_porn_videos')}})
                 @endif
 
                 <div class="link_order_container">
-                    <a href="{{route('category', ['profile' => $site->getHost(), 'permalink' => $permalinkCategory, 'order' => 'popular'])}}" class="link_order"> @if (Request::get('order') == 'popular') <b>Most popular porn videos</b> @else Most popular porn videos @endif </a>
-                    <a href="{{route('category', ['profile' => $site->getHost(), 'permalink' => $permalinkCategory, 'order' => 'newest'])}}" class="link_order">@if (Request::get('order') == false || Request::get('order') == 'newest') <b>Newest porn videos</b> @else Newest porn videos @endif </a>
+                    <a href="{{route('category', ['profile' => $site->getHost(), 'permalink' => $permalinkCategory, 'order' => 'popular'])}}" class="link_order"> @if (Request::get('order') == 'popular') <b>{{trans('tube.btn_order_mostpopular')}}</b> @else {{trans('tube.btn_order_mostpopular')}} @endif </a>
+                    <a href="{{route('category', ['profile' => $site->getHost(), 'permalink' => $permalinkCategory, 'order' => 'newest'])}}" class="link_order">@if (Request::get('order') == false || Request::get('order') == 'newest') <b>{{trans('tube.btn_order_news')}}</b> @else {{trans('tube.btn_order_news')}} @endif </a>
                 </div>
             </h2>
         @endif
@@ -18,7 +18,7 @@
             <h2>
                 {{$pornstar->name}}
                 @if (isset($scenes))
-                    ({{$scenes->total()}} porn videos)
+                    ({{$scenes->total()}} {{trans('tube.count_porn_videos')}})
                 @endif
             </h2>
         @endif
@@ -26,7 +26,7 @@
         @if ($query_string)
             <h2>
                 @if (isset($scenes))
-                    {{$scenes->total()}} porn videos  for '<b>{{$query_string}}</b>'
+                    {{$scenes->total()}} {{trans('tube.count_porn_videos_for')}} '<b>{{$query_string}}</b>'
                 @endif
             </h2>
         @endif
@@ -77,7 +77,7 @@
                                 <small>
                                     {{gmdate("i:s", $scene->duration)}},
                                     {{$scene->updated_at->diffForHumans()}},
-                                    {{$scene->clicks()->count()+0}} views
+                                    {{$scene->clicks()->count()+0}} {{trans('tube.views')}}
                                     {{--<a href="#" class="channel_link">{{strtolower($scene->channel->name)}}</a>--}}
                                 </small>
                             </div>

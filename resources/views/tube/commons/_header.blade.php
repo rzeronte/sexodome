@@ -23,15 +23,15 @@
                 <a href="{{$site->button2_url}}" class="btn btn-custom-user">{{$site->button2_text}}</a>
             @endif
 
-            <a href="{{route('pornstars', ["profile" => $profile])}}" class="btn btn-header-pornstars">Pornstars</a>
+            <a href="{{route('pornstars', ["profile" => $profile])}}" class="btn btn-header-pornstars">{{trans('tube.header_pornstars_btn')}}</a>
         </div>
 
         <div class="col-md-3 col-xs-8 col-sm-8">
             <form action="{{ route('search', ['profile' => $profile]) }}" method="get">
                 <div class="input-group input-search">
-                    <input name="q" type="text" placeholder="what you wanna watch?" class="form-control" value="{{$query_string}}" required>
+                    <input name="q" type="text" placeholder="{{trans('tube.header_inputsearch_placeholder')}}" class="form-control" value="{{$query_string}}" required>
                     <span class="input-group-btn">
-                        <button type="submit" class="btn"><i class="glyphicon glyphicon-search"></i> search</button>
+                        <button type="submit" class="btn"><i class="glyphicon glyphicon-search"></i> {{trans('tube.header_inputsearch_search')}}</button>
                     </span>
                 </div>
             </form>
