@@ -1,8 +1,8 @@
 <section>
     <div class="container header_title_section">
         <h2>
-            {{$categories->total()}} categories, @if (isset($scenes)){{ number_format($scenes->total(), 0, ".", ",") }} porn videos @endif
-            @if (isset($total_scenes)){{ number_format($total_scenes, 0, ".", ",") }} porn videos @endif
+            {{$categories->total()}} {{trans('tube.h1_info_categories')}}, @if (isset($scenes)){{ number_format($scenes->total(), 0, ".", ",") }} {{trans('tube.h1_info_porn_videos')}} @endif
+            @if (isset($total_scenes)){{ number_format($total_scenes, 0, ".", ",") }} {{trans('tube.h1_info_porn_videos')}} @endif
             @yield('orders')
         </h2>
     </div>
