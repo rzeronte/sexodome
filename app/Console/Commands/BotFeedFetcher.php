@@ -21,6 +21,7 @@ use App\Model\SceneTag;
 use App\Model\SceneCategory;
 use App\rZeBot\rZeBotCommons;
 use App\Model\Pornstar;
+use DB;
 use Artisan;
 
 class BotFeedFetcher extends Command
