@@ -5,7 +5,7 @@ return [
     'header_inputsearch_placeholder' => 'Sie wollen sehen?',
     'header_inputsearch_search' => 'Suche',
 
-    'h1_info_categories' => 'Kategorien',
+    'h1_info_categories' => 'categorien',
     'h1_info_porn_videos' => 'porno-Videos',
 
     'count_porn_videos' => 'porno-Videos',
