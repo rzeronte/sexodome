@@ -24,6 +24,8 @@
                     <button type="button" class="seo-info-keywords btn btn-success" data-toggle="modal" data-target="#modal-sexodome" data-url="{{route('sitePageViews', ['locale'=>$locale, 'site_id'=>$site->id])}}" style=""><i class="glyphicon glyphicon-thumbs-up"></i> Most Visited pages</button>
                 @endif
             </div>
+            <p>Make sure you have granted permissions "Read and analyze" in Analytics to: <i>exportercuentadeservicio@mythic-handler-124115.iam.gserviceaccount.com</i></p>
+
         </form>
     </div>
 
