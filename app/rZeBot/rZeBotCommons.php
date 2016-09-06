@@ -72,7 +72,7 @@ class rZeBotCommons extends Controller {
         $this->perPagePanelPornstars = 12;
 
         // set locale
-        Request::setLocale($locale);
+        App::setLocale($locale);
         $this->locale = $locale;
 
         // all valid languages
