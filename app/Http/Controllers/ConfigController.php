@@ -601,6 +601,8 @@ class ConfigController extends Controller
         $site->language_id = Request::input('language_id');
 
         $site->banner_script1 = Request::input('banner_script1');
+        $site->banner_script2 = Request::input('banner_script2');
+        $site->banner_script3 = Request::input('banner_script3');
 
         $site->button1_url = Request::input('button1_url');
         $site->button2_url = Request::input('button2_url');

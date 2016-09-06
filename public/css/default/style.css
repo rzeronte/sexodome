@@ -193,7 +193,6 @@ body{
     font-weight: normal;
 }
 
-
 /****************************************************************************************** Pornstar*/
 .pornstar_outer{
     padding: 0;
@@ -307,6 +306,9 @@ body{
     margin-right: 0;
 }
 /****************************************************************************************** paginator */
+.banner_footer{
+    height: 245px;
+}
 
 /* Smartphones (portrait and landscape) ----------- */
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {

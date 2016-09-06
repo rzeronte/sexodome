@@ -202,10 +202,37 @@
 
             <div class="row" style="padding:10px;">
                 <div class="col-md-3">
-                    Script for footer banner:
+                    Script for footer banner #1:
                 </div>
                 <div class="col-md-7">
                     <textarea name="banner_script1" class="form-control">{{$site->banner_script1}}</textarea>
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Script for footer banner #2:
+                </div>
+                <div class="col-md-7">
+                    <textarea name="banner_script2" class="form-control">{{$site->banner_script2}}</textarea>
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Script for footer banner #3:
+                </div>
+                <div class="col-md-7">
+                    <textarea name="banner_script3" class="form-control">{{$site->banner_script3}}</textarea>
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Script for footer banner #4:
+                </div>
+                <div class="col-md-7">
+                    <textarea name="banner_script4" class="form-control">{{$site->banner_script4}}</textarea>
                 </div>
             </div>
 
