@@ -180,7 +180,7 @@
 <!-- Footer -->
 <footer>
     <div class="container text-center">
-        <p>sexodome.com {{date("Y")}}</p>
+        <p>sexodome.com {{date("Y")}} | <a href="mailto:sexodomeweb@gmail.com" title="Contact">Contact</a></p>
     </div>
 </footer>
 
