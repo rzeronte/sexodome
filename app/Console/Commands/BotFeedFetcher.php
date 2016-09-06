@@ -401,7 +401,7 @@ class BotFeedFetcher extends Command
                             }
                         }
                     } else {
-                        rZeBotUtils::message("[WARNING] Scene de ".$feed->name." ya existente en " . $site->getHost.", saltando...", "yellow", true, false);
+                        rZeBotUtils::message("[WARNING] Scene de ".$feed->name." ya existente en " . $site->getHost().", saltando...", "yellow", true, false);
                     }
                 }
 
