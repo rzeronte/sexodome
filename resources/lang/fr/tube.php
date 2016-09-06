@@ -14,5 +14,5 @@ return [
     'btn_order_news' => 'Vidéos porno nouveau',
     'btn_order_mostpopular' => 'Vidéos porno populaires',
 
-    'views' => 'views'
+    'views' => 'vues'
 ];
