@@ -100,7 +100,7 @@ class TubeController extends Controller
 
         // get scenes
         $scenes = Scene::getTranslationsForTag($permalinkTag, $this->commons->language->id)
-            ->where('site_id', $this->commons->site->id)
+            ->where('scenes.site_id', $this->commons->site->id)
             ->paginate($this->commons->perPage)
         ;
 
