@@ -22,12 +22,13 @@
             <div class="row">
                 <div class="col-md-12">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
-                    <h3 style="margin-top: 0;">
+                    <div class="alert alert-success" role="alert">
                         <a href="http://{{$site->getHost()}}" target="_blank">
-                        http://{{$site->getHost()}}
+                            http://{{$site->getHost()}}
                         </a>
                         <small>({{$site->getTotalScenes()}} active scenes)</small>
-                    </h3>
+
+                    </div>
                 </div>
                 <div class="col-md-12">
                     @include('panel.site._site_menu')
