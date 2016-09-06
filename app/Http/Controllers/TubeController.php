@@ -114,7 +114,7 @@ class TubeController extends Controller
         return response()->view('tube.search', [
             'profile'         => $profile,
             'scenes'          => $scenes,
-            'categories'      => $this->site->categories()->get(),
+            'categories'      => $this->commons->site->categories()->get(),
             'tagTranslation'  => $tagTranslation,
             'resultsPerPage'  => $this->commons->perPage,
             'query_string'    => $tag->name,
