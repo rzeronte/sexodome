@@ -228,15 +228,6 @@
             </div>
 
             <div class="row" style="padding:10px;">
-                <div class="col-md-3">
-                    Script for footer banner #4:
-                </div>
-                <div class="col-md-7">
-                    <textarea name="banner_script4" class="form-control">{{$site->banner_script4}}</textarea>
-                </div>
-            </div>
-
-            <div class="row" style="padding:10px;">
                 <div class="col-md-7 col-md-offset-3">
                     <input type="submit" class="btn btn-primary" value="Save settings for @if ($site->have_domain == 1){{$site->getHost()}}@else{{$site->name}}@endif" style="width:100%;"/>
                 </div>
