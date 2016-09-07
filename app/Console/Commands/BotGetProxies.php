@@ -53,7 +53,7 @@ class BotGetProxies extends Command
 
                 rZeBotUtils::message("[REQUEST PROXY] " . "$url from $ip", "yellow", true, true);
 
-                $this->connectProxy($ip, $url);
+                $this->connectProxy($ip, $url."?artisan");
             }
         }
     }
