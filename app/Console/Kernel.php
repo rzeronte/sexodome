@@ -31,6 +31,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\BotCacheOrder::class,
         \App\Console\Commands\BotFeedRemover::class,
         \App\Console\Commands\BotGetProxies::class,
+        \App\Console\Commands\BotRankingGoogle::class,
     ];
 
     /**

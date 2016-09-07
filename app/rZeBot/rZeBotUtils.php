@@ -537,4 +537,22 @@ class rZeBotUtils
         }
         return $dates;
     }
+
+    public static function placeHolders($text, $count = 0, $separator = ",") {
+        $result = array();
+        if ($count > 0) {
+            for ($x = 0; $x < $count; $x++) {
+                $result[] = $text;
+            }
+        }
+
+        return implode($separator, $result);
+    }
+
+    public static function isMultiArray($a) {
+        foreach ($a as $v)
+            if (is_array($v))
+                return TRUE;
+        return FALSE;
+    }
 }
