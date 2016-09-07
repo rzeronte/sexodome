@@ -30,6 +30,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\BotCronJobs::class,
         \App\Console\Commands\BotCacheOrder::class,
         \App\Console\Commands\BotFeedRemover::class,
+        \App\Console\Commands\BotGetProxies::class,
     ];
 
     /**
