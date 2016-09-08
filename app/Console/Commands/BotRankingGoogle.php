@@ -11,7 +11,7 @@ use App\rZeBot\GoogleScrapper;
 
 class BotRankingGoogle extends Command
 {
-    protected $signature = 'zbot:ranking:google {site_id} {keyword}';
+    protected $signature = 'zbot:ranking:google {site_url} {keyword}';
 
     protected $description = 'Check ranking for keyword for a site';
 
@@ -19,16 +19,8 @@ class BotRankingGoogle extends Command
     {
 
         $keyword = $this->argument('keyword');
-        $site_id = $this->argument('site_id');
+        $url = $this->argument('site_url');
 
-        $site = Site::find($site_id);
-
-        if (!$site) {
-            rZeBotUtils::message("Site $site_id not found", "red", true, true);
-            exit;
-        }
-
-        $url = $site->getHost();
         rZeBotUtils::message("[GOOGLE RANKING] $url -> $keyword", "green", true, true);
 
         $position = GoogleScrapper::scrape($keyword, array($url));

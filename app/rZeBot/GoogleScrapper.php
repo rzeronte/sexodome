@@ -11,7 +11,6 @@ class GoogleScrapper {
         try {
             $domain = self::$domains[$country];
             $url = 'https://www.' . $domain . '/search?num=' . $resultsToFetch . '&safe=off&site=&source=hp&q=' . $keyword;
-            rZeBotUtils::message("Try: " . $url, "cyan", true, true);
         } catch (Exception $e) {
             echo "Exception thrown:" . $e->getMessage();
             die();

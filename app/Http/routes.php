@@ -3,6 +3,8 @@
 // Web Plataforma formato domain.com
 Route::group(['domain' => \App\rZeBot\rZeBotCommons::getMainPlataformDomain()], function () {
     Route::match(['get', 'post'], "/", [ 'as' => 'home_website', 'uses' => 'WebController@home' ]);
+    Route::match(['get', 'post'], "/google-keyword-position", [ 'as' => 'GoogleKeywordPosition', 'uses' => 'WebController@GooglePosition' ]);
+
 });
 
 // Web Plataforma formato www.domain.com

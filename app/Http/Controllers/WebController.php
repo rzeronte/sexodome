@@ -10,7 +10,7 @@ use Input;
 use Session;
 use URL;
 use Auth;
-
+use App\rZeBot\GoogleScrapper;
 use App\rZeBot\rZeBotCommons;
 
 class WebController extends Controller
@@ -24,6 +24,25 @@ class WebController extends Controller
     public function home()
     {
         return view('web.home', [
+        ]);
+    }
+
+    public function GooglePosition()
+    {
+        $keyword = Input::get('keyword', false);
+        $url     = Input::get('url', false);
+
+        if (Request::isMethod('get') && $keyword !== false && $url !== false) {
+
+            $position = GoogleScrapper::scrape($keyword, array($url));
+
+            return view('web.google_keyword_position', [
+                'position' => $position,
+                'keyword'  => $keyword,
+                'url'      => $url
+            ]);
+        }
+            return view('web.google_keyword_position', [
         ]);
     }
 }
