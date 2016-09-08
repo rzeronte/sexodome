@@ -66,6 +66,9 @@
                     <a class="page-scroll" href="#features">Features</a>
                 </li>
                 <li>
+                    <a class="page-scroll" href="#gallery">Gallery</a>
+                </li>
+                <li>
                     <a href="http://demo.sexodome.com" class="page-scroll" target="_blank">Demo</a>
                 </li>
                 <li>
@@ -148,6 +151,57 @@
                 <a href="{{route('register')}}" class="btn btn-default btn-lg">Create new account</a>
             </div>
         </div>
+    </div>
+</section>
+
+<!-- Download Section -->
+<section id="gallery" class="content-section text-center">
+    <div class="container">
+        <h2>Gallery</h2>
+        <div class="col-md-3">
+            <a href="{{asset('images/gallery/img2.jpg')}}" target="_blank">
+                <img src="{{asset('images/gallery/img2.jpg')}}" class="img-thumbnail"/>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="{{asset('images/gallery/img2.jpg')}}" target="_blank">
+            <img src="{{asset('images/gallery/img2.jpg')}}" class="img-thumbnail"/>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="{{asset('images/gallery/img3.jpg')}}" target="_blank">
+            <img src="{{asset('images/gallery/img3.jpg')}}" class="img-thumbnail"/>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="{{asset('images/gallery/img4.jpg')}}" target="_blank">
+            <img src="{{asset('images/gallery/img4.jpg')}}" class="img-thumbnail"/>
+            </a>
+        </div>
+
+        <div class="clearfix" style="margin-bottom: 30px;"></div>
+
+        <div class="col-md-3">
+            <a href="{{asset('images/gallery/img5.jpg')}}" target="_blank">
+            <img src="{{asset('images/gallery/img5.jpg')}}" class="img-thumbnail"/>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="{{asset('images/gallery/img6.jpg')}}" target="_blank">
+            <img src="{{asset('images/gallery/img6.jpg')}}" class="img-thumbnail"/>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="{{asset('images/gallery/img7.jpg')}}" target="_blank">
+            <img src="{{asset('images/gallery/img7.jpg')}}" class="img-thumbnail"/>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="{{asset('images/gallery/img8.jpg')}}" target="_blank">
+            <img src="{{asset('images/gallery/img8.jpg')}}" class="img-thumbnail"/>
+            </a>
+        </div>
+
     </div>
 </section>
 
