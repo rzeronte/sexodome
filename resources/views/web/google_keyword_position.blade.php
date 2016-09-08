@@ -58,10 +58,10 @@
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <br/>
                 <label for="url">URL</label>
-                <input class="form-control" type="url" placeholder="http://yoururl.com" name="url"/>
+                <input class="form-control" type="url" placeholder="http://yoururl.com" name="url" required/>
 
                 <label for="keyword">Keyword</label>
-                <input class="form-control" type="text" placeholder="Keywords" name="keyword"/>
+                <input class="form-control" type="text" placeholder="Keywords" name="keyword" required/>
                 <br/>
                 <input class="form-control btn btn-primary" type="submit" value="Check your URL position in Google's SERPs"/>
             </form>
