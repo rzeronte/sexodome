@@ -85,7 +85,7 @@ class BotGetProxies extends Command
         ];
         $client = new \Goutte\Client;
         $client->setClient(new \GuzzleHttp\Client($config));
-        $client->setHeader('User-Agent', $uas[rand(0, count($uas)-1)]);
+        $client->setHeader('user-agent', $uas[rand(0, count($uas)-1)]);
         $crawler = $client->request('GET', $url.$queryParameter);
     }
 
