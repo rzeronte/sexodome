@@ -53,9 +53,25 @@ class BotGetProxies extends Command
 
                 rZeBotUtils::message("[REQUEST PROXY] " . "$url from $ip", "yellow", true, true);
 
-                $this->connectProxy($ip, $url."?artisan");
+                //$this->connectProxy($ip, $url."?artisan");
+                $this->connectGoutteProxy($ip, $url);
             }
         }
+    }
+
+    public function connectGoutteProxy($ip, $url)
+    {
+        $queryParameter = "?gtu";
+
+        $config = [
+            'proxy' => [
+                'http' => $ip
+            ]
+        ];
+        $client = new \Goutte\Client;
+        $client->setClient(new \GuzzleHttp\Client($config));
+
+        $crawler = $client->request('GET', $url.$queryParameter);
     }
 
     public function connectProxy($ip, $url) {
