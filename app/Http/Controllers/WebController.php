@@ -45,4 +45,9 @@ class WebController extends Controller
             return view('web.google_keyword_position', [
         ]);
     }
+
+    public function webping()
+    {
+        return "ping";
+    }
 }
