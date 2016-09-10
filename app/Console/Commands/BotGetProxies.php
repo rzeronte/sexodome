@@ -56,6 +56,7 @@ class BotGetProxies extends Command
                 //$this->connectProxy($ip, $url."?artisan");
                 try {
                     $this->connectGoutteProxy($ip, $url);
+
                 } catch(\Exception $e){
                     rZeBotUtils::message("[ERROR PROXY] $ip", "red", true, true);
                 }
@@ -83,6 +84,7 @@ class BotGetProxies extends Command
                 'http' => $ip
             ]
         ];
+
         $client = new \Goutte\Client;
         $client->setClient(new \GuzzleHttp\Client($config));
         $client->setHeader('user-agent', $uas[rand(0, count($uas)-1)]);
@@ -98,6 +100,7 @@ class BotGetProxies extends Command
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 0);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST,'GET');
         curl_setopt ($ch, CURLOPT_HEADER, 1);
+        curl_setopt ($ch, CURLOPT_VERBOSE, false);
         curl_setopt($ch,CURLOPT_TIMEOUT, 5);
         curl_exec ($ch);
         $curl_scraped_page = curl_exec($ch);
