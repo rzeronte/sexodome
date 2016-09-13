@@ -33,6 +33,7 @@
 
     </div>
 
+    <div class="container">
             <?php $i=0 ?>
             @foreach ($scenes as $scene)
 
@@ -97,7 +98,7 @@
                 </div>
             @endforeach
 
-
+    </div>
         <div class="clearfix"></div>
 
         @if (!isset($removePaginator))
