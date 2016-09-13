@@ -72,6 +72,9 @@
         border-bottom: solid 2px {{$site->color2}} !important;
         color: {{$site->color8}};
     }
+    .header_title_section_mobile{
+        color: {{$site->color8}};
+    }
 
     /****************************************************************************************** Video*/
     .video_outer .link_image img {
