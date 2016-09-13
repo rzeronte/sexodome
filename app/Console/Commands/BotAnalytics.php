@@ -41,7 +41,7 @@ class BotAnalytics extends Command
         foreach($sites as $site) {
             if ($site->ga_account != '') {
                 try {
-                    $analyticsData = LaravelAnalyticsFacade::setSiteId('ga:' . $site->ga_account)->getVisitorsAndPageViews(2);
+                    $analyticsData = LaravelAnalyticsFacade::setSiteId('ga:' . $site->ga_account)->getVisitorsAndPageViews(30);
                     rZeBotUtils::message("[ANALYTICS " . $site->getHost() . "]", "yellow", true, true);
 
                     foreach ($analyticsData as $data) {
