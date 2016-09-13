@@ -33,8 +33,6 @@
 
     </div>
 
-    <div class="container">
-        <div class="row">
             <?php $i=0 ?>
             @foreach ($scenes as $scene)
 
@@ -99,7 +97,6 @@
                 </div>
             @endforeach
 
-        </div>
 
         <div class="clearfix"></div>
 
