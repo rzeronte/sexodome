@@ -34,7 +34,7 @@
 
                     <a href="{{route('pornstars', ["profile" => $profile])}}" class="btn btn-header-pornstars">{{trans('tube.header_pornstars_btn')}}</a>
                 </div>
-                <div class="col-sm-3 col-md-3 pull-right">
+                <div class="col-sm-3 col-md-3">
 
                     <form action="{{ route('search', ['profile' => $profile]) }}" method="get" class="navbar-form" style="margin:0;">
                         <div class="input-group input-search">
