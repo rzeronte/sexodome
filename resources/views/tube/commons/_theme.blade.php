@@ -8,6 +8,10 @@
         background-color: {{$site->color2}} !important;
     }
 
+    .navbar-default {
+        background-color: {{$site->color2}} !important;
+    }
+
     .header .billboard{
         color: {{$site->color4}} !important;
     }

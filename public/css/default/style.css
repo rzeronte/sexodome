@@ -9,10 +9,19 @@ body{
     background-color: #f5f5f5;
 }
 
+.navbar-default{
+    border: none;
+}
+
+.navbar-toggle{
+    margin-top: 20px;
+}
+
 .container{
     padding-left: 0;
     padding-right: 0;
 }
+
 /*Layout*/
 .header{
     background-color: #b51942 !important;
@@ -21,6 +30,7 @@ body{
 }
 
 .header .billboard{
+    margin-top: 18px;
     color: #ffffff;
 }
 
@@ -63,23 +73,31 @@ body{
 .input-search input {
     border: none;
     border-radius: 0;
+    margin-top: 15px;
 }
 
 .input-search .btn{
     background-color: black;
     color: white !important;
     border-radius: 0;
+    margin-top: 15px;
 }
 
 .input-search .btn:hover{
     text-decoration: underline;
 }
+
+.botonera{
+    height: 30px;
+}
+
 .btn-header-pornstars{
     background-color: black;
     color: white;
     border: none;
     border-radius: 0;
 }
+
 .btn-header-pornstars:hover{
     color: white;
     text-decoration: underline;
@@ -90,6 +108,7 @@ body{
     border: none;
     border-radius: 0;
 }
+
 .btn-custom-user:hover{
     color: white;
     text-decoration: underline;
