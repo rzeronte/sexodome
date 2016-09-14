@@ -31,18 +31,20 @@ class BotDownloadThumbnails extends Command
 
             $scenes = Scene::select("id", "preview")->where("site_id", $site->id)->get();
 
+            $i = 0;
             foreach($scenes as $scene) {
-                $this->downloadThumbnail($scene->preview);
+                $i++;
+                $this->downloadThumbnail($scene->preview, $i);
             }
         }
     }
 
-    public function downloadThumbnail($src)
+    public function downloadThumbnail($src, $i)
     {
         $filepath = rZeBotCommons::getThumbnailsFolder().md5($src).".jpg";
 
         if (file_exists($filepath)) {
-            rZeBotUtils::message("[DOWNLOAD THUMBNAIL] $src", "yellow", true, true);
+            rZeBotUtils::message("[$i DOWNLOAD THUMBNAIL] $src", "yellow", true, true);
 
             return false;
         }
@@ -59,12 +61,12 @@ class BotDownloadThumbnails extends Command
 
             $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-            rZeBotUtils::message("[DOWNLOAD THUMBNAIL] $src", "green", true, true);
+            rZeBotUtils::message("[$i DOWNLOAD THUMBNAIL] $src", "green", true, true);
 
             return true;
 
         } catch(\Exception $e) {
-            rZeBotUtils::message("[ERROR DOWNLOAD THUMBNAIL] $src", "red", true, true);
+            rZeBotUtils::message("[$i ERROR DOWNLOAD THUMBNAIL] $src", "red", true, true);
         }
 
     }
