@@ -129,4 +129,10 @@ class rZeBotCommons extends Controller {
     {
         return rZeBotCommons::getDumpsFolder()."tmp/";
     }
+
+    public static function getThumbnailsFolder()
+    {
+        return env("DEFAULT_THUMBNAILS_FOLDER", "../dumps/");
+    }
+
 }

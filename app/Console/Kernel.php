@@ -33,6 +33,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\BotGetProxies::class,
         \App\Console\Commands\BotRankingGoogle::class,
         \App\Console\Commands\BotClicker::class,
+        \App\Console\Commands\BotDownloadThumbnails::class,
     ];
 
     /**
