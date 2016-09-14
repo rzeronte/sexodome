@@ -39,10 +39,15 @@ class BotDownloadThumbnails extends Command
 
     public function downloadThumbnail($src)
     {
-        rZeBotUtils::message("[DOWNLOAD THUMBNAIL] $src", "green", true, true);
+        $filepath = rZeBotCommons::getThumbnailsFolder().md5($src).".jpg";
+
+        if (file_exists($filepath)) {
+            rZeBotUtils::message("[DOWNLOAD THUMBNAIL] $src", "yellow", true, true);
+
+            return false;
+        }
 
         try {
-            $filepath = rZeBotCommons::getThumbnailsFolder().md5($src);
 
             $fp = fopen ( $filepath , 'w+');
             $ch = curl_init( str_replace(" ", "%20", $src) );  // cambiamos los espacios por %20
@@ -54,12 +59,13 @@ class BotDownloadThumbnails extends Command
 
             $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
+            rZeBotUtils::message("[DOWNLOAD THUMBNAIL] $src", "green", true, true);
+
             return true;
 
         } catch(\Exception $e) {
             rZeBotUtils::message("[ERROR DOWNLOAD THUMBNAIL] $src", "red", true, true);
         }
 
-        rZeBotUtils::message("[DOWNLOAD THUMBNAIL] $src", "green", true, true);
     }
 }
