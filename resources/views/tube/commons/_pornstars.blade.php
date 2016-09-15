@@ -10,14 +10,14 @@
     @foreach($pornstars as $pornstar)
         <div class="col-md-2 col-sm-4 col-xs-4 pornstar_outer">
             <figure>
-                <a href="{{route('pornstar', ['profile' => $profile, 'permalinkPornstar'=>str_slug($pornstar->name)])}}" class="link_image">
+                <a href="{{route('pornstar', ['profile' => $profile, 'permalinkPornstar'=>str_slug($pornstar->name)])}}" class="link_image" title="{{$pornstar->name}}">
                     <img src="{{$pornstar->thumbnail}}" class="border-thumb"/>
                 </a>
 
                 <div class="clearfix"></div>
 
                 <div class="pornstar_info">
-                    <a class="pornstar_link" href="{{route('pornstar', ['profile' => $profile, 'permalinkPornstar'=>str_slug($pornstar->name)])}}">{{ str_limit(ucfirst($pornstar->name), $limit = 25 , $end = '...') }}</a>
+                    <a class="pornstar_link" title="{{$pornstar->name}}" href="{{route('pornstar', ['profile' => $profile, 'permalinkPornstar'=>str_slug($pornstar->name)])}}">{{ str_limit(ucfirst($pornstar->name), $limit = 25 , $end = '...') }}</a>
                 </div>
             </figure>
         </div>
