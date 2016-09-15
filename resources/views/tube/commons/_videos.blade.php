@@ -50,7 +50,7 @@
                         @if ($scene->thumb_index > 0)
                             <?php $srcThumbnail = htmlspecialchars($thumbs[$scene->thumb_index])?>
                         @else
-                            <?php $srcThumbnail = htmlspecialchars($scene->preview)?>
+                            <?php $srcThumbnail = asset('/thumbnails/'.md5($scene->preview).".jpg")?>
                         @endif
 
                         @if ($scene->channel->embed == 1)
