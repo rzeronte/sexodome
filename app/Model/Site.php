@@ -108,6 +108,12 @@ class Site extends Model
         return $this->getHost() .".xml";
     }
 
+    public function getCSSThemeFilename()
+    {
+        return str_slug($this->getHost()).".css";
+    }
+
+
     public function getClicks($fi, $ff)
     {
         $query = SceneClick::select(DB::raw("count(*) as total, DATE(scenes_clicks.created_at) as dia"))
