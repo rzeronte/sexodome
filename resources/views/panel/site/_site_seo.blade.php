@@ -227,6 +227,19 @@
                 </div>
             </div>
 
+            <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
+                <p><i class="glyphicon glyphicon-modal-window"></i> <b>Mobile Banners</b></p>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Script for banner #1:
+                </div>
+                <div class="col-md-7">
+                    <textarea name="banner_mobile1" class="form-control">{{$site->banner_mobile1}}</textarea>
+                </div>
+            </div>
+
             <div class="row" style="padding:10px;">
                 <div class="col-md-7 col-md-offset-3">
                     <input type="submit" class="btn btn-primary" value="Save settings for @if ($site->have_domain == 1){{$site->getHost()}}@else{{$site->name}}@endif" style="width:100%;"/>

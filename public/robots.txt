@@ -3,3 +3,4 @@ Disallow:
 disallow: /out/
 disallow: /auth/
 disallow: /dmca/
+disallow: /terms/

@@ -1,4 +1,4 @@
-<?php $agent = new \Jenssegers\Agent\Agent() ?>;
+<?php $agent = new \Jenssegers\Agent\Agent() ?>
 
 @if (!$agent->isMobile())
     <section class="banner_footer text-center container">

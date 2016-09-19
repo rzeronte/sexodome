@@ -442,6 +442,9 @@ class BotFeedFetcher extends Command
 
         $scene->save();
 
+        // thumbnail
+        rZeBotUtils::downloadThumbnail($scene->preview);
+
         //translations
         foreach ($languages as $language) {
             $sceneTranslation = new SceneTranslation();

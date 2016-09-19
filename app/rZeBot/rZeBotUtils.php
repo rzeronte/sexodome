@@ -555,4 +555,38 @@ class rZeBotUtils
                 return TRUE;
         return FALSE;
     }
+
+    public static function downloadThumbnail($src, $i = "")
+    {
+        $filename = md5($src).".jpg";
+
+        $filepath = rZeBotCommons::getThumbnailsFolder().$filename;
+
+        if (file_exists($filepath)) {
+            rZeBotUtils::message("[$i DOWNLOAD THUMBNAIL] $src", "yellow", true, true);
+
+            return false;
+        }
+
+        try {
+
+            $fp = fopen ( $filepath , 'w+');
+            $ch = curl_init( str_replace(" ", "%20", $src) );  // cambiamos los espacios por %20
+            curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+            curl_setopt($ch, CURLOPT_FILE, $fp);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_VERBOSE, FALSE);
+            curl_exec($ch);
+
+            //$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+            rZeBotUtils::message("[$i DOWNLOAD THUMBNAIL] $src", "green", true, true);
+
+            return true;
+
+        } catch(\Exception $e) {
+            rZeBotUtils::message("[$i ERROR DOWNLOAD THUMBNAIL] $src", "red", true, true);
+        }
+
+    }
 }
