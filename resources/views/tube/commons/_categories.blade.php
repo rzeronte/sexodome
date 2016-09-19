@@ -20,7 +20,7 @@
                     <div class="category_info">
                         <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}" class="link_category">{{ str_limit(ucfirst($category->name), $limit = 30 , $end = '...') }}</a>
                         <div class="clearfix"></div>
-                        <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}" class="link_nvideos">{{$category->nscenes}} videos</a>
+                        <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}" class="link_nvideos">{{number_format($category->nscenes, 0, ",", ".")}} videos</a>
                     </div>
                 </figure>
 
