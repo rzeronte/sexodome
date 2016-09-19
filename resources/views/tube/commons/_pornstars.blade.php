@@ -1,7 +1,7 @@
 <div class="container">
     <div class="container header_title_section">
         <h2>
-            {{number_format($pornstars->total(), 0, ".", ",")}} pornstars
+            {{number_format($pornstars->total(), 0, ",", ".")}} pornstars
         </h2>
     </div>
 
