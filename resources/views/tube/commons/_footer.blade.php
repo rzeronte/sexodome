@@ -16,4 +16,3 @@
         </div>
     </div>
 </section>
-@include('tube.commons._theme')
