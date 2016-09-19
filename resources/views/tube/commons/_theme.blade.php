@@ -1,4 +1,3 @@
-<style>
     /*Layout*/
     body {
         background-color: {{$site->color}} !important;
@@ -152,4 +151,3 @@
         color: {{$site->color7}} !important;
     }
 
-</style>
