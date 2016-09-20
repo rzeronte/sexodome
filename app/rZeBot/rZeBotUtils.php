@@ -298,15 +298,27 @@ class rZeBotUtils
     {
         $fileCSV = rZeBotCommons::getDumpsFolderTmp().$feed->file;
 
+        $cfg = new $feed->mapping_class;
+        $feedConfig = $cfg->configFeed();
+
         // Si el fichero del feed no existe, intentamos descargar
         if ($feed->is_compressed !== 1) {
-            // Si no está comprimido directamente descargamos con el nombre en bbdd (forzamos nombre para mayor ordenación)
-            if (!file_exists($fileCSV)) {
-                rZeBotUtils::message("[DOWNLOADING FILE] $fileCSV", "green", true, false);
-                $cmd = "wget -c '" . $feed->url . "' --output-document=". $fileCSV;
-                exec($cmd);
+            if (isset($feedConfig["is_xml"])) {
+                if ($feedConfig["is_xml"] == true) {
+                    rZeBotUtils::message("[DOWNLOADING JSON FILE] $fileCSV", "green", true, true);
+                    $cmd = "wget -c '" . $feed->url . "' --output-document=". $fileCSV.".json";
+                    exec($cmd);
+                    rZeBotUtils::jsonToCSV($feed, file_get_contents($fileCSV.".json"), $fileCSV);
+                }
             } else {
-                rZeBotUtils::message("[ALREADY EXISTSh] $fileCSV", "yellow", true, false);
+                // Si no está comprimido directamente descargamos con el nombre en bbdd (forzamos nombre para mayor ordenación)
+                if (!file_exists($fileCSV)) {
+                    rZeBotUtils::message("[DOWNLOADING FILE] $fileCSV", "green", true, false);
+                    $cmd = "wget -c '" . $feed->url . "' --output-document=". $fileCSV;
+                    exec($cmd);
+                } else {
+                    rZeBotUtils::message("[ALREADY EXISTSh] $fileCSV", "yellow", true, false);
+                }
 
             }
         } else {
@@ -588,5 +600,22 @@ class rZeBotUtils
             rZeBotUtils::message("[$i ERROR DOWNLOAD THUMBNAIL] $src", "red", false, false);
         }
 
+    }
+
+    public static function jsonToCSV($feed, $json, $filename)
+    {
+        $cfg = new $feed->mapping_class;
+
+        rZeBotUtils::message("[JSON TO CSV] $filename", "green", true, true);
+        $array = json_decode($json, true);
+        $f = fopen($filename, 'w');
+
+        foreach ($cfg->getVideosFromJSON($array) as $line)
+        {
+            $lineCSV = $cfg->getCSVLineFromJSON($line);
+            fputcsv($f, array_values($lineCSV), "|");
+        }
+
+        fclose($f);
     }
 }
