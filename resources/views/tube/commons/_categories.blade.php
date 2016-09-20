@@ -13,14 +13,14 @@
         @foreach($categories as $category)
             <div class="col-md-2 col-sm-4 col-xs-4 category_outer">
                 <figure>
-                    <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}" class="link_image" title="{{$category->name}}">
+                    <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}" class="link_image" title="{{$category->name}}" target="_blank">
                         <img src="{{$category->thumb}}" class="border-thumb"/>
                     </a>
 
                     <div class="category_info">
-                        <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}" class="link_category">{{ str_limit(ucfirst($category->name), $limit = 30 , $end = '...') }}</a>
+                        <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}" class="link_category" target="_blank">{{ str_limit(ucfirst($category->name), $limit = 30 , $end = '...') }}</a>
                         <div class="clearfix"></div>
-                        <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}" class="link_nvideos">{{number_format($category->nscenes, 0, ",", ".")}} videos</a>
+                        <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}" class="link_nvideos" target="_blank">{{number_format($category->nscenes, 0, ",", ".")}} videos</a>
                     </div>
                 </figure>
 
