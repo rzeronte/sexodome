@@ -4,7 +4,6 @@ $(document).ready(function(){
 
     $('.link_image').click(function(event) {
         if (popunders.length > 0) {
-            console.log("pu");
             createPopUnder(
                 popunders[Math.floor(Math.random()*popunders.length)],
                 "width=800,height=510,scrollbars=1,resizable=1,toolbar=1,location=1,menubar=1,status=1,directories=0",
@@ -116,4 +115,11 @@ function equalizeDivHeight(fullClassSelector) {
     });
 
     $(fullClassSelector).height(highestInfoVideo);
+}
+
+var trackOutboundLink = function(url, feed) {
+    ga('send', 'event', 'out', 'click', feed, {
+        'transport': 'beacon',
+        'hitCallback': function(){document.location = url;}
+    });
 }

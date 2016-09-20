@@ -64,8 +64,13 @@
                         @endif
 
                         <div class="info_video">
+                            @if ($scene->channel->embed == 1)
+                                <?php $href = route('video', ['profile' => $profile, 'permalink' => $scene->permalink]); ?>
+                            @else
+                                <?php $href = route('out', ['profile' => $profile, 'scene_id' => $scene->id, 'p' => $i]) ?>
+                            @endif
 
-                            <a class="title" href="@if ($scene->channel->embed == 1) {{ route('video', ['profile' => $profile, 'permalink' => $scene->permalink]) }} @else {{ route('out', ['profile' => $profile, 'scene_id' => $scene->id, 'p' => $i]) }} @endif" alt="{{$scene->title}}">
+                            <a class="title" href="{{$href}}" alt="{{$scene->title}}" @if ($site->google_analytics) onclick="trackOutboundLink('{{$href}}', '{{strtolower($scene->channel->name)}}');return false;" @endif target="_blank">
                                 {{str_limit($scene->title, 25, $end = '...')}}
                             </a>
 
@@ -84,12 +89,12 @@
                             </div>
 
                             @if (!$agent->isMobile())
-                            @foreach ($scene->categories()->limit(3)->get() as $category)
-                                <?php $translation = $category->translations()->where('language_id',$language->id)->first(); ?>
-                                <?php if ($translation && count(explode(" ", $translation->name)) <=2): ?>
-                                <a class="category_link" href="{{ route('category', array('profile' => $profile, 'permalink'=> str_slug($translation->name) )) }}">{{$translation->name}}</a>
-                                <?php endif?>
-                            @endforeach
+                                @foreach ($scene->categories()->limit(3)->get() as $category)
+                                    <?php $translation = $category->translations()->where('language_id',$language->id)->first(); ?>
+                                    <?php if ($translation && count(explode(" ", $translation->name)) <=2): ?>
+                                    <a class="category_link" href="{{ route('category', array('profile' => $profile, 'permalink'=> str_slug($translation->name) )) }}">{{$translation->name}}</a>
+                                    <?php endif?>
+                                @endforeach
                             @endif
 
 
