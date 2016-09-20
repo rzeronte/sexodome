@@ -563,7 +563,7 @@ class rZeBotUtils
         $filepath = rZeBotCommons::getThumbnailsFolder().$filename;
 
         if (file_exists($filepath)) {
-            rZeBotUtils::message("[$i DOWNLOAD THUMBNAIL] $src", "yellow", true, true);
+            rZeBotUtils::message("[$i DOWNLOAD THUMBNAIL] $src", "yellow", false, false);
 
             return false;
         }
@@ -580,12 +580,12 @@ class rZeBotUtils
 
             //$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-            rZeBotUtils::message("[$i DOWNLOAD THUMBNAIL] $src", "green", true, true);
+            rZeBotUtils::message("[$i DOWNLOAD THUMBNAIL] $src", "green", false, false);
 
             return true;
 
         } catch(\Exception $e) {
-            rZeBotUtils::message("[$i ERROR DOWNLOAD THUMBNAIL] $src", "red", true, true);
+            rZeBotUtils::message("[$i ERROR DOWNLOAD THUMBNAIL] $src", "red", false, false);
         }
 
     }

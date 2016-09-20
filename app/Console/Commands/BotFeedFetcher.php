@@ -177,7 +177,7 @@ class BotFeedFetcher extends Command
                     $fila++;
 
                     if ($feed_config["skip_first_list"] == true && $fila == 2) {
-                        rZeBotUtils::message("[WARNING] Saltando primera linea del fichero...", "yellow", true, true);
+                        rZeBotUtils::message("[WARNING] Saltando primera linea del fichero...", "yellow", false, false);
                         continue;
                     }
 
