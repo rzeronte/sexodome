@@ -36,17 +36,16 @@ class BotUpdateDumps extends Command
     public function handle()
     {
         $channels = Channel::all();
-        $channels = Channel::where('id', 7)->get();;
 
         foreach ($channels as $feed) {
             rZeBotUtils::message("[$feed->name] $feed->url", "green", true, false);
             rZeBotUtils::downloadDump($feed);
             rZeBotUtils::downloadDumpDeleted($feed);
 
-//            $filename = rZeBotCommons::getDumpsFolderTmp().$feed->file;
-//            $totalLines = intval(exec("wc -l '".$filename."'"));
-//            $feed->nvideos = $totalLines;
-//            $feed->save();
+            $filename = rZeBotCommons::getDumpsFolderTmp().$feed->file;
+            $totalLines = intval(exec("wc -l '".$filename."'"));
+            $feed->nvideos = $totalLines;
+            $feed->save();
         }
 
         rZeBotUtils::message("[MOVING DUMPS]", "green", true, false);
