@@ -26,7 +26,7 @@
                         <a href="http://{{$site->getHost()}}" target="_blank">
                             http://{{$site->getHost()}}
                         </a>
-                        <small>({{$site->getTotalScenes()}} active scenes)</small>
+                        <small>({{number_format($site->getTotalScenes(), 0, ",", ".")}} active scenes)</small>
 
                     </div>
                 </div>
