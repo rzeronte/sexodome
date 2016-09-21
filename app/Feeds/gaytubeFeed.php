@@ -69,7 +69,7 @@ class gaytubeFeed
     {
         $csv_array = [
             'video_id'      => $array_original['video_id'],
-            'title'         => $array_original['title'],
+            'title'         => utf8_encode($array_original['title']),
             'url'           => $array_original['url'],
             'views'         => $array_original['views'],
             'rating'        => $array_original['rating'],
