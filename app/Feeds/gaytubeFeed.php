@@ -87,7 +87,7 @@ class gaytubeFeed
 
         $tags = [];
         foreach($array_original["tags"] as $tag){
-            $tags[] = $tag['tag_name'];
+            $tags[] = utf8_encode($tag['tag_name']);
         }
         $csv_array["tags"] = implode(";", $tags);
 
