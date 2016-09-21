@@ -19,7 +19,9 @@ class BotUpdateDumps extends Command
      *
      * @var string
      */
-    protected $signature = 'zbot:dumps:update';
+    protected $signature = 'zbot:dumps:update
+                    {--channel=false : Only update concrete channel }
+    ';
 
     /**
      * The console command description.
@@ -35,7 +37,13 @@ class BotUpdateDumps extends Command
      */
     public function handle()
     {
-        $channels = Channel::all();
+        $channel = $this->option("channel");
+
+        if ($channel !== "false") {
+            $channels = Channel::where('name', $channel)->get();
+        } else {
+            $channels = Channel::all();
+        }
 
         foreach ($channels as $feed) {
             rZeBotUtils::message("[$feed->name] $feed->url", "green", true, false);
