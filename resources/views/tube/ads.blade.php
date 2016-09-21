@@ -12,7 +12,7 @@
     <script src="{{asset('js/jcarousel.responsive.js')}}"></script>
 </head>
 
-<body>
+<body style="background-color: @if (ctype_xdigit(Request::input('c', 'ffffff'))) #{{Request::input('c', 'ffffff')}} @else #fffff @endif;">
         <!-- Wrapper for slides -->
         <?php $i = 0 ?>
         <section>
