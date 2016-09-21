@@ -606,9 +606,10 @@ class rZeBotUtils
     {
         $cfg = new $feed->mapping_class;
 
-        rZeBotUtils::message("[JSON TO CSV] $filename", "green", true, true);
         $array = json_decode($json, true);
         $f = fopen($filename, 'w');
+
+        rZeBotUtils::message("[JSON TO CSV] $filename, Total: " . count($cfg->getVideosFromJSON($array)), "green", true, true);
 
         foreach ($cfg->getVideosFromJSON($array) as $line)
         {
