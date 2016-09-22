@@ -14,7 +14,8 @@
             <div class="col-md-2 col-sm-4 col-xs-4 category_outer">
                 <figure>
                     <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}" class="link_image" title="{{$category->name}}" target="_blank">
-                        <img src="{{$category->thumb}}" class="border-thumb" alt="{{$category->name}}"/>
+                        <?php $srcThumbnail = asset('/thumbnails/'.md5($category->thumb).".jpg")?>
+                        <img src="{{$srcThumbnail}}" class="border-thumb" alt="{{$category->name}}"/>
                     </a>
 
                     <div class="category_info">
