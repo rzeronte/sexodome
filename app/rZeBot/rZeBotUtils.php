@@ -308,7 +308,8 @@ class rZeBotUtils
                     rZeBotUtils::message("[DOWNLOADING JSON FILE] $fileCSV", "green", true, true);
                     $cmd = "wget -c '" . $feed->url . "' --output-document=". $fileCSV.".json";
                     exec($cmd);
-                    rZeBotUtils::jsonToCSV($feed, file_get_contents($fileCSV.".json"), $fileCSV);
+                    $json_string = file_get_contents($fileCSV.".json");
+                    rZeBotUtils::jsonToCSV($feed, $json_string, $fileCSV);
                 }
             } else {
                 // Si no está comprimido directamente descargamos con el nombre en bbdd (forzamos nombre para mayor ordenación)
@@ -604,12 +605,21 @@ class rZeBotUtils
 
     public static function jsonToCSV($feed, $json, $filename)
     {
+        if (!rZeBotUtils::isJson($json)) {
+            rZeBotUtils::message("[JSON TO CSV ERROR] Not JSON valid", "red", true, true);
+            return false;
+        }
+
         $cfg = new $feed->mapping_class;
 
         $array = json_decode($json, true);
         $f = fopen($filename, 'w');
-
         rZeBotUtils::message("[JSON TO CSV] $filename, Total: " . count($cfg->getVideosFromJSON($array)), "green", true, true);
+
+        if (!is_array($array)) {
+            rZeBotUtils::message("[JSON TO CSV ERROR] Not Array from JSON", "red", true, true);
+            return false;
+        }
 
         foreach ($cfg->getVideosFromJSON($array) as $line)
         {
@@ -618,5 +628,10 @@ class rZeBotUtils
         }
 
         fclose($f);
+    }
+
+    public static function isJson($string) {
+        json_decode($string);
+        return (json_last_error() == JSON_ERROR_NONE);
     }
 }
