@@ -313,7 +313,7 @@ class BotFeedFetcher extends Command
                     }
 
                     // preview is used to check if already exists
-                    if(Scene::where('preview', $video["preview"])->where('site_id', $site_id)->count() == 0) {
+                    if(Scene::withTrashed()->where('preview', $video["preview"])->where('site_id', $site_id)->count() == 0) {
                         $mixed_check = true;
 
                         // check tags matched
