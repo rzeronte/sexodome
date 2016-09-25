@@ -1,17 +1,16 @@
 <section>
     <div class="container header_title_section">
         @if (isset($categoryTranslation))
-            <h2>
+            <h2 class="col-md-6">
                 {{$categoryTranslation->name}}
                 @if (isset($scenes))
                     ({{number_format($scenes->total(), 0, ".", ",")}} {{trans('tube.h1_info_porn_videos')}})
                 @endif
-
-                <div class="link_order_container">
-                    <a href="{{route('category', ['profile' => $site->getHost(), 'permalink' => $permalinkCategory, 'order' => 'popular'])}}" class="link_order"> @if (Request::get('order') == 'popular') <b>{{trans('tube.btn_order_mostpopular')}}</b> @else {{trans('tube.btn_order_mostpopular')}} @endif </a>
-                    <a href="{{route('category', ['profile' => $site->getHost(), 'permalink' => $permalinkCategory, 'order' => 'newest'])}}" class="link_order">@if (Request::get('order') == false || Request::get('order') == 'newest') <b>{{trans('tube.btn_order_news')}}</b> @else {{trans('tube.btn_order_news')}} @endif </a>
-                </div>
             </h2>
+            <div class="link_order_container">
+                <a href="{{route('category', ['profile' => $site->getHost(), 'permalink' => $permalinkCategory, 'order' => 'popular'])}}" class="link_order"> @if (Request::get('order') == 'popular') <b>{{trans('tube.btn_order_mostpopular')}}</b> @else {{trans('tube.btn_order_mostpopular')}} @endif </a>
+                <a href="{{route('category', ['profile' => $site->getHost(), 'permalink' => $permalinkCategory, 'order' => 'newest'])}}" class="link_order">@if (Request::get('order') == false || Request::get('order') == 'newest') <b>{{trans('tube.btn_order_news')}}</b> @else {{trans('tube.btn_order_news')}} @endif </a>
+            </div>
         @endif
 
         @if (isset($pornstar))

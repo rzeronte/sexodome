@@ -37,7 +37,7 @@
                     </div>
                     <div class="col-sm-3 col-md-3">
 
-                        <form action="{{ route('search', ['profile' => $profile]) }}" method="get" class="navbar-form" style="margin:0;">
+                        <form action="{{ route('search', ['profile' => $profile]) }}" method="get" class="navbar-form" style="border: none !important; margin:0;">
                             <div class="input-group input-search">
                                 <input name="q" type="text" placeholder="{{trans('tube.header_inputsearch_placeholder')}}" class="form-control" value="{{$query_string}}" required>
 
