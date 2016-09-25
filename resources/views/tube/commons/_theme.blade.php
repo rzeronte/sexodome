@@ -160,3 +160,7 @@
         background-color: {{$site->color6}};
         color: {{$site->color7}};
     }
+
+    .alphabetical_category_link{
+        color: {{$site->color7}};
+    }
