@@ -17,7 +17,7 @@
                 @endif
 
                 @if (is_string($previous) && !is_numeric($previous))
-                    <a class="small" href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}">{{ucwords($category->name)}}</a>
+                    <a class="small" href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}">{{ucwords($category->name)}}</a> | 
                 @endif
 
             @endforeach
