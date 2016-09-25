@@ -10,7 +10,7 @@
 
                 @if($previous !== strtoupper($firstLetter))
                     <?php $previous = strtoupper($firstLetter) ?>
-                    @if (is_string($previous) && !is_numeric($previous))
+                    @if (is_string($previous) && !is_numeric($previous) && strlen($previous) > 1)
                         <div class="clearfix"></div>
                         <h3 class="alphabetical_categories text-left">{{$previous}}</h3>
                     @endif
