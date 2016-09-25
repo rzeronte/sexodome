@@ -8,8 +8,8 @@
             @foreach($categoriesAlphabetical as $category)
                 <?php $firstLetter = substr($category->name, 0, 1)  ?>
 
-                @if($previous !== strtoupper($firstLetter))
-                    <?php $previous = strtoupper($firstLetter) ?>
+                @if($previous !== str_slug(strtoupper($firstLetter)))
+                    <?php $previous = str_slug(strtoupper($firstLetter)) ?>
                     @if (is_string($previous) && !is_numeric($previous) && strlen(trim($previous)) > 0)
                         <div class="clearfix"></div>
                         <h3 class="alphabetical_categories text-left">{{$previous}}</h3>
