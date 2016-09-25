@@ -17,7 +17,7 @@
                 @endif
 
                 @if (is_string($previous) && !is_numeric($previous) && strlen(trim($previous)) > 0)
-                    <a class="small alphabetical_category_link" href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}">{{ucwords($category->name)}}</a> |
+                    <a class="small alphabetical_category_link" href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}">{{ucwords($category->name)}} ({{$category->nscenes}})</a> |
                 @endif
 
             @endforeach

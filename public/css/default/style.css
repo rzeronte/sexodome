@@ -337,6 +337,7 @@ body{
 .alphabetical_categories{
     border-bottom: solid 1px black;
     margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 .alphabetical_letter{
