@@ -6,7 +6,7 @@
         <div class="col-md-12 text-left">
             <?php $previous = null; ?>
             @foreach($categoriesAlphabetical as $category)
-                <?php $firstLetter = substr($category->name, 0, 1)  ?>
+                <?php $firstLetter = str_slug(substr($category->name, 0, 1))  ?>
 
                 @if($previous !== str_slug(strtoupper($firstLetter)))
                     <?php $previous = str_slug(strtoupper($firstLetter)) ?>
