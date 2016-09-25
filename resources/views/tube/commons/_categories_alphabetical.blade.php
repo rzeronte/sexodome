@@ -13,7 +13,7 @@
                     <div class="col-md-1 alphabetical_letter">{{$previous}}</div>
                 @endif
 
-                <div class="col-md-1 alphabetical_category_link"><a class="small" href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}">{{strtoupper($category->name)}}</a></div>
+                <div class="col-md-1 alphabetical_category_link"><a class="small" href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}">{{ucwords($category->name)}}</a></div>
 
             @endforeach
         </div>
