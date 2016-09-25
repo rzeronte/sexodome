@@ -162,5 +162,5 @@
     }
 
     .alphabetical_category_link{
-        color: {{$site->color7}};
+        color: {{$site->color8}};
     }
