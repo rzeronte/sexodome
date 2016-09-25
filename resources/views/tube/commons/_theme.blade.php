@@ -152,13 +152,13 @@
     }
 
     .alphabetical_categories{
-        color: {{$site->color7}};
-        border-bottom: solid 1px {{$site->color7}};;
+        color: {{$site->color8}};
+        border-bottom: solid 1px {{$site->color8}};;
     }
 
     .alphabetical_letter{
         background-color: {{$site->color6}};
-        color: {{$site->color7}};
+        color: {{$site->color8}};
     }
 
     .alphabetical_category_link{
