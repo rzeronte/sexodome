@@ -10,12 +10,12 @@
 
                 @if($previous !== strtoupper($firstLetter))
                     <?php $previous = strtoupper($firstLetter) ?>
-                    @if (is_string($previous))
+                    @if (is_string($previous) && !is_numeric($previous))
                         <div class="col-md-1 alphabetical_letter">{{$previous}}</div>
                         @endif
                 @endif
 
-                @if (is_string($previous))
+                @if (is_string($previous) && !is_numeric($previous))
                     <div class="col-md-1 alphabetical_category_link"><a class="small" href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}">{{ucwords($category->name)}}</a></div>
                 @endif
 
