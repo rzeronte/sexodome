@@ -19,12 +19,13 @@
     </script>
     @endif
 
-    <script src="{{asset('js/jquery-2.1.4.min.js')}}"></script>
+    <script async src="{{asset('js/jquery-2.1.4.min.js')}}"></script>
 
     <!--Bootstrap JS-->
-    <script src="{{asset('js/bootstrap.min.js')}}"></script>
+    <script async src="{{asset('js/bootstrap.min.js')}}"></script>
 
-    <script type="text/javascript" src="{{asset('js/front.js')}}"></script>
+    <script async type="text/javascript" src="{{asset('js/front.js')}}"></script>
+
     <!--Favicons-->
     <link rel="apple-touch-icon" sizes="57x57" href="{{asset('favicon/apple-icon-57x57.png')}}">
     <link rel="apple-touch-icon" sizes="60x60" href="{{asset('favicon/apple-icon-60x60.png')}}">
@@ -47,11 +48,11 @@
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
 
     <!--[if lt IE 9]>
-    <script src="{{asset('js/html5shiv.min.js')}}"></script>
-    <script src="{{asset('js/respond.min.js')}}"></script>
+    <script async src="{{asset('js/html5shiv.min.js')}}"></script>
+    <script async src="{{asset('js/respond.min.js')}}"></script>
     <![endif]-->
 
-    <script src="{{asset('js/popunders.js')}}"></script>
+    <script async src="{{asset('js/popunders.js')}}"></script>
 
     <link rel="shortcut icon" href="favicon.ico"/>
 

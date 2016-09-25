@@ -41,9 +41,9 @@
                             <div class="input-group input-search">
                                 <input name="q" type="text" placeholder="{{trans('tube.header_inputsearch_placeholder')}}" class="form-control" value="{{$query_string}}" required>
 
-                        <span class="input-group-btn">
-                            <button type="submit" class="btn"><i class="glyphicon glyphicon-search"></i> {{trans('tube.header_inputsearch_search')}}</button>
-                        </span>
+                                <span class="input-group-btn">
+                                    <button type="submit" class="btn"><i class="glyphicon glyphicon-search"></i> {{trans('tube.header_inputsearch_search')}}</button>
+                                </span>
                             </div>
                         </form>
                     </div>
