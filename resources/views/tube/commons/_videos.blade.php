@@ -4,7 +4,7 @@
             <h2>
                 {{$categoryTranslation->name}}
                 @if (isset($scenes))
-                    ({{number_format($scenes->total(), 0, ",", ".")}} {{trans('tube.h1_info_porn_videos')}})
+                    ({{number_format($scenes->total(), 0, ".", ",")}} {{trans('tube.h1_info_porn_videos')}})
                 @endif
 
                 <div class="link_order_container">
