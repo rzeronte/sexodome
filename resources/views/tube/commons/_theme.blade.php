@@ -151,3 +151,12 @@
         color: {{$site->color7}} !important;
     }
 
+    .alphabetical_categories{
+        color: {{$site->color7}};
+        border-bottom: solid 1px {{$site->color7}};;
+    }
+
+    .alphabetical_letter{
+        background-color: {{$site->color6}};
+        color: {{$site->color7}};
+    }

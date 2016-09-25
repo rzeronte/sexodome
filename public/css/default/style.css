@@ -334,6 +334,20 @@ body{
 .banner_footer{
 }
 
+.alphabetical_categories{
+    border-bottom: solid 1px black;
+    margin-bottom: 20px;
+}
+
+.alphabetical_letter{
+    height: 30px;
+    padding-top: 4px;
+}
+.alphabetical_category_link{
+    height: 30px;
+}
+/****************************************************************************************** */
+
 /* Smartphones (portrait and landscape) ----------- */
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
 /* Styles */

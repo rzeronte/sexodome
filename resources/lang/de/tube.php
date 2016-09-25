@@ -14,5 +14,6 @@ return [
     'btn_order_news' => 'Neue Porno-Videos',
     'btn_order_mostpopular' => 'Die beliebtesten Porno-Videos',
 
-    'views' => 'aufrufe'
+    'views' => 'aufrufe',
+    'all_categories' => 'Alle Kategorien'
 ];

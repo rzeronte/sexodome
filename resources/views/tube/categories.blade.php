@@ -16,6 +16,8 @@
 
     @include('tube.commons._banner_desktop_footer')
 
+    @include('tube.commons._categories_alphabetical')
+
     @include('tube.commons._footer')
     @include('tube.commons._javascripts')
 </body>

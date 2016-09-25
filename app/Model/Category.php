@@ -57,7 +57,12 @@ class Category extends Model
 
     static function getTranslationByStatus($status, $language_id)
     {
-        $categories = Category::select('categories.*', 'categories_translations.name', 'categories_translations.permalink', 'categories_translations.thumb')
+        $categories = Category::select(
+            'categories.*',
+            'categories_translations.name',
+            'categories_translations.permalink',
+            'categories_translations.thumb'
+            )
             ->join('categories_translations', 'categories_translations.category_id', '=', 'categories.id')
             ->where('categories_translations.language_id', $language_id)
             ->where('categories.status',$status);
