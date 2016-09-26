@@ -26,13 +26,8 @@
 
     <link rel="shortcut icon" href="favicon.ico"/>
 
-    {{--<!--Bootstrap and Other Vendors-->--}}
-    {{--<link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">--}}
     {!! Minify::stylesheet('/css/bootstrap.min.css') !!}
-
-    {{-- Theme Styles --}}
-    {{--<link rel="stylesheet" href="{{asset('css/default/style.css')}}">--}}
     {!! Minify::stylesheet('/css/default/style.css') !!}
-
-{{--    <link rel="stylesheet" href="{{asset('tubeThemes/'.$site->getCSSThemeFilename())}}">--}}
     {!! Minify::stylesheet('/tubeThemes/'.$site->getCSSThemeFilename()) !!}
+
+    <meta name="tubecorporate_com_verify" content="6b49120a79a3e4ba859fe452e09b040a"/>
