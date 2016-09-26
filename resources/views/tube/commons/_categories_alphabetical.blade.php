@@ -1,7 +1,9 @@
 <section>
 
     <div class="container">
-        <h3 class="alphabetical_categories">{{trans('tube.all_categories')}}</h3>
+        <div class="col-md-12">
+            <h3 class="alphabetical_categories">{{trans('tube.all_categories')}}</h3>
+        </div>
 
         <div class="col-md-12 text-left">
             <?php $previous = null; ?>
