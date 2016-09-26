@@ -23,6 +23,7 @@
     <meta name="msapplication-TileColor" content="#e74c3c">
     <meta name="msapplication-TileImage" content="favicon/ms-icon-144x144.png">
 
+    <meta name="RATING" content="RTA-5042-1996-1400-1577-RTA" />
 
     <link rel="shortcut icon" href="favicon.ico"/>
 
