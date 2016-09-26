@@ -2,7 +2,7 @@
 
     <div class="container">
         <div class="col-md-12">
-            <h3 class="alphabetical_categories">{{trans('tube.all_categories')}}</h3>
+            <h3 class="alphabetical_categories"><i class="glyphicon glyphicon-align-justify"></i> {{trans('tube.all_categories')}}</h3>
         </div>
 
         <div class="col-md-12 text-left">
