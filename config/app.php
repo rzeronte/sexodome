@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'url' => 'http://tube-panel.loc',
+    'url' => 'http://sexodome.com',
 
     /*
     |--------------------------------------------------------------------------
@@ -147,7 +147,8 @@ return [
         'Jenssegers\Agent\AgentServiceProvider',
         'Spatie\LaravelAnalytics\LaravelAnalyticsServiceProvider',
         'Roumen\Sitemap\SitemapServiceProvider',
-
+//        'Barryvdh\Debugbar\ServiceProvider',
+        'Devfactory\Minify\MinifyServiceProvider',
     ],
 
     /*
@@ -198,6 +199,8 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
         'Agent'     => 'Jenssegers\Agent\Facades\Agent',
         'LaravelAnalytics' => 'Spatie\LaravelAnalytics\LaravelAnalyticsFacade',
+        'Debugbar' => 'Barryvdh\Debugbar\Facade',
+        'Minify'        => 'Devfactory\Minify\Facades\MinifyFacade',
     ],
 
 ];

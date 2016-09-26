@@ -27,9 +27,12 @@
     <link rel="shortcut icon" href="favicon.ico"/>
 
     {{--<!--Bootstrap and Other Vendors-->--}}
-    <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
+    {{--<link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">--}}
+    {!! Minify::stylesheet('/css/bootstrap.min.css') !!}
 
     {{-- Theme Styles --}}
-    <link rel="stylesheet" href="{{asset('css/default/style.css')}}">
+    {{--<link rel="stylesheet" href="{{asset('css/default/style.css')}}">--}}
+    {!! Minify::stylesheet('/css/default/style.css') !!}
 
-    <link rel="stylesheet" href="{{asset('tubeThemes/'.$site->getCSSThemeFilename())}}">
+{{--    <link rel="stylesheet" href="{{asset('tubeThemes/'.$site->getCSSThemeFilename())}}">--}}
+    {!! Minify::stylesheet('/tubeThemes/'.$site->getCSSThemeFilename()) !!}
