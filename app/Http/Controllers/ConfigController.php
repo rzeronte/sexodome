@@ -878,6 +878,10 @@ class ConfigController extends Controller
         $site->save();
         $status = true;
 
+        Artisan::call('zbot:css:update', [
+            '--site_id' => $site->id
+        ]);
+
         return json_encode(array('status' => $status));
     }
 

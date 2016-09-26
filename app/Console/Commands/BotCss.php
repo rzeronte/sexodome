@@ -15,13 +15,22 @@ use Illuminate\Support\Facades\Storage;
 
 class BotCss extends Command
 {
-    protected $signature = 'zbot:css:update';
+    protected $signature = 'zbot:css:update
+                        {--site_id=false : Only update concrete site }
+    ';
+
 
     protected $description = 'Generate css for all';
 
     public function handle()
     {
-        $sites = Site::all();
+        $site_id = $this->option("site_id");
+
+        if ($site_id !== "false") {
+            $sites = Site::where('id', $site_id)->get();
+        } else {
+            $sites = Site::all();
+        }
 
         foreach($sites as $site) {
             $css = View::make('tube.commons._theme', ['site' => $site])->render();
