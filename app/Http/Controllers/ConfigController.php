@@ -37,6 +37,7 @@ use Illuminate\Support\Facades\Log;
 use okw\CF\CF;
 use Auth;
 use App\rZeBot\rZeBotCommons;
+use Illuminate\Support\Facades\Artisan;
 
 class ConfigController extends Controller
 {
