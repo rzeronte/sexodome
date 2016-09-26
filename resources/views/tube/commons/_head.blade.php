@@ -26,8 +26,7 @@
 
     <link rel="shortcut icon" href="favicon.ico"/>
 
-    {!! Minify::stylesheet('/css/bootstrap.min.css') !!}
-    {!! Minify::stylesheet('/css/default/style.css') !!}
+    {!! Minify::stylesheet(array('/css/bootstrap.min.css', '/css/default/style.css')) !!}
     {!! Minify::stylesheet('/tubeThemes/'.$site->getCSSThemeFilename()) !!}
 
     <meta name="tubecorporate_com_verify" content="6b49120a79a3e4ba859fe452e09b040a"/>
