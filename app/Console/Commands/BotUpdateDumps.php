@@ -46,7 +46,7 @@ class BotUpdateDumps extends Command
         }
 
         foreach ($channels as $feed) {
-            rZeBotUtils::message("[$feed->name] $feed->url", "green", true, false);
+            rZeBotUtils::message("[$feed->name] $feed->url", "green", false, false);
             rZeBotUtils::downloadDump($feed);
             rZeBotUtils::downloadDumpDeleted($feed);
 
