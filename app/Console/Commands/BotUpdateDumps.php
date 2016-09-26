@@ -56,7 +56,7 @@ class BotUpdateDumps extends Command
             $feed->save();
         }
 
-        rZeBotUtils::message("[MOVING DUMPS]", "green", true, false);
+        rZeBotUtils::message("[MOVING DUMPS]", "green", false, false);
         $cmd = "mv " . rZeBotCommons::getDumpsFolderTmp() . "* " . rZeBotCommons::getDumpsFolder();
         exec($cmd);
     }
