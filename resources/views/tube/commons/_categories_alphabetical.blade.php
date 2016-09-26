@@ -20,7 +20,7 @@
 
                 @if (is_string($previous) && !is_numeric($previous) && strlen(trim($previous)) > 0)
                     <div class="col-md-2 col-xs-6 text-left alphabetical_category_link ">
-                        <a class="small text-left" href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}">{{ucwords($category->name)}} ({{$category->nscenes}})</a>
+                        <a class="text-left" href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}">{{ucwords($category->name)}} ({{$category->nscenes}})</a>
                     </div>
                 @endif
 
