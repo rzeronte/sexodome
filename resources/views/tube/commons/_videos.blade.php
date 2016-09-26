@@ -105,14 +105,11 @@
             @endforeach
 
     </div>
-        <div class="clearfix"></div>
+    <div class="clearfix"></div>
 
-        @if (!isset($removePaginator))
-            <div class="row text-center">
-                <?php echo $scenes->appends(['q' => $query_string])->render(); ?>
-            </div>
-        @endif
-
-    </div>
-
+    @if (!isset($removePaginator))
+        <div class="row text-center">
+            <?php echo $scenes->appends(['q' => $query_string])->render(); ?>
+        </div>
+    @endif
 </section>
