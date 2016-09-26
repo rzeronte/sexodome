@@ -161,6 +161,6 @@
         color: {{$site->color8}};
     }
 
-    .alphabetical_category_link{
+    .alphabetical_category_link a{
         color: {{$site->color8}};
     }
