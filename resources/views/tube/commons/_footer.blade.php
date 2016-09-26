@@ -1,7 +1,7 @@
 <section class="footer">
     <div class="container">
         <div class="row">
-            <div class="col-md-6 col-sm-12 col-xs-12  text-left">
+            <div class="col-md-6 col-sm-12 col-xs-12  text-left" style="padding-left:10px;">
                 @if (env("PORN_STATIC_LINKS", false))
                     <a href="{{route('dmca', ["host" => $site->getHost()])}}">DMCA/Copyright</a> |
                     <a href="{{route('terms', ["host" => $site->getHost()])}}">Terms of use</a> |
