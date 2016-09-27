@@ -110,11 +110,13 @@ class BotTranslateVideo extends Command
         $translationTitle = $this->translateText($textFrom->title, $from, $to);
         $translationDescription = $this->translateText($textFrom->description, $from, $to);
 
+        $translation = true;
         if ($translationTitle != false) {
             $translationTo->title = $translationTitle;
             $translationTo->permalink = str_slug($translationTitle);
             rZeBotUtils::message("[TRANSLATING TITLE] scene_id: $scene->id, '". $textFrom->title . "' => '$translationTo->title'", "cyan", false, false);
         } else {
+            $translation = false;
             rZeBotUtils::message('[ERROR TRANSLATING TITLE] scene_id: '. $scene->id. ', '. $textFrom->title . '" => "'.$translationTo->title.'"', "red", false, false);
         }
 
@@ -123,11 +125,17 @@ class BotTranslateVideo extends Command
                 $translationTo->description = $translationDescription;
                 rZeBotUtils::message("[TRANSLATING DESCRIPTION] scene_id: $scene->id, '". $textFrom->title . "' => '$translationTo->title'", "cyan", false, false);
             } else {
+                $translation = false;
                 rZeBotUtils::message('[ERROR TRANSLATING DESCRIPTION] scene_id: '. $scene->id. ', '. $translationDescription, "red", false, false);
             }
         }
 
         $translationTo->save();
+
+        if  (!$translation) {
+            $scene->delete();
+        }
+
     }
 
     public function translateTags($from, $to, $scene)
