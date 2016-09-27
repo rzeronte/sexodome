@@ -31,7 +31,8 @@
     {!! Minify::stylesheet('/tubeThemes/'.$site->getCSSThemeFilename()) !!}
 
     <meta name="tubecorporate_com_verify" content="6b49120a79a3e4ba859fe452e09b040a"/>
-
+    <meta name="hubtraffic-domain-validation"  content="a896a15b3b3df915" />
+    
     {{--analytics--}}
     @if ($site->google_analytics)
         <script>
