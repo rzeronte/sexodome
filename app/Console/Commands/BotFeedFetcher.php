@@ -185,7 +185,7 @@ class BotFeedFetcher extends Command
                     if ($feed_config["totalCols"] != count($datos)) {
                         rZeBotUtils::message("Error en el número de columnas, deteniendo ejecución...", "red", true, true);
                         print_r($datos);
-                        continue;
+                        exit;
                     }
 
                     // check limit import
@@ -217,6 +217,10 @@ class BotFeedFetcher extends Command
                         "rate"      => $videorate
                     );
 
+                    // description (no todos los feeds llevan description)
+                    if (isset($mapped_colums['description'])) {
+                        $video["description"] = $datos[$mapped_colums['description']];
+                    }
                     // ************************************************************ parse field individually arrays
 
                     // tags
@@ -313,7 +317,7 @@ class BotFeedFetcher extends Command
                     }
 
                     // preview is used to check if already exists
-                    if(Scene::withTrashed()->where('preview', $video["preview"])->where('site_id', $site_id)->count() == 0) {
+                    if(Scene::where('preview', $video["preview"])->where('site_id', $site_id)->count() == 0) {
                         $mixed_check = true;
 
                         // check tags matched
@@ -430,6 +434,7 @@ class BotFeedFetcher extends Command
     public function createScene($video, $default_status, $feed, $site_id, $languages)
     {
         $scene = new Scene();
+
         $scene->preview    = $video["preview"];
         $scene->iframe     = $video["iframe"];
         $scene->status     = $default_status;
@@ -454,6 +459,10 @@ class BotFeedFetcher extends Command
             if ($language->id == 2) {
                 $sceneTranslation->title = $video["title"];
                 $sceneTranslation->permalink = rZeBotUtils::slugify($video["title"]);
+                if (isset($video["description"])) {
+                    $sceneTranslation->description = trim($video["description"]);
+                }
+
             }
 
             $sceneTranslation->save();

@@ -1,35 +1,73 @@
-<div class="container">
+<div class="container" style="margin-bottom:20px;">
     <div class="row media-grid">
+        <h3 class="related_header">Related scenes</h3>
+        @foreach ($related as $scene)
 
-        @foreach ($videos as $scene)
             <?php
             // select preview thumb
             $thumbs = json_decode($scene->thumbs);
             $index = rand(0, count($thumbs)-1);
             ?>
 
-            <article class="col-sm-2">
-                <div class="inner row">
-                    <a href="{{ route('video', ['profile' => $profile, 'permalink' => $scene->permalink]) }}"><div class="row screencast m0">
-                            <img src="<?=htmlspecialchars($thumbs[$index])?>" class="" style="width:100%;margin:0 !important;min-height:150px;" alt="{{$scene->title}}" data-thumbs="{{$scene->thumbs}}" data-current-frame="{{$index}}" data-status="stop" onmouseout="outThumb(this)" onmouseover="changeThumb(this)"/>
-                            <div class="media-length">{{gmdate("i:s", $video->duration)}}</div>
-                        </div></a>
-                    <div class="row">
-                        <div class="row">
-                            <small class="date_published">{{$scene->updated_at->diffForHumans()}}</small>
-                            <small>{{gmdate("i:s", $scene->duration)}}</small>
-                            <small><i class="glyphicon glyphicon-eye-open"></i> {{$scene->clicks()->count()+0}}</small>
-                            <br/>
-                            @foreach ($scene->categories()->limit(4)->get() as $category)
-                                <?php $translation = $category->translations()->where('language_id',$language->id)->first(); ?>
-                                <?php if ($translation): ?>
-                                <a href="{{ route('category', array('profile' => $profile, 'permalink'=> str_slug($translation->name) )) }}">{{$translation->name}}</a>
-                                <?php endif;?>
-                            @endforeach
+            <div class="col-md-2 video_outer col-sm-4 col-xs-4">
+                <figure>
+                    <?php $srcThumbnail = "" ?>
+                    @if ($scene->thumb_index > 0)
+                        <?php $srcThumbnail = htmlspecialchars($thumbs[$scene->thumb_index])?>
+                    @else
+                        <?php $srcThumbnail = asset('/thumbnails/'.md5($scene->preview).".jpg")?>
+                    @endif
+
+                    @if ($scene->channel->embed == 1)
+                        <?php $href = route('video', ['profile' => $profile, 'permalink' => $scene->permalink]);?>
+                        <a href="{{$href}}" class="link_image" title="{{$scene->title}}" @if ($site->google_analytics) onclick="trackOutboundLink('{{$href}}', '{{strtolower($scene->channel->name)}}');return false;" @endif target="_blank">
+                            <img class="border-thumb" src="{{$srcThumbnail}}" onmouseout="outThumb(this)" onmouseover="changeThumb(this)" data-thumbs="{{$scene->thumbs}}" data-current-frame="{{$index}}" data-status="stop" alt="{{$scene->title}}"/>
+                        </a>
+                    @else
+                        <?php $href = route('out', ['profile' => $profile, 'scene_id' => $scene->id]); ?>
+                        <a href="{{ route('out', ['profile' => $profile, 'scene_id' => $scene->id]) }}" target="_blank"  class="link_image" title="{{$scene->title}}" @if ($site->google_analytics) onclick="trackOutboundLink('{{$href}}', '{{strtolower($scene->channel->name)}}');return false;" @endif  target="_blank">
+                            <img class="border-thumb" src="{{$srcThumbnail}}" onmouseout="outThumb(this)" onmouseover="changeThumb(this)" data-thumbs="{{$scene->thumbs}}" data-current-frame="{{$index}}" data-status="stop" alt="{{$scene->title}}"/>
+                        </a>
+                    @endif
+
+                    <div class="info_video">
+                        @if ($scene->channel->embed == 1)
+                            <?php $href = route('video', ['profile' => $profile, 'permalink' => $scene->permalink]); ?>
+                        @else
+                            <?php $href = route('out', ['profile' => $profile, 'scene_id' => $scene->id]) ?>
+                        @endif
+
+                        <a class="title" href="{{$href}}" alt="{{$scene->title}}" @if ($site->google_analytics) onclick="trackOutboundLink('{{$href}}', '{{strtolower($scene->channel->name)}}');return false;" @endif target="_blank">
+                            {{str_limit($scene->title, 25, $end = '...')}}
+                        </a>
+
+                        <div class="clearfix"></div>
+                        <?php $agent = new \Jenssegers\Agent\Agent() ?>
+
+                        <div class="extra_info">
+                            <small>
+                                {{gmdate("i:s", $scene->duration)}},
+                                {{$scene->updated_at->diffForHumans()}}
+                                @if (!$agent->isMobile())
+                                    , {{$scene->clicks()->count()+0}} {{trans('tube.views')}}
+                                @endif
+                                {{--<a href="#" class="channel_link">{{strtolower($scene->channel->name)}}</a>--}}
+                            </small>
                         </div>
+
+                        @if (!$agent->isMobile())
+                            @foreach ($scene->categories()->limit(3)->get() as $category)
+                                <?php $translation = $category->translations()->where('language_id',$language->id)->first(); ?>
+                                <?php if ($translation && count(explode(" ", $translation->name)) <=2): ?>
+                                <a class="category_link" href="{{ route('category', array('profile' => $profile, 'permalink'=> str_slug($translation->name) )) }}">{{$translation->name}}</a>
+                                <?php endif?>
+                            @endforeach
+                        @endif
+
+
                     </div>
-                </div>
-            </article>
+                </figure>
+            </div>
         @endforeach
 
         <div class="clearfix"></div>

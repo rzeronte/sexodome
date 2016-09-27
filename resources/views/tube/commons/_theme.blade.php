@@ -164,3 +164,9 @@
     .alphabetical_category_link a{
         color: {{$site->color8}};
     }
+
+    .related_header{
+        color: {{$site->color8}};
+        border-bottom: solid 1px {{$site->color8}};;
+    }
+

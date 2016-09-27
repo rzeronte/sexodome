@@ -13,7 +13,7 @@
         $iframe = preg_replace($pattern2, "width='100%'", $iframe);
         ?>
         <div class="row">
-            <div class="col-md-10">
+            <div class="col-md-7">
                 <?php echo $iframe;?>
                     @if ($video->description && $video->description != 'NULL')
                         <p>{{$video->description}}</p>
@@ -26,15 +26,11 @@
                     <a href="{{ route('category', array('profile' => $profile, 'permalink'=> $translation->permalink )) }}" class="tag tag-category">
                         <small>{{ $translation->name}}</small>
                     </a>
-                        <div class="clearfix"></div>
+                    <div class="clearfix"></div>
                 @endforeach
-                @foreach ($video->tags()->limit(5)->get() as $tag)
-                    <?php $translation = $tag->translations()->where('language_id',$language->id)->first(); ?>
-                    <a href="{{ route('tag', array('profile' => $profile,'permalink'=> $translation->permalink )) }}" class="tag tag-video">
-                        <small>{{ $translation->name}}</small>
-                    </a>
-                        <div class="clearfix"></div>
-                @endforeach
+
+            </div>
+            <div class="col-md-3">
 
             </div>
 
