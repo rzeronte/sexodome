@@ -18,22 +18,14 @@
     {{$language->google_analytics}}
 </head>
 
-<?php echo $scene->iframe?>
-<div class="row">
-    <div class="col-md-6">
-        <a href="{{route('index')}}" target="_blank" alt="{{$language->title}}"><img src="{{asset('logo.png')}}"/></a>
-    </div>
+<?php
+$iframe = $scene->iframe;
+$pattern = "/width=\"[0-9]*\"/";
+$iframe = preg_replace($pattern, "width='100%'", $iframe);
+$pattern2 = "/width=\"[0-9]*+px\"/";
+$iframe = preg_replace($pattern2, "width='100%'", $iframe);
+$pattern3 = "/height=\"[0-9]*\"/";
+$iframe = preg_replace($pattern3, "height='100%'", $iframe);
 
-    <div class="col-md-6">
-        @foreach ($scene->tags()->get() as $tag)
-            <?php $translation = $tag->translations()->where('language_id',$language->id)->first(); ?>
-            <div class="col-md-2">
-                <a href="{{ route('tag', array('permalink'=> $translation->permalink )) }}" class="tag">
-                    <small>{{ $translation->name}}</small>
-                </a>
-            </div>
-        @endforeach
-
-    </div>
-
-</div>
+?>
+<?php echo $iframe?>

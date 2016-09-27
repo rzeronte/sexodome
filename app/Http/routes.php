@@ -102,7 +102,6 @@ Route::group(['domain' => '{host}'], function () {
     Route::match(['get'], '/video/{permalink}', 'TubeController@video')->name('video');
     Route::match(['get'], '/out/{scene_id_id}', 'TubeController@out')->name('out');
     Route::match(['get'], '/iframe/{scene_id}', 'TubeController@iframe')->name('iframe');
-    Route::match(['get'], '/topscenes/', 'TubeController@topscenes')->name('topscenes');
     Route::match(['get'], '/ads/', 'TubeController@ads')->name('ads');
 
     Route::match(['get'], '/dmca/', 'TubeController@dmca')->name('dmca');
