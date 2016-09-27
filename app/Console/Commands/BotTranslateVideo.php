@@ -108,15 +108,26 @@ class BotTranslateVideo extends Command
         }
 
         $translationTitle = $this->translateText($textFrom->title, $from, $to);
+        $translationDescription = $this->translateText($textFrom->description, $from, $to);
 
         if ($translationTitle != false) {
             $translationTo->title = $translationTitle;
             $translationTo->permalink = str_slug($translationTitle);
-            $translationTo->save();
-            rZeBotUtils::message("[TRANSLATING] scene_id: $scene->id, '". $textFrom->title . "' => '$translationTo->title'", "cyan", false, false);
+            rZeBotUtils::message("[TRANSLATING TITLE] scene_id: $scene->id, '". $textFrom->title . "' => '$translationTo->title'", "cyan", false, false);
         } else {
-            rZeBotUtils::message('[ERROR TRANSLATING] scene_id: '. $scene->id. ', '. $textFrom->title . '" => "'.$translationTo->title.'"', "red", false, false);
+            rZeBotUtils::message('[ERROR TRANSLATING TITLE] scene_id: '. $scene->id. ', '. $textFrom->title . '" => "'.$translationTo->title.'"', "red", false, false);
         }
+
+        if (strlen($textFrom->description) > 0){
+            if ($translationDescription != false) {
+                $translationTo->description = $translationTitle;
+                rZeBotUtils::message("[TRANSLATING DESCRIPTION] scene_id: $scene->id, '". $textFrom->title . "' => '$translationTo->title'", "cyan", false, false);
+            } else {
+                rZeBotUtils::message('[ERROR TRANSLATING DESCRIPTION] scene_id: '. $scene->id. ', '. $textFrom->title . '" => "'.$translationTo->title.'"', "red", false, false);
+            }
+        }
+
+        $translationTo->save();
     }
 
     public function translateTags($from, $to, $scene)
