@@ -354,6 +354,10 @@ body{
     border-bottom: solid 1px black;
     margin-top: 20px;
 }
+.video_header{
+    border-bottom: solid 1px black;
+    margin-bottom: 20px;
+}
 /****************************************************************************************** */
 
 /* Smartphones (portrait and landscape) ----------- */
