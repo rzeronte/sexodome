@@ -184,8 +184,7 @@ class BotFeedFetcher extends Command
                     // check total cols matched CSV <-> config array
                     if ($feed_config["totalCols"] != count($datos)) {
                         rZeBotUtils::message("Error en el número de columnas, deteniendo ejecución...", "red", true, true);
-                        print_r($datos);
-                        exit;
+                        continue;
                     }
 
                     // check limit import
