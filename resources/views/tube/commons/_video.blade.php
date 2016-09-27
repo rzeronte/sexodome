@@ -17,7 +17,7 @@
                     <p>{{$video->description}}</p>
                 @endif
             </div>
-            <div class="col-md-1">
+            <div class="col-md-2">
                 @foreach ($video->categories()->get() as $category)
                     <?php $translation = $category->translations()->where('language_id',$language->id)->first(); ?>
                     <a href="{{ route('category', array('profile' => $profile, 'permalink'=> $translation->permalink )) }}" class="tag tag-category">
