@@ -10,15 +10,15 @@
         $pattern3 = "/height=\"[0-9]*\"/";
         $iframe = preg_replace($pattern3, "height='500px'", $iframe);
         ?>
-        <div class="row">
+        <div class="row" style="margin-top:20px;">
             <div class="col-md-7">
                 <?php echo $iframe;?>
                 @if ($video->description && $video->description != 'NULL')
                     <p>{{$video->description}}</p>
                 @endif
             </div>
-            <div class="col-md-2">
-                @foreach ($video->categories()->limit(5)->get() as $category)
+            <div class="col-md-1">
+                @foreach ($video->categories()->get() as $category)
                     <?php $translation = $category->translations()->where('language_id',$language->id)->first(); ?>
                     <a href="{{ route('category', array('profile' => $profile, 'permalink'=> $translation->permalink )) }}" class="tag tag-category">
                         <i class="glyphicon glyphicon-film"></i> {{ $translation->name}}

@@ -15,5 +15,7 @@ return [
     'btn_order_mostpopular' => 'Most popular porn videos',
 
     'views' => 'views',
-    'all_categories' => 'All categories'
+    'all_categories' => 'All categories',
+
+    'related_scenes' => 'Related scenes'
 ];

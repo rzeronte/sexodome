@@ -1,6 +1,5 @@
 <div class="container" style="margin-bottom:20px;">
-    <div class="row media-grid">
-        <h3 class="related_header">Related scenes</h3>
+        <h3 class="related_header"><i class="glyphicon glyphicon-th-large"></i> {{trans('tube.related_scenes')}}</h3>
         @foreach ($related as $scene)
 
             <?php
@@ -71,5 +70,4 @@
         @endforeach
 
         <div class="clearfix"></div>
-    </div>
 </div>
