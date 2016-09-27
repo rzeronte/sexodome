@@ -133,6 +133,7 @@ class BotTranslateVideo extends Command
         $translationTo->save();
 
         if  (!$translation) {
+            rZeBotUtils::message('[ERROR TRANSLATING DELETING] scene_id: '. $scene->id, "red", false, false);
             $scene->delete();
         }
 
