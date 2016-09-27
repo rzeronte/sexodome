@@ -39,6 +39,7 @@ class TheGayFeed
     {
         $mapped_columns = array(
             "iframe"     => 1,
+            "description"=> 3,
             "preview"    => 4,
             "thumbs"     => 5,
             "title"      => 2,
