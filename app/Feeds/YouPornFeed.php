@@ -21,7 +21,8 @@ class YouPornFeed
     function mappingColumns()
     {
         $mapped_columns = array(
-            "iframe"     => 1,
+            "url"        => 1,
+            "iframe"     => 0,
             "preview"    => 9,
             "thumbs"     => 10,
             "title"      => 5,

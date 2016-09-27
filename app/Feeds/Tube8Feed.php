@@ -22,7 +22,8 @@ class Tube8Feed
     function mappingColumns()
     {
         $mapped_columns = array(
-            "iframe"     => 0,
+            "url"        => 0,
+            "iframe"     => false,
             "categories" => 1,
             "preview"    => 8,
             "thumbs"     => 9,

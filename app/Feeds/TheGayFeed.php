@@ -38,7 +38,8 @@ class TheGayFeed
     function mappingColumns()
     {
         $mapped_columns = array(
-            "iframe"     => 1,
+            "url"        => 1,
+            "iframe"     => 11,
             "description"=> 3,
             "preview"    => 4,
             "thumbs"     => 5,

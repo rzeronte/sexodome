@@ -19,7 +19,8 @@ class SpankwireFeed
     function mappingColumns()
     {
         $mapped_columns = array(
-            "iframe"     => 2,
+            "url"        => 2,
+            "iframe"     => false,
             "preview"    => 6,
             "thumbs"     => 8,
             "title"      => 1,

@@ -305,8 +305,7 @@ class TubeController extends Controller
 
         Scene::addSceneClick($scene, $ua = $request::header('User-Agent'));
 
-        // el campo 'iframe' es la url, cuando el video pertenece a un feed no embed
-        return redirect($scene->iframe);
+        return redirect($scene->url);
     }
 
     public function sitemap() {

@@ -22,6 +22,7 @@ class HClipsFeed
     function mappingColumns()
     {
         $mapped_columns = array(
+            "url"        => false,
             "iframe"     => 10,
             "preview"    => 4,
             "thumbs"     => 5,

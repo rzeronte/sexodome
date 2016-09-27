@@ -209,6 +209,7 @@ class BotFeedFetcher extends Command
                     // mount $video data array
                     $video = array(
                         "iframe"    => $datos[$mapped_colums['iframe']],
+                        "url"       => $datos[$mapped_colums['url']],
                         "title"     => $datos[$mapped_colums['title']],
                         "duration"  => $feed_config["parse_duration"]($datos[$mapped_colums['duration']]),
                         "likes"     => $likes,
@@ -405,6 +406,9 @@ class BotFeedFetcher extends Command
                             }
                         }
                     } else {
+                        $scene = Scene::where('preview', $video["preview"])->where('site_id', $site_id)->first();
+                        $scene->iframe = $video["iframe"];
+                        $scene->save();
                         rZeBotUtils::message("[WARNING] Scene de ".$feed->name." ya existente en " . $site->getHost().", saltando...", "yellow", true, false);
                     }
                 }
@@ -436,7 +440,14 @@ class BotFeedFetcher extends Command
         $scene = new Scene();
 
         $scene->preview    = $video["preview"];
-        $scene->iframe     = $video["iframe"];
+        if ($video["iframe"] !== false) {
+            $scene->iframe     = $video["iframe"];
+        }
+
+        if ($video["url"] !== false) {
+            $scene->url = $video["url"];
+        }
+
         $scene->status     = $default_status;
         $scene->views      = $video["views"];
         $scene->channel_id = $feed->id;

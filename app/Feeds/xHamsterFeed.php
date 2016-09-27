@@ -17,7 +17,8 @@ class xHamsterFeed
     function mappingColumns()
     {
         $mapped_columns = array(
-            "iframe"     => 2,
+            "url"        => 2,
+            "iframe"     => false,
             "preview"    => false,
             "thumbs"     => 1,
             "title"      => 3,
