@@ -405,13 +405,9 @@ class BotFeedFetcher extends Command
                             }
                         }
                     } else {
-                        $scene = Scene::where('preview', $video["preview"])->where('site_id', $site_id)->first();
-                        $scene->iframe = $video["iframe"];
-                        $scene->save();
                         rZeBotUtils::message("[WARNING] Scene de ".$feed->name." ya existente en " . $site->getHost().", saltando...", "yellow", true, false);
                     }
                 }
-
                 fclose($gestor);
             }
         });
