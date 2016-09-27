@@ -607,6 +607,9 @@ class ConfigController extends Controller
 
         $site->banner_mobile1 = Request::input('banner_mobile1');
 
+        $site->banner_video1 = Request::input('banner_video1');
+        $site->banner_video2 = Request::input('banner_video2');
+
         $site->button1_url = Request::input('button1_url');
         $site->button2_url = Request::input('button2_url');
         $site->button1_text = Request::input('button1_text');

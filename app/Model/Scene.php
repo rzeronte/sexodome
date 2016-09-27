@@ -68,7 +68,7 @@ class Scene extends Model
 
     static function getTranslationByPermalink($permalink, $language_id, $site_id = false)
     {
-        $scene = Scene::select('scenes.*', 'scene_translations.title', 'scene_translations.permalink')
+        $scene = Scene::select('scenes.*', 'scene_translations.description', 'scene_translations.title', 'scene_translations.permalink')
             ->join('scene_translations', 'scenes.id', '=', 'scene_translations.scene_id')
             ->where('scene_translations.language_id', $language_id)
             ->where('scene_translations.permalink', 'like', $permalink)

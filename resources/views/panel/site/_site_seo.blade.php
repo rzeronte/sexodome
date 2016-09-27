@@ -240,6 +240,28 @@
                 </div>
             </div>
 
+            <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
+                <p><i class="glyphicon glyphicon-play-circle"></i> <b>Desktop Video Banner</b></p>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Script for video #1:
+                </div>
+                <div class="col-md-7">
+                    <textarea name="banner_video1" class="form-control">{{$site->banner_video1}}</textarea>
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Script for video #2:
+                </div>
+                <div class="col-md-7">
+                    <textarea name="banner_video2" class="form-control">{{$site->banner_video2}}</textarea>
+                </div>
+            </div>
+
             <div class="row" style="padding:10px;">
                 <div class="col-md-7 col-md-offset-3">
                     <input type="submit" class="btn btn-primary" value="Save settings for @if ($site->have_domain == 1){{$site->getHost()}}@else{{$site->name}}@endif" style="width:100%;"/>
