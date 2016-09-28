@@ -124,7 +124,7 @@ class BotSitemapGenerator extends Command
         $sitemap->addSitemap('http://'. $site->getHost() . "/" . $site->getHost().".categories.xml", date('Y-m-d\TH:i:s') );
 
         if ($num_scenes_chunks !== false) {
-            for ($n = 1; $n <= $num_scenes_chunks; $n++) {
+            for ($n = 1; $n <= $num_scenes_chunks-1; $n++) {
                 $sitemap->addSitemap('http://'.$site->getHost() . "/".$site->getHost() . ".scenes.{$n}.xml", date('Y-m-d\TH:i:s') );
             }
         }
