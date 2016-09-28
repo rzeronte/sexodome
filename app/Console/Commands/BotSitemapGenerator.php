@@ -76,46 +76,56 @@ class BotSitemapGenerator extends Command
             $i++;
         }
 
-        // Home
-        $sitemapDefault->add(route('categories', ["host" => $site->getHost()]), date('Y-m-d').'T00:00:00+00:00', '1.0', 'daily');
-        // Pornstars Root
-        $sitemapDefault->add(route('pornstars', ["host" => $site->getHost()]), date('Y-m-d').'T00:00:00+00:00', '1.0', 'daily');
-        $sitemapDefault->store('xml', $site->getHost().".default", '');
-
         // Scenes
-        $num_scenes_chunks = 1;
-        foreach ($scenes->chunk(10000) as $chunk) {
-            foreach($chunk as $scene) {
-                $translation = $scene->translations()->whereNotNull('permalink')->where('language_id', $language_id)->first();
+        if (count($scenes) > 0) {
+            $num_scenes_chunks = 1;
+            foreach ($scenes->chunk(10000) as $chunk) {
+                foreach($chunk as $scene) {
+                    $translation = $scene->translations()->whereNotNull('permalink')->where('language_id', $language_id)->first();
 
-                if (!$translation) {
-                    $this->info("$i - [ERROR] Ignorando URL, la escena " .$scene->id ." no tiene traducción para el idioma id: $language_id");
-                } else {
-                    $this->info("$i - [SUCCESS] Url: ".route('video', ['permalink'=>$translation->permalink]));
-                    $sitemapScenes->add(route('video', ['permalink'=>$translation->permalink, "host" => $site->getHost()]), date('Y-m-d').'T00:00:00+00:00', '1.0', 'daily');
+                    if (!$translation) {
+                        $this->info("$i - [ERROR] Ignorando URL, la escena " .$scene->id ." no tiene traducción para el idioma id: $language_id");
+                    } else {
+                        $this->info("$i - [SUCCESS] Url: ".route('video', ['permalink'=>$translation->permalink]));
+                        $sitemapScenes->add(route('video', ['permalink'=>$translation->permalink, "host" => $site->getHost()]), date('Y-m-d').'T00:00:00+00:00', '1.0', 'daily');
+                    }
                 }
+                $sitemapScenes->store('xml', $site->getHost().".scenes.".$num_scenes_chunks, '');
+                $num_scenes_chunks++;
             }
-            $sitemapScenes->store('xml', $site->getHost().".scenes.".$num_scenes_chunks, '');
-            $num_scenes_chunks++;
         }
 
         // Pornstars
         $i = 0;
-        foreach ($site->pornstars()->get() as $pornstar) {
-            $this->info("$i - [SUCCESS] Url: ".route('pornstar', ['permalinkPornstar' => $pornstar->permalink]));
-            $sitemapPornstars->add(route('pornstar', ['permalinkPornstar' => $pornstar->permalink, "host" => $site->getHost()]), date('Y-m-d').'T00:00:00+00:00', '1.0', 'daily');
-            $i++;
+        $pornstars = $site->pornstars()->get();
+        if (count($pornstars) > 0) {
+            foreach ($pornstars as $pornstar) {
+                $this->info("$i - [SUCCESS] Url: ".route('pornstar', ['permalinkPornstar' => $pornstar->permalink]));
+                $sitemapPornstars->add(route('pornstar', ['permalinkPornstar' => $pornstar->permalink, "host" => $site->getHost()]), date('Y-m-d').'T00:00:00+00:00', '1.0', 'daily');
+                $i++;
+            }
+
+            $sitemapPornstars->store('xml', $site->getHost().".pornstars", '');
+            $sitemap->addSitemap('http://'. $site->getHost() . "/" . $site->getHost().".pornstars.xml", date('Y-m-d\TH:i:s') );
         }
 
-        $sitemapCategories->store('xml', $site->getHost().".categories", '');
-        $sitemapPornstars->store('xml', $site->getHost().".pornstars", '');
+        // Home
+        $sitemapDefault->add(route('categories', ["host" => $site->getHost()]), date('Y-m-d').'T00:00:00+00:00', '1.0', 'daily');
+        // Pornstars Root
 
+        if (count($pornstars) > 0) {
+            $sitemapDefault->add(route('pornstars', ["host" => $site->getHost()]), date('Y-m-d') . 'T00:00:00+00:00', '1.0', 'daily');
+        }
+        $sitemapDefault->store('xml', $site->getHost().".default", '');
+
+        $sitemapCategories->store('xml', $site->getHost().".categories", '');
         $sitemap->addSitemap('http://'. $site->getHost() . "/" . $site->getHost().".default.xml", date('Y-m-d\TH:i:s') );
         $sitemap->addSitemap('http://'. $site->getHost() . "/" . $site->getHost().".categories.xml", date('Y-m-d\TH:i:s') );
-        $sitemap->addSitemap('http://'. $site->getHost() . "/" . $site->getHost().".pornstars.xml", date('Y-m-d\TH:i:s') );
 
-        for ($n = 1; $n <= $num_scenes_chunks; $n++) {
-            $sitemap->addSitemap('http://'.$site->getHost() . "/".$site->getHost() . ".scenes.{$n}.xml", date('Y-m-d\TH:i:s') );
+        if ($num_scenes_chunks > 1) {
+            for ($n = 1; $n <= $num_scenes_chunks; $n++) {
+                $sitemap->addSitemap('http://'.$site->getHost() . "/".$site->getHost() . ".scenes.{$n}.xml", date('Y-m-d\TH:i:s') );
+            }
         }
 
         $sitemap->store('sitemapindex', $site->getHost(), '');
