@@ -77,6 +77,7 @@ class BotSitemapGenerator extends Command
         }
 
         // Scenes
+        $num_scenes_chunks = false;
         if (count($scenes) > 0) {
             $num_scenes_chunks = 1;
             foreach ($scenes->chunk(10000) as $chunk) {
@@ -122,7 +123,7 @@ class BotSitemapGenerator extends Command
         $sitemap->addSitemap('http://'. $site->getHost() . "/" . $site->getHost().".default.xml", date('Y-m-d\TH:i:s') );
         $sitemap->addSitemap('http://'. $site->getHost() . "/" . $site->getHost().".categories.xml", date('Y-m-d\TH:i:s') );
 
-        if ($num_scenes_chunks > 1) {
+        if ($num_scenes_chunks !== false) {
             for ($n = 1; $n <= $num_scenes_chunks; $n++) {
                 $sitemap->addSitemap('http://'.$site->getHost() . "/".$site->getHost() . ".scenes.{$n}.xml", date('Y-m-d\TH:i:s') );
             }
