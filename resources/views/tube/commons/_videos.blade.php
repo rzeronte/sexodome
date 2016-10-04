@@ -93,7 +93,7 @@
                                 @foreach ($scene->categories()->limit(3)->get() as $category)
                                     <?php $translation = $category->translations()->where('language_id',$language->id)->first(); ?>
                                     <?php if ($translation && count(explode(" ", $translation->name)) <=2): ?>
-                                    <a class="category_link" href="{{ route('category', array('profile' => $profile, 'permalink'=> str_slug($translation->name) )) }}">{{$translation->name}}</a>
+                                    <a class="category_link" href="{{ route('category', array('profile' => $profile, 'permalink'=> str_slug($translation->name) )) }}">{{strtolower($translation->name)}}</a>
                                     <?php endif?>
                                 @endforeach
                             @endif
