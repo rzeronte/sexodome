@@ -38,6 +38,7 @@ class BotFeedFetcher extends Command
                             {--rate=false : Only rate min imported}
                             {--views=false : Only views min imported}
                             {--duration=false : Only duration min imported}
+                            {--spin=false : Spin scene title and description}
                             {--only_with_pornstars=false : Only import scenes with pornstars}
                             {--create_categories_from_tags=false : Launch update categories}
                             {--job=false : Infojob Id}
@@ -66,6 +67,7 @@ class BotFeedFetcher extends Command
         $rate        = $this->option('rate');
         $minViews    = $this->option('views');
         $minDuration = $this->option('duration');
+        $spin        = $this->option('spin');
         $test        = $this->option('test');
         $job         = $this->option('job');
         $create_categories_from_tags = $this->option('create_categories_from_tags');
@@ -97,6 +99,7 @@ class BotFeedFetcher extends Command
         if ($job !== "false") {
             rZeBotUtils::message('Job: '. $job, "green");
         }
+
         $this->parseCSV(
             $site,
             $feed,
@@ -111,7 +114,8 @@ class BotFeedFetcher extends Command
             $default_status = env("DEFAULT_FETCH_STATUS", 1),
             $test,
             $create_categories_from_tags,
-            $only_with_pornstars
+            $only_with_pornstars,
+            $spin
         );
 
         // delete infojob
@@ -156,9 +160,9 @@ class BotFeedFetcher extends Command
         return $categories;
     }
 
-    public function parseCSV($site, $feed, $max, $mapped_colums, $feed_config, $tags, $categories, $rate, $minViews, $minDuration, $default_status, $test, $create_categories_from_tags, $only_with_pornstars)
+    public function parseCSV($site, $feed, $max, $mapped_colums, $feed_config, $tags, $categories, $rate, $minViews, $minDuration, $default_status, $test, $create_categories_from_tags, $only_with_pornstars, $spin)
     {
-        DB::transaction(function () use ($site, $feed, $max, $mapped_colums, $feed_config, $tags, $categories, $rate, $minViews, $minDuration, $default_status, $test, $create_categories_from_tags, $only_with_pornstars) {
+        DB::transaction(function () use ($site, $feed, $max, $mapped_colums, $feed_config, $tags, $categories, $rate, $minViews, $minDuration, $default_status, $test, $create_categories_from_tags, $only_with_pornstars, $spin) {
 
             $site_id = $site->id;
 
@@ -183,13 +187,13 @@ class BotFeedFetcher extends Command
 
                     // check total cols matched CSV <-> config array
                     if ($feed_config["totalCols"] != count($datos)) {
-                        rZeBotUtils::message("Error en el número de columnas, deteniendo ejecución...", "red", true, true);
+                        rZeBotUtils::message("Error en el número de columnas, deteniendo ejecución...", "red", false, false);
                         continue;
                     }
 
                     // check limit import
                     if ($max != 'false' && is_numeric($max) && $added >= $max) {
-                        rZeBotUtils::message("[DONE] Alcanzado número máximo de escenas indicado: $max", "cyan", true, false);
+                        rZeBotUtils::message("[DONE] Alcanzado número máximo de escenas indicado: $max", "cyan", false, false);
                         break;
                     }
 
@@ -395,13 +399,19 @@ class BotFeedFetcher extends Command
                                 rZeBotUtils::message("[CREATING CATEGORIES FROM TAGS FOR scene_id: $scene->id] ", "cyan", true, false);
                                 $this->createCategoriesFromTags($scene, $languages);
                             }
-
-                            if ($site->language_id !== 2) {
+                            
+                            if ($site->language_id != 2) {
                                 $exitCodeTranslation = Artisan::call('zbot:translate:video', [
                                     'from'     => 'en',
                                     'to'       => $site->language->code,
                                     'scene_id' => $scene->id,
                                 ]);
+                            } else {
+                                if ($spin !== 'false') {
+                                    $exitCodeSpin = Artisan::call('zbot:spin:scene', [
+                                        'scene_id' => $scene->id,
+                                    ]);
+                                }
                             }
                         }
                     } else {
@@ -468,7 +478,6 @@ class BotFeedFetcher extends Command
                 if (isset($video["description"])) {
                     $sceneTranslation->description = trim($video["description"]);
                 }
-
             }
 
             $sceneTranslation->save();

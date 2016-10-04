@@ -206,9 +206,11 @@
 </section>
 
 <div style="display:none">
-    <a href="https://www.plugrush.com/?ref=145113">PlugRush Affiliated Program</a>
-    <a href="https://www.exoclick.com/signup/?login=sexodome">Exoclick Ad Network</a>
+    <a href="https://www.plugrush.com/?ref=145113" target="_blank">PlugRush Affiliated Program</a>
+    <a href="https://www.exoclick.com/signup/?login=sexodome" target="_blank">Exoclick Ad Network</a>
+    <a href="http://wordai.com/?ref=a6f0f" target="_blank">WordAI</a>
 </div>
+
 <!-- Contact Section -->
 {{--<section id="contact" class="container content-section text-center">--}}
     {{--<div class="row">--}}

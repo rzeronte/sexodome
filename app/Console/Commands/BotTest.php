@@ -11,7 +11,7 @@ use App\Model\Tweet;
 use App\rZeBot\TwitterAPIExchange;
 use DB;
 
-class BotSitesList extends Command
+class BotTest extends Command
 {
     protected $signature = 'zbot:test';
 
