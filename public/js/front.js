@@ -1,6 +1,9 @@
-$(document).ready(function(){
+window.onload = function(){
     equalizeDivHeight('.info_video');
     equalizeDivHeight('.category_info');
+};
+
+$(document).ready(function(){
 
     $('.link_image').click(function(event) {
         if (popunders.length > 0) {
