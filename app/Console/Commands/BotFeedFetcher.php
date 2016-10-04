@@ -399,7 +399,7 @@ class BotFeedFetcher extends Command
                                 rZeBotUtils::message("[CREATING CATEGORIES FROM TAGS FOR scene_id: $scene->id] ", "cyan", true, false);
                                 $this->createCategoriesFromTags($scene, $languages);
                             }
-                            
+
                             if ($site->language_id != 2) {
                                 $exitCodeTranslation = Artisan::call('zbot:translate:video', [
                                     'from'     => 'en',
