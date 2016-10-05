@@ -36,8 +36,37 @@
         ga('send', 'pageview');
 
     </script>
+
+    <!-- jQuery -->
+    <script src="{{ asset('js/jquery-2.1.4.min.js') }}"></script>
+
 </head>
 
+<script type="text/javascript">
+    $(document).ready(function(){
+        var modal = document.getElementById('myModal');
+
+        // Get the image and insert it inside the modal - use its "alt" text as a caption
+        var modalImg = document.getElementById("img01");
+        var captionText = document.getElementById("caption");
+
+        $('.img-thumbnail').click(function() {
+            modal.style.display = "block";
+            modalImg.src = this.src;
+            captionText.innerHTML = this.alt;
+        });
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+    });
+
+</script>
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
 
 <!-- Navigation -->
@@ -159,47 +188,31 @@
     <div class="container">
         <h2>Gallery</h2>
         <div class="col-md-3">
-            <a href="{{asset('images/gallery/img2.jpg')}}" target="_blank">
                 <img src="{{asset('images/gallery/img2.jpg')}}" class="img-thumbnail"/>
-            </a>
         </div>
         <div class="col-md-3">
-            <a href="{{asset('images/gallery/img2.jpg')}}" target="_blank">
             <img src="{{asset('images/gallery/img2.jpg')}}" class="img-thumbnail"/>
-            </a>
         </div>
         <div class="col-md-3">
-            <a href="{{asset('images/gallery/img3.jpg')}}" target="_blank">
             <img src="{{asset('images/gallery/img3.jpg')}}" class="img-thumbnail"/>
-            </a>
         </div>
         <div class="col-md-3">
-            <a href="{{asset('images/gallery/img4.jpg')}}" target="_blank">
             <img src="{{asset('images/gallery/img4.jpg')}}" class="img-thumbnail"/>
-            </a>
         </div>
 
         <div class="clearfix" style="margin-bottom: 30px;"></div>
 
         <div class="col-md-3">
-            <a href="{{asset('images/gallery/img5.jpg')}}" target="_blank">
             <img src="{{asset('images/gallery/img5.jpg')}}" class="img-thumbnail"/>
-            </a>
         </div>
         <div class="col-md-3">
-            <a href="{{asset('images/gallery/img6.jpg')}}" target="_blank">
             <img src="{{asset('images/gallery/img6.jpg')}}" class="img-thumbnail"/>
-            </a>
         </div>
         <div class="col-md-3">
-            <a href="{{asset('images/gallery/img7.jpg')}}" target="_blank">
             <img src="{{asset('images/gallery/img7.jpg')}}" class="img-thumbnail"/>
-            </a>
         </div>
         <div class="col-md-3">
-            <a href="{{asset('images/gallery/img8.jpg')}}" target="_blank">
             <img src="{{asset('images/gallery/img8.jpg')}}" class="img-thumbnail"/>
-            </a>
         </div>
 
     </div>
@@ -234,8 +247,19 @@
     {{--</div>--}}
 {{--</section>--}}
 
-<!-- Map Section -->
-<div id="map" style="display:none;"></div>
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+    <!-- Modal Content (The Image) -->
+    <img class="modal-content" id="img01">
+    <!-- The Close Button -->
+    <span class="close" onclick="document.getElementById('myModal').style.display='none'">&times;</span>
+
+    <!-- Modal Caption (Image Text) -->
+    <div id="caption"></div>
+
+
+</div>
 
 <!-- Footer -->
 <footer>
@@ -244,8 +268,6 @@
     </div>
 </footer>
 
-<!-- jQuery -->
-<script src="{{ asset('js/jquery-2.1.4.min.js') }}"></script>
 
 <!-- Bootstrap Core JavaScript -->
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>
