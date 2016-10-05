@@ -38,7 +38,7 @@ body{
     padding-top:10px;
     background-color: dimgray;
     border-top: 3px solid #b51942;
-    height: 50px;
+    min-height: 50px;
 }
 
 .footer a{
