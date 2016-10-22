@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use App\Model\Category;
 use App\rZeBot\rZeBotUtils;
 use App\Model\Site;
-use App\Model\Scene;
+use Illuminate\Support\Facades\DB;
 
 class BotUpdateCategoriesThumbnails extends Command
 {
@@ -32,18 +32,20 @@ class BotUpdateCategoriesThumbnails extends Command
             $sites = Site::all();
         }
 
-        foreach ($sites as $site) {
-            $categories = Category::where('site_id', '=', $site->id)->get();
+        DB::transaction(function () use ($sites) {
+            foreach ($sites as $site) {
+                $categories = Category::where('site_id', '=', $site->id)->get();
 
-            rZeBotUtils::message("[UPDATE THUMBNAILS] " . $site->getHost(), "yellow", false, false);
+                rZeBotUtils::message("[UPDATE THUMBNAILS] " . $site->getHost(), "yellow", false, false);
 
-            $scenes_id_used = [];
-            foreach($categories as $category) {
-                $scene_id = rZeBotUtils::updateCategoryThumbnail($category, $scenes_id_used);
-                if ($scene_id) {
-                    $scenes_id_used[] = $scene_id;
+                $scenes_id_used = [];
+                foreach($categories as $category) {
+                    $scene_id = rZeBotUtils::updateCategoryThumbnail($category, $scenes_id_used);
+                    if ($scene_id) {
+                        $scenes_id_used[] = $scene_id;
+                    }
                 }
             }
-        }
+        });
     }
 }
