@@ -416,6 +416,13 @@ class BotFeedFetcher extends Command
                         }
                     } else {
                         rZeBotUtils::message("[WARNING] Scene de ".$feed->name." ya existente en " . $site->getHost().", saltando...", "yellow", true, false);
+                        $scene = Scene::where('preview', $video["preview"])->where('site_id', $site_id)->first();
+
+                        $translation = $scene->translations()->where('language_id', 2)->first();
+                        if (isset($video["description"])) {
+                            $translation->description = $video["description"];
+                            $translation->save();
+                        }
                     }
                 }
                 fclose($gestor);
