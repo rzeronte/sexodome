@@ -28,7 +28,7 @@ class BotDownloadThumbnails extends Command
             $i = 0;
             foreach($scenes as $scene) {
                 $i++;
-                rZeBotUtils::downloadThumbnail($scene->preview, $i);
+                rZeBotUtils::downloadThumbnail($scene->preview, $i, $scene);
             }
         }
     }

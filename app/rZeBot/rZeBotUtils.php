@@ -585,7 +585,7 @@ class rZeBotUtils
         return FALSE;
     }
 
-    public static function downloadThumbnail($src, $i = "")
+    public static function downloadThumbnail($src, $i = "", $scene = false)
     {
         $filename = md5($src).".jpg";
 
@@ -614,7 +614,8 @@ class rZeBotUtils
             return true;
 
         } catch(\Exception $e) {
-            rZeBotUtils::message("[$i ERROR DOWNLOAD THUMBNAIL] $src", "red", false, false);
+            rZeBotUtils::message("[$i ERROR DOWNLOAD THUMBNAIL. DELETING] $src", "red", false, false);
+            $scene->delete();
         }
 
     }
