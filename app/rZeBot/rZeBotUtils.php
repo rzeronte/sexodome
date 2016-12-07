@@ -592,8 +592,7 @@ class rZeBotUtils
         $filepath = rZeBotCommons::getThumbnailsFolder().$filename;
 
         if (file_exists($filepath)) {
-            rZeBotUtils::message("[$i DOWNLOAD THUMBNAIL] $src", "yellow", false, false);
-
+            rZeBotUtils::message("[$i ALREADY EXISTS] $src", "yellow", false, false);
             return false;
         }
 
