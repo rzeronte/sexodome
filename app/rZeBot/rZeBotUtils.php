@@ -588,8 +588,12 @@ class rZeBotUtils
     public static function downloadThumbnail($src, $i = "", $scene = false)
     {
         if (filter_var($src, FILTER_VALIDATE_URL) === false) {
-            rZeBotUtils::message("[$i INVALID THUMBNAIL. DELETING] $src", "red", false, false);
-            $scene->delete();
+            rZeBotUtils::message("[$i INVALID THUMBNAIL] $src", "red", false, false);
+            if ($scene !== false) {
+                rZeBotUtils::message("[$i DELETE SCENE] $src", "red", false, false);
+                $scene->delete();
+            }
+
             return;
         }
 
