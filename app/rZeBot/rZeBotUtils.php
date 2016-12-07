@@ -587,6 +587,12 @@ class rZeBotUtils
 
     public static function downloadThumbnail($src, $i = "", $scene = false)
     {
+        if (filter_var($src, FILTER_VALIDATE_URL) === false) {
+            rZeBotUtils::message("[$i INVALID THUMBNAIL. DELETING] $src", "red", false, false);
+            $scene->delete();
+            return;
+        }
+
         $filename = md5($src).".jpg";
 
         $filepath = rZeBotCommons::getThumbnailsFolder().$filename;
@@ -607,8 +613,6 @@ class rZeBotUtils
             curl_exec($ch);
 
             //$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-            rZeBotUtils::message("[$i DOWNLOAD THUMBNAIL] $src", "green", false, false);
 
             return true;
 

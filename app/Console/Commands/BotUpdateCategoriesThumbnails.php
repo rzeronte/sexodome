@@ -27,7 +27,7 @@ class BotUpdateCategoriesThumbnails extends Command
                 rZeBotUtils::message("Error el site id: $site_id no existe", "red");
                 exit;
             }
-            
+
             $sites = Site::where('id', $site_id)->get();
 
         } else {
