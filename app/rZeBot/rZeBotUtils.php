@@ -510,7 +510,6 @@ class rZeBotUtils
     {
         $sceneRNDquery = $category->scenes()
             ->select('scenes.id', 'scenes.preview')
-            ->orderByRaw("RAND()")
             ->orderBy('scenes.cache_order', 'desc');
         ;
 
