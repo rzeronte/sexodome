@@ -24,7 +24,7 @@
 
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
-                    <div class="col-sm-2 col-md-3" style="margin-top: 20px;">
+                    <div class="col-sm-2 col-md-4" style="margin-top: 20px;">
                         @if ($site->button1_url != "" and $site->button1_text != "")
                             <a href="{{$site->button1_url}}" target="_blank" class="btn btn-custom-user">{{$site->button1_text}}</a>
                         @endif
