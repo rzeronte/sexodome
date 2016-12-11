@@ -33,7 +33,9 @@
                             <a href="{{$site->button2_url}}" class="btn btn-custom-user">{{$site->button2_text}}</a>
                         @endif
 
-                        <a href="{{route('pornstars', ["profile" => $profile])}}" class="btn btn-header-pornstars">{{trans('tube.header_pornstars_btn')}}</a>
+			@if (\App\Model\Pornstar::where('site_id', $site->id)->select('id')->count() > 0)
+	                        <a href="{{route('pornstars', ["profile" => $profile])}}" class="btn btn-header-pornstars">{{trans('tube.header_pornstars_btn')}}</a>
+		        @endif
                     </div>
                     <div class="col-sm-3 col-md-3">
 
