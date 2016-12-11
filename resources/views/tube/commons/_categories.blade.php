@@ -16,11 +16,11 @@
                     <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}" class="link_image" title="{{$category->name}}" target="_blank">
                         <?php $srcThumbnail = asset('/thumbnails/'.md5($category->thumb).".jpg")?>
                         <img src="{{$srcThumbnail}}" class="border-thumb" alt="{{ucwords($category->name)}}"/>
+                        <span class="duration">{{number_format($category->nscenes, 0, ",", ".")}} videos</span>
                     </a>
 
                     <div class="category_info">
-                        <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}" class="link_category" target="_blank">{{ str_limit(ucfirst($category->name), $limit = 10 , $end = '...') }}</a>
-                        <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}" class="link_nvideos" target="_blank">{{number_format($category->nscenes, 0, ",", ".")}} videos</a>
+                        <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}" class="link_category" target="_blank">{{ str_limit(ucfirst($category->name), $limit = 20 , $end = '...') }}</a>
                     </div>
                 </figure>
 
