@@ -61,9 +61,9 @@ class xHamsterFeed
     function configDeleteFeed() {
 
         $mapping = array(
-            "csv"       => false,
-            "separator" => false,
-            "index_url" => false,
+            "csv"       => true,
+            "separator" => "|",
+            "index_url" => 1,
         );
 
         return $mapping;
