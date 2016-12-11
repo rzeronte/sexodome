@@ -51,6 +51,10 @@
     }
 
     /****************************************************************************************** Categories*/
+    .category_outer figure {
+        border-bottom: solid 3px {{$site->color6}};
+    }
+
     .category_outer .link_image img {
         border: solid 0px {{$site->color2}};
     }
@@ -82,6 +86,7 @@
 
     .video_outer .info_video{
         background-color: {{$site->color2}} !important;
+        border-bottom: solid 3px {{$site->color6}};
     }
 
     .video_outer .info_video .title {

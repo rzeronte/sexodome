@@ -123,8 +123,7 @@ body{
 
 .category_outer figure{
     margin: 4px;
-    border: 1px solid red;
-    border-radius: 6px;
+    border-bottom: 3px solid gray;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
 }
 
@@ -135,16 +134,11 @@ body{
     width: 100%;
     height: 125px;
     border: solid 0px #b51942;
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
-
 }
 
 .category_outer .category_info{
     background-color: #b51942;
     padding-left: 5px;
-    border-bottom-left-radius: 6px;
-    border-bottom-right-radius: 6px;
 }
 
 .category_outer .category_info .link_category {
@@ -181,7 +175,6 @@ body{
 .video_outer figure {
     margin: 4px;
     border: 1px solid red;
-    border-radius: 6px;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
 
 }
@@ -193,16 +186,22 @@ body{
     width: 100%;
     height: 140px;
     border: solid 0px #b51942;
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
+}
+.video_outer .duration{
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-left: 5px;
+    margin-top: 5px;
+    padding: 3px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.6);
 }
 
 .video_outer .info_video{
     background-color: #b51942;
     padding: 5px;
-    border-bottom-left-radius: 6px;
-    border-bottom-right-radius: 6px;
-
+    border-bottom: solid 3px red;
 }
 
 .video_outer .info_video .title {
@@ -224,11 +223,9 @@ body{
     color: white;
     font-size: 12px;
     font-weight: normal;
-    font-family: Tahoma, Verdana, Arial, Helvetica;
 }
 
 .video_outer .info_video .category_link {
-    font-family: Tahoma, Verdana, Arial, Helvetica;
     background-color: black;
     color: white;
     padding: 0;
@@ -363,6 +360,7 @@ body{
     height: 30px;
     padding-top: 4px;
 }
+
 .alphabetical_category_link{
     height: 40px;
     text-align: left;
