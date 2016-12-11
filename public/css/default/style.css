@@ -197,6 +197,18 @@ body{
     background-color: rgba(0, 0, 0, 0.6);
 }
 
+.video_outer .diff_time{
+    position: absolute;
+    top: 113px;
+    left: 0;
+    float:right;
+    margin-left: 5px;
+    margin-top: 5px;
+    padding: 3px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
 .video_outer .info_video{
     background-color: #b51942;
     padding: 5px;
