@@ -72,7 +72,7 @@
                             @endif
 
                             <a class="title" href="{{$href}}" alt="{{$scene->title}}" @if ($site->google_analytics) onclick="trackOutboundLink('{{$href}}', '{{strtolower($scene->channel->name)}}');return false;" @endif target="_blank">
-                                {{str_limit($scene->title, 25, $end = '...')}}
+                                {{str_limit($scene->title, 40, $end = '...')}}
                             </a>
 
                             <div class="clearfix"></div>
