@@ -82,9 +82,9 @@
                                 <small>
                                     {{gmdate("i:s", $scene->duration)}},
                                     {{$scene->updated_at->diffForHumans()}}
-                                    @if (!$agent->isMobile())
-                                    , {{$scene->clicks()->count()+0}} {{trans('tube.views')}}
-                                    @endif
+                                    {{--@if (!$agent->isMobile())--}}
+                                    {{--, {{$scene->clicks()->count()+0}} {{trans('tube.views')}}--}}
+                                    {{--@endif--}}
                                     {{--<a href="#" class="channel_link">{{strtolower($scene->channel->name)}}</a>--}}
                                 </small>
                             </div>
