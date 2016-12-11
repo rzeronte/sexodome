@@ -828,10 +828,14 @@ class ConfigController extends Controller
             abort(404, "Site not found");
         }
 
-        echo rZeBotCommons::getLogosFolder().PHP_EOL;
-
+        // logo validator
         $v = Validator::make(Request::all(), [
-            'logo'       => 'required|mimes:png',      // max=50*1024; min=3*1024
+            'logo' => 'required|mimes:png',      // max=50*1024; min=3*1024
+        ]);
+
+        // favicon validator
+        $vF = Validator::make(Request::all(), [
+            'favicon' => 'required|mimes:png',      // max=50*1024; min=3*1024
         ]);
 
         $v->after(function($validator) {
@@ -843,10 +847,26 @@ class ConfigController extends Controller
             }
         });
 
+        $vF->after(function($validator) {
+            $extensions_acepted = array("png");
+            $extension = Input::file('favicon')->getClientOriginalExtension();
+
+            if (!in_array(strtolower($extension), $extensions_acepted)) {
+                Request::session()->flash('error', 'Logo invalid!');
+            }
+        });
+
 
         if (Request::hasFile('logo') && !$v->fails()) {
             Request::session()->flash('success', 'Logo uploaded successful');
             Request::file('logo')->move(rZeBotCommons::getLogosFolder(), md5($site_id).".".Request::file('logo')->getClientOriginalExtension());
+        } else {
+            Request::session()->flash('error', 'Upload invalid file. Check your file, size ane extension (pngs only)!');
+        }
+
+        if (Request::hasFile('favicon') && !$vF->fails()) {
+            Request::session()->flash('success', 'Logo uploaded successful');
+            Request::file('favicon')->move(rZeBotCommons::getFaviconsFolder(), md5($site_id).".".Request::file('favicon')->getClientOriginalExtension());
         } else {
             Request::session()->flash('error', 'Upload invalid file. Check your file, size ane extension (pngs only)!');
         }

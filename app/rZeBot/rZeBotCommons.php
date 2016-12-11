@@ -120,6 +120,11 @@ class rZeBotCommons extends Controller {
         return env("FOLDER_LOGOS", "../public/logos/");
     }
 
+    public static function getFaviconsFolder()
+    {
+        return env("FOLDER_LOGOS", "../public/favicons/");
+    }
+
     public static function getDumpsFolder()
     {
         return env("DEFAULT_DUMPS_FOLDER", "../dumps/");
