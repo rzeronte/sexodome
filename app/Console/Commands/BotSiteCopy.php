@@ -15,6 +15,7 @@ use App\Model\Host;
 use App\Model\Tweet;
 use App\rZeBot\TwitterAPIExchange;
 use App\Model\Category;
+use App\Model\Pornstar;
 use DB;
 
 class BotSiteCopy extends Command
