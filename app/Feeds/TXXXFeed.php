@@ -54,7 +54,7 @@ class TXXXFeed
     function configFeed()
     {
         $feed_config = array(
-            "totalCols"            => 10,
+            "totalCols"            => 11,
             "fields_separator"     => "|",
             "thumbs_separator"     => ",",
             "tags_separator"       => ",",
