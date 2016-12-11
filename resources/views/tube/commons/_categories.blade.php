@@ -15,7 +15,7 @@
                 <figure>
                     <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}" class="link_image" title="{{$category->name}}" target="_blank">
                         <?php $srcThumbnail = asset('/thumbnails/'.md5($category->thumb).".jpg")?>
-                        <img src="{{$srcThumbnail}}" class="border-thumb" alt="{{$category->name}}"/>
+                        <img src="{{$srcThumbnail}}" class="border-thumb" alt="{{ucwords($category->name)}}"/>
                     </a>
 
                     <div class="category_info">
