@@ -36,6 +36,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\BotDownloadThumbnails::class,
         \App\Console\Commands\BotCss::class,
         \App\Console\Commands\BotSpinScene::class,
+        \App\Console\Commands\BotSiteCopy::class,
     ];
 
     /**
