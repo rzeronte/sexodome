@@ -57,12 +57,14 @@
                             <a href="{{$href}}" class="link_image" title="{{$scene->title}}" @if ($site->google_analytics) onclick="trackOutboundLink('{{$href}}', '{{strtolower($scene->channel->name)}}');return false;" @endif target="_blank">
                                 <img class="border-thumb" src="{{$srcThumbnail}}" onmouseout="outThumb(this)" onmouseover="changeThumb(this)" data-thumbs="{{$scene->thumbs}}" data-current-frame="{{$index}}" data-status="stop" alt="{{$scene->title}}"/>
                                 <span class="duration">{{gmdate("i:s", $scene->duration)}}</span>
+                                <span class="diff_time">{{$scene->created_at->diffForHumans()}}</span>
                             </a>
                         @else
                             <?php $href = route('out', ['profile' => $profile, 'scene_id' => $scene->id, 'p' => $i]); ?>
                             <a href="{{ route('out', ['profile' => $profile, 'scene_id' => $scene->id, 'p' => $i]) }}" target="_blank"  class="link_image" title="{{$scene->title}}" @if ($site->google_analytics) onclick="trackOutboundLink('{{$href}}', '{{strtolower($scene->channel->name)}}');return false;" @endif  target="_blank">
                                 <img class="border-thumb" src="{{$srcThumbnail}}" onmouseout="outThumb(this)" onmouseover="changeThumb(this)" data-thumbs="{{$scene->thumbs}}" data-current-frame="{{$index}}" data-status="stop" alt="{{$scene->title}}"/>
                                 <span class="duration">{{gmdate("i:s", $scene->duration)}}</span>
+                                <span class="diff_time">{{$scene->created_at->diffForHumans()}}</span>
                             </a>
                         @endif
 
@@ -82,7 +84,6 @@
 
                             <div class="extra_info">
                                 <small>
-                                    {{$scene->created_at->diffForHumans()}}
                                     {{--@if (!$agent->isMobile())--}}
                                     {{--, {{$scene->clicks()->count()+0}} {{trans('tube.views')}}--}}
                                     {{--@endif--}}
