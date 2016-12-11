@@ -40,7 +40,7 @@ class TXXXFeed
             "thumbs"      => 5,
             "duration"    => 6,
             "tags"        => 8,
-            "iframe"      => 9,
+            "iframe"      => 10,
             "categories"  => false,
             "views"       => false,
             "likes"       => false,
