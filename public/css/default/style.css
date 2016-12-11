@@ -26,6 +26,8 @@ body{
 .header{
     background-color: #b51942 !important;
     margin-bottom: 10px;
+    box-shadow: 0 0 600px rgba(0, 0, 0, 0.95);
+
 }
 
 .header .billboard{
