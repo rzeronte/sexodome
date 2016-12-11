@@ -31,6 +31,7 @@ body{
 .header .billboard{
     margin-top: 18px;
     color: #ffffff;
+    font-size: 20px;
 }
 
 .footer{
@@ -138,7 +139,7 @@ body{
 
 .category_outer .category_info .link_category {
     color: white;
-    font-size:18px;
+    font-size:14px;
 }
 .category_outer .category_info .link_category:hover {
     text-decoration: underline;
