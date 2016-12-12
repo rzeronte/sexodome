@@ -2,7 +2,7 @@
     <div class="container header_title_section">
         @if (isset($categoryTranslation))
             <h2 class="col-md-6">
-                {{$categoryTranslation->name}}
+                {{ucwords($categoryTranslation->name)}}
                 @if (isset($scenes))
                     ({{number_format($scenes->total(), 0, ".", ",")}} {{trans('tube.h1_info_porn_videos')}})
                 @endif
