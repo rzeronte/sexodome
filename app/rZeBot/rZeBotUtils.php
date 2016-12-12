@@ -521,7 +521,7 @@ class rZeBotUtils
 
         if ($sceneRND) {
             $img = $sceneRND->preview;
-            // la thumb es independiente al idioma, seteamos todos con esta thumbnail
+            // la thumb es dependiente al idioma, seteamos todos con esta thumbnail
             foreach($category->translations()->where('language_id', $category->site->language_id)->get() as $translation) {
                 rZeBotUtils::message("[UPDATING THUMBNAIL (site_id: $category->site_id)] $category->text($category->id), tiene " . $category->scenes()->count() . " escenas | Excluyendo: ". count($exclude_scene_ids), "green", false, false);
                 $translation->thumb = $img;
@@ -552,7 +552,8 @@ class rZeBotUtils
         return false;
     }
 
-    public static function date_range($first, $last, $step = '+1 day', $output_format = 'd/m/Y' ) {
+    public static function date_range($first, $last, $step = '+1 day', $output_format = 'd/m/Y' )
+    {
 
         $dates = array();
         $current = strtotime($first);

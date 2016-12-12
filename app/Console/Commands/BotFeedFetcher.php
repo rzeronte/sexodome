@@ -325,7 +325,7 @@ class BotFeedFetcher extends Command
                         $mixed_check = true;
 
                         // check tags matched
-                        if ($tags !== false) {
+                        if ($tags !== false && $video["tags"] != null)  {
                             $mixed_check = false;
                             foreach ($video["tags"] as $tagTxt) {
                                 if (in_array($tagTxt, $tags)) {
@@ -335,7 +335,7 @@ class BotFeedFetcher extends Command
                         }
 
                         // check categories matched
-                        if ($categories !== false) {
+                        if ($categories !== false && $video["categories"] != null) {
                             $mixed_check = false;
                             foreach ($video["categories"] as $categoryTxt) {
                                 if (in_array($categoryTxt, $categories)) {
