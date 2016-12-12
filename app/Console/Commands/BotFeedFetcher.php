@@ -141,6 +141,8 @@ class BotFeedFetcher extends Command
                 $tmp[] = trim(strtolower($tag));
             }
             $tags = $tmp;
+            echo "tags selected: ". implode(", ", $tags) . PHP_EOL;
+
         } else {
             $tags = false;
         }
@@ -152,7 +154,7 @@ class BotFeedFetcher extends Command
     {
         if ($categories !== 'false') {
             $categories = explode(",", $categories);
-            echo "Categories selected:".PHP_EOL;
+            echo "Categories selected: ". implode(", ", $categories) . PHP_EOL;
         } else {
             $categories = false;
         }
@@ -297,8 +299,10 @@ class BotFeedFetcher extends Command
                                     rZeBotUtils::message("Found tag: " . $tagTxt, "green", true, false);
                                 }
                             }
+                        } else {
+                            rZeBotUtils::message("No hay TAGS en el video y hay filtro existente: " . implode(",", $tags), "green", true, false);
+                            continue;
                         }
-
                     }
 
                     // check categories matched
@@ -312,10 +316,13 @@ class BotFeedFetcher extends Command
                                     rZeBotUtils::message("Found category: " . $categoryTxt, "green", true, false);
                                 }
                             }
+                        } else {
+                            rZeBotUtils::message("No hay CATEGORIES en el video y hay filtro existente: " . implode(",", $categories), "green", true, false);
+                            continue;
                         }
                     }
 
-                    if (!$tags_check && !$categories_check) {
+                    if (!$tags_check || !$categories_check) {
                         rZeBotUtils::message("mixed_check tags/categories continue;", "yellow", true, false);
                         continue;
                     }
