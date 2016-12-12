@@ -143,7 +143,7 @@ body{
 
 .category_outer .link_image img {
     width: 100%;
-    height: 125px;
+    height: 135px;
     border: solid 0px #b51942;
 }
 
@@ -156,6 +156,7 @@ body{
     color: white;
     font-size:16px;
 }
+
 .category_outer .category_info .link_category:hover {
     text-decoration: underline;
 }
