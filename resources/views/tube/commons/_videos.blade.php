@@ -1,3 +1,5 @@
+<?php $agent = new \Jenssegers\Agent\Agent() ?>
+
 <section>
     <div class="container header_title_section">
         @if (isset($categoryTranslation))
@@ -87,7 +89,6 @@
                             </a>
 
                             <div class="clearfix"></div>
-                            <?php $agent = new \Jenssegers\Agent\Agent() ?>
 
                             <div class="extra_info">
                                 <small>
