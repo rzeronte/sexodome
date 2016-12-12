@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Earn money by becoming a porn webmaster in sexodome.com an adult tube generator</title>
+    <title>Porn Tube Generator, the best way to be a porn webmaster</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
