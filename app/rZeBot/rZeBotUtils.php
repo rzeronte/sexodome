@@ -587,8 +587,11 @@ class rZeBotUtils
 
     public static function downloadThumbnail($src, $i = "", $scene = false)
     {
+        $filename = md5($src).".jpg";   // El nombre del fichero esel md5 de la img tal como viene
+
+        // Fix para cuando redtube viene con '//thumbs.redtube'. La imágen es buena pero no se puede
+        // descargar mediante cURL sin añadirle el 'http:'
         $start_url = substr($src, 0, 2);
-        // Fix para cuando redtube viene con '//thumbs.redtube'
         if ($start_url == "//") {
             $src = "http:" . $src;
         }
@@ -603,7 +606,6 @@ class rZeBotUtils
             return;
         }
 
-        $filename = md5($src).".jpg";
 
         $filepath = rZeBotCommons::getThumbnailsFolder().$filename;
 
