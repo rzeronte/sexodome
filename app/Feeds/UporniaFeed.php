@@ -56,7 +56,7 @@ class UporniaFeed
     function configFeed()
     {
         $feed_config = array(
-            "totalCols"            => 12,
+            "totalCols"            => 13,
             "fields_separator"     => "|",
             "thumbs_separator"     => ",",
             "tags_separator"       => ",",
