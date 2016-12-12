@@ -31,7 +31,7 @@
 
         <div class="col-md-2">
             @if (file_exists(\App\rZeBot\rZeBotCommons::getFaviconsFolder()."/".md5($site->id).".png"))
-                <img src="{{asset('/favicons/'.md5($site->id).".png")}}" style="border: solid 1px gray; width:100%;"/>
+                <img src="{{asset('/favicons/'.md5($site->id).".png")}}" style="border: solid 1px gray; width:16px;"/>
             @endif
         </div>
 
