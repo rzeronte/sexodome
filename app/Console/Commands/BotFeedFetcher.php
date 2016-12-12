@@ -324,30 +324,6 @@ class BotFeedFetcher extends Command
                     if(Scene::where('preview', $video["preview"])->where('site_id', $site_id)->count() == 0) {
                         $mixed_check = true;
 
-                        // check tags matched
-                        if ($tags !== false && $video["tags"] != null)  {
-                            $mixed_check = false;
-                            foreach ($video["tags"] as $tagTxt) {
-                                if (in_array($tagTxt, $tags)) {
-                                    $mixed_check = true;
-                                }
-                            }
-                        }
-
-                        // check categories matched
-                        if ($categories !== false && $video["categories"] != null) {
-                            $mixed_check = false;
-                            foreach ($video["categories"] as $categoryTxt) {
-                                if (in_array($categoryTxt, $categories)) {
-                                    $mixed_check = true;
-                                }
-                            }
-                        }
-
-                        if (!$mixed_check) {
-                            rZeBotUtils::message("TAGS/CATEGORIES -> SKIPPED", "yellow", true, false);
-                        }
-
                         // rate check
                         if ($rate !== 'false') {
                             if ($video["rate"] < $rate) {
