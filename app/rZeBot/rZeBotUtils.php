@@ -587,6 +587,12 @@ class rZeBotUtils
 
     public static function downloadThumbnail($src, $i = "", $scene = false)
     {
+        $start_url = substr($src, 0, 2);
+        // Fix para cuando redtube viene con '//thumbs.redtube'
+        if ($start_url == "//") {
+            $src = "http:" . $src;
+        }
+
         if (filter_var($src, FILTER_VALIDATE_URL) === false) {
             rZeBotUtils::message("[$i INVALID THUMBNAIL] $src", "red", false, false);
             if ($scene !== false) {
