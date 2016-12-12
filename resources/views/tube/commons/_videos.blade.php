@@ -52,19 +52,22 @@
                             <?php $srcThumbnail = asset('/thumbnails/'.md5($scene->preview).".jpg")?>
                         @endif
 
+                        <?php $date = new \Jenssegers\Date\Date($scene->created_at)?>
+                        <?php \Jenssegers\Date\Date::setLocale(App::getLocale());?>
+
                         @if ($scene->channel->embed == 1)
                             <?php $href = route('video', ['profile' => $profile, 'permalink' => $scene->permalink]);?>
                             <a href="{{$href}}" class="link_image" title="{{$scene->title}}" @if ($site->google_analytics) onclick="trackOutboundLink('{{$href}}', '{{strtolower($scene->channel->name)}}');return false;" @endif target="_blank">
                                 <img class="border-thumb" src="{{$srcThumbnail}}" onmouseout="outThumb(this)" onmouseover="changeThumb(this)" data-thumbs="{{$scene->thumbs}}" data-current-frame="{{$index}}" data-status="stop" alt="{{$scene->title}}"/>
                                 <span class="duration">{{gmdate("i:s", $scene->duration)}}</span>
-                                <span class="diff_time">{{$scene->created_at->diffForHumans()}}</span>
+                                <span class="diff_time">{{$date->diffForHumans()}}</span>
                             </a>
                         @else
                             <?php $href = route('out', ['profile' => $profile, 'scene_id' => $scene->id, 'p' => $i]); ?>
                             <a href="{{ route('out', ['profile' => $profile, 'scene_id' => $scene->id, 'p' => $i]) }}" target="_blank"  class="link_image" title="{{$scene->title}}" @if ($site->google_analytics) onclick="trackOutboundLink('{{$href}}', '{{strtolower($scene->channel->name)}}');return false;" @endif  target="_blank">
                                 <img class="border-thumb" src="{{$srcThumbnail}}" onmouseout="outThumb(this)" onmouseover="changeThumb(this)" data-thumbs="{{$scene->thumbs}}" data-current-frame="{{$index}}" data-status="stop" alt="{{$scene->title}}"/>
                                 <span class="duration">{{gmdate("i:s", $scene->duration)}}</span>
-                                <span class="diff_time">{{$scene->created_at->diffForHumans()}}</span>
+                                <span class="diff_time">{{$date->diffForHumans()}}</span>
                             </a>
                         @endif
 
