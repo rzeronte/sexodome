@@ -172,6 +172,10 @@ body{
     color: dimgray;
 }
 
+.header_title_section h2{
+    font-size:18px;
+}
+
 .header_title_section_mobile{
     margin-bottom: 10px;
     font-size: 14px !important;
@@ -357,18 +361,20 @@ body{
 
 .link_order_container {
     float: right;
-    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 .link_order {
-    font-size: 14px;
+    font-size: 12px;
     text-align: right;
     float: right;
     color: white;
     border: none;
     margin: 5px;
-    padding: 5px;
+    padding:  0px 4px 0px 4px;
     margin-right: 0;
+    margin-top: 0;
 }
 /****************************************************************************************** paginator */
 .banner_footer{
