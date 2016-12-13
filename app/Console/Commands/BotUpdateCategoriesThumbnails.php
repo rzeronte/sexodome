@@ -34,7 +34,7 @@ class BotUpdateCategoriesThumbnails extends Command
             $sites = Site::all();
         }
 
-        DB::transaction(function () use ($sites, $overwrite) {
+        DB::transaction(function () use ($sites) {
             foreach ($sites as $site) {
                 $categories = Category::where('site_id', '=', $site->id)->get();
 
