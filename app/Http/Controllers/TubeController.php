@@ -230,13 +230,7 @@ class TubeController extends Controller
 
     public function ads($profile)
     {
-        $siteIframe = Site::find($this->commons->site->iframe_site_id);
-
-        if (!$siteIframe) {
-            abort(404, "Site for Iframe not found");
-        }
-
-        $categories = $siteIframe->categories()->limit(18)->get();
+        $categories = $this->commons->site->categories()->limit(18)->get();
 
         return response()->view('tube.ads', [
             'profile'        => $profile,
@@ -246,7 +240,6 @@ class TubeController extends Controller
             'title'          => "Iframe - Ads",
             'categories'     => $categories,
             'site'           => $this->commons->site,
-            'siteIframe'     => $siteIframe
         ])->header('Cache-control', 'max-age=3600');
     }
 
