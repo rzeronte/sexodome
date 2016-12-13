@@ -19,7 +19,8 @@ class BotCronJobs extends Command
      *
      * @var string
      */
-    protected $signature = 'zbot:crons:run';
+    protected $signature = 'zbot:crons:run
+                            {--site_id=false : Only update for a site_id}';
 
     /**
      * The console command description.
@@ -35,7 +36,22 @@ class BotCronJobs extends Command
      */
     public function handle()
     {
-        $cronjobs = CronJob::all();
+        $site_id = $this->option('site_id');
+        if ($site_id !== "false") {
+            $site = Site::find($site_id);
+
+            if (!$site) {
+                rZeBotUtils::message("Error el site id: $site_id no existe", "red");
+                exit;
+            }
+            rZeBotUtils::message("Error el site id: $site_id no existe", "red");
+
+            rZeBotUtils::message("Running cronjobs for " . $site->getDomain(), "green", true, true);
+            $cronjobs = CronJob::where('site_id', $site->id)->get();
+        } else{
+            rZeBotUtils::message("Running all cronjobs", "green", true, true);
+            $cronjobs = CronJob::all();
+        }
 
         foreach($cronjobs as $cronjob) {
             $params = json_decode($cronjob->params);
