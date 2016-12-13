@@ -521,6 +521,7 @@ class rZeBotUtils
 
         if ($sceneRND) {
             $img = $sceneRND->preview;
+
             // la thumb es dependiente al idioma, seteamos todos con esta thumbnail
             foreach($category->translations()->where('language_id', $category->site->language_id)->get() as $translation) {
                 rZeBotUtils::message("[UPDATING THUMBNAIL (site_id: $category->site_id)] $category->text($category->id), tiene " . $category->scenes()->count() . " escenas | Excluyendo: ". count($exclude_scene_ids), "green", false, false);
@@ -605,8 +606,7 @@ class rZeBotUtils
 
             return;
         }
-
-
+        
         $filepath = rZeBotCommons::getThumbnailsFolder().$filename;
 
         if (file_exists($filepath)) {
