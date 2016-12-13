@@ -586,7 +586,7 @@ class rZeBotUtils
         return FALSE;
     }
 
-    public static function downloadThumbnail($src, $i = "", $scene = false)
+    public static function downloadThumbnail($src, $i = "", $scene = false, $overwrite = null)
     {
         $filename = md5($src).".jpg";   // El nombre del fichero esel md5 de la img tal como viene
 
@@ -609,9 +609,11 @@ class rZeBotUtils
         
         $filepath = rZeBotCommons::getThumbnailsFolder().$filename;
 
-        if (file_exists($filepath)) {
-            rZeBotUtils::message("[$i ALREADY EXISTS] $src", "yellow", false, false);
-            return false;
+        if ($overwrite == false) {
+            if (file_exists($filepath)) {
+                rZeBotUtils::message("[$i ALREADY EXISTS] $src", "yellow", false, false);
+                return false;
+            }
         }
 
         try {

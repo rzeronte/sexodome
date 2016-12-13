@@ -13,13 +13,21 @@ use DB;
 class BotDownloadThumbnails extends Command
 {
     protected $signature = 'zbot:thumbnails:download
-                            {--site_id=false : Only update for a site_id}';
+                            {--site_id=false : Only update for a site_id}
+                            {--overwrite=false : Overwrite images}';
 
     protected $description = 'Download all thumbnails';
 
     public function handle()
     {
         $site_id = $this->option('site_id');
+        $overwrite = $this->option('overwrite');
+
+        if ($overwrite !== 'false') {
+            $overwrite = true;
+        } else {
+            $overwrite = false;
+        }
 
         if ($site_id !== "false") {
 
@@ -44,7 +52,7 @@ class BotDownloadThumbnails extends Command
             $i = 0;
             foreach($scenes as $scene) {
                 $i++;
-                rZeBotUtils::downloadThumbnail($scene->preview, $i, $scene);
+                rZeBotUtils::downloadThumbnail($scene->preview, $i, $scene, $overwrite);
             }
         }
     }
