@@ -45,7 +45,6 @@ class UporniaFeed
             "categories"  => 8,
             "tags"        => 9,
             "iframe"      => 11,
-            "categories"  => false,
             "views"       => false,
             "likes"       => false,
             "unlikes"     => false,
