@@ -9,7 +9,7 @@ use App\TagClick;
 use Illuminate\Console\Command;
 use App\Scene;
 use App\SceneTag;
-use Illuminate\Database\Eloquent\Collection;
+use App\Model\Site;
 use Log;
 use Artisan;
 
