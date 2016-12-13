@@ -356,6 +356,7 @@ class rZeBotUtils
 
         return $fileCSV;
     }
+
     /**
      * Download dump deletedfor a dump
      *
@@ -553,6 +554,15 @@ class rZeBotUtils
         return false;
     }
 
+    /**
+     * Devuelve un array con las fechas entre los rangos indicados
+     *
+     * @param $first
+     * @param $last
+     * @param string $step
+     * @param string $output_format
+     * @return array
+     */
     public static function date_range($first, $last, $step = '+1 day', $output_format = 'd/m/Y' )
     {
 
@@ -568,24 +578,16 @@ class rZeBotUtils
         return $dates;
     }
 
-    public static function placeHolders($text, $count = 0, $separator = ",") {
-        $result = array();
-        if ($count > 0) {
-            for ($x = 0; $x < $count; $x++) {
-                $result[] = $text;
-            }
-        }
-
-        return implode($separator, $result);
-    }
-
-    public static function isMultiArray($a) {
-        foreach ($a as $v)
-            if (is_array($v))
-                return TRUE;
-        return FALSE;
-    }
-
+    /**
+     * Descarga una thumbnail. Si se indica una escena, se eliminará si no se ha podido descargar su thumbnail
+     * o esta no es válida.
+     *
+     * @param $src
+     * @param string $i
+     * @param bool $scene
+     * @param null $overwrite
+     * @return bool|void
+     */
     public static function downloadThumbnail($src, $i = "", $scene = false, $overwrite = null)
     {
         $filename = md5($src).".jpg";   // El nombre del fichero esel md5 de la img tal como viene
@@ -669,4 +671,20 @@ class rZeBotUtils
         json_decode($string);
         return (json_last_error() == JSON_ERROR_NONE);
     }
+
+    public static function timesStart()
+    {
+        $time_start = microtime(true);
+
+        return $time_start;
+    }
+
+    public static function timesEnd($time_start)
+    {
+        $time_end = microtime(true);
+        $execution_time = ($time_end - $time_start);
+
+        rZeBotUtils::message("[TIEMPO DE EJECUCIÓN: ". gmdate("H:i:s", $execution_time)."]", "green", true, true);
+    }
+
 }
