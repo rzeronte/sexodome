@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Model\CronJob;
+use App\rZeBot\rZeBotUtils;
 use App\Tag;
 use App\TagClick;
 use Illuminate\Console\Command;
@@ -36,6 +37,8 @@ class BotCronJobs extends Command
      */
     public function handle()
     {
+        $start_time = rZeBotUtils::timesStart();
+
         $site_id = $this->option('site_id');
         if ($site_id !== "false") {
             $site = Site::find($site_id);
@@ -68,5 +71,7 @@ class BotCronJobs extends Command
             Log::info('[CronJob] ' . $paramsCommand["feed_name"]);
             Artisan::call('zbot:feed:fetch', $paramsCommand);
         }
+
+        rZeBotUtils::timesEnd($start_time);
     }
 }
