@@ -5,6 +5,7 @@
 
     .header{
         background-color: {{$site->color2}} !important;
+        border-bottom: solid 3px {{$site->color6}};
     }
 
     .navbar-default {
