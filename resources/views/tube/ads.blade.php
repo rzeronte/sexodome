@@ -18,7 +18,7 @@
         <section>
             <div class="container">
                 <div class="row">
-                    <h2>{{$siteIframe->getHost()}}</h2>
+                    <h2>{{$site->getHost()}}</h2>
 
                     <div class="jcarousel-wrapper col-md-12">
                         <div class="jcarousel">
@@ -28,7 +28,7 @@
                                         <?php $translation = $scene->translations()->where('language_id',$language->id)->first(); ?>
                                         <div class="scene">
                                             @if ($translation)
-                                                <a href="{{route('category', ['profile'=>$siteIframe    ->getHost(),'permalink' => $translation->permalink])}}?utm_source=ads_{{$language->domain}}" alt="{{$translation->title}}" target="_blank">
+                                                <a href="{{route('category', ['profile'=>$site->getHost(),'permalink' => $translation->permalink])}}?utm_source=ads_{{$language->domain}}" alt="{{$translation->title}}" target="_blank">
                                                     <p class="text">{{$translation->name}}</p>
                                                     <img src="{{$translation->thumb}}" alt="{{$translation->name}}">
                                                 </a>
