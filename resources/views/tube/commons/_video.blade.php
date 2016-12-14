@@ -1,6 +1,6 @@
 <section class="row">
     <div class="container">
-        <h2 class="video_header">{{$video->title}}</h2>
+        <h3 class="video_header">{{$video->title}}</h3>
         <?php
         $iframe = $video->iframe;
         $pattern = "/width=\"[0-9]*\"/";
