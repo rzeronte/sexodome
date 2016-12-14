@@ -172,7 +172,7 @@ body{
     color: dimgray;
 }
 
-.header_title_section h2{
+.header_title_section h3{
     font-size:18px;
 }
 
@@ -478,7 +478,7 @@ iPad 3
     .video_outer .link_image img {  height: 100px;  }
     .category_outer .link_image img {  height: 100px;  }
     .category_outer .category_info .link_category {  font-size: 14px;  }
-    .header_title_section h2{  border-bottom: none;  font-size: 15px;  border: none;  text-align: center;  }
+    .header_title_section h{  border-bottom: none;  font-size: 15px;  border: none;  text-align: center;  }
     .link_order_container {  margin-top: 10px;  width: 100%;  }
     .link_order_container a{  font-size: 12px;  padding: 4px;  }
 }
@@ -492,7 +492,7 @@ iPad 3
     .video_outer .link_image img {  height: 100px;  }
     .category_outer .link_image img {  height: 100px;  }
     .category_outer .category_info .link_category {  font-size: 14px;  }
-    .header_title_section h2{  border-bottom: none;  font-size: 15px;  border: none;  text-align: center;  }
+    .header_title_section h3{  border-bottom: none;  font-size: 15px;  border: none;  text-align: center;  }
     .link_order_container {  margin-top: 10px;  width: 100%;  }
     .link_order_container a{  font-size: 12px;  padding: 4px;  }
 }
@@ -532,7 +532,7 @@ iPad 3
     .video_outer .link_image img {  height: 100px;  }
     .category_outer .link_image img {  height: 100px;  }
     .category_outer .category_info .link_category {  font-size: 14px;  }
-    .header_title_section h2{  border-bottom: none;  font-size: 15px;  border: none;  text-align: center;  }
+    .header_title_section h3{  border-bottom: none;  font-size: 15px;  border: none;  text-align: center;  }
     .link_order_container {  margin-top: 10px;  width: 100%;  }
     .link_order_container a{  font-size: 12px;  padding: 4px;  }
 }

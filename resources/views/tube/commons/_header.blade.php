@@ -10,17 +10,19 @@
                         <span class="icon-bar"></span>
                     </button>
 
-                    <a class="navbar-brand" href="{{route('categories', ['profile' => $profile])}}" title="{{$site->title}}">
-                        @if (file_exists(\App\rZeBot\rZeBotCommons::getLogosFolder()."/".md5($site->id).".png"))
-                            <img src="{{asset('/logos/'.md5($site->id).".png")}}"/>
-                        @else
-                            @if ($site->have_domain == 1)
-                                {{$site->domain}}
+                    <h1>
+                        <a class="navbar-brand" href="{{route('categories', ['profile' => $profile])}}" title="{{$site->title}}">
+                            @if (file_exists(\App\rZeBot\rZeBotCommons::getLogosFolder()."/".md5($site->id).".png"))
+                                <img src="{{asset('/logos/'.md5($site->id).".png")}}" alt="{{$site->getHost()}}"/>
                             @else
-                                <h1 class="text-center">{{$site->name}}</h1>
+                                @if ($site->have_domain == 1)
+                                    {{$site->domain}}
+                                @else
+                                    <h1 class="text-center">{{$site->getHost()}}</h1>
+                                @endif
                             @endif
-                        @endif
-                    </a>
+                        </a>
+                    </h1>
 
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
@@ -50,7 +52,13 @@
                         </form>
                     </div>
 
-                    <h1 class="text-right billboard"><?php if (isset($tagTranslation)):?>{{$tagTranslation->name}} | <?php endif?>{{$site->head_billboard}}</h1>
+                    <h2 class="text-right billboard">
+                        <?php if (isset($categoryTranslation)):?>
+                            {{$categoryTranslation->name}} {{ucwords(trans('tube.h1_info_porn_videos'))}}
+                            <?php else:?>
+                                {{$site->head_billboard}}
+                            <?php endif?>
+                    </h2>
 
                 </div><!--/.nav-collapse -->
             </div><!--/.container-fluid -->
