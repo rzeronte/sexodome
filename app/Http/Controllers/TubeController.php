@@ -202,6 +202,18 @@ class TubeController extends Controller
         $seo_title = str_replace("{domain}", $this->commons->site->getHost(), $scene->title);
         $seo_description = str_replace("{domain}", $this->commons->site->getHost(), $scene->description);
 
+
+        // Si no hay descripción hacemos un montaje: title + categorías + host
+        if (strlen(trim($seo_description)) == 0) {
+            $array_categories = $scene->categories()->get() ;
+            foreach ($scene->categories()->get() as $category) {
+                $translation = $category->translations()->where('language_id', $this->commons->site->language_id)->first();
+                $array_categories[] = $translation;
+            }
+
+            $seo_description = $seo_title . " " . implode("-", $array_categories) . " " . $this->commons->site->getHost();
+        }
+
         return response()->view('tube.video', [
             'profile'         => $profile,
             'video'           => $scene,
