@@ -208,7 +208,7 @@ class TubeController extends Controller
             $array_categories = [];
             foreach ($scene->categories()->get() as $category) {
                 $translation = $category->translations()->where('language_id', $this->commons->site->language_id)->first();
-                $array_categories[] = $translation;
+                $array_categories[] = $translation->name;
             }
 
             $seo_description = $seo_title . " " . implode("-", $array_categories) . " " . $this->commons->site->getHost();
