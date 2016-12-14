@@ -205,7 +205,7 @@ class TubeController extends Controller
 
         // Si no hay descripción hacemos un montaje: title + categorías + host
         if (strlen(trim($seo_description)) == 0) {
-            $array_categories = $scene->categories()->get() ;
+            $array_categories = [];
             foreach ($scene->categories()->get() as $category) {
                 $translation = $category->translations()->where('language_id', $this->commons->site->language_id)->first();
                 $array_categories[] = $translation;
