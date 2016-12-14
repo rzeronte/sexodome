@@ -657,7 +657,7 @@ class BotFeedFetcher extends Command
 
                 $category->save();
 
-                rZeBotUtils::updateCategoryThumbnail($category);
+                //rZeBotUtils::updateCategoryThumbnail($category);
 
             }
         }
