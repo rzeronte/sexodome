@@ -19,7 +19,8 @@ class BotCheckDuplicatedScenes extends Command
      * @var string
      */
     protected $signature = 'zbot:check:duplicated
-                            {--site_id=false : Only update for a site_id}';
+                            {--site_id=false : Only update for a site_id}
+                            {--remove=false : Remove duplicated}';
 
     /**
      * The console command description.
@@ -36,6 +37,13 @@ class BotCheckDuplicatedScenes extends Command
     public function handle()
     {
         $site_id = $this->option('site_id');
+        $remove = $this->option('remove');
+
+        if ($remove !== 'false') {
+            $remove = true;
+        } else {
+            $remove = false;
+        }
 
         if ($site_id !== "false") {
 
@@ -55,12 +63,19 @@ class BotCheckDuplicatedScenes extends Command
         foreach($sites as $site) {
 
             $scenes = DB::table('scenes')
-                ->select(array('scenes.id', DB::raw('COUNT(*) as times')))
-                ->groupBy('scenes.url')
-                ->having('times', '>', 1)
-                ->count();
+                ->select(DB::raw('count(*) as scenes_count, id, url'))
+                ->where('site_id', $site->id)
+                ->having('scenes_count', '>', 1)
+                ->groupBy('url')
+                ->get();
 
-            rZeBotUtils::message($site->getHost() . ": $scenes scenes with URL (out) repeat", "yellow");
+            rZeBotUtils::message($site->getHost() . ": " .count($scenes). " scenes with URL (out) repeat", "yellow", true, true);
+            if ($remove == true) {
+                rZeBotUtils::message("Removing scenes in $site->getHost()", "red", true, true);
+                foreach ($scenes as $s) {
+                    $s->delete();
+                }
+            }
         }
     }
 }
