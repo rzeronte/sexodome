@@ -10,7 +10,7 @@ use App\Scene;
 use App\SceneTag;
 use App\Model\Site;
 
-class BotCheckDuplicated extends Command
+class BotCheckDuplicatedScenes extends Command
 {
     /**
      * The name and signature of the console command.
