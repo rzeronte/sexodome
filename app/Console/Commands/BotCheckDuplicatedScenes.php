@@ -3,11 +3,8 @@
 namespace App\Console\Commands;
 
 use App\rZeBot\rZeBotUtils;
-use App\Tag;
-use App\TagClick;
 use Illuminate\Console\Command;
-use App\Scene;
-use App\SceneTag;
+use App\Model\Scene;
 use App\Model\Site;
 use DB;
 
