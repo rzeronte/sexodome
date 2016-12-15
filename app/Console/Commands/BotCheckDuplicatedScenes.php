@@ -9,6 +9,7 @@ use Illuminate\Console\Command;
 use App\Scene;
 use App\SceneTag;
 use App\Model\Site;
+use DB;
 
 class BotCheckDuplicatedScenes extends Command
 {
