@@ -67,7 +67,7 @@ class BotCheckDuplicatedScenes extends Command
 
             rZeBotUtils::message($site->getHost() . ": " .count($scenes). " scenes with URL (out) repeat", "yellow", true, true);
             if ($remove == true) {
-                rZeBotUtils::message("Removing scenes in $site->getHost()", "red", true, true);
+                rZeBotUtils::message("Removing scenes in " . $site->getHost(), "red", true, true);
                 foreach ($scenes as $s) {
                     $s->delete();
                 }
