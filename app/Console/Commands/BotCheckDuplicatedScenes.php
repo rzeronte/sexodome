@@ -62,8 +62,7 @@ class BotCheckDuplicatedScenes extends Command
 
         foreach($sites as $site) {
 
-            $scenes = DB::table('scenes')
-                ->select(DB::raw('count(*) as scenes_count, id, url'))
+            $scenes = Scene::select(DB::raw('count(*) as scenes_count, id, url'))
                 ->where('site_id', $site->id)
                 ->having('scenes_count', '>', 1)
                 ->groupBy('url')
