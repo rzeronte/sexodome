@@ -112,7 +112,7 @@ class rZeBotCommons extends Controller {
 
     public static function getMainPlataformDomain()
     {
-        return env("MAIN_PLATAFORMA_DOMAIN", "exporter.loc");
+        return env("MAIN_PLATAFORMA_DOMAIN", "sexodome.loc");
     }
 
     public static function getLogosFolder()

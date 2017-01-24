@@ -9,8 +9,9 @@
     <link rel="icon" href="{{asset('/favicons/'.md5($site->id).".png")}}">
     <meta name="RATING" content="RTA-5042-1996-1400-1577-RTA" />
 
-    {!! Minify::stylesheet(array('/css/bootstrap.min.css', '/css/default/style.css')) !!}
-    {!! Minify::stylesheet('/tubeThemes/'.$site->getCSSThemeFilename()) !!}
+    <link rel="stylesheet" href="{{asset('/css/default/style.css')}}">
+    <link rel="stylesheet" href="{{asset('/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('tubeThemes/'.$site->getCSSThemeFilename())}}">
 
     <meta name="tubecorporate_com_verify" content="6b49120a79a3e4ba859fe452e09b040a"/>
     <meta name="hubtraffic-domain-validation" content="a896a15b3b3df915" />
