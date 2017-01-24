@@ -10,6 +10,7 @@ use App\Model\Host;
 use App\Model\Tweet;
 use App\rZeBot\TwitterAPIExchange;
 use DB;
+use Mail;
 
 class BotTest extends Command
 {
@@ -19,6 +20,12 @@ class BotTest extends Command
 
     public function handle()
     {
+        $data = [];
 
+        Mail::send('emails.verify', ['user' => "eduardo"], function ($m) use ($data) {
+            $m->from('sexodomeweb@gmail.com', 'Sexodome - Tube Porn Generator');
+
+            $m->to("eduardo.rzeronte@gmail.com", "nome")->subject('Prueba emails');
+        });
     }
 }
