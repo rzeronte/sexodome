@@ -9,8 +9,8 @@
     <link rel="icon" href="{{asset('/favicons/'.md5($site->id).".png")}}">
     <meta name="RATING" content="RTA-5042-1996-1400-1577-RTA" />
 
-    <link rel="stylesheet" href="{{asset('css/default/style.css')}}">
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/default/style.css')}}">
     <link rel="stylesheet" href="{{asset('tubeThemes/'.$site->getCSSThemeFilename())}}">
 
     {{--analytics--}}
