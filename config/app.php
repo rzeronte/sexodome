@@ -148,7 +148,6 @@ return [
         'Spatie\LaravelAnalytics\LaravelAnalyticsServiceProvider',
         'Roumen\Sitemap\SitemapServiceProvider',
 //        'Barryvdh\Debugbar\ServiceProvider',
-        'Devfactory\Minify\MinifyServiceProvider',
     ],
 
     /*
@@ -200,7 +199,6 @@ return [
         'Agent'     => 'Jenssegers\Agent\Facades\Agent',
         'LaravelAnalytics' => 'Spatie\LaravelAnalytics\LaravelAnalyticsFacade',
         'Debugbar' => 'Barryvdh\Debugbar\Facade',
-        'Minify'        => 'Devfactory\Minify\Facades\MinifyFacade',
     ],
 
 ];
