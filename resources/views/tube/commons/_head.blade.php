@@ -9,13 +9,10 @@
     <link rel="icon" href="{{asset('/favicons/'.md5($site->id).".png")}}">
     <meta name="RATING" content="RTA-5042-1996-1400-1577-RTA" />
 
-    <link rel="stylesheet" href="{{asset('/css/default/style.css')}}">
-    <link rel="stylesheet" href="{{asset('/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/default/style.css')}}">
+    <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('tubeThemes/'.$site->getCSSThemeFilename())}}">
 
-    <meta name="tubecorporate_com_verify" content="6b49120a79a3e4ba859fe452e09b040a"/>
-    <meta name="hubtraffic-domain-validation" content="a896a15b3b3df915" />
-    <meta name="xhamster-site-verification" content="270cf0ef4e1be6b74343413034a7384d"/>
     {{--analytics--}}
     @if ($site->google_analytics)
         <script>
