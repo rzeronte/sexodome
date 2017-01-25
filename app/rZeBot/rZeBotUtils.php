@@ -635,7 +635,9 @@ class rZeBotUtils
 
         } catch(\Exception $e) {
             rZeBotUtils::message("[$i ERROR DOWNLOAD THUMBNAIL. DELETING] $src", "red", false, false);
-            $scene->delete();
+            if ($scene !== false) {
+                $scene->delete();
+            }
         }
 
     }
