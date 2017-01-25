@@ -2,4 +2,5 @@
 /storage
 /public/tubeThemes/*
 /public/*.xml
+/public/logos/*
 .env
