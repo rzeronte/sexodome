@@ -36,6 +36,8 @@ class BotFeedRemover extends Command
 
             if (!file_exists($fileCSV)) {
                 rZeBotUtils::message("[ERROR] $fileCSV not exist...", "red", true, true);
+
+                continue;
             }
             rZeBotUtils::message("Processing delete dumps for " . $channel->name, "cyan", true, true);
 
