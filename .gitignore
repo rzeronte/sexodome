@@ -3,4 +3,5 @@
 /public/tubeThemes/*
 /public/*.xml
 /public/logos/*
+/public/favicons/*
 .env
