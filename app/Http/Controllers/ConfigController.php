@@ -1054,13 +1054,15 @@ class ConfigController extends Controller
 
         $site = Site::find($site->id);
 
-        $scenes = $site->scenes()->orderByRaw("RAND()")->limit(100)->get();
+        $category_scenes = $category->scenes()->orderByRaw("RAND()")->limit(100)->get();
+        $site_scenes =  $site->scenes()->orderByRaw("RAND()")->limit(50)->get();
 
         return view('panel.ajax._ajax_category_thumbs', [
-            'category' => $category,
-            'scenes' => $scenes,
-            'language'  => $this->commons->language,
-            'languages' => $this->commons->languages
+            'category'        => $category,
+            'category_scenes' => $category_scenes,
+            'site_scenes'     => $site_scenes,
+            'language'        => $this->commons->language,
+            'languages'       => $this->commons->languages
         ]);
     }
 
