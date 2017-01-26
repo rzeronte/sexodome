@@ -32,6 +32,11 @@ Route::group(['domain' => 'accounts.'.\App\rZeBot\rZeBotCommons::getMainPlatafor
     Route::get('password/email', 'Auth\PasswordController@getEmail')->name('password');
     Route::post('password/email', 'Auth\PasswordController@postEmail')->name('password');
 
+    Route::get('verify/{token}', 'Auth\AuthController@verify')->name('verify');
+
+    Route::get('welcome', 'ConfigController@welcome')->name('welcome');
+    Route::get('unverified', 'ConfigController@unverified')->name('unverified');
+
     // Password reset routes...
     Route::get('password/reset/{token}', 'Auth\PasswordController@getReset')->name('reset');
     Route::post('password/reset', 'Auth\PasswordController@postReset')->name('reset');

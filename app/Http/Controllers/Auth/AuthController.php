@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Model\Scene;
 use App\User;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Request;
+use Mail;
 
 class AuthController extends Controller
 {
@@ -45,10 +47,50 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
+        $data['verifyToken'] = md5(microtime().rand(0, 100));
+
+        Mail::send('emails.verify', $data, function ($message) use ($data) {
+            $message->from('sexodomeweb@gmail.com', 'Sexodome - Porn Tube Generator');
+            $message->subject('Sexodome Account Registration Verify');
+            $message->to($data['email']);
+        });
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'verify_token' => $data['verifyToken']
         ]);
+    }
+
+    /**
+     * Verify user througth token
+     * @return \Illuminate\Http\Response
+     */
+    public function verify($token) {
+
+        $user = User::where('verify_token', $token)->first();
+
+        if ($user) {
+            $blade = "panel.welcome";
+            $user->verify = 1;
+            $user->save();
+
+            // Email successful notification
+            $mailData = [
+              'email' => $user->email
+            ];
+
+            Mail::send('emails.welcome', $mailData, function ($message) use ($user){
+                $message->from('sexodomeweb@gmail.com');
+                $message->subject('Sexodome Account Registration Successful');
+                $message->to($user->email);
+            });
+
+        } else {
+            $blade = "panel.errors.verifyfailed";
+        }
+
+        return response()->view($blade, []);
     }
 }

@@ -1,23 +1,15 @@
 <?php
 namespace App\rZeBot;
 
-use Elasticsearch\ClientBuilder;
-use Goutte\Client;
 use App\Model\Host;
 use App\Model\Video;
-use App\Model\Tag;
 use App\Model\Domain;
-use App\Model\Language;
-use App\Model\Scene;
-use App\Model\SceneTranslation;
-use App\Model\TagTranslation;
-use App\Model\SceneTag;
 use App\Model\CategoryTranslation;
-use App\Model\SceneCategory;
 use App\Model\Category;
 use App\Model\Site;
 use Log;
 use DB;
+use Illuminate\Support\Str;
 
 class rZeBotUtils
 {
@@ -392,7 +384,9 @@ class rZeBotUtils
      */
     public static function createCategoryFromTag($tag, $site_id, $min_scenes_activation = 30, $languages, $englishLanguage = 2, $abs_total = 1, $timer = 0, &$i = 0)
     {
+
         $transformedTag = rZeBotUtils::transformTagForCategory($tag->name);
+        $transformedTag = Str::ascii($transformedTag);
         $i++;
 
         $msgLog = "[" . number_format(($i*100)/ $abs_total, 0) ."%]";
@@ -415,11 +409,11 @@ class rZeBotUtils
                 $msgLog.=" | is in singular";
             }
 
-            // Comprobamos si ya existe la categoría (las categorías solo serán plural)
+            // Comprobamos si ya existe la categoría
             $categoryTranslation = CategoryTranslation::join('categories', 'categories.id', '=', 'categories_translations.category_id')
                 ->where('categories.site_id', '=', $site_id)
                 ->where("categories_translations.language_id", $englishLanguage)
-                ->where("categories_translations.name", $singular)
+                ->where("categories_translations.name", "like", $singular)
                 ->first()
             ;
 
@@ -461,7 +455,6 @@ class rZeBotUtils
                 $newCategory->scenes()->sync($ids_sync);
                 rZeBotUtils::updateCategoryThumbnail($newCategory);
 
-                rZeBotUtils::message($msgLog, "green");
             } else {
                 // Obtenemos la categoría partiendo de la traducción
                 $category = Category::find($categoryTranslation->category_id);
@@ -635,7 +628,9 @@ class rZeBotUtils
 
         } catch(\Exception $e) {
             rZeBotUtils::message("[$i ERROR DOWNLOAD THUMBNAIL. DELETING] $src", "red", false, false);
-            $scene->delete();
+            if ($scene !== false) {
+                $scene->delete();
+            }
         }
 
     }
