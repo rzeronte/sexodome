@@ -165,7 +165,7 @@ $( document ).ready(function() {
         });
         event.preventDefault();
     });
-    
+
     // Generic ajax-form
     $( "body" ).on('submit', '.ajax-form', function(event) {
         var action = $(this).attr("action");
