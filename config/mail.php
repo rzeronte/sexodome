@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'from' => ['address' => null, 'name' => null],
+    'from' => ['address' => "sexodomeweb@gmail.com", 'name' => "Sexodome - Porn Tube Generator"],
 
     /*
     |--------------------------------------------------------------------------
