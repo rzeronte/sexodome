@@ -288,6 +288,21 @@ $( document ).ready(function() {
         event.preventDefault();
     });
 
+    $( ".category-search-form" ).submit(function( event ) {
+        var url = $(this).attr("action");
+
+        $.ajax({
+            url: url,
+            data: $(this).serialize(),
+            method: 'get'
+        }).done(function( data ) {
+            $(".categories_ajax_container").html(data);
+            eventPaginatorCategories();
+        });
+
+        event.preventDefault();
+    });
+
     $( "body" ).on('click', '.delete-site-cronjob-btn', function(event) {
         var action = $(this).attr("href");
         var site_container = $(this).parent().parent();

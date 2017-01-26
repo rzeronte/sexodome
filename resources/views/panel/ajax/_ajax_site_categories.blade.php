@@ -26,7 +26,7 @@
                     <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                     <input type="hidden" name="thumbnail" value="{{ $translation->thumb }}"/>
 
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                         <?php $srcThumbnail = asset('/thumbnails/'.md5($translation->thumb).".jpg")?>
                         <img src="{{$srcThumbnail}}" class="border-thumb category-preview" style="width:100%; border: solid 1px black;"/>
                     </div>
@@ -56,7 +56,7 @@
                     </div>
 
                     <div class="col-md-1">
-                        <input type="submit"class="btn btn-primary" value="Update"/>
+                        <input type="submit" class="btn btn-primary" value="Update"/>
                     </div>
 
                 </form>
@@ -69,5 +69,5 @@
 
 <div class="row site_categories_paginator" style="padding:10px;">
     <?php $categories->setPath('categories/'.$site->id);?>
-    <?php echo $categories->render(); ?>
+    <?php echo $categories->appends('q', Request::get('q'))->render() ?>
 </div>
