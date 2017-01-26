@@ -33,7 +33,9 @@
 
                     <div class="col-md-2">
                         @if ($translation->thumb_locked == 1)
-                            <i class="glyphicon glyphicon-ban-circle"></i> Thumbnail locked
+                            <span class="locked"><i class="glyphicon glyphicon-ban-circle"></i> Thumbnail locked</span>
+                            <div class="clearfix"></div>
+                            <a href="{{route('categoryUnlock', ['locale' => $locale, 'category_translation_id' => $translation->id])}}" class="btn btn-success btn-xs btn-category-unlock"><i class="glyphicon glyphicon-cog"></i> Unlock</a>
                         @endif
                     </div>
 
