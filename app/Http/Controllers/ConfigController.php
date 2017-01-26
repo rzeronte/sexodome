@@ -1064,4 +1064,18 @@ class ConfigController extends Controller
         ]);
     }
 
+    public function categoryUnlock($locale, $category_translation_id)
+    {
+        $categoryTranslation = CategoryTranslation::find($category_translation_id);
+
+        if (!$categoryTranslation) {
+            $status = false;
+        } else {
+            $status = true;
+            $categoryTranslation->thumb_locked = NULL;
+            $categoryTranslation->save();
+        }
+
+        return json_encode(array('status' => $status));
+    }
 }

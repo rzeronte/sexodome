@@ -637,7 +637,7 @@ class rZeBotUtils
         }
 
         try {
-            rZeBotUtils::redimensionateThumbnail($filepath, 190, 135);
+             rZeBotUtils::redimensionateThumbnail($filepath, 190, 135);
         } catch(\Exception $e) {
             if ($scene !== false) {
                 $scene->delete();

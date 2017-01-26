@@ -304,6 +304,31 @@ $( document ).ready(function() {
         event.preventDefault();
     });
 
+
+    $( "body" ).on('click', '.btn-category-unlock', function(event) {
+        var url = $(this).attr("href");
+        var lock_container = $(this).parent().find('.locked');
+        var btnunlock = $(this);
+
+        $.ajax({
+            url: url,
+            method: 'get'
+        }).done(function( data ) {
+
+            jsonData = $.parseJSON(data);
+
+            if (jsonData["status"] == true) {
+                lock_container.remove();
+                btnunlock.remove();
+                showGenericalSuccessMessage();
+            } else {
+                showGenericalErrorMessage();
+            }
+        });
+
+        event.preventDefault();
+    });
+
     $( "body" ).on('click', '.delete-site-cronjob-btn', function(event) {
         var action = $(this).attr("href");
         var site_container = $(this).parent().parent();
