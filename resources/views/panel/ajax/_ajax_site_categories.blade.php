@@ -52,7 +52,7 @@
                     </div>
 
                     <div class="col-md-2">
-                        <button data-toggle="modal" data-target="#modal-sexodome" data-url="{{route('categoryThumbs', ['locale' => $locale, 'category_id' => $category->id])}}" class="btn btn-primary btn-change-category-thumbnail">Change Thumbnail</button>
+                        <button data-toggle="modal" data-target="#modal-sexodome" data-url="{{route('categoryThumbs', ['locale' => $locale, 'category_id' => $category->id])}}" class="btn btn-primary btn-change-category-thumbnail"><i class="glyphicon glyphicon-picture"></i> Change Thumbnail</button>
                     </div>
 
                     <div class="col-md-1">
