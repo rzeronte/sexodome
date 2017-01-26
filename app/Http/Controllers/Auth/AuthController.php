@@ -76,13 +76,12 @@ class AuthController extends Controller
             $user->verify = 1;
             $user->save();
 
-            // Email successful notification
             $mailData = [
               'email' => $user->email
             ];
 
             Mail::send('emails.welcome', $mailData, function ($message) use ($user){
-                $message->from('sexodomeweb@gmail.com');
+                $message->from('sexodomeweb@gmail.com', 'Sexodome - Porn Tube Generator');
                 $message->subject('Sexodome Account Registration Successful');
                 $message->to($user->email);
             });
