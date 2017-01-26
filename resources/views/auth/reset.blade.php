@@ -43,7 +43,7 @@
                     <input type="password" name="password_confirmation" class="form-control">
                 </div>
 
-                <div>
+                <div style="margin-top: 20px;">
                     <button type="submit" class="btn btn-success">
                         Reset Password
                     </button>
