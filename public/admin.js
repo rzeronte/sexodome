@@ -96,6 +96,7 @@ $( document ).ready(function() {
                     method: 'get'
                 }).done(function( data ) {
                     $('.cronjobs_ajax_container').html(data);
+                    showGenericalSuccessMessage();
                 });
             } else {
                 showGenericalErrorMessage();
@@ -287,7 +288,7 @@ $( document ).ready(function() {
         event.preventDefault();
     });
 
-    $( ".delete-site-cronjob-btn" ).click(function(event) {
+    $( "body" ).on('click', '.delete-site-cronjob-btn', function(event) {
         var action = $(this).attr("href");
         var site_container = $(this).parent().parent();
         $.ajax({
@@ -296,8 +297,8 @@ $( document ).ready(function() {
         }).done(function( data ) {
             jsonData = $.parseJSON(data);
             if (jsonData["status"] == true) {
-                site_container.remove();
                 showGenericalSuccessMessage();
+                site_container.remove();
             } else {
                 showGenericalErrorMessage();
             }
@@ -487,6 +488,7 @@ function showGenericalErrorMessage() {
 }
 
 function showGenericalSuccessMessage() {
+    console.log("entro");
     $("#sticker").removeClass('sticker_ko');
     $("#sticker").addClass('sticker_ok');
     $("#sticker").find('.text-muted').html("<i class='glyphicon glyphicon-ok-sign'></i> Operation done successfully");
