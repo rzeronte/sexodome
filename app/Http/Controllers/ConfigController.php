@@ -147,7 +147,7 @@ class ConfigController extends Controller
             abort(401, "Unauthorized");
         }
 
-        $categories = Category::getTranslationSearch($query_string, $this->commons->language->id)
+        $categories = Category::getTranslationSearch($query_string, $this->commons->language->id, $site->id)
             ->paginate($this->commons->perPageScenes);
 
         return view('panel.ajax._ajax_site_categories', [
