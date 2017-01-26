@@ -28,7 +28,7 @@
 
                     <div class="col-md-2">
                         <?php $srcThumbnail = asset('/thumbnails/'.md5($translation->thumb).".jpg")?>
-                        <img src="{{$srcThumbnail}}" class="border-thumb category-preview"/>
+                        <img src="{{$srcThumbnail}}" class="border-thumb category-preview" style="width:100%"/>
                     </div>
 
                     <div class="col-md-3">
