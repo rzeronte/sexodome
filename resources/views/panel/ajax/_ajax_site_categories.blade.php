@@ -31,9 +31,9 @@
                         <img src="{{$srcThumbnail}}" class="border-thumb category-preview" style="width:100%; border: solid 1px black;"/>
                     </div>
 
-                    <div class="col-md-1">
+                    <div class="col-md-2">
                         @if ($translation->thumb_locked == 1)
-                            <i class="glyphicon glyphicon-ban-circle"></i>
+                            <i class="glyphicon glyphicon-ban-circle"></i> Thumbnail locked
                         @endif
                     </div>
 
