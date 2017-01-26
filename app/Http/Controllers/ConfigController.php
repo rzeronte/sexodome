@@ -222,6 +222,7 @@ class ConfigController extends Controller
 
         $categoryTranslation->name = $name;
         $categoryTranslation->permalink = str_slug($name);
+        $categoryTranslation->thumb_locked = 1;
         $categoryTranslation->thumb = $thumb;
         $categoryTranslation->save();
 
