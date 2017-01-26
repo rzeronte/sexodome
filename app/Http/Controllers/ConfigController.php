@@ -47,12 +47,25 @@ class ConfigController extends Controller
     {
         $this->commons = new rZeBotCommons();
 
+        $this->middleware('CheckVerifyUser');
         $this->middleware('auth');
     }
 
     public function home()
     {
         return redirect()->route('sites', ['locale' => $this->commons->locale]);
+    }
+
+    public function unverified()
+    {
+        Auth::logout();
+        return view('panel.unverified');
+    }
+
+    public function welcome()
+    {
+        return view('panel.welcome');
+
     }
 
     public function scenes()
@@ -1024,6 +1037,6 @@ class ConfigController extends Controller
         $popunder->delete();
 
         return json_encode(array('status' => $status = true));
-
     }
+
 }
