@@ -334,7 +334,7 @@ $( document ).ready(function() {
         });
     });
 
-    $( ".btn-change-category-thumbnail" ).click(function(event) {
+    $( "body" ).on('click', '.btn-change-category-thumbnail', function(event) {
         var action = $(this).attr("data-url");
 
         $("#modal-sexodome .modal-body").html("Loading...");
