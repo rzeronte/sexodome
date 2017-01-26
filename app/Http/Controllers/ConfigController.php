@@ -1054,7 +1054,7 @@ class ConfigController extends Controller
 
         $site = Site::find($site->id);
 
-        $scenes = $site->scenes()->limit(100)->get();
+        $scenes = $site->scenes()->orderByRaw("RAND()")->limit(100)->get();
 
         return view('panel.ajax._ajax_category_thumbs', [
             'category' => $category,
