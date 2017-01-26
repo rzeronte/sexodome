@@ -31,6 +31,12 @@
                         <img src="{{$srcThumbnail}}" class="border-thumb category-preview" style="width:100%; border: solid 1px black;"/>
                     </div>
 
+                    <div class="col-md-1">
+                        @if ($translation->thumb_locked == 1)
+                            <i class="glyphicon glyphicon-ban-circle"></i>
+                        @endif
+                    </div>
+
                     <div class="col-md-3">
                         <div class="input-group">
                             <input name="language_{{$language->id}}" type="text" aria-describedby="basic-addon2" placeholder="" class="form-control" value="{{ $translation->name }}">
