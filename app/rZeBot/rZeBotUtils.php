@@ -629,8 +629,6 @@ class rZeBotUtils
             //$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             rZeBotUtils::message("[$i DOWNLOADING THUMBNAIL] $src", "cyan", true, true);
 
-            return true;
-
         } catch(\Exception $e) {
             rZeBotUtils::message("[$i ERROR DOWNLOAD THUMBNAIL. DELETING] $src", "red", false, false);
             if ($scene !== false) {
@@ -638,6 +636,30 @@ class rZeBotUtils
             }
         }
 
+        try {
+            rZeBotUtils::redimensionateThumbnail($filepath, 190, 135);
+        } catch(\Exception $e) {
+            if ($scene !== false) {
+                $scene->delete();
+            }
+
+        }
+
+        return true;
+    }
+
+    public static function redimensionateThumbnail($file, $width, $height)
+    {
+        rZeBotUtils::message("[RESIZING THUMBNAIL] $file", "cyan", true, true);
+
+        $uploadedfile = $file;
+        $src = \imagecreatefromjpeg($uploadedfile);
+        list($width_origin, $height_origin) = getimagesize($uploadedfile);
+
+        $tmp = imagecreatetruecolor($width, $height);
+
+        imagecopyresampled($tmp, $src, 0, 0, 0, 0, $width, $height, $width_origin, $height_origin);
+        imagejpeg($tmp, $file, 100);
     }
 
     public static function jsonToCSV($feed, $json, $filename)
