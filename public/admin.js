@@ -270,7 +270,6 @@ $( document ).ready(function() {
     eventPaginatorTags();
 
     $( "body" ).on('click', '.delete-site-popunder-btn', function(event) {
-
         var action = $(this).attr("href");
         var site_container = $(this).parent().parent();
         $.ajax({
@@ -305,29 +304,33 @@ $( document ).ready(function() {
     });
 
 
-    $( "body" ).on('click', '.btn-category-unlock', function(event) {
-        var url = $(this).attr("href");
-        var lock_container = $(this).parent().find('.locked');
-        var btnunlock = $(this);
+    function eventUnlockCategories() {
+        $( "body" ).on('click', '.btn-category-unlock', function(event) {
+            var url = $(this).attr("href");
+            var lock_container = $(this).parent().find('.locked');
+            var btnunlock = $(this);
 
-        $.ajax({
-            url: url,
-            method: 'get'
-        }).done(function( data ) {
+            $.ajax({
+                url: url,
+                method: 'get'
+            }).done(function( data ) {
 
-            jsonData = $.parseJSON(data);
+                jsonData = $.parseJSON(data);
 
-            if (jsonData["status"] == true) {
-                lock_container.remove();
-                btnunlock.remove();
-                showGenericalSuccessMessage();
-            } else {
-                showGenericalErrorMessage();
-            }
+                if (jsonData["status"] == true) {
+                    lock_container.remove();
+                    btnunlock.remove();
+                    showGenericalSuccessMessage();
+                } else {
+                    showGenericalErrorMessage();
+                }
+            });
+
+            event.preventDefault();
         });
 
-        event.preventDefault();
-    });
+    }
+    eventUnlockCategories();
 
     $( "body" ).on('click', '.delete-site-cronjob-btn', function(event) {
         var action = $(this).attr("href");
@@ -360,8 +363,9 @@ $( document ).ready(function() {
         });
     });
 
-    $( "body" ).on('click', '.btn-change-category-thumbnail', function(event) {
+    $("body").on('click', '.btn-change-category-thumbnail', function(event) {
         var action = $(this).attr("data-url");
+        var category_container = $(this).parent().parent().find('.container-lock-action');
 
         $("#modal-sexodome .modal-body").html("Loading...");
 
@@ -379,6 +383,21 @@ $( document ).ready(function() {
                 $(this).css("border", "solid 4px green");
                 $('.category-form-'+category_id).find("input[name='thumbnail']").val(img);
                 $('.category-form-'+category_id).find(".category-preview").attr('src', img);
+
+                // Añadimos boton para desbloquear la thumbnail
+                category_container.html('');
+                var spanLocked = $('<span/>', {class: 'locked'});
+                var icon = $('<i/>', {class: 'glyphicon glyphicon-cog'});
+                var hrefUnlockButton = $('<a/>', {
+                    href: category_container.attr('data-unlock-category-url'),
+                    class: 'btn btn-success btn-xs btn-category-unlock'
+                });
+                hrefUnlockButton.text(' Unlock');
+                icon.prependTo(hrefUnlockButton);
+                $('<span class="locked"><i class="glyphicon glyphicon-ban-circle"></i> Thumbnail locked</span>').appendTo(category_container);
+                spanLocked.appendTo(category_container);
+                hrefUnlockButton.appendTo(category_container);
+                eventUnlockCategories(); // De lo contrario no está enganchando el on.
             });
 
         });

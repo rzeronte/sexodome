@@ -31,7 +31,7 @@
                         <img src="{{$srcThumbnail}}" class="border-thumb category-preview" style="width:100%; border: solid 1px black;"/>
                     </div>
 
-                    <div class="col-md-2">
+                    <div class="col-md-2 container-lock-action" data-unlock-category-url="{{route('categoryUnlock', ['locale' => $locale, 'category_translation_id' => $translation->id])}}">
                         @if ($translation->thumb_locked == 1)
                             <span class="locked"><i class="glyphicon glyphicon-ban-circle"></i> Thumbnail locked</span>
                             <div class="clearfix"></div>
