@@ -214,6 +214,7 @@ class ConfigController extends Controller
         }
 
         $name = Request::input('language_' . $this->commons->language->id);
+        $thumb = Request::input('thumbnail');
 
         $categoryTranslation =  CategoryTranslation::where('category_id', $category_id)
             ->where('language_id', $this->commons->language->id)
@@ -221,6 +222,7 @@ class ConfigController extends Controller
 
         $categoryTranslation->name = $name;
         $categoryTranslation->permalink = str_slug($name);
+        $categoryTranslation->thumb = $thumb;
         $categoryTranslation->save();
 
         $category->status = Request::input('status');
@@ -1037,6 +1039,28 @@ class ConfigController extends Controller
         $popunder->delete();
 
         return json_encode(array('status' => $status = true));
+    }
+
+    public function categoryThumbs($locale, $category_id)
+    {
+        $category = Category::find($category_id);
+
+        if (!$category) {
+            abort(404, "Category not found");
+        }
+
+        $site = $category->site;
+
+        $site = Site::find($site->id);
+
+        $scenes = $site->scenes()->limit(100)->get();
+
+        return view('panel.ajax._ajax_category_thumbs', [
+            'category' => $category,
+            'scenes' => $scenes,
+            'language'  => $this->commons->language,
+            'languages' => $this->commons->languages
+        ]);
     }
 
 }

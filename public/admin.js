@@ -319,6 +319,33 @@ $( document ).ready(function() {
         });
     });
 
+    $( ".btn-change-category-thumbnail" ).click(function(event) {
+        var action = $(this).attr("data-url");
+
+        $("#modal-sexodome .modal-body").html("Loading...");
+
+        $.ajax({
+            url: action,
+            method: 'get'
+        }).done(function( data ) {
+            $("#modal-sexodome .modal-body").html(data);
+
+            $( ".category-thumb-image-selector" ).click(function() {
+                var img = $(this).attr("src");
+                var category_id = $(this).attr("data-category-id");
+
+                $('.category-thumb-image-selector').css("border", "none");
+                $(this).css("border", "solid 4px green");
+                $('.category-form-'+category_id).find("input[name='thumbnail']").val(img);
+                $('.category-form-'+category_id).find(".category-preview").attr('src', img);
+            });
+
+        });
+
+        event.preventDefault();
+
+    });
+
     $( ".seo-info-keywords" ).click(function() {
         var action = $(this).attr("data-url");
 

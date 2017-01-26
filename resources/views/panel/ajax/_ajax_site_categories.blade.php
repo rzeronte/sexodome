@@ -17,12 +17,21 @@
         }
         ?>
 
-        <div class="col-md-6 coloreable" style="padding:10px;background-color:<?=$bgColor?>;">
+        <div class="col-md-12 coloreable category-form-{{$category->id}}" style="padding:10px;background-color:<?=$bgColor?>;">
             <div class="row container">
                 <form action="{{route('saveCategoryTranslation', ['locale'=>$locale, 'category_id' => $category->id, 'q'=> Request::input("q"), 'page' => Request::input("page")])}}" method="post" class="ajax-form">
+
+                    <?php $translation = $category->translations()->where('language_id',$language->id)->first(); ?>
+
                     <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+                    <input type="hidden" name="thumbnail" value="{{ $translation->thumb }}"/>
+
+                    <div class="col-md-2">
+                        <?php $srcThumbnail = asset('/thumbnails/'.md5($translation->thumb).".jpg")?>
+                        <img src="{{$srcThumbnail}}" class="border-thumb category-preview"/>
+                    </div>
+
                     <div class="col-md-3">
-                        <?php $translation = $category->translations()->where('language_id',$language->id)->first(); ?>
                         <div class="input-group">
                             <input name="language_{{$language->id}}" type="text" aria-describedby="basic-addon2" placeholder="" class="form-control" value="{{ $translation->name }}">
                             <span id="basic-addon2" class="input-group-addon"><img alt="{{$translation->permalink}}" src="{{asset("flags/$language->code.png")}}"/></span>
@@ -40,6 +49,10 @@
                             <option value="0" <?=($category->status == '0')?"selected":""?>>Inactive</option>
                             <option value="1" <?=($category->status == '1')?"selected":""?>>Active</option>
                         </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <button data-toggle="modal" data-target="#modal-sexodome" data-url="{{route('categoryThumbs', ['locale' => $locale, 'category_id' => $category->id])}}" class="btn btn-primary btn-change-category-thumbnail">Change Thumbnail</button>
                     </div>
 
                     <div class="col-md-1">

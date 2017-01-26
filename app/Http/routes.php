@@ -68,6 +68,7 @@ Route::group(['domain' => 'accounts.'.\App\rZeBot\rZeBotCommons::getMainPlatafor
     Route::match(['get'], '{locale}/ajax/seo/site/pages/{site_id}', 'ConfigController@sitePageViews')->name('sitePageViews');
 
     Route::match(['get'], '{locale}/ajax/scene/thumbs/{site_id}', 'ConfigController@sceneThumbs')->name('sceneThumbs');
+    Route::match(['get'], '{locale}/ajax/category/thumbs/{category_id}', 'ConfigController@categoryThumbs')->name('categoryThumbs');
 
     Route::get('/setLocale/{locale}', 'ConfigController@changeLocale')->name('changeLocale');
 
