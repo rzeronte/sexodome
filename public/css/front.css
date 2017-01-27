@@ -455,3 +455,18 @@ body {
         width: 100%;
     }
 }
+
+ul.logos_channels {
+    margin-top: 10px;
+    list-style: none;
+}
+
+.logos_channels li{
+    float: left;
+    margin-right: 5px;
+    border: solid 1px red;
+}
+
+.logos_channels li img{
+    height: 50px;
+}
