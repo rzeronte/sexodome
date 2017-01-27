@@ -346,7 +346,7 @@ class ConfigController extends Controller
     public function ajaxCategories($locale)
     {
         $term = Request::get('term');
-        $categories = Category::getTranslationSearch($term, $this->commons->language->id)->get();
+        $categories = Category::getTranslationSearch($term, $this->commons->language->id)->orderBy('scenes.cache_order', 'desc')->get();
 
         $select_categories = [];
         foreach($categories as $category) {
