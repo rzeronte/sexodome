@@ -22,7 +22,7 @@ class BotSiteCopy extends Command
 {
     protected $signature = 'zbot:sites:copy {origin_site_id}';
 
-    protected $description = 'List sites information';
+    protected $description = 'Create new site from another';
 
     public function handle()
     {
