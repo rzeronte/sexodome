@@ -116,11 +116,30 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
-                    <h1 class="brand-heading" style="opacity: 0.6;background-color: red;">adult tube generator</h1><small>ALPHA VERSION</small>
+                    <h1 class="brand-heading" style="opacity: 0.6;background-color: red;">adult tube generator</h1>
                     <p class="intro-text" style="opacity: 0.8;background-color: black;color: white;font-family:Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif">Create your custom porn website in seconds. <br/>The hard work is <b>dome*</b>!</p>
                     <a href="#howitworks" class="btn btn-circle page-scroll">
                         <i class="fa fa-angle-double-down animated"></i>
                     </a>
+
+                    <div class="clearfix"></div>
+                    <br/>
+                    <div>Current content provided by:</div>
+                    <ul class="logos_channels">
+                        <li><img src="channels/gaytube.png" title="GayTube"/></li>
+                        <li><img src="channels/hclips.png" title="HClips"/></li>
+                        <li><img src="channels/hdzog.png" title="hdzog"/></li>
+                        <li><img src="channels/pornhub.png" title="PornHub"/></li>
+                        <li><img src="channels/redtube.png" title="RedTube"/></li>
+                        <li><img src="channels/spankwire.png" title="SpankWire"/></li>
+                        <li><img src="channels/thegay.png" title="TheGay"/></li>
+                        <li><img src="channels/tube8.png" title="Tube8"/></li>
+                        <li><img src="channels/txxx.png" title="TXXX"/></li>
+                        <li><img src="channels/upornia.png" title="Upornia"/></li>
+                        <li><img src="channels/xhamster.png" title="xHamster"/></li>
+                        <li><img src="channels/youporn.png" title="YouPorn"/></li>
+                    </ul>
+
                 </div>
             </div>
         </div>
