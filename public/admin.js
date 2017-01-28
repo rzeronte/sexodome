@@ -569,8 +569,8 @@ function changeThumb(video) {
 // Sticker messages
 function showGenericalErrorMessage() {
     $("#sticker").removeClass('sticker_ok');
-    $("#sticker").addClass('sticker_ok');
-    $("#sticker").find('.text-muted').html("<i class='glyphicon glyphicon-remove-sign'></i> Oops, please try in a few minutes...");
+    $("#sticker").addClass('sticker_ko');
+    $("#sticker").find('.text-muted').html("<i class='glyphicon glyphicon-remove-sign'></i> This operation cant be done...");
     $("#sticker").fadeIn('slow').animate({opacity: 1.0}, 1500).effect("pulsate", { times: 2 }, 800).fadeOut('slow');
 }
 
@@ -591,10 +591,7 @@ function fixDiv() {
             'top': '0px'
         });
     else
-        $cache.css({
-            'position': 'relative',
-            'top': 'auto'
-        });
+    {}
 }
 // Vinculamos al evento scroll la recolocación del sticker de notificaciones
 $(window).scroll(fixDiv);

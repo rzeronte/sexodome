@@ -29,6 +29,7 @@
                     <div class="col-md-2">
                         <?php $srcThumbnail = asset('/thumbnails/'.md5($translation->thumb).".jpg")?>
                         <img src="{{$srcThumbnail}}" class="border-thumb category-preview" style="width:100%; border: solid 1px black;"/>
+                        Nº scenes: {{$category->nscenes}}
                     </div>
 
                     <div class="col-md-2 container-lock-action" data-unlock-category-url="{{route('categoryUnlock', ['locale' => $locale, 'category_translation_id' => $translation->id])}}">

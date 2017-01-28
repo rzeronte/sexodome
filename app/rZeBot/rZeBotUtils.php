@@ -627,7 +627,7 @@ class rZeBotUtils
             curl_exec($ch);
 
             //$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            rZeBotUtils::message("[$i DOWNLOADING THUMBNAIL] $src", "cyan", true, true);
+            rZeBotUtils::message("[$i DOWNLOADING THUMBNAIL] $src", "cyan", false, false);
 
         } catch(\Exception $e) {
             rZeBotUtils::message("[$i ERROR DOWNLOAD THUMBNAIL. DELETING] $src", "red", false, false);
@@ -650,7 +650,7 @@ class rZeBotUtils
 
     public static function redimensionateThumbnail($file, $width, $height)
     {
-        rZeBotUtils::message("[RESIZING THUMBNAIL] $file", "cyan", true, true);
+        rZeBotUtils::message("[RESIZING THUMBNAIL] $file", "cyan", false, false);
 
         $uploadedfile = $file;
         $src = \imagecreatefromjpeg($uploadedfile);

@@ -1,6 +1,9 @@
-<div class="row" style="min-height:50px;">
+<div style="min-height:50px;">
+    <div class="col-md-2">
+        <img src="{{asset('images/logo.png')}}" style="width:100%;margin-top: 10px;">
+    </div>
 
-    <div class="col-md-6">
+    <div class="col-md-3">
         <div style="margin-top:10px;" data-width="100%">
             @include('panel._selector_site')
         </div>
@@ -23,7 +26,8 @@
 
     </div>
 
-    <div class="col-md-3" style="margin-top:10px;">
+    <div class="col-md-4" style="margin-top:10px;">
+        <a href="{{route('fixtranslations', ['locale'=>$language->code])}}" class="btn @if (\Request::route()->getName() == "fixtranslations") btn-success @else btn-primary @endif"><i class="glyphicon glyphicon-flag"></i> Fix Trans</a>
         <a href="{{route('content', ['locale'=>$language->code])}}" class="btn @if (\Request::route()->getName() == "content") btn-success @else btn-primary @endif"><i class="glyphicon glyphicon-th"></i> Scenes</a>
         <a href="{{route('addSite', ['locale'=>$locale])}}" class="btn btn-warning" ><i class="glyphicon glyphicon-plus-sign"></i> Add site </a>
         <a href="#" class="btn btn-success">
@@ -34,6 +38,6 @@
 
 
     <div class="col-md-1"  style="margin-top:10px;">
-        <a href="{{route('logout')}}" class="btn btn-danger"><i class="glyphicon glyphicon-off"></i></a>
+        <a href="{{route('logout')}}" class="btn btn-danger" style="float:right"><i class="glyphicon glyphicon-off"></i></a>
     </div>
 </div>
