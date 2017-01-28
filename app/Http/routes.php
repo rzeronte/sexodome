@@ -95,6 +95,8 @@ Route::group(['domain' => 'accounts.'.\App\rZeBot\rZeBotCommons::getMainPlatafor
 
     Route::match(['get', 'post'], '{locale}/scenes', 'ConfigController@scenes')->name('content');
 
+    Route::match(['get', 'post'], '/uploadCategory/{category_id}', 'ConfigController@uploadCategory')->name('uploadCategory');
+
     Route::match(['get', 'post'], '{locale}/updateGoogleData/{site_id}', ['as'=> 'updateGoogleData','uses' => 'ConfigController@updateGoogleData']);
     Route::match(['get', 'post'], '{locale}/updateIframeData/{site_id}', ['as'=> 'updateIframeData','uses' => 'ConfigController@updateIframeData']);
     Route::match(['get', 'post'], '{locale}/updateLogo/{site_id}', ['as'=> 'updateLogo','uses' => 'ConfigController@updateLogo']);

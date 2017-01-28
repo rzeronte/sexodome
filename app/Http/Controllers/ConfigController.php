@@ -221,6 +221,7 @@ class ConfigController extends Controller
             ->where('categories.site_id', $category->site->id)
             ->where('language_id', $this->commons->language->id)
             ->where('name', 'like', $name)
+            ->where('categories.id', '<>', $category_id)
             ->first();
 
         if ($alreadyCategoryTranslation) {
@@ -1137,5 +1138,29 @@ class ConfigController extends Controller
         $newFixTranslation->save();
 
         return redirect()->route('fixtranslations', ['locale' => $this->commons->locale]);
+    }
+
+    public function uploadCategory($category_id)
+    {
+        $fileName = md5(microtime().$category_id).".jpg";
+
+        $final_url = "http://" . env('MAIN_PLATAFORMA_DOMAIN', 'sexodome.com') ."/thumbnails_categories/".$fileName;
+
+        $destinationPath = "thumbnails/";
+
+        $fileNameFinal = md5($final_url).".jpg";
+
+        Request::file('file')->move($destinationPath, $fileNameFinal);
+
+        $data = ["files" => [
+            [
+                "category_id" => $category_id,
+                "name"        => $fileName,
+                "url"         => $final_url,
+                "md5_url"     => "http://" . env('MAIN_PLATAFORMA_DOMAIN', 'sexodome.com') ."/thumbnails/".md5($final_url).".jpg"
+            ]
+        ]];
+
+        return \GuzzleHttp\json_encode($data);
     }
 }

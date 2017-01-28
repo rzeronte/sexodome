@@ -1,4 +1,4 @@
-<div class="col-md-12 detail-categories">
+    <div class="col-md-12 detail-categories">
 
     <div class="row">
         <form action="{{route('ajaxSiteCategories', ['locale' => $locale, 'site_id' => $site->id])}}" class="category-search-form">

@@ -1,6 +1,20 @@
 var timer;
 
 $( document ).ready(function() {
+
+    $('.fileupload').fileupload({
+        dataType: 'json',
+        done: function (e, data) {
+            $.each(data.result.files, function (index, file) {
+                var category_id = file.category_id;
+                var url = file.url;
+                var md5_url = file.md5_url;
+                $('.category-form-'+category_id).find("input[name='thumbnail']").val(url);
+                $('.category-form-'+category_id).find(".category-preview").attr('src', md5_url);
+            });
+        }
+    });
+
     $('#selector_site').on('loaded.bs.select', function (e) {
        $('.loading-panel-img').hide();
     });
@@ -585,17 +599,17 @@ function showGenericalSuccessMessage() {
 // Mantiene bien colocado el sticker que usamos para notificaciones.
 function fixDiv() {
     var $cache = $('#sticker');
-    if ($(window).scrollTop() > 25)
+    if ($(window).scrollTop() > 25) {
         $cache.css({
             'position': 'fixed',
             'top': '0px'
         });
-    else
-    {}
+    }
 }
 // Vinculamos al evento scroll la recolocación del sticker de notificaciones
 $(window).scroll(fixDiv);
 fixDiv();
+
 
 
 

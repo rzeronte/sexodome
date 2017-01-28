@@ -26,6 +26,10 @@
     {{--<script src="{{asset('tagEditor/jquery.tag-editor.js')}}"></script>--}}
     {{--<link rel="stylesheet" href="{{asset('tagEditor/jquery.tag-editor.css')}}" />--}}
 
+    <script src="{{ asset('jquery-file-upload/js/vendor/jquery.ui.widget.js') }}"></script>
+    <script src="{{ asset('jquery-file-upload/js/jquery.iframe-transport.js') }}"></script>
+    <script src="{{ asset('jquery-file-upload/js/jquery.fileupload.js') }}"></script>
+
     <script src="{{asset('admin.js')}}" type="text/javascript"></script>
     <link rel="stylesheet" href="{{asset('admin.css')}}" />
 
