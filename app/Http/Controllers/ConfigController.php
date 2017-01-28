@@ -216,6 +216,17 @@ class ConfigController extends Controller
         $name = Request::input('language_' . $this->commons->language->id);
         $thumb = Request::input('thumbnail');
 
+        // Buscamos si existe otra categoría en el idioma utilizado con el mismo nombre
+        $alreadyCategoryTranslation = CategoryTranslation::join('categories', 'categories.id', '=', 'categories_translations.category_id')
+            ->where('categories.site_id', $category->site->id)
+            ->where('language_id', $this->commons->language->id)
+            ->where('name', 'like', $name)
+            ->first();
+
+        if ($alreadyCategoryTranslation) {
+            return json_encode(array('status'=> 0));
+        }
+
         $categoryTranslation =  CategoryTranslation::where('category_id', $category_id)
             ->where('language_id', $this->commons->language->id)
             ->first();
@@ -475,6 +486,12 @@ class ConfigController extends Controller
 
         if (!(Auth::user()->id == $site->user->id)) {
             abort(401, "Unauthorized");
+        }
+
+        // Activamos el idioma del sitio
+        if ($this->commons->language->id != $site->language_id) {
+            App::setLocale($site->language->code);
+            return redirect()->route('site', ['locale' => $site->language->code, $site_id]);
         }
 
         $ff = date("Y-m-d");
@@ -1079,5 +1096,46 @@ class ConfigController extends Controller
         }
 
         return json_encode(array('status' => $status));
+    }
+
+    public function fixTranslations($locale)
+    {
+        return view('panel.fixtranslations', [
+            'language'  => $this->commons->language,
+            'languages' => $this->commons->languages,
+            'locale'    => $this->commons->locale,
+            'sites'     => $sites = Site::where('user_id', '=', Auth::user()->id)->get(),
+            'fixs'      => App\Model\FixTranslation::where('user_id', Auth::user()->id)->get()
+        ]);
+    }
+
+    public function deleteFixTranslation($locale, $fixtranslation_id)
+    {
+        $fixtranslation = App\Model\FixTranslation::find($fixtranslation_id);
+
+        if (!$fixtranslation) {
+            abort(404, "FixTranslation not found");
+        }
+
+        if (!(Auth::user()->id == $fixtranslation->user->id)) {
+            abort(401, "Unauthorized");
+        }
+
+        $fixtranslation->delete();
+
+        return redirect()->route('fixtranslations', ['locale' => $this->commons->locale]);
+    }
+
+    public function AddFixTranslation($locale)
+    {
+        $newFixTranslation = new App\Model\FixTranslation();
+        $newFixTranslation->user_id = Auth::user()->id;
+        $newFixTranslation->language_id = Request::input('language');
+        $newFixTranslation->from = Request::input('from');
+        $newFixTranslation->to = Request::input('to');
+
+        $newFixTranslation->save();
+
+        return redirect()->route('fixtranslations', ['locale' => $this->commons->locale]);
     }
 }
