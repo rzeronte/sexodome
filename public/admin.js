@@ -2,18 +2,21 @@ var timer;
 
 $( document ).ready(function() {
 
-    $('.fileupload').fileupload({
-        dataType: 'json',
-        done: function (e, data) {
-            $.each(data.result.files, function (index, file) {
-                var category_id = file.category_id;
-                var url = file.url;
-                var md5_url = file.md5_url;
-                $('.category-form-'+category_id).find("input[name='thumbnail']").val(url);
-                $('.category-form-'+category_id).find(".category-preview").attr('src', md5_url);
-            });
-        }
-    });
+    function eventFileUpload() {
+        $('.fileupload').fileupload({
+            dataType: 'json',
+            done: function (e, data) {
+                $.each(data.result.files, function (index, file) {
+                    var category_id = file.category_id;
+                    var url = file.url;
+                    var md5_url = file.md5_url;
+                    $('.category-form-'+category_id).find("input[name='thumbnail']").val(url);
+                    $('.category-form-'+category_id).find(".category-preview").attr('src', md5_url);
+                });
+            }
+        });
+    }
+    eventFileUpload();
 
     $('#selector_site').on('loaded.bs.select', function (e) {
        $('.loading-panel-img').hide();
@@ -312,6 +315,7 @@ $( document ).ready(function() {
         }).done(function( data ) {
             $(".categories_ajax_container").html(data);
             eventPaginatorCategories();
+            eventFileUpload();
         });
 
         event.preventDefault();
