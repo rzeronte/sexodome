@@ -20,38 +20,38 @@
         <div class="col-md-12 coloreable category-form-{{$category->id}}" style="padding:10px;background-color:<?=$bgColor?>;">
             <div class="row container">
 
-                    <?php $translation = $category->translations()->where('language_id',$language->id)->first(); ?>
+                <?php $translation = $category->translations()->where('language_id',$language->id)->first(); ?>
 
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
-                    <input type="hidden" name="thumbnail" value="{{ $translation->thumb }}"/>
 
-                    <div class="col-md-4">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <?php $srcThumbnail = asset('/thumbnails/'.md5($translation->thumb).".jpg")?>
-                                <img src="{{$srcThumbnail}}" class="border-thumb category-preview" style="width:100%; border: solid 1px black;margin-bottom: 10px;"/>
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <?php $srcThumbnail = asset('/thumbnails/'.md5($translation->thumb).".jpg")?>
+                            <img src="{{$srcThumbnail}}" class="border-thumb category-preview" style="width:100%; border: solid 1px black;margin-bottom: 10px;"/>
 
-                                <form action="{{route('uploadCategory', ['category_id'=>$category->id])}}" method="post" enctype="multipart/form-data">
-                                    <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
-                                    <input class="fileupload" type="file" name="file" data-url="{{ route( 'uploadCategory', [ 'category_id'  => $category->id ] ) }}">
-                                </form>
+                            <form action="{{route('uploadCategory', ['category_id'=>$category->id])}}" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+                                <input class="fileupload" type="file" name="file" data-url="{{ route( 'uploadCategory', [ 'category_id'  => $category->id ] ) }}">
+                            </form>
 
-                            </div>
-                            <div class="col-md-6 container-lock-action" data-unlock-category-url="{{route('categoryUnlock', ['locale' => $locale, 'category_translation_id' => $translation->id])}}">
-                                @if ($translation->thumb_locked == 1)
-                                    <span class="locked"><i class="glyphicon glyphicon-ban-circle"></i> Thumbnail locked</span>
-                                    <div class="clearfix"></div>
-                                    <a href="{{route('categoryUnlock', ['locale' => $locale, 'category_translation_id' => $translation->id])}}" class="btn btn-success btn-xs btn-category-unlock"><i class="glyphicon glyphicon-cog"></i> Unlock</a>
-                                @endif
-                            </div>
-                            <div class="col-md-2">
-                                <button data-toggle="modal" data-target="#modal-sexodome" data-url="{{route('categoryThumbs', ['locale' => $locale, 'category_id' => $category->id])}}" class="btn btn-primary btn-xs btn-change-category-thumbnail" style="margin-top:10px;"><i class="glyphicon glyphicon-picture"></i> Change Thumbnail</button>
-                            </div>
                         </div>
-
+                        <div class="col-md-6 container-lock-action" data-unlock-category-url="{{route('categoryUnlock', ['locale' => $locale, 'category_translation_id' => $translation->id])}}">
+                            @if ($translation->thumb_locked == 1)
+                                <span class="locked"><i class="glyphicon glyphicon-ban-circle"></i> Thumbnail locked</span>
+                                <div class="clearfix"></div>
+                                <a href="{{route('categoryUnlock', ['locale' => $locale, 'category_translation_id' => $translation->id])}}" class="btn btn-success btn-xs btn-category-unlock"><i class="glyphicon glyphicon-cog"></i> Unlock</a>
+                            @endif
+                        </div>
+                        <div class="col-md-2">
+                            <button data-toggle="modal" data-target="#modal-sexodome" data-url="{{route('categoryThumbs', ['locale' => $locale, 'category_id' => $category->id])}}" class="btn btn-primary btn-xs btn-change-category-thumbnail" style="margin-top:10px;"><i class="glyphicon glyphicon-picture"></i> Change Thumbnail</button>
+                        </div>
                     </div>
 
-                    <form action="{{route('saveCategoryTranslation', ['locale'=>$locale, 'category_id' => $category->id, 'q'=> Request::input("q"), 'page' => Request::input("page")])}}" method="post" class="ajax-form">
+                </div>
+
+                <form action="{{route('saveCategoryTranslation', ['locale'=>$locale, 'category_id' => $category->id, 'q'=> Request::input("q"), 'page' => Request::input("page")])}}" method="post" class="ajax-form">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+                    <input type="hidden" name="thumbnail" value="{{ $translation->thumb }}"/>
 
                     <div class="col-md-5">
                         <div class="input-group">
@@ -77,7 +77,6 @@
                     </div>
 
                 </form>
-
 
             </div>
         </div>
