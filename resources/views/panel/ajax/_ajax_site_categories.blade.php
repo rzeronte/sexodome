@@ -62,7 +62,8 @@
                         <div class="clearfix"></div>
                         @if ($language->id != 2)
                             <?php $translationEN = $category->translations()->where('language_id', 2)->first(); ?>
-                            <small>Original EN: {{$translationEN->name}} / {{$translationEN->permalink}}</small>
+                            <small><b>Original EN:</b> {{$translationEN->name}} / {{$translationEN->permalink}}</small>
+                            <br/>
                         @endif
                         <select name="status" class="form-control" style="width:70%;">
                             <option value="0" <?=($category->status == '0')?"selected":""?>>Inactive</option>
