@@ -221,6 +221,7 @@ class ConfigController extends Controller
             ->where('categories.site_id', $category->site->id)
             ->where('language_id', $this->commons->language->id)
             ->where('name', 'like', $name)
+            ->where('categories.status', 1)
             ->where('categories.id', '<>', $category_id)
             ->first();
 
