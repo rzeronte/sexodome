@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Barrio');
 
 body, input, h1, form, div, h2, h3, p, small, btn, btn-default {
     font-family: "Roboto", "Trebuchet MS", Helvetica, sans-serif;
@@ -36,6 +37,7 @@ body{
     margin-top: 18px;
     color: #ffffff;
     font-size: 20px;
+    font-family: "Barrio" !important;
 }
 
 .footer{
@@ -538,5 +540,3 @@ iPad 3
     .link_order_container {  margin-top: 10px;  width: 100%;  }
     .link_order_container a{  font-size: 12px;  padding: 4px;  }
 }
-
-
