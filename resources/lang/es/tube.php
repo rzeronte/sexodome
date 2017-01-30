@@ -2,7 +2,7 @@
 
 return [
     'header_pornstars_btn' => 'Pornstars',
-    'header_inputsearch_placeholder' => 'que quieres ver?',
+    'header_inputsearch_placeholder' => 'qué quieres ver?',
     'header_inputsearch_search' => 'Buscar',
 
     'h1_info_categories' => 'categorías',
