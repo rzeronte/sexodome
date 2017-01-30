@@ -54,7 +54,7 @@
 
                     <h2 class="text-right billboard">
                         <?php if (isset($categoryTranslation)):?>
-                            {{$categoryTranslation->name}} {{ucwords(trans('tube.h1_info_porn_videos'))}}
+                            {{ ucwords($categoryTranslation->name) }} {{ucwords(trans('tube.h1_info_porn_videos'))}}
                             <?php else:?>
                                 {{$site->head_billboard}}
                             <?php endif?>
