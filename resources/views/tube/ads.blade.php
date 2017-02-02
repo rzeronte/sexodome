@@ -30,7 +30,8 @@
                                             @if ($translation)
                                                 <a href="{{route('category', ['profile'=>$site->getHost(),'permalink' => $translation->permalink])}}?utm_source=ads_{{$language->domain}}" alt="{{$translation->title}}" target="_blank">
                                                     <p class="text">{{$translation->name}}</p>
-                                                    <img src="{{$translation->thumb}}" alt="{{$translation->name}}">
+                                                    <?php $srcThumbnail = asset('/thumbnails/'.md5($translation->thumb).".jpg")?>
+                                                    <img src="{{$srcThumbnail}}" alt="{{ucwords($translation->name)}}">
                                                 </a>
                                             @endif
                                         </div>
