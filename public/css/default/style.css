@@ -121,8 +121,10 @@ body{
 }
 /****************************************************************************************** Categories*/
 .category_outer {
+    width: 12%;
     margin: 0;
     padding: 0;
+    float: left;
 }
 
 .category_outer figure{
