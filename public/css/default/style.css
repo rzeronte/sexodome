@@ -137,14 +137,15 @@ body{
 }
 
 .category_outer .duration{
-    position: absolute;
-    top: 0;
+    position: relative;
+    top: 100%;
     left: 0;
     margin-left: 5px;
     margin-top: 5px;
     padding: 3px;
     color: white;
     background-color: rgba(0, 0, 0, 0.6);
+    float: right;
 }
 
 .category_outer .link_image img {
