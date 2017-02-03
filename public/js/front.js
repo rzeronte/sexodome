@@ -1,6 +1,6 @@
 window.onload = function(){
-    equalizeDivHeight('.info_video');
-    equalizeDivHeight('.category_info');
+    //equalizeDivHeight('.info_video');
+    //equalizeDivHeight('.category_info');
 };
 
 $(document).ready(function(){
