@@ -114,6 +114,9 @@
                         </div>
                     </figure>
                 </div>
+                @if (i%4 == 0)
+                    <div class='clearfix'></div>
+                @endif
             @endforeach
 
     </div>
