@@ -1,3 +1,5 @@
-Your account has been verify successful
+<h1>Sexodome: Porn Tube Generator</h1>
 
-<a href="http://accounts.sexodome.com/welcome">Click here to start</a>
+<p>Your account has been verify successful</p>
+
+<a href="http://accounts.sexodome.com/">Click here to start</a>

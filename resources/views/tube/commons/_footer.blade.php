@@ -13,7 +13,7 @@
                 <a target="_blank" title="RTA Label" href="http://http://www.rtalabel.org/"><img src="{{asset('images/rta.gif')}}" alt="RTA Label"></a>
             </div>
             <div class="col-md-6 col-sm-12 col-xs-12 text-right">
-                <a href="http://www.sexodome.com" target="_blank">Porn tube generator</a> | sexodome.com
+                <a href="http://www.sexodome.com" target="_blank">Adult Tube Creator</a> | sexodome.com
             </div>
 
         </div>
