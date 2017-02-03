@@ -6,6 +6,13 @@ $( document ).ready(function() {
         $('.fileupload').fileupload({
             dataType: 'json',
             done: function (e, data) {
+                if (data.error) {
+                  showGenericalSuccessMessage();
+                } else {
+                  showGenericalErrorMessage();
+                  return;
+                }
+
                 $.each(data.result.files, function (index, file) {
                     var category_id = file.category_id;
                     var url = file.url;
@@ -13,6 +20,7 @@ $( document ).ready(function() {
                     $('.category-form-'+category_id).find("input[name='thumbnail']").val(url);
                     $('.category-form-'+category_id).find(".category-preview").attr('src', md5_url);
                 });
+
             }
         });
     }
@@ -585,10 +593,10 @@ function changeThumb(video) {
 }
 
 // Sticker messages
-function showGenericalErrorMessage() {
+function showGenericalErrorMessage(error = true) {
     $("#sticker").removeClass('sticker_ok');
     $("#sticker").addClass('sticker_ko');
-    $("#sticker").find('.text-muted').html("<i class='glyphicon glyphicon-remove-sign'></i> This operation cant be done...");
+    $("#sticker").find('.text-muted').html("<i class='glyphicon glyphicon-remove-sign'></i> Ooops some error has been encountered...");
     $("#sticker").fadeIn('slow').animate({opacity: 1.0}, 1500).effect("pulsate", { times: 2 }, 800).fadeOut('slow');
 }
 
@@ -613,7 +621,3 @@ function fixDiv() {
 // Vinculamos al evento scroll la recolocación del sticker de notificaciones
 $(window).scroll(fixDiv);
 fixDiv();
-
-
-
-

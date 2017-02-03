@@ -28,7 +28,8 @@
         </div>
 
         <div class="clearfix"></div>
-        <div class="col-md-2">
+
+        <div class="col-md-2" style="margin-top:10px;">
             <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-disk"></i> Update</button>
         </div>
 

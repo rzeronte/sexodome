@@ -32,6 +32,7 @@
                             <form action="{{route('uploadCategory', ['category_id'=>$category->id])}}" method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                                 <input class="fileupload" type="file" name="file" data-url="{{ route( 'uploadCategory', [ 'category_id'  => $category->id ] ) }}">
+                                <small>Only PNGs</small>
                             </form>
 
                         </div>

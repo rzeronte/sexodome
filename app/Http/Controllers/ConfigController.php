@@ -906,7 +906,7 @@ class ConfigController extends Controller
             Request::session()->flash('error', 'Upload invalid file. Check your file, size ane extension (pngs only)!');
         }
 
-        return redirect()->route('sites', ['locale' => $this->commons->locale]);
+        return redirect()->route('site', ['locale' => $this->commons->locale, 'site_id' => $site->id]);
     }
 
     public function updateColors($locale, $site_id)
@@ -1143,6 +1143,17 @@ class ConfigController extends Controller
 
     public function uploadCategory($category_id)
     {
+        // logo validator
+        $v = Validator::make(Request::all(), [
+            'file' => 'required|mimes:png',      // max=50*1024; min=3*1024
+        ]);
+
+        if ($v->fails()) {
+            $data = ["error" => "Upload invalid file. Check your file, size ane extension (pngs only)!"];
+
+            return \GuzzleHttp\json_encode($data);
+        }
+
         $fileName = md5(microtime().$category_id).".jpg";
 
         $final_url = "http://" . env('MAIN_PLATAFORMA_DOMAIN', 'sexodome.com') ."/thumbnails_categories/".$fileName;
@@ -1158,7 +1169,7 @@ class ConfigController extends Controller
                 "category_id" => $category_id,
                 "name"        => $fileName,
                 "url"         => $final_url,
-                "md5_url"     => "http://" . env('MAIN_PLATAFORMA_DOMAIN', 'sexodome.com') ."/thumbnails/".md5($final_url).".jpg"
+                "md5_url"     => "http://" . env('MAIN_PLATAFORMA_DOMAIN', 'sexodome.com') ."/thumbnails/".md5($final_url).".jpg",
             ]
         ]];
 
