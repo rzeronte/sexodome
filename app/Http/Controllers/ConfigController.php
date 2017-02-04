@@ -617,6 +617,8 @@ class ConfigController extends Controller
             abort(401, "Unauthorized");
         }
 
+        $site->language_id = Request::input('language_id');
+
         $site->contact_email = Request::input('contact_email');
 
         $site->title_index = Request::input('title_index');
@@ -633,8 +635,8 @@ class ConfigController extends Controller
 
         $site->domain = Request::input('domain');
         $site->head_billboard = Request::input('head_billboard');
+        $site->link_billboard = Request::input('link_billboard');
         $site->google_analytics = Request::input('google_analytics');
-        $site->language_id = Request::input('language_id');
 
         $site->banner_script1 = Request::input('banner_script1');
         $site->banner_script2 = Request::input('banner_script2');

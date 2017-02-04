@@ -593,7 +593,7 @@ function changeThumb(video) {
 }
 
 // Sticker messages
-function showGenericalErrorMessage(error = true) {
+function showGenericalErrorMessage() {
     $("#sticker").removeClass('sticker_ok');
     $("#sticker").addClass('sticker_ko');
     $("#sticker").find('.text-muted').html("<i class='glyphicon glyphicon-remove-sign'></i> Ooops some error has been encountered...");
