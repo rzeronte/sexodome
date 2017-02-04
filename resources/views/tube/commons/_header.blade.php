@@ -35,9 +35,7 @@
                             <a href="{{$site->button2_url}}" class="btn btn-custom-user">{{$site->button2_text}}</a>
                         @endif
 
-			@if (\App\Model\Pornstar::where('site_id', $site->id)->select('id')->count() > 0)
-	                        <a href="{{route('pornstars', ["profile" => $profile])}}" class="btn btn-header-pornstars">{{trans('tube.header_pornstars_btn')}}</a>
-		        @endif
+                        <a href="{{route('pornstars', ["profile" => $profile])}}" class="btn btn-header-pornstars">{{trans('tube.header_pornstars_btn')}}</a>
                     </div>
                     <div class="col-sm-3 col-md-3">
 
@@ -68,9 +66,17 @@
 
 </section>
 
-<script>
+<section style="margin-bottom:10px;text-align: center; margin:5px;">
+    <div class="container">
+        @if (strlen($site->link_billboard) > 0)
+            <div class="alert-warning"><?php echo $site->link_billboard ?></div>
+        @endif
+    </div>
+</section>
+
+<script type="text/javascript">
     var popunders = new Array();
     @foreach($site->popunders()->get() as $popunder)
-        popunders.push('{{$popunder->url}}');
+    popunders.push('{{$popunder->url}}');
     @endforeach
 </script>
