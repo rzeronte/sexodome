@@ -147,10 +147,19 @@
 
             <div class="row" style="padding:10px;">
                 <div class="col-md-3">
-                    GAnalytics:
+                    Link billboard(HTML):
                 </div>
                 <div class="col-md-7">
-                    <input type="text" name="google_analytics" class="form-control" value="{{$site->google_analytics}}"/>
+                    <input type="text" class="form-control" value="{{$site->link_billboard}}" name="link_billboard">
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Google Analytics UA:
+                </div>
+                <div class="col-md-7">
+                    <input type="text" name="google_analytics" class="form-control" value="{{$site->google_analytics}}" style="width:200px;"/>
                 </div>
             </div>
 
