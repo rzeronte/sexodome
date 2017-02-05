@@ -1,6 +1,6 @@
 <div style="min-height:50px;">
     <div class="col-md-2">
-        <img src="{{asset('images/logo.png')}}" style="width:100%;margin-top: 10px;">
+       <a href="{{route('sites', ['locale'=>$locale])}}"> <img src="{{asset('images/logo.png')}}" style="width:100%;margin-top: 10px;"></a>
     </div>
 
     <div class="col-md-3">
