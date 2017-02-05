@@ -6,12 +6,6 @@ $( document ).ready(function() {
         $('.fileupload').fileupload({
             dataType: 'json',
             done: function (e, data) {
-                if (data.error) {
-                  showGenericalSuccessMessage();
-                } else {
-                  showGenericalErrorMessage();
-                  return;
-                }
 
                 $.each(data.result.files, function (index, file) {
                     var category_id = file.category_id;
@@ -20,6 +14,13 @@ $( document ).ready(function() {
                     $('.category-form-'+category_id).find("input[name='thumbnail']").val(url);
                     $('.category-form-'+category_id).find(".category-preview").attr('src', md5_url);
                 });
+
+                if (data.error) {
+                    showGenericalSuccessMessage();
+                } else {
+                    showGenericalErrorMessage();
+                    return;
+                }
 
             }
         });

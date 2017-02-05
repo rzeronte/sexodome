@@ -1146,7 +1146,7 @@ class ConfigController extends Controller
     public function uploadCategory($category_id)
     {
         // logo validator
-/*        $v = Validator::make(Request::all(), [
+        $v = Validator::make(Request::all(), [
             'file' => 'required|mimes:jpg',      // max=50*1024; min=3*1024
         ]);
 
@@ -1155,7 +1155,7 @@ class ConfigController extends Controller
 
             return \GuzzleHttp\json_encode($data);
         }
-*/
+
         $fileName = md5(microtime().$category_id).".jpg";
 
         $final_url = "http://" . env('MAIN_PLATAFORMA_DOMAIN', 'sexodome.com') ."/thumbnails_categories/".$fileName;
