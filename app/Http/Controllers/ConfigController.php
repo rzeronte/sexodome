@@ -1147,11 +1147,11 @@ class ConfigController extends Controller
     {
         // logo validator
         $v = Validator::make(Request::all(), [
-            'file' => 'required|mimes:png',      // max=50*1024; min=3*1024
+            'file' => 'required|mimes:jpg',      // max=50*1024; min=3*1024
         ]);
 
         if ($v->fails()) {
-            $data = ["error" => "Upload invalid file. Check your file, size ane extension (pngs only)!"];
+            $data = ["error" => "Upload invalid file. Check your file, size ane extension (JPG only)!"];
 
             return \GuzzleHttp\json_encode($data);
         }
