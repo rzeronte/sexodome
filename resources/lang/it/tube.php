@@ -1,18 +1,18 @@
 <?php
 
 return [
-    'header_pornstars_btn' => 'Pornstars',
-    'header_inputsearch_placeholder' => 'What do you wanna watch?',
-    'header_inputsearch_search' => 'Search',
+    'header_pornstars_btn' => 'Pornostar',
+    'header_inputsearch_placeholder' => 'Cosa vuoi vedere?',
+    'header_inputsearch_search' => 'Ricerca',
 
-    'h1_info_categories' => 'Categories',
-    'h1_info_porn_videos' => 'Porn videos',
+    'h1_info_categories' => 'Categorie',
+    'h1_info_porn_videos' => 'Porno videos',
 
-    'count_porn_videos' => 'porn videos',
-    'count_porn_videos_for' => 'porn videos for',
+    'count_porn_videos' => 'porno videos',
+    'count_porn_videos_for' => 'porno videos ',
 
-    'btn_order_news' => 'Newest porn videos',
-    'btn_order_mostpopular' => 'Most popular porn videos',
+    'btn_order_news' => 'Nuovi video porno',
+    'btn_order_mostpopular' => 'La maggior parte dei video popolari porno',
 
     'views' => 'views',
     'all_categories' => 'Tutte le categorie',
