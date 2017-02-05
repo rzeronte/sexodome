@@ -13,11 +13,10 @@ $( document ).ready(function() {
                     var md5_url = file.md5_url;
                     $('.category-form-'+category_id).find("input[name='thumbnail']").val(url);
                     $('.category-form-'+category_id).find(".category-preview").attr('src', md5_url);
+                    showGenericalSuccessMessage();
                 });
 
-                if (data.error) {
-                    showGenericalSuccessMessage();
-                } else {
+                if (data.result.files.length == 0) {
                     showGenericalErrorMessage();
                     return;
                 }
@@ -602,7 +601,6 @@ function showGenericalErrorMessage() {
 }
 
 function showGenericalSuccessMessage() {
-    console.log("entro");
     $("#sticker").removeClass('sticker_ko');
     $("#sticker").addClass('sticker_ok');
     $("#sticker").find('.text-muted').html("<i class='glyphicon glyphicon-ok-sign'></i> Operation done successfully");
