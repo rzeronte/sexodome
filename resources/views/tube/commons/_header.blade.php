@@ -13,7 +13,7 @@
                     <h1>
                         <a class="navbar-brand" href="{{route('categories', ['profile' => $profile])}}" title="{{$site->getHost()}}">
                             @if (file_exists(\App\rZeBot\rZeBotCommons::getLogosFolder()."/".md5($site->id).".png"))
-                                <img src="{{asset('/logos/'.md5($site->id).".png")}}" alt="c"/>
+                                <img src="{{asset('/logos/'.md5($site->id).".png")}}" alt="{{$site->getHost()}}" title="{{$site->getHost()}}"/>
                             @else
                                 @if ($site->have_domain == 1)
                                     {{$site->domain}}
