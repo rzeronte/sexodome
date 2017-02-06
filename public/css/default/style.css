@@ -25,6 +25,12 @@ body{
     padding-right: 0;
 }
 
+h1.header_logo a span{
+    text-indent: -9999px;
+    display: block;
+
+}
+
 /*Layout*/
 .header{
     background-color: #b51942 !important;

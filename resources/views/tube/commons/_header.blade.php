@@ -10,15 +10,21 @@
                         <span class="icon-bar"></span>
                     </button>
 
-                    <h1>
+                    <h1 class="header_logo">
                         <a class="navbar-brand" href="{{route('categories', ['profile' => $profile])}}" title="{{$site->getHost()}}">
                             @if (file_exists(\App\rZeBot\rZeBotCommons::getLogosFolder()."/".md5($site->id).".png"))
                                 <img src="{{asset('/logos/'.md5($site->id).".png")}}" alt="{{$site->getHost()}}" title="{{$site->getHost()}}"/>
+                                @if ($site->have_domain == 1)
+                                    <span>{{$site->domain}}</span>
+                                @else
+                                    <span>{{$site->getHost()}}</span>
+                                @endif
+
                             @else
                                 @if ($site->have_domain == 1)
                                     {{$site->domain}}
                                 @else
-                                    <h1 class="text-center">{{$site->getHost()}}</h1>
+                                    {{$site->getHost()}}
                                 @endif
                             @endif
                         </a>
