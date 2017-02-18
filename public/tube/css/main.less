@@ -1,0 +1,381 @@
+/* ------------------ */
+/* --------- IMPORTS --------- */
+/* ------------------ */
+
+/* Twitter Bootstrap */
+
+@import (less) "../bower_components/bootstrap/less/bootstrap.less";
+
+/* Animate.css */
+
+@import (inline) "../bower_components/animate.css/animate.min.css";
+
+@import url('https://fonts.googleapis.com/css?family=Work+Sans:300,400,700&subset=latin-ext');
+
+/* ------------------ */
+/* --------- CUSTOM STYLES --------- */
+/* ------------------ */
+
+body {
+    font-family: "Work Sans", "Helvetica Neue", "Helvetica", Arial, sans-serif;
+    letter-spacing: -.03em;
+}
+
+.btn-default, .pagination li a, .thumb-image {
+    transition: all .5s ease-in-out;
+}
+
+.navbar {
+    border-radius: 0px;
+    background: @brand-primary;
+    border: none;
+    margin-bottom: 0;
+
+    .navbar-toggle {
+        background: #fff;
+        border: none;
+
+        .icon-bar {
+            background: @brand-primary;
+        }
+    }
+
+    .navbar-form {
+        margin-top: .7em;
+
+        input.form-control {
+            font-size: .9em;
+            height: auto;
+            border: none;
+            margin-right: -1em;
+        }
+
+        .mdi {
+            display: inline-block;
+            margin: .1em 0 -.1em 0;
+        }
+    }
+
+    a.btn-default {
+        margin-top: .19em;
+    }
+
+    .btn-default {
+        color: #000;
+        background: @brand-secondary;
+        border: none;
+        font-size: .9em;
+
+        &:hover {
+            background: lighten(@brand-secondary,15%);
+        }
+        &:focus, &:active {
+            background: darken(@brand-secondary,15%);
+        }
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        margin: 0;
+        font-size: 1em;
+        color: lighten(@brand-primary,40%);
+    }
+
+    h4 {
+        margin-top: 0.2em;
+    }
+}
+
+.billboard {
+    background: @brand-tertiary;
+    padding: 0.5em 0;
+    color: #fff;
+
+    a {
+        color: #fff;
+    }
+}
+
+.main {
+    padding-top: 1.5em;
+
+    .pagination {
+        font-size: 1.1em;
+        margin-bottom: 3em;
+
+        li {
+            a {
+                background: @brand-primary;
+                border-color: #000;
+                color: #fff;
+                height: 2.6em;
+
+                &:hover {
+                   background: darken(@brand-primary,10%); 
+                }
+
+                .mdi {
+                    margin: .3em 0 -.6em;
+                }
+            }
+
+            &.page-count a {
+                padding: .6em 1.2em;
+            }
+
+            &.disabled a {
+                color: #ccc;
+                background: #222;
+
+                &:hover {
+                    border: 1px solid #222;
+                }
+            }
+        }
+    }
+    .thumbnail {
+        border: none;
+        padding: 0 0 .5em 0;
+
+        figure > a, figure > a:hover {
+            border-radius: 3px;
+            overflow:hidden;
+            display: block;
+        }
+
+        .thumb-image {
+            border-radius: 3px;
+            overflow: hidden;
+            height: 10em;
+            margin-right: .1em;
+            display: block;
+            position: relative;
+
+            &:hover {
+                -webkit-filter: contrast(1.2) saturate (1.2);
+                filter: contrast(1.2) saturate(1.2);  
+            }
+
+            .floater-b-l, .floater-t-l, .floater-b-c {
+                padding: .2em .7em;
+                font-size: .8em;
+                color: #fff;
+                background: rgba(0,0,0,0.8);
+                display: block;
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+            .floater-b-l, .floater-b-c {
+                top: initial;
+                bottom: 0;
+                border-top-right-radius: 3px;
+            }
+
+            .floater-t-l {
+                border-bottom-right-radius: 3px;
+            }
+
+            .floater-b-c {
+                text-align: center;
+                width: 100%;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                font-size: 1em; 
+                border-radius: 0px;
+            }
+
+            img {
+                display: block;
+                min-width: 100%;
+                height: auto;
+                margin: 0 auto;
+            }
+        }
+
+        .list-inline {
+            li {
+                margin: 0;
+                padding-right: .2em;
+
+                .label {
+                    background: @brand-secondary;
+                    a {
+                        color: #000;
+                    }
+                }
+            }
+        }
+
+        a {
+            color: @brand-secondary;
+            text-decoration: none;
+
+            p {
+                color: #bbb;
+                margin: 0 0 .7em 0;
+                font-size: .8em;
+            }
+
+            h5 {
+                margin-bottom: .5em;
+            }
+
+            p, h5 {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                -webkit-line-clamp: 2;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+            }
+
+            &:hover h5 {
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+.page-header {
+    margin-top: 0;
+    padding-bottom: 0;
+    border: none;
+
+    h1 {
+        font-size: 1.5em;
+        color: #fff;
+        padding: 0;
+        margin: 0;
+
+        small {
+            padding-left: .2em;
+        }
+    }
+
+    .mdi {
+        color: #fff;
+        float: left;
+        font-size: 1.3em;
+        margin: .1em .4em 0 0;
+    }
+
+    .text-right {
+        color: #ddd;
+
+        @media (max-width: 767px) {
+            text-align: left;
+            margin-top: 1.2em;
+        }
+
+        .btn-secondary {
+            background-color: @brand-tertiary;
+            color: #fff;
+            padding: .2em .8em;
+            margin-left: .5em;
+            font-size: .8em;
+            transition: all .3s ease-in-out;
+
+            &:hover {
+               background-color: lighten(@brand-tertiary,5%); 
+            }
+
+            &.active {
+                font-weight: bold;
+                border: 1px solid lighten(@brand-tertiary,20%);
+                letter-spacing: .02em;
+            }
+        }
+    }
+}
+
+.text-content {
+    background: #fff;
+    padding: 1.5em;
+    margin-bottom: 2.5em;
+
+    a {
+        color: @brand-primary;
+    }
+}
+
+.footer {
+    width: 100%;
+    height: auto;
+    background-color: @brand-tertiary;
+    border-radius: 0px;
+    border: none;
+
+    .text-right {
+        @media (max-width: 767px) {
+            text-align: left;
+        }
+    }
+
+    a {
+        color: #fff;
+    }
+
+    .container .text-muted {
+        margin: 20px 0;
+        color: lighten(@brand-tertiary,40%);
+    }
+}
+
+@font-face {
+  font-family: 'fontello';
+  src: url('font/fontello.eot?51326751');
+  src: url('font/fontello.eot?51326751#iefix') format('embedded-opentype'),
+       url('font/fontello.woff2?51326751') format('woff2'),
+       url('font/fontello.woff?51326751') format('woff'),
+       url('font/fontello.ttf?51326751') format('truetype'),
+       url('font/fontello.svg?51326751#fontello') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'fontello';
+    src: url('../font/fontello.svg?51326751#fontello') format('svg');
+  }
+}
+*/
+ 
+ [class^="icon-"]:before, [class*=" icon-"]:before {
+  font-family: "fontello";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+ 
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  /* opacity: .8; */
+ 
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+ 
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+ 
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: .2em;
+ 
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+ 
+  /* Font smoothing. That was taken from TWBS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+ 
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+ 
+.icon-logo_rta:before { content: '\e816'; } /* '' */
