@@ -30,22 +30,8 @@
 
         </div>
 
-        <nav aria-label="Pagination">
-            <ul class="pagination justify-content-center">
-                <?php for ($i = 0; $i < $pornstars->lastPage(); $i++): ?>
-                @if (($i+1) == Request::get('page'))
-                    <li class="page-item active">
-                        <a href="{{route('pornstars', ['host' => $site->domain])}}?page=<?=$i+1?>"><?=$i + 1?></a>
-                    </li>
-                @else
-                    <li class="page-item">
-                        <a href="{{route('pornstars', ['host' => $site->domain])}}?page=<?=$i+1?>"><?=$i + 1?></a>
-                    </li>
+        @include('tube.commons._paginator', ['paginator' => $pornstars])
 
-                @endif
-                <?php endfor ?>
-            </ul>
-        </nav>
 
     </div>
 

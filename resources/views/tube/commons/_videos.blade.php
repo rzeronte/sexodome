@@ -127,31 +127,7 @@
         </div>
 
         @if (!isset($removePaginator))
-            <nav aria-label="Pagination">
-                <ul class="pagination justify-content-center">
-
-
-                    <?php for ($i = 0; $i < $scenes->lastPage(); $i++): ?>
-                        @if (isset($categoryTranslation))
-                            <?php $urlPaginate = route('category', ['permalinkCategory' => $permalinkCategory, 'host' => $site->domain, 'page' => ($i+1)]); ?>
-                        @elseif (isset($pornstar))
-                            <?php $urlPaginate = route('pornstar', ['permalinkPornstar' => $pornstar->permalink, 'host' => $site->domain, 'page' => ($i+1)]); ?>
-                        @elseif ($query_string)
-                            <?php $urlPaginate = route('categories', ['host' => $site->domain, 'page' => ($i+1), 'q' => Request::get('q')]); ?>
-                        @endif
-
-                        @if (($i+1) == Request::get('page'))
-                            <li class="page-item active">
-                                <a href="{{$urlPaginate}}"><?=$i + 1?></a>
-                            </li>
-                        @else
-                            <li class="page-item">
-                                <a href="{{$urlPaginate}}"><?=$i + 1?></a>
-                            </li>
-                        @endif
-                    <?php endfor ?>
-                </ul>
-            </nav>
+            @include('tube.commons._paginator', ['paginator' => $scenes])
         @endif
     </div>
 </main>

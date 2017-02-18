@@ -36,19 +36,7 @@
         </div>
 
         <nav aria-label="Pagination">
-            <ul class="pagination justify-content-center">
-                <?php for ($i = 0; $i < $categories->lastPage(); $i++): ?>
-                    @if (($i+1) == Request::get('page'))
-                        <li class="page-item active">
-                            <a href="{{route('categories', ['host' => $site->domain])}}?page=<?=$i+1?>"><?=$i + 1?></a>
-                        </li>
-                    @else
-                        <li class="page-item">
-                            <a href="{{route('categories', ['host' => $site->domain])}}?page=<?=$i+1?>"><?=$i + 1?></a>
-                        </li>
-                    @endif
-                <?php endfor ?>
-            </ul>
+            @include('tube.commons._paginator', ['paginator' => $categories])
         </nav>
 
     </div>
