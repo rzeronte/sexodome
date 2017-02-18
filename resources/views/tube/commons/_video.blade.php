@@ -35,16 +35,6 @@
 
             <div class="col-md-4">
                 @include('tube.commons._related', ['videos'=>$related])
-
-                @if ($site->banner_video1 != "")
-                    <?=$site->banner_video1 ?>
-                @endif
-
-                <div class="clearfix"></div>
-
-                @if ($site->banner_video2 != "")
-                    <?=$site->banner_video2 ?>
-                @endif
             </div>
 
         </div>
