@@ -53,11 +53,13 @@
                             </p>
                         </li>
                     @endif
+                    @if ($site->pornstars()->count() > 0)
                     <li>
                         <p class="navbar-btn">
                             <a href="{{route('pornstars', ["profile" => $profile])}}" class="btn btn-default btn-header-pornstars">{{trans('tube.header_pornstars_btn')}}</a>
                         </p>
                     </li>
+                    @endif
 
 
             </ul>
