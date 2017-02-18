@@ -217,7 +217,7 @@ class TubeController extends Controller
         return response()->view('tube.video', [
             'profile'         => $profile,
             'video'           => $scene,
-            'related'         => $related->orderBy('rate', 'desc')->limit(12)->get(),
+            'related'         => $related->orderBy('rate', 'desc')->limit(4)->get(),
             'categories'      => $this->commons->site->categories()->get(),
             'query_string'    => "",
             'language'        => $this->commons->language,

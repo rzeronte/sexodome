@@ -67,7 +67,7 @@ class rZeBotCommons extends Controller {
         $this->perPage = 48;
         $this->perPageScenes = 10;
         $this->perPageTags = 30;
-        $this->perPageCategories = 96;
+        $this->perPageCategories = 42;
         $this->perPageJobs = 15;
         $this->perPagePanelPornstars = 12;
 
@@ -123,6 +123,11 @@ class rZeBotCommons extends Controller {
     public static function getFaviconsFolder()
     {
         return env("FOLDER_LOGOS", "../public/favicons/");
+    }
+
+    public static function getHeadersFolder()
+    {
+        return env("FOLDER_LOGOS", "../public/headers/");
     }
 
     public static function getDumpsFolder()

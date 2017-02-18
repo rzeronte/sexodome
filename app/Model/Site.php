@@ -115,7 +115,11 @@ class Site extends Model
 
     public function getCSSThemeFilename()
     {
-        return str_slug($this->getHost()).".css";
+        if (!file_exists('tubeThemes/'.str_slug($this->getHost()).".css")) {
+            return "theme.css";
+        } else {
+            return str_slug($this->getHost()).".css";
+        }
     }
 
     public function getClicks($fi, $ff)

@@ -1,21 +1,13 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        @include('tube.commons._head')
+    </head>
 
-<head>
-    @include('tube.commons._head')
-</head>
-
-<body>
-
-    @include('tube.commons._header')
-
-    <section class="row">
+    <body>
+        @include('tube.commons._header')
         @include('tube.commons._pornstars')
-    </section>
-
-    @include('tube.commons._banner_desktop_footer')
-
-    @include('tube.commons._footer')
-    @include('tube.commons._javascripts')
-
-</body>
+        @include('tube.commons._footer')
+        @include('tube.commons._javascripts')
+    </body>
+</html>

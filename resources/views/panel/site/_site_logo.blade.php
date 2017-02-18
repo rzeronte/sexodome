@@ -29,6 +29,25 @@
 
         <div class="clearfix"></div>
 
+        <div class="col-md-5">
+            <label>Header:</label>
+            <input type="file" name="header"/>
+        </div>
+
+        <div class="col-md-2">
+            @if (file_exists(\App\rZeBot\rZeBotCommons::getHeadersFolder()."/".md5($site->id).".png"))
+                <img src="{{asset('/headers/'.md5($site->id).".png")}}" style="border: solid 1px gray; width:400px;"/>
+            @endif
+        </div>
+        <div class="clearfix"></div>
+
+        <div class="col-md-2">
+            <label>Delete header:</label>
+            <input type="checkbox" name="header_delete" value="1"/>
+        </div>
+
+        <div class="clearfix"></div>
+
         <div class="col-md-2" style="margin-top:10px;">
             <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-disk"></i> Update</button>
         </div>

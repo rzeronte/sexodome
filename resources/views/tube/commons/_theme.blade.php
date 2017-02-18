@@ -1,178 +1,107 @@
-    /*Layout*/
-    body {
-        background-color: {{$site->color}} !important;
-    }
+/* 1 Color Body Bg */
+body {
+    background-color: {{$site->color}} !important;
+}
+.thumbnail {
+    background-color: {{$site->color}} !important;
+}
 
-    .header{
-        background-color: {{$site->color2}} !important;
-        border-bottom: solid 3px {{$site->color6}};
-    }
+/* 2 Color Header Bg */
+.navbar
+{
+    background-color: {{$site->color2}} !important;
 
-    .navbar-default {
-        background-color: {{$site->color2}} !important;
-    }
+    @if (file_exists(\App\rZeBot\rZeBotCommons::getHeadersFolder()."/".md5($site->id).".png"))
+    background-image: url('{{asset('/headers/'.md5($site->id).".png")}}');
+    background-position: top left;
+    background-size: cover;
+    background-repeat: no-repeat;
+    @endif
+}
 
-    .header .billboard{
-        color: {{$site->color4}} !important;
-    }
+/* 3 Color Header Right Text */
+.navbar h4
+{
+    color: {{$site->color3}} !important;
+}
 
-    .footer{
-        background-color: {{$site->color3}} !important;
-    }
+/* 4 Color Billboard bg */
+/* 5 Color Text Billboard */
+.billboard{
+    background-color: {{$site->color4}} !important;
+    color: {{$site->color5}} !important;
+}
 
-    .footer a{
-        color: {{$site->color4}};
-    }
+/* 6 Color Section Text */
+/* 7 Color Section Text Secondary */
+.page-header h2{
+    color: {{$site->color6}} !important;
+    font-size: 1.5em;
+    color: #fff;
+    padding: 0;
+    margin: 0;
+}
 
-    .col-logo a{
-        color: {{$site->color4}};
-    }
+.page-header h3{
+    color: {{$site->color6}} !important;
+    font-size: 1.5em;
+    color: #fff;
+    padding: 0;
+    margin: 0;
+}
 
-    .input-search .btn{
-        background-color: {{$site->color6}};
-        color: {{$site->color7}} !important;
-    }
+.page-header .mdi{
+    color: {{$site->color6}} !important;
+}
 
-    .btn-header-pornstars{
-        background-color: {{$site->color6}};
-        color: {{$site->color7}};
-    }
+.page-header h1 small{
+    color: {{$site->color7}} !important;
+}
 
-    .btn-header-pornstars:hover{
-        color: {{$site->color7}};
-    }
+.scene-description{
+    font-size: 18px;
+    color: {{$site->color8}} !important;
+}
 
-    .btn-custom-user{
-        background-color: {{$site->color6}};
-        color: {{$site->color7}};
-    }
+/* 8 Color Video Text */
+.main .thumbnail a h5{
+    color: {{$site->color8}} !important;
+}
 
-    .btn-custom-user:hover{
-        color: {{$site->color7}};
-    }
+/* 9 Color Tag */
+.main .thumbnail .list-inline li .label {
+    background-color: {{$site->color9}} !important;
+    color: transparent;
+}
 
-    /****************************************************************************************** Categories*/
-    .category_outer figure {
-        border-bottom: solid 3px {{$site->color6}};
-    }
+/* 10 Buttons BG */
+/* 11 Buttons text */
+.main .pagination li a{
+    background-color: {{$site->color10}} !important;
+    color: {{$site->color11}} !important;
+}
 
-    .category_outer .link_image img {
-        border: solid 0px {{$site->color2}};
-    }
+.navbar .btn-default{
+    background-color: {{$site->color10}} !important;
+    color: {{$site->color11}} !important;
+}
 
-    .category_outer .category_info{
-        background-color: {{$site->color2}} !important;
-    }
+.page-header .text-right .btn-secondary.active {
+    background-color: {{$site->color10}} !important;
+    border-color: {{$site->color10}} !important;
+    color: {{$site->color11}} !important;
+}
 
-    .category_outer .category_info .link_category {
-        color: {{$site->color4}} !important;
-    }
+/* 12 On Video BG */
+.main .thumbnail .thumb-image .floater-b-c,
+.main .thumbnail .thumb-image .floater-b-l,
+.main .thumbnail .thumb-image .floater-t-l {
+    background-color: {{$site->color12}} !important;
+    opacity: 0.7;
+}
 
-    .category_outer .category_info .link_nvideos {
-        color: {{$site->color5}};
-    }
-
-    .header_title_section{
-        border-bottom: solid 2px {{$site->color8}} !important;
-        color: {{$site->color8}};
-    }
-    .header_title_section_mobile{
-        color: {{$site->color8}};
-    }
-
-    /****************************************************************************************** Video*/
-    .video_outer .link_image img {
-        border: solid 0px {{$site->color2}};
-    }
-
-    .video_outer .info_video{
-        background-color: {{$site->color2}} !important;
-        border-bottom: solid 3px {{$site->color6}};
-    }
-
-    .video_outer .info_video .title {
-        color: {{$site->color9}};
-    }
-
-    .video_outer .info_video .extra_info{
-        color: {{$site->color10}} !important;
-    }
-
-    .video_outer .info_video .extra_info .channel_link {
-        color: {{$site->color10}} !important;
-    }
-
-    .video_outer .info_video .category_link {
-        background-color: {{$site->color6}};
-        color: {{$site->color7}};
-    }
-
-    /****************************************************************************************** Pornstar*/
-    .pornstar_outer .link_image img {
-        border: solid 0px {{$site->color2}};
-    }
-
-    .pornstar_outer .pornstar_info {
-        background-color: {{$site->color2}} !important;
-    }
-
-    .pornstar_outer .pornstar_info .pornstar_link{
-        color: {{$site->color4}};
-    }
-
-    /****************************************************************************************** paginator */
-
-    .pagination li a{
-        background-color: {{$site->color2}};
-        color: {{$site->color5}};
-    }
-
-    .pagination li a:hover{
-        background-color: {{$site->color2}};
-        color: {{$site->color5}};
-    }
-
-    .pagination .active > span {
-        background-color: {{$site->color2}};
-        color: {{$site->color5}};
-    }
-
-    .pagination .disabled > span {
-        background-color: {{$site->color2}};
-        color: {{$site->color5}};
-    }
-
-    .pagination .active > span:hover{
-        background-color: {{$site->color2}};
-        color: {{$site->color5}};
-    }
-
-    .pagination .disabled > span:hover{
-        background-color: {{$site->color2}};
-        color: {{$site->color5}};
-    }
-
-    .link_order{
-        background-color: {{$site->color6}} !important;
-        color: {{$site->color7}} !important;
-    }
-
-    .alphabetical_categories{
-        color: {{$site->color8}};
-        border-bottom: solid 1px {{$site->color8}};;
-    }
-
-    .alphabetical_letter{
-        background-color: {{$site->color6}};
-        color: {{$site->color8}};
-    }
-
-    .alphabetical_category_link a{
-        color: {{$site->color8}};
-    }
-
-    .related_header{
-        color: {{$site->color8}};
-        border-bottom: solid 1px {{$site->color8}};;
-    }
+/* Fixes */
+.main .thumbnail .thumb-image img{
+    height: 100%;
+}
 

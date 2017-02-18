@@ -53,6 +53,19 @@ class Scene extends Model
         return $this->hasMany('App\Model\Logpublish');
     }
 
+    public function cleanIframeHtml()
+    {
+        $iframe = $this->iframe;
+        $pattern = "/width=\"[0-9]*\"/";
+        $iframe = preg_replace($pattern, "width='100%'", $iframe);
+        $pattern2 = "/width=\"[0-9]*+px\"/";
+        $iframe = preg_replace($pattern2, "width='100%'", $iframe);
+        $pattern3 = "/height=\"[0-9]*\"/";
+        $iframe = preg_replace($pattern3, "height='500px'", $iframe);
+
+        return $iframe;
+    }
+
     static function getTranslationSearch($query_string = false, $language_id)
     {
         $scenes = Scene::select('scenes.*', 'scene_translations.title', 'scene_translations.permalink')
@@ -309,4 +322,6 @@ class Scene extends Model
 
         return $query;
     }
+
+
 }

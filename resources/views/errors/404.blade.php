@@ -5,8 +5,6 @@
     <title>Not found</title>
 </head>
 
-<body>
-<script type="text/javascript">
-    window.location = 'http://{{Request::server("HTTP_HOST")}}';
-</script>
+<body style="font-size:50em;">
+404!
 </body>

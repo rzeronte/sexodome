@@ -66,9 +66,7 @@ function preloadImage(source, destElem) {
     image.src = source;
 
     image.onload = function () {
-        $(destElem).fadeTo(200,0.30, function() {
-            $(destElem).attr('src', image.src);
-        }).fadeTo(500,1);
+        $(destElem).attr('src', image.src);
     };
 }
 
