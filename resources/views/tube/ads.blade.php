@@ -97,7 +97,6 @@
         font-size: 14px;
         background-color: black;
         color: white;
-        opacity: 0.7;
         text-align: center;
         padding: 0;
         margin: 0;
