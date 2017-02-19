@@ -18,7 +18,8 @@
         <section>
             <div class="container">
                 <div class="row">
-                    <h2>{{$site->getHost()}}</h2>
+
+                    <h4><i class="glyphicon glyphicon-cloud"></i> {{$site->getHost()}}</h4>
 
                     <div class="jcarousel-wrapper col-md-12">
                         <div class="jcarousel">
@@ -29,7 +30,7 @@
                                         <div class="scene">
                                             @if ($translation)
                                                 <a href="{{route('category', ['profile'=>$site->getHost(),'permalink' => $translation->permalink])}}?utm_source=ads_{{$language->domain}}" alt="{{$translation->title}}" target="_blank">
-                                                    <p class="text">{{$translation->name}}</p>
+                                                    <p class="text">{{ucwords($translation->name)}}</p>
                                                     <?php $srcThumbnail = asset('/thumbnails/'.md5($translation->thumb).".jpg")?>
                                                     <img src="{{$srcThumbnail}}" alt="{{ucwords($translation->name)}}">
                                                 </a>
@@ -43,7 +44,6 @@
                         <a href="#" class="jcarousel-control-prev">&lsaquo;</a>
                         <a href="#" class="jcarousel-control-next">&rsaquo;</a>
 
-                        <p class="jcarousel-pagination"></p>
                     </div>
 
                 </div>
@@ -69,6 +69,8 @@
     .jcarousel-wrapper{
         width: 100%;
         height: auto;
+        border: none;
+        padding:0;
     }
 
     .scene{
@@ -99,18 +101,47 @@
         text-align: center;
         padding: 0;
         margin: 0;
+        @if (ctype_xdigit(Request::input('c10', 'black')))
+            background-color: #{{Request::input('c10', 'black')}}
+        @else
+            background-color: gray;
+        @endif;
+
+        @if (ctype_xdigit(Request::input('c11', 'black')))
+            color: #{{Request::input('c11', 'black')}}
+        @else
+            background-color: gray;
+        @endif;
     }
 
-    h2 {
+    h4 {
         margin:0;
         padding: 0;
+        @if (ctype_xdigit(Request::input('c6', 'black')))
+            color: #{{Request::input('c6', 'black')}}
+        @else
+            color: black;
+    @endif;
+
+    }
+
+    .jcarousel-control-prev{
+        left: -10px;
+        width: 50px;
+    }
+    .jcarousel-control-next{
+        right: -10px;
+        width: 50px;
     }
 
 </style>
 
 <script>
     $('.jcarousel').jcarousel({
-        'visible': 6
+        'visible': 5,
+        'scroll': '+=1',
+        'wrap': 'circular',
+
     });
 </script>
 </body>
