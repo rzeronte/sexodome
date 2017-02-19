@@ -32,6 +32,11 @@ body {
     color: {{$site->color5}} !important;
 }
 
+.billboard a{
+    background-color: {{$site->color4}} !important;
+    color: {{$site->color5}} !important;
+}
+
 /* 6 Color Section Text */
 /* 7 Color Section Text Secondary */
 .page-header h2{
