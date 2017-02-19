@@ -14,7 +14,7 @@
         </header>
 
         <div class="row">
-            <div class="col-md-7">
+            <div class="col-md-8">
                 <?php echo $video->cleanIframeHtml();?>
 
                  @if ($video->description && $video->description != 'NULL')
