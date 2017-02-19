@@ -59,7 +59,7 @@ body {
     color: {{$site->color6}} !important;
 }
 
-.page-header h1 small{
+.page-header h2 small{
     color: {{$site->color7}} !important;
 }
 
