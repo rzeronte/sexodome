@@ -29,7 +29,7 @@
                                         <?php $translation = $scene->translations()->where('language_id',$language->id)->first(); ?>
                                         <div class="scene">
                                             @if ($translation)
-                                                <a href="{{route('category', ['profile'=>$site->getHost(),'permalink' => $translation->permalink])}}?utm_source=ads_{{$language->domain}}" alt="{{$translation->title}}" target="_blank">
+                                                <a href="{{route('category', ['profile'=>$site->getHost(),'permalink' => $translation->permalink])}}?utm_source={{$site->domain}}&utm_medium={{$translation->name}}&utm_campaign=iframe_sexodome" alt="{{$translation->title}}" target="_blank">
                                                     <p class="text">{{ucwords($translation->name)}}</p>
                                                     <?php $srcThumbnail = asset('/thumbnails/'.md5($translation->thumb).".jpg")?>
                                                     <img src="{{$srcThumbnail}}" alt="{{ucwords($translation->name)}}">
