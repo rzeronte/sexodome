@@ -30,14 +30,6 @@
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="navbar navbar-nav list-inline">
-                @if ($site->button1_url != "" and $site->button1_text != "")
-                    <li>
-                        <p class="navbar-btn">
-                            <a href="{{$site->button1_url}}" target="_blank" class="btn btn-default">{{$site->button1_text}}</a>
-                        </p>
-                    </li>
-
-                @endif
 
                     @if ($site->button1_url != "" and $site->button1_text != "")
                         <li>
