@@ -41,6 +41,11 @@ class BotCategoriesRecount extends Command
             }
 
             if ($category->nscenes != $countScenes) {
+                $category->nscenes = $countScenes;
+                if ($countScenes < env('MIN_SCENES_CATEGORY_ACTIVATION')) {
+                    $category->status = 0;
+                }
+                $category->save();
                 rZeBotUtils::message("[$i][SUCCESS] $translation->name ($category->id) => count: $countScenes | nscenes bbdd: $category->nscenes", "yellow");
             } else {
                 rZeBotUtils::message("[$i][SUCCESS] $translation->name ($category->id) => count: $countScenes | nscenes bbdd: $category->nscenes", "green");
