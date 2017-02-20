@@ -7,7 +7,7 @@ body {
 }
 
 /* 2 Color Header Bg */
-.navbar
+.navbar-default
 {
     background-color: {{$site->color2}} !important;
 
