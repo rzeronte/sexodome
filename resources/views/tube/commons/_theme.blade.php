@@ -14,7 +14,7 @@ body {
     @if (file_exists(\App\rZeBot\rZeBotCommons::getHeadersFolder()."/".md5($site->id).".png"))
     background-image: url('{{asset('/headers/'.md5($site->id).".png")}}');
     background-position: top left;
-    background-size: cover;
+    background-size: 100%;
     background-repeat: no-repeat;
     @endif
 }
