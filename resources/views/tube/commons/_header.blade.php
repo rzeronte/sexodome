@@ -29,7 +29,7 @@
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="navbar navbar-nav list-inline">
+            <ul class="navbar navbar-nav list-inline" style="background-color: transparent !important;">
 
                     @if ($site->button1_url != "" and $site->button1_text != "")
                         <li>
