@@ -123,7 +123,7 @@ class BotSitemapGenerator extends Command
 
         if ($num_scenes_chunks !== false) {
             for ($n = 1; $n <= $num_scenes_chunks-1; $n++) {
-                $sitemap->addSitemap('http://'.$site->getHost() . "/".$site->getHost() . ".scenes.{$n}.xml", date('Y-m-d\TH:i:s') );
+                $sitemap->addSitemap('http://'.$site->getHost() . "/".$site->getHost() . ".scenes.".$n.".xml", date('Y-m-d\TH:i:s') );
             }
         }
 
