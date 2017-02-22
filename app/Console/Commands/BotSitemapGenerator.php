@@ -80,14 +80,12 @@ class BotSitemapGenerator extends Command
         $num_scenes_chunks = false;
         if (count($scenes) > 0) {
             $num_scenes_chunks = 1;
-            foreach ($scenes->chunk(10000) as $chunk) {
+            foreach ($scenes->chunk(20000) as $chunk) {
+                $this->info("Procesando página $num_scenes_chunks de videos en " . $site->getHost() . " - [SUCCESS] ");
                 foreach($chunk as $scene) {
                     $translation = $scene->translations()->whereNotNull('permalink')->where('language_id', $language_id)->first();
 
-                    if (!$translation) {
-                        $this->info("$i - [ERROR] Ignorando URL, la escena " .$scene->id ." no tiene traducción para el idioma id: $language_id");
-                    } else {
-                        $this->info("$i - [SUCCESS] Url: ".route('video', ['permalink'=>$translation->permalink]));
+                    if ($translation) {
                         $sitemapScenes->add(route('video', ['permalink'=>$translation->permalink, "host" => $site->getHost()]), date('Y-m-d').'T00:00:00+00:00', '1.0', 'daily');
                     }
                 }
