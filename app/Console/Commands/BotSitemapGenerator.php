@@ -81,6 +81,8 @@ class BotSitemapGenerator extends Command
         if (count($scenes) > 0) {
             $num_scenes_chunks = 1;
             foreach ($scenes->chunk(20000) as $chunk) {
+                $sitemapScenes = new Sitemap(["use_styles" => false]);
+
                 $this->info("Procesando página $num_scenes_chunks de videos en " . $site->getHost() . " - [SUCCESS] ");
                 foreach($chunk as $scene) {
                     $translation = $scene->translations()->whereNotNull('permalink')->where('language_id', $language_id)->first();
