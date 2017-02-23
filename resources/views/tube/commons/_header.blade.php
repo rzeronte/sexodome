@@ -30,29 +30,33 @@
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="navbar navbar-nav list-inline" style="background-color: transparent !important;">
+                <li>
+                    <p class="navbar-btn">
+                        <a href="{{route('categories', ['profile' => $profile])}}" class="btn btn-default">{{ucwords(trans('tube.h1_info_categories'))}}</a>
+                    </p>
+                </li>
 
-                    @if ($site->button1_url != "" and $site->button1_text != "")
-                        <li>
-                            <p class="navbar-btn">
-                                <a href="{{$site->button1_url}}" target="_blank" class="btn btn-default">{{$site->button1_text}}</a>
-                            </p>
-                        </li>
-                    @endif
-                    @if ($site->button2_url != "" and $site->button2_text != "")
-                        <li>
-                            <p class="navbar-btn">
-                                <a href="{{$site->button2_url}}" class="btn btn-default">{{$site->button2_text}}</a>
-                            </p>
-                        </li>
-                    @endif
-                    @if ($site->pornstars()->count() > 0)
+                @if ($site->button1_url != "" and $site->button1_text != "")
                     <li>
                         <p class="navbar-btn">
-                            <a href="{{route('pornstars', ["profile" => $profile])}}" class="btn btn-default btn-header-pornstars">{{trans('tube.header_pornstars_btn')}}</a>
+                            <a href="{{$site->button1_url}}" target="_blank" class="btn btn-default">{{$site->button1_text}}</a>
                         </p>
                     </li>
-                    @endif
-
+                @endif
+                @if ($site->button2_url != "" and $site->button2_text != "")
+                    <li>
+                        <p class="navbar-btn">
+                            <a href="{{$site->button2_url}}" class="btn btn-default">{{$site->button2_text}}</a>
+                        </p>
+                    </li>
+                @endif
+                @if ($site->pornstars()->count() > 0)
+                <li>
+                    <p class="navbar-btn">
+                        <a href="{{route('pornstars', ["profile" => $profile])}}" class="btn btn-default btn-header-pornstars">{{trans('tube.header_pornstars_btn')}}</a>
+                    </p>
+                </li>
+                @endif
 
             </ul>
             <form action="{{ route('search', ['profile' => $profile]) }}" method="get" class="navbar-form navbar-left">
