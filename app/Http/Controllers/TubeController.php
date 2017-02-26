@@ -138,9 +138,10 @@ class TubeController extends Controller
         if (CategoryTranslation::join('categories','categories.id', '=', 'categories_translations.category_id')
                 ->where('categories.site_id', '=', $this->commons->site->id)
                 ->where('permalink', $permalinkCategory)
+                ->where('language_id', $this->commons->site->language_id)
                 ->count() == 0
         ) {
-            return redirect()->route('categories', ['domain' => $this->commons->site->getHost()]);
+            abort(404, 'Scene not found');
         }
 
         $categoryTranslation = CategoryTranslation::join('categories','categories.id', '=', 'categories_translations.category_id')
