@@ -70,8 +70,10 @@ class BotSitemapGenerator extends Command
             if (!$categoryTranslation) {
                 $this->info("$i - [ERROR] Ignorando URL, la categoría " .$category->id ." no tiene traducción para el idioma id: $language_id");
             } else {
-                $this->info("$i - [SUCCESS] Url: ".route('category', ['permalink'=>$categoryTranslation->permalink]));
-                $sitemapCategories->add(route('category', ['permalink'=>$categoryTranslation->permalink, "host" => $site->getHost()]), date('Y-m-d').'T00:00:00+00:00', '1.0', 'daily');
+                if (strlen($categoryTranslation->permalink) > 0) {
+                    $this->info("$i - [SUCCESS] Url: ".route('category', ['permalink'=>$categoryTranslation->permalink]));
+                    $sitemapCategories->add(route('category', ['permalink'=>$categoryTranslation->permalink, "host" => $site->getHost()]), date('Y-m-d').'T00:00:00+00:00', '1.0', 'daily');
+                }
             }
             $i++;
         }
@@ -88,7 +90,9 @@ class BotSitemapGenerator extends Command
                     $translation = $scene->translations()->whereNotNull('permalink')->where('language_id', $language_id)->first();
 
                     if ($translation) {
-                        $sitemapScenes->add(route('video', ['permalink'=>$translation->permalink, "host" => $site->getHost()]), date('Y-m-d').'T00:00:00+00:00', '1.0', 'daily');
+                        if (strlen($translation->permalink) > 0) {
+                            $sitemapScenes->add(route('video', ['permalink'=>$translation->permalink, "host" => $site->getHost()]), date('Y-m-d').'T00:00:00+00:00', '1.0', 'daily');
+                        }
                     }
                 }
                 $sitemapScenes->store('xml', $site->getHost().".scenes.".$num_scenes_chunks, '');
