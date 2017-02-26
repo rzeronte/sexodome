@@ -29,6 +29,11 @@
 <meta charset="UTF-8">
 
 
+{{-- meta noindex en demo --}}
+@if ($site->id == env('DEMO_SITE_ID'))
+<meta name="robots" content="noindex">
+@endif
+
 {{--analytics--}}
 @if ($site->google_analytics)
     <script>
