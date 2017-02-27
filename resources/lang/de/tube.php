@@ -17,6 +17,7 @@ return [
     'views' => 'aufrufe',
     'all_categories' => 'Alle Kategorien',
 
-    'related_scenes' => 'Ähnliche Szenen'
+    'related_scenes' => 'Ähnliche Szenen',
+    'page' => 'seite',
 
 ];

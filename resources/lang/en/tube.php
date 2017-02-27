@@ -17,5 +17,7 @@ return [
     'views' => 'views',
     'all_categories' => 'All categories',
 
-    'related_scenes' => 'Related scenes'
+    'related_scenes' => 'Related scenes',
+    'page' => 'page',
+
 ];

@@ -19,7 +19,7 @@
             ?>
             @if ($from < $i && $i < $to)
                 <li class="page-item {{ ($paginator->currentPage() == $i) ? ' active' : '' }}">
-                    <a href="{{ $paginator->url($i) }}">{{ $i }}</a>
+                    <a href="{{ str_replace('?page=1', '', $paginator->url($i)) }}">{{ $i }}</a>
                 </li>
             @endif
         @endfor

@@ -17,6 +17,7 @@ return [
     'views' => 'visto',
     'all_categories' => 'Todas las categorías',
 
-    'related_scenes' => 'Escenas relacionadas'
+    'related_scenes' => 'Escenas relacionadas',
+    'page' => 'página',
 
 ];

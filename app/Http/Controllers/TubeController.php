@@ -46,6 +46,9 @@ class TubeController extends Controller
 
         // seo
         $seo_title = str_replace("{domain}", $this->commons->site->getHost(), $this->commons->site->title_index);
+        if (Input::get('page') > 1) {
+            $seo_title.= " - " . ucwords(trans('tube.page')) . " " . Input::get('page');
+        }
         $seo_description = str_replace("{domain}", $this->commons->site->getHost(), $this->commons->site->description_index);
 
         return response()->view('tube.categories', [
@@ -162,6 +165,10 @@ class TubeController extends Controller
         // seo
         $seo_title = str_replace("{category}", $categoryTranslation->name, $this->commons->site->title_category);
         $seo_title = str_replace("{domain}", $this->commons->site->getHost(), $seo_title);
+
+        if (Input::get('page') > 1) {
+            $seo_title.= " - " . ucwords(trans('tube.page')) . " " . Input::get('page');
+        }
 
         $seo_description = str_replace("{category}", $categoryTranslation->name, $this->commons->site->description_category);
         $seo_description = str_replace("{domain}", $this->commons->site->getHost(), $seo_description);
@@ -332,6 +339,9 @@ class TubeController extends Controller
     {
         // seo
         $seo_title = str_replace("{domain}", $this->commons->site->getHost(), $this->commons->site->title_pornstars);
+        if (Input::get('page') > 1) {
+            $seo_title.= " - " . ucwords(trans('tube.page')) . " " . Input::get('page');
+        }
         $seo_description = str_replace("{domain}", $this->commons->site->getHost(), $this->commons->site->description_pornstars);
 
         return response()->view('tube.pornstars', [
