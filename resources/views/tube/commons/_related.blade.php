@@ -26,7 +26,7 @@
 
                             @if ($scene->channel->embed == 1)
                                 <?php $href = route('video', ['profile' => $profile, 'permalink' => $scene->permalink]);?>
-                                <a href="{{$href}}" rel="nofollow" class="img link_image" title="{{$scene->title}}" @if ($site->google_analytics) onclick="trackOutboundLink('{{$href}}', '{{strtolower($scene->channel->name)}}');return false;" @endif target="_blank">
+                                <a href="{{$href}}" class="img link_image" title="{{$scene->title}}" @if ($site->google_analytics) onclick="trackOutboundLink('{{$href}}', '{{strtolower($scene->channel->name)}}');return false;" @endif target="_blank">
                                    <span class="thumb-image">
                                         <span class="floater-t-l"><i class="mdi mdi-access-time"></i> {{gmdate("i:s", $scene->duration)}}</span>
                                         <span class="floater-b-l">{{$date->diffForHumans()}}</span>
@@ -51,7 +51,7 @@
                                     <?php $href = route('out', ['profile' => $profile, 'scene_id' => $scene->id, 'p' => $i]) ?>
                                 @endif
 
-                                <a href="{{$href}}" rel="nofollow" @if ($site->google_analytics) onclick="trackOutboundLink('{{$href}}', '{{strtolower($scene->channel->name)}}');return false;" @endif>
+                                <a href="{{$href}}" @if ($scene->channel->embed != 1) rel="nofollow" @endif @if ($site->google_analytics) onclick="trackOutboundLink('{{$href}}', '{{strtolower($scene->channel->name)}}');return false;" @endif>
                                     <h5>{{str_limit($scene->title, 40, $end = '...')}}</h5>
                                 </a>
 
