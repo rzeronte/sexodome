@@ -10,6 +10,8 @@
 <meta property="og:description" content="{{$seo_description}}">
 <meta property="og:image" content="{Site image URL}">
 
+<link rel=”canonical” href=”{{  Request::url() }}”/>
+
 <!-- /seo -->
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="dns-prefetch" href="https://ajax.googleapis.com">
