@@ -1,18 +1,12 @@
 <meta charset="utf-8">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-<!-- seo -->
 <title>{{$seo_title}}</title>
 <meta name="description" content="{{$seo_description}}">
 <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
 <meta property="og:title" content="{{$seo_title}}">
 <meta property="og:description" content="{{$seo_description}}">
-<meta property="og:image" content="{Site image URL}">
-
 <link rel=”canonical” href=”{{  Request::url() }}”/>
-
-<!-- /seo -->
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="dns-prefetch" href="https://ajax.googleapis.com">
 <link rel="dns-prefetch" href="https://www.google-analytics.com">
@@ -20,22 +14,17 @@
 <link rel="stylesheet" href="{{asset('tube/bower_components/bootstrap-material-design-icons/css/material-icons.min.css')}}">
 <link rel="stylesheet" href="{{asset('tube/css/main.css')}}">
 <link rel="stylesheet" href="{{asset('tubeThemes/'.$site->getCSSThemeFilename())}}?v=<?=microtime(true);?>">
-
 <!--[if lt IE 9]>
 <script src="{{asset('tube/bower_components/respond/dest/respond.min.js')}}"></script>
 <script src="{{asset('tube/bower_components/html5shiv/dist/html5shiv.min.js')}}"></script>
 <!-- <![endif] -->
-
 <link rel="icon" href="{{asset('/favicons/'.md5($site->id).".png")}}">
 <meta name="language" content="{{App::getLocale()}}" />
 <meta charset="UTF-8">
-
-
 {{-- meta noindex en demo --}}
 @if ($site->id == env('DEMO_SITE_ID'))
 <meta name="robots" content="noindex">
 @endif
-
 {{--analytics--}}
 @if ($site->google_analytics)
     <script>
