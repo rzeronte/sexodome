@@ -25,13 +25,10 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot(Router $router)
     {
-//        $router->bind('site', function($value) {
-//            return Site::where('domain', $value)->first();
-//        });
-
         $router->pattern('host', '[a-z0-9.]+');
 
         parent::boot($router);
+
     }
 
     /**

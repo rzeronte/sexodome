@@ -104,28 +104,30 @@ Route::group(['domain' => 'accounts.'.\App\rZeBot\rZeBotCommons::getMainPlatafor
 
 });
 
+if (!App::runningInConsole()) {
+
 // TubeFronts domains
-Route::group(['domain' => '{host}'], function () {
-    Route::match(['get'], '/', 'TubeController@categories')->name('categories');
+    Route::group(['domain' => '{host}'], function () {
+        Route::match(['get'], '/', 'TubeController@categories')->name('categories');
 
-    Route::match(['get'], '/pornstars', 'TubeController@pornstars')->name('pornstars');
+        Route::match(['get'], '/' . App::make('site')->pornstars_url, 'TubeController@pornstars')->name('pornstars');
+        Route::get('/' . App::make('site')->category_url . '/{permalinkCategory}', 'TubeController@category')->name('category');
+        Route::get('/' . App::make('site')->tag_url . '/{permalinkTag}', 'TubeController@tag')->name('tag');
+        Route::get('/' . App::make('site')->pornstars_url . '/{permalinkPornstar}', 'TubeController@pornstar')->name('pornstar');
+        Route::match(['get'], '/' . App::make('site')->video_url . '/{permalink}', 'TubeController@video')->name('video');
 
-    Route::get('/search', 'TubeController@search')->name('search');
+        Route::get('/search', 'TubeController@search')->name('search');
+        Route::match(['get'], '/out/{scene_id_id}', 'TubeController@out')->name('out');
+        Route::match(['get'], '/iframe/{scene_id}', 'TubeController@iframe')->name('iframe');
+        Route::match(['get'], '/ads/', 'TubeController@ads')->name('ads');
 
-    Route::get('/tag/{permalinkTag}', 'TubeController@tag')->name('tag');
-    Route::get('/category/{permalinkCategory}', 'TubeController@category')->name('category');
-    Route::get('/pornstar/{permalinkPornstar}', 'TubeController@pornstar')->name('pornstar');
+        Route::match(['get'], '/dmca/', 'TubeController@dmca')->name('dmca');
+        Route::match(['get'], '/terms/', 'TubeController@terms')->name('terms');
+        Route::match(['get'], '/2257/', 'TubeController@C2257')->name('C2257');
+        Route::match(['get'], '/contact/', 'TubeController@contact')->name('contact');
 
-    Route::match(['get'], '/video/{permalink}', 'TubeController@video')->name('video');
-    Route::match(['get'], '/out/{scene_id_id}', 'TubeController@out')->name('out');
-    Route::match(['get'], '/iframe/{scene_id}', 'TubeController@iframe')->name('iframe');
-    Route::match(['get'], '/ads/', 'TubeController@ads')->name('ads');
+        Route::match(['get'], '/sitemap.xml', 'TubeController@sitemap')->name('sitemap');
 
-    Route::match(['get'], '/dmca/', 'TubeController@dmca')->name('dmca');
-    Route::match(['get'], '/terms/', 'TubeController@terms')->name('terms');
-    Route::match(['get'], '/2257/', 'TubeController@C2257')->name('C2257');
-    Route::match(['get'], '/contact/', 'TubeController@contact')->name('contact');
+    });
 
-    Route::match(['get'], '/sitemap.xml', 'TubeController@sitemap')->name('sitemap');
-
-});
+}

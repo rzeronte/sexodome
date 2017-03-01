@@ -17,7 +17,7 @@
                 <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
                     <div class="thumbnail">
                         <figure>
-                            <a href="{{route('pornstar', ['profile' => $profile, 'permalinkPornstar'=>str_slug($pornstar->name)])}}" _target="_blank">
+                            <a href="{{route('pornstar', ['profile' => $profile, 'pornstars_url' => $site->pornstars_url, 'permalinkPornstar'=>str_slug($pornstar->name)])}}" _target="_blank">
                                 <span class="thumb-image">
                                 <span class="floater-b-c">{{ str_limit(ucfirst($pornstar->name), $limit = 25 , $end = '...') }}</span>
                                 <img class="img" src="{{$pornstar->thumbnail}}" alt="{{ucwords($pornstar->name)}}" style="height:100%;">
