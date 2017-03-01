@@ -108,7 +108,7 @@ class BotSitemapGenerator extends Command
         $pornstars = $site->pornstars()->get();
         if (count($pornstars) > 0) {
             foreach ($pornstars as $pornstar) {
-                $ruta = $protocol . $site->getHost() . '/' . $site->pornstar_url . '/'.$translation->permalink;
+                $ruta = $protocol . $site->getHost() . '/' . $site->pornstar_url . '/'.$pornstar->permalink;
                 $this->info("$i - [SUCCESS] Url: " . $ruta);
                 $sitemapPornstars->add($ruta, date('Y-m-d').'T00:00:00+00:00', '1.0', 'daily');
                 $i++;
