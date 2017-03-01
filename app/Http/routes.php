@@ -104,7 +104,7 @@ Route::group(['domain' => 'accounts.'.\App\rZeBot\rZeBotCommons::getMainPlatafor
 
 });
 
-if (!App::runningInConsole()) {
+if (!App::runningInConsole() && App::make('site')) {
 
 // TubeFronts domains
     Route::group(['domain' => '{host}'], function () {
