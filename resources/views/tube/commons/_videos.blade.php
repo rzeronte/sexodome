@@ -32,7 +32,7 @@
                         <h2>
                             @if (isset($scenes))
                                 {{--{{$scenes->total()}} {{trans('tube.count_porn_videos_for')}} '<b>{{$query_string}}</b>'--}}
-                                ({{$scenes->total()}} {{trans('tube.count_porn_videos')}})
+                                {{$scenes->total()}} {{trans('tube.count_porn_videos')}}
                             @endif
                         </h2>
                     @endif
