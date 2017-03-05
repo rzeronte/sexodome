@@ -5,8 +5,6 @@
 
 <body>
 
-<div id="ajaxUrls" data-tags-url="{{route('ajaxTags', ['locale'=> $locale])}}"></div>
-
 <div class="container">
     <div class="header row">
         @include('panel._header_config')
