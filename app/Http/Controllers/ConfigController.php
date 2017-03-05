@@ -1208,6 +1208,8 @@ class ConfigController extends Controller
         }
 
         $site = Site::find($site_id);
+        
+        DB::table('categories')->where('site_id', $site->id)->update(['cache_order' => 0]);
 
         $categories = Category::getTranslationByStatus(1, $this->commons->language->id)
             ->where('site_id', '=', $site->id)
