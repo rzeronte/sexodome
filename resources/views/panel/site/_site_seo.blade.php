@@ -25,7 +25,63 @@
         <div class="col-md-12">
             <div style="margin-top:20px;">
                 <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
+                    <p><i class="glyphicon glyphicon-alert"></i> <b>Status</b></p>
+                </div>
+            </div>
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Status:
+                </div>
+                <div class="col-md-7">
+                    <select name="status" class="form-control">
+                        <option value="1" @if ($site->status == 1) selected @endif>Si</option>
+                        <option value="0" @if ($site->status != 1) selected @endif>No</option>
+                    </select>
+                </div>
+            </div>
+
+            <div style="margin-top:20px;">
+                <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
                     <p><i class="glyphicon glyphicon-signal"></i> <b>SEO</b></p>
+                </div>
+            </div>
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Category URL:
+                </div>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" value="{{$site->category_url}}" name="contact_email">
+                    <small><b>Example:</b> www.domain.com/{category_url}/blonde</small>
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Pornstars URL:
+                </div>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" value="{{$site->pornstars_url}}" name="contact_email">
+                    <small><b>Example:</b> www.domain.com/{pornstars_url}/</small>
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Pornstar URL:
+                </div>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" value="{{$site->pornstar_url}}" name="contact_email">
+                    <small><b>Example:</b> www.domain.com/{pornstar_url/jenna_jameson</small>
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Video URL:
+                </div>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" value="{{$site->video_url}}" name="contact_email">
+                    <small><b>Example:</b> www.domain.com/{video_url}/title_example_for_video_permalink</small>
                 </div>
             </div>
 

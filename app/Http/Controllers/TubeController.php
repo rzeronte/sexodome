@@ -29,7 +29,6 @@ class TubeController extends Controller
 
     public function categories($profile)
     {
-
         $query_string = Request::get('q');
 
         $categories = Category::getTranslationByStatus(1, $this->commons->language->id)
@@ -64,7 +63,7 @@ class TubeController extends Controller
             'seo_description' => $seo_description,
             'site'            => $this->commons->site,
             'total_scenes'    => $this->commons->site->getTotalScenes(),
-        ])->header('Cache-control', 'max-age=3600');
+        ]);
     }
 
     public function search($profile)
@@ -392,5 +391,11 @@ class TubeController extends Controller
             'site'            => $this->commons->site,
             'pornstar'        => $pornstar
         ])->header('Cache-control', 'max-age=3600');
+    }
+
+    public function siteError($profile)
+    {
+        abort(503, 'Error');
+
     }
 }

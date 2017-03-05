@@ -74,7 +74,7 @@ class rZeBotUtils
             $ext = $parts[1];
             $fullDomain = $domain . "." . $ext;
 
-            return Site::where('domain', $fullDomain)->first();
+            return Site::where('domain', $fullDomain)->where('status', 1)->first();
 
         } elseif (count($parts) == 3 && $_SERVER["HTTP_HOST"] === "accounts.".rZeBotCommons::getMainPlataformDomain()) {
             // ----------------------------------- Dominio de miembros formato 'accounts.domain.com'
@@ -88,7 +88,7 @@ class rZeBotUtils
             $domain = $parts[1];
             $ext    = $parts[2];
             $fullDomain = $domain.".".$ext;
-            $site = Site::where('domain', $fullDomain)->first();
+            $site = Site::where('domain', $fullDomain)->where('status', 1)->first();
             if (!$site) {
                 abort("403", "Domain not allowed");
                 return false;
@@ -98,7 +98,7 @@ class rZeBotUtils
         } elseif (count($parts) == 3 && $parts[0] !== 'www' && $_SERVER["HTTP_HOST"] != "www.".rZeBotCommons::getMainPlataformDomain()) {
             // ----------------------------------- Subdominio de la plataforma formato 'subdominio.plataforma.com'
             $subdomain = $parts[0];
-            $site = Site::where('name', $subdomain)->first();
+            $site = Site::where('name', $subdomain)->where('status', 1)->first();
 
             if (!$site) {
                 abort("403", "Subdomain not allowed");

@@ -127,6 +127,7 @@ if (!App::runningInConsole() && App::make('site')) {
         Route::match(['get'], '/contact/', 'TubeController@contact')->name('contact');
 
         Route::match(['get'], '/sitemap.xml', 'TubeController@sitemap')->name('sitemap');
+        //Route::match(['get'], '/', 'TubeController@siteError')->name('siteError');
 
     });
 

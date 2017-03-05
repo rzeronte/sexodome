@@ -19,7 +19,8 @@ class AppServiceProvider extends ServiceProvider
         if (isset($_SERVER['HTTP_HOST'])) {
             $domain = $_SERVER['HTTP_HOST'];
 
-            $site = Site::where('domain', $domain)->first();
+            $site = Site::where('domain', $domain)->where('status', 1)->first();
+
             if ($site) {
                 App::instance('site', $site);
             } else {

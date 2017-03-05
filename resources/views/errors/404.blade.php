@@ -5,6 +5,6 @@
     <title>Not found</title>
 </head>
 
-<body style="font-size:50em;">
+<body style="font-size:40em;">
 404!
 </body>

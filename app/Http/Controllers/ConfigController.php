@@ -617,7 +617,14 @@ class ConfigController extends Controller
             abort(401, "Unauthorized");
         }
 
+        $site->status = Request::input('status');
+
         $site->language_id = Request::input('language_id');
+
+        $site->category_url = Request::input('category_url');
+        $site->pornstars_url = Request::input('pornstars_url');
+        $site->pornstar_url = Request::input('pornstar_url');
+        $site->video_url = Request::input('video_url');
 
         $site->contact_email = Request::input('contact_email');
 
