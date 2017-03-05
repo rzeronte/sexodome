@@ -453,8 +453,8 @@ $( document ).ready(function() {
         var i = 1;
         $('ul#sortable li').each( function( i ) {
             arrayCategory = {
-                'category_id': $(this).attr('data-category-id'),
-                'order': i
+                'i': $(this).attr('data-category-id'),
+                'o': i
             };
             i++;
 
