@@ -463,7 +463,11 @@ class ConfigController extends Controller
         $ff = date("Y-m-d");
         $fi = date("Y-m-d", strtotime($ff." -30 days"));
 
-        $sites = Site::where('user_id', '=', Auth::user()->id)->get();
+        $sites = Site::where('user_id', '=', Auth::user()->id)
+            ->orderBy('name', 'asc')
+            ->orderBy('language_id', 'asc')
+            ->get()
+        ;
 
         return view('panel.sites', [
             'channels'  => Channel::all(),
