@@ -1214,6 +1214,7 @@ class ConfigController extends Controller
             ->orderBy('categories.cache_order', 'DESC')
             ->orderBy('categories.nscenes', 'DESC')
             ->limit(40)
+            ->get()
         ;
 
         return view('panel.categories_order', [
