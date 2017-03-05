@@ -33,9 +33,6 @@
                         <?php $translation = $category->translations()->where('language_id',$language->id)->first(); ?>
                         <div class="col-md-4">
                             <p class="current">{{$i}}</p>
-                            <?php $srcThumbnail = asset('/thumbnails/'.md5($translation->thumb).".jpg")?>
-                            <img src="{{$srcThumbnail}}" class="border-thumb category-preview" style="width:50px;"/>
-
                         </div>
 
                         <div class="col-md-5">
