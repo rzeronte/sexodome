@@ -12,7 +12,7 @@
 
     <div class="row">
         <div class="col-md-4">
-            <a href="{{route('site', ['locale'=>$locale, 'site_id' => $site->id])}}" class="btn btn-success center-block btn-update-categories-order">Back to {{$site->getHost()}}</a>
+            <a href="{{route('site', ['locale'=>$locale, 'site_id' => $site->id])}}" class="btn btn-success center-block">Back to {{$site->getHost()}}</a>
         </div>
 
         <div class="col-md-4">
