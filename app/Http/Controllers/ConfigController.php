@@ -465,7 +465,6 @@ class ConfigController extends Controller
 
         $sites = Site::where('user_id', '=', Auth::user()->id)
             ->orderBy('language_id', 'asc')
-            ->orderBy('name', 'asc')
             ->get()
         ;
 
