@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App;
 use DB;
+use function GuzzleHttp\json_encode;
+use GuzzleHttp\Psr7\Response;
 use okw\CF\Exception\CFException;
 use Request;
 use Spatie\LaravelAnalytics\LaravelAnalyticsFacade;
@@ -65,7 +67,6 @@ class ConfigController extends Controller
     public function welcome()
     {
         return view('panel.welcome');
-
     }
 
     public function scenes()
@@ -341,32 +342,6 @@ class ConfigController extends Controller
             'languages' => $this->commons->languages,
             'locale'    => $this->commons->locale
         ]);
-    }
-
-    public function ajaxTags($locale)
-    {
-        $term = Request::get('term');
-        $tags = Tag::getTranslationSearch($term, $this->commons->language->id)->get();
-
-        $select_tags = [];
-        foreach($tags as $tag) {
-            $select_tags[] = $tag->name;
-        }
-
-        return json_encode($select_tags);
-    }
-
-    public function ajaxCategories($locale)
-    {
-        $term = Request::get('term');
-        $categories = Category::getTranslationSearch($term, $this->commons->language->id)->orderBy('scenes.cache_order', 'desc')->get();
-
-        $select_categories = [];
-        foreach($categories as $category) {
-            $select_categories[] = $category->name;
-        }
-
-        return json_encode($select_categories);
     }
 
     public function scenePreview($locale, $scene_id)
@@ -1212,5 +1187,30 @@ class ConfigController extends Controller
         ]];
 
         return \GuzzleHttp\json_encode($data);
+    }
+
+    public function orderCategories($locale, $site_id)
+    {
+        $sites = Site::where('user_id', '=', Auth::user()->id)
+            ->orderBy('language_id', 'asc')
+            ->get()
+        ;
+
+        if (Request::input('order') != "") {
+            return json_encode(['status'=>true]);
+        }
+
+        $site = Site::find($site_id);
+        $categories = Category::getTranslationSearch($query_string = false, $this->commons->language->id, $site->id)
+            ->where('status', 1)->get();
+
+        return view('panel.categories_order', [
+            'sites'      => $sites,
+            'site'       => Site::find($site_id),
+            'language'   => $this->commons->language,
+            'languages'  => $this->commons->languages,
+            'locale'     => $this->commons->locale,
+            'categories' => $categories
+        ]);
     }
 }

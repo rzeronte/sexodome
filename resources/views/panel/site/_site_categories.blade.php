@@ -9,6 +9,10 @@
             <div class="col-md-2">
                 <input type="submit" class="btn btn-success" value="Search"/>
             </div>
+            <div class="col-md-6 text-right">
+                <a href="{{route('orderCategories', ['locale' => $locale, 'site_id' => $site->id])}}" class="btn btn-success">Manual Order</a>
+            </div>
+
         </form>
 
     </div>

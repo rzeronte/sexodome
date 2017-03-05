@@ -48,8 +48,7 @@ Route::group(['domain' => 'accounts.'.\App\rZeBot\rZeBotCommons::getMainPlatafor
     Route::match(['get', 'post'], '{locale}/site/categories/{site_id}', 'ConfigController@ajaxSiteCategories')->name('ajaxSiteCategories');
     Route::match(['get', 'post'], '{locale}/ajax/updateSiteSEO/{site_id}', 'ConfigController@updateSiteSEO')->name('updateSiteSEO');
 
-    Route::match(['get'], '{locale}/ajax/tags/', 'ConfigController@ajaxTags')->name('ajaxTags');
-    Route::match(['get'], '{locale}/ajax/categories/', 'ConfigController@ajaxCategories')->name('ajaxCategories');
+    Route::match(['get', 'post'], '{locale}/site/{site_id}/order_categories/', 'ConfigController@orderCategories')->name('orderCategories');
 
     Route::match(['get'], '{locale}/ajax/popunders/{site_id}', 'ConfigController@ajaxPopunders')->name('ajaxPopunders');
     Route::match(['get'], '{locale}/ajax/savePopunder/{site_id}', 'ConfigController@ajaxSavePopunder')->name('ajaxSavePopunder');

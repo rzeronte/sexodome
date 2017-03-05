@@ -44,6 +44,11 @@
     <script src="{{asset('bootstrap-select/js/bootstrap-select.min.js')}}"></script>
     <link rel="stylesheet" href="{{asset('bootstrap-select/css/bootstrap-select.min.css')}}" />
 
+    <script
+            src="http://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+            integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
+            crossorigin="anonymous"></script>
+
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

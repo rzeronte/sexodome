@@ -19,11 +19,11 @@ class BotCacheOrder extends Command
 {
     protected $signature = 'zbot:cache:order';
 
-    protected $description = 'Reset cache order.';
+    protected $description = 'Reset cache order for categories';
 
     public function handle()
     {
-        $sites = Site::all();
+        $sites = Site::where('order_type', $ANALYTICS = 1)->get();
 
         foreach($sites as $site) {
 
