@@ -38,11 +38,6 @@ class TubeController extends Controller
             ->paginate($this->commons->perPageCategories)
         ;
 
-        $categoriesAlphabetical = Category::getTranslationByStatus(1, $this->commons->language->id)
-            ->where('site_id', '=', $this->commons->site->id)
-            ->orderBy('categories_translations.name', 'ASC')
-        ;
-
         // seo
         $seo_title = str_replace("{domain}", $this->commons->site->getHost(), $this->commons->site->title_index);
         if (Input::get('page') > 1) {
@@ -53,7 +48,6 @@ class TubeController extends Controller
         return response()->view('tube.categories', [
             'profile'         => $profile,
             'categories'      => $categories,
-            'categoriesAlphabetical' => $categoriesAlphabetical->get(),
             'categories_head' => $this->commons->site->categories()->get(),
             'resultsPerPage'  => $this->commons->perPage,
             'query_string'    => $query_string,
