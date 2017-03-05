@@ -460,9 +460,7 @@ $( document ).ready(function() {
 
             arrayCategories.push(arrayCategory);
         });
-
-        console.log(arrayCategories);
-
+        
         $.ajax({
             url: action,
             method: 'get',
