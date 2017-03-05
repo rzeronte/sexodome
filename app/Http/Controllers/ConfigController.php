@@ -1196,9 +1196,9 @@ class ConfigController extends Controller
             ->get()
         ;
 
-        if (Request::input('order') != "") {
+        if (Request::input('o') != "") {
 
-            foreach(Request::input('order') as $category) {
+            foreach(Request::input('o') as $category) {
                 $categoyBBDD = Category::find($category['i']);
                 $categoyBBDD->cache_order = -1 * $category['o'];
                 $categoyBBDD->save();

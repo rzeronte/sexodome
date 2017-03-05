@@ -460,11 +460,11 @@ $( document ).ready(function() {
 
             arrayCategories.push(arrayCategory);
         });
-        
+
         $.ajax({
             url: action,
             method: 'get',
-            data: {'order': arrayCategories},
+            data: {'o': arrayCategories},
         }).done(function( data ) {
             jsonData = $.parseJSON(data);
             if (jsonData["status"] == true) {
