@@ -116,7 +116,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
-                    <h1 class="brand-heading" style="opacity: 0.6;background-color: red;">adult tube generator</h1>
+                    <h1 class="brand-heading" style="opacity: 0.6;background-color: red;">adult tube creator</h1>
                     <p class="intro-text" style="opacity: 0.8;background-color: black;color: white;font-family:Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif">Create your custom porn website in seconds. <br/>The hard work is <b>dome*</b>!</p>
                     <a href="#howitworks" class="btn btn-circle page-scroll">
                         <i class="fa fa-angle-double-down animated"></i>
