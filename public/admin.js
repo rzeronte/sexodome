@@ -445,6 +445,40 @@ $( document ).ready(function() {
         });
     });
 
+
+    $( ".btn-update-categories-order" ).click(function(e) {
+        var action = $(this).attr("href");
+        var arrayCategories = [];
+
+        var i = 1;
+        $('ul#sortable li').each( function( i ) {
+            arrayCategory = {
+                'category_id': $(this).attr('data-category-id'),
+                'order': i
+            };
+            i++;
+
+            arrayCategories.push(arrayCategory);
+        });
+
+        console.log(arrayCategories);
+
+        $.ajax({
+            url: action,
+            method: 'get',
+            data: {'order': arrayCategories},
+        }).done(function( data ) {
+            jsonData = $.parseJSON(data);
+            if (jsonData["status"] == true) {
+                showGenericalSuccessMessage();
+            } else {
+                showGenericalErrorMessage();
+            }
+        });
+
+        e.preventDefault();
+    });
+
     $( ".btn-select-thumb" ).click(function() {
         var action = $(this).attr("data-url");
 

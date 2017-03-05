@@ -62,3 +62,12 @@ hr{
 .sticker_ko{
     background-color: #d9534f !important;
 }
+
+ul#sortable{
+    list-style: none;
+}
+
+ul#sortable li{
+    cursor: move;
+    border-bottom: solid 1px gray;
+}
