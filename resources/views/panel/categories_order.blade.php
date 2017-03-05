@@ -31,7 +31,7 @@
                     <div class="row">
 
                         <?php $translation = $category->translations()->where('language_id',$language->id)->first(); ?>
-                        <div class="col-md-4">
+                        <div class="col-md-1">
                             <p class="current">{{$i}}</p>
                         </div>
 
