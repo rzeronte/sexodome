@@ -1207,9 +1207,12 @@ class ConfigController extends Controller
             return json_encode(['status'=>true]);
         }
 
-        $site = Site::find($site_id);
-        $categories = Category::getTranslationSearch($query_string = false, $this->commons->language->id, $site->id)
-            ->where('status', 1)->orderBy('cache_order', 'DESC')->limit(40)->get();
+        $categories = Category::getTranslationByStatus(1, $this->commons->language->id)
+            ->where('site_id', '=', $this->commons->site->id)
+            ->orderBy('categories.cache_order', 'DESC')
+            ->orderBy('categories.nscenes', 'DESC')
+            ->limit(40)
+        ;
 
         return view('panel.categories_order', [
             'sites'      => $sites,
