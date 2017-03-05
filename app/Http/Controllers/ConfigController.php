@@ -1202,7 +1202,7 @@ class ConfigController extends Controller
 
         $site = Site::find($site_id);
         $categories = Category::getTranslationSearch($query_string = false, $this->commons->language->id, $site->id)
-            ->where('status', 1)->get();
+            ->where('status', 1)->orderBy('cache_order', 'DESC')->get();
 
         return view('panel.categories_order', [
             'sites'      => $sites,
