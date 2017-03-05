@@ -65,7 +65,7 @@
                     Category URL:
                 </div>
                 <div class="col-md-7">
-                    <input type="text" class="form-control" value="{{$site->category_url}}" name="contact_email">
+                    <input type="text" class="form-control" value="{{$site->category_url}}" name="category_url">
                     <small><b>Example:</b> www.domain.com/{category_url}/blonde</small>
                 </div>
             </div>
@@ -75,7 +75,7 @@
                     Pornstars URL:
                 </div>
                 <div class="col-md-7">
-                    <input type="text" class="form-control" value="{{$site->pornstars_url}}" name="contact_email">
+                    <input type="text" class="form-control" value="{{$site->pornstars_url}}" name="pornstars_url">
                     <small><b>Example:</b> www.domain.com/{pornstars_url}/</small>
                 </div>
             </div>
@@ -85,7 +85,7 @@
                     Pornstar URL:
                 </div>
                 <div class="col-md-7">
-                    <input type="text" class="form-control" value="{{$site->pornstar_url}}" name="contact_email">
+                    <input type="text" class="form-control" value="{{$site->pornstar_url}}" name="pornstar_url">
                     <small><b>Example:</b> www.domain.com/{pornstar_url/jenna_jameson</small>
                 </div>
             </div>
@@ -95,7 +95,7 @@
                     Video URL:
                 </div>
                 <div class="col-md-7">
-                    <input type="text" class="form-control" value="{{$site->video_url}}" name="contact_email">
+                    <input type="text" class="form-control" value="{{$site->video_url}}" name="video_url">
                     <small><b>Example:</b> www.domain.com/{video_url}/title_example_for_video_permalink</small>
                 </div>
             </div>
