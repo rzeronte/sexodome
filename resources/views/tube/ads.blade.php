@@ -73,8 +73,7 @@
             color: #{{Request::input('c6', 'black')}};
         @else
             color: black;
-    @endif;
-
+        @endif;
     }
 
     .slick-prev{
@@ -93,10 +92,15 @@
         font-family: "Glyphicons Halflings", "slick", sans-serif;
         font-size: 25px;
         @if (ctype_xdigit(Request::input('c10', 'black')))
-            color: #{{Request::input('c10', 'black')}} !important;
+            background-color: #{{Request::input('c10', 'black')}} !important;
         @else
             background-color: gray;
         @endif;
+        @if (ctype_xdigit(Request::input('c6', 'black')))
+            color: #{{Request::input('c6', 'black')}};
+        @else
+            color: black;
+    @endif;
 
     }
 
