@@ -40,9 +40,16 @@
         margin: 0;
         padding: 0;
     }
-    .scene {
-        padding-right: 15px;
+    .slick-slider {
+        margin:0 -15px;
     }
+
+    .slick-slide {
+        text-align:center;
+        margin-right:15px;
+        margin-left:15px;
+    }
+
     .scene img{
         width: 100%;
         height: 150px;
@@ -81,14 +88,14 @@
 
     .slick-prev{
         width: 30px;
-        left: 3em;
+        left: 4em;
         z-index: 1000;
     }
 
     .slick-next{
         width: 30px;
         z-index: 1000;
-        right: 3em;
+        right: 4em;
     }
 
     .slick-prev:before, .slick-next:before {
