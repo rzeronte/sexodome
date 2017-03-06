@@ -88,14 +88,14 @@
 
     .slick-prev{
         width: 30px;
-        left: 4em;
+        left: 20px !important;
         z-index: 1000;
     }
 
     .slick-next{
         width: 30px;
         z-index: 1000;
-        right: 4em;
+        right: 20px !important;
     }
 
     .slick-prev:before, .slick-next:before {
