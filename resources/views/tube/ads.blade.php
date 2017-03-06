@@ -40,6 +40,11 @@
         margin: 0;
         padding: 0;
     }
+    .scene img{
+        width: 100%;
+        height: 100%;
+    }
+
     .text {
         width: 100%;
         font-size: 14px;
