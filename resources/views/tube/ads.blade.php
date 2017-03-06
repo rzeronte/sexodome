@@ -42,7 +42,7 @@
     }
     .scene img{
         width: 100%;
-        max-height: 150px;
+        height: 150px;
     }
 
     .text {
