@@ -106,11 +106,8 @@
         @else
             background-color: gray;
         @endif;
-        @if (ctype_xdigit(Request::input('c6', 'black')))
-            color: #{{Request::input('c6', 'black')}};
-        @else
-            color: black;
-    @endif;
+
+        color: white;
 
     }
 
