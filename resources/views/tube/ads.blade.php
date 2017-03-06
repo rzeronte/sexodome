@@ -40,6 +40,9 @@
         margin: 0;
         padding: 0;
     }
+    .scene {
+        padding-right: 15px;
+    }
     .scene img{
         width: 100%;
         height: 150px;
