@@ -6,52 +6,33 @@
 
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="{{asset('css/jquery.jcarousel.min.css')}}">
-    <script src="{{asset('js/jquery.jcarousel.min.js')}}"></script>
-    <script src="{{asset('js/jcarousel.responsive.js')}}"></script>
+
+    <script src="{{asset('/slick/slick.js')}}" type="text/javascript"></script>
+    <link rel="stylesheet" href="{{asset('slick/slick.css')}}" />
+    <link rel="stylesheet" href="{{asset('slick/slick-theme.css')}}" />
+
 </head>
 
 <body style="background-color: @if (ctype_xdigit(Request::input('c', 'ffffff'))) #{{Request::input('c', 'ffffff')}} @else #fffff @endif;">
         <!-- Wrapper for slides -->
-        <?php $i = 0 ?>
-        <section>
-            <div class="container">
-                <div class="row">
+    <?php $i = 0 ?>
+    <h4> <p><i class="glyphicon glyphicon-th"></i> {{$site->getHost()}}</p></h4>
 
-                    <h4><i class="glyphicon glyphicon-cloud"></i> {{$site->getHost()}}</h4>
-
-                    <div class="jcarousel-wrapper col-md-12">
-                        <div class="jcarousel">
-                            <ul>
-                                @foreach ($categories as $scene)
-                                    <li>
-                                        <?php $translation = $scene->translations()->where('language_id',$language->id)->first(); ?>
-                                        <div class="scene">
-                                            @if ($translation)
-                                                <a href="{{route('category', ['profile'=>$site->getHost(),'permalink' => $translation->permalink])}}?utm_source={{$site->domain}}&utm_medium={{$translation->name}}&utm_campaign=iframe_sexodome" alt="{{$translation->title}}" target="_blank">
-                                                    <p class="text">{{ucwords($translation->name)}}</p>
-                                                    <?php $srcThumbnail = asset('/thumbnails/'.md5($translation->thumb).".jpg")?>
-                                                    <img src="{{$srcThumbnail}}" alt="{{ucwords($translation->name)}}">
-                                                </a>
-                                            @endif
-                                        </div>
-                                    </li>
-                                    <?php $i++;?>
-                                @endforeach
-                            </ul>
-                        </div>
-                        <a href="#" class="jcarousel-control-prev">&lsaquo;</a>
-                        <a href="#" class="jcarousel-control-next">&rsaquo;</a>
-
-                    </div>
-
-                </div>
-
+    <div class="slick">
+        @foreach ($categories as $scene)
+            <?php $translation = $scene->translations()->where('language_id',$language->id)->first(); ?>
+            <div class="scene">
+                @if ($translation)
+                    <a href="{{route('category', ['profile'=>$site->getHost(),'permalink' => $translation->permalink])}}?utm_source={{$site->domain}}&utm_medium={{$translation->name}}&utm_campaign=iframe_sexodome" alt="{{$translation->title}}" target="_blank">
+                        <p class="text">{{ucwords($translation->name)}}</p>
+                        <?php $srcThumbnail = asset('/thumbnails/'.md5($translation->thumb).".jpg")?>
+                        <img src="{{$srcThumbnail}}" alt="{{ucwords($translation->name)}}">
+                    </a>
+                @endif
             </div>
-
-        </section>
-
+            <?php $i++;?>
+        @endforeach
+    </div>
 
 <style>
 
@@ -59,39 +40,6 @@
         margin: 0;
         padding: 0;
     }
-
-    .container {
-        width: 100%;
-        padding: 40px;
-        padding-top: 0px;
-    }
-
-    .jcarousel-wrapper{
-        width: 100%;
-        height: auto;
-        border: none;
-        padding:0;
-    }
-
-    .scene{
-        width: 100%;
-    }
-
-    .scene img{
-        width: 100%;
-        height: 150px !important;
-    }
-
-    .scene a{
-        width: 100%;
-        height: 100%;
-    }
-
-    .scene:hover{
-        font-weight: bold;
-        text-decoration: none;
-    }
-
     .text {
         width: 100%;
         font-size: 14px;
@@ -117,30 +65,50 @@
         margin:0;
         padding: 0;
         @if (ctype_xdigit(Request::input('c6', 'black')))
-            color: #{{Request::input('c6', 'black')}}
+            color: #{{Request::input('c6', 'black')}};
         @else
             color: black;
     @endif;
 
     }
 
-    .jcarousel-control-prev{
-        left: -10px;
-        width: 50px;
-    }
-    .jcarousel-control-next{
-        right: -10px;
-        width: 50px;
+    .slick-prev{
+        width: 30px;
+        left: 3em;
+        z-index: 1000;
     }
 
+    .slick-next{
+        width: 30px;
+        z-index: 1000;
+        right: 3em;
+    }
+
+    .slick-prev:before, .slick-next:before {
+        font-family: "Glyphicons Halflings", "slick", sans-serif;
+        font-size: 25px;
+        @if (ctype_xdigit(Request::input('c10', 'black')))
+            color: #{{Request::input('c10', 'black')}} !important;
+        @else
+            background-color: gray;
+        @endif;
+
+    }
+
+    .slick-prev:before { content: "\e257"; }
+    .slick-next:before { content: "\e258"; }
 </style>
 
 <script>
-    $('.jcarousel').jcarousel({
-        'visible': 5,
-        'scroll': '+=1',
-        'wrap': 'circular',
+    $(document).ready(function(){
 
+        $('.slick').slick({
+            infinite: true,
+            slidesToShow: 6,
+            slidesToScroll: 6,
+            nextArrow: '<button type="button" class="slick-next">Next</button>',
+            prevArrow: '<button type="button" class="slick-prev">Previous</button>',
+        });
     });
 </script>
 </body>
