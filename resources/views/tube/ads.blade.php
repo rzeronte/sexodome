@@ -52,7 +52,7 @@
 
     .scene img{
         width: 100%;
-        height: 150px;
+        height: 140px;
     }
 
     .text {
