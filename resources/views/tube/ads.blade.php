@@ -8,7 +8,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
     <script src="{{asset('/slick/slick.min.js')}}" type="text/javascript"></script>
-    <link rel="stylesheet" href="{{asset('slick/slick.min.css')}}" />
+    <link rel="stylesheet" href="{{asset('slick/slick.css')}}" />
     <link rel="stylesheet" href="{{asset('slick/slick-theme.css')}}" />
 
 </head>
