@@ -48,11 +48,9 @@ class TubeController extends Controller
         return response()->view('tube.categories', [
             'profile'         => $profile,
             'categories'      => $categories,
-            'categories_head' => $this->commons->site->categories()->get(),
             'resultsPerPage'  => $this->commons->perPage,
             'query_string'    => $query_string,
             'language'        => $this->commons->language,
-            'languages'       => $this->commons->languages,
             'seo_title'       => $seo_title,
             'seo_description' => $seo_description,
             'site'            => $this->commons->site,
@@ -78,7 +76,6 @@ class TubeController extends Controller
         return response()->view('tube.search', [
             'profile'         => $profile,
             'scenes'          => $scenes,
-            'categories'      => $this->commons->site->categories()->get(),
             'query_string'    => $query_string,
             'resultsPerPage'  => $this->commons->perPage,
             'language'        => $this->commons->language,
@@ -116,7 +113,6 @@ class TubeController extends Controller
         return response()->view('tube.search', [
             'profile'         => $profile,
             'scenes'          => $scenes,
-            'categories'      => $this->commons->site->categories()->get(),
             'tagTranslation'  => $tagTranslation,
             'resultsPerPage'  => $this->commons->perPage,
             'query_string'    => $tag->name,
@@ -169,7 +165,6 @@ class TubeController extends Controller
         return response()->view('tube.search', [
             'profile'         => $profile,
             'scenes'          => $scenes,
-            'categories'      => $this->commons->site->categories()->get(),
             'categoryTranslation' => $categoryTranslation,
             'resultsPerPage'  => $this->commons->perPage,
             'query_string'    => '',
@@ -222,7 +217,6 @@ class TubeController extends Controller
             'profile'         => $profile,
             'video'           => $scene,
             'related'         => $related->orderBy('rate', 'desc')->limit(4)->get(),
-            'categories'      => $this->commons->site->categories()->get(),
             'query_string'    => "",
             'language'        => $this->commons->language,
             'languages'       => $this->commons->languages,
