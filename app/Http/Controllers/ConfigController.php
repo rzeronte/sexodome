@@ -1113,47 +1113,6 @@ class ConfigController extends Controller
         return json_encode(array('status' => $status));
     }
 
-    public function fixTranslations($locale)
-    {
-        return view('panel.fixtranslations', [
-            'language'  => $this->commons->language,
-            'languages' => $this->commons->languages,
-            'locale'    => $this->commons->locale,
-            'sites'     => $sites = Site::where('user_id', '=', Auth::user()->id)->get(),
-            'fixs'      => App\Model\FixTranslation::where('user_id', Auth::user()->id)->get()
-        ]);
-    }
-
-    public function deleteFixTranslation($locale, $fixtranslation_id)
-    {
-        $fixtranslation = App\Model\FixTranslation::find($fixtranslation_id);
-
-        if (!$fixtranslation) {
-            abort(404, "FixTranslation not found");
-        }
-
-        if (!(Auth::user()->id == $fixtranslation->user->id)) {
-            abort(401, "Unauthorized");
-        }
-
-        $fixtranslation->delete();
-
-        return redirect()->route('fixtranslations', ['locale' => $this->commons->locale]);
-    }
-
-    public function AddFixTranslation($locale)
-    {
-        $newFixTranslation = new App\Model\FixTranslation();
-        $newFixTranslation->user_id = Auth::user()->id;
-        $newFixTranslation->language_id = Request::input('language');
-        $newFixTranslation->from = Request::input('from');
-        $newFixTranslation->to = Request::input('to');
-
-        $newFixTranslation->save();
-
-        return redirect()->route('fixtranslations', ['locale' => $this->commons->locale]);
-    }
-
     public function uploadCategory($category_id)
     {
         // logo validator
@@ -1226,6 +1185,41 @@ class ConfigController extends Controller
             'languages'  => $this->commons->languages,
             'locale'     => $this->commons->locale,
             'categories' => $categories
+        ]);
+    }
+
+    public function categoryTags($locale, $category_id)
+    {
+        $category = Category::find($category_id);
+
+        if (!$category) {
+            abort(404, "Category not found");
+        }
+
+        if (Request::isMethod('post')) {
+            $categories_ids = Input::get('categories');
+            $category->tags()->sync($categories_ids);
+
+            if(Request::ajax()) {
+                return json_encode(array('status' => 1));
+            }
+
+        }
+        $tags = $category->tags()->get();
+
+        $category_tags = Tag::getTranslationByCategory($category, 2)->get()->pluck('id');
+        $category_tags = $category_tags->all();
+
+        $site_tags = Tag::getTranslationSearch(false, 2, $category->site->id)
+            ->orderBy('permalink', 'asc')
+            ->get()
+        ;
+
+        return view('panel.ajax._ajax_category_tags', [
+            'category'      => $category,
+            'category_tags' => $category_tags,
+            'tags'          => $site_tags,
+            'locale'        => $this->commons->locale
         ]);
     }
 }

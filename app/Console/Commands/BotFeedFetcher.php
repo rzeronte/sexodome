@@ -40,7 +40,6 @@ class BotFeedFetcher extends Command
                             {--duration=false : Only duration min imported}
                             {--spin=false : Spin scene title and description}
                             {--only_with_pornstars=false : Only import scenes with pornstars}
-                            {--create_categories_from_tags=false : Launch update categories}
                             {--job=false : Infojob Id}
                             {--test=false : Test}';
 
@@ -70,7 +69,6 @@ class BotFeedFetcher extends Command
         $spin        = $this->option('spin');
         $test        = $this->option('test');
         $job         = $this->option('job');
-        $create_categories_from_tags = $this->option('create_categories_from_tags');
         $only_with_pornstars = $this->option('only_with_pornstars');
 
         $tags       = $this->parseTagsOption($tags);
@@ -113,7 +111,6 @@ class BotFeedFetcher extends Command
             $minDuration,
             $default_status = env("DEFAULT_FETCH_STATUS", 1),
             $test,
-            $create_categories_from_tags,
             $only_with_pornstars,
             $spin
         );
@@ -162,9 +159,9 @@ class BotFeedFetcher extends Command
         return $categories;
     }
 
-    public function parseCSV($site, $feed, $max, $mapped_colums, $feed_config, $tags, $categories, $rate, $minViews, $minDuration, $default_status, $test, $create_categories_from_tags, $only_with_pornstars, $spin)
+    public function parseCSV($site, $feed, $max, $mapped_colums, $feed_config, $tags, $categories, $rate, $minViews, $minDuration, $default_status, $test, $only_with_pornstars, $spin)
     {
-        DB::transaction(function () use ($site, $feed, $max, $mapped_colums, $feed_config, $tags, $categories, $rate, $minViews, $minDuration, $default_status, $test, $create_categories_from_tags, $only_with_pornstars, $spin) {
+        DB::transaction(function () use ($site, $feed, $max, $mapped_colums, $feed_config, $tags, $categories, $rate, $minViews, $minDuration, $default_status, $test, $only_with_pornstars, $spin) {
 
             $site_id = $site->id;
 
@@ -327,7 +324,7 @@ class BotFeedFetcher extends Command
                         continue;
                     }
 
-                    // preview is used to check if already exists
+                    // url is used to check if already exists
                     if(Scene::where('url', $video["url"])
                             ->where('site_id', $site_id)
                             ->count() == 0
@@ -377,15 +374,6 @@ class BotFeedFetcher extends Command
 
                             $this->processPornstars($video, $site_id, $scene);
 
-                            // Create categories from CSV
-                            $this->processCategories($video, $site_id, $scene, $languages);
-
-                            // Create categories from tags
-                            if ($create_categories_from_tags !== "false") {
-                                rZeBotUtils::message("[CREATING CATEGORIES FROM TAGS FOR scene_id: $scene->id] ", "cyan", true, false);
-                                $this->createCategoriesFromTags($scene, $languages);
-                            }
-
                             if ($site->language_id != 2) {
                                 $exitCodeTranslation = Artisan::call('zbot:translate:video', [
                                     'from'     => 'en',
@@ -414,23 +402,6 @@ class BotFeedFetcher extends Command
                 fclose($gestor);
             }
         });
-    }
-
-    public function createCategoriesFromTags($scene, $languages) {
-
-        $sceneTags = Tag::getTranslationByScene($scene, $englishLanguage = 2);
-
-        foreach($sceneTags->get() as $tag) {
-            rZeBotUtils::createCategoryFromTag(
-                $tag,
-                $scene->site_id,
-                $min_scenes_activation = env("MIN_SCENES_CATEGORY_ACTIVATION", 30),
-                $languages,
-                $englishLanguage = 2,
-                $abs_total = 1,
-                $timer = 0
-            );
-        }
     }
 
     public function createScene($video, $default_status, $feed, $site_id, $languages)
@@ -578,91 +549,4 @@ class BotFeedFetcher extends Command
         }
     }
 
-    public function processCategories($video, $site_id, $scene, $languages)
-    {
-        if ( $video["categories"] == null ) {
-            return false;
-        }
-
-        // categories
-        foreach ($video["categories"] as $categoryTxt) {
-            $categoryTxt = utf8_encode($categoryTxt);
-            if(strlen($categoryTxt) == 0) {
-                continue;
-            }
-
-            if (CategoryTranslation::join('categories', 'categories.id', '=', 'categories_translations.category_id')
-                    ->where('categories.site_id', $site_id)
-                    ->where('name', 'like', $categoryTxt)
-                    ->where('language_id', 2)
-                    ->count() == 0)
-            {
-
-                rZeBotUtils::message("[CREATE CATEGORY] $categoryTxt", "cyan", false, false);
-
-                $category = new Category();
-                $category->status = 1;
-                $category->text = $categoryTxt;
-                $category->site_id = $site_id;
-                $category->nscenes = 1;
-                $category->status = 0;
-                $category->save();
-
-                $category_id = $category->id;
-
-                // tag translations
-                foreach ($languages as $language) {
-                    $categoryTranslation = new CategoryTranslation();
-                    $categoryTranslation->language_id = $language->id;
-                    $categoryTranslation->category_id = $category_id;
-
-                    if ($language->id == 2) {
-                        $categoryTranslation->permalink = str_slug($categoryTxt);
-                        $categoryTranslation->name = $categoryTxt;
-                    }
-
-                    $categoryTranslation->save();
-                }
-
-                $sceneCategory = new SceneCategory();
-                $sceneCategory->scene_id = $scene->id;
-                $sceneCategory->category_id = $category_id;
-                $sceneCategory->save();
-
-                $category = Category::find($category_id);
-                rZeBotUtils::updateCategoryThumbnail($category);
-
-            } else {
-                $categoryTranslation = CategoryTranslation::join('categories', 'categories.id', '=', 'categories_translations.category_id')
-                    ->where('categories.site_id', $site_id)
-                    ->where('name', $categoryTxt)
-                    ->where('language_id', 2)
-                    ->first()
-                ;
-
-                $category_id = $categoryTranslation->category_id;
-
-                $sceneCategory = new SceneCategory();
-                $sceneCategory->scene_id = $scene->id;
-                $sceneCategory->category_id = $category_id;
-                $sceneCategory->save();
-
-                $category = Category::find($category_id);
-
-                $nscenes = $category->scenes()->count();
-
-                $category->nscenes = $nscenes;
-                if ($nscenes > env('MIN_SCENES_CATEGORY_ACTIVATION', 30)) {
-                    $category->status = 1;
-                } else {
-                    $category->status = 0;
-                }
-
-                $category->save();
-
-                //rZeBotUtils::updateCategoryThumbnail($category);
-
-            }
-        }
-    }
 }

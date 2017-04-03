@@ -15,6 +15,11 @@ class Category extends Model
         return $this->hasMany('App\Model\CategoryTranslation');
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany('App\Model\Tag', 'category_tags', 'category_id', 'tag_id');
+    }
+
     public function site()
     {
         return $this->belongsTo('App\Model\Site');
@@ -42,14 +47,18 @@ class Category extends Model
         return $categories;
     }
 
-    static function getTranslationByName($query_string = false, $language_id)
+    static function getTranslationByName($query_string = false, $language_id, $site_id = false)
     {
         $categories = Category::select('categories.*', 'categories_translations.name', 'categories_translations.permalink', 'categories_translations.id as translationId')
             ->join('categories_translations', 'categories_translations.category_id', '=', 'categories.id')
             ->where('categories_translations.language_id', $language_id);
 
         if ($query_string != false) {
-            $categories->where('categories_translations.name', 'like', $query_string);
+            $categories->where('categories_translations.name', 'like', '%'.$query_string.'%');
+        }
+
+        if ($site_id !== false) {
+            $categories->where('categories.site_id', $site_id);
         }
 
         return $categories;

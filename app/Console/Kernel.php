@@ -39,6 +39,9 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\BotSiteCopy::class,
         \App\Console\Commands\BotCheckDuplicatedScenes::class,
         \App\Console\Commands\BotTest::class,
+        \App\Console\Commands\BotCategorizeVideo::class,
+        \App\Console\Commands\BotCategorizeSites::class,
+        \App\Console\Commands\BotLoadJSONCategories::class,
     ];
 
     /**

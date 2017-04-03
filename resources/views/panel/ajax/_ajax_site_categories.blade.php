@@ -45,6 +45,7 @@
                         </div>
                         <div class="col-md-2">
                             <button data-toggle="modal" data-target="#modal-sexodome" data-url="{{route('categoryThumbs', ['locale' => $locale, 'category_id' => $category->id])}}" class="btn btn-primary btn-xs btn-change-category-thumbnail" style="margin-top:10px;"><i class="glyphicon glyphicon-picture"></i> Change Thumbnail</button>
+                            <button data-toggle="modal" data-target="#modal-sexodome" data-url="{{route('categoryTags', ['locale' => $locale, 'category_id' => $category->id])}}" class="btn btn-primary btn-xs btn-change-category-tags" style="margin-top:10px;"><i class="glyphicon glyphicon-th"></i> Change tags</button>
                         </div>
                     </div>
 

@@ -9,7 +9,6 @@ use App\rZeBot\rZeBotUtils;
 use App\Model\Language;
 use App\Model\Scene;
 use App\Model\Host;
-use App\Model\FixTranslation;
 use App\Model\TagTranslation;
 use App\Model\Tag;
 
@@ -167,52 +166,14 @@ class BotTranslateVideo extends Command
 
             $translationName = $this->translateText($textFrom->name, $from, $to);
 
-            if ($translationName !== false) {
-
-                $fixTranslation = $this->checkForFixTranslation($translationName, $to, $scene->site->user_id);
-
-                if ($fixTranslation !== false) {
-                    // Buscamos si ya existe la categoría del fix
-                    $alreadyTagTranslation = TagTranslation::select('tag_translations.*')
-                        ->join('tags', 'tags.id', '=', 'tag_translations.tag_id')
-                        ->where('tags.site_id', '=', $tag->site_id)
-                        ->where("tag_translations.language_id", $languageTo->id)
-                        ->where("tag_translations.name", "like", $fixTranslation->to)
-                        ->first()
-                    ;
-
-                    if (!$alreadyTagTranslation) {
-                        $translationTo->name = $fixTranslation->to;
-                        $translationTo->permalink = str_slug($fixTranslation->to);
-                        $translationTo->save();
-                        rZeBotUtils::message('[TRANSLATION TAG WITH FIX TRANSLATION] ' . $textFrom->name . " - " . $fixTranslation->to, "yellow", false, false);
-                    } else {
-                        rZeBotUtils::message('[TRANSLATION TAG WITH FIX TRANSLATION, BUT ALREADY EXISTS, MIXING] TranslationId: '. $translationTo->id . " " . $translationName . " - " . $fixTranslation->to, "yellow", false, false);
-                        $ids_sync = $tag->scenes()->select('scenes.id')->get()->pluck('id');
-                        $ids_sync = array_unique($ids_sync->all());
-
-                        $currentCategoryScenes = $alreadyTagTranslation->tag->scenes()->select('scenes.id')->get()->pluck('id');
-                        $currentCategoryScenes = array_unique($currentCategoryScenes->all());
-
-                        $totalIds = array_unique(array_merge($ids_sync, $currentCategoryScenes));
-
-                        $alreadyTagTranslation->tag->scenes()->sync($totalIds);
-                        //$tag->status = 2; // El actual queda descartada, nos quedamos con la que existía
-                        //$tag->save();
-
-                    }
-
-                } else {
-                    $translationTo->name = $translationName;
-                    $translationTo->permalink = str_slug($translationName);
-                    $translationTo->save();
-                    rZeBotUtils::message('[TRANSLATION TAG] ' . $textFrom->name . " - " . $translationName, "green", false, false);
-                }
-
+            if ($translationName != false) {
+                $translationTo->name = $translationName;
+                $translationTo->permalink = str_slug($translationName);
+                $translationTo->save();
+                rZeBotUtils::message('[TRANSLATION TAG] ' . $textFrom->name . " - " . $translationName, "green", false, false);
             } else {
                 rZeBotUtils::message('[ERROR API TRANSLATION] tag_id: ' . $tag->id, "red", false, false);
             }
-
         }
     }
 
@@ -245,47 +206,11 @@ class BotTranslateVideo extends Command
 
             $translationName = $this->translateText($textFrom->name, $from, $to);
 
-            if ($translationName !== false) {
-
-                $fixTranslation = $this->checkForFixTranslation($translationName, $to, $scene->site->user_id);
-
-                if ($fixTranslation !== false) {
-
-                    // Buscamos si ya existe la categoría del fix
-                    $alreadyCategoryTranslation = CategoryTranslation::select('categories_translations.*')
-                        ->join('categories', 'categories.id', '=', 'categories_translations.category_id')
-                        ->where('categories.site_id', '=', $category->site_id)
-                        ->where("categories_translations.language_id", $languageTo->id)
-                        ->where("categories_translations.name", "like", $fixTranslation->to)
-                        ->first()
-                    ;
-
-                    if (!$alreadyCategoryTranslation) {
-                        $translationTo->name = $fixTranslation->to;
-                        $translationTo->permalink = str_slug($fixTranslation->to);
-                        $translationTo->save();
-                        rZeBotUtils::message('[TRANSLATION CATEGORY WITH FIX TRANSLATION] TranslationId: '. $translationTo->id . " " . $textFrom->name . " - " . $fixTranslation->to, "yellow", false, false);
-                    } else {
-                        rZeBotUtils::message('[TRANSLATION CATEGORY WITH FIX TRANSLATION, BUT ALREADY EXISTS, MIXING] TranslationId: '. $translationTo->id . "-".$translationName . " - " . $fixTranslation->to, "yellow", false, false);
-                        $ids_sync = $category->scenes()->select('scenes.id')->get()->pluck('id');
-                        $ids_sync = array_unique($ids_sync->all());
-                        $currentCategoryScenes = $alreadyCategoryTranslation->category->scenes()->select('scenes.id')->get()->pluck('id');
-                        $currentCategoryScenes = $currentCategoryScenes->all();
-
-                        $totalIds = array_unique(array_merge($ids_sync, $currentCategoryScenes));
-
-                        $alreadyCategoryTranslation->category->scenes()->sync($totalIds);
-                        //$category->status = 0; // La actual queda descartada, nos quedamos con la que existía
-                        //$category->save();
-                    }
-
-                } else {
-                    $translationTo->name = $translationName;
-                    $translationTo->permalink = str_slug($translationName);
-                    $translationTo->save();
-                    rZeBotUtils::message('[TRANSLATION CATEGORY] ' . $textFrom->name . " - " . $translationName, "green", false, false);
-                }
-
+            if ($translationName != false) {
+                $translationTo->name = $translationName;
+                $translationTo->permalink = str_slug($translationName);
+                $translationTo->save();
+                rZeBotUtils::message('[TRANSLATION CATEGORY] ' . $textFrom->name . " - " . $translationName, "green", false, false);
             } else {
                 rZeBotUtils::message('[ERROR API TRANSLATION] category_id: ' . $category->id, "red", false, false);
             }
@@ -316,25 +241,6 @@ class BotTranslateVideo extends Command
         }
 
         return $translated;
-    }
-
-    public function checkForFixTranslation($text, $lang_to, $user_id)
-    {
-        $languageTo = Language::where('code', $lang_to)->first();
-
-        $fixTranslations = FixTranslation::where('user_id', $user_id)
-            ->where('language_id', $languageTo->id)
-            ->where('from', '=', $text)
-            ->first()
-        ;
-
-        if (!$fixTranslations)
-        {
-            return false;
-        }
-
-        return $fixTranslations;
-
     }
 
 }

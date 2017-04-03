@@ -66,15 +66,14 @@ Route::group(['domain' => 'accounts.'.\App\rZeBot\rZeBotCommons::getMainPlatafor
     Route::match(['get'], '{locale}/ajax/seo/site/referrers/{site_id}', 'ConfigController@siteReferrers')->name('siteReferrers');
     Route::match(['get'], '{locale}/ajax/seo/site/pages/{site_id}', 'ConfigController@sitePageViews')->name('sitePageViews');
 
-    Route::match(['get'], '{locale}/fixtranslations', 'ConfigController@fixTranslations')->name('fixtranslations');
-    Route::match(['get'], '{locale}/deleteFixTranslation/{fixtranslation_id}', 'ConfigController@deleteFixTranslation')->name('deleteFixTranslation');
-    Route::match(['post'], '{locale}/AddFixTranslation/', 'ConfigController@AddFixTranslation')->name('AddFixTranslation');
 
     Route::match(['get'], '{locale}/ajax/scene/thumbs/{site_id}', 'ConfigController@sceneThumbs')->name('sceneThumbs');
     Route::match(['get'], '{locale}/ajax/category/thumbs/{category_id}', 'ConfigController@categoryThumbs')->name('categoryThumbs');
     Route::match(['get'], '{locale}/ajax/category/unlock/{category_translation_id}', 'ConfigController@categoryUnlock')->name('categoryUnlock');
 
     Route::get('/setLocale/{locale}', 'ConfigController@changeLocale')->name('changeLocale');
+
+    Route::match(['get', 'post'], '/{locale}/ajax/category/tags/{category_id}', 'ConfigController@categoryTags')->name('categoryTags');
 
     Route::match(['get', 'post'], '{locale}/saveTranslation/{scene_id}', 'ConfigController@saveTranslation')->name('saveTranslation');
 

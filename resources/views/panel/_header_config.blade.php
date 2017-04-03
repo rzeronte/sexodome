@@ -27,7 +27,6 @@
     </div>
 
     <div class="col-md-4" style="margin-top:10px;">
-        <a href="{{route('fixtranslations', ['locale'=>$language->code])}}" class="btn @if (\Request::route()->getName() == "fixtranslations") btn-success @else btn-primary @endif"><i class="glyphicon glyphicon-flag"></i> Fix Trans</a>
         <a href="{{route('content', ['locale'=>$language->code])}}" class="btn @if (\Request::route()->getName() == "content") btn-success @else btn-primary @endif"><i class="glyphicon glyphicon-th"></i> Scenes</a>
         <a href="{{route('addSite', ['locale'=>$locale])}}" class="btn btn-warning" ><i class="glyphicon glyphicon-plus-sign"></i> Add site </a>
         <a href="#" class="btn btn-success">

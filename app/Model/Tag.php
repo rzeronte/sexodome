@@ -23,6 +23,11 @@ class Tag extends Model
         return $this->hasMany('App\Model\TagTranslation');
     }
 
+    public function categories()
+    {
+        return $this->hasMany('App\Model\CategoryTag');
+    }
+
     public function countScenesLang($language_id)
     {
         return Scene::select('scenes.id')
@@ -69,6 +74,21 @@ class Tag extends Model
             'tag_translations.id as translationId'
         )
         ->join('tag_translations', 'tag_translations.tag_id', '=', 'tags.id')
+        ->where('tag_translations.language_id', $language_id)
+        ;
+
+        return $tags;
+    }
+
+    static function getTranslationByCategory($category, $language_id)
+    {
+        $tags = $category->tags()->select(
+                'tags.*',
+                'tag_translations.name',
+                'tag_translations.permalink',
+                'tag_translations.id as translationId'
+            )
+            ->join('tag_translations', 'tag_translations.tag_id', '=', 'tags.id')
             ->where('tag_translations.language_id', $language_id)
         ;
 
