@@ -88,8 +88,13 @@
 </aside>
 
 <script type="text/javascript">
+    <?php
+    $popunders = Cache::remember('popunders_'.$site->id, env('MEMCACHED_QUERY_TIME', 30), function() use ($site) {
+        return $site->popunders()->get();
+    });
+    ?>
     var popunders = new Array();
-    @foreach($site->popunders()->get() as $popunder)
+    @foreach( $popunders as $popunder)
     popunders.push('{{$popunder->url}}');
     @endforeach
 </script>
