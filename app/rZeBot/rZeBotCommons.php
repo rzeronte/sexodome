@@ -65,7 +65,7 @@ class rZeBotCommons extends Controller {
             });
             $locale = $this->language->code;
         } else {
-            $this->language = Cache::remember('language', env('MEMCACHED_QUERY_TIME', 30), function() use ($locale) {
+            $this->language = Cache::remember('language'.$locale, env('MEMCACHED_QUERY_TIME', 30), function() use ($locale) {
                 return Language::where('code', '=', $locale)->first();
             });
         }
