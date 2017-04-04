@@ -58,8 +58,8 @@ class rZeBotCommons extends Controller {
 //        }
 
         // Si estámos en un site, usamos configuramos locale del site
-        $language_id = $this->site->language_id;
         if ($this->site) {
+            $language_id = $this->site->language_id;
             $this->language = Cache::remember('language_'.$language_id, env('MEMCACHED_QUERY_TIME', 30), function() use ($language_id) {
                 return Language::where('id', '=', $language_id)->first();
             });

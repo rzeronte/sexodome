@@ -75,7 +75,11 @@ class rZeBotUtils
             $ext = $parts[1];
             $fullDomain = $domain . "." . $ext;
 
-            return Site::where('domain', $fullDomain)->where('status', 1)->first();
+            $site = Cache::remember('site_'.$fullDomain, env('MEMCACHED_QUERY_TIME', 30), function() use ($fullDomain) {
+                return Site::where('domain', $fullDomain)->where('status', 1)->first();
+            });
+
+            return $site;
 
         } elseif (count($parts) == 3 && $_SERVER["HTTP_HOST"] === "accounts.".rZeBotCommons::getMainPlataformDomain()) {
             // ----------------------------------- Dominio de miembros formato 'accounts.domain.com'
