@@ -13,7 +13,7 @@
                     @if (file_exists(\App\rZeBot\rZeBotCommons::getLogosFolder()."/".md5($site->id).".png"))
                         <img src="{{asset('/logos/'.md5($site->id).".png")}}" alt="{{$site->getHost()}}" title="{{$site->getHost()}}"/>
                         @if ($site->have_domain == 1)
-                            <span style="position: absolute; left:-1000px;">{{$site->domain}}</span>
+                            <span style="position: absolute; left:-1000px;">{{str_replace('.com', '', $site->domain)}}</span>
                         @else
                             <span style="position: absolute; left:-1000px;">{{$site->getHost()}}</span>
                         @endif
