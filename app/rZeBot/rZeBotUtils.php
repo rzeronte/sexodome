@@ -10,6 +10,7 @@ use App\Model\Site;
 use Log;
 use DB;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
 
 class rZeBotUtils
 {
@@ -79,7 +80,6 @@ class rZeBotUtils
         } elseif (count($parts) == 3 && $_SERVER["HTTP_HOST"] === "accounts.".rZeBotCommons::getMainPlataformDomain()) {
             // ----------------------------------- Dominio de miembros formato 'accounts.domain.com'
             return false;
-
         } elseif (count($parts) == 3 && $parts[0] == 'www' && $_SERVER["HTTP_HOST"] === "www.".rZeBotCommons::getMainPlataformDomain()) {
             // ----------------------------------- Dominio de la propia plataforma formato 'www.domain.com'
             return false;
@@ -88,7 +88,10 @@ class rZeBotUtils
             $domain = $parts[1];
             $ext    = $parts[2];
             $fullDomain = $domain.".".$ext;
-            $site = Site::where('domain', $fullDomain)->where('status', 1)->first();
+            $site = Cache::remember('site_'.$fullDomain, env('MEMCACHED_QUERY_TIME', 30), function() use ($fullDomain) {
+                return Site::where('domain', $fullDomain)->where('status', 1)->first();
+            });
+
             if (!$site) {
                 abort("403", "Domain not allowed");
                 return false;
@@ -98,7 +101,9 @@ class rZeBotUtils
         } elseif (count($parts) == 3 && $parts[0] !== 'www' && $_SERVER["HTTP_HOST"] != "www.".rZeBotCommons::getMainPlataformDomain()) {
             // ----------------------------------- Subdominio de la plataforma formato 'subdominio.plataforma.com'
             $subdomain = $parts[0];
-            $site = Site::where('name', $subdomain)->where('status', 1)->first();
+            $site = Cache::remember('site_'.$subdomain, env('MEMCACHED_QUERY_TIME', 30), function() use ($subdomain) {
+                return Site::where('name', $subdomain)->where('status', 1)->first();
+            });
 
             if (!$site) {
                 abort("403", "Subdomain not allowed");

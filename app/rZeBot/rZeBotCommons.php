@@ -10,6 +10,7 @@ use Validator;
 use Input;
 use Session;
 use Config;
+use Illuminate\Support\Facades\Cache;
 
 use Illuminate\Routing\Controller;
 
@@ -57,11 +58,16 @@ class rZeBotCommons extends Controller {
 //        }
 
         // Si estámos en un site, usamos configuramos locale del site
+        $language_id = $this->site->language_id;
         if ($this->site) {
-            $this->language = Language::where('id', '=', $this->site->language_id)->first();
+            $this->language = Cache::remember('language_'.$language_id, env('MEMCACHED_QUERY_TIME', 30), function() use ($language_id) {
+                return Language::where('id', '=', $language_id)->first();
+            });
             $locale = $this->language->code;
         } else {
-            $this->language = Language::where('code', '=', $locale)->first();
+            $this->language = Cache::remember('language', env('MEMCACHED_QUERY_TIME', 30), function() use ($locale) {
+                return Language::where('code', '=', $locale)->first();
+            });
         }
 
         $this->perPage = 48;
@@ -76,7 +82,9 @@ class rZeBotCommons extends Controller {
         $this->locale = $locale;
 
         // all valid languages
-        $this->languages = Language::where('status', 1)->orderBy('code', 'asc')->get();
+        $this->languages = Cache::remember('languages', env('MEMCACHED_QUERY_TIME', 30), function() use ($locale) {
+            return Language::where('status', 1)->orderBy('code', 'asc')->get();
+        });
 
         // results per page
 

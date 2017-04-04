@@ -432,6 +432,21 @@ $( document ).ready(function() {
 
     });
 
+    $("body").on('click', '.btn-change-category-tags', function(event) {
+        var action = $(this).attr("data-url");
+
+        $("#modal-sexodome .modal-body").html("Loading...");
+
+        $.ajax({
+            url: action,
+            method: 'get'
+        }).done(function( data ) {
+            $("#modal-sexodome .modal-body").html(data);
+        });
+
+        event.preventDefault();
+    });
+
     $( ".seo-info-keywords" ).click(function() {
         var action = $(this).attr("data-url");
 
