@@ -29,10 +29,6 @@
                             <?php $srcThumbnail = asset('/thumbnails/'.md5($translation->thumb).".jpg")?>
                             <img src="{{$srcThumbnail}}" class="border-thumb category-preview" style="width:100%; border: solid 1px black;margin-bottom: 10px;"/>
 
-                            <form action="{{route('uploadCategory', ['category_id'=>$category->id])}}" method="post" enctype="multipart/form-data">
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
-                                <input class="fileupload" type="file" name="file" data-url="{{ route( 'uploadCategory', [ 'category_id'  => $category->id ] ) }}">
-                            </form>
 
                         </div>
                         <div class="col-md-6 container-lock-action" data-unlock-category-url="{{route('categoryUnlock', ['locale' => $locale, 'category_translation_id' => $translation->id])}}">
@@ -43,8 +39,13 @@
                             @endif
                         </div>
                         <div class="col-md-3">
-                            <button data-toggle="modal" data-target="#modal-sexodome" data-url="{{route('categoryThumbs', ['locale' => $locale, 'category_id' => $category->id])}}" class="btn btn-primary btn-change-category-thumbnail" style="width:160px; margin-top:10px;"><i class="glyphicon glyphicon-picture"></i> Change Thumbnail</button>
                             <button data-toggle="modal" data-target="#modal-sexodome" data-url="{{route('categoryTags', ['locale' => $locale, 'category_id' => $category->id])}}" class="btn btn-primary btn-change-category-tags" style="margin-top:10px; width:160px;"><i class="glyphicon glyphicon-th"></i> Change tags</button>
+                            <button data-toggle="modal" data-target="#modal-sexodome" data-url="{{route('categoryThumbs', ['locale' => $locale, 'category_id' => $category->id])}}" class="btn btn-primary btn-change-category-thumbnail" style="width:160px; margin-top:10px;"><i class="glyphicon glyphicon-picture"></i> Change Thumbnail</button>
+                            <form style="margin-top:20px;" action="{{route('uploadCategory', ['category_id'=>$category->id])}}" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+                                <input class="fileupload" type="file" name="file" data-url="{{ route( 'uploadCategory', [ 'category_id'  => $category->id ] ) }}">
+                            </form>
+
                         </div>
                     </div>
 
