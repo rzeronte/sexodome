@@ -32,7 +32,6 @@
                             <form action="{{route('uploadCategory', ['category_id'=>$category->id])}}" method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                                 <input class="fileupload" type="file" name="file" data-url="{{ route( 'uploadCategory', [ 'category_id'  => $category->id ] ) }}">
-                                <small>Only JPG</small>
                             </form>
 
                         </div>
@@ -44,8 +43,8 @@
                             @endif
                         </div>
                         <div class="col-md-2">
-                            <button data-toggle="modal" data-target="#modal-sexodome" data-url="{{route('categoryThumbs', ['locale' => $locale, 'category_id' => $category->id])}}" class="btn btn-primary btn-xs btn-change-category-thumbnail" style="margin-top:10px;"><i class="glyphicon glyphicon-picture"></i> Change Thumbnail</button>
-                            <button data-toggle="modal" data-target="#modal-sexodome" data-url="{{route('categoryTags', ['locale' => $locale, 'category_id' => $category->id])}}" class="btn btn-primary btn-xs btn-change-category-tags" style="margin-top:10px;"><i class="glyphicon glyphicon-th"></i> Change tags</button>
+                            <button data-toggle="modal" data-target="#modal-sexodome" data-url="{{route('categoryThumbs', ['locale' => $locale, 'category_id' => $category->id])}}" class="btn btn-primary btn-change-category-thumbnail" style="width:160px; margin-top:10px;"><i class="glyphicon glyphicon-picture"></i> Change Thumbnail</button>
+                            <button data-toggle="modal" data-target="#modal-sexodome" data-url="{{route('categoryTags', ['locale' => $locale, 'category_id' => $category->id])}}" class="btn btn-primary btn-change-category-tags" style="margin-top:10px; width:160px;"><i class="glyphicon glyphicon-th"></i> Change tags</button>
                         </div>
                     </div>
 
