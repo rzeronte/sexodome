@@ -1,20 +1,19 @@
 <h3><i class="glyphicon glyphicon-th"></i> Category tags:</h3>
 <form action="{{route('categoryTags', ['locale' => $locale, "category_id" => $category->id])}}" method="post" class="form-control form-update-category-tags" style="height:400px;">
-    <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
-    <select id="" multiple style="width:100%;height:300px;" class="form-control" name="categories[]">
+    <input type="hidden" tabindex="1" name="_token" value="{{ csrf_token() }}"/>
+    <select id="select2_category_tags" class="chosen-select" name="categories[]" multiple>
         @foreach($tags as $tag)
             <option value="{{$tag->id}}" @if (in_array($tag->id, $category_tags)) selected @endif>{{$tag->permalink}}</option>
         @endforeach
     </select>
     <br/>
-    <input type="submit" value="Update" class="btn btn-success">
+    <input type="submit" value="Update" class="btn btn-success" style="margin-top:10px;">
 </form>
 
 <script type="text/javascript">
+    $.fn.modal.Constructor.prototype.enforceFocus = function () {};
     $( ".form-update-category-tags" ).submit(function( event ) {
         var action = $(this).attr("action");
-        var form = $(this);
-        var actionAjaxPopunders = $(this).attr('data-ajax-popunders');
 
         $.ajax({
             url: action,
@@ -31,4 +30,5 @@
         event.preventDefault();
     });
 
+    $(".chosen-select").chosen({disable_search_threshold: 10});
 </script>

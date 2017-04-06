@@ -21,10 +21,6 @@
     {{--<script src="{{asset('jsoneditor/jsoneditor.js')}}"></script>--}}
     {{--<link rel="stylesheet" href="{{asset('jsoneditor/jsoneditor.css')}}" />--}}
 
-    {{-- tagEditor --}}
-    {{--<script src="{{asset('tagEditor/jquery.caret.min.js')}}"></script>--}}
-    {{--<script src="{{asset('tagEditor/jquery.tag-editor.js')}}"></script>--}}
-    {{--<link rel="stylesheet" href="{{asset('tagEditor/jquery.tag-editor.css')}}" />--}}
 
     <script src="{{ asset('jquery-file-upload/js/vendor/jquery.ui.widget.js') }}"></script>
     <script src="{{ asset('jquery-file-upload/js/jquery.iframe-transport.js') }}"></script>
@@ -48,6 +44,11 @@
             src="http://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
             integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
             crossorigin="anonymous"></script>
+
+    {{-- select2 --}}
+    <script src="{{asset('chosen/chosen.jquery.js')}}"></script>
+    <script src="{{asset('chosen/chosen.proto.js')}}"></script>
+    <link rel="stylesheet" href="{{asset('chosen/chosen.css')}}"/>
 
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
