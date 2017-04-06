@@ -25,7 +25,7 @@
 
                 <div class="col-md-4">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-6" style="min-height:190px;">
                             <?php $srcThumbnail = asset('/thumbnails/'.md5($translation->thumb).".jpg")?>
                             <img src="{{$srcThumbnail}}" class="border-thumb category-preview" style="width:100%; border: solid 1px black;margin-bottom: 10px;"/>
 
@@ -42,7 +42,7 @@
                                 <a href="{{route('categoryUnlock', ['locale' => $locale, 'category_translation_id' => $translation->id])}}" class="btn btn-success btn-xs btn-category-unlock"><i class="glyphicon glyphicon-cog"></i> Unlock</a>
                             @endif
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <button data-toggle="modal" data-target="#modal-sexodome" data-url="{{route('categoryThumbs', ['locale' => $locale, 'category_id' => $category->id])}}" class="btn btn-primary btn-change-category-thumbnail" style="width:160px; margin-top:10px;"><i class="glyphicon glyphicon-picture"></i> Change Thumbnail</button>
                             <button data-toggle="modal" data-target="#modal-sexodome" data-url="{{route('categoryTags', ['locale' => $locale, 'category_id' => $category->id])}}" class="btn btn-primary btn-change-category-tags" style="margin-top:10px; width:160px;"><i class="glyphicon glyphicon-th"></i> Change tags</button>
                         </div>
