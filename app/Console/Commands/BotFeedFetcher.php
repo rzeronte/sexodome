@@ -229,14 +229,14 @@ class BotFeedFetcher extends Command
                     if ($mapped_colums['tags'] !== false && strlen($datos[$mapped_colums['tags']])) {
                         $video["tags"] = explode($feed_config["tags_separator"], $datos[$mapped_colums['tags']]);
                     } else {
-                        $video["tags"] = null;
+                        $video["tags"] = [];
                     }
 
                     // categories
                     if ($mapped_colums['categories'] !== false && strlen($datos[$mapped_colums['categories']]) > 0) {
                         $video["categories"] = explode($feed_config["categories_separator"], $datos[$mapped_colums['categories']]);
                     } else {
-                        $video["categories"] = null;
+                        $video["categories"] = [];
                     }
 
                     // unimos las categorías del video con los tags. Para nosotros serán tags
