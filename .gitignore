@@ -6,3 +6,8 @@
 /public/favicons/
 sexodome.sql
 .env
+.idea
+.DS_Store
+access.log
+apache_error.log
+mysql_data/
