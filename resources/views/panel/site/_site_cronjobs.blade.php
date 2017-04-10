@@ -100,13 +100,7 @@
                         <?php $cfg = new $channel->mapping_class; ?>
                         <?php $mappedColumn = $cfg->mappingColumns(); ?>
 
-                        @if (!$mappedColumn['tags'])
-                            <div class="alert alert-danger" role="alert" style="margin-top:10px;">
-                                <i class='glyphicon glyphicon-ban-circle'></i> No tags filter available
-                            </div>
-                        @else
-                            <input type="text" name="tags" class="form-control" placeholder="tags comma separated">
-                        @endif
+                        <input type="text" name="tags" class="form-control" placeholder="tags comma separated">
 
                     </div>
 
