@@ -38,11 +38,6 @@
                         Min duration: {{$cronjobData->duration}}
                         </span>
             @endif
-            @if (isset($cronjobData->categories))
-                <span class='label label-success' style="margin-right:5px;margin-top:4px;">
-                        Categories: {{$cronjobData->categories}}
-                        </span>
-            @endif
             @if (isset($cronjobData->tags))
                 <span class='label label-success' style="margin-right:5px;margin-top:4px;">
                         Tags: {{$cronjobData->tags}}

@@ -34,7 +34,6 @@ class BotFeedFetcher extends Command
     protected $signature = 'zbot:feed:fetch {feed_name} {site_id}
                             {--max=false : Number max scenes to import}
                             {--tags=false : Process tags from scene}
-                            {--categories=false : Process tags from scene}
                             {--rate=false : Only rate min imported}
                             {--views=false : Only views min imported}
                             {--duration=false : Only duration min imported}
@@ -63,7 +62,6 @@ class BotFeedFetcher extends Command
 
         $max         = $this->option('max');
         $tags        = $this->option('tags', false);
-        $categories  = $this->option('categories');
         $rate        = $this->option('rate');
         $minViews    = $this->option('views');
         $minDuration = $this->option('duration');
@@ -74,7 +72,6 @@ class BotFeedFetcher extends Command
         $categorize  = $this->option('categorize');
 
         $tags       = $this->parseTagsOption($tags);
-        $categories = $this->parseCategoriesOption($categories);
 
         // get feed
         $feed = Channel::where("name", "=", $feed_name)->first();
@@ -107,7 +104,6 @@ class BotFeedFetcher extends Command
             $cfg->mappingColumns(),
             $cfg->configFeed(),
             $tags,
-            $categories,
             $rate,
             $minViews,
             $minDuration,
@@ -162,9 +158,9 @@ class BotFeedFetcher extends Command
         return $categories;
     }
 
-    public function parseCSV($site, $feed, $max, $mapped_colums, $feed_config, $tags, $categories, $rate, $minViews, $minDuration, $default_status, $test, $only_with_pornstars, $spin, $categorize)
+    public function parseCSV($site, $feed, $max, $mapped_colums, $feed_config, $tags, $rate, $minViews, $minDuration, $default_status, $test, $only_with_pornstars, $spin, $categorize)
     {
-        DB::transaction(function () use ($site, $feed, $max, $mapped_colums, $feed_config, $tags, $categories, $rate, $minViews, $minDuration, $default_status, $test, $only_with_pornstars, $spin, $categorize) {
+        DB::transaction(function () use ($site, $feed, $max, $mapped_colums, $feed_config, $tags, $rate, $minViews, $minDuration, $default_status, $test, $only_with_pornstars, $spin, $categorize) {
 
             $site_id = $site->id;
 
@@ -243,6 +239,10 @@ class BotFeedFetcher extends Command
                         $video["categories"] = null;
                     }
 
+                    // unimos las categorías del video con los tags. Para nosotros serán tags
+                    $video['tags'] = array_merge($video["tags"], $video["categories"]);
+                    $video['tags'] = array_unique($video['tags']);
+
                     // pornstars
                     if ($mapped_colums['pornstars'] !== false && strlen($datos[$mapped_colums['pornstars']]) > 0) {
                         $video["pornstars"] = explode($feed_config["pornstars_separator"], $datos[$mapped_colums['pornstars']]);
@@ -306,32 +306,14 @@ class BotFeedFetcher extends Command
                     }
 
                     // check categories matched
-                    $categories_check = true;
-                    if ($categories !== false) {
-                        $categories_check = false;
-                        if (is_array($video["categories"])) {
-                            foreach ($video["categories"] as $categoryTxt) {
-                                if (in_array($categoryTxt, $categories)) {
-                                    $categories_check = true;
-                                    rZeBotUtils::message("Found category: " . $categoryTxt, "green", true, false);
-                                }
-                            }
-                        } else {
-                            rZeBotUtils::message("No hay CATEGORIES en el video y hay filtro existente: " . implode(",", $categories), "green", true, false);
-                            continue;
-                        }
-                    }
-
-                    if (!$tags_check || !$categories_check) {
-                        rZeBotUtils::message("mixed_check tags/categories continue;", "yellow", true, false);
+                    if (!$tags_check) {
+                        rZeBotUtils::message("skipped scene by tag filter...", "yellow", true, false);
                         continue;
                     }
 
                     // url is used to check if already exists
-                    if(Scene::where('url', $video["url"])
-                            ->where('site_id', $site_id)
-                            ->count() == 0
-                    ) {
+                    if( Scene::where('url', $video["url"])->where('site_id', $site_id)->count() == 0 ) {
+
                         $mixed_check = true;
 
                         // rate check
@@ -510,10 +492,6 @@ class BotFeedFetcher extends Command
         if ( $video["tags"] == null ) {
             return false;
         }
-
-        // unimos las categorías del vide con los tags. Para nosotros serán tags
-        $video['tags'] = array_merge($video["tags"], $video["categories"]);
-        $video['tags'] = array_unique($video['tags']);
 
         // tags
         foreach ($video["tags"] as $tagTxt) {

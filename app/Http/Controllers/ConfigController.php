@@ -965,12 +965,7 @@ class ConfigController extends Controller
             abort(404, "Channel not found");
         }
 
-        $categories = Input::get('categories', false);
         $tags = Input::get('tags', false);
-
-        if (strlen($categories) == 0) {
-            $categories = 'false';
-        }
 
         if (strlen($tags) == 0) {
             $tags = 'false';
@@ -981,7 +976,6 @@ class ConfigController extends Controller
             'site_id'    => Input::get('site_id'),
             'max'        => Input::get('max'),
             'duration'   => Input::get('duration'),
-            'categories' => $categories,
             'tags'       => $tags,
         ];
 

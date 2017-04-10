@@ -40,11 +40,6 @@
                         Min duration: {{$cronjobData->duration}}
                         </span>
                     @endif
-                    @if (isset($cronjobData->categories))
-                        <span class='label label-success' style="margin-right:5px;margin-top:4px;">
-                        Categories: {{$cronjobData->categories}}
-                        </span>
-                    @endif
                     @if (isset($cronjobData->tags))
                         <span class='label label-success' style="margin-right:5px;margin-top:4px;">
                         Tags: {{$cronjobData->tags}}
@@ -111,14 +106,6 @@
                             </div>
                         @else
                             <input type="text" name="tags" class="form-control" placeholder="tags comma separated">
-                        @endif
-
-                        @if (!$mappedColumn['categories'])
-                            <div class="alert alert-danger" role="alert" style="margin-top:10px;">
-                                <i class='glyphicon glyphicon-ban-circle'></i> No categories filter available
-                            </div>
-                        @else
-                            <input type="text" name="categories" class="form-control" placeholder="categories comma separated" style="margin-top: 10px;">
                         @endif
 
                     </div>
