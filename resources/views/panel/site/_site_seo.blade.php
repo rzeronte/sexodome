@@ -1,6 +1,14 @@
 <div class="col-md-12 detail-seo">
     <form method="post" class="form-update-seo-data" action="{{route('updateSiteSEO', ['locale'=>$locale, 'site_id'=>$site->id])}}">
 
+        <div class="row" style="padding:10px;">
+            <div class="col-md-3">
+                Domain:
+            </div>
+            <div class="col-md-7">
+                <input type="text" class="form-control" value="{{$site->getHost()}}" name="domain" onfocus="blur()">
+            </div>
+        </div>
 
         <div class="col-md-12">
             <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
@@ -38,6 +46,7 @@
         </div>
 
         <div class="col-md-12">
+
             <div style="margin-top:20px;">
                 <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
                     <p><i class="glyphicon glyphicon-alert"></i> <b>Status</b></p>
@@ -57,9 +66,10 @@
 
             <div style="margin-top:20px;">
                 <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
-                    <p><i class="glyphicon glyphicon-signal"></i> <b>SEO</b></p>
+                    <p><i class="glyphicon glyphicon-cog"></i> <b>URL Setup</b></p>
                 </div>
             </div>
+
             <div class="row" style="padding:10px;">
                 <div class="col-md-3">
                     Category URL:
@@ -100,6 +110,12 @@
                 </div>
             </div>
 
+            <div style="margin-top:20px;">
+                <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
+                    <p><i class="glyphicon glyphicon-envelope"></i> <b>Contact Email</b></p>
+                </div>
+            </div>
+
             <div class="row" style="padding:10px;">
                 <div class="col-md-3">
                     Contact email:
@@ -109,6 +125,11 @@
                 </div>
             </div>
 
+            <div style="margin-top:20px;">
+                <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
+                    <p><i class="glyphicon glyphicon-signal"></i> <b>SEO</b></p>
+                </div>
+            </div>
 
             <div class="row" style="padding:10px;">
                 <div class="col-md-3">
@@ -196,15 +217,11 @@
                     <small><b>Variables:</b> {domain}, {pornstar}</small>
                 </div>
             </div>
-            <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
 
-            <div class="row" style="padding:10px;">
-                <div class="col-md-3">
-                    Domain:
-                </div>
-                <div class="col-md-7">
-                    <input type="text" class="form-control" value="{{$site->getHost()}}" name="domain" onfocus="blur()">
-                </div>
+            <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+
+            <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
+                <p><i class="glyphicon glyphicon-certificate"></i> <b>Miscelaneous</b></p>
             </div>
 
             <div class="row" style="padding:10px;">
