@@ -30,6 +30,10 @@ class BotCategorizeSite extends Command
             exit;
         }
 
+        if (!$this->ask('Do you want load JSON categories in ' . $site->getHost() . "?")) {
+            return;
+        }
+
         rZeBotUtils::message("Recategorizando ". $site->getHost(), "cyan", false, false);
         $scenes = $site->scenes()->select('id')->get();
         foreach ($scenes as $scene) {

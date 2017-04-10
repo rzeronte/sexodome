@@ -30,7 +30,11 @@ class BotLoadJSONCategories extends Command
 
         if (!$site) {
             rZeBotUtils::message("Error el site id: $site_id no existe", "red");
-            exit;
+            return;
+        }
+
+        if (!$this->ask('Do you want load JSON categories in ' . $site->getHost() . "?")) {
+            return;
         }
 
         $categories = Storage::get('categories.json');
