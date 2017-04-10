@@ -40,6 +40,7 @@ class BotFeedFetcher extends Command
                             {--duration=false : Only duration min imported}
                             {--spin=false : Spin scene title and description}
                             {--only_with_pornstars=false : Only import scenes with pornstars}
+                            {--categorize=false : Categorize scene}
                             {--job=false : Infojob Id}
                             {--test=false : Test}';
 
@@ -70,6 +71,7 @@ class BotFeedFetcher extends Command
         $test        = $this->option('test');
         $job         = $this->option('job');
         $only_with_pornstars = $this->option('only_with_pornstars');
+        $categorize  = $this->option('categorize');
 
         $tags       = $this->parseTagsOption($tags);
         $categories = $this->parseCategoriesOption($categories);
@@ -112,7 +114,8 @@ class BotFeedFetcher extends Command
             $default_status = env("DEFAULT_FETCH_STATUS", 1),
             $test,
             $only_with_pornstars,
-            $spin
+            $spin,
+            $categorize
         );
 
         // delete infojob
@@ -159,9 +162,9 @@ class BotFeedFetcher extends Command
         return $categories;
     }
 
-    public function parseCSV($site, $feed, $max, $mapped_colums, $feed_config, $tags, $categories, $rate, $minViews, $minDuration, $default_status, $test, $only_with_pornstars, $spin)
+    public function parseCSV($site, $feed, $max, $mapped_colums, $feed_config, $tags, $categories, $rate, $minViews, $minDuration, $default_status, $test, $only_with_pornstars, $spin, $categorize)
     {
-        DB::transaction(function () use ($site, $feed, $max, $mapped_colums, $feed_config, $tags, $categories, $rate, $minViews, $minDuration, $default_status, $test, $only_with_pornstars, $spin) {
+        DB::transaction(function () use ($site, $feed, $max, $mapped_colums, $feed_config, $tags, $categories, $rate, $minViews, $minDuration, $default_status, $test, $only_with_pornstars, $spin, $categorize) {
 
             $site_id = $site->id;
 
@@ -387,6 +390,12 @@ class BotFeedFetcher extends Command
                                     ]);
                                 }
                             }
+
+                            if ($categorize !== 'false') {
+                                $exitCodeCategorize = Artisan::call('zbot:categorize:scene', [
+                                    'scene_id' => $scene->id,
+                                ]);
+                            }
                         }
                     } else {
                         rZeBotUtils::message("[WARNING] Scene de ".$feed->name." ya existente en " . $site->getHost().", saltando...", "yellow", true, false);
@@ -498,12 +507,21 @@ class BotFeedFetcher extends Command
 
     public function processTags($video, $site_id, $scene, $languages)
     {
-        if ( $video["tags"]== null ) {
+        if ( $video["tags"] == null ) {
             return false;
         }
 
+        // unimos las categorías del vide con los tags. Para nosotros serán tags
+        $video['tags'] = array_merge($video["tags"], $video["categories"]);
+        $video['tags'] = array_unique($video['tags']);
+
         // tags
         foreach ($video["tags"] as $tagTxt) {
+
+            if (strpos($tagTxt, ',') !== false || strpos($tagTxt, ';') !== false) {
+                rZeBotUtils::message("[Skipping Tag] " . ucwords($tagTxt), "cyan", true, false);
+                continue;
+            }
 
             if (TagTranslation::join('tags', 'tags.id', '=', 'tag_translations.tag_id')
                 ->where('site_id', '=', $site_id)

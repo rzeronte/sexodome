@@ -44,12 +44,16 @@ class BotCategoriesRecount extends Command
                 $category->nscenes = $countScenes;
                 if ($countScenes < env('MIN_SCENES_CATEGORY_ACTIVATION')) {
                     $category->status = 0;
+                } else {
+                    $category->status = 1;
                 }
                 $category->save();
                 rZeBotUtils::message("[$i][SUCCESS] $translation->name ($category->id) => count: $countScenes | nscenes bbdd: $category->nscenes", "yellow");
             } else {
                 if ($countScenes < env('MIN_SCENES_CATEGORY_ACTIVATION')) {
                     $category->status = 0;
+                } else {
+                    $category->status = 1;
                 }
                 $category->save();
 

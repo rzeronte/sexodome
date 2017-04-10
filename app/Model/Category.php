@@ -93,6 +93,16 @@ class Category extends Model
             ->whereNotNull('categories_translations.permalink')
             ->whereNotNull('scene_translations.permalink')
             ->whereNotNull('scene_translations.title')
-            ->count();
+            ->count()
+        ;
+    }
+
+    static function getCategoriesFromTagsArray($site_id, $arrayTagIds)
+    {
+        return Category::select('categories.id')
+            ->where('site_id', $site_id)
+            ->join('category_tags', 'category_tags.category_id', '=', 'categories.id')
+            ->whereIn('category_tags.tag_id', $arrayTagIds);
+        ;
     }
 }

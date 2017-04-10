@@ -13,11 +13,6 @@ class Tag extends Model
         return $this->belongsToMany('App\Model\Scene', 'scene_tag', 'tag_id', 'scene_id');
     }
 
-    public function domains()
-    {
-        return $this->belongsToMany('App\Model\Domain', 'domain_tag', 'domain_id', 'tag_id');
-    }
-
     public function translations()
     {
         return $this->hasMany('App\Model\TagTranslation');
