@@ -45,6 +45,7 @@ class BotLoadJSONCategories extends Command
         foreach ($categories as $c) {
             $i++;
             $category_en = $c['text_en'];
+            rZeBotUtils::message("Loading $category_en for ". $site->getHost(), "cyan", false, false);
 
             if (Category::getTranslationByName(trim($category_en), 2, $site->id)->count() == 0) {
                 $newCategory = new Category();
@@ -62,8 +63,6 @@ class BotLoadJSONCategories extends Command
                         $newCategoryTranslation->name = $c['text_'.$language->code];
                         $newCategoryTranslation->permalink = str_slug($c['text_'.$language->code]);
                         $newCategoryTranslation->save();
-
-                        $this->info("text_".$language->code .": ". $c['text_'.$language->code] );
                     }
                 }
             } else {
