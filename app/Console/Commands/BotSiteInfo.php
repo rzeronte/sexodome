@@ -34,11 +34,13 @@ class BotSiteInfo extends Command
             return;
         }
 
-        rZeBotUtils::message("Información de " . $site->getHost(), "green", true, true);
-        rZeBotUtils::message("Nº Escenas: " . $site->scenes()->count(), "green", true, true);
-        rZeBotUtils::message("Nº Categorías: " . $site->categories()->count(), "green", true, true);
-        rZeBotUtils::message("Status: " . $site->status, "green", true, true);
-
+        rZeBotUtils::message("About " . $site->getHost(), "green", true, true);
+        rZeBotUtils::message("Num. Scenes: " . $site->scenes()->count(), "green", true, true);
+        rZeBotUtils::message("Num. Categories: " . $site->categories()->count(), "green", true, true);
+        rZeBotUtils::message("Status: " . ($site->status == 1) ? "On": "Off", "green", true, true);
+        rZeBotUtils::message("Title: " . str_replace("{domain}", $site->getHost(), $site->title_index), "green", true, true);
+        rZeBotUtils::message("Description: " . str_replace("{domain}", $site->getHost(), $site->description_index), "green", true, true);
+        rZeBotUtils::message("Analytics GA: " . $site->ga_account, "green", true, true);
     }
 
 }
