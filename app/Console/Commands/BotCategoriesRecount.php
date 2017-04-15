@@ -27,7 +27,7 @@ class BotCategoriesRecount extends Command
 
         $categories = Category::where('site_id', '=', $site->id)->get();
 
-        rZeBotUtils::message("Actualizando thumbnails para el sitio " . $site->getHost(), "cyan");
+        rZeBotUtils::message("Updating number scenes for " . $site->getHost(), "cyan");
 
         $i = 0;
         foreach($categories as $category) {
