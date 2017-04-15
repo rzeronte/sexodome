@@ -30,7 +30,7 @@ class BotCategorizeSite extends Command
             exit;
         }
 
-        if (!$this->ask('Do you want load JSON categories in ' . $site->getHost() . "?")) {
+        if (!$this->ask('Do you want categorize scenes for ' . $site->getHost() . "?")) {
             return;
         }
 

@@ -28,6 +28,10 @@ class BotTaggerizeCategories extends Command
             return;
         }
 
+        if (!$this->ask('Do you want taggerize categories for ' . $site->getHost() . "?")) {
+            return;
+        }
+
         $categories = $site->categories()->get();
         foreach ($categories as $category) {
             $category_txt = $category->translations()->where('language_id', 2)->first()->name;
@@ -41,7 +45,7 @@ class BotTaggerizeCategories extends Command
 
             // Asociamos los nuevos ids, con los que ya había
             $total_ids = array_unique(array_merge($category->tags()->get()->pluck('id')->all(), $category_tags_ids));
-            rZeBotUtils::message("Asociando la categoría $category_txt con " . count($total_ids) . " categorías", "green", false, false);
+            rZeBotUtils::message("Asociando la categoría $category_txt con " . count($total_ids) . " tags", "green", false, false);
             $category->tags()->sync($total_ids);
         }
     }
