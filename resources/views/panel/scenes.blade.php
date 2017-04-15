@@ -215,5 +215,7 @@
     </div>
 </div>
 
+@include('panel._sticker')
+
 </body>
 </html>

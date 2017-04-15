@@ -273,10 +273,6 @@ class ConfigController extends Controller
         $title = Request::input('title');
         $description = Request::input('description');
         $selectedThumb = Request::input('selectedThumb', null);
-        $tags_string = Request::input('tags');
-        $tags_string = explode(",", $tags_string);
-        $categories_string = Request::input('categories');
-        $categories_string = explode(",", $categories_string);
 
         $sceneTranslation = SceneTranslation::where('scene_id', $scene_id)
             ->where('language_id', $this->commons->language->id)
@@ -291,32 +287,6 @@ class ConfigController extends Controller
             $sceneTranslation->permalink = str_slug($title);
             $sceneTranslation->description = $description;
             $sceneTranslation->save();
-
-            // tags
-            DB::connection('mysql')->table('scene_tag')->where('scene_id', $scene_id)->delete();
-            foreach($tags_string as $tag_string) {
-                // Si no tiene el tag, lo asociamos
-                $tag = Tag::getTranslationByName($tag_string, $this->commons->language->id)->first();
-                if (!Scene::hasTag($scene_id, $tag->id)) {
-                    $tagScene = new SceneTag();
-                    $tagScene->scene_id = $scene_id;
-                    $tagScene->tag_id = $tag->id;
-                    $tagScene->save();
-                }
-            }
-
-            // categories
-            DB::connection('mysql')->table('scene_category')->where('scene_id', $scene_id)->delete();
-            foreach($categories_string as $category_string) {
-                // Si no tiene la categoría, lo asociamos
-                $category = Category::getTranslationByName($category_string, $this->commons->language->id)->first();
-                if (!Scene::hasCategory($scene_id, $category->id)) {
-                    $categoryScene = new App\Model\SceneCategory();
-                    $categoryScene->scene_id = $scene_id;
-                    $categoryScene->category_id = $category->id;
-                    $categoryScene->save();
-                }
-            }
 
             return json_encode(array(
                 'description' => $sceneTranslation->description,
