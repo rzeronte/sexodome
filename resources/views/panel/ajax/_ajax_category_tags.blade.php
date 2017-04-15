@@ -30,5 +30,8 @@
         event.preventDefault();
     });
 
-    $(".chosen-select").chosen({disable_search_threshold: 10});
+    $(".chosen-select").chosen({
+        disable_search_threshold: 10,
+        width: "100%"
+    });
 </script>
