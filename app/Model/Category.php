@@ -30,9 +30,14 @@ class Category extends Model
         return $this->belongsToMany('App\Model\Scene', 'scene_category', 'category_id', 'scene_id');
     }
 
-    static function getTranslationSearch($query_string = false, $language_id = false, $site_id = false)
+    static function getTranslationSearch($query_string = false, $language_id = false, $site_id = false, $order_by_nscenes = false)
     {
-        $categories = Category::select('categories.*', 'categories_translations.name', 'categories_translations.permalink', 'categories_translations.id as translationId')
+        $categories = Category::select(
+                'categories.*',
+                'categories_translations.name',
+                'categories_translations.permalink',
+                'categories_translations.id as translationId'
+            )
             ->join('categories_translations', 'categories_translations.category_id', '=', 'categories.id')
             ->where('categories_translations.language_id', $language_id);
 
@@ -42,6 +47,10 @@ class Category extends Model
 
         if ($site_id !== false) {
             $categories->where('categories.site_id', $site_id);
+        }
+
+        if ($order_by_nscenes !== false) {
+            $categories->orderBy('categories.nscenes', 'DESC');
         }
 
         return $categories;

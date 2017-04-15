@@ -7,9 +7,16 @@
             </div>
 
             <div class="col-md-2">
+                <small>Order by nº scenes</small>
+                <input type="checkbox" class="" name="order_by_nscenes" value="1"/>
+            </div>
+
+            <div class="col-md-2">
                 <input type="submit" class="btn btn-success" value="Search"/>
             </div>
-            <div class="col-md-6 text-right">
+
+
+            <div class="col-md-4 text-right">
                 <a href="{{route('orderCategories', ['locale' => $locale, 'site_id' => $site->id])}}" class="btn btn-success">Manual Order</a>
             </div>
 
