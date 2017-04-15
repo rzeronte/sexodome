@@ -50,7 +50,8 @@ class Category extends Model
         }
 
         if ($order_by_nscenes !== false) {
-            $categories->orderBy('categories.nscenes', 'DESC');
+//            $categories->orderBy('categories.nscenes', 'DESC');
+            $categories->orderByRaw("categories.nscenes DESC, categories.nscenes ASC");
         }
 
         return $categories;
