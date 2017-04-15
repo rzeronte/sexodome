@@ -1,7 +1,7 @@
 <h3><i class="glyphicon glyphicon-th"></i> Category tags:</h3>
 <form action="{{route('categoryTags', ['locale' => $locale, "category_id" => $category->id])}}" method="post" class="form-control form-update-category-tags" style="height:400px;">
     <input type="hidden" tabindex="1" name="_token" value="{{ csrf_token() }}"/>
-    <select id="select2_category_tags" class="chosen-select" name="categories[]" multiple>
+    <select id="select2_category_tags" class="chosen-select" name="categories[]" multiple style="width:500px;">
         @foreach($tags as $tag)
             <option value="{{$tag->id}}" @if (in_array($tag->id, $category_tags)) selected @endif>{{$tag->permalink}}</option>
         @endforeach
