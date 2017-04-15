@@ -64,7 +64,7 @@ class Category extends Model
             ->where('categories_translations.language_id', $language_id);
 
         if ($query_string != false) {
-            $categories->where('categories_translations.name', 'like', '%'.$query_string.'%');
+            $categories->where('categories_translations.name', '=', $query_string);
         }
 
         if ($site_id !== false) {
