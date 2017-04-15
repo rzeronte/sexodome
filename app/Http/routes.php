@@ -111,7 +111,7 @@ if (!App::runningInConsole() && App::make('site')) {
         Route::match(['get'], '/' . App::make('site')->pornstars_url, 'TubeController@pornstars')->name('pornstars');
         Route::get('/' . App::make('site')->category_url . '/{permalinkCategory}', 'TubeController@category')->name('category');
         Route::get('/' . App::make('site')->tag_url . '/{permalinkTag}', 'TubeController@tag')->name('tag');
-        Route::get('/' . App::make('site')->pornstars_url . '/{permalinkPornstar}', 'TubeController@pornstar')->name('pornstar');
+        Route::get('/' . App::make('site')->pornstar_url . '/{permalinkPornstar}', 'TubeController@pornstar')->name('pornstar');
         Route::match(['get'], '/' . App::make('site')->video_url . '/{permalink}', 'TubeController@video')->name('video');
 
         Route::get('/search', 'TubeController@search')->name('search');
