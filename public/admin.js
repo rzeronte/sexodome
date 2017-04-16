@@ -201,7 +201,7 @@ $( document ).ready(function() {
             method: 'post'
         }).done(function( data ) {
             var data = $.parseJSON(data);
-            if (data['status'] == 1) {
+            if (data['status'] == true) {
                 showGenericalSuccessMessage();
             } else {
                 showGenericalErrorMessage();
@@ -648,6 +648,7 @@ function showGenericalErrorMessage() {
 }
 
 function showGenericalSuccessMessage() {
+    $("#sticker").show();
     $("#sticker").removeClass('sticker_ko');
     $("#sticker").addClass('sticker_ok');
     $("#sticker").find('.text-muted').html("<i class='glyphicon glyphicon-ok-sign'></i> Operation done successfully");
