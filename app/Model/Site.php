@@ -118,8 +118,9 @@ class Site extends Model
         if (App::runningInConsole() ) {
             $file = 'public/tubeThemes/'.str_slug($this->getHost()).".css";
         } else {
-            $file = 'tubeThemes/'.str_slug($this->getHost()).".css"
+            $file = 'tubeThemes/'.str_slug($this->getHost()).".css";
         }
+
         if (!file_exists($file)) {
             return "theme.css";
         } else {
