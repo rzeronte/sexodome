@@ -107,6 +107,6 @@ body > .navbar-default
 
 /* Fixes */
 .main .thumbnail .thumb-image img{
-    height: 100%;
+    height: auto !important;
 }
 
