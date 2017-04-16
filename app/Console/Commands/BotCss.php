@@ -34,7 +34,7 @@ class BotCss extends Command
 
         foreach($sites as $site) {
             $css = View::make('tube.commons._theme', ['site' => $site])->render();
-            $filename = $site->getCSSThemeFilename();
+            $filename = $site->getCSSThemeFilename(true);
             $fullPath = "/tubeThemes/".$filename;
             Storage::disk('web')->put($fullPath, $css);
 

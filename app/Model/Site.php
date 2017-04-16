@@ -114,15 +114,11 @@ class Site extends Model
         return $this->getHost() .".xml";
     }
 
-    public function getCSSThemeFilename()
+    public function getCSSThemeFilename($ignore_if_exists = false)
     {
-        if (App::runningInConsole() ) {
-            $file = 'public/tubeThemes/'.str_slug($this->getHost()).".css";
-        } else {
-            $file = 'tubeThemes/'.str_slug($this->getHost()).".css";
-        }
+        $file = 'tubeThemes/'.str_slug($this->getHost()).".css";
 
-        if (!file_exists($file)) {
+        if (!file_exists($file) && $ignore_if_exists == false) {
             return "theme.css";
         } else {
             return str_slug($this->getHost()).".css";
