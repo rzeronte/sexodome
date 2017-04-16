@@ -133,6 +133,15 @@
 
             <div class="row" style="padding:10px;">
                 <div class="col-md-3">
+                    Logo H1:
+                </div>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" value="{{$site->logo_h1}}" name="logo_h1">
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
                     Title Index:
                 </div>
                 <div class="col-md-7">

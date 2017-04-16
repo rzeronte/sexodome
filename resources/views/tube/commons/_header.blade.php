@@ -12,17 +12,9 @@
                     <h1 style="margin-top:10px;">
                     @if (file_exists(\App\rZeBot\rZeBotCommons::getLogosFolder()."/".md5($site->id).".png"))
                         <img src="{{asset('/logos/'.md5($site->id).".png")}}" alt="{{$site->getHost()}}" title="{{str_replace('.com', '', $site->domain)}}"/>
-                        @if ($site->have_domain == 1)
-                            <span style="position: absolute; left:-1000px;">{{str_replace('.com', '', $site->domain)}}</span>
-                        @else
-                            <span style="position: absolute; left:-1000px;">{{$site->getHost()}}</span>
-                        @endif
+                        <span style="position: absolute; left:-1000px;">{{$site->logo_h1}}</span>
                     @else
-                        @if ($site->have_domain == 1)
-                            {{$site->domain}}
-                        @else
-                            {{$site->getHost()}}
-                        @endif
+                        {{$site->logo_h1}}
                     @endif
                     </h1>
                 </a>
