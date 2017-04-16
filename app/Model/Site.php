@@ -5,6 +5,7 @@ namespace App\Model;
 use App\rZeBot\rZeBotCommons;
 use Illuminate\Database\Eloquent\Model;
 use DB;
+use App;
 
 class Site extends Model
 {
