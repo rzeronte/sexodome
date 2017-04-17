@@ -11,6 +11,7 @@ use App\Model\Host;
 use App\Model\Tweet;
 use App\rZeBot\TwitterAPIExchange;
 use DB;
+use Artisan;
 
 class BotSiteInit extends Command
 {
