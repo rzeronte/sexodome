@@ -28,10 +28,6 @@ class BotTaggerizeCategories extends Command
             return;
         }
 
-        if (!$this->ask('Do you want taggerize categories for ' . $site->getHost() . "?")) {
-            return;
-        }
-
         $categories = $site->categories()->get();
         foreach ($categories as $category) {
             $category_txt = $category->translations()->where('language_id', 2)->first()->name;

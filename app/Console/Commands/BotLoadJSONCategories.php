@@ -32,10 +32,6 @@ class BotLoadJSONCategories extends Command
             return;
         }
 
-        if (!$this->ask('Do you want load JSON categories in ' . $site->getHost() . "?")) {
-            return;
-        }
-
         $categories = Storage::get('categories.json');
         $categories = \GuzzleHttp\json_decode($categories, true);
         

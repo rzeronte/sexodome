@@ -20,12 +20,45 @@ class BotTest extends Command
 
     public function handle()
     {
-        $data = [];
+        $category_ids = DB::table('categories2langs')->select('category_id')->groupBy('category_id')->get();
 
-        Mail::send('emails.verify', ['user' => "eduardo"], function ($m) use ($data) {
-            $m->from('sexodomeweb@gmail.com', 'Sexodome - Tube Porn Generator');
+        $categories = [];
+        foreach($category_ids as $category) {
+            $category_id = $category->category_id;
+            $translations = DB::table('categories2langs')->where('category_id', $category_id)->get();
+            $category = [];
+            foreach($translations as $translation) {
+                $text_lng = false;
+                switch ($translation->lang_id) {
+                    case "1":
+                        $text_lng = "text_en";
+                        break;
+                    case "2":
+                        $text_lng = "text_es";
+                        break;
+                    case "3":
+                        $text_lng = "text_it";
+                        break;
+                    case "7":
+                        $text_lng = "text_de";
+                        break;
+                    case "5":
+                        $text_lng = "text_fr";
+                        break;
+                    case "4":
+                        $text_lng = "text_br";
+                        break;
+                }
 
-            $m->to("eduardo.rzeronte@gmail.com", "nome")->subject('Prueba emails');
-        });
+                if ($text_lng) {
+                    $category[$text_lng] = $translation->name;
+                }
+            }
+            $categories[] = $category;
+        }
+
+        file_put_contents("categories_bbdd.json", \GuzzleHttp\json_encode($categories));
     }
 }
+
+
