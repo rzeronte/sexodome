@@ -51,7 +51,7 @@ class BotSiteInit extends Command
         ]);
 
         Artisan::call('zbot:categories:recount', [
-            '--site_id' => $site->id,
+            'site_id' => $site->id,
         ]);
 
     }
