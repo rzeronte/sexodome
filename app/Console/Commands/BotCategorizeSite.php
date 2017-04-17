@@ -29,7 +29,7 @@ class BotCategorizeSite extends Command
             rZeBotUtils::message("Error el site id: $site_id no existe", "red");
             exit;
         }
-        
+
         rZeBotUtils::message("Recategorizando ". $site->getHost(), "cyan", false, false);
         $scenes = $site->scenes()->select('id')->get();
         foreach ($scenes as $scene) {
