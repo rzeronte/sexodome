@@ -107,6 +107,7 @@ if (!App::runningInConsole() && App::make('site')) {
 // TubeFronts domains
     Route::group(['domain' => '{host}'], function () {
         Route::match(['get'], '/', 'TubeController@categories')->name('categories');
+        Route::match(['get'], '/sitemap.xml', 'TubeController@sitemap')->name('sitemap');
 
         Route::match(['get'], '/' . App::make('site')->pornstars_url, 'TubeController@pornstars')->name('pornstars');
         Route::get('/' . App::make('site')->category_url . '/{permalinkCategory}', 'TubeController@category')->name('category');
@@ -124,7 +125,6 @@ if (!App::runningInConsole() && App::make('site')) {
         Route::match(['get'], '/2257/', 'TubeController@C2257')->name('C2257');
         Route::match(['get'], '/contact/', 'TubeController@contact')->name('contact');
 
-        Route::match(['get'], '/sitemap.xml', 'TubeController@sitemap')->name('sitemap');
         //Route::match(['get'], '/', 'TubeController@siteError')->name('siteError');
 
     });
