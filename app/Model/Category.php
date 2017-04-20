@@ -74,7 +74,7 @@ class Category extends Model
         return $categories;
     }
 
-    static function getTranslationByStatus($status, $language_id)
+    static function getTranslationByStatus($status = false, $language_id)
     {
         $categories = Category::select(
             'categories.*',
@@ -83,8 +83,11 @@ class Category extends Model
             'categories_translations.thumb'
             )
             ->join('categories_translations', 'categories_translations.category_id', '=', 'categories.id')
-            ->where('categories_translations.language_id', $language_id)
-            ->where('categories.status',$status);
+            ->where('categories_translations.language_id', $language_id);
+
+        if ($status !== false) {
+            $categories->where('categories.status',$status);
+        }
 
         return $categories;
     }

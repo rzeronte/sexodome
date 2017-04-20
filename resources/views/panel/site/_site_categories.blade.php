@@ -26,7 +26,7 @@
 
     <div class="clearfix"></div>
 
-    <?php $categories = \App\Model\Category::getTranslationByStatus(1, $language->id)->where('site_id', '=', $site->id)->paginate(30)?>
+    <?php $categories = \App\Model\Category::getTranslationSearch(false, $language->id, $site->id)->paginate($this->commons->perPageScenes) ?>
 
     <div class="categories_ajax_container" style="margin-top: 20px;">
         @include('panel.ajax._ajax_site_categories')

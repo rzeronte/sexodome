@@ -1,7 +1,9 @@
 <?php
 
 // Web Plataforma formato domain.com
+// *********************************************************************************************************************
 Route::group(['domain' => \App\rZeBot\rZeBotCommons::getMainPlataformDomain()], function () {
+
     Route::match(['get', 'post'], "/", [ 'as' => 'home_website', 'uses' => 'WebController@home' ]);
     Route::match(['get', 'post'], "/google-keyword-position", [ 'as' => 'GoogleKeywordPosition', 'uses' => 'WebController@GooglePosition' ]);
     Route::match(['get', 'post'], "/webping", [ 'as' => 'webping', 'uses' => 'WebController@webping' ]);
@@ -9,12 +11,16 @@ Route::group(['domain' => \App\rZeBot\rZeBotCommons::getMainPlataformDomain()], 
 });
 
 // Web Plataforma formato www.domain.com
+// *********************************************************************************************************************
 Route::group(['domain' => "www.".\App\rZeBot\rZeBotCommons::getMainPlataformDomain()], function () {
+
     Route::match(['get', 'post'], "/", [ 'as' => 'home_website', 'uses' => 'WebController@home' ]);
 });
 
 // Zona accounts
+// *********************************************************************************************************************
 Route::group(['domain' => 'accounts.'.\App\rZeBot\rZeBotCommons::getMainPlataformDomain()], function () {
+
     Route::match(['get', 'post'], "/", ['as' => 'home', 'uses' => 'ConfigController@home']);
     Route::match(['get', 'post'], '{locale}/sites', 'ConfigController@sites')->name('sites');
     Route::match(['get', 'post'], '{locale}/site/{site_id}', 'ConfigController@site')->name('site');
@@ -102,9 +108,10 @@ Route::group(['domain' => 'accounts.'.\App\rZeBot\rZeBotCommons::getMainPlatafor
 
 });
 
+// TubeFronts domains
+// *********************************************************************************************************************
 if (!App::runningInConsole() && App::make('site')) {
 
-// TubeFronts domains
     Route::group(['domain' => '{host}'], function () {
         Route::match(['get'], '/', 'TubeController@categories')->name('categories');
         Route::match(['get'], '/sitemap.xml', 'TubeController@sitemap')->name('sitemap');
