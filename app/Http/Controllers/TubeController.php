@@ -240,7 +240,7 @@ class TubeController extends Controller
 
     public function ads($profile)
     {
-        $categories = $this->commons->site->categories()->limit(18)->get();
+        $categories = $this->commons->site->categories()->where('status', 1)->limit(18)->get();
 
         return response()->view('tube.ads', [
             'profile'        => $profile,
