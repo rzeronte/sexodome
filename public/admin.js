@@ -223,6 +223,7 @@ $( document ).ready(function() {
             }).done(function( data ) {
                 $(".pornstars_ajax_container").html(data);
                 eventPaginatorPornstars();
+                $("html, body").animate({ scrollTop: 0 }, "fast");
             });
 
             event.preventDefault();
@@ -244,6 +245,7 @@ $( document ).ready(function() {
             }).done(function( data ) {
                 $(".workers_ajax_container").html(data);
                 eventPaginatorWorkers();
+                $("html, body").animate({ scrollTop: 0 }, "fast");
             });
 
             event.preventDefault();
@@ -265,6 +267,8 @@ $( document ).ready(function() {
             }).done(function( data ) {
                 $(".categories_ajax_container").html(data);
                 eventPaginatorCategories();
+                $("html, body").animate({ scrollTop: 0 }, "fast");
+
             });
 
             event.preventDefault();
@@ -286,6 +290,8 @@ $( document ).ready(function() {
             }).done(function( data ) {
                 $(".tags_ajax_container").html(data);
                 eventPaginatorTags();
+                $("html, body").animate({ scrollTop: 0 }, "fast");
+
             });
 
             event.preventDefault();
