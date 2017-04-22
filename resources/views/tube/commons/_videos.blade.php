@@ -17,7 +17,7 @@
                     @endif
 
                     @if (isset($pornstar))
-                        <h2><i class="mdi mdi-border"></i> {{ $site->getH2Pornstar($pornstar->name) }}</h2>
+                        <h2><i class="mdi mdi-star"></i> {{ $site->getH2Pornstar($pornstar->name) }}</h2>
 
                         <div>
                             @if (isset($scenes))
