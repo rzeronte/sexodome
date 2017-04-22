@@ -4,12 +4,12 @@
         <header class="page-header">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                    <i class="mdi mdi-home"></i>
-                    <h2>
+                    <h2><i class="mdi mdi-home"></i> {{$site->getH2Home()}}</h2>
+                    <div>
                         {{number_format($categories->total(), 0, ",", ".")}} {{trans('tube.h1_info_categories')}}, @if (isset($scenes)){{ number_format($scenes->total(), 0, ".", ",") }} {{trans('tube.h1_info_porn_videos')}} @endif
                         @if (isset($total_scenes)){{ number_format($total_scenes, 0, ",", ".") }} {{trans('tube.h1_info_porn_videos')}} @endif
                         @yield('orders')
-                    </h2>
+                    </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-right">
                 </div>

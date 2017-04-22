@@ -142,4 +142,28 @@ class Site extends Model
         return $query;
     }
 
+    public function getH2Home()
+    {
+        return $this->h2_home;
+    }
+
+    public function getH2Category($translation)
+    {
+        $h2_category = str_replace("{category}", $translation, $this->h2_category);
+
+        return $h2_category;
+    }
+
+    public function getH2Pornstars()
+    {
+        return $this->h2_pornstars;
+    }
+
+    public function getH2Pornstar($translation)
+    {
+        $h2_pornstar = str_replace("{pornstar}", $translation, $this->h2_pornstar);
+
+        return $h2_pornstar;
+    }
+
 }

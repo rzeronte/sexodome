@@ -6,25 +6,24 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                     @if (isset($categoryTranslation))
-                        <i class="mdi mdi-folder"></i>
-                        <h2>
-                            {{ucwords($categoryTranslation->name)}}
+                        <h2><i class="mdi mdi-folder"></i> {{ $site->getH2Category($categoryTranslation->name) }}</h2>
+                        <div>
                             <small>
                                 @if (isset($scenes))
                                     {{number_format($scenes->total(), 0, ".", ",")}} {{trans('tube.h1_info_porn_videos')}}
                                 @endif
                             </small>
-                        </h2>
+                        </div>
                     @endif
 
                     @if (isset($pornstar))
-                        <i class="mdi mdi-star-border"></i>
-                        <h2>
-                            {{$pornstar->name}}
+                        <h2><i class="mdi mdi-border"></i> {{ $site->getH2Pornstar($pornstar->name) }}</h2>
+
+                        <div>
                             @if (isset($scenes))
                                 ({{$scenes->total()}} {{trans('tube.count_porn_videos')}})
                             @endif
-                        </h2>
+                        </div>
                     @endif
 
                     @if ($query_string)

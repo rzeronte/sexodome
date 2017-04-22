@@ -3,10 +3,11 @@
         <header class="page-header">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                    <i class="mdi mdi-stars"></i>
-                    <h2>
+                    <h2><i class="mdi mdi-stars"></i> {{ $site->getH2Pornstars() }}</h2>
+                    <div>
                         {{number_format($pornstars->total(), 0, ",", ".")}} pornstars
-                    </h2>
+                    </div>
+
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-right">
                 </div>
