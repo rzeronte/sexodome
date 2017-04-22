@@ -142,6 +142,42 @@
 
             <div class="row" style="padding:10px;">
                 <div class="col-md-3">
+                    Home H2:
+                </div>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" value="{{$site->h2_home}}" name="h2_home">
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Category H2:
+                </div>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" value="{{$site->h2_category}}" name="h2_category">
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Pornstars H2:
+                </div>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" value="{{$site->h2_pornstars}}" name="h2_pornstars">
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Pornstar H2:
+                </div>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" value="{{$site->h2_pornstar}}" name="h2_pornstar">
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
                     Title Index:
                 </div>
                 <div class="col-md-7">

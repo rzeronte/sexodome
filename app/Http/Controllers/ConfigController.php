@@ -580,6 +580,11 @@ class ConfigController extends Controller
         $site->contact_email = Request::input('contact_email');
 
         $site->logo_h1 = Request::input('logo_h1');
+        $site->h2_home = Request::input('h2_home');
+        $site->h2_category = Request::input('h2_category');
+        $site->h2_pornstars = Request::input('h2_pornstars');
+        $site->h2_pornstar = Request::input('h2_pornstar');
+
         $site->title_index = Request::input('title_index');
         $site->title_category = Request::input('title_category');
 

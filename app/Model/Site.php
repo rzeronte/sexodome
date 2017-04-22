@@ -23,11 +23,6 @@ class Site extends Model
         return $this->belongsTo('App\Model\Language');
     }
 
-    public function promoted_tags()
-    {
-        return $this->belongsToMany('App\Model\Tag', 'site_tag', 'site_id', 'tag_id');
-    }
-
     public function tags()
     {
         return $this->hasMany('App\Model\Tag');
@@ -146,4 +141,5 @@ class Site extends Model
 
         return $query;
     }
+
 }
