@@ -16,6 +16,8 @@ use App\Model\CronJob;
 use App\Model\InfoJobs;
 use App\Model\CategoryTranslation;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Input;
 
 class ConfigController extends Controller
 {
@@ -802,17 +804,17 @@ class ConfigController extends Controller
         $delete_header = $request->input('header_delete');
 
         // logo validator
-        $v = Validator::make(Request::all(), [
+        $v = Validator::make($request->all(), [
             'logo' => 'required|mimes:png',      // max=50*1024; min=3*1024
         ]);
 
         // favicon validator
-        $vF = Validator::make(Request::all(), [
+        $vF = Validator::make($request->all(), [
             'favicon' => 'required|mimes:png',      // max=50*1024; min=3*1024
         ]);
 
         // favicon validator
-        $vH = Validator::make(Request::all(), [
+        $vH = Validator::make($request->all(), [
             'header' => 'required|mimes:png',      // max=50*1024; min=3*1024
         ]);
 
@@ -843,28 +845,28 @@ class ConfigController extends Controller
             }
         });
 
-        if (Request::hasFile('logo') && !$v->fails()) {
-            Request::session()->flash('success', 'Logo uploaded successful');
-            Request::file('logo')->move(rZeBotCommons::getLogosFolder(), md5($site_id) . "." . Request::file('logo')->getClientOriginalExtension());
+        if ($request->hasFile('logo') && !$v->fails()) {
+            $request->session()->flash('success', 'Logo uploaded successful');
+            $request->file('logo')->move(rZeBotCommons::getLogosFolder(), md5($site_id) . "." . $request->file('logo')->getClientOriginalExtension());
         } else {
-            Request::session()->flash('error', 'Upload invalid file. Check your Logo file, size ane extension (pngs only)!');
+            $request->session()->flash('error', 'Upload invalid file. Check your Logo file, size ane extension (pngs only)!');
         }
 
-        if (Request::hasFile('favicon') && !$vF->fails()) {
-            Request::session()->flash('success', 'Logo uploaded successful');
-            Request::file('favicon')->move(rZeBotCommons::getFaviconsFolder(), md5($site_id) . "." . Request::file('favicon')->getClientOriginalExtension());
+        if ($request->hasFile('favicon') && !$vF->fails()) {
+            $request->session()->flash('success', 'Logo uploaded successful');
+            $request->file('favicon')->move(rZeBotCommons::getFaviconsFolder(), md5($site_id) . "." . $request->file('favicon')->getClientOriginalExtension());
         } else {
-            Request::session()->flash('error', 'Upload invalid file. Check your Favicon file, size ane extension (pngs only)!');
+            $request->session()->flash('error', 'Upload invalid file. Check your Favicon file, size ane extension (pngs only)!');
         }
 
-        if (Request::hasFile('header') && !$vH->fails() && $delete_header != 1) {
-            Request::session()->flash('success', 'Header uploaded successful');
-            Request::file('header')->move(rZeBotCommons::getHeadersFolder(), md5($site_id) . "." . Request::file('header')->getClientOriginalExtension());
+        if ($request->hasFile('header') && !$vH->fails() && $delete_header != 1) {
+            $request->session()->flash('success', 'Header uploaded successful');
+            $request->file('header')->move(rZeBotCommons::getHeadersFolder(), md5($site_id) . "." . $request->file('header')->getClientOriginalExtension());
         } else {
             if ($delete_header == 1) {
                 unlink(rZeBotCommons::getHeadersFolder() . md5($site_id) . ".png");
             } else {
-                Request::session()->flash('error', 'Upload invalid file. Check your Header file, size ane extension (png only)!');
+                $request->session()->flash('error', 'Upload invalid file. Check your Header file, size ane extension (png only)!');
             }
         }
 
