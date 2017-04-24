@@ -57,7 +57,7 @@
     <div class="clearfix"></div>
     <div>
         <h2>Welcome to Sexodome</h2>
-        <a href="/home" class="btn btn-default">Let's start!</a>
+        <a href="http://accounts.sexodome.com" class="btn btn-default">Let's start!</a>
     </div>
 </div>
 
