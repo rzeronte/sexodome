@@ -127,7 +127,18 @@
         </div>
 
         @if (!isset($removePaginator))
-            @include('tube.commons._paginator', ['paginator' => $scenes])
+
+            @if (isset($categoryTranslation))
+                @include('tube.commons._paginator', ['paginator' => $scenes, 'route_name' => 'categories_page'])
+            @endif
+
+            @if (isset($pornstar))
+                @include('tube.commons._paginator', ['paginator' => $scenes, 'route_name' => 'pornstar_page'])
+            @endif
+
+            @if ($query_string)
+                @include('tube.commons._paginator', ['paginator' => $scenes])
+            @endif
         @endif
     </div>
 </main>

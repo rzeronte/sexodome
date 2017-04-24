@@ -21,7 +21,7 @@
         </div>
 
         <div class="col-md-9">
-            <?php $cronjobData = \GuzzleHttp\json_decode($cronjob->params) ?>
+            <?php $cronjobData = json_decode($cronjob->params) ?>
 
             @if (isset($cronjobData->feed_name))
                 <span class='label label-success' style="margin-right:5px;margin-top:4px;">

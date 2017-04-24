@@ -36,7 +36,7 @@
         </div>
 
         <nav aria-label="Pagination">
-            @include('tube.commons._paginator', ['paginator' => $categories])
+            @include('tube.commons._paginator', ['paginator' => $categories, 'route_name' => 'categories_page'])
         </nav>
 
     </div>

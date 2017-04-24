@@ -2,13 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use App\Providers\RouteServiceProvider;
 use Closure;
-use Illuminate\Routing\Route;
-use Illuminate\Routing\Router;
-use Illuminate\Routing\RoutingServiceProvider;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Routing;
 
 class CheckVerifyUser
 {

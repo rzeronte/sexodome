@@ -1,153 +1,106 @@
-/*Layout*/
-    body {
-        background-color: #ffffff !important;
+/* 1 Color Body Bg */
+body {
+    background-color: #d2d2d2 !important;
+}
+.thumbnail {
+    background-color: #d2d2d2 !important;
+}
+
+/* 2 Color Header Bg */
+body > .navbar-default
+{
+    background-color: #d02121 !important;
+
     }
 
-    .header{
-        background-color: #000000 !important;
-    }
+/* 3 Color Header Right Text */
+.navbar h4
+{
+    color: #ffffff !important;
+}
 
-    .navbar-default {
-        background-color: #000000 !important;
-    }
+/* 4 Color Billboard bg */
+/* 5 Color Text Billboard */
+.billboard{
+    background-color: #160ccb !important;
+    color: #ffffff !important;
+}
 
-    .header .billboard{
-        color: #ffffff !important;
-    }
+.billboard a{
+    background-color: #160ccb !important;
+    color: #ffffff !important;
+}
 
-    .footer{
-        background-color: #e7e7e7 !important;
-    }
+/* 6 Color Section Text */
+/* 7 Color Section Text Secondary */
+.page-header h2{
+    color: #004fff !important;
+    font-size: 1.5em;
+    color: #fff;
+    padding: 0;
+    margin: 0;
+}
 
-    .footer a{
-        color: #ffffff;
-    }
+.page-header h3{
+    color: #004fff !important;
+    font-size: 1.5em;
+    color: #fff;
+    padding: 0;
+    margin: 0;
+}
 
-    .col-logo a{
-        color: #ffffff;
-    }
+.page-header .mdi{
+    color: #004fff !important;
+}
 
-    .input-search .btn{
-        background-color: #0000ff;
-        color: #00ff30 !important;
-    }
+.page-header h2 small{
+    color: #d02121 !important;
+}
 
-    .btn-header-pornstars{
-        background-color: #0000ff;
-        color: #00ff30;
-    }
+.scene-description{
+    font-size: 18px;
+    color: #000000 !important;
+}
 
-    .btn-header-pornstars:hover{
-        color: #00ff30;
-    }
+/* 8 Color Video Text */
+.main .thumbnail a h5{
+    color: #000000 !important;
+}
 
-    .btn-custom-user{
-        background-color: #0000ff;
-        color: #00ff30;
-    }
+/* 9 Color Tag */
+.main .thumbnail .list-inline li .label {
+    background-color: #ffffff !important;
+    color: transparent;
+}
 
-    .btn-custom-user:hover{
-        color: #00ff30;
-    }
+/* 10 Buttons BG */
+/* 11 Buttons text */
+.main .pagination li a{
+    background-color: #a80000 !important;
+    color: #ffffff !important;
+}
 
-    /****************************************************************************************** Categories*/
-    .category_outer .link_image img {
-        border: solid 0px #000000;
-    }
+.navbar .btn-default{
+    background-color: #a80000 !important;
+    color: #ffffff !important;
+}
 
-    .category_outer .category_info{
-        background-color: #000000 !important;
-    }
+.page-header .text-right .btn-secondary.active {
+    background-color: #a80000 !important;
+    border-color: #a80000 !important;
+    color: #ffffff !important;
+}
 
-    .category_outer .category_info .link_category {
-        color: #ffffff !important;
-    }
+/* 12 On Video BG */
+.main .thumbnail .thumb-image .floater-b-c,
+.main .thumbnail .thumb-image .floater-b-l,
+.main .thumbnail .thumb-image .floater-t-l {
+    background-color: #000000 !important;
+    opacity: 0.7;
+}
 
-    .category_outer .category_info .link_nvideos {
-        color: #ffd200;
-    }
-
-    .header_title_section{
-        border-bottom: solid 2px #000000 !important;
-        color: #ffa100;
-    }
-    .header_title_section_mobile{
-        color: #ffa100;
-    }
-
-    /****************************************************************************************** Video*/
-    .video_outer .link_image img {
-        border: solid 0px #000000;
-    }
-
-    .video_outer .info_video{
-        background-color: #000000 !important;
-    }
-
-    .video_outer .info_video .title {
-        color: #ff2600;
-    }
-
-    .video_outer .info_video .extra_info{
-        color: #ff0000 !important;
-    }
-
-    .video_outer .info_video .extra_info .channel_link {
-        color: #ff0000 !important;
-    }
-
-    .video_outer .info_video .category_link {
-        background-color: #0000ff;
-        color: #00ff30;
-    }
-
-    /****************************************************************************************** Pornstar*/
-    .pornstar_outer .link_image img {
-        border: solid 0px #000000;
-    }
-
-    .pornstar_outer .pornstar_info {
-        background-color: #000000 !important;
-    }
-
-    .pornstar_outer .pornstar_info .pornstar_link{
-        color: #ffffff;
-    }
-
-    /****************************************************************************************** paginator */
-
-    .pagination li a{
-        background-color: #000000;
-        color: #ffd200;
-    }
-
-    .pagination li a:hover{
-        background-color: #000000;
-        color: #ffd200;
-    }
-
-    .pagination .active > span {
-        background-color: #000000;
-        color: #ffd200;
-    }
-
-    .pagination .disabled > span {
-        background-color: #000000;
-        color: #ffd200;
-    }
-
-    .pagination .active > span:hover{
-        background-color: #000000;
-        color: #ffd200;
-    }
-
-    .pagination .disabled > span:hover{
-        background-color: #000000;
-        color: #ffd200;
-    }
-
-    .link_order{
-        background-color: #0000ff !important;
-        color: #00ff30 !important;
-    }
+/* Fixes */
+.main .thumbnail .thumb-image img{
+    height: auto !important;
+}
 

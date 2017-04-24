@@ -7,17 +7,8 @@
     @endif
 
     @foreach($pornstars as $pornstar)
-        <?php
-        $loop++;
 
-        if ($loop % 2) {
-            $bgColor = '#e8e8e8';
-        } else {
-            $bgColor = 'lightyellow';
-        }
-        ?>
-
-        <div class="col-md-2 text-center" style="padding:10px;background-color:<?=$bgColor?>;">
+        <div class="col-md-2 text-center" style="padding:10px;">
             <img src="{{$pornstar->thumbnail}}" style="border: solid 1px black;width:100%;height: 125px;"/>
             <br/>
             {{$pornstar->name}}

@@ -8,15 +8,7 @@
 
     <?php $loop = 0 ?>
     @foreach($infojobs as $infojob)
-        <?php
-        $loop++;
-        if ($loop % 2) {
-            $bgColor = '#e8e8e8';
-        } else {
-            $bgColor = 'lightyellow';
-        }
-        ?>
-        <div class="row" style="background-color:<?=$bgColor?>;margin:0px;padding-top:15px;">
+        <div class="row" style="margin:0px;padding-top:15px;">
 
             <div class="col-md-2">
                 @if ($infojob->finished)
@@ -35,7 +27,7 @@
 
             <div class="col-md-8">
                 @if ($infojob->serialized)
-                    <?php $cronjobData = \GuzzleHttp\json_decode($infojob->serialized) ?>
+                    <?php $cronjobData = json_decode($infojob->serialized) ?>
 
                     @if (isset($cronjobData->feed_name))
                         <span class='label label-success' style="margin-right:5px;margin-top:4px;">

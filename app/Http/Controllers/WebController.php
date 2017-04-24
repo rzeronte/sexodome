@@ -2,15 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App;
-use DB;
-use Request;
-use Validator;
-use Input;
-use Session;
-use URL;
-use Auth;
-use App\rZeBot\GoogleScrapper;
+use Illuminate\Http\Request;
 use App\rZeBot\rZeBotCommons;
 
 class WebController extends Controller
@@ -42,12 +34,11 @@ class WebController extends Controller
                 'url'      => $url
             ]);
         }
-            return view('web.google_keyword_position', [
+        return view('web.google_keyword_position', [
         ]);
     }
 
     public function webping()
     {
         return "ping";
-    }
-}
+    }}

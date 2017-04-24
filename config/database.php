@@ -4,19 +4,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | PDO Fetch Style
-    |--------------------------------------------------------------------------
-    |
-    | By default, database results will be returned as instances of the PHP
-    | stdClass object; however, you may desire to retrieve records in an
-    | array format for simplicity. Here you can tweak the fetch style.
-    |
-    */
-
-    'fetch' => PDO::FETCH_CLASS,
-
-    /*
-    |--------------------------------------------------------------------------
     | Default Database Connection Name
     |--------------------------------------------------------------------------
     |
@@ -47,139 +34,37 @@ return [
     'connections' => [
 
         'sqlite' => [
-            'driver'   => 'sqlite',
-            'database' => storage_path('database.sqlite'),
-            'prefix'   => '',
-        ],
-        'mysql' => [
-            'driver'    => 'mysql',
-            'host'      => env('DB_HOST', 'localhost'),
-            'database'  => env('DB_DATABASE', 'forge'),
-            'username'  => env('DB_USERNAME', 'forge'),
-            'password'  => env('DB_PASSWORD', ''),
-            'charset'   => 'utf8',
-            'collation' => 'utf8_unicode_ci',
-            'prefix'    => '',
-            'strict'    => false,
-        ],
-        'assassinsporn' => [
-            'driver'    => 'mysql',
-            'host'      => env('DB_HOST2', '82.98.139.160'),
-            'database'  => env('DB_DATABASE2', 'assassinsp'),
-            'username'  => env('DB_USERNAME2', 'assassinsp'),
-            'password'  => env('DB_PASSWORD2', 'rZeronteLabs12'),
-            'charset'   => 'utf8',
-            'collation' => 'utf8_unicode_ci',
-            'prefix'    => '',
-            'strict'    => false,
-        ],
-        'mamasfollando' => [
-            'driver'    => 'mysql',
-            'host'      => env('DB_HOST3', '82.98.139.160'),
-            'database'  => env('DB_DATABASE3', 'mamasfollando'),
-            'username'  => env('DB_USERNAME3', 'mamasfollando'),
-            'password'  => env('DB_PASSWORD3', 'rZeronteLabs12'),
-            'charset'   => 'utf8',
-            'collation' => 'utf8_unicode_ci',
-            'prefix'    => '',
-            'strict'    => false,
-        ],
-        'latinasparadise' => [
-            'driver'    => 'mysql',
-            'host'      => env('DB_HOST4', '82.98.139.164'),
-            'database'  => env('DB_DATABASE4', 'latinasparadise'),
-            'username'  => env('DB_USERNAME4', 'latinasparadise'),
-            'password'  => env('DB_PASSWORD4', 'rZeronteLabs12'),
-            'charset'   => 'utf8',
-            'collation' => 'utf8_unicode_ci',
-            'prefix'    => '',
-            'strict'    => false,
-        ],
-        'dirtyblow' => [
-            'driver'    => 'mysql',
-            'host'      => env('DB_HOST4', '82.98.139.164'),
-            'database'  => env('DB_DATABASE4', 'dirtyblow'),
-            'username'  => env('DB_USERNAME4', 'dirtyblow'),
-            'password'  => env('DB_PASSWORD4', 'rZeronteLabs12'),
-            'charset'   => 'utf8',
-            'collation' => 'utf8_unicode_ci',
-            'prefix'    => '',
-            'strict'    => false,
-        ],
-        'masajespornos' => [
-            'driver'    => 'mysql',
-            'host'      => env('DB_HOST5', '82.98.134.42'),
-            'database'  => env('DB_DATABASE5', 'masajespornos'),
-            'username'  => env('DB_USERNAME5', 'masajespornos'),
-            'password'  => env('DB_PASSWORD5', '0ItpEc'),
-            'charset'   => 'utf8',
-            'collation' => 'utf8_unicode_ci',
-            'prefix'    => '',
-            'strict'    => false,
-        ],
-        'desoltera' => [
-            'driver'    => 'mysql',
-            'host'      => env('DB_HOST6', '82.98.134.42'),
-            'database'  => env('DB_DATABASE6', 'desoltera'),
-            'username'  => env('DB_USERNAME6', 'desoltera'),
-            'password'  => env('DB_PASSWORD6', 'N3OdVr'),
-            'charset'   => 'utf8',
-            'collation' => 'utf8_unicode_ci',
-            'prefix'    => '',
-            'strict'    => false,
-        ],
-        'justdo' => [
-            'driver'    => 'mysql',
-            'host'      => env('DB_HOST7', '82.98.134.42'),
-            'database'  => env('DB_DATABASE7', 'justdo'),
-            'username'  => env('DB_USERNAME7', 'justdo'),
-            'password'  => env('DB_PASSWORD7', 'qprwm34t'),
-            'charset'   => 'utf8',
-            'collation' => 'utf8_unicode_ci',
-            'prefix'    => '',
-            'strict'    => false,
-        ],
-        'maniac' => [
-            'driver'    => 'mysql',
-            'host'      => env('DB_HOST8', '82.98.134.42'),
-            'database'  => env('DB_DATABASE8', 'maniac'),
-            'username'  => env('DB_USERNAME8', 'maniac'),
-            'password'  => env('DB_PASSWORD8', 'fvb6cm8g'),
-            'charset'   => 'utf8',
-            'collation' => 'utf8_unicode_ci',
-            'prefix'    => '',
-            'strict'    => false,
-        ],
-        'pornoseo' => [
-            'driver'    => 'mysql',
-            'host'      => env('DB_HOST9', '82.98.139.92'),
-            'database'  => env('DB_DATABASE9', 'pornoseo'),
-            'username'  => env('DB_USERNAME9', 'pornoseo'),
-            'password'  => env('DB_PASSWORD9', 'elnq8j2p'),
-            'charset'   => 'utf8',
-            'collation' => 'utf8_unicode_ci',
-            'prefix'    => '',
-            'strict'    => false,
-        ],
-        'pgsql' => [
-            'driver'   => 'pgsql',
-            'host'     => env('DB_HOST', 'localhost'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
-            'charset'  => 'utf8',
-            'prefix'   => '',
-            'schema'   => 'public',
+            'driver' => 'sqlite',
+            'database' => env('DB_DATABASE', database_path('database.sqlite')),
+            'prefix' => '',
         ],
 
-        'sqlsrv' => [
-            'driver'   => 'sqlsrv',
-            'host'     => env('DB_HOST', 'localhost'),
+        'mysql' => [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'forge'),
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
-            'charset'  => 'utf8',
-            'prefix'   => '',
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+        ],
+
+        'pgsql' => [
+            'driver' => 'pgsql',
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'port' => env('DB_PORT', '5432'),
+            'database' => env('DB_DATABASE', 'forge'),
+            'username' => env('DB_USERNAME', 'forge'),
+            'password' => env('DB_PASSWORD', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'schema' => 'public',
+            'sslmode' => 'prefer',
         ],
 
     ],
@@ -210,11 +95,12 @@ return [
 
     'redis' => [
 
-        'cluster' => false,
+        'client' => 'predis',
 
         'default' => [
-            'host'     => '127.0.0.1',
-            'port'     => 6379,
+            'host' => env('REDIS_HOST', '127.0.0.1'),
+            'password' => env('REDIS_PASSWORD', null),
+            'port' => env('REDIS_PORT', 6379),
             'database' => 0,
         ],
 

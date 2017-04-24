@@ -3,15 +3,7 @@
     <div class="row" style="background-color:white;">
         <?php $loop = 0 ?>
         @foreach($channels as $channel)
-            <?php
-            $loop++;
-            if ($loop % 2) {
-                $bgColor = '#e8e8e8';
-            } else {
-                $bgColor = 'lightyellow';
-            }
-            ?>
-            <div class="row" style="background-color:<?=$bgColor?>;margin:0px;padding:15px;">
+            <div class="row" style="margin:0px;padding:15px;">
                 <form action="{{route('fetch', ['site_id' => $site->id])}}" class="submit-feed-site-form">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                     <input type="hidden" name="feed_name" value="{{ $channel->name }}"/>

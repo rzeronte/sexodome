@@ -16,9 +16,8 @@
     <div class="row" style="margin-top:65px;">
 
         <div class="col-md-3 col-md-offset-4">
-            <form method="POST" action="/auth/login">
-                {!! csrf_field() !!}
-
+            <form method="POST" action="{{ route('login') }}">
+                {{ csrf_field() }}
                 <div>
                     Email
                     <input type="email" name="email" value="{{ old('email') }}" class="form-control">
@@ -36,7 +35,7 @@
                 <div>
                     <button type="submit" class="btn btn-primary" style="width:100%;margin-top:20px;">Login</button>
                     <a href="{{route('register')}}" class="btn btn-primary" style="width:100%;margin-top:20px;">create new account</a>
-                    <a href="{{route('password')}}" class="btn btn-primary" style="width:100%;margin-top:10px;">forgot your password?</a>
+                    <a href="{{route('password.request')}}" class="btn btn-primary" style="width:100%;margin-top:10px;">forgot your password?</a>
                     <a href="http://{{\App\rZeBot\rZeBotCommons::getMainPlataformDomain()}}" class="btn btn-success" style="width:100%;margin-top:10px;">back to website</a>
                 </div>
             </form>

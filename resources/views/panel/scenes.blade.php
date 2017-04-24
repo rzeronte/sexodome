@@ -95,21 +95,13 @@
         ])->render(); ?>
     </div>
 
-    <?php $loop = 0 ?>
     @foreach($scenes as $scene)
         <?php
             $thumbs = json_decode($scene->thumbs);
             $index = rand(0, count($thumbs)-1);
-            $loop++;
-
-            if ($loop % 2) {
-                $bgColor = '#e8e8e8';
-            } else {
-                $bgColor = 'lightyellow';
-            }
         ?>
 
-        <div class="row coloreable" style="background-color:<?=$bgColor?>;padding: 5px;">
+        <div class="row coloreable" style="padding: 5px;">
             <form action="{{route('saveTranslation', ['locale'=>$locale, 'scene_id'=>$scene->id])}}" class="ajax-form">
                 <div class="col-md-2">
 

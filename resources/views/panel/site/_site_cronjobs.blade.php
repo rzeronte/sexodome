@@ -10,20 +10,12 @@
         @endif
 
         @foreach($site->cronjobs()->get() as $cronjob)
-            <?php
-            $loop++;
-            if ($loop % 2) {
-                $bgColor = '#e8e8e8';
-            } else {
-                $bgColor = 'lightyellow';
-            }
-            ?>
-            <div class="row" style="background-color:<?=$bgColor?>;margin:0px;padding:15px;">
+            <div class="row" style="margin:0px;padding:15px;">
                 <div class="col-md-1">
                     <img src="{{asset('channels/'.$cronjob->channel->logo)}}" style="width:40px; border: solid 1px black;"/>
                 </div>
                 <div class="col-md-9">
-                    <?php $cronjobData = \GuzzleHttp\json_decode($cronjob->params) ?>
+                    <?php $cronjobData = json_decode($cronjob->params) ?>
 
                     @if (isset($cronjobData->feed_name))
                         <span class='label label-success' style="margin-right:5px;margin-top:4px;">
@@ -69,15 +61,7 @@
     <div class="row">
         <?php $loop = 0 ?>
         @foreach($channels as $channel)
-            <?php
-            $loop++;
-            if ($loop % 2) {
-                $bgColor = '#e8e8e8';
-            } else {
-                $bgColor = 'lightyellow';
-            }
-            ?>
-            <div class="row" style="background-color:<?=$bgColor?>;margin:0px;padding:15px;">
+            <div class="row" style="margin:0px;padding:15px;">
                 <form class="form-create-cronjob" data-update-cronjobs-url="{{route('ajaxCronJobs', ['locale' => $locale, 'site_id' => $site->id])}}" action="{{route('ajaxSaveCronJob', ['locale' => $locale])}}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                     <input type="hidden" name="feed_name" value="{{ $channel->name }}"/>

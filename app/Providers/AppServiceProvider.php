@@ -2,11 +2,10 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use App;
-use App\Model\Site;
 use Illuminate\Support\Facades\Cache;
+use App\Model\Site;
+use Illuminate\Support\Facades\App;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,7 +30,6 @@ class AppServiceProvider extends ServiceProvider
             }
 
         }
-
     }
 
     /**

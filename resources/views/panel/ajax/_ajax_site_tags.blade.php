@@ -7,17 +7,7 @@
     @endif
 
     @foreach($tags as $tag)
-        <?php
-        $loop++;
-
-        if ($loop % 2) {
-            $bgColor = '#e8e8e8';
-        } else {
-            $bgColor = 'lightyellow';
-        }
-        ?>
-
-        <div class="col-md-4 coloreable" style="padding:10px;background-color:<?=$bgColor?>;">
+        <div class="col-md-4 coloreable" style="padding:10px;">
             <form action="{{route('saveTagTranslation', ['locale'=>$locale, 'tag_id' => $tag->id, 'q'=> Request::input("q"), 'page' => Request::input("page")])}}" method="post" class="ajax-form">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                 <div class="col-md-3">

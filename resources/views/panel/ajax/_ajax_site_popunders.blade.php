@@ -5,17 +5,10 @@
 @endif
 
 <div class="row infojobs-list">
-    <?php $loop = 0 ?>
+
     @foreach($popunders as $popunder)
-        <?php
-        $loop++;
-        if ($loop % 2) {
-            $bgColor = '#e8e8e8';
-        } else {
-            $bgColor = 'lightyellow';
-        }
-        ?>
-        <div class="alert alert-success" style="background-color:<?=$bgColor?>;margin:0px;padding-top:15px;">
+
+        <div class="alert alert-success" style="margin:0px;padding-top:15px;">
 
             <div class="col-md-10">
                 <b>URL: </b> {{$popunder->url}}

@@ -3,22 +3,11 @@
 namespace App\rZeBot;
 
 use App;
-use DB;
-use Request;
-use Response;
-use Validator;
-use Input;
-use Session;
-use Config;
 use Illuminate\Support\Facades\Cache;
-
 use Illuminate\Routing\Controller;
-
 use Jenssegers\Agent\Agent;
 use App\Model\Language;
-use App\Model\Site;
-use Auth;
-use Route;
+use Illuminate\Support\Facades\Route;
 
 class rZeBotCommons extends Controller {
 
@@ -42,13 +31,16 @@ class rZeBotCommons extends Controller {
 
     public function __construct()
     {
+        if (App::runningInConsole()) {
+                return;
+        }
+
         $this->routeParamters = Route::current()->parameters();
 
         $locale = env('DEFAULT_LOCALE', "en");
         if (isset($this->routeParamters["locale"])) {
             $locale = $this->routeParamters["locale"];
         }
-
         // go to admin panel if no site
         $this->site = rZeBotUtils::getSiteFromHost();
 
