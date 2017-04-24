@@ -166,4 +166,101 @@ class Site extends Model
         return $h2_pornstar;
     }
 
+    public function getCategoriesTitle($page = false)
+    {
+        $seo_title = str_replace("{domain}", $this->getHost(), $this->title_index);
+
+        if ($page > 1 && $page != false) {
+            $seo_title.= " - " . ucwords(trans('tube.page')) . " " . $page;
+        }
+
+        return $seo_title;
+    }
+
+    public function getCategoriesDescription()
+    {
+        return str_replace("{domain}", $this->getHost(), $this->description_index);
+    }
+
+    public function getCategoryTitle($translation, $page = false)
+    {
+        // seo
+        $seo_title = str_replace("{category}", $translation, $this->title_category);
+        $seo_title = str_replace("{domain}", $this->getHost(), $seo_title);
+
+        if ($page > 1 && $page !== false) {
+            $seo_title.= " - " . ucwords(trans('tube.page')) . " " . $page;
+        }
+
+        return $seo_title;
+    }
+
+    public function getCategoryDescription($translation)
+    {
+        $seo_description = str_replace("{category}", $translation, $this->description_category);
+        $seo_description = str_replace("{domain}", $this->getHost(), $seo_description);
+
+        return $seo_description;
+    }
+
+    public function getPornstarsTitle($page = false)
+    {
+        // seo
+        $seo_title = str_replace("{domain}", $this->getHost(), $this->title_pornstars);
+
+        if ($page > 1 && $page !== false) {
+            $seo_title.= " - " . ucwords(trans('tube.page')) . " " . $page;
+        }
+
+        return $seo_title;
+    }
+
+    public function getPornstarsDescription()
+    {
+        return str_replace("{domain}", $this->getHost(), $this->description_pornstars);
+
+    }
+
+    public function getPornstarTitle($translation)
+    {
+        $seo_title = str_replace("{pornstar}", $translation, $this->title_pornstar);
+        $seo_title = str_replace("{domain}", $this->commons->site->getHost(), $seo_title);
+
+        return $seo_title;
+    }
+
+    public function getPornstarDescription($translation)
+    {
+        $seo_description = str_replace("{pornstar}", $translation, $this->description_pornstar);
+        $seo_description = str_replace("{domain}", $this->getHost(), $seo_description);
+
+        return $seo_description;
+    }
+
+    public function getSceneTitle($translation)
+    {
+        $seo_title = str_replace("{domain}", $this->getHost(), $translation);
+
+        return $seo_title;
+
+    }
+
+    public function getSceneDescription($scene)
+    {
+        $seo_description = str_replace("{domain}", $this->getHost(), $scene->title);
+
+        // Si no hay descripción hacemos un montaje: title + categorías + host
+        if (strlen(trim($seo_description)) == 0) {
+            $array_categories = [];
+            foreach ($scene->categories()->get() as $category) {
+                $translation = $category->translations()->where('language_id', $this->language_id)->first();
+                $array_categories[] = $translation->name;
+            }
+
+            $seo_description = $scene->title . " " . implode("-", $array_categories) . " " . $this->getHost();
+        }
+
+        return $seo_description;
+
+    }
 }

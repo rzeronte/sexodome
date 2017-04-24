@@ -21,8 +21,6 @@ class TubeController extends Controller
 
     public function categories($profile, $page = 1, Request $request)
     {
-        $query_string = $request->input('q');
-
         $categories = Category::getTranslationByStatus(1, $this->commons->language->id)
             ->where('site_id', '=', $this->commons->site->id)
             ->orderBy('categories.cache_order', 'DESC')
@@ -30,21 +28,14 @@ class TubeController extends Controller
             ->paginate($this->commons->perPageCategories, $columns = ['*'], $pageName = 'page', $page)
         ;
 
-        // seo
-        $seo_title = str_replace("{domain}", $this->commons->site->getHost(), $this->commons->site->title_index);
-        if ($page > 1) {
-            $seo_title.= " - " . ucwords(trans('tube.page')) . " " . $page;
-        }
-        $seo_description = str_replace("{domain}", $this->commons->site->getHost(), $this->commons->site->description_index);
-
         return response()->view('tube.categories', [
             'profile'         => $profile,
             'categories'      => $categories,
             'resultsPerPage'  => $this->commons->perPage,
-            'query_string'    => $query_string,
+            'query_string'    => $request->input('q'),
             'language'        => $this->commons->language,
-            'seo_title'       => $seo_title,
-            'seo_description' => $seo_description,
+            'seo_title'       => $this->commons->site->getCategoriesTitle($page),
+            'seo_description' => $this->commons->site->getCategoriesDescription(),
             'site'            => $this->commons->site,
             'total_scenes'    => $this->commons->site->getTotalScenes(),
         ]);
@@ -61,10 +52,6 @@ class TubeController extends Controller
             ->paginate($this->commons->perPage)
         ;
 
-        // seo
-        $seo_title = str_replace("{domain}", $this->commons->site->getHost(), $this->commons->site->title_index);
-        $seo_description = str_replace("{domain}", $this->commons->site->getHost(), $this->commons->site->description_index);
-
         return response()->view('tube.search', [
             'profile'         => $profile,
             'scenes'          => $scenes,
@@ -72,46 +59,8 @@ class TubeController extends Controller
             'resultsPerPage'  => $this->commons->perPage,
             'language'        => $this->commons->language,
             'languages'       => $this->commons->languages,
-            'seo_title'       => $seo_title,
-            'seo_description' => $seo_description,
-            'site'            => $this->commons->site,
-
-        ])->header('Cache-control', 'max-age=3600');
-    }
-
-    public function tag($profile, $permalinkTag, Request $request)
-    {
-        // check if tag exists, else redirect to route
-        if (TagTranslation::where('permalink', $permalinkTag)->count() == 0) {
-            return redirect()->route('categories', ['domain' => $this->commons->site->getHost()]);
-        }
-
-        $tagTranslation = TagTranslation::where('permalink', $permalinkTag)->first();
-        $tag = $tagTranslation->tag;
-
-        // get scenes
-        $scenes = Scene::getTranslationsForTag($permalinkTag, $this->commons->language->id)
-            ->where('scenes.site_id', $this->commons->site->id)
-            ->paginate($this->commons->perPage, $columns = ['*'], $pageName = 'page', $page)
-        ;
-
-        // seo
-        $seo_title = str_replace("{tag}", $tagTranslation->name, $this->commons->site->title_tag);
-        $seo_title = str_replace("{domain}", $this->commons->site->getHost(), $seo_title);
-
-        $seo_description = str_replace("{tag}", $tagTranslation->name, $this->commons->site->description_tag);
-        $seo_description = str_replace("{domain}", $this->commons->site->getHost(), $seo_description);
-
-        return response()->view('tube.search', [
-            'profile'         => $profile,
-            'scenes'          => $scenes,
-            'tagTranslation'  => $tagTranslation,
-            'resultsPerPage'  => $this->commons->perPage,
-            'query_string'    => $tag->name,
-            'language'        => $this->commons->language,
-            'languages'       => $this->commons->languages,
-            'seo_title'       => $seo_title,
-            'seo_description' => $seo_description,
+            'seo_title'       => $this->commons->site->getCategoriesTitle(),
+            'seo_description' => $this->commons->site->getCategoriesDescription(),
             'site'            => $this->commons->site,
 
         ])->header('Cache-control', 'max-age=3600');
@@ -144,17 +93,6 @@ class TubeController extends Controller
             ->paginate($this->commons->perPageCategories, $columns = ['*'], $pageName = 'page', $page)
         ;
 
-        // seo
-        $seo_title = str_replace("{category}", $categoryTranslation->name, $this->commons->site->title_category);
-        $seo_title = str_replace("{domain}", $this->commons->site->getHost(), $seo_title);
-
-        if ($page > 1) {
-            $seo_title.= " - " . ucwords(trans('tube.page')) . " " . $page;
-        }
-
-        $seo_description = str_replace("{category}", $categoryTranslation->name, $this->commons->site->description_category);
-        $seo_description = str_replace("{domain}", $this->commons->site->getHost(), $seo_description);
-
         return response()->view('tube.search', [
             'profile'         => $profile,
             'scenes'          => $scenes,
@@ -163,8 +101,8 @@ class TubeController extends Controller
             'query_string'    => '',
             'language'        => $this->commons->language,
             'languages'       => $this->commons->languages,
-            'seo_title'       => $seo_title,
-            'seo_description' => $seo_description,
+            'seo_title'       => $this->commons->site->getCategoryTitle($categoryTranslation->name, $page),
+            'seo_description' => $this->commons->site->getCategoryDescription($categoryTranslation->name),
             'site'            => $this->commons->site,
             'permalinkCategory'=> $permalinkCategory,
         ])->header('Cache-control', 'max-age=3600');
@@ -190,22 +128,6 @@ class TubeController extends Controller
             $related = Scene::getAllTranslated($this->commons->language->id);
         }
 
-        // seo
-        $seo_title = str_replace("{domain}", $this->commons->site->getHost(), $scene->title);
-        $seo_description = str_replace("{domain}", $this->commons->site->getHost(), $scene->description);
-
-
-        // Si no hay descripción hacemos un montaje: title + categorías + host
-        if (strlen(trim($seo_description)) == 0) {
-            $array_categories = [];
-            foreach ($scene->categories()->get() as $category) {
-                $translation = $category->translations()->where('language_id', $this->commons->site->language_id)->first();
-                $array_categories[] = $translation->name;
-            }
-
-            $seo_description = $seo_title . " " . implode("-", $array_categories) . " " . $this->commons->site->getHost();
-        }
-
         return response()->view('tube.video', [
             'profile'         => $profile,
             'video'           => $scene,
@@ -213,8 +135,8 @@ class TubeController extends Controller
             'query_string'    => "",
             'language'        => $this->commons->language,
             'languages'       => $this->commons->languages,
-            'seo_title'       => $seo_title,
-            'seo_description' => $seo_description,
+            'seo_title'       => $this->commons->site->getSceneTitle($scene),
+            'seo_description' => $this->commons->site->getSceneDescription($scene),
             'site'            => $this->commons->site,
         ])->header('Cache-control', 'max-age=3600');
     }
@@ -317,12 +239,6 @@ class TubeController extends Controller
 
     public function pornstars($profile, $page = 1, Request $request)
     {
-        // seo
-        $seo_title = str_replace("{domain}", $this->commons->site->getHost(), $this->commons->site->title_pornstars);
-        if ($page > 1) {
-            $seo_title.= " - " . ucwords(trans('tube.page')) . " " . $page;
-        }
-        $seo_description = str_replace("{domain}", $this->commons->site->getHost(), $this->commons->site->description_pornstars);
 
         $pornstars = Pornstar::where('site_id', $this->commons->site->id)
             ->paginate($this->commons->perPageCategories, $columns = ['*'], $pageName = 'page', $page)
@@ -335,8 +251,8 @@ class TubeController extends Controller
             'resultsPerPage'  => $this->commons->perPage,
             'language'        => $this->commons->language,
             'languages'       => $this->commons->languages,
-            'seo_title'       => $seo_title,
-            'seo_description' => $seo_description,
+            'seo_title'       => $this->commons->site->getPornstarsTitle($page),
+            'seo_description' => $this->commons->site->getPornstarsDescription(),
             'site'            => $this->commons->site,
         ])->header('Cache-control', 'max-age=3600');
     }
@@ -356,13 +272,6 @@ class TubeController extends Controller
             ->paginate($this->commons->perPageCategories, $columns = ['*'], $pageName = 'page', $page)
         ;
 
-        // seo
-        $seo_title = str_replace("{pornstar}", $pornstar->name, $this->commons->site->title_pornstar);
-        $seo_title = str_replace("{domain}", $this->commons->site->getHost(), $seo_title);
-
-        $seo_description = str_replace("{pornstar}", $pornstar->name, $this->commons->site->description_pornstar);
-        $seo_description = str_replace("{domain}", $this->commons->site->getHost(), $seo_description);
-
         return response()->view('tube.search', [
             'profile'         => $profile,
             'scenes'          => $scenes,
@@ -371,9 +280,9 @@ class TubeController extends Controller
             'query_string'    => '',
             'language'        => $this->commons->language,
             'languages'       => $this->commons->languages,
-            'seo_title'       => $seo_title,
-            'seo_description' => $seo_description,
-            'site'            => $this->commons->site,
+            'seo_title'       => $this->commons->site->get,
+            'seo_description' => $this->commons->site->getPornstarTitle($pornstar->name),
+            'site'            => $this->commons->site->getPornstarDescription($pornstar->name),
             'pornstar'        => $pornstar
         ])->header('Cache-control', 'max-age=3600');
     }

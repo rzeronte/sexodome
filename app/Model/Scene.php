@@ -323,5 +323,4 @@ class Scene extends Model
         return $query;
     }
 
-
 }
