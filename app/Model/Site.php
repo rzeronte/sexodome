@@ -224,7 +224,7 @@ class Site extends Model
     public function getPornstarTitle($translation)
     {
         $seo_title = str_replace("{pornstar}", $translation, $this->title_pornstar);
-        $seo_title = str_replace("{domain}", $this->commons->site->getHost(), $seo_title);
+        $seo_title = str_replace("{domain}", $this->getHost(), $seo_title);
 
         return $seo_title;
     }
