@@ -121,20 +121,21 @@ if (!App::runningInConsole() && App::make('site')) {
         Route::get('/' . App::make('site')->video_url . '/{permalink}', 'TubeController@video')->name('video');
 
         Route::get('/search', 'TubeController@search')->name('search');
-
-        Route::get('/', 'TubeController@categories')->name('categories');
-        Route::get('/{page}', 'TubeController@categories')->name('categories_page');
+        Route::get('/ads/', 'TubeController@ads')->name('ads');
 
         Route::get('/sitemap.xml', 'TubeController@sitemap')->name('sitemap');
 
         Route::get('/out/{scene_id_id}', 'TubeController@out')->name('out');
         Route::get('/iframe/{scene_id}', 'TubeController@iframe')->name('iframe');
-        Route::get('/ads/', 'TubeController@ads')->name('ads');
 
         Route::get('/dmca/', 'TubeController@dmca')->name('dmca');
         Route::get('/terms/', 'TubeController@terms')->name('terms');
         Route::get('/2257/', 'TubeController@C2257')->name('C2257');
         Route::get('/contact/', 'TubeController@contact')->name('contact');
+
+        Route::get('/', 'TubeController@categories')->name('categories');
+        Route::get('/{page}', 'TubeController@categories')->name('categories_page');
+
 
         //Route::match(['get'], '/', 'TubeController@siteError')->name('siteError');
 
