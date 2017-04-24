@@ -27,7 +27,7 @@ class TubeController extends Controller
             ->where('site_id', '=', $this->commons->site->id)
             ->orderBy('categories.cache_order', 'DESC')
             ->orderBy('categories.nscenes', 'DESC')
-            ->paginate($this->commons->perPageCategories)
+            ->paginate($this->commons->perPageCategories, $columns = ['*'], $pageName = 'page', $page)
         ;
 
         // seo
@@ -58,7 +58,7 @@ class TubeController extends Controller
             ->where('site_id', $this->commons->site->id)
             ->where('status', 1)
             ->orderBy('scene_id', 'desc')
-            ->paginate($this->commons->perPage)
+            ->paginate($this->commons->perPage, $columns = ['*'], $pageName = 'page', $page)
         ;
 
         // seo
@@ -92,7 +92,7 @@ class TubeController extends Controller
         // get scenes
         $scenes = Scene::getTranslationsForTag($permalinkTag, $this->commons->language->id)
             ->where('scenes.site_id', $this->commons->site->id)
-            ->paginate($this->commons->perPage)
+            ->paginate($this->commons->perPage, $columns = ['*'], $pageName = 'page', $page)
         ;
 
         // seo
@@ -137,11 +137,12 @@ class TubeController extends Controller
 
         // get scenes
         $scenes = Scene::getTranslationsForCategory(
-            $categoryTranslation->category->id,
-            $this->commons->language->id,
-            $request->input('order', false)
-        )
-            ->paginate($this->commons->perPageCategories);
+                $categoryTranslation->category->id,
+                $this->commons->language->id,
+                $request->input('order', false)
+            )
+            ->paginate($this->commons->perPageCategories, $columns = ['*'], $pageName = 'page', $page)
+        ;
 
         // seo
         $seo_title = str_replace("{category}", $categoryTranslation->name, $this->commons->site->title_category);
@@ -323,10 +324,14 @@ class TubeController extends Controller
         }
         $seo_description = str_replace("{domain}", $this->commons->site->getHost(), $this->commons->site->description_pornstars);
 
+        $pornstars = Pornstar::where('site_id', $this->commons->site->id)
+            ->paginate($this->commons->perPageCategories, $columns = ['*'], $pageName = 'page', $page)
+        ;
+
         return response()->view('tube.pornstars', [
             'query_string'    => "",
             'profile'         => $profile,
-            'pornstars'       => Pornstar::where('site_id', $this->commons->site->id)->paginate($this->commons->perPageCategories),
+            'pornstars'       => $pornstars,
             'resultsPerPage'  => $this->commons->perPage,
             'language'        => $this->commons->language,
             'languages'       => $this->commons->languages,
@@ -336,7 +341,7 @@ class TubeController extends Controller
         ])->header('Cache-control', 'max-age=3600');
     }
 
-    public function pornstar($profile, $permalinkPornstar, Request $request)
+    public function pornstar($profile, $permalinkPornstar, $page, Request $request)
     {
         $pornstar = App\Model\Pornstar::where('pornstars.site_id', '=', $this->commons->site->id)
             ->where('permalink', $permalinkPornstar)
@@ -348,7 +353,7 @@ class TubeController extends Controller
         }
 
         $scenes = Scene::getTranslationsForPornstar($pornstar->id, $this->commons->language->id)
-            ->paginate($this->commons->perPageCategories)
+            ->paginate($this->commons->perPageCategories, $columns = ['*'], $pageName = 'page', $page)
         ;
 
         // seo
