@@ -137,7 +137,7 @@
             @endif
 
             @if ($query_string)
-                @include('tube.commons._paginator', ['paginator' => $scenes])
+                @include('tube.commons._paginator_search', ['paginator' => $scenes, 'route_name' => 'search'])
             @endif
         @endif
     </div>
