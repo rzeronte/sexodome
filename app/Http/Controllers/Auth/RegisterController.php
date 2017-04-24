@@ -27,7 +27,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -62,10 +62,19 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $data['verifyToken'] = md5(microtime().rand(0, 100));
+
+        Mail::send('emails.verify', $data, function ($message) use ($data) {
+            $message->from('sexodomeweb@gmail.com', 'Sexodome - Porn Tube Generator');
+            $message->subject('Sexodome Account Registration Verify');
+            $message->to($data['email']);
+        });
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'verify_token' => $data['verifyToken']
         ]);
     }
 }
