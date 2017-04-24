@@ -271,7 +271,6 @@ class TubeController extends Controller
         $scenes = Scene::getTranslationsForPornstar($pornstar->id, $this->commons->language->id)
             ->paginate($this->commons->perPageCategories, $columns = ['*'], $pageName = 'page', $page)
         ;
-
         return response()->view('tube.search', [
             'profile'         => $profile,
             'scenes'          => $scenes,
@@ -280,9 +279,9 @@ class TubeController extends Controller
             'query_string'    => '',
             'language'        => $this->commons->language,
             'languages'       => $this->commons->languages,
-            'seo_title'       => $this->commons->site->get,
-            'seo_description' => $this->commons->site->getPornstarTitle($pornstar->name),
-            'site'            => $this->commons->site->getPornstarDescription($pornstar->name),
+            'seo_title'       => $this->commons->site->getPornstarTitle($pornstar->name),
+            'seo_description' => $this->commons->site->getPornstarDescription($pornstar->name),
+            'site'            => $this->commons->site,
             'pornstar'        => $pornstar
         ])->header('Cache-control', 'max-age=3600');
     }
