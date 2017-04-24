@@ -25,7 +25,7 @@
     <div class="clearfix"></div>
 
     <div class="col-md-3 col-md-offset-4" style="margin-top:50px;">
-        <form method="POST" action="/auth/register">
+        <form method="POST" action="{{route('register')}}">
             {!! csrf_field() !!}
 
             <div>
