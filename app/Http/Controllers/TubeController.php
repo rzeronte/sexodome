@@ -58,7 +58,7 @@ class TubeController extends Controller
             ->where('site_id', $this->commons->site->id)
             ->where('status', 1)
             ->orderBy('scene_id', 'desc')
-            ->paginate($this->commons->perPage, $columns = ['*'], $pageName = 'page', $page)
+            ->paginate($this->commons->perPage)
         ;
 
         // seo
