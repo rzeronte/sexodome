@@ -99,6 +99,8 @@ Route::group(['domain' => 'accounts.'.\App\rZeBot\rZeBotCommons::getMainPlatafor
     Route::match(['get', 'post'], '{locale}/updateIframeData/{site_id}', ['as'=> 'updateIframeData','uses' => 'ConfigController@updateIframeData']);
     Route::match(['get', 'post'], '{locale}/updateLogo/{site_id}', ['as'=> 'updateLogo','uses' => 'ConfigController@updateLogo']);
     Route::match(['get', 'post'], '{locale}/updateColors/{site_id}', ['as'=> 'updateColors','uses' => 'ConfigController@updateColors']);
+    Auth::routes();
+
 });
 
 // TubeFronts domains
@@ -143,4 +145,3 @@ if (!App::runningInConsole() && App::make('site')) {
 
 }
 
-Auth::routes();

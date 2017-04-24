@@ -37,6 +37,8 @@
 
 
     <div class="col-md-1"  style="margin-top:10px;">
-        <a href="{{route('logout')}}" class="btn btn-danger" style="float:right"><i class="glyphicon glyphicon-off"></i></a>
+        <a href="{{ route('logout') }}" class="btn btn-danger" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="glyphicon glyphicon-off"></i></a>
+
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>
     </div>
 </div>
