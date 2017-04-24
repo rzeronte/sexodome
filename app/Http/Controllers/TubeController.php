@@ -341,7 +341,7 @@ class TubeController extends Controller
         ])->header('Cache-control', 'max-age=3600');
     }
 
-    public function pornstar($profile, $permalinkPornstar, $page, Request $request)
+    public function pornstar($profile, $permalinkPornstar, $page = 1, Request $request)
     {
         $pornstar = App\Model\Pornstar::where('pornstars.site_id', '=', $this->commons->site->id)
             ->where('permalink', $permalinkPornstar)
