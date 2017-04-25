@@ -95,7 +95,7 @@ class TubeController extends Controller
             ->paginate($this->commons->perPageCategories, $columns = ['*'], $pageName = 'page', $page)
         ;
 
-        return response()->view('tube.search', [
+        return response()->view('tube.category', [
             'profile'         => $profile,
             'scenes'          => $scenes,
             'categoryTranslation' => $categoryTranslation,
@@ -107,6 +107,55 @@ class TubeController extends Controller
             'seo_description' => $this->commons->site->getCategoryDescription($categoryTranslation->name),
             'site'            => $this->commons->site,
             'permalinkCategory'=> $permalinkCategory,
+        ])->header('Cache-control', 'max-age=3600');
+    }
+
+    public function pornstars($profile, $page = 1, Request $request)
+    {
+
+        $pornstars = Pornstar::where('site_id', $this->commons->site->id)
+            ->paginate($this->commons->perPageCategories, $columns = ['*'], $pageName = 'page', $page)
+        ;
+
+        return response()->view('tube.pornstars', [
+            'query_string'    => "",
+            'profile'         => $profile,
+            'pornstars'       => $pornstars,
+            'resultsPerPage'  => $this->commons->perPage,
+            'language'        => $this->commons->language,
+            'languages'       => $this->commons->languages,
+            'seo_title'       => $this->commons->site->getPornstarsTitle($page),
+            'seo_description' => $this->commons->site->getPornstarsDescription(),
+            'site'            => $this->commons->site,
+        ])->header('Cache-control', 'max-age=3600');
+    }
+
+    public function pornstar($profile, $permalinkPornstar, $page = 1, Request $request)
+    {
+        $pornstar = App\Model\Pornstar::where('pornstars.site_id', '=', $this->commons->site->id)
+            ->where('permalink', $permalinkPornstar)
+            ->first()
+        ;
+
+        if (!$pornstar) {
+            abort(404, "Pornstar not found");
+        }
+
+        $scenes = Scene::getTranslationsForPornstar($pornstar->id, $this->commons->language->id)
+            ->paginate(1, $columns = ['*'], $pageName = 'page', $page)
+        ;
+        return response()->view('tube.pornstar', [
+            'profile'         => $profile,
+            'scenes'          => $scenes,
+            'categories'      => $this->commons->site->categories()->get(),
+            'resultsPerPage'  => $this->commons->perPage,
+            'query_string'    => '',
+            'language'        => $this->commons->language,
+            'languages'       => $this->commons->languages,
+            'seo_title'       => $this->commons->site->getPornstarTitle($pornstar->name),
+            'seo_description' => $this->commons->site->getPornstarDescription($pornstar->name),
+            'site'            => $this->commons->site,
+            'pornstar'        => $pornstar
         ])->header('Cache-control', 'max-age=3600');
     }
 
@@ -172,7 +221,7 @@ class TubeController extends Controller
 
     public function dmca($profile, Request $request)
     {
-        return response()->view('tube.dmca', [
+        return response()->view('tube.static.dmca', [
             'profile'         => $profile,
             'resultsPerPage'  => $this->commons->perPage,
             'language'        => $this->commons->language,
@@ -187,7 +236,7 @@ class TubeController extends Controller
 
     public function terms($profile, Request $request)
     {
-        return response()->view('tube.terms', [
+        return response()->view('tube.static.terms', [
             'profile'         => $profile,
             'resultsPerPage'  => $this->commons->perPage,
             'language'        => $this->commons->language,
@@ -202,7 +251,7 @@ class TubeController extends Controller
 
     public function C2257($profile, Request $request)
     {
-        return response()->view('tube.2257', [
+        return response()->view('tube.static.2257', [
             'profile'         => $profile,
             'resultsPerPage'  => $this->commons->perPage,
             'language'        => $this->commons->language,
@@ -237,55 +286,6 @@ class TubeController extends Controller
         }
 
         return response($file, "200")->header('Content-Type', "application/xml");
-    }
-
-    public function pornstars($profile, $page = 1, Request $request)
-    {
-
-        $pornstars = Pornstar::where('site_id', $this->commons->site->id)
-            ->paginate($this->commons->perPageCategories, $columns = ['*'], $pageName = 'page', $page)
-        ;
-
-        return response()->view('tube.pornstars', [
-            'query_string'    => "",
-            'profile'         => $profile,
-            'pornstars'       => $pornstars,
-            'resultsPerPage'  => $this->commons->perPage,
-            'language'        => $this->commons->language,
-            'languages'       => $this->commons->languages,
-            'seo_title'       => $this->commons->site->getPornstarsTitle($page),
-            'seo_description' => $this->commons->site->getPornstarsDescription(),
-            'site'            => $this->commons->site,
-        ])->header('Cache-control', 'max-age=3600');
-    }
-
-    public function pornstar($profile, $permalinkPornstar, $page = 1, Request $request)
-    {
-        $pornstar = App\Model\Pornstar::where('pornstars.site_id', '=', $this->commons->site->id)
-            ->where('permalink', $permalinkPornstar)
-            ->first()
-        ;
-
-        if (!$pornstar) {
-            abort(404, "Pornstar not found");
-        }
-
-        $scenes = Scene::getTranslationsForPornstar($pornstar->id, $this->commons->language->id)
-            ->paginate($this->commons->perPageCategories, $columns = ['*'], $pageName = 'page', $page)
-        ;
-        return response()->view('tube.search', [
-            'profile'         => $profile,
-            'scenes'          => $scenes,
-            'categories'      => $this->commons->site->categories()->get(),
-            'resultsPerPage'  => $this->commons->perPage,
-            'query_string'    => '',
-            'language'        => $this->commons->language,
-            'languages'       => $this->commons->languages,
-            'seo_title'       => $this->commons->site->getPornstarTitle($pornstar->name),
-            'seo_description' => $this->commons->site->getPornstarDescription($pornstar->name),
-            'site'            => $this->commons->site,
-            'pornstar'        => $pornstar
-        ])->header('Cache-control', 'max-age=3600');
     }
 
     public function siteError($profile, Request $request)

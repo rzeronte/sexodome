@@ -5,44 +5,10 @@
         <header class="page-header">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                    @if (isset($categoryTranslation))
-                        <h2><i class="mdi mdi-folder"></i> {{ $site->getH2Category($categoryTranslation->name) }}</h2>
-                        <div>
-                            <small>
-                                @if (isset($scenes))
-                                    {{number_format($scenes->total(), 0, ".", ",")}} {{trans('tube.h1_info_porn_videos')}}
-                                @endif
-                            </small>
-                        </div>
-                    @endif
-
-                    @if (isset($pornstar))
-                        <h2><i class="mdi mdi-star"></i> {{ $site->getH2Pornstar($pornstar->name) }}</h2>
-
-                        <div>
-                            @if (isset($scenes))
-                                ({{$scenes->total()}} {{trans('tube.count_porn_videos')}})
-                            @endif
-                        </div>
-                    @endif
-
-                    @if ($query_string)
-                        <i class="mdi mdi-search"></i>
-                        <h2>
-                            @if (isset($scenes))
-                                {{--{{$scenes->total()}} {{trans('tube.count_porn_videos_for')}} '<b>{{$query_string}}</b>'--}}
-                                {{$scenes->total()}} {{trans('tube.count_porn_videos')}}
-                            @endif
-                        </h2>
-                    @endif
+                    @yield('h2_tag')
                 </div>
 
-                @if (isset($categoryTranslation))
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-right">
-                        <a href="{{route('category', ['profile' => $site->getHost(), 'permalink' => $permalinkCategory, 'order' => 'popular'])}}" class="btn btn-secondary btn-sm active link_order"> @if (Request::get('order') == 'popular') <b>{{trans('tube.btn_order_mostpopular')}}</b> @else {{trans('tube.btn_order_mostpopular')}} @endif </a>
-                        <a href="{{route('category', ['profile' => $site->getHost(), 'permalink' => $permalinkCategory, 'order' => 'newest'])}}" class="btn btn-secondary btn-sm active link_order">@if (Request::get('order') == false || Request::get('order') == 'newest') <b>{{trans('tube.btn_order_news')}}</b> @else {{trans('tube.btn_order_news')}} @endif </a>
-                    </div>
-                @endif
+                @yield('orders')
             </div>
         </header>
 
@@ -127,18 +93,7 @@
         </div>
 
         @if (!isset($removePaginator))
-
-            @if (isset($categoryTranslation))
-                @include('tube.commons._paginator', ['paginator' => $scenes, 'route_name' => 'categories_page'])
-            @endif
-
-            @if (isset($pornstar))
-                @include('tube.commons._paginator', ['paginator' => $scenes, 'route_name' => 'pornstar_page'])
-            @endif
-
-            @if ($query_string)
-                @include('tube.commons._paginator_search', ['paginator' => $scenes, 'route_name' => 'search'])
-            @endif
+            @yield('paginator')
         @endif
     </div>
 </main>

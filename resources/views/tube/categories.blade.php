@@ -10,12 +10,18 @@
     @endif
 @endsection
 
+@section('paginator')
+    @include('tube.paginators._paginator_categories', ['paginator' => $categories, 'route_name' => 'categories_page'])
+@endsection
+
+@section('h2_tag')
+    <h2><i class="mdi mdi-home"></i> {{$site->getH2Home()}}</h2>
+@endsection
 <!DOCTYPE html>
 <html>
     <head>
         @include('tube.commons._head')
     </head>
-
 
     <body class="homepage">
         @include('tube.commons._header')

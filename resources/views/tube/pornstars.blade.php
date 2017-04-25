@@ -10,6 +10,13 @@
     @endif
 @endsection
 
+@section('paginator')
+    @include('tube.paginators._paginator_pornstars', ['paginator' => $pornstars, 'route_name' => 'pornstars_page'])
+@endsection
+
+@section('h2_tag')
+    <h2><i class="mdi mdi-stars"></i> {{ $site->getH2Pornstars() }}</h2>
+@endsection
 <!DOCTYPE html>
 <html>
     <head>

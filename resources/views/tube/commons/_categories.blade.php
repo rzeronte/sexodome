@@ -5,7 +5,7 @@
         <header class="page-header">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                    <h2><i class="mdi mdi-home"></i> {{$site->getH2Home()}}</h2>
+                    @yield('h2_tag')
                     <div>
                         {{number_format($categories->total(), 0, ",", ".")}} {{trans('tube.h1_info_categories')}}, @if (isset($scenes)){{ number_format($scenes->total(), 0, ".", ",") }} {{trans('tube.h1_info_porn_videos')}} @endif
                         @if (isset($total_scenes)){{ number_format($total_scenes, 0, ",", ".") }} {{trans('tube.h1_info_porn_videos')}} @endif
@@ -37,7 +37,7 @@
         </div>
 
         <nav aria-label="Pagination">
-            @include('tube.commons._paginator', ['paginator' => $categories, 'route_name' => 'categories_page'])
+            @yield('paginator')
         </nav>
 
     </div>
