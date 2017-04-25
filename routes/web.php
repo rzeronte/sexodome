@@ -115,8 +115,6 @@ if (!App::runningInConsole() && App::make('site')) {
         Route::get('/' . App::make('site')->category_url . '/{permalinkCategory}', 'TubeController@category')->name('category');
         Route::get('/' . App::make('site')->category_url . '/{permalinkCategory}/{page}', 'TubeController@category')->name('category_page');
 
-        Route::get('/' . App::make('site')->tag_url . '/{permalinkTag}', 'TubeController@tag')->name('tag');
-
         Route::get('/' . App::make('site')->pornstar_url . '/{permalinkPornstar}', 'TubeController@pornstar')->name('pornstar');
         Route::get('/' . App::make('site')->pornstar_url . '/{permalinkPornstar}/{page}', 'TubeController@pornstar')->name('pornstar_page');
 
@@ -138,9 +136,7 @@ if (!App::runningInConsole() && App::make('site')) {
         Route::get('/', 'TubeController@categories')->name('categories');
         Route::get('/{page}', 'TubeController@categories')->name('categories_page');
 
-
         //Route::match(['get'], '/', 'TubeController@siteError')->name('siteError');
-
     });
 
 }
