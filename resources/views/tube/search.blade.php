@@ -2,11 +2,8 @@
     <h2><i class="mdi mdi-home"></i> {{$site->getH2Home()}}</h2>
 @endsection
 
-@section('orders')
-    <div class="link_order_container">
-        <a href="{{route('categories', ['order' => 'latest'])}}" class="btn btn-secondary btn-sm active link_order">Latest porn videos</a>
-        <a href="{{route('categories', ['order' => 'newest'])}}" class="btn btn-secondary btn-sm active link_order">Newest porn videos</a>
-    </div>
+@section('paginator')
+    @include('tube.paginators._paginator_search', ['paginator' => $scenes, 'route_name' => 'search_page'])
 @endsection
 <!DOCTYPE html>
 <html>
@@ -16,8 +13,6 @@
 
     <body class="homepage">
         @include('tube.commons._header')
-
-
 
         @include('tube.commons._videos')
 
