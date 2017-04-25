@@ -26,7 +26,7 @@ class TubeController extends Controller
             ->where('site_id', '=', $this->commons->site->id)
             ->orderBy('categories.cache_order', 'DESC')
             ->orderBy('categories.nscenes', 'DESC')
-            ->paginate($this->commons->perPageCategories, $columns = ['*'], $pageName = 'page', $page)
+            ->paginate(5, $columns = ['*'], $pageName = 'page', $page)
         ;
 
         return response()->view('tube.categories', [
