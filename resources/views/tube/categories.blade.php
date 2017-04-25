@@ -1,3 +1,5 @@
+@extends('tube.layouts.app')
+
 @section('pagination_seo')
     @if (isset($categories))
         @if ( $categories->currentPage() > 1)
@@ -17,17 +19,9 @@
 @section('h2_tag')
     <h2><i class="mdi mdi-home"></i> {{$site->getH2Home()}}</h2>
 @endsection
-<!DOCTYPE html>
-<html>
-    <head>
-        @include('tube.commons._head')
-    </head>
 
-    <body class="homepage">
-        @include('tube.commons._header')
-        @include('tube.commons._categories')
-        @include('tube.commons._iframe_network')
-        @include('tube.commons._footer')
-        @include('tube.commons._javascripts')
-    </body>
-</html>
+@section('content')
+    @include('tube.commons._header')
+    @include('tube.commons._categories')
+    @include('tube.commons._iframe_network')
+@endsection

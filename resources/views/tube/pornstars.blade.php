@@ -1,3 +1,5 @@
+@extends('tube.layouts.app')
+
 @section('pagination_seo')
     @if (isset($pornstars))
         @if ( $pornstars->currentPage() > 1)
@@ -17,16 +19,8 @@
 @section('h2_tag')
     <h2><i class="mdi mdi-stars"></i> {{ $site->getH2Pornstars() }}</h2>
 @endsection
-<!DOCTYPE html>
-<html>
-    <head>
-        @include('tube.commons._head')
-    </head>
 
-    <body>
-        @include('tube.commons._header')
-        @include('tube.commons._pornstars')
-        @include('tube.commons._footer')
-        @include('tube.commons._javascripts')
-    </body>
-</html>
+@section('content')
+    @include('tube.commons._header')
+    @include('tube.commons._pornstars')
+@endsection

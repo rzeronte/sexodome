@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html>
+@extends('tube.layouts.app')
 
-<head>
-    @include('tube.commons._head')
-</head>
-
-<body>
+@section('content')
     @include('tube.commons._header')
-
 
     <main class="main">
         <div class="container">
@@ -120,7 +114,4 @@
         </section>
     @endif
 
-    @include('tube.commons._footer')
-    @include('tube.commons._javascripts')
-
-</body>
+@endsection

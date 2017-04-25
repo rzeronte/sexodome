@@ -1,3 +1,5 @@
+@extends('tube.layouts.app')
+
 @section('pagination_seo')
     @if (isset($scenes))
         @if ( $scenes->currentPage() > 1)
@@ -31,16 +33,9 @@
         </div>
     @endif
 @endsection
-<!DOCTYPE html>
-<html>
-<head>
-    @include('tube.commons._head')
-</head>
 
-<body class="homepage">
+@section('content')
     @include('tube.commons._header')
-
-
     @include('tube.commons._videos')
 
     @if ($language->iframe_src != "")
@@ -49,8 +44,4 @@
         </section>
     @endif
 
-    @include('tube.commons._footer')
-    @include('tube.commons._javascripts')
-
-</body>
-</html>
+@endsection
