@@ -237,9 +237,9 @@ class Site extends Model
         return $seo_description;
     }
 
-    public function getSceneTitle($translation)
+    public function getSceneTitle($scene)
     {
-        $seo_title = str_replace("{domain}", $this->getHost(), $translation);
+        $seo_title = str_replace("{domain}", $this->getHost(), $scene->title);
 
         return $seo_title;
 
