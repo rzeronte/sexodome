@@ -58,13 +58,9 @@
                 <button type="submit" class="btn btn-default"><i class="small mdi mdi-search"></i> {{trans('tube.header_inputsearch_search')}}</button>
             </form>
             <span class="navbar-text pull-right">
-          <h4>
-              <?php if (isset($categoryTranslation)):?>
-              {{ ucwords($categoryTranslation->name) }} {{ucwords(trans('tube.h1_info_porn_videos'))}}
-              <?php else:?>
-              {{$site->head_billboard}}
-              <?php endif?>
-          </h4>
+
+            <h3>{{$site->head_billboard}}</h3>
+
         </span>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
