@@ -223,7 +223,7 @@ class TubeController extends Controller
             abort(404, "Scene not found");
         }
 
-        Scene::addSceneClick($scene, $ua = $request::header('User-Agent'));
+        Scene::addSceneClick($scene, $ua = $request->header('User-Agent'));
 
         return redirect($scene->url);
     }
