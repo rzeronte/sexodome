@@ -226,7 +226,7 @@ class BotTranslateVideo extends Command
             "target" => $to
         );
 
-        $finalUrl = $this->urlTranslation.\GuzzleHttp\Psr7\build_query($data);
+        $finalUrl = $this->urlTranslation.http_build_query($data);
 
         $handle = curl_init($finalUrl);
         curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);

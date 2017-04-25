@@ -33,7 +33,7 @@ class BotLoadJSONCategories extends Command
         }
 
         $categories = Storage::get('categories.json');
-        $categories = \GuzzleHttp\json_decode($categories, true);
+        $categories = json_decode($categories, true);
         
         rZeBotUtils::message("Load categories for ". $site->getHost(), "cyan", false, false);
 
