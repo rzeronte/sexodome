@@ -24,7 +24,7 @@
 @endsection
 
 @section('h2_tag')
-    <h2><i class="mdi mdi-stars"></i> {{ $site->getH2Pornstar() }}</h2>
+    <h2><i class="mdi mdi-stars"></i> {{ $site->getH2Pornstar($pornstar->name) }}</h2>
 @endsection
 <!DOCTYPE html>
 <html>
