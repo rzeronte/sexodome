@@ -1,4 +1,5 @@
 <?php $agent = new \Jenssegers\Agent\Agent() ?>
+
 <main class="main">
     <div class="container">
         <header class="page-header">

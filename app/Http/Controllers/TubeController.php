@@ -38,6 +38,7 @@ class TubeController extends Controller
             'seo_description' => $this->commons->site->getCategoriesDescription(),
             'site'            => $this->commons->site,
             'total_scenes'    => $this->commons->site->getTotalScenes(),
+            'page'            => $page,
         ]);
     }
 
