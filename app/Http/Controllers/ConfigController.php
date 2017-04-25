@@ -18,6 +18,7 @@ use App\Model\CategoryTranslation;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\File;
 
 class ConfigController extends Controller
 {
@@ -212,6 +213,7 @@ class ConfigController extends Controller
         $categoryTranslation = CategoryTranslation::where('category_id', $category_id)
             ->where('language_id', $this->commons->language->id)
             ->first();
+
         $categoryTranslation->name = $name;
         $categoryTranslation->permalink = str_slug($name);
         $categoryTranslation->thumb_locked = 1;
@@ -1010,10 +1012,6 @@ class ConfigController extends Controller
             abort(404, "Popunder not found");
         }
 
-//        if (!(Auth::user()->id == $popunder->site->user->id)) {
-//            abort(401, "Unauthorized");
-//        }
-
         $popunder->delete();
 
         return json_encode(array('status' => $status = true));
@@ -1027,18 +1025,18 @@ class ConfigController extends Controller
             abort(404, "Category not found");
         }
 
-        $site = $category->site;
+        $files = File::allFiles(public_path()."/categories_market");
 
-        $site = Site::find($site->id);
-
-        $category_scenes = $category->scenes()->orderByRaw("RAND()")->limit(100)->get();
-        $site_scenes = $site->scenes()->orderByRaw("RAND()")->limit(50)->get();
+        $filenames = [];
+        foreach ($files as $file)
+        {
+            $filenames[] = $file->getFilename();
+        }
 
         return view('panel.ajax._ajax_category_thumbs', [
-            'category' => $category,
-            'category_scenes' => $category_scenes,
-            'site_scenes' => $site_scenes,
-            'language' => $this->commons->language,
+            'category'  => $category,
+            'filenames' => $filenames,
+            'language'  => $this->commons->language,
             'languages' => $this->commons->languages
         ]);
     }
@@ -1058,10 +1056,16 @@ class ConfigController extends Controller
         return json_encode(array('status' => $status));
     }
 
-    public function uploadCategory($category_id)
+    public function uploadCategory($category_id, Request $request)
     {
+        $category = Category::find($category_id);
+
+        if (!$category) {
+            abort(404, "Category not found");
+        }
+
         // logo validator
-        $v = Validator::make(Request::all(), [
+/*        $v = Validator::make($request->all(), [
             'file' => 'required|mimes:jpg,jpeg',      // max=50*1024; min=3*1024
         ]);
 
@@ -1070,23 +1074,27 @@ class ConfigController extends Controller
 
             return json_encode($data);
         }
-
+*/
         $fileName = md5(microtime() . $category_id) . ".jpg";
 
-        $final_url = "http://" . env('MAIN_PLATAFORMA_DOMAIN', 'sexodome.com') . "/thumbnails_categories/" . $fileName;
+        $final_url = "http://" . $category->site->getHost() . "/categories_custom/" . $fileName;
 
-        $destinationPath = "thumbnails/";
+        $destinationPath = public_path()."/categories_custom/";
 
-        $fileNameFinal = md5($final_url) . ".jpg";
+        // lock category thumbnail
+        foreach($category->translations()->get() as $translation) {
+            $translation->thumb_locked = 1;
+            $translation->thumb = $final_url;
+            $translation->save();
+        }
 
-        Request::file('file')->move($destinationPath, $fileNameFinal);
+        $request->file('file')->move($destinationPath, $fileName);
 
         $data = ["files" => [
             [
                 "category_id" => $category_id,
-                "name" => $fileName,
-                "url" => $final_url,
-                "md5_url" => "http://" . env('MAIN_PLATAFORMA_DOMAIN', 'sexodome.com') . "/thumbnails/" . md5($final_url) . ".jpg",
+                "name"        => $fileName,
+                "url"         => $final_url,
             ]
         ]];
 

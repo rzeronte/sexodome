@@ -80,7 +80,8 @@ class Category extends Model
             'categories.*',
             'categories_translations.name',
             'categories_translations.permalink',
-            'categories_translations.thumb'
+            'categories_translations.thumb',
+            'categories_translations.thumb_locked'
             )
             ->join('categories_translations', 'categories_translations.category_id', '=', 'categories.id')
             ->where('categories_translations.language_id', $language_id);
