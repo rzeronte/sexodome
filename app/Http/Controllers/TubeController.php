@@ -9,6 +9,7 @@ use App\Model\Category;
 use App\Model\Scene;
 use App\Model\CategoryTranslation;
 use App\Model\Pornstar;
+use Illuminate\Support\Facades\Storage;
 
 class TubeController extends Controller
 {
