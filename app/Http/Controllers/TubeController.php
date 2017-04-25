@@ -142,7 +142,7 @@ class TubeController extends Controller
         }
 
         $scenes = Scene::getTranslationsForPornstar($pornstar->id, $this->commons->language->id)
-            ->paginate(1, $columns = ['*'], $pageName = 'page', $page)
+            ->paginate($this->commons->perPageScenes, $columns = ['*'], $pageName = 'page', $page)
         ;
         return response()->view('tube.pornstar', [
             'profile'         => $profile,
