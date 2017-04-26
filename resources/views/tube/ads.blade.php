@@ -25,7 +25,13 @@
                 @if ($translation)
                     <a href="{{route('category', ['profile'=>$site->getHost(),'permalink' => $translation->permalink])}}?utm_source={{$site->domain}}&utm_medium={{$translation->name}}&utm_campaign=iframe_sexodome" alt="{{$translation->title}}" target="_blank">
                         <p class="text">{{ucwords($translation->name)}}</p>
-                        <?php $srcThumbnail = asset('/thumbnails/'.md5($translation->thumb).".jpg")?>
+
+                        @if ($translation->thumb_locked == 1)
+                            <?php $srcThumbnail = $translation->thumb?>
+                        @else
+                            <?php $srcThumbnail = asset('/thumbnails/'.md5($translation->thumb).".jpg")?>
+                        @endif
+
                         <img src="{{$srcThumbnail}}" alt="{{ucwords($translation->name)}}">
                     </a>
                 @endif
