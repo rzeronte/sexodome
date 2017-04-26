@@ -251,7 +251,7 @@ class rZeBotUtils
      * @param null $exclude_scene_ids
      * @return bool
      */
-    public static function updateCategoryThumbnail($category, $exclude_scene_ids = null)
+    public static function updateCategoryThumbnail($category, $exclude_scene_ids = null, $ignore_locked = false)
     {
         $sceneRNDquery = $category->scenes()
             ->select('scenes.id', 'scenes.preview')
@@ -269,7 +269,8 @@ class rZeBotUtils
 
             // la thumb es dependiente al idioma, seteamos todos con esta thumbnail
             foreach($category->translations()->where('language_id', $category->site->language_id)->get() as $translation) {
-                if ($translation->thumb_locked == 1) {
+
+                if ($translation->thumb_locked == 1 && $ignore_locked == false) {
                     rZeBotUtils::message("[THUMBNAIL LOCKED (site_id: $category->site_id)] $category->text($category->id), tiene " . $category->scenes()->count() . " escenas | Excluyendo: ". count($exclude_scene_ids), "green", false, false);
                     continue;
                 }

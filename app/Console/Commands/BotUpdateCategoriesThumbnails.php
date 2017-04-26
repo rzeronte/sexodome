@@ -11,13 +11,21 @@ use Illuminate\Support\Facades\DB;
 class BotUpdateCategoriesThumbnails extends Command
 {
     protected $signature = 'zbot:categories:thumbnails
-                            {--site_id=false : Only update for a site_id}';
+                            {--site_id=false : Only update for a site_id}
+                            {--ignore_locked=false : Ignore thumb locked}';
 
     protected $description = 'Update category thumbnails for all sites';
 
     public function handle()
     {
+        $ignore_locked = $this->option('ignore_locked');
         $site_id = $this->option('site_id');
+
+        if ($ignore_locked !== 'false') {
+            $ignore_locked = true;
+        } else {
+            $ignore_locked = false;
+        }
 
         if ($site_id !== "false") {
 
@@ -34,7 +42,7 @@ class BotUpdateCategoriesThumbnails extends Command
             $sites = Site::all();
         }
 
-        DB::transaction(function () use ($sites) {
+        DB::transaction(function () use ($sites, $ignore_locked) {
             foreach ($sites as $site) {
                 $categories = Category::where('site_id', '=', $site->id)->get();
 
@@ -42,7 +50,7 @@ class BotUpdateCategoriesThumbnails extends Command
 
                 $scenes_id_used = [];
                 foreach($categories as $category) {
-                    $scene_id = rZeBotUtils::updateCategoryThumbnail($category, $scenes_id_used);
+                    $scene_id = rZeBotUtils::updateCategoryThumbnail($category, $scenes_id_used, $ignore_locked);
                     if ($scene_id) {
                         $scenes_id_used[] = $scene_id;
                     }
