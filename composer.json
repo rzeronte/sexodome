@@ -11,6 +11,7 @@
         "jenssegers/date": "^3.2",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
+        "roumen/sitemap": "^2.6",
         "spatie/laravel-analytics": "^1.4"
     },
     "require-dev": {
