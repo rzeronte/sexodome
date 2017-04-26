@@ -271,10 +271,10 @@
 
             <div class="row" style="padding:10px;">
                 <div class="col-md-3">
-                    Billboard Text:
+                    Head Text:
                 </div>
                 <div class="col-md-7">
-                    <input type="text" class="form-control" value="{{$site->head_billboard}}" name="head_billboard">
+                    <input type="text" class="form-control" value="{{$site->header_text}}" name="header_text">
                 </div>
             </div>
 
@@ -284,6 +284,15 @@
                 </div>
                 <div class="col-md-7">
                     <input type="text" class="form-control" value="{{$site->link_billboard}}" name="link_billboard">
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Link billboard Mobile(HTML):
+                </div>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" value="{{$site->link_billboard_mobile}}" name="link_billboard_mobile">
                 </div>
             </div>
 

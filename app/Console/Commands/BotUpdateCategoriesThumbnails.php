@@ -43,6 +43,7 @@ class BotUpdateCategoriesThumbnails extends Command
         }
 
         DB::transaction(function () use ($sites, $ignore_locked) {
+
             foreach ($sites as $site) {
                 $categories = Category::where('site_id', '=', $site->id)->get();
 

@@ -572,8 +572,10 @@ class ConfigController extends Controller
         $site->description_pornstar = $request->input('description_pornstar');
 
         $site->domain = $request->input('domain');
-        $site->head_billboard = $request->input('head_billboard');
+        $site->header_text = $request->input('header_text');
         $site->link_billboard = $request->input('link_billboard');
+        $site->link_billboard_mobile = $request->input('link_billboard_mobile');
+
         $site->google_analytics = $request->input('google_analytics');
 
         $site->banner_script1 = $request->input('banner_script1');

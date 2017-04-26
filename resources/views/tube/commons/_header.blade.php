@@ -59,7 +59,7 @@
             </form>
             <span class="navbar-text pull-right">
 
-            <h4>{{$site->head_billboard}}</h4>
+            <h4>{{$site->header_text}}</h4>
 
         </span>
         </div><!-- /.navbar-collapse -->
