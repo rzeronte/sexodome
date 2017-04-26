@@ -177,7 +177,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         'Spatie\LaravelAnalytics\LaravelAnalyticsServiceProvider',
-
+        Roumen\Sitemap\SitemapServiceProvider::class,
     ],
 
     /*
