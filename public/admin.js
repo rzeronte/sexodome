@@ -10,13 +10,31 @@ $( document ).ready(function() {
                 $.each(data.result.files, function (index, file) {
                     var category_id = file.category_id;
                     var url = file.url;
-                    var md5_url = file.md5_url;
                     $('.category-form-'+category_id).find("input[name='thumbnail']").val(url);
-                    $('.category-form-'+category_id).find(".category-preview").attr('src', md5_url);
+                    $('.category-form-'+category_id).find(".category-preview").attr('src', url);
+
+                    var category_container = $('.category-form-'+category_id).find('.container-lock-action');
+
+                    // Añadimos boton para desbloquear la thumbnail
+                    category_container.html('');
+                    var spanLocked = $('<span/>', {class: 'locked'});
+                    var icon = $('<i/>', {class: 'glyphicon glyphicon-cog'});
+                    var hrefUnlockButton = $('<a/>', {
+                        href: category_container.attr('data-unlock-category-url'),
+                        class: 'btn btn-success btn-xs btn-category-unlock'
+                    });
+                    hrefUnlockButton.text(' Unlock');
+                    icon.prependTo(hrefUnlockButton);
+                    $('<span class="locked"><i class="glyphicon glyphicon-ban-circle"></i> Thumbnail locked</span>').appendTo(category_container);
+                    spanLocked.appendTo(category_container);
+                    hrefUnlockButton.appendTo(category_container);
+                    eventUnlockCategories(); // De lo contrario no está enganchando el on.
+
                     showGenericalSuccessMessage();
                 });
 
                 if (data.result.files.length == 0) {
+                    alert("error");
                     showGenericalErrorMessage();
                     return;
                 }
@@ -429,6 +447,9 @@ $( document ).ready(function() {
                 $('<span class="locked"><i class="glyphicon glyphicon-ban-circle"></i> Thumbnail locked</span>').appendTo(category_container);
                 spanLocked.appendTo(category_container);
                 hrefUnlockButton.appendTo(category_container);
+
+                $('#modal-sexodome').modal('hide')
+
                 eventUnlockCategories(); // De lo contrario no está enganchando el on.
             });
 
