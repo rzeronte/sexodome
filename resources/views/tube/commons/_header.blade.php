@@ -66,14 +66,7 @@
     </div><!-- /.container-fluid -->
 </nav>
 
-
-<aside class="billboard">
-    <div class="container text-center">
-        @if (strlen($site->link_billboard) > 0)
-            <?php echo $site->link_billboard ?>
-        @endif
-    </div>
-</aside>
+@include('tube.commons._link_billboard')
 
 <script type="text/javascript">
     <?php
