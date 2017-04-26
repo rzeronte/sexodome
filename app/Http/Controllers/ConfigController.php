@@ -1147,7 +1147,7 @@ class ConfigController extends Controller
             abort(404, "Category not found");
         }
 
-        if (Request::isMethod('post')) {
+        if ($request->isMethod('post')) {
             $categories_ids = $request->input('categories');
             $category->tags()->sync($categories_ids);
 
