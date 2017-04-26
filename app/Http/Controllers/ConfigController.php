@@ -1151,9 +1151,7 @@ class ConfigController extends Controller
             $categories_ids = $request->input('categories');
             $category->tags()->sync($categories_ids);
 
-            if (Request::ajax()) {
-                return json_encode(array('status' => 1));
-            }
+            return json_encode(array('status' => 1));
 
         }
         $tags = $category->tags()->get();
