@@ -16,7 +16,6 @@
 
 <meta name="format-detection" content="telephone=no">
 
-<link rel="stylesheet" href="{{asset('tube/css/main.css')}}">
 <link rel="stylesheet" href="{{asset('tubeThemes/'.$site->getCSSThemeFilename())}}">
 
 <!--[if lt IE 9]>
@@ -25,6 +24,7 @@
 <!-- <![endif] -->
 <!--[if IE]>
 <link rel="stylesheet" href="{{asset('tube/bower_components/bootstrap-material-design-icons/css/material-icons.min.css')}}">
+<link rel="stylesheet" href="{{asset('tube/css/main.css')}}">
 <![endif]-->
 
 
