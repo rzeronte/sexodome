@@ -409,7 +409,7 @@ class BotFeedFetcher extends Command
         }
 
         $scene->status     = $default_status;
-        $scene->views      = $video["views"];
+        $scene->views      = is_integer($video["views"]) ? $video["views"] : 0;
         $scene->channel_id = $feed->id;
         $scene->thumbs     = utf8_encode(json_encode($video["thumbs"]));
         $scene->duration   = $video["duration"];
