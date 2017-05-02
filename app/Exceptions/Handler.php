@@ -54,8 +54,13 @@ class Handler extends ExceptionHandler
                 $commons = new rZeBotCommons();
                 $routeData = $route = Route::current()->parameters();
 
-                $scenes = $commons->site->scenes()->limit(12)->get();
-
+                $scenes = Scene::getTranslationSearch(false, $commons->language->id)
+                    ->where('site_id', $commons->site->id)
+                    ->where('status', 1)
+                    ->orderBy('scene_id', 'desc')
+                    ->paginate(24)
+                ;
+                
                 return response()->view('tube.errors.404', [
                     'seo_title'       => $commons->site->getCategoriesTitle(),
                     'seo_description' => $commons->site->getCategoriesDescription(),
