@@ -60,7 +60,7 @@ class Handler extends ExceptionHandler
                     ->orderBy('scene_id', 'desc')
                     ->paginate(24)
                 ;
-                
+
                 return response()->view('tube.errors.404', [
                     'seo_title'       => $commons->site->getCategoriesTitle(),
                     'seo_description' => $commons->site->getCategoriesDescription(),

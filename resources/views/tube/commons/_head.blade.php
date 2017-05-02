@@ -16,7 +16,6 @@
 
 <meta name="format-detection" content="telephone=no">
 
-<link rel="stylesheet" href="{{asset('tube/bower_components/bootstrap-material-design-icons/css/material-icons.min.css')}}">
 <link rel="stylesheet" href="{{asset('tube/css/main.css')}}">
 <link rel="stylesheet" href="{{asset('tubeThemes/'.$site->getCSSThemeFilename())}}">
 
@@ -24,12 +23,16 @@
 <script src="{{asset('tube/bower_components/respond/dest/respond.min.js')}}"></script>
 <script src="{{asset('tube/bower_components/html5shiv/dist/html5shiv.min.js')}}"></script>
 <!-- <![endif] -->
+<!--[if IE]>
+<link rel="stylesheet" href="{{asset('tube/bower_components/bootstrap-material-design-icons/css/material-icons.min.css')}}">
+<![endif]-->
+
 
 <link rel="icon" href="{{asset('/favicons/'.md5($site->id).".png")}}">
 <meta name="language" content="{{App::getLocale()}}" />
 <meta charset="UTF-8">
-{{-- meta noindex en demo --}}
 
+{{-- meta noindex en demo --}}
 @if ($site->id == env('DEMO_SITE_ID'))
 <meta name="robots" content="noindex">
 @endif
