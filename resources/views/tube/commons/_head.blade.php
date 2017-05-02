@@ -16,15 +16,12 @@
 
 <meta name="format-detection" content="telephone=no">
 
-<link rel="stylesheet" href="{{asset('tubeThemes/'.$site->getCSSThemeFilename())}}">
-
-<!--[if lt IE 9]>
+<!--[if IE]>
 <script src="{{asset('tube/bower_components/respond/dest/respond.min.js')}}"></script>
 <script src="{{asset('tube/bower_components/html5shiv/dist/html5shiv.min.js')}}"></script>
-<!-- <![endif] -->
-<!--[if IE]>
 <link rel="stylesheet" href="{{asset('tube/bower_components/bootstrap-material-design-icons/css/material-icons.min.css')}}">
 <link rel="stylesheet" href="{{asset('tube/css/main.css')}}">
+<link rel="stylesheet" href="{{asset('tubeThemes/'.$site->getCSSThemeFilename())}}">
 <![endif]-->
 
 
