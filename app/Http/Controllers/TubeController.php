@@ -40,7 +40,7 @@ class TubeController extends Controller
             'site'            => $this->commons->site,
             'total_scenes'    => $this->commons->site->getTotalScenes(),
             'page'            => $page,
-        ]);
+        ])->header('Cache-control', 'max-age=3600');;
     }
 
     public function search($profile, Request $request)
