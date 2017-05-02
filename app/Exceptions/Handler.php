@@ -2,9 +2,13 @@
 
 namespace App\Exceptions;
 
+use App\rZeBot\rZeBotCommons;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Support\Facades\Route;
+use App\Model\Scene;
 
 class Handler extends ExceptionHandler
 {
@@ -44,6 +48,26 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof NotFoundHttpException) {
+
+            if (Route::current() !== null) {
+                $commons = new rZeBotCommons();
+                $routeData = $route = Route::current()->parameters();
+
+                $scenes = Scene::getAllTranslated($commons->language->id)->orderBy('rate', 'desc')->limit(12)->get();
+
+                return response()->view('tube.errors.404', [
+                    'seo_title'       => $commons->site->getCategoriesTitle(),
+                    'seo_description' => $commons->site->getCategoriesDescription(),
+                    'site'            => $commons->site,
+                    'profile'         => $routeData['host'],
+                    'query_string'    => $request->input('q'),
+                    'language'        => $commons->language,
+                    'scenes'          => $scenes
+                ], 404);
+            }
+        }
+
         return parent::render($request, $exception);
     }
 

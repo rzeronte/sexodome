@@ -301,7 +301,7 @@ class Scene extends Model
         // video log
         $sceneClick = new SceneClick();
         $sceneClick->scene_id = $scene->id;
-        $sceneClick->referer = substr(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "", 0, 200);
+        $sceneClick->referer = substr(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "", 0, 100);
 
         if ($ua !== false) {
             $sceneClick->ua = $ua;
