@@ -18,6 +18,11 @@ class Site extends Model
         return $this->belongsTo('App\User');
     }
 
+    public function type()
+    {
+        return $this->belongsTo('App\Model\Type');
+    }
+
     public function language()
     {
         return $this->belongsTo('App\Model\Language');
