@@ -121,7 +121,7 @@ class BotTranslateVideo extends Command
 
         if (strlen($textFrom->description) > 0){
             if ($translationDescription != false) {
-                $translationTo->description = S$translationDescription;
+                $translationTo->description = $translationDescription;
                 rZeBotUtils::message("[TRANSLATING DESCRIPTION] scene_id: $scene->id, '". $textFrom->title . "' => '$translationTo->title'", "cyan", false, false);
             } else {
                 $translation = false;
