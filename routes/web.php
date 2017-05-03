@@ -33,6 +33,7 @@ Route::group(['domain' => "www.".\App\rZeBot\rZeBotCommons::getMainPlataformDoma
 // *********************************************************************************************************************
 Route::group(['domain' => 'accounts.'.\App\rZeBot\rZeBotCommons::getMainPlataformDomain()], function () {
     Route::match(['get', 'post'], "/", ['as' => 'home', 'uses' => 'ConfigController@home']);
+
     Route::match(['get', 'post'], '{locale}/sites', 'ConfigController@sites')->name('sites');
     Route::match(['get', 'post'], '{locale}/site/{site_id}', 'ConfigController@site')->name('site');
 

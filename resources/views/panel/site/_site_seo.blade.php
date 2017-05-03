@@ -12,10 +12,30 @@
 
         <div class="col-md-12">
             <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
-                <p><i class="glyphicon glyphicon-comment"></i> <b>Language</b></p>
+                <p><i class="glyphicon glyphicon-comment"></i> <b>Basic config</b></p>
+            </div>
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Type:
+                </div>
+
+                <div class="col-md-3">
+                    <select name="language_id" class="form-control">
+                        @foreach($types as $type)
+                            @if ($site->type->id == $type->id)
+                                <option value="{{$type->id}}" selected>{{$type->name}}</option>
+                            @else
+                                <option value="{{$type->id}}">{{$type->name}}</option>
+                            @endif
+                        @endforeach
+                    </select>
+                </div>
             </div>
 
             <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Language:
+                </div>
                 <div class="col-md-3">
                     <select name="language_id" class="form-control">
                         @foreach($languages as $lang)

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\Type;
 use Illuminate\Http\Request;
 use App\rZeBot\rZeBotCommons;
 use Illuminate\Support\Facades\Auth;
@@ -434,6 +435,7 @@ class ConfigController extends Controller
             'sites' => Site::where('user_id', '=', Auth::user()->id)->get(),
             'fi' => $fi,
             'ff' => $ff,
+            'types' => Type::all(),
         ]);
     }
 
