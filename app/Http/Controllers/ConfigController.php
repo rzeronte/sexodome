@@ -601,36 +601,6 @@ class ConfigController extends Controller
         return json_encode(array('status' => true));
     }
 
-    public function removeCategory($locale, $category_id, $site_id, Request $request)
-    {
-        $siteCategory = SiteCategory::where('category_id', $category_id)->where('site_id', $site_id)->first();
-        $siteCategory->delete();
-
-        return redirect()->route('site', ['locale' => $this->locale, $site_id]);
-    }
-
-    public function addCategory($locale, $category_id, $site_id, Request $request)
-    {
-        $category = Category::find($category_id);
-
-        // check if already exists
-        if (Site::hasCategory($category->id, $site_id)) {
-            Request::session()->flash('error', 'Category already exists!');
-        } else {
-            Request::session()->flash('success', 'Category added!');
-            $newSiteCategory = new SiteCategory();
-            $newSiteCategory->site_id = $site_id;
-            $newSiteCategory->category_id = $category->id;
-            $newSiteCategory->save();
-        }
-
-        return redirect()->route('site', [
-            'locale' => $this->commons->locale,
-            'site_id' => $site_id,
-            'page' => $request->input('page')
-        ]);
-    }
-
     public function addSite($locale, Request $request)
     {
         $sites = Site::where('user_id', '=', Auth::user()->id)->get();

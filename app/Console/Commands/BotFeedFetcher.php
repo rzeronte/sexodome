@@ -23,6 +23,7 @@ use App\rZeBot\rZeBotCommons;
 use App\Model\Pornstar;
 use DB;
 use Artisan;
+use Illuminate\Support\Str;
 
 class BotFeedFetcher extends Command
 {
@@ -381,13 +382,6 @@ class BotFeedFetcher extends Command
                         }
                     } else {
                         rZeBotUtils::message("[WARNING] Scene de ".$feed->name." ya existente en " . $site->getHost().", saltando...", "yellow", true, false);
-                        $scene = Scene::where('url', $video["url"])->where('site_id', $site_id)->first();
-
-                        $translation = $scene->translations()->where('language_id', 2)->first();
-                        if (isset($video["description"])) {
-                            $translation->description = substr($video["description"], 0, 255);
-                            $translation->save();
-                        }
                     }
                 }
                 fclose($gestor);

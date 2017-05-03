@@ -84,9 +84,6 @@ Route::group(['domain' => 'accounts.'.\App\rZeBot\rZeBotCommons::getMainPlatafor
     Route::match(['get', 'post'], '{locale}/admin/saveCategoryTranslation/{scene_id}', 'ConfigController@saveCategoryTranslation')->name('saveCategoryTranslation');
     Route::match(['get', 'post'], '{locale}/admin/translateTag/{tag_id}', 'ConfigController@translateTag')->name('translateTag');
 
-    Route::get('{locale}/admin/removecategory/{category_id}/{site_id}', 'ConfigController@removeCategory')->name('removeCategory');
-    Route::get('{locale}/admin/addcategory/{category_id}/{site_id}', 'ConfigController@addCategory')->name('addCategory');
-
     Route::match(['get', 'post'], '{locale}/admin/addSite/', 'ConfigController@addSite')->name('addSite');
     Route::match(['get', 'post'], '{locale}/delete/{site_id}/', 'ConfigController@deleteSite')->name('deleteSite');
     Route::match(['get', 'post'], '{locale}/check_subdomain/', 'ConfigController@checkSubdomain')->name('checkSubdomain');
