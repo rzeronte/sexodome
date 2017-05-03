@@ -582,19 +582,7 @@ class ConfigController extends Controller
 
         $site->google_analytics = $request->input('google_analytics');
 
-        $site->banner_script1 = $request->input('banner_script1');
-        $site->banner_script2 = $request->input('banner_script2');
-        $site->banner_script3 = $request->input('banner_script3');
-
-        $site->banner_mobile1 = $request->input('banner_mobile1');
-
-        $site->banner_video1 = $request->input('banner_video1');
-        $site->banner_video2 = $request->input('banner_video2');
-
-        $site->button1_url = $request->input('button1_url');
-        $site->button2_url = $request->input('button2_url');
-        $site->button1_text = $request->input('button1_text');
-        $site->button2_text = $request->input('button2_text');
+        $site->javascript = $request->input('javascripts');
 
         $site->save();
 

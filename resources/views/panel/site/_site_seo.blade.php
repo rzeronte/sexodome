@@ -365,73 +365,17 @@
             </div>
 
             <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
-                <p><i class="glyphicon glyphicon-object-align-left"></i> <b>Banners</b></p>
+                <p><i class="glyphicon glyphicon-object-align-left"></i> <b>Scripts</b></p>
             </div>
 
             <div class="row" style="padding:10px;">
-                <div class="col-md-3">
-                    Script for footer banner #1:
-                </div>
-                <div class="col-md-7">
-                    <textarea name="banner_script1" class="form-control">{{$site->banner_script1}}</textarea>
+                <div class="col-md-12">
+                    <textarea name="banner_script1" class="form-control" style="height:250px">{{$site->javascript}}</textarea>
                 </div>
             </div>
 
             <div class="row" style="padding:10px;">
-                <div class="col-md-3">
-                    Script for footer banner #2:
-                </div>
-                <div class="col-md-7">
-                    <textarea name="banner_script2" class="form-control">{{$site->banner_script2}}</textarea>
-                </div>
-            </div>
-
-            <div class="row" style="padding:10px;">
-                <div class="col-md-3">
-                    Script for footer banner #3:
-                </div>
-                <div class="col-md-7">
-                    <textarea name="banner_script3" class="form-control">{{$site->banner_script3}}</textarea>
-                </div>
-            </div>
-
-            <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
-                <p><i class="glyphicon glyphicon-modal-window"></i> <b>Mobile Banners</b></p>
-            </div>
-
-            <div class="row" style="padding:10px;">
-                <div class="col-md-3">
-                    Script for banner #1:
-                </div>
-                <div class="col-md-7">
-                    <textarea name="banner_mobile1" class="form-control">{{$site->banner_mobile1}}</textarea>
-                </div>
-            </div>
-
-            <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
-                <p><i class="glyphicon glyphicon-play-circle"></i> <b>Desktop Video Banner</b></p>
-            </div>
-
-            <div class="row" style="padding:10px;">
-                <div class="col-md-3">
-                    Script for video #1:
-                </div>
-                <div class="col-md-7">
-                    <textarea name="banner_video1" class="form-control">{{$site->banner_video1}}</textarea>
-                </div>
-            </div>
-
-            <div class="row" style="padding:10px;">
-                <div class="col-md-3">
-                    Script for video #2:
-                </div>
-                <div class="col-md-7">
-                    <textarea name="banner_video2" class="form-control">{{$site->banner_video2}}</textarea>
-                </div>
-            </div>
-
-            <div class="row" style="padding:10px;">
-                <div class="col-md-7 col-md-offset-3">
+                <div class="col-md-12">
                     <input type="submit" class="btn btn-primary" value="Save settings for @if ($site->have_domain == 1){{$site->getHost()}}@else{{$site->name}}@endif" style="width:100%;"/>
                 </div>
             </div>
