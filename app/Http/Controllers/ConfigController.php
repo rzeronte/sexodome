@@ -663,6 +663,7 @@ class ConfigController extends Controller
             $newSite->language_id = env("DEFAULT_FETCH_LANGUAGE", 2);
             $newSite->domain = $request->input('domain');
             $newSite->have_domain = $request->input('type_site');
+            $newSite->header_text = "";
 
             $newSite->save();
 
