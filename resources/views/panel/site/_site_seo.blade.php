@@ -48,14 +48,11 @@
                     </select>
                 </div>
             </div>
-        </div>
-
-        <div class="col-md-12">
-            <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
-                <p><i class="glyphicon glyphicon-th"></i> <b>Categories order type</b></p>
-            </div>
 
             <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Order type:
+                </div>
                 <div class="col-md-3">
                     <select name="order_type" class="form-control">
                         <option value="1" @if ($site->order_type == 0) selected @endif>Analytics</option>
@@ -64,7 +61,7 @@
                 </div>
             </div>
         </div>
-
+        
         <div class="col-md-12">
 
             <div style="margin-top:20px;">
