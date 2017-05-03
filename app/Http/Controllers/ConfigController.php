@@ -689,8 +689,9 @@ class ConfigController extends Controller
                     Request::session()->flash('error_subdomain', '(DNS) subdomain <' . $request->input('subdomain') . '> already exists!');
                 }
             } else {
-                return redirect()->route('sites', [
-                    'locale' => $this->commons->locale
+                return redirect()->route('site', [
+                    'locale'  => $this->commons->locale,
+                    'site_id' => $newSite->id,
                 ]);
             }
         }
