@@ -24,3 +24,4 @@
 <script src="{{asset('tube/bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
 <script src="{{asset('tube/bower_components/wow/dist/wow.min.js')}}"></script>
 <script src="{{asset('tube/js/main.js')}}"></script>
+

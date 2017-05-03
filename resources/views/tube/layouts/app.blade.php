@@ -6,10 +6,12 @@
 </head>
 
 <body class="homepage">
-    @yield('content')
-</body>
+
+@yield('content')
 
 @include('tube.commons._footer')
 @include('tube.commons._javascripts')
+
+</body>
 
 </html>

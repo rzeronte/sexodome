@@ -370,7 +370,7 @@
 
             <div class="row" style="padding:10px;">
                 <div class="col-md-12">
-                    <textarea name="banner_script1" class="form-control" style="height:250px">{{$site->javascript}}</textarea>
+                    <textarea name="javascript" class="form-control" style="height:250px">{{$site->javascript}}</textarea>
                 </div>
             </div>
 

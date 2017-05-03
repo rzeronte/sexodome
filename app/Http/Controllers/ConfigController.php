@@ -582,7 +582,7 @@ class ConfigController extends Controller
 
         $site->google_analytics = $request->input('google_analytics');
 
-        $site->javascript = $request->input('javascripts');
+        $site->javascript = $request->input('javascript');
 
         $site->save();
 
