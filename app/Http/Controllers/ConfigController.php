@@ -432,7 +432,7 @@ class ConfigController extends Controller
             'locale' => $this->commons->locale,
             'title' => "Admin Panel",
             'site' => $site,
-            'sites' => Site::where('user_id', '=', Auth::user()->id)->get(),
+            'sites' => Site::where('user_id', '=', Auth::user()->id)->orderBy('language_id', 'desc')->get(),
             'fi' => $fi,
             'ff' => $ff,
             'types' => Type::all(),
