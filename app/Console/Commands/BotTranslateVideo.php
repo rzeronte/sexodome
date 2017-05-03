@@ -11,6 +11,7 @@ use App\Model\Scene;
 use App\Model\Host;
 use App\Model\TagTranslation;
 use App\Model\Tag;
+use Illuminate\Support\Str;
 
 class BotTranslateVideo extends Command
 {
