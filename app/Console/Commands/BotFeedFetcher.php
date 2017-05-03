@@ -385,7 +385,7 @@ class BotFeedFetcher extends Command
 
                         $translation = $scene->translations()->where('language_id', 2)->first();
                         if (isset($video["description"])) {
-                            $translation->description = $video["description"];
+                            $translation->description = substr($video["description"], 0, 255);
                             $translation->save();
                         }
                     }
