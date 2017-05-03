@@ -432,7 +432,7 @@ class ConfigController extends Controller
             'locale' => $this->commons->locale,
             'title' => "Admin Panel",
             'site' => $site,
-            'sites' => Site::where('user_id', '=', Auth::user()->id)->orderBy('language_id', 'asc')->get(),
+            'sites' => Site::where('user_id', '=', Auth::user()->id)->orderBy('language_id', 'asc_')->get(),
             'fi' => $fi,
             'ff' => $ff,
             'types' => Type::all(),
@@ -554,6 +554,8 @@ class ConfigController extends Controller
         $site->video_url = $request->input('video_url');
 
         $site->contact_email = $request->input('contact_email');
+
+        $site->type_id = $request->input('type_id');
 
         $site->logo_h1 = $request->input('logo_h1');
         $site->h2_home = $request->input('h2_home');

@@ -20,7 +20,7 @@
                 </div>
 
                 <div class="col-md-3">
-                    <select name="language_id" class="form-control">
+                    <select name="type_id" class="form-control">
                         @foreach($types as $type)
                             @if ($site->type->id == $type->id)
                                 <option value="{{$type->id}}" selected>{{$type->name}}</option>
