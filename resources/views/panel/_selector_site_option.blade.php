@@ -1,6 +1,6 @@
 <div class='row'>
     <div class='col-md-12'>
-        <span><img src='{{asset("flags/".$s->language->code.".png")}}'/> <small>{{$s->getHost()}}</small></span>
+        <span><img src='{{asset("flags/".$s->language->code.".png")}}'/> <small>{{$s->getHost()}} ({{strtolower($s->type->name)}})</small></span>
 <!--    <small>
             <span class='label label-success'><i class='glyphicon glyphicon-film'></i> Scenes: {{$s->getTotalScenes()}}</span>
             <span class='label label-success'><i class='glyphicon glyphicon-th-large'></i> Categories: {{$s->categories()->where('status', 1)->count()}}</span>
