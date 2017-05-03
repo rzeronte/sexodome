@@ -107,7 +107,7 @@ class BotTranslateVideo extends Command
         }
 
         $translationTitle = $this->translateText($textFrom->title, $from, $to);
-        $translationDescription = $this->translateText($textFrom->description, $from, $to);
+        $translationDescription = $this->translateText(Str::ascii($textFrom->description), $from, $to);
 
         $translation = true;
         if ($translationTitle != false) {
@@ -121,7 +121,7 @@ class BotTranslateVideo extends Command
 
         if (strlen($textFrom->description) > 0){
             if ($translationDescription != false) {
-                $translationTo->description = $translationDescription;
+                $translationTo->description = S$translationDescription;
                 rZeBotUtils::message("[TRANSLATING DESCRIPTION] scene_id: $scene->id, '". $textFrom->title . "' => '$translationTo->title'", "cyan", false, false);
             } else {
                 $translation = false;
