@@ -20,4 +20,6 @@ return [
     'related_scenes' => 'Scènes connexes',
     'page' => 'page',
 
+    "404_h2" => "Lo sentimos, esta página no existe",
+
 ];

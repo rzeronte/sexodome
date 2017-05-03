@@ -2,9 +2,9 @@
 
 @section('content')
     @include('tube.commons._header')
-    <div class="row">
-       <div class="col-lg-offset-5">
-           <h2>404 :(</h2>
+    <div class="container">
+       <div class="col-md-12">
+           <h2>{{trans('tube.404_h2')}} :_(</h2>
        </div>
     </div>
 

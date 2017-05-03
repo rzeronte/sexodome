@@ -20,4 +20,5 @@ return [
     'related_scenes' => 'Scene correlate',
     'page' => 'pagina',
 
+    "404_h2" => "Spiacenti, questa pagina non esiste",
 ];

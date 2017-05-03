@@ -431,7 +431,7 @@ class BotFeedFetcher extends Command
                 $sceneTranslation->title = $video["title"];
                 $sceneTranslation->permalink = rZeBotUtils::slugify($video["title"]);
                 if (isset($video["description"])) {
-                    $sceneTranslation->description = trim($video["description"]);
+                    $sceneTranslation->description = substr(trim($video["description"]), 0, 255);
                 }
             }
 
