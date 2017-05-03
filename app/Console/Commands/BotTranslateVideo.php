@@ -112,7 +112,7 @@ class BotTranslateVideo extends Command
 
         $translation = true;
         if ($translationTitle != false) {
-            $translationTo->title = $translationTitle;
+            $translationTo->title = substr($translationTitle, 0, 255);
             $translationTo->permalink = str_slug($translationTitle);
             rZeBotUtils::message("[TRANSLATING TITLE] scene_id: $scene->id, '". $textFrom->title . "' => '$translationTo->title'", "cyan", false, false);
         } else {
@@ -122,7 +122,7 @@ class BotTranslateVideo extends Command
 
         if (strlen($textFrom->description) > 0){
             if ($translationDescription != false) {
-                $translationTo->description = $translationDescription;
+                $translationTo->description = substr($translationDescription, 0, 255);
                 rZeBotUtils::message("[TRANSLATING DESCRIPTION] scene_id: $scene->id, '". $textFrom->title . "' => '$translationTo->title'", "cyan", false, false);
             } else {
                 $translation = false;
