@@ -4,7 +4,7 @@ body {
 }
 
 h1 {
-    margin-top: 10px;
+    margin-top: 10px !important;
 }
 
 .thumbnail {
