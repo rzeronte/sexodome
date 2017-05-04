@@ -64,7 +64,7 @@
                                 @endif
 
                                 <a target="_blank" href="{{$href}}" @if ($scene->channel->embed != 1) rel="nofollow" @endif @if ($site->google_analytics) onclick="trackOutboundLink('{{$href}}', '{{strtolower($scene->channel->name)}}');return false;" @endif>
-                                    <h5>{{str_limit($scene->title, 40, $end = '...')}}</h5>
+                                    <h5>{{ ucfirst(str_limit($scene->title, 40, $end = '...')) }}</h5>
                                 </a>
 
                                 <ul class="list-inline">
