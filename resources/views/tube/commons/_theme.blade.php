@@ -121,6 +121,6 @@ body > .navbar-default
     }
 
     h1 {
-        margin: 13px 0 0 10px !important;
+        margin: 11px 0 0 10px !important;
     }
 }
