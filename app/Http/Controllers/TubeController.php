@@ -196,6 +196,10 @@ class TubeController extends Controller
     {
         $scene = Scene::find($scene_id);
 
+        if (!$scene) {
+            abort(404, 'Scene not found');
+        }
+
         return view('tube.iframe', [
             'site'     => $this->commons->site,
             'profile'  => $profile,
