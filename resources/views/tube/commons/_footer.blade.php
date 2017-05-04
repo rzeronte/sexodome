@@ -13,15 +13,3 @@
         </div>
     </div>
 </footer>
-
-<!--[if !IE]> -->
-<link rel="stylesheet" href="{{asset('tube/bower_components/bootstrap-material-design-icons/css/material-icons.min.css')}}">
-<link rel="stylesheet" href="{{asset('tube/css/main.css')}}">
-<link rel="stylesheet" href="{{asset('tubeThemes/'.$site->getCSSThemeFilename())}}">
-<!-- <![endif]-->
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="{{asset('tube/bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
-<script src="{{asset('tube/bower_components/wow/dist/wow.min.js')}}"></script>
-<script src="{{asset('tube/js/main.js')}}"></script>
-

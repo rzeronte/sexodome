@@ -4,15 +4,19 @@
     <div class="container">
         <header class="page-header">
             <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     @yield('h2_tag')
-                    <div>
-                        {{number_format($categories->total(), 0, ",", ".")}} {{trans('tube.h1_info_categories')}}, @if (isset($scenes)){{ number_format($scenes->total(), 0, ".", ",") }} {{trans('tube.h1_info_porn_videos')}} @endif
-                        @if (isset($total_scenes)){{ number_format($total_scenes, 0, ",", ".") }} {{trans('tube.h1_info_porn_videos')}} @endif
-                        @yield('orders')
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-right">
+
+                    @if ($agent->isMobile())
+                        <span class="badge">{{number_format($categories->total(), 0, ",", ".")}}  {{trans('tube.h1_info_categories')}}</span>
+                        @if (isset($total_scenes))<span class="badge">{{ number_format($total_scenes, 0, ",", ".") }} {{trans('tube.h1_info_porn_videos')}}</span>@endif
+                    @else
+                        <div>
+                            {{number_format($categories->total(), 0, ",", ".")}} {{trans('tube.h1_info_categories')}}, @if (isset($scenes)){{ number_format($scenes->total(), 0, ".", ",") }} {{trans('tube.h1_info_porn_videos')}} @endif
+                            @if (isset($total_scenes)){{ number_format($total_scenes, 0, ",", ".") }} {{trans('tube.h1_info_porn_videos')}} @endif
+                            @yield('orders')
+                        </div>
+                    @endif
                 </div>
             </div>
         </header>

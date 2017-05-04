@@ -2,6 +2,11 @@
 body {
     background-color: {{$site->color}} !important;
 }
+
+h1 {
+    margin-top: 10px;
+}
+
 .thumbnail {
     background-color: {{$site->color}} !important;
 }
@@ -110,3 +115,12 @@ body > .navbar-default
     height: auto !important;
 }
 
+@media (max-width: 767px) {
+    .page-header h2 {
+        font-size: 1em;
+    }
+
+    h1 {
+        margin: 13px 0 0 10px !important;
+    }
+}
