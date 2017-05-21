@@ -59,13 +59,13 @@
                             @if ($site->have_domain == 1)
                                 <option value="{{$site->id}}" selected>{{$site->domain}}</option>
                             @else
-                                <option value="{{$site->id}}" selected>{{$site->name}}.{{\App\rZeBot\rZeBotCommons::getMainPlataformDomain()}}</option>
+                                <option value="{{$site->id}}" selected>{{$site->name}}.{{\App\rZeBot\sexodomeKernel::getMainPlataformDomain()}}</option>
                             @endif
                         @else
                             @if ($site->have_domain == 1)
                                 <option value="{{$site->id}}">{{$site->domain}}</option>
                             @else
-                                <option value="{{$site->id}}">{{$site->name}}.{{\App\rZeBot\rZeBotCommons::getMainPlataformDomain()}}</option>
+                                <option value="{{$site->id}}">{{$site->name}}.{{\App\rZeBot\sexodomeKernel::getMainPlataformDomain()}}</option>
                             @endif
                         @endif
                     @endforeach

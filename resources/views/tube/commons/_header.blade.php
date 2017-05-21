@@ -8,13 +8,13 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-                <a class="navbar-brand" href="{{route('categories', ['profile' => $profile])}}" title="{{$site->getHost()}}" style="margin: 0;padding:0;">
+                <a class="navbar-brand" href="{{route('categories', ['profile' => Route::current()->parameter('host')])}}" title="{{$sexodomeKernel->getSite()->getHost()}}" style="margin: 0;padding:0;">
                     <h1>
-                    @if (file_exists(\App\rZeBot\rZeBotCommons::getLogosFolder()."/".md5($site->id).".png"))
-                        <img src="{{asset('/logos/'.md5($site->id).".png")}}" alt="{{$site->logo_h1}}" title="{{$site->logo_h1}}"/>
-                        <span style="position: absolute; left:-1000px;">{{$site->logo_h1}}</span>
+                    @if (file_exists(\App\rZeBot\sexodomeKernel::getLogosFolder()."/".md5($sexodomeKernel->getSite()->id).".png"))
+                        <img src="{{asset('/logos/'.md5($sexodomeKernel->getSite()->id).".png")}}" alt="{{$sexodomeKernel->getSite()->logo_h1}}" title="{{ $sexodomeKernel->getSite()->logo_h1}}"/>
+                        <span style="position: absolute; left:-1000px;">{{$sexodomeKernel->getSite()->logo_h1}}</span>
                     @else
-                        {{trim($site->logo_h1)}}
+                        {{trim($sexodomeKernel->getSite()->logo_h1)}}
                     @endif
                     </h1>
                 </a>
@@ -24,42 +24,42 @@
             <ul class="navbar navbar-nav list-inline" style="background-color: transparent !important;">
                 <li>
                     <p class="navbar-btn">
-                        <a href="{{route('categories', ['profile' => $profile])}}" class="btn btn-default">{{ucwords(trans('tube.h1_info_categories'))}}</a>
+                        <a href="{{route('categories', ['profile' => Route::current()->parameter('host')])}}" class="btn btn-default">{{ucwords(trans('tube.h1_info_categories'))}}</a>
                     </p>
                 </li>
 
-                @if ($site->button1_url != "" and $site->button1_text != "")
+                @if ($sexodomeKernel->getSite()->button1_url != "" and $sexodomeKernel->getSite()->button1_text != "")
                     <li>
                         <p class="navbar-btn">
-                            <a href="{{$site->button1_url}}" target="_blank" class="btn btn-default">{{$site->button1_text}}</a>
+                            <a href="{{$sexodomeKernel->getSite()->button1_url}}" target="_blank" class="btn btn-default">{{$sexodomeKernel->getSite()->button1_text}}</a>
                         </p>
                     </li>
                 @endif
-                @if ($site->button2_url != "" and $site->button2_text != "")
+                @if ($sexodomeKernel->getSite()->button2_url != "" and $sexodomeKernel->getSite()->button2_text != "")
                     <li>
                         <p class="navbar-btn">
-                            <a href="{{$site->button2_url}}" class="btn btn-default">{{$site->button2_text}}</a>
+                            <a href="{{$sexodomeKernel->getSite()->button2_url}}" class="btn btn-default">{{$sexodomeKernel->getSite()->button2_text}}</a>
                         </p>
                     </li>
                 @endif
-                @if ($site->pornstars()->count() > 0)
+                @if ($sexodomeKernel->getSite()->pornstars()->count() > 0)
                 <li>
                     <p class="navbar-btn">
-                        <a href="{{route('pornstars', ["profile" => $profile])}}" class="btn btn-default btn-header-pornstars">{{trans('tube.header_pornstars_btn')}}</a>
+                        <a href="{{route('pornstars', ["profile" => Route::current()->parameter('host')])}}" class="btn btn-default btn-header-pornstars">{{trans('tube.header_pornstars_btn')}}</a>
                     </p>
                 </li>
                 @endif
 
             </ul>
-            <form action="{{ route('search', ['profile' => $profile]) }}" method="get" class="navbar-form navbar-left">
+            <form action="{{ route('search', ['profile' => Route::current()->parameter('host')]) }}" method="get" class="navbar-form navbar-left">
                 <div class="form-group">
-                    <input name="q" type="text" placeholder="{{trans('tube.header_inputsearch_placeholder')}}" class="form-control" value="{{$query_string}}" required>
+                    <input name="q" type="text" placeholder="{{trans('tube.header_inputsearch_placeholder')}}" class="form-control" value="{{ Request::input('q') }}" required>
                 </div>
                 <button type="submit" class="btn btn-default"><i class="small mdi mdi-search"></i> {{trans('tube.header_inputsearch_search')}}</button>
             </form>
             <span class="navbar-text pull-right">
 
-            <h4>{{$site->header_text}}</h4>
+            <h4>{{$sexodomeKernel->getSite()->header_text}}</h4>
 
         </span>
         </div><!-- /.navbar-collapse -->
@@ -70,7 +70,8 @@
 
 <script type="text/javascript">
     <?php
-    $popunders = Cache::remember('popunders_'.$site->id, env('MEMCACHED_QUERY_TIME', 30), function() use ($site) {
+    $site = $site = $sexodomeKernel->getSite();
+    $popunders = Cache::remember('popunders_'.$sexodomeKernel->getSite()->id, env('MEMCACHED_QUERY_TIME', 30), function() use ($site) {
         return $site->popunders()->get();
     });
     ?>

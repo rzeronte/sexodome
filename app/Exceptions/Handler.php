@@ -2,7 +2,7 @@
 
 namespace App\Exceptions;
 
-use App\rZeBot\rZeBotCommons;
+use App\rZeBot\sexodomeKernel;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -51,8 +51,7 @@ class Handler extends ExceptionHandler
         if ($exception instanceof NotFoundHttpException) {
 
             if (Route::current() !== null) {
-                $commons = new rZeBotCommons();
-                $routeData = $route = Route::current()->parameters();
+                $commons = new sexodomeKernel();
 
                 $scenes = Scene::getTranslationSearch(false, $commons->language->id)
                     ->where('site_id', $commons->site->id)
@@ -62,13 +61,8 @@ class Handler extends ExceptionHandler
                 ;
 
                 return response()->view('tube.errors.404', [
-                    'seo_title'       => $commons->site->getCategoriesTitle(),
-                    'seo_description' => $commons->site->getCategoriesDescription(),
-                    'site'            => $commons->site,
-                    'profile'         => $routeData['host'],
-                    'query_string'    => $request->input('q'),
-                    'language'        => $commons->language,
-                    'scenes'          => $scenes
+                    'scenes'         => $scenes,
+                    'sexodomeKernel' => $commons,
                 ], 404);
             }
         }

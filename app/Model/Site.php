@@ -2,7 +2,7 @@
 
 namespace App\Model;
 
-use App\rZeBot\rZeBotCommons;
+use App\rZeBot\sexodomeKernel;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 use App;
@@ -92,7 +92,7 @@ class Site extends Model
     public function getHost()
     {
         if ($this->have_domain == 0) {
-            return $this->name.".".rZeBotCommons::getMainPlataformDomain();
+            return $this->name.".".sexodomeKernel::getMainPlataformDomain();
         } else {
             return  $this->domain;
         }

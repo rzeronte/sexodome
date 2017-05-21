@@ -36,7 +36,7 @@
                     <button type="submit" class="btn btn-primary" style="width:100%;margin-top:20px;">Login</button>
                     <a href="{{route('register')}}" class="btn btn-primary" style="width:100%;margin-top:20px;">create new account</a>
                     <a href="{{route('password.request')}}" class="btn btn-primary" style="width:100%;margin-top:10px;">forgot your password?</a>
-                    <a href="http://{{\App\rZeBot\rZeBotCommons::getMainPlataformDomain()}}" class="btn btn-success" style="width:100%;margin-top:10px;">back to website</a>
+                    <a href="http://{{\App\rZeBot\sexodomeKernel::getMainPlataformDomain()}}" class="btn btn-success" style="width:100%;margin-top:10px;">back to website</a>
                 </div>
             </form>
         </div>

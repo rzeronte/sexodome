@@ -16,7 +16,7 @@ body > .navbar-default
 {
     background-color: {{$site->color2}} !important;
 
-    @if (file_exists(\App\rZeBot\rZeBotCommons::getHeadersFolder()."/".md5($site->id).".png"))
+    @if (file_exists(\App\rZeBot\sexodomeKernel::getHeadersFolder()."/".md5($site->id).".png"))
     background-image: url('{{asset('/headers/'.md5($site->id).".png")}}');
     background-position: top left;
     background-size: 100%;

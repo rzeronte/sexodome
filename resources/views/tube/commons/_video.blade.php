@@ -25,7 +25,7 @@
 
                 @foreach ($video->categories()->get() as $category)
                     <?php $translation = $category->translations()->where('language_id',$language->id)->first(); ?>
-                    <a href="{{ route('category', array('profile' => $profile, 'permalink'=> $translation->permalink )) }}" class="tag tag-category">
+                    <a href="{{ route('category', array('profile' => Route::current()->parameter('host'), 'permalink'=> $translation->permalink )) }}" class="tag tag-category">
                         <i class="mdi mdi-label"></i> {{ ucwords($translation->name)}}
                     </a>
                 @endforeach
@@ -44,11 +44,3 @@
     </div>
 
 </main>
-
-<section class="row">
-    <div class="container">
-        <h3 class="video_header"></h3>
-
-
-    </div>
-</section>

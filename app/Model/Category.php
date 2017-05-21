@@ -119,4 +119,14 @@ class Category extends Model
             ->whereIn('category_tags.tag_id', $arrayTagIds);
         ;
     }
+
+    static function getTranslationFromPermalink($permalink, $site_id, $language_id)
+    {
+        return CategoryTranslation::join('categories','categories.id', '=', 'categories_translations.category_id')
+            ->where('permalink', $permalink)
+            ->where('categories.site_id', '=', $site_id)
+            ->where('language_id', $language_id)
+            ->first()
+        ;
+    }
 }

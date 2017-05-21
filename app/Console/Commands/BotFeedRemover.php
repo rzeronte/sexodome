@@ -10,7 +10,7 @@ use App\rZeBot\rZeBotUtils;
 use App\Model\Host;
 use App\Model\Tweet;
 use App\rZeBot\TwitterAPIExchange;
-use App\rZeBot\rZeBotCommons;
+use App\rZeBot\sexodomeKernel;
 use App\Model\Scene;
 use DB;
 
@@ -30,7 +30,7 @@ class BotFeedRemover extends Command
         $total_processed = 0;
 
         foreach($channels as $channel) {
-            $fileCSV = rZeBotCommons::getDumpsFolder().$prefix.$channel->file;
+            $fileCSV = sexodomeKernel::getDumpsFolder().$prefix.$channel->file;
             $cfg = new $channel->mapping_class;
             $deleteCfg = $cfg->configDeleteFeed();
 

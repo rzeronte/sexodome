@@ -19,7 +19,7 @@ use App\Model\Category;
 use App\Model\CategoryTranslation;
 use App\Model\SceneTag;
 use App\Model\SceneCategory;
-use App\rZeBot\rZeBotCommons;
+use App\rZeBot\sexodomeKernel;
 use App\Model\Pornstar;
 use DB;
 use Artisan;
@@ -168,7 +168,7 @@ class BotFeedFetcher extends Command
             $fila = 1;
             $languages = Language::all();
             $added = 0;
-            $fileCSV = rZeBotCommons::getDumpsFolder().$feed->file;
+            $fileCSV = sexodomeKernel::getDumpsFolder().$feed->file;
 
             if (!file_exists($fileCSV)) {
                 rZeBotUtils::message("[ERROR] $fileCSV not exist...", "red", true, true);
@@ -425,7 +425,7 @@ class BotFeedFetcher extends Command
                 $sceneTranslation->title = $video["title"];
                 $sceneTranslation->permalink = rZeBotUtils::slugify($video["title"]);
                 if (isset($video["description"])) {
-                    $sceneTranslation->description = substr(trim($video["description"]), 0, 255);
+                    $sceneTranslation->description = substr(trim(Str::ascii($video["description"])), 0, 255);
                 }
             }
 

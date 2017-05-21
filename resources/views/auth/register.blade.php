@@ -52,7 +52,7 @@
                 <button type="submit" class="btn btn-primary" style="width:100%;margin-top:20px;">register</button>
 
                 <a href="{{route('login')}}" class="btn btn-primary" style="width:100%;margin-top:20px;">back to login</a>
-                <a href="http://{{\App\rZeBot\rZeBotCommons::getMainPlataformDomain()}}" class="btn btn-success" style="width:100%;margin-top:10px;">back to website</a>
+                <a href="http://{{\App\rZeBot\sexodomeKernel::getMainPlataformDomain()}}" class="btn btn-success" style="width:100%;margin-top:10px;">back to website</a>
             </div>
         </form>
     </div>

@@ -25,10 +25,10 @@ class rZeBotUtils
 
         $parts = explode(".", $path);
 
-        if (count($parts) == 2 && $_SERVER["HTTP_HOST"] === rZeBotCommons::getMainPlataformDomain()) {
+        if (count($parts) == 2 && $_SERVER["HTTP_HOST"] === sexodomeKernel::getMainPlataformDomain()) {
             // ----------------------------------- Dominio de la propia plataforma formato 'domain.com'
             return false;
-        } elseif (count($parts) == 2 && $_SERVER["HTTP_HOST"] != rZeBotCommons::getMainPlataformDomain()) {
+        } elseif (count($parts) == 2 && $_SERVER["HTTP_HOST"] != sexodomeKernel::getMainPlataformDomain()) {
             // ----------------------------------- Dominio externo formato 'domain.com'
             $domain = $parts[0];
             $ext = $parts[1];
@@ -40,13 +40,13 @@ class rZeBotUtils
 
             return $site;
 
-        } elseif (count($parts) == 3 && $_SERVER["HTTP_HOST"] === "accounts.".rZeBotCommons::getMainPlataformDomain()) {
+        } elseif (count($parts) == 3 && $_SERVER["HTTP_HOST"] === "accounts.".sexodomeKernel::getMainPlataformDomain()) {
             // ----------------------------------- Dominio de miembros formato 'accounts.domain.com'
             return false;
-        } elseif (count($parts) == 3 && $parts[0] == 'www' && $_SERVER["HTTP_HOST"] === "www.".rZeBotCommons::getMainPlataformDomain()) {
+        } elseif (count($parts) == 3 && $parts[0] == 'www' && $_SERVER["HTTP_HOST"] === "www.".sexodomeKernel::getMainPlataformDomain()) {
             // ----------------------------------- Dominio de la propia plataforma formato 'www.domain.com'
             return false;
-        } elseif (count($parts) == 3 && $parts[0] == 'www' && $_SERVER["HTTP_HOST"] != "www.".rZeBotCommons::getMainPlataformDomain()) {
+        } elseif (count($parts) == 3 && $parts[0] == 'www' && $_SERVER["HTTP_HOST"] != "www.".sexodomeKernel::getMainPlataformDomain()) {
             // ----------------------------------- Dominio externo formato 'www.domain.com'
             $domain = $parts[1];
             $ext    = $parts[2];
@@ -61,7 +61,7 @@ class rZeBotUtils
             } else {
                 return $site;
             }
-        } elseif (count($parts) == 3 && $parts[0] !== 'www' && $_SERVER["HTTP_HOST"] != "www.".rZeBotCommons::getMainPlataformDomain()) {
+        } elseif (count($parts) == 3 && $parts[0] !== 'www' && $_SERVER["HTTP_HOST"] != "www.".sexodomeKernel::getMainPlataformDomain()) {
             // ----------------------------------- Subdominio de la plataforma formato 'subdominio.plataforma.com'
             $subdomain = $parts[0];
             $site = Cache::remember('site_'.$subdomain, env('MEMCACHED_QUERY_TIME', 30), function() use ($subdomain) {
@@ -162,7 +162,7 @@ class rZeBotUtils
      */
     public static function downloadDump($feed)
     {
-        $fileCSV = rZeBotCommons::getDumpsFolderTmp().$feed->file;
+        $fileCSV = sexodomeKernel::getDumpsFolderTmp().$feed->file;
 
         $cfg = new $feed->mapping_class;
         $feedConfig = $cfg->configFeed();
@@ -204,18 +204,18 @@ class rZeBotUtils
 
             // Si es un fichero comprimido
             $compressFile = $fileCSV.$ext;
-            $cmd = "wget -c '" . $feed->url . "' --directory-prefix=".rZeBotCommons::getDumpsFolderTmp() . " --output-document=" . $compressFile;
+            $cmd = "wget -c '" . $feed->url . "' --directory-prefix=".sexodomeKernel::getDumpsFolderTmp() . " --output-document=" . $compressFile;
             exec($cmd);
 
             rZeBotUtils::message("[EXTRACTING DUMP] $compressFile", "yellow", true, false);
             if ($zip) {
-                $cmd = "unzip $compressFile -d ". rZeBotCommons::getDumpsFolderTmp();
+                $cmd = "unzip $compressFile -d ". sexodomeKernel::getDumpsFolderTmp();
             } elseif($tgz) {
-                $cmd = "tar xf $compressFile -C ". rZeBotCommons::getDumpsFolderTmp();
+                $cmd = "tar xf $compressFile -C ". sexodomeKernel::getDumpsFolderTmp();
             }
             exec($cmd);
 
-            $cmd = "mv " . rZeBotCommons::getDumpsFolderTmp() . $feed->compressed_filename ." " . rZeBotCommons::getDumpsFolderTmp() . $feed->file;
+            $cmd = "mv " . sexodomeKernel::getDumpsFolderTmp() . $feed->compressed_filename ." " . sexodomeKernel::getDumpsFolderTmp() . $feed->file;
             rZeBotUtils::message("[RENAMING FILE] $cmd", "yellow", true, false);
             exec($cmd);
         }
@@ -231,7 +231,7 @@ class rZeBotUtils
      */
     public static function downloadDumpDeleted($feed)
     {
-        $fileCSV = rZeBotCommons::getDumpsFolderTmp()."deleted_".$feed->file;
+        $fileCSV = sexodomeKernel::getDumpsFolderTmp()."deleted_".$feed->file;
 
         if (!file_exists($fileCSV)) {
             rZeBotUtils::message("[DOWNLOADING FILE] $fileCSV", "green", true, false);
@@ -359,7 +359,7 @@ class rZeBotUtils
             return;
         }
         
-        $filepath = rZeBotCommons::getThumbnailsFolder().$filename;
+        $filepath = sexodomeKernel::getThumbnailsFolder().$filename;
 
         if ($overwrite == false) {
             if (file_exists($filepath)) {

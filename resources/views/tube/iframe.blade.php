@@ -1,5 +1,5 @@
 <head>
-    <title>{{$language->title}}</title>
+    <title>{{$sexodomeKernel->getLanguage()->title}}</title>
 
     <meta name="description" content="{{$language->description}}" />
 

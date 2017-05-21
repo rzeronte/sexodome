@@ -25,7 +25,7 @@
                 <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
                     <div class="thumbnail">
                         <figure>
-                            <a href="{{route('category', ['profile' => $profile, 'permalink'=>str_slug($category->name)])}}" target="_blank">
+                            <a href="{{route('category', ['profile' => Route::current()->parameter('host'), 'permalink'=>str_slug($category->name)])}}" target="_blank">
                             <span class="thumb-image">
                             <span class="floater-b-c">{{ucwords($category->name)}}</span>
                             <span class="floater-t-l">{{number_format($category->nscenes, 0, ",", ".")}} videos</span>

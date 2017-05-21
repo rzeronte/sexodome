@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\rZeBot\rZeBotCommons;
+use App\rZeBot\sexodomeKernel;
 
 class WebController extends Controller
 {
     var $commons;
     public function __construct()
     {
-        $this->commons = new rZeBotCommons();
+        $this->commons = new sexodomeKernel();
     }
 
     public function home()

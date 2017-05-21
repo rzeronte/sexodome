@@ -11,7 +11,7 @@ use Log;
 use Artisan;
 use App\rZeBot\ProxyBot;
 use App\rZeBot\rZeBotUtils;
-use App\rZeBot\rZeBotCommons;
+use App\rZeBot\sexodomeKernel;
 use App\Model\Site;
 
 class BotClicker extends Command
@@ -80,7 +80,7 @@ class BotClicker extends Command
 
     public function runHDZog()
     {
-        $sourceFile = rZeBotCommons::getDumpsFolder()."bot_urls_hdzog.txt";
+        $sourceFile = sexodomeKernel::getDumpsFolder()."bot_urls_hdzog.txt";
         rZeBotUtils::message("[GETTING PROXIES LIST FOR HDZOG] $sourceFile", "yellow", true, true);
         $url_test = "http://sexodome.com/webping";
 

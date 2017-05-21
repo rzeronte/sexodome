@@ -29,7 +29,7 @@
 
                 <div class="div_input_name" style="@if(Session::get('error_domain')) display:none; @endif">
                     <div class="col-md-5 col-md-offset-5" style="text-align: center;padding:10px;">
-                        <input id="add_site_subdomain_input" onkeyup="checkSubdomain(this)" type="text" name="subdomain" value="" placeholder="subdomain" class="form-control" style="float:left;width:175px;"required/><p style="color:gray; font-size:25px;float:left;">.{{\App\rZeBot\rZeBotCommons::getMainPlataformDomain()}}</p>
+                        <input id="add_site_subdomain_input" onkeyup="checkSubdomain(this)" type="text" name="subdomain" value="" placeholder="subdomain" class="form-control" style="float:left;width:175px;"required/><p style="color:gray; font-size:25px;float:left;">.{{\App\rZeBot\sexodomeKernel::getMainPlataformDomain()}}</p>
                         <div class="clearfix"></div>
                         <div class="result_subdomain text-left">
                             @if (Session::get('error_subdomain'))

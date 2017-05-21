@@ -37,8 +37,8 @@
                             <?php \Jenssegers\Date\Date::setLocale(App::getLocale());?>
 
                             @if ($scene->channel->embed == 1)
-                                <?php $href = route('video', ['profile' => $profile, 'permalink' => $scene->permalink]);?>
-                                <a href="{{$href}}" class="img link_image" title="{{$scene->title}}" @if ($site->google_analytics) onclick="trackOutboundLink('{{$href}}', '{{strtolower($scene->channel->name)}}');return false;" @endif target="_blank">
+                                <?php $href = route('video', ['profile' => Route::current()->parameter('host'), 'permalink' => $scene->permalink]);?>
+                                <a href="{{$href}}" class="img link_image" title="{{$scene->title}}" @if ($sexodomeKernel->getSite()->google_analytics) onclick="trackOutboundLink('{{$href}}', '{{strtolower($scene->channel->name)}}');return false;" @endif target="_blank">
                                    <span class="thumb-image">
                                         <span class="floater-t-l"><i class="mdi mdi-access-time"></i> {{gmdate("i:s", $scene->duration)}}</span>
                                         <span class="floater-b-l">{{$date->diffForHumans()}}</span>
@@ -46,8 +46,8 @@
                                    </span>
                                 </a>
                             @else
-                                <?php $href = route('out', ['profile' => $profile, 'scene_id' => $scene->id, 'p' => $i]); ?>
-                                <a href="{{ route('out', ['profile' => $profile, 'scene_id' => $scene->id, 'p' => $i]) }}" rel="nofollow" target="_blank"  class="img link_image" title="{{$scene->title}}" @if ($site->google_analytics) onclick="trackOutboundLink('{{$href}}', '{{strtolower($scene->channel->name)}}');return false;" @endif  target="_blank">
+                                <?php $href = route('out', ['profile' => Route::current()->parameter('host'), 'scene_id' => $scene->id, 'p' => $i]); ?>
+                                <a href="{{ route('out', ['profile' => Route::current()->parameter('host'), 'scene_id' => $scene->id, 'p' => $i]) }}" rel="nofollow" target="_blank"  class="img link_image" title="{{$scene->title}}" @if ($site->google_analytics) onclick="trackOutboundLink('{{$href}}', '{{strtolower($scene->channel->name)}}');return false;" @endif  target="_blank">
                                    <span class="thumb-image">
                                         <span class="floater-t-l"><i class="mdi mdi-access-time"></i> {{gmdate("i:s", $scene->duration)}}</span>
                                         <span class="floater-b-l">{{$date->diffForHumans()}}</span>
@@ -58,22 +58,22 @@
 
                             <figcaption>
                                 @if ($scene->channel->embed == 1)
-                                    <?php $href = route('video', ['profile' => $profile, 'permalink' => $scene->permalink]); ?>
+                                    <?php $href = route('video', ['profile' => Route::current()->parameter('host'), 'permalink' => $scene->permalink]); ?>
                                 @else
-                                    <?php $href = route('out', ['profile' => $profile, 'scene_id' => $scene->id, 'p' => $i]) ?>
+                                    <?php $href = route('out', ['profile' => Route::current()->parameter('host'), 'scene_id' => $scene->id, 'p' => $i]) ?>
                                 @endif
 
-                                <a target="_blank" href="{{$href}}" @if ($scene->channel->embed != 1) rel="nofollow" @endif @if ($site->google_analytics) onclick="trackOutboundLink('{{$href}}', '{{strtolower($scene->channel->name)}}');return false;" @endif>
+                                <a target="_blank" href="{{$href}}" @if ($scene->channel->embed != 1) rel="nofollow" @endif @if ($sexodomeKernel->getSite()->google_analytics) onclick="trackOutboundLink('{{$href}}', '{{strtolower($scene->channel->name)}}');return false;" @endif>
                                     <h5>{{ ucfirst(str_limit($scene->title, 40, $end = '...')) }}</h5>
                                 </a>
 
                                 <ul class="list-inline">
                                     @foreach ($scene->categories()->limit(3)->get() as $category)
-                                        <?php $translation = $category->translations()->where('language_id',$language->id)->first(); ?>
+                                        <?php $translation = $category->translations()->where('language_id',$sexodomeKernel->getLanguage()->id)->first(); ?>
                                         <?php if ($translation && count(explode(" ", $translation->name)) <=2): ?>
                                             <li>
                                                 <span class="label label-default">
-                                                    <a href="{{ route('category', array('profile' => $profile, 'permalink'=> str_slug($translation->name) )) }}" title="Tag">
+                                                    <a href="{{ route('category', array('profile' => Route::current()->parameter('host'), 'permalink'=> str_slug($translation->name) )) }}" title="Tag">
                                                         <i class="mdi mdi-label"></i> {{strtolower($translation->name)}}
                                                     </a>
                                                 </span>

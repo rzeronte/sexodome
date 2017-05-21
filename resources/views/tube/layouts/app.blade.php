@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    @include('tube.commons._head')
-</head>
+@include('tube.commons._head')
 
 <body class="homepage">
 

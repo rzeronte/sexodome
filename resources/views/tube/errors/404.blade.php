@@ -10,7 +10,7 @@
 
     @include('tube.commons._videos')
 
-    @if ($language->iframe_src != "")
+    @if ($sexodomeKernel->getSite()->iframe_src != "")
         <section class="container">
             @include('tube.commons._iframe_network')
         </section>

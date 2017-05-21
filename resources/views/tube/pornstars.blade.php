@@ -3,11 +3,11 @@
 @section('pagination_seo')
     @if (isset($pornstars))
         @if ( $pornstars->currentPage() > 1)
-            <link rel="prev" href="{{  route('pornstars_page', ['profile' => $profile, 'page' => $pornstars->currentPage() - 1]) }} " />
+            <link rel="prev" href="{{  route('pornstars_page', ['profile' => Route::current()->parameter('host'), 'page' => $pornstars->currentPage() - 1]) }} " />
         @endif
 
         @if ( $pornstars->currentPage() < ($pornstars->lastPage()))
-            <link rel="next" href="{{ route('pornstars_page', ['profile' => $profile, 'page' => $pornstars->currentPage() + 1])}}" />
+            <link rel="next" href="{{ route('pornstars_page', ['profile' => Route::current()->parameter('host'), 'page' => $pornstars->currentPage() + 1])}}" />
         @endif
     @endif
 @endsection
@@ -17,7 +17,7 @@
 @endsection
 
 @section('h2_tag')
-    <h2><i class="mdi mdi-stars"></i> {{ $site->getH2Pornstars() }}</h2>
+    <h2><i class="mdi mdi-stars"></i> {{ $sexodomeKernel->getSite()->getH2Pornstars() }}</h2>
 @endsection
 
 @section('content')

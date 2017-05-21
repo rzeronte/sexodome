@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Model\Type;
 use Illuminate\Http\Request;
-use App\rZeBot\rZeBotCommons;
+use App\rZeBot\sexodomeKernel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\App;
 use App\Model\Site;
@@ -28,8 +28,7 @@ class ConfigController extends Controller
 
     public function __construct()
     {
-        $this->commons = new rZeBotCommons();
-
+        $this->commons = new sexodomeKernel();
         $this->middleware('CheckVerifyUser');
         $this->middleware('auth');
     }
@@ -816,24 +815,24 @@ class ConfigController extends Controller
 
         if ($request->hasFile('logo') && !$v->fails()) {
             $request->session()->flash('success', 'Logo uploaded successful');
-            $request->file('logo')->move(rZeBotCommons::getLogosFolder(), md5($site_id) . "." . $request->file('logo')->getClientOriginalExtension());
+            $request->file('logo')->move(sexodomeKernel::getLogosFolder(), md5($site_id) . "." . $request->file('logo')->getClientOriginalExtension());
         } else {
             $request->session()->flash('error', 'Upload invalid file. Check your Logo file, size ane extension (pngs only)!');
         }
 
         if ($request->hasFile('favicon') && !$vF->fails()) {
             $request->session()->flash('success', 'Logo uploaded successful');
-            $request->file('favicon')->move(rZeBotCommons::getFaviconsFolder(), md5($site_id) . "." . $request->file('favicon')->getClientOriginalExtension());
+            $request->file('favicon')->move(sexodomeKernel::getFaviconsFolder(), md5($site_id) . "." . $request->file('favicon')->getClientOriginalExtension());
         } else {
             $request->session()->flash('error', 'Upload invalid file. Check your Favicon file, size ane extension (pngs only)!');
         }
 
         if ($request->hasFile('header') && !$vH->fails() && $delete_header != 1) {
             $request->session()->flash('success', 'Header uploaded successful');
-            $request->file('header')->move(rZeBotCommons::getHeadersFolder(), md5($site_id) . "." . $request->file('header')->getClientOriginalExtension());
+            $request->file('header')->move(sexodomeKernel::getHeadersFolder(), md5($site_id) . "." . $request->file('header')->getClientOriginalExtension());
         } else {
             if ($delete_header == 1) {
-                unlink(rZeBotCommons::getHeadersFolder() . md5($site_id) . ".png");
+                unlink(sexodomeKernel::getHeadersFolder() . md5($site_id) . ".png");
             } else {
                 $request->session()->flash('error', 'Upload invalid file. Check your Header file, size ane extension (png only)!');
             }

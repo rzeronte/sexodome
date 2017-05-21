@@ -9,7 +9,7 @@
         </div>
 
         <div class="col-md-2">
-            @if (file_exists(\App\rZeBot\rZeBotCommons::getLogosFolder()."/".md5($site->id).".png"))
+            @if (file_exists(\App\rZeBot\sexodomeKernel::getLogosFolder()."/".md5($site->id).".png"))
                 <img src="{{asset('/logos/'.md5($site->id).".png")}}" style="border: solid 1px gray; width:100%;"/>
             @endif
         </div>
@@ -22,7 +22,7 @@
         </div>
 
         <div class="col-md-2">
-            @if (file_exists(\App\rZeBot\rZeBotCommons::getFaviconsFolder()."/".md5($site->id).".png"))
+            @if (file_exists(\App\rZeBot\sexodomeKernel::getFaviconsFolder()."/".md5($site->id).".png"))
                 <img src="{{asset('/favicons/'.md5($site->id).".png")}}" style="border: solid 1px gray; width:16px;"/>
             @endif
         </div>
@@ -35,7 +35,7 @@
         </div>
 
         <div class="col-md-2">
-            @if (file_exists(\App\rZeBot\rZeBotCommons::getHeadersFolder()."/".md5($site->id).".png"))
+            @if (file_exists(\App\rZeBot\sexodomeKernel::getHeadersFolder()."/".md5($site->id).".png"))
                 <img src="{{asset('/headers/'.md5($site->id).".png")}}" style="border: solid 1px gray; width:400px;"/>
             @endif
         </div>

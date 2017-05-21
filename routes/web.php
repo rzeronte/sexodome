@@ -14,7 +14,7 @@
 
 // Web Plataforma formato domain.com
 // *********************************************************************************************************************
-Route::group(['domain' => \App\rZeBot\rZeBotCommons::getMainPlataformDomain()], function () {
+Route::group(['domain' => \App\rZeBot\sexodomeKernel::getMainPlataformDomain()], function () {
 
     Route::match(['get', 'post'], "/", [ 'as' => 'home_website', 'uses' => 'WebController@home' ]);
     Route::match(['get', 'post'], "/google-keyword-position", [ 'as' => 'GoogleKeywordPosition', 'uses' => 'WebController@GooglePosition' ]);
@@ -24,14 +24,14 @@ Route::group(['domain' => \App\rZeBot\rZeBotCommons::getMainPlataformDomain()], 
 
 // Web Plataforma formato www.domain.com
 // *********************************************************************************************************************
-Route::group(['domain' => "www.".\App\rZeBot\rZeBotCommons::getMainPlataformDomain()], function () {
+Route::group(['domain' => "www.".\App\rZeBot\sexodomeKernel::getMainPlataformDomain()], function () {
 
     Route::match(['get', 'post'], "/", [ 'as' => 'home_website', 'uses' => 'WebController@home' ]);
 });
 
 // Zona accounts
 // *********************************************************************************************************************
-Route::group(['domain' => 'accounts.'.\App\rZeBot\rZeBotCommons::getMainPlataformDomain()], function () {
+Route::group(['domain' => 'accounts.'.\App\rZeBot\sexodomeKernel::getMainPlataformDomain()], function () {
     Route::match(['get', 'post'], "/", ['as' => 'home', 'uses' => 'ConfigController@home']);
 
     Route::match(['get', 'post'], '{locale}/sites', 'ConfigController@sites')->name('sites');

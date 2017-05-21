@@ -3,11 +3,11 @@
 @section('pagination_seo')
     @if (isset($scenes))
         @if ( $scenes->currentPage() > 1)
-            <link rel="prev" href="{{  route('category_page', ['profile' => $profile, 'permalinkCategory'=> $categoryTranslation->permalink,  'page' => $scenes->currentPage() - 1]) }} " />
+            <link rel="prev" href="{{  route('category_page', ['profile' => Route::current()->parameter('host'), 'permalinkCategory'=> $categoryTranslation->permalink,  'page' => $scenes->currentPage() - 1]) }} " />
         @endif
 
         @if ( $scenes->currentPage() < ($scenes->lastPage()))
-            <link rel="next" href="{{ route('category_page', ['profile' => $profile, 'permalinkCategory'=> $categoryTranslation->permalink,  'page' => $scenes->currentPage() + 1])}}" />
+            <link rel="next" href="{{ route('category_page', ['profile' => Route::current()->parameter('host'), 'permalinkCategory'=> $categoryTranslation->permalink,  'page' => $scenes->currentPage() + 1])}}" />
         @endif
     @endif
 @endsection
@@ -17,14 +17,14 @@
 @endsection
 
 @section('h2_tag')
-    <h2><i class="mdi mdi-home"></i> {{$site->getH2Category($categoryTranslation->name)}}</h2>
+    <h2><i class="mdi mdi-home"></i> {{$sexodomeKernel->getSite()->getH2Category($categoryTranslation->name)}}</h2>
 @endsection
 
 @section('orders')
     @if (isset($categoryTranslation))
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-right">
-            <a href="{{route('category', ['profile' => $site->getHost(), 'permalink' => $permalinkCategory, 'order' => 'popular'])}}" class="btn btn-secondary btn-sm active link_order"> @if (Request::get('order') == 'popular') <b>{{trans('tube.btn_order_mostpopular')}}</b> @else {{trans('tube.btn_order_mostpopular')}} @endif </a>
-            <a href="{{route('category', ['profile' => $site->getHost(), 'permalink' => $permalinkCategory, 'order' => 'newest'])}}" class="btn btn-secondary btn-sm active link_order">@if (Request::get('order') == false || Request::get('order') == 'newest') <b>{{trans('tube.btn_order_news')}}</b> @else {{trans('tube.btn_order_news')}} @endif </a>
+            <a href="{{route('category', ['profile' => $sexodomeKernel->getSite()->getHost(), 'permalink' => $permalinkCategory, 'order' => 'popular'])}}" class="btn btn-secondary btn-sm active link_order"> @if (Request::get('order') == 'popular') <b>{{trans('tube.btn_order_mostpopular')}}</b> @else {{trans('tube.btn_order_mostpopular')}} @endif </a>
+            <a href="{{route('category', ['profile' => $sexodomeKernel->getSite()->getHost(), 'permalink' => $permalinkCategory, 'order' => 'newest'])}}" class="btn btn-secondary btn-sm active link_order">@if (Request::get('order') == false || Request::get('order') == 'newest') <b>{{trans('tube.btn_order_news')}}</b> @else {{trans('tube.btn_order_news')}} @endif </a>
         </div>
     @else
         <div class="link_order_container">
@@ -38,7 +38,7 @@
     @include('tube.commons._header')
     @include('tube.commons._videos')
 
-    @if ($language->iframe_src != "")
+    @if ($sexodomeKernel->getLanguage()->iframe_src != "")
         <section class="container">
             @include('tube.commons._iframe_network')
         </section>

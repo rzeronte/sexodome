@@ -19,7 +19,7 @@
 @endsection
 
 @section('h2_tag')
-    <h2><i class="mdi mdi-stars"></i> {{ $site->getH2Pornstar($pornstar->name) }}</h2>
+    <h2><i class="mdi mdi-stars"></i> {{ $sexodomeKernel->getSite()->getH2Pornstar($pornstar->name) }}</h2>
 @endsection
 
 @section('content')
@@ -27,7 +27,7 @@
 
     @include('tube.commons._videos')
 
-    @if ($language->iframe_src != "")
+    @if ($sexodomeKernel->getSite()->iframe_src != "")
         <section class="container">
             @include('tube.commons._iframe_network')
         </section>

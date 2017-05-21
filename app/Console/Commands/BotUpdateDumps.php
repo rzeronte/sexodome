@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use App\Model\Channel;
 use App\Model\LanguageTag;
-use App\rZeBot\rZeBotCommons;
+use App\rZeBot\sexodomeKernel;
 use App\rZeBot\rZeBotUtils;
 use Illuminate\Console\Command;
 use App\Model\Host;
@@ -50,14 +50,14 @@ class BotUpdateDumps extends Command
             rZeBotUtils::downloadDump($feed);
             rZeBotUtils::downloadDumpDeleted($feed);
 
-            $filename = rZeBotCommons::getDumpsFolderTmp().$feed->file;
+            $filename = sexodomeKernel::getDumpsFolderTmp().$feed->file;
             $totalLines = intval(exec("wc -l '".$filename."'"));
             $feed->nvideos = $totalLines;
             $feed->save();
         }
 
         rZeBotUtils::message("[MOVING DUMPS]", "green", false, false);
-        $cmd = "mv " . rZeBotCommons::getDumpsFolderTmp() . "* " . rZeBotCommons::getDumpsFolder();
+        $cmd = "mv " . sexodomeKernel::getDumpsFolderTmp() . "* " . sexodomeKernel::getDumpsFolder();
         exec($cmd);
     }
 }

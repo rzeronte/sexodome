@@ -1,5 +1,5 @@
 <head>
-    <title>Member zone {{\App\rZeBot\rZeBotCommons::getMainPlataformDomain()}}</title>
+    <title>Member zone {{\App\rZeBot\sexodomeKernel::getMainPlataformDomain()}}</title>
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

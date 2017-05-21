@@ -9,7 +9,7 @@ use Jenssegers\Agent\Agent;
 use App\Model\Language;
 use Illuminate\Support\Facades\Route;
 
-class rZeBotCommons extends Controller {
+class sexodomeKernel extends Controller {
 
     public $language;
     public $languages;
@@ -32,7 +32,7 @@ class rZeBotCommons extends Controller {
     public function __construct()
     {
         if (App::runningInConsole()) {
-                return;
+            return;
         }
 
         $this->routeParamters = Route::current()->parameters();
@@ -62,6 +62,7 @@ class rZeBotCommons extends Controller {
             });
         }
 
+        // per page setups
         $this->perPage = 48;
         $this->perPageScenes = 10;
         $this->perPageTags = 30;
@@ -77,8 +78,6 @@ class rZeBotCommons extends Controller {
         $this->languages = Cache::remember('languages', env('MEMCACHED_QUERY_TIME', 30), function() use ($locale) {
             return Language::where('status', 1)->orderBy('code', 'asc')->get();
         });
-
-        // results per page
 
         // status video config mapping
         $this->videoStatus = array(
@@ -137,7 +136,7 @@ class rZeBotCommons extends Controller {
 
     public static function getDumpsFolderTmp()
     {
-        return rZeBotCommons::getDumpsFolder()."tmp/";
+        return sexodomeKernel::getDumpsFolder()."tmp/";
     }
 
     public static function getThumbnailsFolder()
@@ -145,4 +144,12 @@ class rZeBotCommons extends Controller {
         return env("DEFAULT_THUMBNAILS_FOLDER", "../dumps/");
     }
 
+    public function getSite()
+    {
+        return $this->site;
+    }
+    public function getLanguage()
+    {
+        return $this->language;
+    }
 }
