@@ -24,7 +24,7 @@
                 <div class="clearfix"></div>
 
                 @foreach ($video->categories()->get() as $category)
-                    <?php $translation = $category->translations()->where('language_id',$language->id)->first(); ?>
+                    <?php $translation = $category->translations()->where('language_id', $sexodomeKernel->getLanguage()->id)->first(); ?>
                     <a href="{{ route('category', array('profile' => Route::current()->parameter('host'), 'permalink'=> $translation->permalink )) }}" class="tag tag-category">
                         <i class="mdi mdi-label"></i> {{ ucwords($translation->name)}}
                     </a>
