@@ -991,7 +991,14 @@ class ConfigController extends Controller
             abort(404, "Category not found");
         }
 
-        $files = File::allFiles(public_path()."/categories_market");
+        $site_type_id = $category->site->type_id;
+
+        if ($site_type_id == 1) {
+            $files = File::allFiles(public_path()."/categories_market");
+        } else {
+            $files = File::allFiles(public_path()."/categories_market_gay");
+
+        }
 
         $filenames = [];
         foreach ($files as $file)
