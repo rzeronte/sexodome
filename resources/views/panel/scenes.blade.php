@@ -27,7 +27,7 @@
     </div>
 
     <div class="row" style="padding:10px;">
-        <form action="{{ route('content', ['locale'=>$locale]) }}" method="get" style="width:100%">
+        <form action="{{ route('content', ['site_id' => $site->id]) }}" method="get" style="width:100%">
             <div class="col-md-2">
                 <input id="query_string" name="q" type="text" placeholder="title search" class="form-control query_string" value="{{$query_string}}" style="width:100%;">
             </div>
@@ -87,7 +87,6 @@
 
     <div class="row">
         <?php echo $scenes->appends([
-                'locale'      => $locale,
                 'q'           => $query_string,
                 'tag_q'       => $tag_q,
                 'publish_for' => $publish_for,
@@ -102,7 +101,7 @@
         ?>
 
         <div class="row coloreable" style="padding: 5px;">
-            <form action="{{route('saveTranslation', ['locale'=>$locale, 'scene_id'=>$scene->id])}}" class="ajax-form">
+            <form action="{{route('saveTranslation', ['scene_id'=>$scene->id])}}" class="ajax-form">
                 <div class="col-md-2">
 
                     @if ($scene->thumb_index > 0)
@@ -138,7 +137,7 @@
 
                 <div class="col-md-3" style="margin: 10px 0 0 0">
                     @if ($scene->embed == 1)
-                        <button type="button" class="btn-preview-scene btn btn-primary" data-toggle="modal" data-target="#previewModal" data-scene-id="{{$scene->id}}" data-url="{{route('scenePreview', ['locale' => $locale, 'scene_id'=>$scene->id])}}" style="width:100%">
+                        <button type="button" class="btn-preview-scene btn btn-primary" data-toggle="modal" data-target="#previewModal" data-scene-id="{{$scene->id}}" data-url="{{route('scenePreview', ['scene_id'=>$scene->id])}}" style="width:100%">
                             <i class="fa fa-eye"></i> preview
                         </button>
                     @else
@@ -147,7 +146,7 @@
 
                     <br/>
 
-                    <button type="button" class="btn-select-thumb btn btn-primary" data-toggle="modal" data-target="#previewModal" data-url="{{route('sceneThumbs', ['locale' => $locale, 'scene_id'=>$scene->id])}}" style="width:100%;margin-top:7px;">
+                    <button type="button" class="btn-select-thumb btn btn-primary" data-toggle="modal" data-target="#previewModal" data-url="{{route('sceneThumbs', ['scene_id'=>$scene->id])}}" style="width:100%;margin-top:7px;">
                         <i class="glyphicon glyphicon-picture"></i> thumbnails
                     </button>
                     <br/>
@@ -165,7 +164,6 @@
 
     <div class="row">
         <?php echo $scenes->appends([
-                'locale'      => $locale,
                 'q'           => $query_string,
                 'tag_q'       => $tag_q,
                 'publish_for' => $publish_for,

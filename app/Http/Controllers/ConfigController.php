@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\Language;
 use App\Model\Type;
+use App\rZeBot\rZeBotUtils;
 use Illuminate\Http\Request;
 use App\rZeBot\sexodomeKernel;
 use Illuminate\Support\Facades\Auth;
@@ -24,32 +26,18 @@ use Illuminate\Support\Facades\DB;
 
 class ConfigController extends Controller
 {
-    var $commons;
-
     public function __construct()
     {
-        $this->commons = new sexodomeKernel();
         $this->middleware('CheckVerifyUser');
         $this->middleware('auth');
     }
 
     public function home()
     {
-        return redirect()->route('sites', ['locale' => $this->commons->locale]);
+        return redirect()->route('sites');
     }
 
-    public function unverified()
-    {
-        Auth::logout();
-        return view('panel.unverified');
-    }
-
-    public function welcome()
-    {
-        return view('panel.welcome');
-    }
-
-    public function scenes(Request $request)
+    public function scenes($site_id, Request $request)
     {
         $query_string = $request->input('q');
         $tag_query_string = $request->input('tag_q');
@@ -60,10 +48,15 @@ class ConfigController extends Controller
         $empty_title = ($request->input('empty_title') == "on") ? true : false;
         $empty_description = ($request->input('empty_description') == "on") ? true : false;
 
+        $site = Site::find($site_id);
+        if (!$site) {
+            abort(404, "Site not found");
+        }
+
         $scenes = Scene::getScenesForExporterSearch(
             $query_string,
             $tag_query_string,
-            $this->commons->language->id,
+            $site->language->id,
             $duration,
             $publish_for,
             $scene_id,
@@ -74,22 +67,22 @@ class ConfigController extends Controller
         );
 
         $sites = Site::where('user_id', '=', Auth::user()->id)->get();
-
         return view('panel.scenes', [
-            'scenes' => $scenes->orderBy('scenes.id', 'desc')->paginate($this->commons->perPageScenes),
+            'scenes' => $scenes->orderBy('scenes.id', 'desc')->paginate(App::make('sexodomeKernel')->perPageScenes),
             'query_string' => $query_string,
             'tag_q' => $tag_query_string,
             'publish_for' => $publish_for,
-            'language' => $this->commons->language,
-            'languages' => $this->commons->languages,
-            'locale' => $this->commons->locale,
+            'language' => App::make('sexodomeKernel')->language,
+            'languages' => App::make('sexodomeKernel')->languages,
+            'locale' => App::make('sexodomeKernel')->locale,
+            'site' => $site,
             'title' => "Admin Panel",
             'sites' => $sites,
             'duration' => $duration,
         ]);
     }
 
-    public function ajaxSiteTags($locale, $site_id, Request $request)
+    public function ajaxSiteTags($site_id, Request $request)
     {
         $query_string = $request->input('q');
 
@@ -102,19 +95,19 @@ class ConfigController extends Controller
             abort(401, "Unauthorized");
         }
 
-        $tags = Tag::getTranslationSearch($query_string, $this->commons->language->id)->where('site_id', $site_id)
-            ->paginate($this->commons->perPageScenes);
+        $tags = Tag::getTranslationSearch($query_string, App::make('sexodomeKernel')->language->id)->where('site_id', $site_id)
+            ->paginate(App::make('sexodomeKernel')->perPageScenes);
 
 
         return view('panel.ajax._ajax_site_tags', [
             'site' => $site,
             'tags' => $tags,
-            'locale' => $this->commons->locale,
-            'language' => $this->commons->language
+            'locale' => App::make('sexodomeKernel')->locale,
+            'language' => App::make('sexodomeKernel')->language
         ]);
     }
 
-    public function ajaxSiteCategories($locale, $site_id, Request $request)
+    public function ajaxSiteCategories($site_id, Request $request)
     {
         $query_string = $request->input('q');
 
@@ -130,18 +123,18 @@ class ConfigController extends Controller
 
         $order_by_nscenes = $request->input('order_by_nscenes', false);
 
-        $categories = Category::getTranslationSearch($query_string, $this->commons->language->id, $site->id, $order_by_nscenes)
-            ->paginate($this->commons->perPageScenes);
+        $categories = Category::getTranslationSearch($query_string, App::make('sexodomeKernel')->language->id, $site->id, $order_by_nscenes)
+            ->paginate(App::make('sexodomeKernel')->perPageScenes);
 
         return view('panel.ajax._ajax_site_categories', [
             'site' => $site,
             'categories' => $categories,
-            'locale' => $this->commons->locale,
-            'language' => $this->commons->language
+            'locale' => App::make('sexodomeKernel')->locale,
+            'language' => App::make('sexodomeKernel')->language
         ]);
     }
 
-    public function ajaxSiteWorkers($locale, $site_id)
+    public function ajaxSiteWorkers($site_id)
     {
         $site = Site::find($site_id);
 
@@ -157,19 +150,19 @@ class ConfigController extends Controller
 
         return view('panel.ajax._ajax_site_workers', [
             'site' => $site,
-            'locale' => $this->commons->locale,
-            'language' => $this->commons->language,
-            'languages' => $this->commons->languages,
+            'locale' => App::make('sexodomeKernel')->locale,
+            'language' => App::make('sexodomeKernel')->language,
+            'languages' => App::make('sexodomeKernel')->languages,
             'infojobs' => $infojobs,
         ]);
     }
 
-    public function saveTagTranslation($locale, $tag_id, Request $request)
+    public function saveTagTranslation($tag_id, Request $request)
     {
-        $name = $request->input('language_' . $this->commons->language->id);
+        $name = $request->input('language_' . App::make('sexodomeKernel')->language->id);
 
         $tagTranslation = TagTranslation::where('tag_id', $tag_id)
-            ->where('language_id', $this->commons->language->id)
+            ->where('language_id', App::make('sexodomeKernel')->language->id)
             ->first();
 
         $tagTranslation->name = $name;
@@ -184,7 +177,7 @@ class ConfigController extends Controller
         return json_encode(array('status' => 1));
     }
 
-    public function saveCategoryTranslation($locale, $category_id, Request $request)
+    public function saveCategoryTranslation($category_id, Request $request)
     {
         $category = Category::find($category_id);
 
@@ -195,13 +188,13 @@ class ConfigController extends Controller
         if (!(Auth::user()->id == $category->site->user->id)) {
             abort(401, "Unauthorized");
         }
-        $name = $request->input('language_' . $this->commons->language->id);
+        $name = $request->input('language_' . App::make('sexodomeKernel')->language->id);
         $thumb = $request->input('thumbnail');
 
         // Buscamos si existe otra categoría en el idioma utilizado con el mismo nombre
         $alreadyCategoryTranslation = CategoryTranslation::join('categories', 'categories.id', '=', 'categories_translations.category_id')
             ->where('categories.site_id', $category->site->id)
-            ->where('language_id', $this->commons->language->id)
+            ->where('language_id', App::make('sexodomeKernel')->language->id)
             ->where('name', 'like', $name)
             ->where('categories.status', 1)
             ->where('categories.id', '<>', $category_id)
@@ -212,7 +205,7 @@ class ConfigController extends Controller
         }
 
         $categoryTranslation = CategoryTranslation::where('category_id', $category_id)
-            ->where('language_id', $this->commons->language->id)
+            ->where('language_id', App::make('sexodomeKernel')->language->id)
             ->first();
 
         $categoryTranslation->name = $name;
@@ -231,10 +224,10 @@ class ConfigController extends Controller
     {
         App::setLocale($locale);
 
-        return redirect()->route('content', ['locale' => $this->commons->locale]);
+        return redirect()->route('content', ['locale' => $locale]);
     }
 
-    public function saveTranslation($locale, $scene_id, Request $request)
+    public function saveTranslation($scene_id, Request $request)
     {
         $scene = Scene::find($scene_id);
 
@@ -251,7 +244,7 @@ class ConfigController extends Controller
         $selectedThumb = $request->input('selectedThumb', null);
 
         $sceneTranslation = SceneTranslation::where('scene_id', $scene_id)
-            ->where('language_id', $this->commons->language->id)
+            ->where('language_id', App::make('sexodomeKernel')->language->id)
             ->first();
 
         $scene->thumb_index = $selectedThumb;
@@ -274,7 +267,7 @@ class ConfigController extends Controller
         }
     }
 
-    public function ajaxSitePornstars($locale, $site_id)
+    public function ajaxSitePornstars($site_id)
     {
         $site = Site::find($site_id);
 
@@ -282,18 +275,18 @@ class ConfigController extends Controller
             abort(404, "Site not found");
         }
 
-        $pornstars = \App\Model\Pornstar::where('site_id', '=', $site_id)->paginate($this->commons->perPagePanelPornstars);
+        $pornstars = \App\Model\Pornstar::where('site_id', '=', $site_id)->paginate(App::make('sexodomeKernel')->perPagePanelPornstars);
 
         return view('panel.ajax._ajax_site_pornstars', [
             'site' => $site,
             'pornstars' => $pornstars,
-            'language' => $this->commons->language,
-            'languages' => $this->commons->languages,
-            'locale' => $this->commons->locale
+            'language' => App::make('sexodomeKernel')->language,
+            'languages' => App::make('sexodomeKernel')->languages,
+            'locale' => App::make('sexodomeKernel')->locale
         ]);
     }
 
-    public function scenePreview($locale, $scene_id)
+    public function scenePreview($scene_id)
     {
         $scene = Scene::find($scene_id);
 
@@ -306,9 +299,9 @@ class ConfigController extends Controller
         }
 
         return view('panel.ajax._ajax_preview', [
-            'language' => $this->commons->language,
-            'languages' => $this->commons->languages,
-            'locale' => $this->commons->locale,
+            'language' => App::make('sexodomeKernel')->language,
+            'languages' => App::make('sexodomeKernel')->languages,
+            'locale' => App::make('sexodomeKernel')->locale,
             'title' => "Admin Panel",
             'scene' => $scene
         ]);
@@ -393,9 +386,9 @@ class ConfigController extends Controller
 
         return view('panel.sites', [
             'channels' => Channel::all(),
-            'language' => $this->commons->language,
-            'languages' => $this->commons->languages,
-            'locale' => $this->commons->locale,
+            'language' => App::make('sexodomeKernel')->language,
+            'languages' => App::make('sexodomeKernel')->languages,
+            'locale' => App::make('sexodomeKernel')->locale,
             'title' => "Admin Panel",
             'sites' => $sites,
             'fi' => $fi,
@@ -403,7 +396,7 @@ class ConfigController extends Controller
         ]);
     }
 
-    public function site($locale, $site_id)
+    public function site($site_id)
     {
 
         $site = Site::find($site_id);
@@ -417,19 +410,19 @@ class ConfigController extends Controller
         }
 
         // Activamos el idioma del sitio
-        if ($this->commons->language->id != $site->language_id) {
+        /*if (App::make('sexodomeKernel')->getLanguage()->code != $site->language->code) {
             App::setLocale($site->language->code);
             return redirect()->route('site', ['locale' => $site->language->code, $site_id]);
-        }
+        }*/
 
         $ff = date("Y-m-d");
         $fi = date("Y-m-d", strtotime($ff . " -50 days"));
 
         return view('panel.site', [
             'channels' => Channel::all(),
-            'language' => $this->commons->language,
-            'languages' => $this->commons->languages,
-            'locale' => $this->commons->locale,
+            'language' => App::make('sexodomeKernel')->language,
+            'languages' => App::make('sexodomeKernel')->languages,
+            'locale' => App::make('sexodomeKernel')->locale,
             'title' => "Admin Panel",
             'site' => $site,
             'sites' => Site::where('user_id', '=', Auth::user()->id)->orderBy('language_id', 'asc_')->get(),
@@ -439,7 +432,7 @@ class ConfigController extends Controller
         ]);
     }
 
-    public function siteKeywords($locale, $site_id)
+    public function siteKeywords($site_id)
     {
         $site = Site::find($site_id);
 
@@ -455,12 +448,12 @@ class ConfigController extends Controller
 
         return view('panel.ajax._ajax_site_keywords', [
             'keywords' => $keywords,
-            'language' => $this->commons->language,
-            'languages' => $this->commons->languages
+            'language' => App::make('sexodomeKernel')->language,
+            'languages' => App::make('sexodomeKernel')->languages
         ]);
     }
 
-    public function siteReferrers($locale, $site_id)
+    public function siteReferrers($site_id)
     {
         $site = Site::find($site_id);
 
@@ -476,12 +469,12 @@ class ConfigController extends Controller
 
         return view('panel.ajax._ajax_site_referrers', [
             'referrers' => $referrers,
-            'language' => $this->commons->language,
-            'languages' => $this->commons->languages
+            'language' => App::make('sexodomeKernel')->language,
+            'languages' => App::make('sexodomeKernel')->languages
         ]);
     }
 
-    public function sitePageViews($locale, $site_id)
+    public function sitePageViews($site_id)
     {
         $site = Site::find($site_id);
 
@@ -497,12 +490,12 @@ class ConfigController extends Controller
 
         return view('panel.ajax._ajax_site_pageviews', [
             'pageViews' => $pageViews,
-            'language' => $this->commons->language,
-            'languages' => $this->commons->languages
+            'language' => App::make('sexodomeKernel')->language,
+            'languages' => App::make('sexodomeKernel')->languages
         ]);
     }
 
-    public function sceneThumbs($locale, $scene_id)
+    public function sceneThumbs($scene_id)
     {
         $scene = Scene::find($scene_id);
         if (!$scene) {
@@ -511,12 +504,12 @@ class ConfigController extends Controller
 
         return view('panel.ajax._ajax_scene_thumbs', [
             'scene' => $scene,
-            'language' => $this->commons->language,
-            'languages' => $this->commons->languages
+            'language' => App::make('sexodomeKernel')->language,
+            'languages' => App::make('sexodomeKernel')->languages
         ]);
     }
 
-    public function ajaxCronJobs($locale, $site_id)
+    public function ajaxCronJobs($site_id)
     {
         $site = Site::find($site_id);
         $scene = Scene::find($site_id);
@@ -524,14 +517,14 @@ class ConfigController extends Controller
         return view('panel.ajax._ajax_site_cronjobs', [
             'site' => $site,
             'scene' => $scene,
-            'language' => $this->commons->language,
-            'languages' => $this->commons->languages,
-            'locale' => $this->commons->locale
+            'language' => App::make('sexodomeKernel')->language,
+            'languages' => App::make('sexodomeKernel')->languages,
+            'locale' => App::make('sexodomeKernel')->locale
         ]);
 
     }
 
-    public function updateSiteSEO($locale, $site_id, Request $request)
+    public function updateSiteSEO($site_id, Request $request)
     {
         $site = Site::find($site_id);
 
@@ -589,7 +582,7 @@ class ConfigController extends Controller
         return json_encode(array('status' => true));
     }
 
-    public function addSite($locale, Request $request)
+    public function addSite(Request $request)
     {
         $sites = Site::where('user_id', '=', Auth::user()->id)->get();
 
@@ -611,9 +604,9 @@ class ConfigController extends Controller
                 }
 
                 return view('panel.add_site', [
-                    'language' => $this->commons->language,
-                    'languages' => $this->commons->languages,
-                    'locale' => $this->commons->locale,
+                    'language' => App::make('sexodomeKernel')->language,
+                    'languages' => App::make('sexodomeKernel')->languages,
+                    'locale' => App::make('sexodomeKernel')->locale,
                     'sites' => $sites
                 ]);
             }
@@ -631,20 +624,20 @@ class ConfigController extends Controller
 
             if ($newSite->have_domain == 0) {
                 // Alta del subdominio en CF
-                $clientCF = new CF($this->commons->cloudFlareCfg['email'], $this->commons->cloudFlareCfg['key']);
+                $clientCF = new CF(App::make('sexodomeKernel')->cloudFlareCfg['email'], App::make('sexodomeKernel')->cloudFlareCfg['key']);
                 try {
                     $subdomain = $request->input('subdomain');
 
                     $clientCF->rec_new(array(
-                        'z' => $this->commons->cloudFlareCfg['zone'],
-                        'name' => $subdomain . "." . $this->commons->cloudFlareCfg['zone'],
+                        'z' => App::make('sexodomeKernel')->cloudFlareCfg['zone'],
+                        'name' => $subdomain . "." . App::make('sexodomeKernel')->cloudFlareCfg['zone'],
                         'ttl' => 1,
                         'type' => 'A',
-                        'content' => $this->commons->cloudFlareCfg['ip']
+                        'content' => App::make('sexodomeKernel')->cloudFlareCfg['ip']
                     ));
 
                     return redirect()->route('sites', [
-                        'locale' => $this->commons->locale
+                        'locale' => App::make('sexodomeKernel')->locale
                     ]);
 
                 } catch (CFException $e) {
@@ -652,21 +645,21 @@ class ConfigController extends Controller
                 }
             } else {
                 return redirect()->route('site', [
-                    'locale'  => $this->commons->locale,
+                    'locale'  => App::make('sexodomeKernel')->locale,
                     'site_id' => $newSite->id,
                 ]);
             }
         }
 
         return view('panel.add_site', [
-            'language' => $this->commons->language,
-            'languages' => $this->commons->languages,
-            'locale' => $this->commons->locale,
+            'language' => App::make('sexodomeKernel')->language,
+            'languages' => App::make('sexodomeKernel')->languages,
+            'locale' => App::make('sexodomeKernel')->locale,
             'sites' => $sites
         ]);
     }
 
-    public function deleteSite($locale, $site_id)
+    public function deleteSite($site_id)
     {
         $site = Site::find($site_id);
 
@@ -680,10 +673,10 @@ class ConfigController extends Controller
 
         $site->delete();
 
-        return redirect()->route('sites', ['locale' => $this->commons->locale]);
+        return redirect()->route('sites', ['locale' => App::make('sexodomeKernel')->locale]);
     }
 
-    public function checkSubdomain($locale, Request $request)
+    public function checkSubdomain(Request $request)
     {
         $subdomain = $request->input('subdomain');
 
@@ -702,7 +695,7 @@ class ConfigController extends Controller
         return json_encode(array('status' => $status));
     }
 
-    public function checkDomain($locale, Request $request)
+    public function checkDomain(Request $request)
     {
         $domain = $request->input('domain');
 
@@ -721,7 +714,7 @@ class ConfigController extends Controller
         return json_encode(array('status' => $status));
     }
 
-    public function updateGoogleData($locale, $site_id, Request $request)
+    public function updateGoogleData($site_id, Request $request)
     {
         $site = Site::find($site_id);
 
@@ -741,7 +734,7 @@ class ConfigController extends Controller
         return json_encode(array('status' => $status));
     }
 
-    public function updateIframeData($locale, $site_id, Request $request)
+    public function updateIframeData($site_id, Request $request)
     {
         $site = Site::find($site_id);
 
@@ -761,7 +754,7 @@ class ConfigController extends Controller
         return json_encode(array('status' => $status));
     }
 
-    public function updateLogo($locale, $site_id, Request $request)
+    public function updateLogo($site_id, Request $request)
     {
         $site = Site::find($site_id);
 
@@ -838,10 +831,10 @@ class ConfigController extends Controller
             }
         }
 
-        return redirect()->route('site', ['locale' => $this->commons->locale, 'site_id' => $site->id]);
+        return redirect()->route('site', ['locale' => App::make('sexodomeKernel')->locale, 'site_id' => $site->id]);
     }
 
-    public function updateColors($locale, $site_id, Request $request)
+    public function updateColors($site_id, Request $request)
     {
         $site = Site::find($site_id);
 
@@ -876,7 +869,7 @@ class ConfigController extends Controller
         return json_encode(array('status' => $status));
     }
 
-    public function ajaxSaveCronJob($locale, Request $request)
+    public function ajaxSaveCronJob(Request $request)
     {
         $channel = Channel::where('name', $request->input('feed_name'))->first();
 
@@ -892,10 +885,10 @@ class ConfigController extends Controller
 
         $queueParams = [
             'feed_name' => $request->input('feed_name'),
-            'site_id' => $request->input('site_id'),
-            'max' => $request->input('max'),
-            'duration' => $request->input('duration'),
-            'tags' => $tags,
+            'site_id'   => $request->input('site_id'),
+            'max'       => $request->input('max'),
+            'duration'  => $request->input('duration'),
+            'tags'      => $tags,
         ];
 
         if ($request->input('only_with_pornstars') == 1) {
@@ -915,7 +908,7 @@ class ConfigController extends Controller
         return json_encode(array('status' => $status));
     }
 
-    public function deleteCronJob($locale, $cronjob_id)
+    public function deleteCronJob($cronjob_id)
     {
         $cronjob = CronJob::find($cronjob_id);
 
@@ -934,7 +927,7 @@ class ConfigController extends Controller
         return json_encode(array('status' => $status));
     }
 
-    public function ajaxPopunders($locale, $site_id)
+    public function ajaxPopunders($site_id)
     {
         $site = Site::find($site_id);
 
@@ -946,13 +939,13 @@ class ConfigController extends Controller
 
         return view('panel.ajax._ajax_site_popunders', [
             'popunders' => $popunders,
-            'language' => $this->commons->language,
-            'languages' => $this->commons->languages,
-            'locale' => $this->commons->locale,
+            'language' => App::make('sexodomeKernel')->language,
+            'languages' => App::make('sexodomeKernel')->languages,
+            'locale' => App::make('sexodomeKernel')->locale,
         ]);
     }
 
-    public function ajaxSavePopunder($locale, $site_id, Request $request)
+    public function ajaxSavePopunder($site_id, Request $request)
     {
         $site = Site::find($site_id);
 
@@ -970,7 +963,7 @@ class ConfigController extends Controller
         return json_encode(array('status' => $status = true));
     }
 
-    public function ajaxDeletePopunder($locale, $popunder_id)
+    public function ajaxDeletePopunder($popunder_id)
     {
         $popunder = Popunder::find($popunder_id);
 
@@ -983,7 +976,7 @@ class ConfigController extends Controller
         return json_encode(array('status' => $status = true));
     }
 
-    public function categoryThumbs($locale, $category_id)
+    public function categoryThumbs($category_id)
     {
         $category = Category::find($category_id);
 
@@ -993,11 +986,10 @@ class ConfigController extends Controller
 
         $site_type_id = $category->site->type_id;
 
-        if ($site_type_id == 1) {
+        if ($site_type_id == App::make('sexodomeKernel')->sex_types['straigth']) {
             $files = File::allFiles(public_path()."/categories_market");
         } else {
             $files = File::allFiles(public_path()."/categories_market_gay");
-
         }
 
         $filenames = [];
@@ -1009,12 +1001,12 @@ class ConfigController extends Controller
         return view('panel.ajax._ajax_category_thumbs', [
             'category'  => $category,
             'filenames' => $filenames,
-            'language'  => $this->commons->language,
-            'languages' => $this->commons->languages
+            'language'  => App::make('sexodomeKernel')->language,
+            'languages' => App::make('sexodomeKernel')->languages
         ]);
     }
 
-    public function categoryUnlock($locale, $category_translation_id)
+    public function categoryUnlock($category_translation_id)
     {
         $categoryTranslation = CategoryTranslation::find($category_translation_id);
 
@@ -1074,7 +1066,7 @@ class ConfigController extends Controller
         return json_encode($data);
     }
 
-    public function orderCategories($locale, $site_id, Request $request)
+    public function orderCategories($site_id, Request $request)
     {
         $sites = Site::where('user_id', '=', Auth::user()->id)
             ->orderBy('language_id', 'asc')
@@ -1093,9 +1085,13 @@ class ConfigController extends Controller
 
         $site = Site::find($site_id);
 
+        if (!$site) {
+            abort(404, 'Site not found');
+        }
+
         DB::table('categories')->where('site_id', $site->id)->update(['cache_order' => -999999]);
 
-        $categories = Category::getTranslationByStatus(1, $this->commons->language->id)
+        $categories = Category::getTranslationByStatus(1, App::make('sexodomeKernel')->language->id)
             ->where('site_id', '=', $site->id)
             ->orderBy('categories.cache_order', 'DESC')
             ->orderBy('categories.nscenes', 'DESC')
@@ -1105,14 +1101,14 @@ class ConfigController extends Controller
         return view('panel.categories_order', [
             'sites' => $sites,
             'site' => Site::find($site_id),
-            'language' => $this->commons->language,
-            'languages' => $this->commons->languages,
-            'locale' => $this->commons->locale,
+            'language' => App::make('sexodomeKernel')->language,
+            'languages' => App::make('sexodomeKernel')->languages,
+            'locale' => App::make('sexodomeKernel')->locale,
             'categories' => $categories
         ]);
     }
 
-    public function categoryTags($locale, $category_id, Request $request)
+    public function categoryTags($category_id, Request $request)
     {
         $category = Category::find($category_id);
 
@@ -1140,7 +1136,51 @@ class ConfigController extends Controller
             'category' => $category,
             'category_tags' => $category_tags,
             'tags' => $site_tags,
-            'locale' => $this->commons->locale
+            'locale' => App::make('sexodomeKernel')->locale
         ]);
+    }
+
+    public function unverified()
+    {
+        Auth::logout();
+        return view('panel.unverified');
+    }
+
+    public function welcome()
+    {
+        return view('panel.welcome');
+    }
+
+    public function createCategory($site_id, Request $request)
+    {
+        $site = Site::find($site_id);
+
+        if (!$site) {
+            abort(404, 'Site not found');
+        }
+
+        // Si venimos por post, devolvemos resultado por json en lugar del twig.
+        if ($request->isMethod('post')) {
+            $newCategory = new Category();
+            $newCategory->site_id = $site->id;
+            $newCategory->status = 0;
+            $newCategory->text = $request->input('language_en');
+            $newCategory->save();
+
+            foreach(Language::all() as $language) {
+                $newCategoryTranslation = new CategoryTranslation();
+                $newCategoryTranslation->category_id = $newCategory->id;
+                $newCategoryTranslation->language_id = $language->id;
+                $newCategoryTranslation->name = $request->input('language_'.$language->code);
+                $newCategoryTranslation->permalink = rZeBotUtils::slugify($request->input('language_'.$language->code));
+                $newCategoryTranslation->save();
+            }
+            return json_encode(array('status' => true));
+        } else {
+            return view('panel.ajax._ajax_site_create_category', [
+                'site' => $site
+            ]);
+        }
+
     }
 }

@@ -12,11 +12,11 @@
 
     <div class="row">
         <div class="col-md-4">
-            <a href="{{route('site', ['locale'=>$locale, 'site_id' => $site->id])}}" class="btn btn-success center-block">Back to {{$site->getHost()}}</a>
+            <a href="{{route('site', ['site_id' => $site->id])}}" class="btn btn-success center-block">Back to {{$site->getHost()}}</a>
         </div>
 
         <div class="col-md-4">
-            <a href="{{route('orderCategories', ['locale'=>$locale, 'site_id' => $site->id])}}" class="btn btn-success center-block btn-update-categories-order">Update Categories Order</a>
+            <a href="{{route('orderCategories', ['site_id' => $site->id])}}" class="btn btn-success center-block btn-update-categories-order">Update Categories Order</a>
         </div>
     </div>
     

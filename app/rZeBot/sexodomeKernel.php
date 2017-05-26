@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Routing\Controller;
 use Jenssegers\Agent\Agent;
 use App\Model\Language;
-use Illuminate\Support\Facades\Route;
+use App\Model\Site;
 
 class sexodomeKernel extends Controller {
 
@@ -28,26 +28,20 @@ class sexodomeKernel extends Controller {
     public $perPageCategories;
     public $redirectWWWToNoWWW301 = false;
     public $perPagePanelPornstars;
+    public $sex_types;
 
     public function __construct()
     {
+        // instanciate global App::make('site')
+        $this->instanciateSite();
+
+        // Evitamos cargar si es consola
         if (App::runningInConsole()) {
             return;
         }
 
-        $this->routeParamters = Route::current()->parameters();
-
-        $locale = env('DEFAULT_LOCALE', "en");
-        if (isset($this->routeParamters["locale"])) {
-            $locale = $this->routeParamters["locale"];
-        }
         // go to admin panel if no site
-        $this->site = rZeBotUtils::getSiteFromHost();
-
-        $needRedirect301 = rZeBotUtils::checkRedirection301($this->site);
-//        if ($needRedirect301 !== false) {
-//            $this->redirectWWWToNoWWW301 = $needRedirect301;
-//        }
+        $this->site = $this->getSiteFromHost();
 
         // Si estámos en un site, usamos configuramos locale del site
         if ($this->site) {
@@ -56,11 +50,17 @@ class sexodomeKernel extends Controller {
                 return Language::where('id', '=', $language_id)->first();
             });
             $locale = $this->language->code;
+            App::setLocale($locale);
+
         } else {
-            $this->language = Cache::remember('language'.$locale, env('MEMCACHED_QUERY_TIME', 30), function() use ($locale) {
+            $locale = "en";
+            // si no estámos en un site, es q estámos sexodome frontal
+            $this->language = Cache::remember('language_en', env('MEMCACHED_QUERY_TIME', 30), function() use ($locale) {
                 return Language::where('code', '=', $locale)->first();
             });
         }
+
+        $this->locale = $locale;
 
         // per page setups
         $this->perPage = 48;
@@ -70,9 +70,12 @@ class sexodomeKernel extends Controller {
         $this->perPageJobs = 15;
         $this->perPagePanelPornstars = 12;
 
-        // set locale
-        App::setLocale($locale);
-        $this->locale = $locale;
+        // sex types
+        $this->sex_types = [
+            'straigth' => 1,
+            'gay'      => 2,
+            'trans'    => 3
+        ];
 
         // all valid languages
         $this->languages = Cache::remember('languages', env('MEMCACHED_QUERY_TIME', 30), function() use ($locale) {
@@ -148,8 +151,97 @@ class sexodomeKernel extends Controller {
     {
         return $this->site;
     }
+
     public function getLanguage()
     {
         return $this->language;
+    }
+
+    /**
+     * get site or run exceptions from host
+     *
+     * @return bool
+     */
+    public function getSiteFromHost() {
+        $urlData = parse_url($_SERVER["HTTP_HOST"]);
+        $path = $urlData["path"];
+
+        $parts = explode(".", $path);
+
+        if (count($parts) == 2 && $_SERVER["HTTP_HOST"] === sexodomeKernel::getMainPlataformDomain()) {
+            // ----------------------------------- Dominio de la propia plataforma formato 'domain.com'
+            return false;
+        } elseif (count($parts) == 2 && $_SERVER["HTTP_HOST"] != sexodomeKernel::getMainPlataformDomain()) {
+            // ----------------------------------- Dominio externo formato 'domain.com'
+            $domain = $parts[0];
+            $ext = $parts[1];
+            $fullDomain = $domain . "." . $ext;
+
+            $site = Cache::remember('site_'.$fullDomain, env('MEMCACHED_QUERY_TIME', 30), function() use ($fullDomain) {
+                return Site::where('domain', $fullDomain)->where('status', 1)->first();
+            });
+
+            return $site;
+
+        } elseif (count($parts) == 3 && $_SERVER["HTTP_HOST"] === "accounts.".sexodomeKernel::getMainPlataformDomain()) {
+            // ----------------------------------- Dominio de miembros formato 'accounts.domain.com'
+            return false;
+        } elseif (count($parts) == 3 && $parts[0] == 'www' && $_SERVER["HTTP_HOST"] === "www.".sexodomeKernel::getMainPlataformDomain()) {
+            // ----------------------------------- Dominio de la propia plataforma formato 'www.domain.com'
+            return false;
+        } elseif (count($parts) == 3 && $parts[0] == 'www' && $_SERVER["HTTP_HOST"] != "www.".sexodomeKernel::getMainPlataformDomain()) {
+            // ----------------------------------- Dominio externo formato 'www.domain.com'
+            $domain = $parts[1];
+            $ext    = $parts[2];
+            $fullDomain = $domain.".".$ext;
+            $site = Cache::remember('site_'.$fullDomain, env('MEMCACHED_QUERY_TIME', 30), function() use ($fullDomain) {
+                return Site::where('domain', $fullDomain)->where('status', 1)->first();
+            });
+
+            if (!$site) {
+                abort("403", "Domain not allowed");
+                return false;
+            } else {
+                return $site;
+            }
+        } elseif (count($parts) == 3 && $parts[0] !== 'www' && $_SERVER["HTTP_HOST"] != "www.".sexodomeKernel::getMainPlataformDomain()) {
+            // ----------------------------------- Subdominio de la plataforma formato 'subdominio.plataforma.com'
+            $subdomain = $parts[0];
+            $site = Cache::remember('site_'.$subdomain, env('MEMCACHED_QUERY_TIME', 30), function() use ($subdomain) {
+                return Site::where('name', $subdomain)->where('status', 1)->first();
+            });
+
+            if (!$site) {
+                abort("403", "Subdomain not allowed");
+                return false;
+            } else {
+                return $site;
+            }
+
+        } elseif (count($parts) > 3) {
+            return false;
+        }
+
+        return false;
+    }
+
+    /**
+     * Instancia la variable global 'site' para utilizar mediante App::make('site')
+     */
+    public function instanciateSite()
+    {
+        if (isset($_SERVER['HTTP_HOST'])) {
+            $domain = $_SERVER['HTTP_HOST'];
+
+            $site = Cache::remember('domain_'.$domain, env('MEMCACHED_QUERY_TIME', 30), function() use ($domain) {
+                return Site::where('domain', $domain)->where('status', 1)->first();
+            });
+
+            if ($site) {
+                App::instance('site', $site);
+            } else {
+                App::instance('site', false);
+            }
+        }
     }
 }

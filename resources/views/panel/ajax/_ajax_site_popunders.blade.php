@@ -14,7 +14,7 @@
                 <b>URL: </b> {{$popunder->url}}
             </div>
             <div class="col-md-2">
-                <a href="{{route('ajaxDeletePopunder', ['locale' => $locale, 'popunder_id' => $popunder->id])}}" class="delete-site-popunder-btn btn btn-danger">Delete popunder</a>
+                <a href="{{route('ajaxDeletePopunder', ['popunder_id' => $popunder->id])}}" class="delete-site-popunder-btn btn btn-danger">Delete popunder</a>
             </div>
 
             <div class="clearfix"></div>

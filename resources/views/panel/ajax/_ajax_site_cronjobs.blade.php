@@ -52,7 +52,7 @@
         </div>
 
         <div class="col-md-2">
-            <a href="{{route('deleteCronJob', ['locale' => $locale, "cronjob_id" => $cronjob->id])}}" class="btn btn-danger delete-site-cronjob-btn" style="float:right;">DELETE CRONJOB</a>
+            <a href="{{route('deleteCronJob', ["cronjob_id" => $cronjob->id])}}" class="btn btn-danger delete-site-cronjob-btn" style="float:right;">DELETE CRONJOB</a>
         </div>
 
     </div>

@@ -1,6 +1,6 @@
 <div class="col-md-12 detail-logo">
 
-    <form action="{{route('updateLogo', ['locale' => $locale, 'site_id' => $site->id])}}" enctype="multipart/form-data" method="post">
+    <form action="{{route('updateLogo', ['site_id' => $site->id])}}" enctype="multipart/form-data" method="post">
         <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
 
         <div class="col-md-5">

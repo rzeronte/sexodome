@@ -7,11 +7,6 @@ use App\rZeBot\sexodomeKernel;
 
 class WebController extends Controller
 {
-    var $commons;
-    public function __construct()
-    {
-        $this->commons = new sexodomeKernel();
-    }
 
     public function home()
     {

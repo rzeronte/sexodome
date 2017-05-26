@@ -8,7 +8,7 @@
 
     @foreach($tags as $tag)
         <div class="col-md-4 coloreable" style="padding:10px;">
-            <form action="{{route('saveTagTranslation', ['locale'=>$locale, 'tag_id' => $tag->id, 'q'=> Request::input("q"), 'page' => Request::input("page")])}}" method="post" class="ajax-form">
+            <form action="{{route('saveTagTranslation', ['tag_id' => $tag->id, 'q'=> Request::input("q"), 'page' => Request::input("page")])}}" method="post" class="ajax-form">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                 <div class="col-md-3">
                     <input type="submit"class="btn btn-primary" value="Update"/>

@@ -1,7 +1,7 @@
     <div class="col-md-12 detail-categories">
 
     <div class="row">
-        <form action="{{route('ajaxSiteCategories', ['locale' => $locale, 'site_id' => $site->id])}}" class="category-search-form">
+        <form action="{{route('ajaxSiteCategories', ['site_id' => $site->id])}}" class="category-search-form">
             <div class="col-md-4">
                 <input type="text" placeholder="type category name" name="q" class="form-control"/>
             </div>
@@ -17,7 +17,8 @@
 
 
             <div class="col-md-4 text-right">
-                <a href="{{route('orderCategories', ['locale' => $locale, 'site_id' => $site->id])}}" class="btn btn-success">Manual Order</a>
+                <a href="{{route('orderCategories', ['site_id' => $site->id])}}" class="btn btn-success"><i class="glyphicon glyphicon-th"></i> Manage order</a>
+                <button type="button" class="seo-info-keywords btn btn-success btn-create-category" data-toggle="modal" data-target="#modal-sexodome" data-url="{{ route('createCategory', ['site_id' => $site->id]) }}" style=""><i class="glyphicon glyphicon-plus-sign"></i> Create category</button>
             </div>
 
         </form>

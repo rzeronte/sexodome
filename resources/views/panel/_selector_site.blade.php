@@ -7,12 +7,12 @@
                 @foreach($sites as $s)
                     @if (isset($site))
                         @if ($s->id != $site->id)
-                            <option value="{{$s->id}}" data-content="@include('panel._selector_site_option')" data-action="{{route('site', ['locale' => $locale, 'site_id' => $s->id])}}">{{$s->getHost()}}</option>
+                            <option value="{{$s->id}}" data-content="@include('panel._selector_site_option')" data-action="{{route('site', ['site_id' => $s->id])}}">{{$s->getHost()}}</option>
                         @else
-                            <option value="{{$s->id}}" data-content="@include('panel._selector_site_option')" data-action="{{route('site', ['locale' => $locale, 'site_id' => $s->id])}}" selected>{{$s->getHost()}}</option>
+                            <option value="{{$s->id}}" data-content="@include('panel._selector_site_option')" data-action="{{route('site', ['site_id' => $s->id])}}" selected>{{$s->getHost()}}</option>
                         @endif
                     @else
-                        <option value="{{$s->id}}" data-content="@include('panel._selector_site_option')" data-action="{{route('site', ['locale' => $locale, 'site_id' => $s->id])}}">{{$s->getHost()}}</option>
+                        <option value="{{$s->id}}" data-content="@include('panel._selector_site_option')" data-action="{{route('site', ['site_id' => $s->id])}}">{{$s->getHost()}}</option>
                     @endif
                 @endforeach
             </select>

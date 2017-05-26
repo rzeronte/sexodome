@@ -14,73 +14,7 @@ use Illuminate\Support\Facades\Cache;
 
 class rZeBotUtils
 {
-    /**
-     * get site or run exceptions from host
-     *
-     * @return bool
-     */
-    static function getSiteFromHost() {
-        $urlData = parse_url($_SERVER["HTTP_HOST"]);
-        $path = $urlData["path"];
 
-        $parts = explode(".", $path);
-
-        if (count($parts) == 2 && $_SERVER["HTTP_HOST"] === sexodomeKernel::getMainPlataformDomain()) {
-            // ----------------------------------- Dominio de la propia plataforma formato 'domain.com'
-            return false;
-        } elseif (count($parts) == 2 && $_SERVER["HTTP_HOST"] != sexodomeKernel::getMainPlataformDomain()) {
-            // ----------------------------------- Dominio externo formato 'domain.com'
-            $domain = $parts[0];
-            $ext = $parts[1];
-            $fullDomain = $domain . "." . $ext;
-
-            $site = Cache::remember('site_'.$fullDomain, env('MEMCACHED_QUERY_TIME', 30), function() use ($fullDomain) {
-                return Site::where('domain', $fullDomain)->where('status', 1)->first();
-            });
-
-            return $site;
-
-        } elseif (count($parts) == 3 && $_SERVER["HTTP_HOST"] === "accounts.".sexodomeKernel::getMainPlataformDomain()) {
-            // ----------------------------------- Dominio de miembros formato 'accounts.domain.com'
-            return false;
-        } elseif (count($parts) == 3 && $parts[0] == 'www' && $_SERVER["HTTP_HOST"] === "www.".sexodomeKernel::getMainPlataformDomain()) {
-            // ----------------------------------- Dominio de la propia plataforma formato 'www.domain.com'
-            return false;
-        } elseif (count($parts) == 3 && $parts[0] == 'www' && $_SERVER["HTTP_HOST"] != "www.".sexodomeKernel::getMainPlataformDomain()) {
-            // ----------------------------------- Dominio externo formato 'www.domain.com'
-            $domain = $parts[1];
-            $ext    = $parts[2];
-            $fullDomain = $domain.".".$ext;
-            $site = Cache::remember('site_'.$fullDomain, env('MEMCACHED_QUERY_TIME', 30), function() use ($fullDomain) {
-                return Site::where('domain', $fullDomain)->where('status', 1)->first();
-            });
-
-            if (!$site) {
-                abort("403", "Domain not allowed");
-                return false;
-            } else {
-                return $site;
-            }
-        } elseif (count($parts) == 3 && $parts[0] !== 'www' && $_SERVER["HTTP_HOST"] != "www.".sexodomeKernel::getMainPlataformDomain()) {
-            // ----------------------------------- Subdominio de la plataforma formato 'subdominio.plataforma.com'
-            $subdomain = $parts[0];
-            $site = Cache::remember('site_'.$subdomain, env('MEMCACHED_QUERY_TIME', 30), function() use ($subdomain) {
-                return Site::where('name', $subdomain)->where('status', 1)->first();
-            });
-
-            if (!$site) {
-                abort("403", "Subdomain not allowed");
-                return false;
-            } else {
-                return $site;
-            }
-
-        } elseif (count($parts) > 3) {
-            return false;
-        }
-
-        return false;
-    }
 
     /**
      * format console message

@@ -45,7 +45,7 @@
 
                 </div>
                 <div class="col-md-2">
-                    <a href="{{route('deleteCronJob', ['locale' => $locale, "cronjob_id" => $cronjob->id])}}" class="btn btn-danger delete-site-cronjob-btn" style="float:right;">DELETE CRONJOB</a>
+                    <a href="{{route('deleteCronJob', ["cronjob_id" => $cronjob->id])}}" class="btn btn-danger delete-site-cronjob-btn" style="float:right;">DELETE CRONJOB</a>
                 </div>
 
             </div>
@@ -62,7 +62,7 @@
         <?php $loop = 0 ?>
         @foreach($channels as $channel)
             <div class="row" style="margin:0px;padding:15px;">
-                <form class="form-create-cronjob" data-update-cronjobs-url="{{route('ajaxCronJobs', ['locale' => $locale, 'site_id' => $site->id])}}" action="{{route('ajaxSaveCronJob', ['locale' => $locale])}}">
+                <form class="form-create-cronjob" data-update-cronjobs-url="{{route('ajaxCronJobs', ['site_id' => $site->id])}}" action="{{route('ajaxSaveCronJob', ['locale' => $locale])}}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                     <input type="hidden" name="feed_name" value="{{ $channel->name }}"/>
                     <input type="hidden" name="site_id" value="{{$site->id}}"/>

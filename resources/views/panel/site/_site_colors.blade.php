@@ -1,6 +1,6 @@
 <div class="col-md-12 detail-colors">
 
-    <form action="{{route('updateColors', ['locale' => $locale, 'site_id' => $site->id])}}" class="form-update-color-data">
+    <form action="{{route('updateColors', ['site_id' => $site->id])}}" class="form-update-color-data">
         <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
 
         <div class="col-md-2">

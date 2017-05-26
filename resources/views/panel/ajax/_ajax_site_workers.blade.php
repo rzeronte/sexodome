@@ -71,6 +71,6 @@
 </div>
 
 <div class="row site_workers_paginator">
-    <?php $infojobs->setPath("/".$locale.'/workers/'.$site->id);?>
+    <?php $infojobs->setPath('/workers/'.$site->id);?>
     <?php echo $infojobs->render(); ?>
 </div>

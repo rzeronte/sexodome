@@ -15,7 +15,7 @@
             <p><b>Add a new site</b></p>
         </div>
 
-        <form action="{{route('addSite', ['locale'=>$locale])}}" method="post">
+        <form action="{{route('addSite', [])}}" method="post">
             <div class="row">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                 <div class="col-md-2 col-md-offset-5" style="text-align: center;padding:10px;">
@@ -69,12 +69,12 @@
             </div>
         </form>
 
-        <form id="form_check_subdomain" action="{{ route('checkSubdomain', [ "locale" => $locale ]) }}">
+        <form id="form_check_subdomain" action="{{ route('checkSubdomain', []) }}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
             <input type="hidden" name="subdomain" value="" class="subdomain">
         </form>
 
-        <form id="form_check_domain" action="{{ route('checkDomain', [ "locale" => $locale ]) }}">
+        <form id="form_check_domain" action="{{ route('checkDomain', []) }}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
             <input type="hidden" name="domain" value="" class="domain">
         </form>

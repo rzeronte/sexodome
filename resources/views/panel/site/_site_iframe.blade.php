@@ -1,7 +1,7 @@
 <div class="col-md-12 detail-iframe">
 
     <div class="row" style="margin-bottom:10px;">
-        <form class="form-update-iframe-data" action="{{route('updateIframeData', ['locale' => $locale, 'site_id' => $site->id])}}">
+        <form class="form-update-iframe-data" action="{{route('updateIframeData', ['site_id' => $site->id])}}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
 
             <div class="col-md-5">

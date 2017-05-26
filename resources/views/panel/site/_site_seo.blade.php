@@ -1,5 +1,5 @@
 <div class="col-md-12 detail-seo">
-    <form method="post" class="form-update-seo-data" action="{{route('updateSiteSEO', ['locale'=>$locale, 'site_id'=>$site->id])}}">
+    <form method="post" class="form-update-seo-data" action="{{route('updateSiteSEO', ['site_id'=>$site->id])}}">
 
         <div class="row" style="padding:10px;">
             <div class="col-md-3">
