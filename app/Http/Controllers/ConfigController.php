@@ -391,7 +391,6 @@ class ConfigController extends Controller
             'channels' => Channel::all(),
             'language' => App::make('sexodomeKernel')->language,
             'languages' => App::make('sexodomeKernel')->languages,
-            'locale' => App::make('sexodomeKernel')->locale,
             'title' => "Admin Panel",
             'sites' => $sites,
             'fi' => $fi,

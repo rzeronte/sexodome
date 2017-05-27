@@ -11,7 +11,7 @@
         <div class="col-md-12 coloreable category-form-{{$category->id}}" style="padding:10px;">
             <div class="row container">
 
-                <?php $translation = $category->translations()->where('language_id',$language->id)->first(); ?>
+                <?php $translation = $category->translations()->where('language_id', $language->id)->first(); ?>
 
                 <div class="col-md-4">
                     <div class="row">
