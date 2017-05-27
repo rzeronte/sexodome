@@ -143,7 +143,8 @@ class sexodomeKernel extends Controller {
      *
      * @return bool
      */
-    public function getSiteFromHost() {
+    public function getSiteFromHost()
+    {
         $urlData = parse_url($_SERVER["HTTP_HOST"]);
         $path = $urlData["path"];
 
@@ -162,12 +163,12 @@ class sexodomeKernel extends Controller {
                 return Site::where('domain', $fullDomain)->where('status', 1)->first();
             });
 
-            $this->setLocaleFromSite($site->language->id); // Seteamos el locale con el idioma del site
+            $this->setLanguage($site->language->id); // Seteamos el locale con el idioma del site
 
             $this->site =  $site;
 
         } elseif (count($parts) == 3 && $_SERVER["HTTP_HOST"] === "accounts.".sexodomeKernel::getMainPlataformDomain()) {
-            $this->setLocaleFromRoute();
+            $this->setLanguage();
             // ----------------------------------- Dominio de miembros formato 'accounts.domain.com'
             return false;
         } elseif (count($parts) == 3 && $parts[0] == 'www' && $_SERVER["HTTP_HOST"] === "www.".sexodomeKernel::getMainPlataformDomain()) {
@@ -186,7 +187,7 @@ class sexodomeKernel extends Controller {
                 abort("403", "Domain not allowed");
                 return false;
             } else {
-                $this->setLocaleFromSite($site->language->id); // Seteamos el locale con el idioma del site
+                $this->setLanguage($site->language->id); // Seteamos el locale con el idioma del site
                 $this->site =  $site;
             }
         } elseif (count($parts) == 3 && $parts[0] !== 'www' && $_SERVER["HTTP_HOST"] != "www.".sexodomeKernel::getMainPlataformDomain()) {
@@ -200,7 +201,7 @@ class sexodomeKernel extends Controller {
                 abort("403", "Subdomain not allowed");
                 return false;
             } else {
-                $this->setLocaleFromSite($site->language->id); // Seteamos el locale con el idioma del site
+                $this->setLanguage($site->language->id); // Seteamos el locale con el idioma del site
                 $this->site =  $site;
             }
 
@@ -231,20 +232,18 @@ class sexodomeKernel extends Controller {
         }
     }
 
-    public function setLocaleFromRoute()
+    public function setLanguage($language_id = false)
     {
-        // Establecemos de paso el locale y language en sexodomeKernel
-        $this->language = Cache::remember('language_'.App::getLocale(), env('MEMCACHED_QUERY_TIME', 30), function() {
-            return Language::where('code', '=', App::getLocale())->first();
-        });
-    }
+        if ($language_id !== false) {
+            $this->language = Cache::remember('language_'.$language_id, env('MEMCACHED_QUERY_TIME', 30), function() use ($language_id) {
+                return Language::where('id', '=', $language_id)->first();
+            });
 
-    public function setLocaleFromSite($language_id)
-    {
-        $this->language = Cache::remember('language_'.$language_id, env('MEMCACHED_QUERY_TIME', 30), function() use ($language_id) {
-            return Language::where('id', '=', $language_id)->first();
-        });
-        $locale = $this->language->code;
-        App::setLocale($locale);
+            App::setLocale($this->language->code);
+        } else {
+            $this->language = Cache::remember('language_'.App::getLocale(), env('MEMCACHED_QUERY_TIME', 30), function() {
+                return Language::where('code', '=', App::getLocale())->first();
+            });
+        }
     }
 }

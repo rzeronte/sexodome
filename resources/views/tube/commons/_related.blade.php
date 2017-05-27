@@ -57,7 +57,7 @@
 
                                 <ul class="list-inline">
                                     @foreach ($scene->categories()->limit(3)->get() as $category)
-                                        <?php $translation = $category->translations()->where('language_id',$language->id)->first(); ?>
+                                        <?php $translation = $category->translations()->where('language_id',$sexodomeKernel->getLanguage()->id)->first(); ?>
                                         <?php if ($translation && count(explode(" ", $translation->name)) <=2): ?>
                                         <li>
                                             <span class="label label-default">
