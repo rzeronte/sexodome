@@ -1,7 +1,7 @@
 <head>
     <title>{{$sexodomeKernel->getLanguage()->title}}</title>
 
-    <meta name="description" content="{{$language->description}}" />
+    <meta name="description" content="{{$sexodomeKernel->getLanguage()->description}}" />
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,7 +15,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 
     {{--analytics--}}
-    {{$language->google_analytics}}
+    {{$sexodomeKernel->getLanguage()->google_analytics}}
 </head>
 
 <?php

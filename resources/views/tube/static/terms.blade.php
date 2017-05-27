@@ -85,9 +85,4 @@
         </div>
     </main>
 
-    @if ($language->iframe_src != "")
-        <section class="container">
-            @include('tube._iframe_network')
-        </section>
-    @endif
 @endsection
