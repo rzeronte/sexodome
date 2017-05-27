@@ -41,7 +41,7 @@ class sexodomeKernel extends Controller {
         }
 
         // go to admin panel if no site
-        $this->site = $this->getSiteFromHost();
+        $this->getSiteFromHost();
 
         // per page setups
         $this->perPage = 48;
@@ -164,7 +164,7 @@ class sexodomeKernel extends Controller {
 
             $this->setLocaleFromSite($site->language->id); // Seteamos el locale con el idioma del site
 
-            return $site;
+            $this->site =  $site;
 
         } elseif (count($parts) == 3 && $_SERVER["HTTP_HOST"] === "accounts.".sexodomeKernel::getMainPlataformDomain()) {
             $this->setLocaleFromRoute();
@@ -187,7 +187,7 @@ class sexodomeKernel extends Controller {
                 return false;
             } else {
                 $this->setLocaleFromSite($site->language->id); // Seteamos el locale con el idioma del site
-                return $site;
+                $this->site =  $site;
             }
         } elseif (count($parts) == 3 && $parts[0] !== 'www' && $_SERVER["HTTP_HOST"] != "www.".sexodomeKernel::getMainPlataformDomain()) {
             // ----------------------------------- Subdominio de la plataforma formato 'subdominio.plataforma.com'
@@ -201,7 +201,7 @@ class sexodomeKernel extends Controller {
                 return false;
             } else {
                 $this->setLocaleFromSite($site->language->id); // Seteamos el locale con el idioma del site
-                return $site;
+                $this->site =  $site;
             }
 
         } elseif (count($parts) > 3) {

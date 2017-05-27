@@ -125,7 +125,6 @@ class ConfigController extends Controller
         $categories = Category::getTranslationSearch($query_string, App::make('sexodomeKernel')->language->id, $site->id, $order_by_nscenes)
             ->paginate(App::make('sexodomeKernel')->perPageScenes);
 
-        echo App::make('sexodomeKernel')->language->id;
         return view('panel.ajax._ajax_site_categories', [
             'site' => $site,
             'categories' => $categories,
@@ -405,7 +404,7 @@ class ConfigController extends Controller
             abort(401, "Unauthorized");
         }
 
-        // Activamos el idioma del sitio
+        // Si el idioma es distinto, actualizamos locale e idioma
         if ($site->language->code != App::getLocale()) {
             App::setLocale($site->language->code);
             App::make('sexodomeKernel')->language = $site->language;
@@ -1087,10 +1086,10 @@ class ConfigController extends Controller
             ->get();
 
         return view('panel.categories_order', [
-            'sites' => $sites,
-            'site' => Site::find($site_id),
-            'language' => App::make('sexodomeKernel')->language,
-            'languages' => App::make('sexodomeKernel')->languages,
+            'sites'      => $sites,
+            'site'       => Site::find($site_id),
+            'language'   => App::make('sexodomeKernel')->language,
+            'languages'  => App::make('sexodomeKernel')->languages,
             'categories' => $categories
         ]);
     }
@@ -1108,21 +1107,17 @@ class ConfigController extends Controller
             $category->tags()->sync($categories_ids);
 
             return json_encode(array('status' => 1));
-
         }
-        $tags = $category->tags()->get();
 
         $category_tags = Tag::getTranslationByCategory($category, 2)->get()->pluck('id');
         $category_tags = $category_tags->all();
 
-        $site_tags = Tag::getTranslationSearch(false, 2, $category->site->id)
-            ->orderBy('permalink', 'asc')
-            ->get();
+        $site_tags = Tag::getTranslationSearch(false, 2, $category->site->id)->orderBy('permalink', 'asc')->get();
 
         return view('panel.ajax._ajax_category_tags', [
-            'category' => $category,
+            'category'      => $category,
             'category_tags' => $category_tags,
-            'tags' => $site_tags,
+            'tags'          => $site_tags,
         ]);
     }
 

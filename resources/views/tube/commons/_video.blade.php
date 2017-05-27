@@ -34,7 +34,7 @@
             </div>
 
             <div class="col-md-4">
-                @include('tube.commons._related', ['videos'=>$related])
+                @include('tube.commons._related', ['videos' => $related])
             </div>
 
         </div>
