@@ -30,7 +30,7 @@
                 <li data-original-order="{{$i}}" data-current-order="{{$i}}" data-category-id="{{$category->id}}">
                     <div class="row">
 
-                        <?php $translation = $category->translations()->where('language_id',$language->id)->first(); ?>
+                        <?php $translation = $category->translations()->where('language_id',App::make('sexodomeKernel')->getLanguage()->id)->first(); ?>
                         <div class="col-md-1">
                             <p class="current">{{$i}}</p>
                         </div>

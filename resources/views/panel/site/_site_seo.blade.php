@@ -38,7 +38,7 @@
                 </div>
                 <div class="col-md-3">
                     <select name="language_id" class="form-control">
-                        @foreach($languages as $lang)
+                        @foreach(App::make('sexodomeKernel')->getLanguages() as $lang)
                             @if ($site->language->id == $lang->id)
                                 <option value="{{$lang->id}}" selected>{{$lang->name}}</option>
                             @else

@@ -121,7 +121,7 @@
                     @if ($scene->site_have_domain == 1)
                     @else
                     @endif
-                    @foreach ($languages as $itemLang)
+                    @foreach (App::make('sexodomeKernel')->getLanguages() as $itemLang)
                         <a href="{{route('content', ['locale'=>$itemLang->code,'scene_id'=> $scene->id])}}" target="_blank"><img src="{{asset("flags/$itemLang->code.png")}}"/></a>
                     @endforeach
 

@@ -5,10 +5,6 @@ namespace App\Http\Controllers;
 use App\Model\Language;
 use App\Model\Type;
 use App\rZeBot\rZeBotUtils;
-use Illuminate\Http\Request;
-use App\rZeBot\sexodomeKernel;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\App;
 use App\Model\Site;
 use App\Model\Channel;
 use App\Model\Popunder;
@@ -18,6 +14,10 @@ use App\Model\Tag;
 use App\Model\CronJob;
 use App\Model\InfoJobs;
 use App\Model\CategoryTranslation;
+use App\rZeBot\sexodomeKernel;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Input;
@@ -28,7 +28,6 @@ class ConfigController extends Controller
 {
     public function __construct()
     {
-
         $this->middleware('CheckVerifyUser');
         $this->middleware('auth');
     }
@@ -67,18 +66,15 @@ class ConfigController extends Controller
             Auth::user()->id
         );
 
-        $sites = Site::where('user_id', '=', Auth::user()->id)->get();
         return view('panel.scenes', [
-            'scenes' => $scenes->orderBy('scenes.id', 'desc')->paginate(App::make('sexodomeKernel')->perPageScenes),
+            'scenes'       => $scenes->orderBy('scenes.id', 'desc')->paginate(App::make('sexodomeKernel')->perPageScenes),
             'query_string' => $query_string,
-            'tag_q' => $tag_query_string,
-            'publish_for' => $publish_for,
-            'language' => App::make('sexodomeKernel')->language,
-            'languages' => App::make('sexodomeKernel')->languages,
-            'site' => $site,
-            'title' => "Admin Panel",
-            'sites' => $sites,
-            'duration' => $duration,
+            'tag_q'        => $tag_query_string,
+            'publish_for'  => $publish_for,
+            'site'         => $site,
+            'title'        => "Admin Panel",
+            'sites'        => Site::where('user_id', '=', Auth::user()->id)->get(),
+            'duration'     => $duration,
         ]);
     }
 
@@ -98,11 +94,9 @@ class ConfigController extends Controller
         $tags = Tag::getTranslationSearch($query_string, App::make('sexodomeKernel')->language->id)->where('site_id', $site_id)
             ->paginate(App::make('sexodomeKernel')->perPageScenes);
 
-
         return view('panel.ajax._ajax_site_tags', [
             'site' => $site,
             'tags' => $tags,
-            'language' => App::make('sexodomeKernel')->language
         ]);
     }
 
@@ -126,9 +120,8 @@ class ConfigController extends Controller
             ->paginate(App::make('sexodomeKernel')->perPageScenes);
 
         return view('panel.ajax._ajax_site_categories', [
-            'site' => $site,
+            'site'       => $site,
             'categories' => $categories,
-            'language' => App::make('sexodomeKernel')->language
         ]);
     }
 
@@ -147,9 +140,7 @@ class ConfigController extends Controller
         $infojobs = $site->infojobs()->paginate(10);
 
         return view('panel.ajax._ajax_site_workers', [
-            'site' => $site,
-            'language' => App::make('sexodomeKernel')->language,
-            'languages' => App::make('sexodomeKernel')->languages,
+            'site'     => $site,
             'infojobs' => $infojobs,
         ]);
     }
@@ -218,13 +209,6 @@ class ConfigController extends Controller
         return json_encode(array('status' => 1));
     }
 
-    public function changeLocale($locale)
-    {
-        App::setLocale($locale);
-
-        return redirect()->route('content', ['locale' => $locale]);
-    }
-
     public function saveTranslation($scene_id, Request $request)
     {
         $scene = Scene::find($scene_id);
@@ -276,10 +260,8 @@ class ConfigController extends Controller
         $pornstars = \App\Model\Pornstar::where('site_id', '=', $site_id)->paginate(App::make('sexodomeKernel')->perPagePanelPornstars);
 
         return view('panel.ajax._ajax_site_pornstars', [
-            'site' => $site,
+            'site'      => $site,
             'pornstars' => $pornstars,
-            'language' => App::make('sexodomeKernel')->language,
-            'languages' => App::make('sexodomeKernel')->languages,
         ]);
     }
 
@@ -296,12 +278,9 @@ class ConfigController extends Controller
         }
 
         return view('panel.ajax._ajax_preview', [
-            'language' => App::make('sexodomeKernel')->language,
-            'languages' => App::make('sexodomeKernel')->languages,
             'title' => "Admin Panel",
             'scene' => $scene
         ]);
-
     }
 
     public function fetch($site_id, Request $request)
@@ -332,12 +311,13 @@ class ConfigController extends Controller
         if (strlen($tags) == 0) {
             $tags = 'false';
         }
+
         $queueParams = [
-            'feed_name' => $request->input('feed_name'),
-            'site_id' => $request->input('site_id'),
-            'max' => $request->input('max'),
-            'duration' => $request->input('duration'),
-            'tags' => $tags,
+            'feed_name'  => $request->input('feed_name'),
+            'site_id'    => $request->input('site_id'),
+            'max'        => $request->input('max'),
+            'duration'   => $request->input('duration'),
+            'tags'       => $tags,
             'categories' => $categories,
         ];
 
@@ -382,18 +362,15 @@ class ConfigController extends Controller
 
         return view('panel.sites', [
             'channels' => Channel::all(),
-            'language' => App::make('sexodomeKernel')->language,
-            'languages' => App::make('sexodomeKernel')->languages,
-            'title' => "Admin Panel",
-            'sites' => $sites,
-            'fi' => $fi,
-            'ff' => $ff,
+            'title'    => "Admin Panel",
+            'sites'    => $sites,
+            'fi'       => $fi,
+            'ff'       => $ff,
         ]);
     }
 
     public function site($site_id)
     {
-
         $site = Site::find($site_id);
 
         if (!$site) {
@@ -415,77 +392,12 @@ class ConfigController extends Controller
 
         return view('panel.site', [
             'channels'  => Channel::all(),
-            'language'  => App::make('sexodomeKernel')->language,
-            'languages' => App::make('sexodomeKernel')->languages,
             'title'     => "Admin Panel",
             'site'      => $site,
             'sites'     => Site::where('user_id', '=', Auth::user()->id)->orderBy('language_id', 'asc_')->get(),
             'fi'        => $fi,
             'ff'        => $ff,
             'types'     => Type::all(),
-        ]);
-    }
-
-    public function siteKeywords($site_id)
-    {
-        $site = Site::find($site_id);
-
-        if (!$site) {
-            abort(404, "Site not found");
-        }
-
-//        if (!(Auth::user()->id == $site->user->id)) {
-//            abort(401, "Unauthorized");
-//        }
-
-        $keywords = LaravelAnalyticsFacade::setSiteId('ga:' . $site->ga_account)->getTopKeyWords(90, $maxResults = 30);
-
-        return view('panel.ajax._ajax_site_keywords', [
-            'keywords' => $keywords,
-            'language' => App::make('sexodomeKernel')->language,
-            'languages' => App::make('sexodomeKernel')->languages
-        ]);
-    }
-
-    public function siteReferrers($site_id)
-    {
-        $site = Site::find($site_id);
-
-        if (!$site) {
-            abort(404, "Site not found");
-        }
-
-//        if (!(Auth::user()->id == $site->user->id)) {
-//            abort(401, "Unauthorized");
-//        }
-
-        $referrers = LaravelAnalyticsFacade::setSiteId('ga:' . $site->ga_account)->getTopReferrers(90, $maxResults = 30);
-
-        return view('panel.ajax._ajax_site_referrers', [
-            'referrers' => $referrers,
-            'language' => App::make('sexodomeKernel')->language,
-            'languages' => App::make('sexodomeKernel')->languages
-        ]);
-    }
-
-    public function sitePageViews($site_id)
-    {
-        $site = Site::find($site_id);
-
-//        if (!$site) {
-//            abort(404, "Site not found");
-//        }
-
-        if (!(Auth::user()->id == $site->user->id)) {
-            abort(401, "Unauthorized");
-        }
-
-        $pageViews = LaravelAnalyticsFacade::setSiteId('ga:' . $site->ga_account)->getMostVisitedPages(90, $maxResults = 30);
-
-        return view('panel.ajax._ajax_site_pageviews', [
-            'pageViews' => $pageViews,
-            'language' => App::make('sexodomeKernel')->language,
-            'languages' => App::make('sexodomeKernel')->languages
         ]);
     }
 
@@ -498,8 +410,6 @@ class ConfigController extends Controller
 
         return view('panel.ajax._ajax_scene_thumbs', [
             'scene' => $scene,
-            'language' => App::make('sexodomeKernel')->language,
-            'languages' => App::make('sexodomeKernel')->languages
         ]);
     }
 
@@ -509,12 +419,9 @@ class ConfigController extends Controller
         $scene = Scene::find($site_id);
 
         return view('panel.ajax._ajax_site_cronjobs', [
-            'site'      => $site,
-            'scene'     => $scene,
-            'language'  => App::make('sexodomeKernel')->language,
-            'languages' => App::make('sexodomeKernel')->languages,
+            'site'  => $site,
+            'scene' => $scene,
         ]);
-
     }
 
     public function updateSiteSEO($site_id, Request $request)
@@ -525,7 +432,6 @@ class ConfigController extends Controller
             abort(404, "Site not found");
         }
 
-        // Check site is from user
         if (!(Auth::user()->id == $site->user->id)) {
             abort(401, "Unauthorized");
         }
@@ -597,8 +503,6 @@ class ConfigController extends Controller
                 }
 
                 return view('panel.add_site', [
-                    'language' => App::make('sexodomeKernel')->language,
-                    'languages' => App::make('sexodomeKernel')->languages,
                     'sites' => $sites
                 ]);
             }
@@ -641,8 +545,6 @@ class ConfigController extends Controller
         }
 
         return view('panel.add_site', [
-            'language' => App::make('sexodomeKernel')->language,
-            'languages' => App::make('sexodomeKernel')->languages,
             'sites' => $sites
         ]);
     }
@@ -927,8 +829,6 @@ class ConfigController extends Controller
 
         return view('panel.ajax._ajax_site_popunders', [
             'popunders' => $popunders,
-            'language' => App::make('sexodomeKernel')->language,
-            'languages' => App::make('sexodomeKernel')->languages,
         ]);
     }
 
@@ -988,8 +888,6 @@ class ConfigController extends Controller
         return view('panel.ajax._ajax_category_thumbs', [
             'category'  => $category,
             'filenames' => $filenames,
-            'language'  => App::make('sexodomeKernel')->language,
-            'languages' => App::make('sexodomeKernel')->languages
         ]);
     }
 
@@ -1088,8 +986,6 @@ class ConfigController extends Controller
         return view('panel.categories_order', [
             'sites'      => $sites,
             'site'       => Site::find($site_id),
-            'language'   => App::make('sexodomeKernel')->language,
-            'languages'  => App::make('sexodomeKernel')->languages,
             'categories' => $categories
         ]);
     }
@@ -1162,6 +1058,5 @@ class ConfigController extends Controller
                 'site' => $site
             ]);
         }
-
     }
 }

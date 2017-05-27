@@ -11,7 +11,7 @@
         <div class="col-md-12 coloreable category-form-{{$category->id}}" style="padding:10px;">
             <div class="row container">
 
-                <?php $translation = $category->translations()->where('language_id', $language->id)->first(); ?>
+                <?php $translation = $category->translations()->where('language_id', App::make('sexodomeKernel')->getLanguage()->id)->first(); ?>
 
                 <div class="col-md-4">
                     <div class="row">
@@ -50,12 +50,12 @@
 
                     <div class="col-md-5">
                         <div class="input-group">
-                            <input name="language_{{$language->id}}" type="text" aria-describedby="basic-addon2" placeholder="" class="form-control" value="{{ $translation->name }}">
-                            <span id="basic-addon2" class="input-group-addon"><img alt="{{$translation->permalink}}" src="{{asset("flags/$language->code.png")}}"/></span>
+                            <input name="language_{{App::make('sexodomeKernel')->getLanguage()->id}}" type="text" aria-describedby="basic-addon2" placeholder="" class="form-control" value="{{ $translation->name }}">
+                            <span id="basic-addon2" class="input-group-addon"><img alt="{{$translation->permalink}}" src="{{asset("flags/".App::make('sexodomeKernel')->getLanguage()->code.".png")}}"/></span>
                         </div>
 
                         <div class="clearfix"></div>
-                        @if ($language->id != 2)
+                        @if (App::make('sexodomeKernel')->getLanguage()->id != 2)
                             <?php $translationEN = $category->translations()->where('language_id', 2)->first(); ?>
                             <small><b>Original EN:</b> {{$translationEN->name}} / {{$translationEN->permalink}}</small>
                             <br/>
