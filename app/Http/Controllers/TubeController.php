@@ -129,7 +129,7 @@ class TubeController extends Controller
         return response()->view('tube.video', [
             'video'          => $scene,
             'related'        => $related->orderBy('rate', 'desc')->limit(4)->get(),
-            'º' => App::make('sexodomeKernel')
+            'sexodomeKernel' => App::make('sexodomeKernel')
         ]);
     }
 
