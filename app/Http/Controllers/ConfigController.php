@@ -28,6 +28,7 @@ class ConfigController extends Controller
 {
     public function __construct()
     {
+
         $this->middleware('CheckVerifyUser');
         $this->middleware('auth');
     }
@@ -126,6 +127,7 @@ class ConfigController extends Controller
         $categories = Category::getTranslationSearch($query_string, App::make('sexodomeKernel')->language->id, $site->id, $order_by_nscenes)
             ->paginate(App::make('sexodomeKernel')->perPageScenes);
 
+        echo App::make('sexodomeKernel')->language->id;
         return view('panel.ajax._ajax_site_categories', [
             'site' => $site,
             'categories' => $categories,
@@ -188,10 +190,11 @@ class ConfigController extends Controller
         if (!(Auth::user()->id == $category->site->user->id)) {
             abort(401, "Unauthorized");
         }
+
         $name = $request->input('language_' . App::make('sexodomeKernel')->language->id);
         $thumb = $request->input('thumbnail');
 
-        // Buscamos si existe otra categoría en el idioma utilizado con el mismo nombre
+        // Buscamos si existe otra categoría en el idioma del site con el mismo nombre
         $alreadyCategoryTranslation = CategoryTranslation::join('categories', 'categories.id', '=', 'categories_translations.category_id')
             ->where('categories.site_id', $category->site->id)
             ->where('language_id', App::make('sexodomeKernel')->language->id)
@@ -410,25 +413,25 @@ class ConfigController extends Controller
         }
 
         // Activamos el idioma del sitio
-        /*if (App::make('sexodomeKernel')->getLanguage()->code != $site->language->code) {
+        if ($site->language->code != App::getLocale()) {
             App::setLocale($site->language->code);
-            return redirect()->route('site', ['locale' => $site->language->code, $site_id]);
-        }*/
+            App::make('sexodomeKernel')->language = $site->language;
+        }
 
         $ff = date("Y-m-d");
         $fi = date("Y-m-d", strtotime($ff . " -50 days"));
 
         return view('panel.site', [
-            'channels' => Channel::all(),
-            'language' => App::make('sexodomeKernel')->language,
+            'channels'  => Channel::all(),
+            'language'  => App::make('sexodomeKernel')->language,
             'languages' => App::make('sexodomeKernel')->languages,
-            'locale' => App::make('sexodomeKernel')->locale,
-            'title' => "Admin Panel",
-            'site' => $site,
-            'sites' => Site::where('user_id', '=', Auth::user()->id)->orderBy('language_id', 'asc_')->get(),
-            'fi' => $fi,
-            'ff' => $ff,
-            'types' => Type::all(),
+            'locale'    => App::getLocale(),
+            'title'     => "Admin Panel",
+            'site'      => $site,
+            'sites'     => Site::where('user_id', '=', Auth::user()->id)->orderBy('language_id', 'asc_')->get(),
+            'fi'        => $fi,
+            'ff'        => $ff,
+            'types'     => Type::all(),
         ]);
     }
 
@@ -515,11 +518,11 @@ class ConfigController extends Controller
         $scene = Scene::find($site_id);
 
         return view('panel.ajax._ajax_site_cronjobs', [
-            'site' => $site,
-            'scene' => $scene,
-            'language' => App::make('sexodomeKernel')->language,
+            'site'      => $site,
+            'scene'     => $scene,
+            'language'  => App::make('sexodomeKernel')->language,
             'languages' => App::make('sexodomeKernel')->languages,
-            'locale' => App::make('sexodomeKernel')->locale
+            'locale'    => App::make('sexodomeKernel')->locale
         ]);
 
     }

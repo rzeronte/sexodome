@@ -8,12 +8,12 @@ use Illuminate\Routing\Controller;
 use Jenssegers\Agent\Agent;
 use App\Model\Language;
 use App\Model\Site;
+use Illuminate\Support\Facades\Route;
 
 class sexodomeKernel extends Controller {
 
     public $language;
     public $languages;
-    public $locale;
     public $perPage;
     public $videoStatus;
     public $tagsStatus;
@@ -43,25 +43,6 @@ class sexodomeKernel extends Controller {
         // go to admin panel if no site
         $this->site = $this->getSiteFromHost();
 
-        // Si estámos en un site, usamos configuramos locale del site
-        if ($this->site) {
-            $language_id = $this->site->language_id;
-            $this->language = Cache::remember('language_'.$language_id, env('MEMCACHED_QUERY_TIME', 30), function() use ($language_id) {
-                return Language::where('id', '=', $language_id)->first();
-            });
-            $locale = $this->language->code;
-            App::setLocale($locale);
-
-        } else {
-            $locale = "en";
-            // si no estámos en un site, es q estámos sexodome frontal
-            $this->language = Cache::remember('language_en', env('MEMCACHED_QUERY_TIME', 30), function() use ($locale) {
-                return Language::where('code', '=', $locale)->first();
-            });
-        }
-
-        $this->locale = $locale;
-
         // per page setups
         $this->perPage = 48;
         $this->perPageScenes = 10;
@@ -78,7 +59,7 @@ class sexodomeKernel extends Controller {
         ];
 
         // all valid languages
-        $this->languages = Cache::remember('languages', env('MEMCACHED_QUERY_TIME', 30), function() use ($locale) {
+        $this->languages = Cache::remember('languages', env('MEMCACHED_QUERY_TIME', 30), function(){
             return Language::where('status', 1)->orderBy('code', 'asc')->get();
         });
 
@@ -181,9 +162,12 @@ class sexodomeKernel extends Controller {
                 return Site::where('domain', $fullDomain)->where('status', 1)->first();
             });
 
+            $this->setLocaleFromSite($site->language->id); // Seteamos el locale con el idioma del site
+
             return $site;
 
         } elseif (count($parts) == 3 && $_SERVER["HTTP_HOST"] === "accounts.".sexodomeKernel::getMainPlataformDomain()) {
+            $this->setLocaleFromRoute();
             // ----------------------------------- Dominio de miembros formato 'accounts.domain.com'
             return false;
         } elseif (count($parts) == 3 && $parts[0] == 'www' && $_SERVER["HTTP_HOST"] === "www.".sexodomeKernel::getMainPlataformDomain()) {
@@ -202,6 +186,7 @@ class sexodomeKernel extends Controller {
                 abort("403", "Domain not allowed");
                 return false;
             } else {
+                $this->setLocaleFromSite($site->language->id); // Seteamos el locale con el idioma del site
                 return $site;
             }
         } elseif (count($parts) == 3 && $parts[0] !== 'www' && $_SERVER["HTTP_HOST"] != "www.".sexodomeKernel::getMainPlataformDomain()) {
@@ -215,6 +200,7 @@ class sexodomeKernel extends Controller {
                 abort("403", "Subdomain not allowed");
                 return false;
             } else {
+                $this->setLocaleFromSite($site->language->id); // Seteamos el locale con el idioma del site
                 return $site;
             }
 
@@ -243,5 +229,22 @@ class sexodomeKernel extends Controller {
                 App::instance('site', false);
             }
         }
+    }
+
+    public function setLocaleFromRoute()
+    {
+        // Establecemos de paso el locale y language en sexodomeKernel
+        $this->language = Cache::remember('language_'.App::getLocale(), env('MEMCACHED_QUERY_TIME', 30), function() {
+            return Language::where('code', '=', App::getLocale())->first();
+        });
+    }
+
+    public function setLocaleFromSite($language_id)
+    {
+        $this->language = Cache::remember('language_'.$language_id, env('MEMCACHED_QUERY_TIME', 30), function() use ($language_id) {
+            return Language::where('id', '=', $language_id)->first();
+        });
+        $locale = $this->language->code;
+        App::setLocale($locale);
     }
 }
