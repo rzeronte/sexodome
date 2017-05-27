@@ -62,7 +62,7 @@
         <?php $loop = 0 ?>
         @foreach($channels as $channel)
             <div class="row" style="margin:0px;padding:15px;">
-                <form class="form-create-cronjob" data-update-cronjobs-url="{{route('ajaxCronJobs', ['site_id' => $site->id])}}" action="{{route('ajaxSaveCronJob', ['locale' => $locale])}}">
+                <form class="form-create-cronjob" data-update-cronjobs-url="{{route('ajaxCronJobs', ['site_id' => $site->id])}}" action="{{route('ajaxSaveCronJob', [])}}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                     <input type="hidden" name="feed_name" value="{{ $channel->name }}"/>
                     <input type="hidden" name="site_id" value="{{$site->id}}"/>

@@ -1,6 +1,6 @@
 <div class="col-md-12 detail-popunders">
 
-    <form id="formAddPopunder" action="{{route('ajaxSavePopunder', ["site_id" => $site->id])}}" data-ajax-popunders="{{route('ajaxPopunders', ['locale' => $locale, "site_id" => $site->id])}}">
+    <form id="formAddPopunder" action="{{route('ajaxSavePopunder', ["site_id" => $site->id])}}" data-ajax-popunders="{{route('ajaxPopunders', ["site_id" => $site->id])}}">
         <div class="row">
                 <div class="col-md-1">
                    <label>URL:</label>

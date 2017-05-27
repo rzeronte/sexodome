@@ -75,7 +75,6 @@ class ConfigController extends Controller
             'publish_for' => $publish_for,
             'language' => App::make('sexodomeKernel')->language,
             'languages' => App::make('sexodomeKernel')->languages,
-            'locale' => App::make('sexodomeKernel')->locale,
             'site' => $site,
             'title' => "Admin Panel",
             'sites' => $sites,
@@ -103,7 +102,6 @@ class ConfigController extends Controller
         return view('panel.ajax._ajax_site_tags', [
             'site' => $site,
             'tags' => $tags,
-            'locale' => App::make('sexodomeKernel')->locale,
             'language' => App::make('sexodomeKernel')->language
         ]);
     }
@@ -131,7 +129,6 @@ class ConfigController extends Controller
         return view('panel.ajax._ajax_site_categories', [
             'site' => $site,
             'categories' => $categories,
-            'locale' => App::make('sexodomeKernel')->locale,
             'language' => App::make('sexodomeKernel')->language
         ]);
     }
@@ -152,7 +149,6 @@ class ConfigController extends Controller
 
         return view('panel.ajax._ajax_site_workers', [
             'site' => $site,
-            'locale' => App::make('sexodomeKernel')->locale,
             'language' => App::make('sexodomeKernel')->language,
             'languages' => App::make('sexodomeKernel')->languages,
             'infojobs' => $infojobs,
@@ -285,7 +281,6 @@ class ConfigController extends Controller
             'pornstars' => $pornstars,
             'language' => App::make('sexodomeKernel')->language,
             'languages' => App::make('sexodomeKernel')->languages,
-            'locale' => App::make('sexodomeKernel')->locale
         ]);
     }
 
@@ -304,7 +299,6 @@ class ConfigController extends Controller
         return view('panel.ajax._ajax_preview', [
             'language' => App::make('sexodomeKernel')->language,
             'languages' => App::make('sexodomeKernel')->languages,
-            'locale' => App::make('sexodomeKernel')->locale,
             'title' => "Admin Panel",
             'scene' => $scene
         ]);
@@ -424,7 +418,6 @@ class ConfigController extends Controller
             'channels'  => Channel::all(),
             'language'  => App::make('sexodomeKernel')->language,
             'languages' => App::make('sexodomeKernel')->languages,
-            'locale'    => App::getLocale(),
             'title'     => "Admin Panel",
             'site'      => $site,
             'sites'     => Site::where('user_id', '=', Auth::user()->id)->orderBy('language_id', 'asc_')->get(),
@@ -521,7 +514,6 @@ class ConfigController extends Controller
             'scene'     => $scene,
             'language'  => App::make('sexodomeKernel')->language,
             'languages' => App::make('sexodomeKernel')->languages,
-            'locale'    => App::make('sexodomeKernel')->locale
         ]);
 
     }
@@ -608,7 +600,6 @@ class ConfigController extends Controller
                 return view('panel.add_site', [
                     'language' => App::make('sexodomeKernel')->language,
                     'languages' => App::make('sexodomeKernel')->languages,
-                    'locale' => App::make('sexodomeKernel')->locale,
                     'sites' => $sites
                 ]);
             }
@@ -638,16 +629,13 @@ class ConfigController extends Controller
                         'content' => App::make('sexodomeKernel')->cloudFlareCfg['ip']
                     ));
 
-                    return redirect()->route('sites', [
-                        'locale' => App::make('sexodomeKernel')->locale
-                    ]);
+                    return redirect()->route('sites', []);
 
                 } catch (CFException $e) {
                     Request::session()->flash('error_subdomain', '(DNS) subdomain <' . $request->input('subdomain') . '> already exists!');
                 }
             } else {
                 return redirect()->route('site', [
-                    'locale'  => App::make('sexodomeKernel')->locale,
                     'site_id' => $newSite->id,
                 ]);
             }
@@ -656,7 +644,6 @@ class ConfigController extends Controller
         return view('panel.add_site', [
             'language' => App::make('sexodomeKernel')->language,
             'languages' => App::make('sexodomeKernel')->languages,
-            'locale' => App::make('sexodomeKernel')->locale,
             'sites' => $sites
         ]);
     }
@@ -675,7 +662,7 @@ class ConfigController extends Controller
 
         $site->delete();
 
-        return redirect()->route('sites', ['locale' => App::make('sexodomeKernel')->locale]);
+        return redirect()->route('sites', []);
     }
 
     public function checkSubdomain(Request $request)
@@ -833,7 +820,7 @@ class ConfigController extends Controller
             }
         }
 
-        return redirect()->route('site', ['locale' => App::make('sexodomeKernel')->locale, 'site_id' => $site->id]);
+        return redirect()->route('site', ['site_id' => $site->id]);
     }
 
     public function updateColors($site_id, Request $request)
@@ -943,7 +930,6 @@ class ConfigController extends Controller
             'popunders' => $popunders,
             'language' => App::make('sexodomeKernel')->language,
             'languages' => App::make('sexodomeKernel')->languages,
-            'locale' => App::make('sexodomeKernel')->locale,
         ]);
     }
 
@@ -1105,7 +1091,6 @@ class ConfigController extends Controller
             'site' => Site::find($site_id),
             'language' => App::make('sexodomeKernel')->language,
             'languages' => App::make('sexodomeKernel')->languages,
-            'locale' => App::make('sexodomeKernel')->locale,
             'categories' => $categories
         ]);
     }
@@ -1138,7 +1123,6 @@ class ConfigController extends Controller
             'category' => $category,
             'category_tags' => $category_tags,
             'tags' => $site_tags,
-            'locale' => App::make('sexodomeKernel')->locale
         ]);
     }
 
