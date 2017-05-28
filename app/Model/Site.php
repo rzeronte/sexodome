@@ -252,7 +252,7 @@ class Site extends Model
 
     public function getSceneDescription($scene)
     {
-        $seo_description = str_replace("{domain}", $this->getHost(), $scene->title);
+        $seo_description = str_replace("{domain}", $this->getHost(), $scene->description);
 
         // Si no hay descripción hacemos un montaje: title + categorías + host
         if (strlen(trim($seo_description)) == 0) {
