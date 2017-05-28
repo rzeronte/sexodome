@@ -1,5 +1,8 @@
 @extends('tube.layouts.app')
 
+@section('seo_title'){{ $sexodomeKernel->getSite()->getCategoryTitle($categoryTranslation->name, $page) }}@endsection
+@section('seo_description'){{ $sexodomeKernel->getSite()->getCategoryDescription($categoryTranslation->name) }}@endsection
+
 @section('pagination_seo')
     @if (isset($scenes))
         @if ( $scenes->currentPage() > 1)

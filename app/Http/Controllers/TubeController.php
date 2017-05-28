@@ -67,7 +67,8 @@ class TubeController extends Controller
             'scenes'              => $scenes,
             'categoryTranslation' => $categoryTranslation,
             'permalinkCategory'   => $permalinkCategory,
-            'sexodomeKernel'      => App::make('sexodomeKernel')
+            'sexodomeKernel'      => App::make('sexodomeKernel'),
+            'page'                => $page
         ]);
     }
 
