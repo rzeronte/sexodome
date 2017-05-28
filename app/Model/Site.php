@@ -256,7 +256,7 @@ class Site extends Model
 
         // Si no hay descripción hacemos un montaje: title + categorías + host
         if (strlen(trim($seo_description)) == 0) {
-            $seo_description = $scene->title  ." - " . $this->getHost();
+            $seo_description = $this->getSceneTitle($scene)  ." - " . $this->getHost();
         }
 
         return $seo_description;
