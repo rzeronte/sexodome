@@ -42,6 +42,13 @@ class TubeController extends Controller
         ]);
     }
 
+    /**
+     * @param $profile
+     * @param $permalinkCategory
+     * @param int $page
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function category($profile, $permalinkCategory, $page = 1, Request $request)
     {
         $categoryTranslation = Category::getTranslationFromPermalink(
@@ -51,6 +58,10 @@ class TubeController extends Controller
         );
 
         if (!$categoryTranslation) {
+            abort(404, 'Category not found');
+        }
+
+        if ($categoryTranslation->category->status != 1) {
             abort(404, 'Category not found');
         }
 
