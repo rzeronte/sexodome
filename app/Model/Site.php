@@ -252,11 +252,17 @@ class Site extends Model
 
     public function getSceneDescription($scene)
     {
-        $seo_description = str_replace("{domain}", $this->getHost(), $scene->description);
+        $seo_description = str_replace("{domain}", $this->getHost(), $scene->title);
 
         // Si no hay descripción hacemos un montaje: title + categorías + host
         if (strlen(trim($seo_description)) == 0) {
-            $seo_description = $this->getSceneTitle($scene)  ." - " . $this->getHost();
+            $array_categories = [];
+            foreach ($scene->categories()->get() as $category) {
+                $translation = $category->translations()->where('language_id', $this->language_id)->first();
+                $array_categories[] = $translation->name;
+            }
+
+            $seo_description = $scene->title . " " . implode("-", $array_categories) . " " . $this->getHost();
         }
 
         return $seo_description;
