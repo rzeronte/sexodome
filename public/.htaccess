@@ -1,4 +1,43 @@
 <IfModule mod_rewrite.c>
+    # assassinsporn.com: category -> video
+    RewriteCond %{HTTP_HOST} ^(www\.)?assassinsporn\.com$
+    RewriteRule ^category/(.*) /video/$1 [R=301,L]
+
+    # pornoseo.com: category -> videos
+    RewriteCond %{HTTP_HOST} ^(www\.)?pornoseo\.com$
+    RewriteRule ^category/(.*) /videos/$1 [R=301,L]
+
+    # supervrporn.com: category -> vr-porn
+    RewriteCond %{HTTP_HOST} ^(www\.)?pornoseo\.com$
+    RewriteRule ^category/(.*) /vr-porn/$1 [R=301,L]
+
+    # kostenlosepornovideos.com: category -> filme
+    RewriteCond %{HTTP_HOST} ^(www\.)?kostenlosepornovideos\.com$
+    RewriteRule ^category/(.*) /filme/$1 [R=301,L]
+
+    # latinasparadise.com: category -> xxx
+    RewriteCond %{HTTP_HOST} ^(www\.)?latinasparadise\.com$
+    RewriteRule ^category/(.*) /xxx/$1 [R=301,L]
+
+    # mamasfollando.com: category -> video-porno
+    RewriteCond %{HTTP_HOST} ^(www\.)?mamasfollando\.com$
+    RewriteRule ^category/(.*) /video-porno/$1 [R=301,L]
+
+    # pornopokemon.com: category -> videos
+    RewriteCond %{HTTP_HOST} ^(www\.)?pornopokemon\.com$
+    RewriteRule ^category/(.*) /videos/$1 [R=301,L]
+
+    # pornochevere.com: category -> videos
+    RewriteCond %{HTTP_HOST} ^(www\.)?pornochevere\.com$
+    RewriteRule ^category/(.*) /videos/$1 [R=301,L]
+
+    # pornokrachen.com: category -> porno-filme
+    RewriteCond %{HTTP_HOST} ^(www\.)?pornochevere\.com$
+    RewriteRule ^category/(.*) /porno-filme/$1 [R=301,L]
+
+</IfModule>
+
+<IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews
     </IfModule>
@@ -48,41 +87,4 @@
   </filesmatch>
 </IfModule>
 
-<IfModule mod_rewrite.c>
-    # assassinsporn.com: category -> video
-    RewriteCond %{HTTP_HOST} ^(www\.)?assassinsporn\.com$
-    RewriteRule ^category/(.*) /video/$1 [R=301,L]
 
-    # pornoseo.com: category -> videos
-    RewriteCond %{HTTP_HOST} ^(www\.)?pornoseo\.com$
-    RewriteRule ^category/(.*) /videos/$1 [R=301,L]
-
-    # supervrporn.com: category -> vr-porn
-    RewriteCond %{HTTP_HOST} ^(www\.)?pornoseo\.com$
-    RewriteRule ^category/(.*) /vr-porn/$1 [R=301,L]
-
-    # kostenlosepornovideos.com: category -> filme
-    RewriteCond %{HTTP_HOST} ^(www\.)?kostenlosepornovideos\.com$
-    RewriteRule ^category/(.*) /filme/$1 [R=301,L]
-
-    # latinasparadise.com: category -> xxx
-    RewriteCond %{HTTP_HOST} ^(www\.)?latinasparadise\.com$
-    RewriteRule ^category/(.*) /xxx/$1 [R=301,L]
-
-    # mamasfollando.com: category -> video-porno
-    RewriteCond %{HTTP_HOST} ^(www\.)?mamasfollando\.com$
-    RewriteRule ^category/(.*) /video-porno/$1 [R=301,L]
-
-    # pornopokemon.com: category -> videos
-    RewriteCond %{HTTP_HOST} ^(www\.)?pornopokemon\.com$
-    RewriteRule ^category/(.*) /videos/$1 [R=301,L]
-
-    # pornochevere.com: category -> videos
-    RewriteCond %{HTTP_HOST} ^(www\.)?pornochevere\.com$
-    RewriteRule ^category/(.*) /videos/$1 [R=301,L]
-
-    # pornokrachen.com: category -> porno-filme
-    RewriteCond %{HTTP_HOST} ^(www\.)?pornochevere\.com$
-    RewriteRule ^category/(.*) /porno-filme/$1 [R=301,L]
-
-</IfModule>
