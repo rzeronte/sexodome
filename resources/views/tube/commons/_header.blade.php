@@ -59,7 +59,7 @@
             </form>
             <span class="navbar-text pull-right">
 
-            <h4>{{App::make('sexodomeKernel')->getSite()->header_text}}</h4>
+            <p class="right_text">{{App::make('sexodomeKernel')->getSite()->header_text}}</p>
 
         </span>
         </div><!-- /.navbar-collapse -->

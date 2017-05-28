@@ -25,7 +25,7 @@ body > .navbar-default
 }
 
 /* 3 Color Header Right Text */
-.navbar h4
+.navbar p.right_text
 {
     color: {{$site->color3}} !important;
 }
