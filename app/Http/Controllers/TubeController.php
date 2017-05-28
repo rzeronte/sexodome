@@ -80,7 +80,8 @@ class TubeController extends Controller
 
         return response()->view('tube.pornstars', [
             'pornstars'      => $pornstars,
-            'sexodomeKernel' => App::make('sexodomeKernel')
+            'sexodomeKernel' => App::make('sexodomeKernel'),
+            'page'           => $page,
         ]);
     }
 

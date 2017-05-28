@@ -1,5 +1,8 @@
 @extends('tube.layouts.app')
 
+@section('seo_title'){{ $sexodomeKernel->getSite()->getPornstarsTitle($page) }}@endsection
+@section('seo_description'){{ $sexodomeKernel->getSite()->getPornstarsTitle($page) }}@endsection
+
 @section('pagination_seo')
     @if (isset($pornstars))
         @if ( $pornstars->currentPage() > 1)

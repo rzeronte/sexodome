@@ -1,5 +1,8 @@
 @extends('tube.layouts.app')
 
+@section('seo_title'){{ $sexodomeKernel->getSite()->getSceneTitle($video) }}@endsection
+@section('seo_description'){{ $sexodomeKernel->getSite()->getPornstarTitle($video) }}@endsection
+
 @section('content')
     @include('tube.commons._header')
 
