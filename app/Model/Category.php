@@ -74,7 +74,7 @@ class Category extends Model
         return $categories;
     }
 
-    static function getTranslationByStatus($status = false, $language_id)
+    static function getForTranslation($status = false, $site_id, $language_id)
     {
         $categories = Category::select(
             'categories.*',
@@ -84,7 +84,11 @@ class Category extends Model
             'categories_translations.thumb_locked'
             )
             ->join('categories_translations', 'categories_translations.category_id', '=', 'categories.id')
-            ->where('categories_translations.language_id', $language_id);
+            ->where('categories_translations.language_id', $language_id)
+            ->where('categories.site_id', $site_id)
+            ->orderBy('categories.cache_order', 'DESC')
+            ->orderBy('categories.nscenes', 'DESC')
+        ;
 
         if ($status !== false) {
             $categories->where('categories.status',$status);

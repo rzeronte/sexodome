@@ -18,7 +18,6 @@ class sexodomeKernel extends Controller {
     public $videoStatus;
     public $tagsStatus;
     public $agent;
-    public $zones;
     public $perPageScenes;
     public $perPageTags;
     public $perPageJobs;
@@ -32,15 +31,13 @@ class sexodomeKernel extends Controller {
 
     public function __construct()
     {
-        // instanciate global App::make('site')
         $this->instanciateSite();
 
-        // Evitamos cargar si es consola
         if (App::runningInConsole()) {
             return;
         }
 
-        $this->setSiteAndLanguageorFail();
+        $this->setSiteAndLanguageOrFail();
 
         // per page setups
         $this->perPage = 48;
@@ -72,13 +69,6 @@ class sexodomeKernel extends Controller {
         $this->tagsStatus = array(
             'inactive' => 0,
             'active'   => 1,
-        );
-
-        // ads zones codes mapping
-        $this->zones = array(
-            'home'   => 1,
-            'search' => 2,
-            'video'  => 3,
         );
 
         // cloudflarecredentials and setup
@@ -263,19 +253,9 @@ class sexodomeKernel extends Controller {
     }
 
     /**
-     * Devuelve los languages datos de alta en la plataforma
-     *
-     * @return mixed
-     */
-    public function getLanguages()
-    {
-        return $this->languages;
-    }
-
-    /**
      * Establece sitio y language en función de si estámos en frontend o backend, con sitio activo o sin él.
      */
-    public function setSiteAndLanguageorFail()
+    public function setSiteAndLanguageOrFail()
     {
         if ($this->isSexodomeBackend()) {
 
@@ -338,4 +318,14 @@ class sexodomeKernel extends Controller {
     {
         return $this->language;
     }
+
+    public function getLanguages()
+    {
+        return $this->languages;
+    }
+
+    public function getUA() {
+        return $this->agent;
+    }
+
 }

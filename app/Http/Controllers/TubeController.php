@@ -13,16 +13,17 @@ class TubeController extends Controller
 {
     public function categories($profile, $page = 1)
     {
-        $categories = Category::getTranslationByStatus(1, App::make('sexodomeKernel')->language->id)
-            ->where('site_id', '=', App::make('sexodomeKernel')->site->id)
-            ->orderBy('categories.cache_order', 'DESC')
-            ->orderBy('categories.nscenes', 'DESC')
+        $categories = Category::getForTranslation(
+                $status = true,
+                App::make('sexodomeKernel')->site->id,
+                App::make('sexodomeKernel')->language->id
+            )
             ->paginate(App::make('sexodomeKernel')->perPageCategories, $columns = ['*'], $pageName = 'page', $page)
         ;
 
         return response()->view('tube.categories', [
-            'categories'     => $categories,
-            'page'           => $page,
+            'categories' => $categories,
+            'page'       => $page,
         ]);
     }
 
@@ -36,7 +37,7 @@ class TubeController extends Controller
         ;
 
         return response()->view('tube.search', [
-            'scenes'         => $scenes,
+            'scenes' => $scenes,
         ]);
     }
 
@@ -87,8 +88,8 @@ class TubeController extends Controller
         ;
 
         return response()->view('tube.pornstars', [
-            'pornstars'      => $pornstars,
-            'page'           => $page,
+            'pornstars' => $pornstars,
+            'page'      => $page,
         ]);
     }
 
@@ -108,8 +109,8 @@ class TubeController extends Controller
         ;
 
         return response()->view('tube.pornstar', [
-            'scenes'         => $scenes,
-            'pornstar'       => $pornstar,
+            'scenes'   => $scenes,
+            'pornstar' => $pornstar,
         ]);
     }
 
@@ -135,8 +136,8 @@ class TubeController extends Controller
         }
 
         return response()->view('tube.video', [
-            'video'          => $scene,
-            'related'        => $related->orderBy('rate', 'desc')->limit(4)->get(),
+            'video'   => $scene,
+            'related' => $related->orderBy('rate', 'desc')->limit(4)->get(),
         ]);
     }
 
@@ -148,7 +149,7 @@ class TubeController extends Controller
             abort(404, 'Scene not found');
         }
         return view('tube.iframe', [
-            'scene'          => $scene,
+            'scene' => $scene,
         ]);
     }
 
@@ -157,7 +158,7 @@ class TubeController extends Controller
         $categories = App::make('sexodomeKernel')->site->categories()->where('status', 1)->limit(18)->get();
 
         return response()->view('tube.ads', [
-            'categories'     => $categories,
+            'categories' => $categories,
         ]);
     }
 
@@ -186,26 +187,18 @@ class TubeController extends Controller
         return response($file, "200")->header('Content-Type', "application/xml");
     }
 
-    public function siteError($profile)
-    {
-        abort(503, 'Error');
-    }
-
     public function dmca($profile)
     {
-        return response()->view('tube.static.dmca', [
-        ]);
+        return response()->view('tube.static.dmca');
     }
 
     public function terms($profile)
     {
-        return response()->view('tube.static.terms', [
-        ]);
+        return response()->view('tube.static.terms');
     }
 
     public function C2257($profile)
     {
-        return response()->view('tube.static.2257', [
-        ]);
+        return response()->view('tube.static.2257');
     }
 }

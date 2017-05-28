@@ -129,7 +129,6 @@ if (!App::runningInConsole() && App::make('site')) {
         Route::get('/', 'TubeController@categories')->name('categories');
         Route::get('/{page}', 'TubeController@categories')->name('categories_page');
 
-        //Route::match(['get'], '/', 'TubeController@siteError')->name('siteError');
     });
 
 }

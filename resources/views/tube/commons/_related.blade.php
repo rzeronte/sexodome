@@ -1,5 +1,3 @@
-<?php $agent = new \Jenssegers\Agent\Agent() ?>
-
         <div class="row">
             <?php $i=0 ?>
             @foreach ($related as $scene)

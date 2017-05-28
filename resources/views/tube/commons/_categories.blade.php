@@ -1,5 +1,3 @@
-<?php $agent = new \Jenssegers\Agent\Agent() ?>
-
 <main class="main">
     <div class="container">
         <header class="page-header">
@@ -7,7 +5,7 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     @yield('h2_tag')
 
-                    @if ($agent->isMobile())
+                    @if (App::make('sexodomeKernel')->getUA()->isMobile())
                         <span class="badge">{{number_format($categories->total(), 0, ",", ".")}}  {{trans('tube.h1_info_categories')}}</span>
                         @if (isset($total_scenes))<span class="badge">{{ number_format($total_scenes, 0, ",", ".") }} {{trans('tube.h1_info_porn_videos')}}</span>@endif
                     @else

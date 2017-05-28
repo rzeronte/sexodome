@@ -116,8 +116,14 @@ class ConfigController extends Controller
 
         $order_by_nscenes = $request->input('order_by_nscenes', false);
 
-        $categories = Category::getTranslationSearch($query_string, App::make('sexodomeKernel')->language->id, $site->id, $order_by_nscenes)
-            ->paginate(App::make('sexodomeKernel')->perPageScenes);
+        $categories = Category::getTranslationSearch(
+                $query_string,
+                App::make('sexodomeKernel')->language->id,
+                $site->id,
+                $order_by_nscenes
+            )
+            ->paginate(App::make('sexodomeKernel')->perPageScenes)
+        ;
 
         return view('panel.ajax._ajax_site_categories', [
             'site'       => $site,
@@ -976,10 +982,7 @@ class ConfigController extends Controller
 
         DB::table('categories')->where('site_id', $site->id)->update(['cache_order' => -999999]);
 
-        $categories = Category::getTranslationByStatus(1, App::make('sexodomeKernel')->language->id)
-            ->where('site_id', '=', $site->id)
-            ->orderBy('categories.cache_order', 'DESC')
-            ->orderBy('categories.nscenes', 'DESC')
+        $categories = Category::getForTranslation(1, $site->id, App::make('sexodomeKernel')->language->id)
             ->limit(40)
             ->get();
 

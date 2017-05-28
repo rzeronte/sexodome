@@ -1,5 +1,4 @@
 @if (env("SHOW_IFRAME_NETWORK", true))
-    <?php $agent = new \Jenssegers\Agent\Agent() ?>
 
     @if (App::make('sexodomeKernel')->getSite()->iframe_site_id != "")
         <?php
