@@ -63,16 +63,10 @@ Route::group(['domain' => 'accounts.'.\App\rZeBot\sexodomeKernel::getMainPlatafo
     Route::match(['post'],'/ajaxSaveCronJob', 'ConfigController@ajaxSaveCronJob')->name('ajaxSaveCronJob');
     Route::match(['get'], '/deleteCronJob/{cronjob_id}', 'ConfigController@deleteCronJob')->name('deleteCronJob');
 
-    Route::match(['get'], '/ajax/seo/site/keywords/{site_id}', 'ConfigController@siteKeywords')->name('siteKeywords');
-    Route::match(['get'], '/ajax/seo/site/referrers/{site_id}', 'ConfigController@siteReferrers')->name('siteReferrers');
-    Route::match(['get'], '/ajax/seo/site/pages/{site_id}', 'ConfigController@sitePageViews')->name('sitePageViews');
-
 
     Route::match(['get'], '/ajax/scene/thumbs/{site_id}', 'ConfigController@sceneThumbs')->name('sceneThumbs');
     Route::match(['get'], '/ajax/category/thumbs/{category_id}', 'ConfigController@categoryThumbs')->name('categoryThumbs');
     Route::match(['get'], '/ajax/category/unlock/{category_translation_id}', 'ConfigController@categoryUnlock')->name('categoryUnlock');
-
-    Route::get('/setLocale/{locale}', 'ConfigController@changeLocale')->name('changeLocale');
 
     Route::match(['get', 'post'], '/ajax/category/tags/{category_id}', 'ConfigController@categoryTags')->name('categoryTags');
 

@@ -163,6 +163,10 @@ class sexodomeKernel extends Controller {
                 return Site::where('domain', $fullDomain)->where('status', 1)->first();
             });
 
+            if (!$site) {
+                abort(403, 'Site is not available');
+            }
+
             $this->setLanguage($site->language->id); // Seteamos el locale con el idioma del site
 
             $this->site = $site;
@@ -184,7 +188,7 @@ class sexodomeKernel extends Controller {
             });
 
             if (!$site) {
-                abort("403", "Domain not allowed");
+                abort("403", "Site is not available");
                 return false;
             } else {
                 $this->setLanguage($site->language->id); // Seteamos el locale con el idioma del site
@@ -198,7 +202,7 @@ class sexodomeKernel extends Controller {
             });
 
             if (!$site) {
-                abort("403", "Subdomain not allowed");
+                abort("403", "Site is not available");
                 return false;
             } else {
                 $this->setLanguage($site->language->id); // Seteamos el locale con el idioma del site
