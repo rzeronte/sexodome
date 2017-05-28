@@ -45,7 +45,7 @@
                     195 W. Pine Ave.<br/>
                     Longwood, FL 32750<br/>
                     Fax: (407) 774-6151<br/>
-                    Email: <a href="mailto:{{$site->contact_email}}">{{$site->contact_email}}</a>
+                    Email: <a href="mailto:{{App::make('sexodomeKernel')->getSite()->contact_email}}">{{App::make('sexodomeKernel')->getSite()->contact_email}}</a>
                 </p>
 
                 <p>Please do not send other inquires or information to our Designated Agent. Our Designated Agent is only authorized to receive DMCA Notices, and does not serve as a general agent or representative for any other purpose, absent express authorization from Us.</p>
