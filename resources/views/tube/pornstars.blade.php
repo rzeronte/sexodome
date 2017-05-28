@@ -1,7 +1,7 @@
 @extends('tube.layouts.app')
 
-@section('seo_title'){{ $sexodomeKernel->getSite()->getPornstarsTitle($page) }}@endsection
-@section('seo_description'){{ $sexodomeKernel->getSite()->getPornstarsTitle($page) }}@endsection
+@section('seo_title'){{ App::make('sexodomeKernel')->getSite()->getPornstarsTitle($page) }}@endsection
+@section('seo_description'){{ App::make('sexodomeKernel')->getSite()->getPornstarsTitle($page) }}@endsection
 
 @section('pagination_seo')
     @if (isset($pornstars))
@@ -20,7 +20,7 @@
 @endsection
 
 @section('h2_tag')
-    <h2><i class="mdi mdi-stars"></i> {{ $sexodomeKernel->getSite()->getH2Pornstars() }}</h2>
+    <h2><i class="mdi mdi-stars"></i> {{ App::make('sexodomeKernel')->getSite()->getH2Pornstars() }}</h2>
 @endsection
 
 @section('content')

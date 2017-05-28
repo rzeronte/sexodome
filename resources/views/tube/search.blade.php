@@ -1,7 +1,7 @@
 @extends('tube.layouts.app')
 
 @section('h2_tag')
-    <h2><i class="mdi mdi-home"></i> {{$sexodomeKernel->getSite()->getH2Home()}}</h2>
+    <h2><i class="mdi mdi-home"></i> {{App::make('sexodomeKernel')->getSite()->getH2Home()}}</h2>
 @endsection
 
 @section('paginator')
@@ -12,7 +12,7 @@
     @include('tube.commons._header')
     @include('tube.commons._videos')
 
-    @if ($sexodomeKernel->getLanguage()->iframe_src != "")
+    @if (App::make('sexodomeKernel')->getLanguage()->iframe_src != "")
         <section class="container">
             @include('tube.commons._iframe_network')
         </section>

@@ -1,7 +1,7 @@
 <!--[if !IE]> -->
 <link rel="stylesheet" href="{{asset('tube/bower_components/bootstrap-material-design-icons/css/material-icons.min.css')}}">
 <link rel="stylesheet" href="{{asset('tube/css/main.css')}}">
-<link rel="stylesheet" href="{{asset('tubeThemes/'.$sexodomeKernel->getSite()->getCSSThemeFilename())}}">
+<link rel="stylesheet" href="{{asset('tubeThemes/'.App::make('sexodomeKernel')->getSite()->getCSSThemeFilename())}}">
 <!-- <![endif]-->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -25,4 +25,4 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
 <!-- custom js -->
-<?php echo $sexodomeKernel->getSite()->javascript ?>
+<?php echo App::make('sexodomeKernel')->getSite()->javascript ?>

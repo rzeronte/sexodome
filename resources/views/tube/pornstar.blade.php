@@ -1,7 +1,7 @@
 @extends('tube.layouts.app')
 
-@section('seo_title'){{ $sexodomeKernel->getSite()->getPornstarTitle($pornstar->name) }}@endsection
-@section('seo_description'){{ $sexodomeKernel->getSite()->getPornstarTitle($pornstar->name) }}@endsection
+@section('seo_title'){{ App::make('sexodomeKernel')->getSite()->getPornstarTitle($pornstar->name) }}@endsection
+@section('seo_description'){{ App::make('sexodomeKernel')->getSite()->getPornstarTitle($pornstar->name) }}@endsection
 
 @section('pagination_seo')
     @if (isset($scenes))
@@ -22,7 +22,7 @@
 @endsection
 
 @section('h2_tag')
-    <h2><i class="mdi mdi-stars"></i> {{ $sexodomeKernel->getSite()->getH2Pornstar($pornstar->name) }}</h2>
+    <h2><i class="mdi mdi-stars"></i> {{ App::make('sexodomeKernel')->getSite()->getH2Pornstar($pornstar->name) }}</h2>
 @endsection
 
 @section('content')
@@ -30,7 +30,7 @@
 
     @include('tube.commons._videos')
 
-    @if ($sexodomeKernel->getSite()->iframe_src != "")
+    @if (App::make('sexodomeKernel')->getSite()->iframe_src != "")
         <section class="container">
             @include('tube.commons._iframe_network')
         </section>

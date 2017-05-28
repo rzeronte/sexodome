@@ -2,10 +2,10 @@
     <div class="container">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-left">
             <p class="text-muted">
-                <a href="{{route('dmca', ["host" => $sexodomeKernel->getSite()->getHost()])}}">DMCA/Copyright</a> |
-                <a href="{{route('terms', ["host" => $sexodomeKernel->getSite()->getHost()])}}">Terms of use</a> |
-                <a href="{{route('C2257', ["host" => $sexodomeKernel->getSite()->getHost()])}}">2257</a> |
-                <a href="mailto:{{$sexodomeKernel->getSite()->contact_email}}">Contact</a> |
+                <a href="{{route('dmca', ["host" => App::make('sexodomeKernel')->getSite()->getHost()])}}">DMCA/Copyright</a> |
+                <a href="{{route('terms', ["host" => App::make('sexodomeKernel')->getSite()->getHost()])}}">Terms of use</a> |
+                <a href="{{route('C2257', ["host" => App::make('sexodomeKernel')->getSite()->getHost()])}}">2257</a> |
+                <a href="mailto:{{App::make('sexodomeKernel')->getSite()->contact_email}}">Contact</a> |
                 <a href="http://www.rtalabel.org" target="_blank"><i class="icon-logo_rta"></i></a></p>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-right">

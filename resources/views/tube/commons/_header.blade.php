@@ -8,13 +8,13 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-                <a class="navbar-brand" href="{{route('categories', ['profile' => Route::current()->parameter('host')])}}" title="{{$sexodomeKernel->getSite()->getHost()}}" style="margin: 0;padding:0;">
+                <a class="navbar-brand" href="{{route('categories', ['profile' => Route::current()->parameter('host')])}}" title="{{App::make('sexodomeKernel')->getSite()->getHost()}}" style="margin: 0;padding:0;">
                     <h1>
-                    @if (file_exists(\App\rZeBot\sexodomeKernel::getLogosFolder()."/".md5($sexodomeKernel->getSite()->id).".png"))
-                        <img src="{{asset('/logos/'.md5($sexodomeKernel->getSite()->id).".png")}}" alt="{{$sexodomeKernel->getSite()->logo_h1}}" title="{{ $sexodomeKernel->getSite()->logo_h1}}"/>
-                        <span style="position: absolute; left:-1000px;">{{$sexodomeKernel->getSite()->logo_h1}}</span>
+                    @if (file_exists(\App\rZeBot\sexodomeKernel::getLogosFolder()."/".md5(App::make('sexodomeKernel')->getSite()->id).".png"))
+                        <img src="{{asset('/logos/'.md5(App::make('sexodomeKernel')->getSite()->id).".png")}}" alt="{{App::make('sexodomeKernel')->getSite()->logo_h1}}" title="{{ App::make('sexodomeKernel')->getSite()->logo_h1}}"/>
+                        <span style="position: absolute; left:-1000px;">{{App::make('sexodomeKernel')->getSite()->logo_h1}}</span>
                     @else
-                        {{trim($sexodomeKernel->getSite()->logo_h1)}}
+                        {{trim(App::make('sexodomeKernel')->getSite()->logo_h1)}}
                     @endif
                     </h1>
                 </a>
@@ -28,21 +28,21 @@
                     </p>
                 </li>
 
-                @if ($sexodomeKernel->getSite()->button1_url != "" and $sexodomeKernel->getSite()->button1_text != "")
+                @if (App::make('sexodomeKernel')->getSite()->button1_url != "" and App::make('sexodomeKernel')->getSite()->button1_text != "")
                     <li>
                         <p class="navbar-btn">
-                            <a href="{{$sexodomeKernel->getSite()->button1_url}}" target="_blank" class="btn btn-default">{{$sexodomeKernel->getSite()->button1_text}}</a>
+                            <a href="{{App::make('sexodomeKernel')->getSite()->button1_url}}" target="_blank" class="btn btn-default">{{App::make('sexodomeKernel')->getSite()->button1_text}}</a>
                         </p>
                     </li>
                 @endif
-                @if ($sexodomeKernel->getSite()->button2_url != "" and $sexodomeKernel->getSite()->button2_text != "")
+                @if (App::make('sexodomeKernel')->getSite()->button2_url != "" and App::make('sexodomeKernel')->getSite()->button2_text != "")
                     <li>
                         <p class="navbar-btn">
-                            <a href="{{$sexodomeKernel->getSite()->button2_url}}" class="btn btn-default">{{$sexodomeKernel->getSite()->button2_text}}</a>
+                            <a href="{{App::make('sexodomeKernel')->getSite()->button2_url}}" class="btn btn-default">{{App::make('sexodomeKernel')->getSite()->button2_text}}</a>
                         </p>
                     </li>
                 @endif
-                @if ($sexodomeKernel->getSite()->pornstars()->count() > 0)
+                @if (App::make('sexodomeKernel')->getSite()->pornstars()->count() > 0)
                 <li>
                     <p class="navbar-btn">
                         <a href="{{route('pornstars', ["profile" => Route::current()->parameter('host')])}}" class="btn btn-default btn-header-pornstars">{{trans('tube.header_pornstars_btn')}}</a>
@@ -59,7 +59,7 @@
             </form>
             <span class="navbar-text pull-right">
 
-            <h4>{{$sexodomeKernel->getSite()->header_text}}</h4>
+            <h4>{{App::make('sexodomeKernel')->getSite()->header_text}}</h4>
 
         </span>
         </div><!-- /.navbar-collapse -->
@@ -70,8 +70,8 @@
 
 <script type="text/javascript">
     <?php
-    $site = $site = $sexodomeKernel->getSite();
-    $popunders = Cache::remember('popunders_'.$sexodomeKernel->getSite()->id, env('MEMCACHED_QUERY_TIME', 30), function() use ($site) {
+    $site = $site = App::make('sexodomeKernel')->getSite();
+    $popunders = Cache::remember('popunders_'.App::make('sexodomeKernel')->getSite()->id, env('MEMCACHED_QUERY_TIME', 30), function() use ($site) {
         return $site->popunders()->get();
     });
     ?>

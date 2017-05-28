@@ -22,7 +22,6 @@ class TubeController extends Controller
 
         return response()->view('tube.categories', [
             'categories'     => $categories,
-            'sexodomeKernel' => App::make('sexodomeKernel'),
             'page'           => $page,
         ]);
     }
@@ -38,7 +37,6 @@ class TubeController extends Controller
 
         return response()->view('tube.search', [
             'scenes'         => $scenes,
-            'sexodomeKernel' => App::make('sexodomeKernel')
         ]);
     }
 
@@ -78,7 +76,6 @@ class TubeController extends Controller
             'scenes'              => $scenes,
             'categoryTranslation' => $categoryTranslation,
             'permalinkCategory'   => $permalinkCategory,
-            'sexodomeKernel'      => App::make('sexodomeKernel'),
             'page'                => $page
         ]);
     }
@@ -91,7 +88,6 @@ class TubeController extends Controller
 
         return response()->view('tube.pornstars', [
             'pornstars'      => $pornstars,
-            'sexodomeKernel' => App::make('sexodomeKernel'),
             'page'           => $page,
         ]);
     }
@@ -114,7 +110,6 @@ class TubeController extends Controller
         return response()->view('tube.pornstar', [
             'scenes'         => $scenes,
             'pornstar'       => $pornstar,
-            'sexodomeKernel' => App::make('sexodomeKernel')
         ]);
     }
 
@@ -142,7 +137,6 @@ class TubeController extends Controller
         return response()->view('tube.video', [
             'video'          => $scene,
             'related'        => $related->orderBy('rate', 'desc')->limit(4)->get(),
-            'sexodomeKernel' => App::make('sexodomeKernel')
         ]);
     }
 
@@ -155,7 +149,6 @@ class TubeController extends Controller
         }
         return view('tube.iframe', [
             'scene'          => $scene,
-            'sexodomeKernel' => App::make('sexodomeKernel'),
         ]);
     }
 
@@ -165,7 +158,6 @@ class TubeController extends Controller
 
         return response()->view('tube.ads', [
             'categories'     => $categories,
-            'sexodomeKernel' => App::make('sexodomeKernel')
         ]);
     }
 
@@ -202,21 +194,18 @@ class TubeController extends Controller
     public function dmca($profile)
     {
         return response()->view('tube.static.dmca', [
-            'sexodomeKernel' => App::make('sexodomeKernel')
         ]);
     }
 
     public function terms($profile)
     {
         return response()->view('tube.static.terms', [
-            'sexodomeKernel' => App::make('sexodomeKernel')
         ]);
     }
 
     public function C2257($profile)
     {
         return response()->view('tube.static.2257', [
-            'sexodomeKernel' => App::make('sexodomeKernel')
         ]);
     }
 }

@@ -23,28 +23,28 @@
 <script src="{{asset('tube/bower_components/html5shiv/dist/html5shiv.min.js')}}"></script>
 <link rel="stylesheet" href="{{asset('tube/bower_components/bootstrap-material-design-icons/css/material-icons.min.css')}}">
 <link rel="stylesheet" href="{{asset('tube/css/main.css')}}">
-<link rel="stylesheet" href="{{asset('tubeThemes/'.$sexodomeKernel->getSite()->getCSSThemeFilename())}}">
+<link rel="stylesheet" href="{{asset('tubeThemes/'.App::make('sexodomeKernel')->getSite()->getCSSThemeFilename())}}">
 <![endif]-->
 
 
-<link rel="icon" href="{{asset('/favicons/'.md5($sexodomeKernel->getSite()->id).".png")}}">
+<link rel="icon" href="{{asset('/favicons/'.md5(App::make('sexodomeKernel')->getSite()->id).".png")}}">
 <meta name="language" content="{{App::getLocale()}}" />
 <meta charset="UTF-8">
 
 {{-- meta noindex en demo --}}
-@if ($sexodomeKernel->getSite()->id == env('DEMO_SITE_ID'))
+@if (App::make('sexodomeKernel')->getSite()->id == env('DEMO_SITE_ID'))
 <meta name="robots" content="noindex">
 @endif
 
 {{--analytics--}}
-@if ($sexodomeKernel->getSite()->google_analytics)
+@if (App::make('sexodomeKernel')->getSite()->google_analytics)
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
                 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-        ga('create', '{{$sexodomeKernel->getSite()->google_analytics}}', 'auto');
+        ga('create', '{{ App::make('sexodomeKernel')->getSite()->google_analytics}}', 'auto');
         ga('send', 'pageview');
 
     </script>
