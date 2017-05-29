@@ -43,7 +43,7 @@ class sexodomeKernel extends Controller {
         $this->perPage = 48;
         $this->perPageScenes = 10;
         $this->perPageTags = 30;
-        $this->perPageCategories = 42;
+        $this->perPageCategories = 30;
         $this->perPageJobs = 15;
         $this->perPagePanelPornstars = 12;
 
