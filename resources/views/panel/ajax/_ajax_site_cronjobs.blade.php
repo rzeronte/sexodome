@@ -7,14 +7,6 @@
 @endif
 
 @foreach($site->cronjobs()->get() as $cronjob)
-    <?php
-    $loop++;
-    if ($loop % 2) {
-        $bgColor = '#e8e8e8';
-    } else {
-        $bgColor = 'lightyellow';
-    }
-    ?>
     <div class="row" style="background-color:<?=$bgColor?>;margin:0px;padding:15px;">
         <div class="col-md-1">
             <img src="{{asset('channels/'.$cronjob->channel->logo)}}" style="width:40px; border: solid 1px black;"/>
