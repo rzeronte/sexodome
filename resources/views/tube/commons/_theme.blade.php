@@ -113,6 +113,7 @@ body > .navbar-default
 /* Fixes */
 .main .thumbnail .thumb-image img{
     height: auto !important;
+    width: 100%;
 }
 
 @media (max-width: 767px) {
