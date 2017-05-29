@@ -7,7 +7,7 @@
 @endif
 
 @foreach($site->cronjobs()->get() as $cronjob)
-    <div class="row" style="background-color:<?=$bgColor?>;margin:0px;padding:15px;">
+    <div class="row" style=";margin:0px;padding:15px;">
         <div class="col-md-1">
             <img src="{{asset('channels/'.$cronjob->channel->logo)}}" style="width:40px; border: solid 1px black;"/>
         </div>
