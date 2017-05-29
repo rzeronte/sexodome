@@ -10,9 +10,20 @@
 <script src="{{asset('tube/js/main.js')}}"></script>
 
 
-<!--Bootstrap JS--><script src="{{asset('js/bootstrap.min.js')}}"></script>
+<!-- Bootstrap JS-->
+<script src="{{asset('js/bootstrap.min.js')}}"></script>
+
+<!-- JQuery-->
 <script src="{{asset('js/jquery-2.1.4.min.js')}}"></script>
 
+<!-- Bootstrap JS-->
+<script src="{{asset('js/bootstrap.min.js')}}"></script>
+
+<!-- JSsocials JS-->
+<script src="{{asset('jssocials-1.4.0/jssocials.js')}}"></script>
+<link rel="stylesheet" href="{{asset('jssocials-1.4.0/jssocials.css')}}">
+
+<!-- Font -->
 <script type="text/javascript" src="{{asset('js/front.js')}}"></script>
 
 <!--[if lt IE 9]>

@@ -58,7 +58,6 @@
                 <button type="submit" class="btn btn-default"><i class="small mdi mdi-search"></i> {{trans('tube.header_inputsearch_search')}}</button>
             </form>
             <span class="navbar-text pull-right">
-
             <p class="right_text">{{App::make('sexodomeKernel')->getSite()->header_text}}</p>
 
         </span>
@@ -79,4 +78,5 @@
     @foreach( $popunders as $popunder)
     popunders.push('{{$popunder->url}}');
     @endforeach
+
 </script>
