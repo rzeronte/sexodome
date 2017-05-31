@@ -8,11 +8,11 @@
     RewriteRule ^category/(.*) /videos/$1 [R=301,L]
 
     # supervrporn.com: category -> vr-porn
-    RewriteCond %{HTTP_HOST} ^(www\.)?pornoseo\.com$
+    RewriteCond %{HTTP_HOST} ^(www\.)?supervrporn\.com$
     RewriteRule ^category/(.*) /vr-porn/$1 [R=301,L]
 
     # kostenlosepornovideos.com: category -> filme
-    RewriteCond %{HTTP_HOST} ^(www\.)?kostenlosepornovideos\.com$
+    RewriteCond %{HTTP_HOST} ^(www\.)?kostenlospornovideos\.com$
     RewriteRule ^category/(.*) /filme/$1 [R=301,L]
 
     # latinasparadise.com: category -> xxx
@@ -32,8 +32,12 @@
     RewriteRule ^category/(.*) /videos/$1 [R=301,L]
 
     # pornokrachen.com: category -> porno-filme
-    RewriteCond %{HTTP_HOST} ^(www\.)?pornochevere\.com$
+    RewriteCond %{HTTP_HOST} ^(www\.)?pornokrachen\.com$
     RewriteRule ^category/(.*) /porno-filme/$1 [R=301,L]
+
+    # pornochevere.com: category -> videos
+    RewriteCond %{HTTP_HOST} ^(www\.)?pornochevere\.com$
+    RewriteRule ^category/(.*) /videos/$1 [R=301,L]
 
 </IfModule>
 

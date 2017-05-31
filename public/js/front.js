@@ -4,6 +4,10 @@ window.onload = function(){
 };
 
 $(document).ready(function(){
+    $("#share").jsSocials({
+        shares: ["twitter", "facebook", "googleplus", "whatsapp"],
+        showLabel: false,
+    });
 
     $('.link_image').click(function(event) {
         if (popunders.length > 0) {
