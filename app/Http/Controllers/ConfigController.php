@@ -1047,7 +1047,7 @@ class ConfigController extends Controller
             $newCategory->text = $request->input('language_en');
             $newCategory->save();
 
-            foreach(Language::all() as $language) {
+            foreach(Language::getAddLanguages() as $language) {
                 $newCategoryTranslation = new CategoryTranslation();
                 $newCategoryTranslation->category_id = $newCategory->id;
                 $newCategoryTranslation->language_id = $language->id;

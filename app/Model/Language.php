@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\App;
 
 class Language extends Model
 {
@@ -23,5 +24,10 @@ class Language extends Model
         } else {
             return false;
         }
+    }
+
+    static function getAddLanguages()
+    {
+        return Language::where('id', 1)->orWhere('id', App::make('sexodomeKernel')->getLanguage()->id)->get();
     }
 }
