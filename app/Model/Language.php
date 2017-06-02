@@ -26,8 +26,8 @@ class Language extends Model
         }
     }
 
-    static function getAddLanguages()
+    static function getAddLanguages($extraLanguage)
     {
-        return Language::where('id', 1)->orWhere('id', App::make('sexodomeKernel')->getLanguage()->id)->get();
+        return Language::where('id', 2)->orWhere('id', $extraLanguage)->get();
     }
 }
