@@ -250,6 +250,28 @@ $( document ).ready(function() {
         event.preventDefault();
     });
 
+    // Submit del formulario de creación de un tag
+    $( "body" ).on('submit', '.form-create-tag', function(event) {
+        var action = $(this).attr("action");
+        var form = $(this);
+
+        $.ajax({
+            url: action,
+            data: $(this).serialize(),
+            method: 'post'
+        }).done(function( data ) {
+            var data = $.parseJSON(data);
+            if (data['status'] == true) {
+                $('#modal-sexodome').modal('hide')
+                showGenericalSuccessMessage();
+            } else {
+                $('#modal-sexodome').modal('hide')
+                showGenericalErrorMessage();
+            }
+        });
+        event.preventDefault();
+    });
+
     // Pornstars paginator
     eventPaginatorPornstars = function () {
         $( ".site_pornstars_paginator .pagination" ).on('click', 'a', function(event) {
@@ -368,6 +390,22 @@ $( document ).ready(function() {
             method: 'get'
         }).done(function( data ) {
             $(".categories_ajax_container").html(data);
+            eventPaginatorCategories();
+            eventFileUpload();
+        });
+
+        event.preventDefault();
+    });
+
+    $( ".tag-search-form" ).submit(function( event ) {
+        var url = $(this).attr("action");
+
+        $.ajax({
+            url: url,
+            data: $(this).serialize(),
+            method: 'get'
+        }).done(function( data ) {
+            $(".tags_ajax_container").html(data);
             eventPaginatorCategories();
             eventFileUpload();
         });
@@ -511,6 +549,20 @@ $( document ).ready(function() {
 
     // Saca el dialogo con el formulario para crear una categoría
     $( ".btn-create-category" ).click(function() {
+        var action = $(this).attr("data-url");
+
+        $("#modal-sexodome .modal-body").html("Loading...");
+
+        $.ajax({
+            url: action,
+            method: 'get'
+        }).done(function( data ) {
+            $("#modal-sexodome .modal-body").html(data);
+        });
+    });
+
+    // Saca el dialogo con el formulario para crear un tag
+    $( ".btn-create-tag" ).click(function() {
         var action = $(this).attr("data-url");
 
         $("#modal-sexodome .modal-body").html("Loading...");

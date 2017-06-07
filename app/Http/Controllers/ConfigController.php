@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
+use App\Model\TagTranslation;
 
 class ConfigController extends Controller
 {
@@ -91,8 +92,12 @@ class ConfigController extends Controller
             abort(401, "Unauthorized");
         }
 
-        $tags = Tag::getTranslationSearch($query_string, App::make('sexodomeKernel')->language->id)->where('site_id', $site_id)
-            ->paginate(App::make('sexodomeKernel')->perPageScenes);
+        $tags = Tag::getTranslationSearch(
+                $query_string,
+                App::make('sexodomeKernel')->language->id
+            )->where('site_id', $site_id)
+            ->paginate(App::make('sexodomeKernel')->perPageScenes)
+        ;
 
         return view('panel.ajax._ajax_site_tags', [
             'site' => $site,
@@ -1062,4 +1067,36 @@ class ConfigController extends Controller
             ]);
         }
     }
+
+    public function createTag($site_id, Request $request)
+    {
+        $site = Site::find($site_id);
+
+        if (!$site) {
+            abort(404, 'Site not found');
+        }
+
+        // Si venimos por post, devolvemos resultado por json en lugar del twig.
+        if ($request->isMethod('post')) {
+            $newTag = new Tag();
+            $newTag->site_id = $site->id;
+            $newTag->status = 1;
+            $newTag->save();
+
+            foreach(Language::getAddLanguages($site->language_id) as $language) {
+                $newTagTranslation = new TagTranslation();
+                $newTagTranslation->tag_id = $newTag->id;
+                $newTagTranslation->language_id = $language->id;
+                $newTagTranslation->name = $request->input('language_'.$language->code);
+                $newTagTranslation->permalink = rZeBotUtils::slugify($request->input('language_'.$language->code));
+                $newTagTranslation->save();
+            }
+            return json_encode(array('status' => true));
+        } else {
+            return view('panel.ajax._ajax_site_create_tag', [
+                'site' => $site
+            ]);
+        }
+    }
+
 }

@@ -1,4 +1,4 @@
-<form class="form-create-category" action="{{ route('createCategory', ['site_id' => $site->id]) }}">
+<form class="form-create-tag" action="{{ route('createTag', ['site_id' => $site->id]) }}">
     <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
 
     @foreach(\App\Model\Language::getAddLanguages($site->language_id) as $language)
@@ -10,7 +10,7 @@
 
     <div class="row" style="margin-bottom:5px;margin-top:30px;">
         <div class="col-md-7 col-lg-offset-3">
-            <input type="submit" value="Create Category" class="btn btn-success" style="width:100%"/>
+            <input type="submit" value="Create Tag" class="btn btn-success" style="width:100%"/>
         </div>
     </div>
 </form>

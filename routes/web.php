@@ -78,6 +78,7 @@ Route::group(['domain' => 'accounts.'.\App\rZeBot\sexodomeKernel::getMainPlatafo
     Route::match(['get', 'post'], '/admin/saveCategoryTranslation/{scene_id}', 'ConfigController@saveCategoryTranslation')->name('saveCategoryTranslation');
     Route::match(['get', 'post'], '/admin/translateTag/{tag_id}', 'ConfigController@translateTag')->name('translateTag');
     Route::match(['get', 'post'], '/admin/category/create/{site_id}', 'ConfigController@createCategory')->name('createCategory');
+    Route::match(['get', 'post'], '/admin/tag/create/{site_id}', 'ConfigController@createTag')->name('createTag');
 
     Route::match(['get', 'post'], '/admin/addSite/', 'ConfigController@addSite')->name('addSite');
     Route::match(['get', 'post'], '/delete/{site_id}/', 'ConfigController@deleteSite')->name('deleteSite');
