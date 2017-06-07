@@ -27,12 +27,12 @@
                     </select>
                 </div>
 
-                <?php $translation = $tag->translations()->where('language_id',App::make('sexodomeKernel')->getLanguage()->id)->first(); ?>
+                <?php $translation = $tag->translations()->where('language_id', $site->language->id)->first(); ?>
 
                 <div class="col-md-5">
                     <div class="input-group">
-                        <input name="language_{{App::make('sexodomeKernel')->getLanguage()->id}}" type="text" aria-describedby="basic-addon2" placeholder="" class="form-control" value="{{ $translation->name }}">
-                        <span id="basic-addon2" class="input-group-addon"><img alt="{{$translation->permalink}}" src="{{asset("flags/".App::make('sexodomeKernel')->getLanguage()->code.".png")}}"/></span>
+                        <input name="language_{{$site->language->id}}" type="text" aria-describedby="basic-addon2" placeholder="" class="form-control" value="{{ $translation->name }}">
+                        <span id="basic-addon2" class="input-group-addon"><img alt="{{$translation->permalink}}" src="{{asset("flags/".$site->language->code.".png")}}"/></span>
                     </div>
                 </div>
 

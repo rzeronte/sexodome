@@ -94,7 +94,7 @@ class ConfigController extends Controller
 
         $tags = Tag::getTranslationSearch(
                 $query_string,
-                App::make('sexodomeKernel')->language->id
+                $site->language->id
             )->where('site_id', $site_id)
             ->paginate(App::make('sexodomeKernel')->perPageScenes)
         ;
@@ -123,7 +123,7 @@ class ConfigController extends Controller
 
         $categories = Category::getTranslationSearch(
                 $query_string,
-                App::make('sexodomeKernel')->language->id,
+                $site->language->id,
                 $site->id,
                 $order_by_nscenes
             )
@@ -188,13 +188,15 @@ class ConfigController extends Controller
             abort(401, "Unauthorized");
         }
 
-        $name = $request->input('language_' . App::make('sexodomeKernel')->language->id);
+        $site = $category->site;
+
+        $name = $request->input('language_' . $site->language->id);
         $thumb = $request->input('thumbnail');
 
         // Buscamos si existe otra categoría en el idioma del site con el mismo nombre
         $alreadyCategoryTranslation = CategoryTranslation::join('categories', 'categories.id', '=', 'categories_translations.category_id')
             ->where('categories.site_id', $category->site->id)
-            ->where('language_id', App::make('sexodomeKernel')->language->id)
+            ->where('language_id', $site->language->id)
             ->where('name', 'like', $name)
             ->where('categories.status', 1)
             ->where('categories.id', '<>', $category_id)
@@ -205,7 +207,7 @@ class ConfigController extends Controller
         }
 
         $categoryTranslation = CategoryTranslation::where('category_id', $category_id)
-            ->where('language_id', App::make('sexodomeKernel')->language->id)
+            ->where('language_id', $site->language->id)
             ->first();
 
         $categoryTranslation->name = $name;
