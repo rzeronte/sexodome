@@ -117,7 +117,6 @@
                     <i class="glyphicon glyphicon-time"></i> {{gmdate("i:s", $scene->duration)}}<br/>
                     <i class="glyphicon glyphicon-eye-open"></i> {{ $scene->views+0}} views<br/>
                     <i class="glyphicon glyphicon-open-file"></i> {{ $scene->channel_name}}<br/>
-                    <i class="glyphicon glyphicon-open-file"></i> Id: {{ $scene->site->id}}<br/>
                 </div>
 
                 <div class="col-md-5" style="margin: 5px 0 0 0">
@@ -153,6 +152,21 @@
                         <i class="fa fa-floppy-o"></i> Remove
                     </a>
 
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        @foreach($scene->categories()->get() as $t)
+                            <span class="badge" style="color:white; background-color: black;">{{$t->translations('language_id', 2)->first()->name}}</span>
+                        @endforeach
+
+                    </div>
+
+                    <div class="col-md-12">
+                        @foreach($scene->tags()->get() as $t)
+                            <span class="badge" style="color:white; background-color: gray;">{{$t->translations('language_id', 2)->first()->name}}</span>
+                        @endforeach
+
+                    </div>
                 </div>
             </form>
 
