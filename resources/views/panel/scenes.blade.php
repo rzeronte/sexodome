@@ -118,13 +118,6 @@
                     <i class="glyphicon glyphicon-eye-open"></i> {{ $scene->views+0}} views<br/>
                     <i class="glyphicon glyphicon-open-file"></i> {{ $scene->channel_name}}<br/>
                     <i class="glyphicon glyphicon-open-file"></i> Id: {{ $scene->site->id}}<br/>
-                    @if ($scene->site_have_domain == 1)
-                    @else
-                    @endif
-                    @foreach (App::make('sexodomeKernel')->getLanguages() as $itemLang)
-                        <a href="{{route('content', ['locale'=>$itemLang->code,'scene_id'=> $scene->id])}}" target="_blank"><img src="{{asset("flags/$itemLang->code.png")}}"/></a>
-                    @endforeach
-
                 </div>
 
                 <div class="col-md-5" style="margin: 5px 0 0 0">
@@ -137,23 +130,28 @@
 
                 <div class="col-md-3" style="margin: 10px 0 0 0">
                     @if ($scene->embed == 1)
-                        <button type="button" class="btn-preview-scene btn btn-primary" data-toggle="modal" data-target="#previewModal" data-scene-id="{{$scene->id}}" data-url="{{route('scenePreview', ['scene_id'=>$scene->id])}}" style="width:100%">
+                        <button type="button" class="btn-preview-scene btn btn-primary btn-xs" data-toggle="modal" data-target="#previewModal" data-scene-id="{{$scene->id}}" data-url="{{route('scenePreview', ['scene_id'=>$scene->id])}}" style="width:100%">
                             <i class="fa fa-eye"></i> preview
                         </button>
                     @else
-                        <a href="{{$scene->iframe}}" target="_blank" class="btn btn-primary"  style="width:100%"><i class="fa fa-eye"></i> preview</a>
+                        <a href="{{$scene->iframe}}" target="_blank" class="btn btn-primary xs"  style="width:100%"><i class="fa fa-eye"></i> preview</a>
                     @endif
 
                     <br/>
 
-                    <button type="button" class="btn-select-thumb btn btn-primary" data-toggle="modal" data-target="#previewModal" data-url="{{route('sceneThumbs', ['scene_id'=>$scene->id])}}" style="width:100%;margin-top:7px;">
-                        <i class="glyphicon glyphicon-picture"></i> thumbnails
+                    <button type="button" class="btn-select-thumb btn btn-primary btn-xs" data-toggle="modal" data-target="#previewModal" data-url="{{route('sceneThumbs', ['scene_id'=>$scene->id])}}" style="width:100%;margin-top:7px;">
+                        <i class="glyphicon glyphicon-picture"></i> Thumbnails
                     </button>
                     <br/>
 
                     <button type="submit" class="btn btn-success" style="width:100%;margin-top:7px;">
-                        <i class="fa fa-floppy-o"></i> update
+                        <i class="fa fa-floppy-o"></i> Update
                     </button>
+                    <br/>
+
+                    <a href="{{ route('ajaxDeleteScene', ['scene_id' => $scene->id]) }}" class="btn btn-danger btn-xs btn-delete-scene" style="width:100%;margin-top:7px;">
+                        <i class="fa fa-floppy-o"></i> Remove
+                    </a>
 
                 </div>
             </form>

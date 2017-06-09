@@ -1137,4 +1137,21 @@ class ConfigController extends Controller
         return json_encode(array('status' => true));
 
     }
+
+    public function ajaxDeleteScene($scene_id)
+    {
+        $scene = Scene::find($scene_id);
+
+        if (!$scene) {
+            abort(404, 'Scene not found');
+        }
+
+        try {
+            $scene->delete();
+        } catch(\Exception $e) {
+            return json_encode(array('status' => false));
+        }
+
+        return json_encode(array('status' => true));
+    }
 }

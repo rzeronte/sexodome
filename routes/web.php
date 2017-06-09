@@ -70,6 +70,7 @@ Route::group(['domain' => 'accounts.'.\App\rZeBot\sexodomeKernel::getMainPlatafo
 
     Route::match(['get'], '/ajax/category/delete/{category_id}', 'ConfigController@ajaxDeleteCategory')->name('ajaxDeleteCategory');
     Route::match(['get'], '/ajax/tag/delete/{tag_id}', 'ConfigController@ajaxDeleteTag')->name('ajaxDeleteTag');
+    Route::match(['get'], '/ajax/scene/delete/{scene_id}', 'ConfigController@ajaxDeleteScene')->name('ajaxDeleteScene');
 
     Route::match(['get', 'post'], '/ajax/category/tags/{category_id}', 'ConfigController@categoryTags')->name('categoryTags');
 
