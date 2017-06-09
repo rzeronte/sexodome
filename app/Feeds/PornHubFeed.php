@@ -26,7 +26,7 @@ class PornHubFeed
             "preview"    => 9,
             "thumbs"     => 10,
             "title"      => 5,
-            "tags"       => 6,
+            "tags"       => 2,  // los tags vienen tan mal, que prefiero usar las categorías aunq repetidas
             "categories" => 2,
             "duration"   => 7,
             "views"      => 8,
