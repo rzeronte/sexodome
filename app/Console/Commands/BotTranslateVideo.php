@@ -112,7 +112,7 @@ class BotTranslateVideo extends Command
 
         $translation = true;
         if ($translationTitle != false) {
-            $translationTo->title = substr(utf8_encode($translationTitle), 0, 255);
+            $translationTo->title = substr($translationTitle, 0, 255);
             $translationTo->permalink = str_slug($translationTitle);
             rZeBotUtils::message("[TRANSLATING TITLE] scene_id: $scene->id, '". $textFrom->title . "' => '$translationTo->title'", "cyan", false, false);
         } else {
