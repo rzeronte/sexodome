@@ -26,13 +26,13 @@
 @section('orders')
     @if (isset($categoryTranslation))
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-right">
-            <a href="{{route('category', ['profile' => App::make('sexodomeKernel')->getSite()->getHost(), 'permalink' => $permalinkCategory, 'order' => 'popular'])}}" class="btn btn-secondary btn-sm active link_order"> @if (Request::get('order') == 'popular') <b>{{trans('tube.btn_order_mostpopular')}}</b> @else {{trans('tube.btn_order_mostpopular')}} @endif </a>
-            <a href="{{route('category', ['profile' => App::make('sexodomeKernel')->getSite()->getHost(), 'permalink' => $permalinkCategory, 'order' => 'newest'])}}" class="btn btn-secondary btn-sm active link_order">@if (Request::get('order') == false || Request::get('order') == 'newest') <b>{{trans('tube.btn_order_news')}}</b> @else {{trans('tube.btn_order_news')}} @endif </a>
+            <a href="{{route('category', ['profile' => App::make('sexodomeKernel')->getSite()->getHost(), 'permalink' => $permalinkCategory, 'order' => 'popular'])}}" rel="nofollow" class="btn btn-secondary btn-sm active link_order"> @if (Request::get('order') == 'popular') <b>{{trans('tube.btn_order_mostpopular')}}</b> @else {{trans('tube.btn_order_mostpopular')}} @endif </a>
+            <a href="{{route('category', ['profile' => App::make('sexodomeKernel')->getSite()->getHost(), 'permalink' => $permalinkCategory, 'order' => 'newest'])}}" rel="nofollow" class="btn btn-secondary btn-sm active link_order">@if (Request::get('order') == false || Request::get('order') == 'newest') <b>{{trans('tube.btn_order_news')}}</b> @else {{trans('tube.btn_order_news')}} @endif </a>
         </div>
     @else
         <div class="link_order_container">
-            <a href="{{route('categories', ['order' => 'latest'])}}" class="btn btn-secondary btn-sm active link_order">Latest porn videos</a>
-            <a href="{{route('categories', ['order' => 'newest'])}}" class="btn btn-secondary btn-sm active link_order">Newest porn videos</a>
+            <a href="{{route('categories', ['order' => 'latest'])}}" rel="nofollow" class="btn btn-secondary btn-sm active link_order">Latest porn videos</a>
+            <a href="{{route('categories', ['order' => 'newest'])}}" rel="nofollow" class="btn btn-secondary btn-sm active link_order">Newest porn videos</a>
         </div>
     @endif
 @endsection
