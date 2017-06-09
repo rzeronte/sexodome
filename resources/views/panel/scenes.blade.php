@@ -69,7 +69,6 @@
         <?php echo $scenes->appends([
                 'q'           => $query_string,
                 'tag_q'       => $tag_q,
-                'publish_for' => $publish_for,
                 'duration'    => $duration
         ])->render(); ?>
     </div>
@@ -158,7 +157,6 @@
         <?php echo $scenes->appends([
                 'q'           => $query_string,
                 'tag_q'       => $tag_q,
-                'publish_for' => $publish_for,
                 'duration'    => $duration
         ])->render(); ?>
     </div>
