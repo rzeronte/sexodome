@@ -42,7 +42,6 @@ class ConfigController extends Controller
     {
         $query_string = $request->input('q');
         $tag_query_string = $request->input('tag_q');
-        $publish_for = $request->input('publish_for');  //site_id or 'notpublished'
         $duration = $request->input('duration');
         $scene_id = $request->input('scene_id');
         $category_string = $request->input('category_string');
@@ -59,7 +58,6 @@ class ConfigController extends Controller
             $tag_query_string,
             $site->language->id,
             $duration,
-            $publish_for,
             $scene_id,
             $category_string,
             $empty_title,

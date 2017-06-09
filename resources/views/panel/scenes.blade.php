@@ -51,26 +51,6 @@
                 </select>
             </div>
 
-            <div class="col-md-2">
-                <select class="form-control" name="publish_for" style="width:100%">
-                    <option value="">all my sites</option>
-                    @foreach($sites as $site)
-                        @if ($site->id == $publish_for)
-                            @if ($site->have_domain == 1)
-                                <option value="{{$site->id}}" selected>{{$site->domain}}</option>
-                            @else
-                                <option value="{{$site->id}}" selected>{{$site->name}}.{{\App\rZeBot\sexodomeKernel::getMainPlataformDomain()}}</option>
-                            @endif
-                        @else
-                            @if ($site->have_domain == 1)
-                                <option value="{{$site->id}}">{{$site->domain}}</option>
-                            @else
-                                <option value="{{$site->id}}">{{$site->name}}.{{\App\rZeBot\sexodomeKernel::getMainPlataformDomain()}}</option>
-                            @endif
-                        @endif
-                    @endforeach
-                </select>
-            </div>
             <div class="col-md-2 text-left">
                 <input name="empty_title" type="checkbox" @if (\Illuminate\Support\Facades\Request::input('empty_title') == "on") checked @endif>
                 Title empty<br/>
