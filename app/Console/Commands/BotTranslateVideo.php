@@ -133,6 +133,7 @@ class BotTranslateVideo extends Command
         try {
             $translationTo->save();
         } catch (\Exception $e) {
+            $translation = false;
             rZeBotUtils::message('[ERROR SAVING TRANSLATION] scene_id: '. $scene->id, "red", false, false);
         }
 
