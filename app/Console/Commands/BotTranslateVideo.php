@@ -108,7 +108,7 @@ class BotTranslateVideo extends Command
         }
 
         $translationTitle = $this->translateText($textFrom->title, $from, $to);
-        $translationDescription = $this->translateText(Str::ascii($textFrom->description), $from, $to);
+        $translationDescription = $this->translateText($textFrom->description, $from, $to);
 
         $translation = true;
         if ($translationTitle != false) {
