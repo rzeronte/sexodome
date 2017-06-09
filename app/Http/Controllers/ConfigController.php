@@ -70,7 +70,6 @@ class ConfigController extends Controller
             'scenes'       => $scenes->orderBy('scenes.id', 'desc')->paginate(App::make('sexodomeKernel')->perPageScenes),
             'query_string' => $query_string,
             'tag_q'        => $tag_query_string,
-            'publish_for'  => $publish_for,
             'site'         => $site,
             'title'        => "Admin Panel",
             'sites'        => Site::where('user_id', '=', Auth::user()->id)->get(),
