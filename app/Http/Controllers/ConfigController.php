@@ -64,7 +64,8 @@ class ConfigController extends Controller
             $category_string,
             $empty_title,
             $empty_description,
-            Auth::user()->id
+            Auth::user()->id,
+            $site->id
         );
 
         return view('panel.scenes', [
