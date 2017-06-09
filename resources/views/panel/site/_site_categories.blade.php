@@ -26,7 +26,6 @@
     </div>
 
     <div class="clearfix"></div>
-        {{$site->language->id}}
     <?php $categories = \App\Model\Category::getTranslationSearch(false, $site->language->id, $site->id)->paginate(30) ?>
 
     <div class="categories_ajax_container" style="margin-top: 20px;">

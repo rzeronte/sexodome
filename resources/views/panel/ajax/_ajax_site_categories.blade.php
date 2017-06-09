@@ -48,7 +48,7 @@
                     <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                     <input type="hidden" name="thumbnail" value="{{ $translation->thumb }}"/>
 
-                    <div class="col-md-5">
+                    <div class="col-md-4">
                         <div class="input-group">
                             <input name="language_{{$site->language->id}}" type="text" aria-describedby="basic-addon2" placeholder="" class="form-control" value="{{ $translation->name }}">
                             <span id="basic-addon2" class="input-group-addon"><img alt="{{$translation->permalink}}" src="{{asset("flags/".$site->language->code.".png")}}"/></span>
@@ -73,8 +73,9 @@
 
 
 
-                    <div class="col-md-1">
+                    <div class="col-md-3">
                         <input type="submit" class="btn btn-primary" value="Update"/>
+                        <a href="{{route('ajaxDeleteCategory', ['category_id' => $category->id])}}" class="btn btn-danger btn-delete-category"><i class="glyphicon glyphicon-trash"></i> Remove</a>
                     </div>
 
                 </form>

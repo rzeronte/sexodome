@@ -10,30 +10,18 @@
         <div class="col-md-4 coloreable" style="padding:10px;">
             <form action="{{route('saveTagTranslation', ['tag_id' => $tag->id, 'q'=> Request::input("q"), 'page' => Request::input("page")])}}" method="post" class="ajax-form">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
-                <div class="col-md-3">
-                    <input type="submit"class="btn btn-primary" value="Update"/>
-                </div>
-
-                <div class="col-md-4">
-                    @if ($tag->status == 0)
-                        <i class="fa fa-thumbs-down" style="color:red;float:left;margin-right:10px;margin-top:12px;"></i>
-                    @else
-                        <i class="fa fa-thumbs-up" style="color:green;float:left;margin-right:10px;margin-top:12px;"></i>
-                    @endif
-
-                    <select name="status" class="form-control" style="width:70%;">
-                        <option value="0" <?=($tag->status == '0')?"selected":""?>>KO</option>
-                        <option value="1" <?=($tag->status == '1')?"selected":""?>>OK</option>
-                    </select>
-                </div>
-
                 <?php $translation = $tag->translations()->where('language_id', $site->language->id)->first(); ?>
 
-                <div class="col-md-5">
+                <div class="col-md-6">
                     <div class="input-group">
                         <input name="language_{{$site->language->id}}" type="text" aria-describedby="basic-addon2" placeholder="" class="form-control" value="{{ $translation->name }}">
                         <span id="basic-addon2" class="input-group-addon"><img alt="{{$translation->permalink}}" src="{{asset("flags/".$site->language->code.".png")}}"/></span>
                     </div>
+                </div>
+
+                <div class="col-md-6">
+                    <input type="submit"class="btn btn-primary btn-xs" value="Update"/>
+                    <a href="{{route('ajaxDeleteTag', ['tag_id' => $tag->id])}}" class="btn btn-danger btn-xs btn-delete-tag"><i class="glyphicon glyphicon-trash"></i> Remove</a>
                 </div>
 
             </form>

@@ -36,7 +36,6 @@ class sexodomeKernel extends Controller {
         if (App::runningInConsole()) {
             return;
         }
-
         $this->setSiteAndLanguageOrFail();
 
         // per page setups

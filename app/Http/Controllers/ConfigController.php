@@ -1101,4 +1101,40 @@ class ConfigController extends Controller
         }
     }
 
+    public function ajaxDeleteCategory($category_id)
+    {
+        $category = Category::find($category_id);
+
+        if (!$category) {
+            abort(404, 'Category not found');
+        }
+
+        try {
+            $category->delete();
+
+        } catch(\Exception $e) {
+            return json_encode(array('status' => false));
+        }
+
+        return json_encode(array('status' => true));
+    }
+
+    public function ajaxDeleteTag($tag_id)
+    {
+        $tag = Tag::find($tag_id);
+
+        if (!$tag) {
+            abort(404, 'Tag not found');
+        }
+
+        try {
+            $tag->delete();
+
+        } catch(\Exception $e) {
+            return json_encode(array('status' => false));
+        }
+
+        return json_encode(array('status' => true));
+
+    }
 }
