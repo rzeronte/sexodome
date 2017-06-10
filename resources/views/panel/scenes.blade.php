@@ -134,15 +134,15 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        @foreach($scene->categories()->get() as $t)
-                            <span class="badge" style="color:white; background-color: black;">{{$t->translations('language_id', 2)->first()->name}}</span>
+                        @foreach($scene->categories()->get() as $c)
+                            <span class="badge" style="color:white; background-color: black;">{{$c->translations()->where('language_id', 2)->first()->name}}</span>
                         @endforeach
 
                     </div>
 
                     <div class="col-md-12">
                         @foreach($scene->tags()->get() as $t)
-                            <span class="badge" style="color:white; background-color: gray;">{{$t->translations('language_id', 2)->first()->name}}</span>
+                            <span class="badge" data-tag-id="{{$t->id}}" style="color:white; background-color: gray;">{{$t->translations()->where('language_id', 2)->first()->name}}</span>
                         @endforeach
 
                     </div>
