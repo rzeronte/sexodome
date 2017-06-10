@@ -17,6 +17,7 @@
 <link rel="dns-prefetch" href="https://www.google-analytics.com">
 
 <meta name="format-detection" content="telephone=no">
+<meta name="hubtraffic-domain-validation"  content="a896a15b3b3df915" />
 
 <!--[if IE]>
 <script src="{{asset('tube/bower_components/respond/dest/respond.min.js')}}"></script>
