@@ -176,7 +176,7 @@ class Scene extends Model
         if ($scene_id != "") {
             $scenes->where('scenes.id', $scene_id);
         }
-        
+
         if ($tag_query_string != "") {
             $scenes->join('scene_tag', 'scenes.id', '=', 'scene_tag.scene_id')
                 ->join('tags', 'scene_tag.tag_id', '=', 'tags.id')
@@ -218,30 +218,6 @@ class Scene extends Model
         }
 
         return $scenes;
-    }
-
-    static function getRemoteSceneIdsFor($database) {
-        $sql = "SELECT id FROM scenes WHERE status <> 0 ORDER BY published_at DESC";
-        $scenes = DB::connection($database)->select($sql);
-
-        $ids = [];
-        foreach($scenes as $scene) {
-            $ids[] = $scene->id;
-        }
-
-        return $ids;
-    }
-
-    static function getRemoteActiveScenesIdsFor($database) {
-        $sql = "SELECT id FROM scenes WHERE status =1";
-        $scenes = DB::connection($database)->select($sql);
-
-        $ids = [];
-        foreach($scenes as $scene) {
-            $ids[] = $scene->id;
-        }
-
-        return $ids;
     }
 
     static function getTranslationsForCategory($category_id, $language_id, $order = false)
