@@ -187,7 +187,7 @@ class Scene extends Model
             $scenes->where('tag_translations.permalink', 'like', '%'.$tag_query_string.'%');
         }
 
-        if ($query_string != "") {
+        if ($query_string != "" && $query_string !== false) {
             $scenes->where('scene_translations.title', 'like', "%".$query_string."%");
         }
 

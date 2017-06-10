@@ -40,7 +40,7 @@ class ConfigController extends Controller
 
     public function scenes($site_id, Request $request)
     {
-        $query_string = $request->input('q');
+        $query_string = $request->input('q', false);
         $tag_query_string = $request->input('tag_q');
         $duration = $request->input('duration');
         $scene_id = $request->input('scene_id');
@@ -405,7 +405,7 @@ class ConfigController extends Controller
             'channels'  => Channel::all(),
             'title'     => "Admin Panel",
             'site'      => $site,
-            'sites'     => Site::where('user_id', '=', Auth::user()->id)->orderBy('language_id', 'asc_')->get(),
+            'sites'     => Site::where('user_id', Auth::user()->id)->orderBy('language_id', 'asc')->get(),
             'fi'        => $fi,
             'ff'        => $ff,
             'types'     => Type::all(),
