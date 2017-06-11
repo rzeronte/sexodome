@@ -499,19 +499,11 @@ class ConfigController extends Controller
         if ($request->isMethod('post')) {
 
             // check if already exists
-            if ($request->input('type_site') == 1) {
-                $site = Site::where('domain', '=', trim($request->input('domain')))->first();
-            } else {
-                $site = Site::where('name', '=', trim($request->input('subdomain')))->first();
-            }
+            $site = Site::where('domain', '=', trim($request->input('domain')))->first();
 
             // if exists return with custom error
             if ($site) {
-                if ($request->input('type_site') == 1) {
-                    Request::session()->flash('error_domain', 'Domain <' . trim($request->input('domain')) . '> already exists!');
-                } else {
-                    Request::session()->flash('error_subdomain', 'Subdomain <' . trim($request->input('subdomain')) . '> already exists!');
-                }
+                $request->session()->flash('error_domain', 'Domain <' . trim($request->input('domain')) . '> already exists!');
 
                 return view('panel.add_site', [
                     'sites' => $sites
@@ -524,35 +516,14 @@ class ConfigController extends Controller
             $newSite->name = $request->input('subdomain');
             $newSite->language_id = env("DEFAULT_FETCH_LANGUAGE", 2);
             $newSite->domain = $request->input('domain');
-            $newSite->have_domain = $request->input('type_site');
+            $newSite->have_domain = 1;
             $newSite->header_text = "";
 
             $newSite->save();
 
-            if ($newSite->have_domain == 0) {
-                // Alta del subdominio en CF
-                $clientCF = new CF(App::make('sexodomeKernel')->cloudFlareCfg['email'], App::make('sexodomeKernel')->cloudFlareCfg['key']);
-                try {
-                    $subdomain = $request->input('subdomain');
-
-                    $clientCF->rec_new(array(
-                        'z' => App::make('sexodomeKernel')->cloudFlareCfg['zone'],
-                        'name' => $subdomain . "." . App::make('sexodomeKernel')->cloudFlareCfg['zone'],
-                        'ttl' => 1,
-                        'type' => 'A',
-                        'content' => App::make('sexodomeKernel')->cloudFlareCfg['ip']
-                    ));
-
-                    return redirect()->route('sites', []);
-
-                } catch (CFException $e) {
-                    Request::session()->flash('error_subdomain', '(DNS) subdomain <' . $request->input('subdomain') . '> already exists!');
-                }
-            } else {
-                return redirect()->route('site', [
-                    'site_id' => $newSite->id,
-                ]);
-            }
+            return redirect()->route('site', [
+                'site_id' => $newSite->id,
+            ]);
         }
 
         return view('panel.add_site', [
