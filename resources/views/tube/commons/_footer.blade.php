@@ -12,7 +12,7 @@
             <div id="share"></div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-right">
-            <p class="text-muted"><a href="http://www.sexodome.com" target="_blank">Adult Tube Creator</a> | sexodome.com</p>
+            <p class="text-muted"><a href="http://www.sexodome.com" target="_blank">Adult Tube Creator</a></p>
         </div>
     </div>
 </footer>
