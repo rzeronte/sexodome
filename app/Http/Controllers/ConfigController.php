@@ -125,7 +125,7 @@ class ConfigController extends Controller
                 $site->id,
                 $order_by_nscenes
             )
-            ->paginate(App::make('sexodomeKernel')->perPageScenes)
+            ->paginate(30)
         ;
 
         return view('panel.ajax._ajax_site_categories', [
