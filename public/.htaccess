@@ -43,6 +43,10 @@
     RewriteCond %{HTTP_HOST} ^(www\.)?meufporno\.com$
     RewriteRule ^category/(.*) /porno/$1 [R=301,L]
 
+    # oraleporno.com: category -> xxx
+    RewriteCond %{HTTP_HOST} ^(www\.)?oraleporno\.com$
+    RewriteRule ^category/(.*) /xxx/$1 [R=301,L]
+    
 </IfModule>
 
 <IfModule mod_rewrite.c>
