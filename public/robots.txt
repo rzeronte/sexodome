@@ -4,3 +4,4 @@ disallow: /out/
 disallow: /auth/
 disallow: /dmca/
 disallow: /terms/
+disallow: /*?search=*
