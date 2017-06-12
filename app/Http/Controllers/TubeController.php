@@ -8,6 +8,7 @@ use App\Model\Category;
 use App\Model\Scene;
 use App\Model\Pornstar;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Cache;
 
 class TubeController extends Controller
 {
@@ -116,7 +117,10 @@ class TubeController extends Controller
 
     public function video($profile, $permalink)
     {
-        $scene = Scene::getTranslationByPermalink($permalink, App::make('sexodomeKernel')->language->id, App::make('sexodomeKernel')->site->id);
+        // all valid languages
+        $scene = Cache::remember(App::make('sexodomeKernel')->language->id . "_" . $permalink, env('MEMCACHED_QUERY_TIME', 30), function() use ($permalink){
+            return Scene::getTranslationByPermalink($permalink, App::make('sexodomeKernel')->language->id, App::make('sexodomeKernel')->site->id);
+        });
 
         if (!$scene) {
             abort(404, 'Scene not found');
