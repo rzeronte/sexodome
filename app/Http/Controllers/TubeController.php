@@ -127,7 +127,7 @@ class TubeController extends Controller
         if ($scene->tags()->count() > 0) {
             $randomTag = $scene->tags()->orderByRaw("RAND()")->first();
             $tag = $randomTag->translations()->where('language_id', App::make('sexodomeKernel')->language->id)->first();
-            $related = Scene::getTranslationsForTag($tag->name, App::make('sexodomeKernel')->language->id);
+            $related = Scene::getTranslationsForTag($tag->name, App::make('sexodomeKernel')->language->id, true);
             if (count($related) == 0) {
                 $related = Scene::getAllTranslated(App::make('sexodomeKernel')->language->id);
             }

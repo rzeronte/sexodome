@@ -102,16 +102,23 @@ class Scene extends Model
             ->where('scene_translations.title', '=', $title)->first();
     }
 
-    static function getAllTranslated($language_id)
+    static function getAllTranslated($language_id, $status = false)
     {
-        return Scene::select('scenes.*', 'scene_translations.title', 'scene_translations.permalink')
+        $query = Scene::select('scenes.*', 'scene_translations.title', 'scene_translations.permalink')
             ->join('scene_translations', 'scenes.id', '=', 'scene_translations.scene_id')
             ->where('scene_translations.language_id', $language_id);
+
+        if ($status == true) {
+            $query->where('scenes.status', 1);
+        }
+
+        return $query;
+
     }
 
-    static function getTranslationsForTag($tag_permalink, $language_id)
+    static function getTranslationsForTag($tag_permalink, $language_id, $status = false)
     {
-        return Scene::select('scenes.*', 'scene_translations.title', 'scene_translations.permalink')
+        $query = Scene::select('scenes.*', 'scene_translations.title', 'scene_translations.permalink')
             ->join('scene_translations', 'scenes.id', '=', 'scene_translations.scene_id')
             ->join('scene_tag', 'scenes.id', '=', 'scene_tag.scene_id')
             ->join('tags', 'scene_tag.tag_id', '=', 'tags.id')
@@ -120,6 +127,12 @@ class Scene extends Model
             ->where('tag_translations.language_id', $language_id)
             ->where('scene_translations.language_id', $language_id)
             ->orderBy('scenes.id', 'desc');
+
+        if ($status == true) {
+            $query->where('scenes.status', 1);
+        }
+
+        return $query;
     }
 
     static function hasTag($scene_id, $tag_id)
