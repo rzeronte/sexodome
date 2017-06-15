@@ -22,11 +22,11 @@
 <!--[if IE]>
 <script src="{{asset('tube/bower_components/respond/dest/respond.min.js')}}"></script>
 <script src="{{asset('tube/bower_components/html5shiv/dist/html5shiv.min.js')}}"></script>
+<![endif]-->
+
 <link rel="stylesheet" href="{{asset('tube/bower_components/bootstrap-material-design-icons/css/material-icons.min.css')}}">
 <link rel="stylesheet" href="{{asset('tube/css/main.css')}}">
 <link rel="stylesheet" href="{{asset('tubeThemes/'.App::make('sexodomeKernel')->getSite()->getCSSThemeFilename())}}">
-<![endif]-->
-
 
 <link rel="icon" href="{{asset('/favicons/'.md5(App::make('sexodomeKernel')->getSite()->id).".png")}}">
 <meta name="language" content="{{App::getLocale()}}" />
