@@ -65,20 +65,6 @@
                                     <h5>{{ ucfirst(str_limit($scene->title, 40, $end = '...')) }}</h5>
                                 </a>
 
-                                <ul class="list-inline">
-                                    @foreach ($scene->categories()->limit(3)->get() as $category)
-                                        <?php $translation = $category->translations()->where('language_id',App::make('sexodomeKernel')->getLanguage()->id)->first(); ?>
-                                        <?php if ($translation && count(explode(" ", $translation->name)) <=2): ?>
-                                            <li>
-                                                <span class="label label-default">
-                                                    <a href="{{ route('category', array('profile' => Route::current()->parameter('host'), 'permalink'=> str_slug($translation->name) )) }}" title="Tag">
-                                                        <i class="mdi mdi-label"></i> {{strtolower($translation->name)}}
-                                                    </a>
-                                                </span>
-                                            </li>
-                                        <?php endif?>
-                                    @endforeach
-                                </ul>
                             </figcaption>
                         </figure>
                     </div>
