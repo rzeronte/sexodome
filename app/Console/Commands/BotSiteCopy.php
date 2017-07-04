@@ -39,8 +39,17 @@ class BotSiteCopy extends Command
             return;
         }
 
-        $domain = $this->ask("What is the new domain?");
-        $newSite = $this->createSite($domain, $site_from);
+        $domain_txt = $this->ask("What is the new domain?");
+
+        $domain = Site::where('domain', $domain_txt)->first();
+
+        if (!$domain) {
+            rZeBotUtils::message("El sitio '$domain_txt' NO existe, creando... ", "green", true, true);
+            $newSite = $this->createSite($domain, $site_from);
+        } else {
+            rZeBotUtils::message("El sitio '$domain_txt' SI existe, recuperando... ", "green", true, true);
+            $newSite = $domain;
+        }
 
         $scenes_to_copy = $site_from->scenes()->get();
         DB::transaction(function () use ($scenes_to_copy, $newSite, $site_from) {
