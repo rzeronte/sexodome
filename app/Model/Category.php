@@ -136,7 +136,8 @@ class Category extends Model
                 'categories.site_id',
                 'categories_translations.permalink',
                 'categories_translations.thumb',
-                'categories_translations.thumb_locked'
+                'categories_translations.thumb_locked',
+                'categories.status'
             )
             ->join('categories','categories.id', '=', 'categories_translations.category_id')
             ->where('categories_translations.permalink', $permalink)
@@ -151,6 +152,7 @@ class Category extends Model
         return Category::select(
                 'categories.id',
                 'categories.site_id',
+                'categories.status'
                 'categories_translations.permalink',
                 'categories_translations.thumb',
                 'categories_translations.thumb_locked'
