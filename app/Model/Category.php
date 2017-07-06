@@ -131,15 +131,7 @@ class Category extends Model
 
     static function getTranslationFromPermalink($permalink, $site_id, $language_id)
     {
-        return CategoryTranslation::select(
-                'categories.id',
-                'categories.site_id',
-                'categories_translations.permalink',
-                'categories_translations.thumb',
-                'categories_translations.thumb_locked',
-                'categories.status'
-            )
-            ->join('categories','categories.id', '=', 'categories_translations.category_id')
+        return CategoryTranslation::join('categories','categories.id', '=', 'categories_translations.category_id')
             ->where('categories_translations.permalink', $permalink)
             ->where('categories.site_id', $site_id)
             ->where('categories_translations.language_id', $language_id)
@@ -152,7 +144,7 @@ class Category extends Model
         return Category::select(
                 'categories.id',
                 'categories.site_id',
-                'categories.status'
+                'categories.status',
                 'categories_translations.permalink',
                 'categories_translations.thumb',
                 'categories_translations.thumb_locked'
