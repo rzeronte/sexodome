@@ -60,6 +60,29 @@ class Tag extends Model
         return $tags;
     }
 
+    static function getByPermalink($permalink, $language_id = false, $site_id = false)
+    {
+        $tag = Tag::select(
+            'tags.*',
+            'tag_translations.name',
+            'tag_translations.permalink',
+            'tag_translations.id as translationId'
+        )
+            ->where('tag_translations.permalink', '=', $permalink)
+            ->join('tag_translations', 'tag_translations.tag_id', '=', 'tags.id')
+        ;
+
+        if ($language_id !== false) {
+            $tag->where('tag_translations.language_id', '=', $language_id);
+        }
+
+        if ($site_id !== false) {
+            $tag->where('tags.site_id', '=', $site_id);
+        }
+
+        return $tag->first();
+    }
+
     static function getTranslationByScene($scene, $language_id)
     {
         $tags = $scene->tags()->select(

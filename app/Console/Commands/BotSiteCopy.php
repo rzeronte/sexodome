@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Model\CategoryTag;
+use App\Model\CategoryTranslation;
 use App\Model\Language;
 use App\Model\LanguageTag;
 use App\Model\SceneCategory;
@@ -20,15 +22,13 @@ use DB;
 
 class BotSiteCopy extends Command
 {
-    protected $signature = 'zbot:sites:copy {origin_site_id}';
-
+    protected $signature = 'zbot:site:copy {origin_site_id}';
     protected $description = 'Create new site from another';
 
     public function handle()
     {
         $origin_site_id = $this->argument("origin_site_id");
         $site_from = Site::find($origin_site_id);
-        $site_from->load("scenes", "tags", "pornstars", "categories");
 
         if (!$site_from) {
             rZeBotUtils::message("site_id: $origin_site_id not found", "red", true, true);
@@ -40,7 +40,6 @@ class BotSiteCopy extends Command
         }
 
         $domain_txt = $this->ask("What is the new domain?");
-
         $domain = Site::where('domain', $domain_txt)->first();
 
         if (!$domain) {
@@ -49,24 +48,23 @@ class BotSiteCopy extends Command
         } else {
             rZeBotUtils::message("El sitio '$domain_txt' SI existe, recuperando... ", "green", true, true);
             $newSite = $domain;
+
+            if ($this->confirm('Do you want remove categories and tags from existing site?')) {
+                $this->removePrevious($newSite);
+            }
         }
 
-        $scenes_to_copy = $site_from->scenes()->get();
-        DB::transaction(function () use ($scenes_to_copy, $newSite, $site_from) {
-            foreach($scenes_to_copy as $stc) {
-                // copy scene
-                $newScene = $this->copyScene($stc, $newSite);
-
-                // copy categories
-                $this->copyCategories($stc, $newScene, $newSite);
-
-                // copy tags
-                $this->copyTags($stc, $newScene, $newSite, $site_from);
-
-                // copy pornstars
-                $this->copyPornstars($stc, $newScene, $newSite);
-            }
+        DB::transaction(function () use ( $newSite, $site_from ) {
+            $this->copyTags( $newSite, $site_from );
+            $this->copyCategories( $newSite, $site_from );
+            $this->copyRelationshipsCategoriesTags( $newSite, $site_from );
         });
+    }
+
+    public function removePrevious($newSite)
+    {
+        DB::table('tags')->where('site_id', $newSite->id)->delete();
+        DB::table('categories')->where('site_id', $newSite->id)->delete();
     }
 
     public function createSite($domain, $site_from)
@@ -75,12 +73,6 @@ class BotSiteCopy extends Command
 
         $newSite->name = "Copy of " . $site_from->domain;
         $newSite->domain = $domain;
-        $newSite->banner_script1 = null;
-        $newSite->banner_script2 = null;
-        $newSite->banner_script3 = null;
-        $newSite->banner_mobile1 = null;
-        $newSite->banner_video1 = null;
-        $newSite->banner_video2 = null;
         $newSite->google_analytics = null;
         $newSite->ga_account = null;
 
@@ -89,121 +81,83 @@ class BotSiteCopy extends Command
         return $newSite;
     }
 
-    public function copyScene($scene, $site_to)
+    public function copyTags($newSite, $site_from)
     {
-        rZeBotUtils::message("[COPY SCENE] $scene->id", "green", true, true);
+        foreach($site_from->tags()->get() as $tag) {
+            rZeBotUtils::message("Clonando Tag: $tag->id (" . $site_from->getHost() . ':'.$site_from->id.' -> ' .$newSite->getHost(). ':'.$newSite->id.')', "green", true, false);
+            $newTag = $tag->replicate();
+            $newTag->site_id = $newSite->id;
+            $newTag->push();
 
-        $newScene = $scene->replicate();
-        $newScene->site_id = $site_to->id;
-        $newScene->save();
-
-        // scene translations
-        foreach ($scene->translations()->get() as $trans) {
-            $newTrans = $trans->replicate();
-            $newTrans->scene_id = $newScene->id;
-            $newTrans->save();
+            //translations
+            foreach($tag->translations()->get() as $t) {
+                $newTranslation = $t->replicate();
+                $newTranslation->tag_id = $newTag->id;
+                $newTranslation->push();
+            }
         }
-        return $newScene;
     }
 
-    public function copyCategories($scene_from, $scene_to, $site_to)
+    public function copyCategories($newSite, $site_from)
     {
-        $categories_to_copy = $scene_from->categories()->get();
-        foreach($categories_to_copy as $ctc) {
-            $cat_in_newsite = Category::where('text', $ctc->text)->where('site_id', $site_to->id)->first();
+        foreach($site_from->categories()->get() as $category) {
+            rZeBotUtils::message("Clonando Category: $category->id (". $site_from->getHost() . ':'.$site_from->id.' -> ' .$newSite->getHost(). ':'.$newSite->id.')', "green", true, false);
+            $newCategory = $category->replicate();
+            $newCategory->site_id = $newSite->id;
+            $newCategory->push();
 
-            if (!$cat_in_newsite) {
-                $newCat = $ctc->replicate();
-                $newCat->site_id = $site_to->id;
-                $newCat->save();
+            //translations
+            foreach($category->translations()->get() as $t) {
+                $newTranslation = $t->replicate();
+                $newTranslation->category_id = $newCategory->id;
+                $newTranslation->push();
+            }
+        }
+    }
 
-                // categories translations
-                foreach ($ctc->translations()->get() as $trans) {
-                    $newTrans = $trans->replicate();
-                    $newTrans->category_id = $newCat->id;
-                    $newTrans->save();
+    public function copyRelationshipsCategoriesTags($newSite, $site_from)
+    {
+        foreach($site_from->categories()->get() as $cat) {
+            // la categoría original
+            $permalink_english = $cat->translation(2);
+
+            if (!$permalink_english) {
+                print_r($permalink_english);
+                rZeBotUtils::message("[copyRelationshipsCategoriesTags] No existe categoría en origen: " . $cat->id . " - original site_id: " . $site_from->id, "red", true, false);
+                exit;
+            }
+
+            // Localizamos la categoría en el sitio destino
+            $destinyCategory = Category::getTranslationFromPermalink($permalink_english->permalink, $newSite->id, 2);
+
+            if (!$destinyCategory) {
+                rZeBotUtils::message("[copyRelationshipsCategoriesTags] No existe categoría en destino: " . $permalink_english . " - new site_id: " . $newSite->id, "red", true, false);
+                continue;
+            }
+
+            // preparamos un array con los permalinks de los tags de la categoría en inglés
+            $en_tags = [];
+            foreach($cat->tags()->get() as $t) {
+                $trans = $t->translations()->where('language_id', 2)->first();
+                $en_tags[] = $trans->permalink;
+            }
+
+            rZeBotUtils::message("Generando relaciones category-tags (".$site_from->getHost() . ':'.$site_from->id.' -> ' .$newSite->getHost(). ':'.$newSite->id.')', "cyan", true, true);
+
+            // Buscamos tags por 'permalink' en destino y asociamos cada uno con la categoría en destino
+            foreach($en_tags as $tag_txt) {
+                $destinyTag = Tag::getByPermalink($tag_txt, 2, $newSite->id);
+
+                if (!$destinyTag) {
+                    rZeBotUtils::message("Error clonando relación categoría-tag (".$site_from->getHost() . ':'.$site_from->id.' -> ' .$newSite->getHost(). ':'.$newSite->id.')', "red", true, true);
+                    continue;
                 }
-            } else {
-                $newCat = $cat_in_newsite;
-            }
 
-            // Scene-Category relationship
-            try {
-                $newSceneCat = new SceneCategory();
-                $newSceneCat->scene_id = $scene_to->id;
-                $newSceneCat->category_id = $newCat->id;
-                $newSceneCat->save();
-            } catch(\Exception $e) {
-                rZeBotUtils::message("[CATEGORY ALREADY FOR SCENE] $ctc->text($cat_in_newsite->id)", "red", false, false);
+                $newRel = new CategoryTag();
+                $newRel->category_id = $destinyCategory->id;
+                $newRel->tag_id = $destinyTag->id;
+                $newRel->save();
             }
         }
     }
-
-    public function copyTags($scene_from, $scene_to, $site_to, $site_from)
-    {
-        $tags_to_copy = $scene_from->tags()->get();
-        $language_origin = Language::where('id', $site_from->language_id)->first();
-
-        foreach($tags_to_copy as $ttc) {
-            $tagTranslation = $ttc->translations()->where('language_id', $language_origin->id)->first();
-
-            $tag_in_newsite = TagTranslation::join('tags', 'tags.id', '=', 'tag_translations.tag_id')
-                ->where('name', $tagTranslation->name)
-                ->where('tags.site_id', $site_to->id)
-                ->first()
-            ;
-
-            if (!$tag_in_newsite) {
-                $newTag = $ttc->replicate();
-                $newTag->site_id = $site_to->id;
-                $newTag->save();
-
-                // categories translations
-                foreach ($ttc->translations()->get() as $trans) {
-                    $newTrans = $trans->replicate();
-                    $newTrans->tag_id = $newTag->id;
-                    $newTrans->save();
-                }
-            } else {
-                $newTag = Tag::find($tag_in_newsite->tag_id);
-            }
-
-            // Scene-Tagrelationship
-            try {
-                $newSceneTag = new SceneCategory();
-                $newSceneTag->scene_id = $scene_to->id;
-                $newSceneTag->tag_id = $newTag->id;
-                $newSceneTag->save();
-            } catch(\Exception $e) {
-                rZeBotUtils::message("[TAG ALREADY FOR SCENE] $ttc->id", "red", false, false);
-            }
-        }
-    }
-
-    public function copyPornstars($scene_from, $scene_to, $site_to)
-    {
-        $pornstars_to_copy = $scene_from->pornstars()->get();
-        foreach($pornstars_to_copy as $ptc) {
-            $pornstar_in_newsite = Pornstar::where('name', $ptc->name)->where('site_id', $site_to->id)->first();
-
-            if (!$pornstar_in_newsite) {
-                $newPornstar = $ptc->replicate();
-                $newPornstar->site_id = $site_to->id;
-                $newPornstar->save();
-            } else {
-                $newPornstar= $pornstar_in_newsite;
-            }
-
-            // Scene-Pornstar relationship
-            try {
-                $newScenePornstar = new ScenePornstar();
-                $newScenePornstar->scene_id = $scene_to->id;
-                $newScenePornstar->pornstar_id = $newPornstar->id;
-                $newScenePornstar->save();
-            } catch(\Exception $e) {
-                rZeBotUtils::message("[PORNSTAR ALREADY FOR SCENE] $ptc->text($pornstar_in_newsite->id)", "red", false, false);
-            }
-        }
-    }
-
 }

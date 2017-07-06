@@ -30,6 +30,11 @@ class Category extends Model
         return $this->belongsToMany('App\Model\Scene', 'scene_category', 'category_id', 'scene_id');
     }
 
+    public function translation($language_id)
+    {
+        return $this->translations()->where('language_id', $language_id)->first();
+    }
+
     static function getTranslationSearch($query_string = false, $language_id = false, $site_id = false, $order_by_nscenes = false)
     {
         $categories = Category::select(
@@ -120,16 +125,40 @@ class Category extends Model
         return Category::select('categories.id')
             ->where('site_id', $site_id)
             ->join('category_tags', 'category_tags.category_id', '=', 'categories.id')
-            ->whereIn('category_tags.tag_id', $arrayTagIds);
+            ->whereIn('category_tags.tag_id', $arrayTagIds)
         ;
     }
 
     static function getTranslationFromPermalink($permalink, $site_id, $language_id)
     {
-        return CategoryTranslation::join('categories','categories.id', '=', 'categories_translations.category_id')
-            ->where('permalink', $permalink)
-            ->where('categories.site_id', '=', $site_id)
-            ->where('language_id', $language_id)
+        return CategoryTranslation::select(
+                'categories.id',
+                'categories.site_id',
+                'categories_translations.permalink',
+                'categories_translations.thumb',
+                'categories_translations.thumb_locked'
+            )
+            ->join('categories','categories.id', '=', 'categories_translations.category_id')
+            ->where('categories_translations.permalink', $permalink)
+            ->where('categories.site_id', $site_id)
+            ->where('categories_translations.language_id', $language_id)
+            ->first()
+        ;
+    }
+
+    static function getTranslationById($category_id, $site_id, $language_id)
+    {
+        return Category::select(
+                'categories.id',
+                'categories.site_id',
+                'categories_translations.permalink',
+                'categories_translations.thumb',
+                'categories_translations.thumb_locked'
+            )
+            ->join('categories_translations','categories.id', '=', 'categories_translations.category_id')
+            ->where('categories.id', $category_id)
+            ->where('categories.site_id', $site_id)
+            ->where('categories_translations.language_id', $language_id)
             ->first()
         ;
     }
