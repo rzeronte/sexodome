@@ -142,7 +142,7 @@ class BotSiteCopy extends Command
                 $en_tags[] = $trans->permalink;
             }
 
-            rZeBotUtils::message("Generando relaciones category-tags (".$site_from->getHost() . ':'.$site_from->id.' -> ' .$newSite->getHost(). ':'.$newSite->id.')', "cyan", true, true);
+            rZeBotUtils::message("Generando relaciones category-tags (".$site_from->getHost() . ':'.$site_from->id.' -> ' .$newSite->getHost(). ':'.$newSite->id.')', "cyan", true, false);
 
             // Buscamos tags por 'permalink' en destino y asociamos cada uno con la categoría en destino
             foreach($en_tags as $tag_txt) {
