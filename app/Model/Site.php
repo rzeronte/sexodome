@@ -156,7 +156,7 @@ class Site extends Model
     {
         $h2_category = str_replace("{category}", $translation, $this->h2_category);
 
-        return $h2_category;
+        return ucwords($h2_category);
     }
 
     public function getH2Pornstars()
