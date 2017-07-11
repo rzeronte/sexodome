@@ -22,9 +22,16 @@ class TubeController extends Controller
             ->paginate(App::make('sexodomeKernel')->perPageCategories, $columns = ['*'], $pageName = 'page', $page)
         ;
 
+        $categoriesAlphabetical = Category::getForTranslation(
+            $status = true,
+            App::make('sexodomeKernel')->site->id,
+            App::make('sexodomeKernel')->language->id
+        )->limit(60)->get();
+
         return response()->view('tube.categories', [
             'categories' => $categories,
             'page'       => $page,
+            'categoriesAlphabetical' => $categoriesAlphabetical
         ]);
     }
 

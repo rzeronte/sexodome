@@ -144,7 +144,7 @@
 
             <div style="margin-top:20px;">
                 <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
-                    <p><i class="glyphicon glyphicon-signal"></i> <b>SEO</b></p>
+                    <p><i class="glyphicon glyphicon-signal"></i> <b>Headers</b></p>
                 </div>
             </div>
 
@@ -190,6 +190,21 @@
                 </div>
                 <div class="col-md-7">
                     <input type="text" class="form-control" value="{{$site->h2_pornstar}}" name="h2_pornstar">
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Categories H3:
+                </div>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" value="{{$site->categories_h3}}" name="categories_h3">
+                </div>
+            </div>
+
+            <div style="margin-top:20px;">
+                <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
+                    <p><i class="glyphicon glyphicon-signal"></i> <b>Title/Description SEO</b></p>
                 </div>
             </div>
 

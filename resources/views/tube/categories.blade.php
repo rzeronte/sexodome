@@ -26,5 +26,6 @@
 @section('content')
     @include('tube.commons._header')
     @include('tube.commons._categories')
+    @include('tube.commons._categories_alphabetical')
     @include('tube.commons._iframe_network')
 @endsection

@@ -25,17 +25,17 @@
                     <div class="thumbnail">
                         <figure>
                             <a href="{{route('category', ['profile' => Route::current()->parameter('host'), 'permalink'=>str_slug($category->name)])}}" target="_blank">
-                            <span class="thumb-image">
-                            <span class="floater-b-c">{{ucwords($category->name)}}</span>
-                            <span class="floater-t-l">{{number_format($category->nscenes, 0, ",", ".")}} videos</span>
-                                @if ($category->thumb_locked == 1)
-                                    <?php $srcThumbnail = $category->thumb?>
-                                @else
-                                    <?php $srcThumbnail = asset('/thumbnails/'.md5($category->thumb).".jpg")?>
-                                @endif
+                                <span class="thumb-image">
+                                <h4 class="floater-b-c">{{ucwords($category->name)}}</h4>
+                                <span class="floater-t-l">{{number_format($category->nscenes, 0, ",", ".")}} videos</span>
+                                    @if ($category->thumb_locked == 1)
+                                        <?php $srcThumbnail = $category->thumb?>
+                                    @else
+                                        <?php $srcThumbnail = asset('/thumbnails/'.md5($category->thumb).".jpg")?>
+                                    @endif
 
-                                <img class="img" src="{{$srcThumbnail}}" alt="{{ucwords($category->name)}}" style="height: 100%;">
-                            </span>
+                                    <img class="img" src="{{$srcThumbnail}}" alt="{{ucwords($category->name)}}" style="height: 100%;">
+                                </span>
                             </a>
                         </figure>
                     </div>

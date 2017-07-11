@@ -1,29 +1,16 @@
-<section>
+<section style="margin-bottom:20px;">
 
     <div class="container">
         <div class="col-md-12">
-            <h3 class="alphabetical_categories"><i class="glyphicon glyphicon-align-justify"></i> {{trans('tube.all_categories')}}</h3>
+            <h3 class="alphabetical_categories"><i class="glyphicon glyphicon-th"></i> {{ App::make('sexodomeKernel')->getSite()->categories_h3 }}</h3>
         </div>
 
         <div class="col-md-12 text-left">
             <?php $previous = null; ?>
             @foreach($categoriesAlphabetical as $category)
-                <?php $firstLetter = str_slug(substr($category->name, 0, 1))  ?>
-
-                @if($previous !== str_slug(strtoupper($firstLetter)))
-                    <?php $previous = str_slug(strtoupper($firstLetter)) ?>
-                    @if (is_string($previous) && !is_numeric($previous) && strlen(trim($previous)) > 0)
-                        <div class="clearfix"></div>
-                        <h3 class="alphabetical_categories text-left">{{$previous}}</h3>
-                    @endif
-                @endif
-
-                @if (is_string($previous) && !is_numeric($previous) && strlen(trim($previous)) > 0)
-                    <div class="col-md-2 col-xs-6 text-left alphabetical_category_link">
-                        <a class="text-left" href="{{route('category', ['profile' => Route::current()->parameter('host'), 'permalink'=>str_slug($category->name)])}}" title="{{ucwords($category->name)}}">{{ucwords($category->name)}} ({{$category->nscenes}})</a>
-                    </div>
-                @endif
-
+                <div class="col-md-2 col-xs-6 text-left alphabetical_category_link">
+                    <a class="text-left" href="{{route('category', ['profile' => Route::current()->parameter('host'), 'permalink'=>str_slug($category->name)])}}" title="{{ucwords($category->name)}}">{{ucwords($category->name)}} ({{$category->nscenes}})</a>
+                </div>
             @endforeach
         </div>
 

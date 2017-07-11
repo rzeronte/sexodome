@@ -461,6 +461,7 @@ class ConfigController extends Controller
         $site->type_id = $request->input('type_id');
 
         $site->logo_h1 = $request->input('logo_h1');
+        $site->categories_h3 = $request->input('categories_h3');
         $site->h2_home = $request->input('h2_home');
         $site->h2_category = $request->input('h2_category');
         $site->h2_pornstars = $request->input('h2_pornstars');
