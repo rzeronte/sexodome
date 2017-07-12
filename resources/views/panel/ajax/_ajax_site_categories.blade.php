@@ -21,9 +21,8 @@
                                 <?php $srcThumbnail = $translation->thumb?>
                             @else
                                 <?php
-                                    if (file_exists('/thumbnails/'.md5($translation->thumb).".jpg")) {
-                                        $srcThumbnail = asset('/thumbnails/'.md5($translation->thumb).".jpg");
-                                    } else {
+                                    $srcThumbnail = asset('/thumbnails/'.md5($translation->thumb).".jpg");
+                                    if (!file_exists($srcThumbnail)) {
                                         $srcThumbnail = asset('/images/image_not_found.png');
                                     }
                                 ?>
