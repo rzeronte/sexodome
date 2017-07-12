@@ -25,7 +25,7 @@
                                     if (!file_exists($file_thumbnail)) {
                                         $srcThumbnail = asset('/images/image_not_found.png');
                                     } else {
-                                        $srcThumbnail = $file_thumbnail;
+                                        $srcThumbnail = asset('/thumbnails/'.md5($translation->thumb).".jpg");
                                     }
                                 ?>
                             @endif
