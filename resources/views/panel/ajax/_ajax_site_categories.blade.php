@@ -16,14 +16,23 @@
                 <div class="col-md-4">
                     <div class="row">
                         <div class="col-md-6" style="min-height:190px;">
+
                             @if ($translation->thumb_locked == 1)
                                 <?php $srcThumbnail = $translation->thumb?>
                             @else
-                                <?php $srcThumbnail = asset('/thumbnails/'.md5($translation->thumb).".jpg")?>
+                                <?php
+                                    if (file_exists('/thumbnails/'.md5($translation->thumb).".jpg")) {
+                                        $srcThumbnail = asset('/thumbnails/'.md5($translation->thumb).".jpg");
+                                    } else {
+                                        $srcThumbnail = asset('/images/image_not_found.png');
+                                    }
+                                ?>
                             @endif
+
                             <img src="{{$srcThumbnail}}" class="border-thumb category-preview" style="width:100%; border: solid 1px black;margin-bottom: 10px;"/>
 
                         </div>
+
                         <div class="col-md-6 container-lock-action" data-unlock-category-url="{{route('categoryUnlock', ['category_translation_id' => $translation->id])}}">
                             @if ($translation->thumb_locked == 1)
                                 <span class="locked"><i class="glyphicon glyphicon-ban-circle"></i> Thumbnail locked</span>

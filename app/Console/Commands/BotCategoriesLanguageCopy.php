@@ -36,7 +36,7 @@ class BotCategoriesLanguageCopy extends Command
             exit;
         }
 
-        if (!$this->confirm("Quieres vaciar el idioma '$code_to' de las categorías=")) {
+        if (!$this->confirm("Quieres vaciar el idioma '$code_to' de las categorías?")) {
             DB::table('categories_translations')
                 ->where('site_id', $site->id)
                 ->where('language_id', $languageTo->id)
