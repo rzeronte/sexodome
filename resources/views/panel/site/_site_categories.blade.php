@@ -15,7 +15,6 @@
                 <input type="submit" class="btn btn-success" value="Search"/>
             </div>
 
-
             <div class="col-md-4 text-right">
                 <a href="{{route('orderCategories', ['site_id' => $site->id])}}" class="btn btn-success"><i class="glyphicon glyphicon-th"></i> Manage order</a>
                 <button type="button" class="seo-info-keywords btn btn-success btn-create-category" data-toggle="modal" data-target="#modal-sexodome" data-url="{{ route('createCategory', ['site_id' => $site->id]) }}" style=""><i class="glyphicon glyphicon-plus-sign"></i> Create category</button>

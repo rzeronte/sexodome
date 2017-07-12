@@ -44,7 +44,8 @@ class Category extends Model
                 'categories_translations.id as translationId'
             )
             ->join('categories_translations', 'categories_translations.category_id', '=', 'categories.id')
-            ->where('categories_translations.language_id', $language_id);
+            ->where('categories_translations.language_id', $language_id)
+        ;
 
         if ($query_string !== false) {
             $categories->where('categories_translations.name', 'like', '%'.$query_string.'%');

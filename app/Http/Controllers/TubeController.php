@@ -23,10 +23,13 @@ class TubeController extends Controller
         ;
 
         $categoriesAlphabetical = Category::getForTranslation(
-            $status = true,
-            App::make('sexodomeKernel')->site->id,
-            App::make('sexodomeKernel')->language->id
-        )->limit(60)->get();
+                $status = true,
+                App::make('sexodomeKernel')->site->id,
+                App::make('sexodomeKernel')->language->id
+            )
+            ->limit(60)
+            ->get()
+        ;
 
         return response()->view('tube.categories', [
             'categories' => $categories,

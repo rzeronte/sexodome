@@ -42,6 +42,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\BotTaggerizeCategories::class,
         \App\Console\Commands\BotSiteInfo::class,
         \App\Console\Commands\BotScenesTaggerize::class,
+        \App\Console\Commands\BotCategoriesLanguageCopy::class,
     ];
 
     /**
