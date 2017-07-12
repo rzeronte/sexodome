@@ -198,6 +198,22 @@ class BotFeedFetcher extends Command
 
                     $video = $this->setupVideoData($datos, $mapped_colums, $feed_config, $only_with_pornstars);
 
+
+                    // pornstars checked
+                    if ($only_with_pornstars !== "false") {
+
+                        // Si el feed no tiene pornstars directamente fuera
+                        if ( $video["pornstars"] == null) {
+                            rZeBotUtils::message("[PORNSTAR FLAG SKIPPED. CHANNEL NOT HAVE PORNSTAR]", "yellow", true, false);
+                            continue;
+                        } else {
+                            if (count($video["pornstars"]) == 0) {
+                                rZeBotUtils::message("[PORNSTAR FLAG SKIPPED. NO PORNSTARS IN SCENE]", "yellow", true, false);
+                                continue;
+                            }
+                        }
+                    }
+
                     // check tags matched
                     $tags_check = true;
                     if ($tags !== false) {
@@ -450,6 +466,7 @@ class BotFeedFetcher extends Command
             //echo "TAG: asociando el tag $tagTxt" . PHP_EOL;
         }
     }
+
     public function setupVideoData($datos, $mapped_colums, $feed_config, $only_with_pornstars = false)
     {
         $video = [];
@@ -541,19 +558,6 @@ class BotFeedFetcher extends Command
             }
         }
 
-        if ($only_with_pornstars !== "false") {
-
-            // Si el feed no tiene pornstars directamente fuera
-            if ( $video["pornstars"] == null) {
-                rZeBotUtils::message("[PORNSTAR FLAG SKIPPED. CHANNEL NOT HAVE PORNSTAR]", "yellow", true, false);
-                continue;
-            } else {
-                if (count($video["pornstars"]) == 0) {
-                    rZeBotUtils::message("[PORNSTAR FLAG SKIPPED. NO PORNSTARS IN SCENE]", "yellow", true, false);
-                    continue;
-                }
-            }
-        }
 
         return $video;
     }
