@@ -21,14 +21,16 @@
                                 <?php $srcThumbnail = $translation->thumb?>
                             @else
                                 <?php
-                                    $srcThumbnail = asset('/thumbnails/'.md5($translation->thumb).".jpg");
-                                    if (!file_exists($srcThumbnail)) {
+                                    $file_thumbnail = public_path() . '/thumbnails/'.md5($translation->thumb).".jpg";
+                                    if (!file_exists($file_thumbnail)) {
                                         $srcThumbnail = asset('/images/image_not_found.png');
+                                    } else {
+                                        $srcThumbnail = $file_thumbnail;
                                     }
                                 ?>
                             @endif
 
-                            <img src="{{$srcThumbnail}}" class="border-thumb category-preview" style="width:100%; border: solid 1px black;margin-bottom: 10px;"/>
+                            <img src="{{$srcThumbnail}}" data-thumb="{{$file_thumbnail}}" class="border-thumb category-preview" style="width:100%; border: solid 1px black;margin-bottom: 10px;"/>
 
                         </div>
 
