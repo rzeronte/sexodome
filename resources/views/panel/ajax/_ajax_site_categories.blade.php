@@ -30,7 +30,7 @@
                                 ?>
                             @endif
 
-                            <img src="{{$srcThumbnail}}" data-thumb="{{$file_thumbnail}}" class="border-thumb category-preview" style="width:100%; border: solid 1px black;margin-bottom: 10px;"/>
+                            <img src="{{$srcThumbnail}}" class="border-thumb category-preview" style="width:100%; border: solid 1px black;margin-bottom: 10px;"/>
 
                         </div>
 
