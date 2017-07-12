@@ -17,6 +17,7 @@ class xHamsterFeed
     function mappingColumns()
     {
         $mapped_columns = array(
+            "id"         => 0,
             "url"        => 2,
             "iframe"     => false,
             "preview"    => false,
@@ -61,6 +62,7 @@ class xHamsterFeed
     function configDeleteFeed() {
 
         $mapping = array(
+            "type"      => "url",
             "csv"       => true,
             "separator" => "|",
             "index_url" => 1,

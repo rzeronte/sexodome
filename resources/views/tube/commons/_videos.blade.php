@@ -36,7 +36,13 @@
 
                             @if ($scene->channel->embed == 1)
                                 <?php $href = route('video', ['profile' => Route::current()->parameter('host'), 'permalink' => $scene->permalink]);?>
-                                <a href="{{$href}}" class="img link_image" title="{{$scene->title}}" @if (App::make('sexodomeKernel')->getSite()->google_analytics) onclick="trackOutboundLink('{{$href}}', '{{strtolower($scene->channel->name)}}');return false;" @endif target="_blank">
+                                <a
+                                    href="{{$href}}"
+                                    class="img link_image"
+                                    title="{{$scene->title}}" @if (App::make('sexodomeKernel')->getSite()->google_analytics)
+                                    onclick="trackOutboundLink('{{$href}}', '{{strtolower($scene->channel->name)}}');return false;" @endif
+                                    target="_blank"
+                                >
                                    <span class="thumb-image">
                                         <span class="floater-t-l"><i class="mdi mdi-access-time"></i> {{gmdate("i:s", $scene->duration)}}</span>
                                         <span class="floater-b-l">{{$date->diffForHumans()}}</span>
@@ -45,7 +51,14 @@
                                 </a>
                             @else
                                 <?php $href = route('out', ['profile' => Route::current()->parameter('host'), 'scene_id' => $scene->id, 'p' => $i]); ?>
-                                <a href="{{ route('out', ['profile' => Route::current()->parameter('host'), 'scene_id' => $scene->id, 'p' => $i]) }}" rel="nofollow" target="_blank"  class="img link_image" title="{{$scene->title}}" @if (App::make('sexodomeKernel')->getSite()->google_analytics) onclick="trackOutboundLink('{{$href}}', '{{strtolower($scene->channel->name)}}');return false;" @endif>
+                                <a
+                                    href="{{ route('out', ['profile' => Route::current()->parameter('host'), 'scene_id' => $scene->id, 'p' => $i]) }}"
+                                    rel="nofollow"
+                                    target="_blank"
+                                    class="img link_image"
+                                    title="{{$scene->title}}" @if (App::make('sexodomeKernel')->getSite()->google_analytics)
+                                    onclick="trackOutboundLink('{{$href}}', '{{strtolower($scene->channel->name)}}');return false;" @endif
+                                >
                                    <span class="thumb-image">
                                         <span class="floater-t-l"><i class="mdi mdi-access-time"></i> {{gmdate("i:s", $scene->duration)}}</span>
                                         <span class="floater-b-l">{{$date->diffForHumans()}}</span>

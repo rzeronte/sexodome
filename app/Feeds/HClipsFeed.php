@@ -22,6 +22,7 @@ class HClipsFeed
     function mappingColumns()
     {
         $mapped_columns = array(
+            "id"         => 0,
             "url"        => 1,
             "iframe"     => 10,
             "preview"    => 4,
@@ -60,6 +61,7 @@ class HClipsFeed
 
     function configDeleteFeed() {
         $mapping = array(
+            "type"      => false,
             "csv"       => false,
             "separator" => false,
             "index_url" => false,

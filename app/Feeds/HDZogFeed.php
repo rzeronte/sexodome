@@ -23,6 +23,7 @@ class HDZogFeed
     function mappingColumns()
     {
         $mapped_columns = array(
+            "id"         => 0,
             "url"        => 1,
             "iframe"     => 11,
             "preview"    => 4,
@@ -60,6 +61,7 @@ class HDZogFeed
 
     function configDeleteFeed() {
         $mapping = array(
+            "type"      => "id",
             "csv"       => false,
             "separator" => false,
             "index_url" => false,

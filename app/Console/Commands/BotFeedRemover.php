@@ -43,34 +43,68 @@ class BotFeedRemover extends Command
 
             DB::transaction(function () use ($fileCSV, $deleteCfg, $sites, $chunk_limit, $total_processed) {
                 if (($gestor = fopen($fileCSV, "r")) !== FALSE) {
+
                     $chunk_urls = [];
+                    $chunk_ids = [];
                     $chunk_iterator = 0;
+
+                    rZeBotUtils::message("Delete dump type:  " . $deleteCfg["type"], "yellow", true, true);
+
                     while (($datos = fgets($gestor, 2000)) !== FALSE) {
 
-                        // Depende del formato del CSV de borrados, obtenemos
-                        // la url directamente, o partimos el string para obtener la url según la cfg del dump de borrados.
-                        if ($deleteCfg["csv"]) {
-                            $data = explode($deleteCfg["separator"], $datos);
-                            $url_to_match = trim($data[$deleteCfg["index_url"]]);
-                        } else {
-                            $url_to_match = trim($datos);
+                        //*********************************************************** BORRADO POR 'URL'
+                        if ($deleteCfg["type"] == "url") {
+
+                            //*********************************************************** csv
+                            if ($deleteCfg["csv"]) {
+                                $data = explode($deleteCfg["separator"], $datos);
+                                $url_to_match = trim($data[$deleteCfg["index_url"]]);
+                            } else {
+                                //*********************************************************** url en crudo
+                                $url_to_match = trim($datos);
+                            }
+
+                            $chunk_urls[] = $url_to_match;
+
+                        } elseif ($deleteCfg["type"] == "id") { //********************** BORRADO POR 'ID'
+
+                            //*********************************************************** csv
+                            if ($deleteCfg["csv"]) {
+                                $data = explode($deleteCfg["separator"], $datos);
+                                $id_to_match = trim($data[$deleteCfg["index_url"]]);
+                            } else {
+                                //*********************************************************** id
+                                $id_to_match = trim($datos);
+                            }
+
+                            $chunk_ids[] = $id_to_match;
                         }
 
                         $chunk_iterator++;
-                        $chunk_urls[] = $url_to_match;
+
+                        // cada $chunk_limit vaciamos, ya sea array de urls o de ids
                         if ($chunk_iterator == $chunk_limit) {
+
                             $total_processed+=$chunk_iterator;
                             $chunk_iterator = 0;
 
                             $this->EraseChunkUrlInSite($chunk_urls, $total_processed);
+                            $this->EraseChunkIdInSite($chunk_ids, $total_processed);
                         }
+
                     }
                     // Para los que hayan quedado fuera del chunk
                     $this->EraseChunkUrlInSite($chunk_urls, $total_processed);
+                    $this->EraseChunkIdInSite($chunk_ids, $total_processed);
                 }
             });
             rZeBotUtils::message("TOTAL DE BORRADOS: " . Scene::withTrashed()->whereNotNull('deleted_at')->count(), "cyan", true, true);
         }
+    }
+
+    public function EraseChunkIdInSite($chunk_ids, $total_processed)
+    {
+
     }
 
     public function EraseChunkUrlInSite(&$chunk_urls, $total_processed)

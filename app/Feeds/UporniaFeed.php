@@ -36,6 +36,7 @@ class UporniaFeed
     function mappingColumns()
     {
         $mapped_columns = array(
+            "id"         => 0,
             "url"         => 1,
             "title"       => 2,
             "description" => 3,
@@ -74,6 +75,7 @@ class UporniaFeed
 
     function configDeleteFeed() {
         $mapping = array(
+            "type"      => false,
             "csv"       => false,
             "separator" => false,
             "index_url" => false,

@@ -38,6 +38,7 @@ class TheGayFeed
     function mappingColumns()
     {
         $mapped_columns = array(
+            "id"         => 0,
             "url"        => 1,
             "iframe"     => 11,
             "description"=> 3,
@@ -76,6 +77,7 @@ class TheGayFeed
 
     function configDeleteFeed() {
         $mapping = array(
+            "type"      => false,
             "csv"       => false,
             "separator" => false,
             "index_url" => false,

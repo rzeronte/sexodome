@@ -59,6 +59,7 @@ class YouPornFeed
     function configDeleteFeed() {
 
         $mapping = array(
+            "type"      => "url",
             "csv"       => false,
             "separator" => false,
             "index_url" => false,

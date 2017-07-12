@@ -21,6 +21,7 @@ class RedtubeFeed
     function mappingColumns()
     {
         $mapped_columns = array(
+            "id"         => 0,
             "url"        => 2,
             "iframe"     => false,
             "preview"    => false,
@@ -63,6 +64,7 @@ class RedtubeFeed
 
     function configDeleteFeed() {
         $mapping = array(
+            "type"      => false,
             "csv"       => true,
             "separator" => "|",
             "index_url" => 1,

@@ -19,6 +19,7 @@ class SpankwireFeed
     function mappingColumns()
     {
         $mapped_columns = array(
+            "id"         => 0,
             "url"        => 2,
             "iframe"     => false,
             "preview"    => 6,
@@ -96,6 +97,7 @@ class SpankwireFeed
 
     function configDeleteFeed() {
         $mapping = array(
+            "type"      => false,
             "csv"       => false,
             "separator" => false,
             "index_url" => false,

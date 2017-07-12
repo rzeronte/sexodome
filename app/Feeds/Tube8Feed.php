@@ -59,6 +59,7 @@ class Tube8Feed
 
     function configDeleteFeed() {
         $mapping = array(
+            "type"      => "url",
             "csv"       => false,
             "separator" => false,
             "index_url" => false,

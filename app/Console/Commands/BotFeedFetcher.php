@@ -196,98 +196,7 @@ class BotFeedFetcher extends Command
                         break;
                     }
 
-                    // likes/unlikes
-                    $videorate = 0;
-                    if ($mapped_colums['unlikes'] !== false && $mapped_colums['likes'] !== false) {
-                        $unlikes = $datos[$mapped_colums['unlikes']];
-                        $likes = $datos[$mapped_colums['likes']];
-                    } else {
-                        $unlikes = $likes = 0;
-                    }
-
-                    if ($likes+$unlikes != 0) {
-                        $videorate = ($likes*100)/($likes+$unlikes);
-                    }
-                    // mount $video data array
-                    $video = array(
-                        "iframe"    => $datos[$mapped_colums['iframe']],
-                        "url"       => $datos[$mapped_colums['url']],
-                        "title"     => $datos[$mapped_colums['title']],
-                        "duration"  => $feed_config["parse_duration"]($datos[$mapped_colums['duration']]),
-                        "likes"     => $likes,
-                        "unlikes"   => $unlikes,
-                        "views"     => ($mapped_colums['views'] !== false) ? $datos[$mapped_colums['views']] : 0,
-                        "rate"      => $videorate
-                    );
-
-                    // description (no todos los feeds llevan description)
-                    if (isset($mapped_colums['description'])) {
-                        $video["description"] = $datos[$mapped_colums['description']];
-                    }
-                    // ************************************************************ parse field individually arrays
-
-                    // tags
-                    if ($mapped_colums['tags'] !== false && strlen($datos[$mapped_colums['tags']])) {
-                        $video["tags"] = explode($feed_config["tags_separator"], $datos[$mapped_colums['tags']]);
-                    } else {
-                        $video["tags"] = [];
-                    }
-
-                    // categories
-                    if ($mapped_colums['categories'] !== false && strlen($datos[$mapped_colums['categories']]) > 0) {
-                        $video["categories"] = explode($feed_config["categories_separator"], $datos[$mapped_colums['categories']]);
-                    } else {
-                        $video["categories"] = [];
-                    }
-
-                    // unimos las categorías del video con los tags. Para nosotros serán tags
-                    $video['tags'] = array_merge($video["tags"], $video["categories"]);
-                    $video['tags'] = array_unique($video['tags']);
-
-                    // pornstars
-                    if ($mapped_colums['pornstars'] !== false && strlen($datos[$mapped_colums['pornstars']]) > 0) {
-                        $video["pornstars"] = explode($feed_config["pornstars_separator"], $datos[$mapped_colums['pornstars']]);
-                    } else {
-                        $video["pornstars"] = null;
-                    }
-
-                    // thumbs
-                    if ($mapped_colums['thumbs'] !== false) {
-                        $video["thumbs"] = explode($feed_config["thumbs_separator"], $datos[$mapped_colums['thumbs']]);
-                    } else {
-                        // if not have thumbs, try set only preview, else, empty
-                        if ($mapped_colums['preview'] !== false) {
-                            $video["thumbs"] = array($datos[$mapped_colums['preview']]);
-                        } else {
-                            $video["thumbs"] = null;
-                        }
-                    }
-
-                    // preview
-                    if ($mapped_colums['preview'] !== false) {
-                        $video["preview"] = $datos[$mapped_colums['preview']];
-                    } else {
-                        // if not have preview, try set only preview, else, empty
-                        if ($mapped_colums['thumbs'] !== false) {
-                            $video["preview"] = explode($feed_config["thumbs_separator"], $datos[$mapped_colums['thumbs']])[0];
-                        } else {
-                            $video["preview"] = null;
-                        }
-                    }
-
-                    if ($only_with_pornstars !== "false") {
-
-                        // Si el feed no tiene pornstars directamente fuera
-                        if ( $video["pornstars"] == null) {
-                            rZeBotUtils::message("[PORNSTAR FLAG SKIPPED. CHANNEL NOT HAVE PORNSTAR]", "yellow", true, false);
-                            continue;
-                        } else {
-                            if (count($video["pornstars"]) == 0) {
-                                rZeBotUtils::message("[PORNSTAR FLAG SKIPPED. NO PORNSTARS IN SCENE]", "yellow", true, false);
-                                continue;
-                            }
-                        }
-                    }
+                    $video = $this->setupVideoData($datos, $mapped_colums, $feed_config, $only_with_pornstars);
 
                     // check tags matched
                     $tags_check = true;
@@ -361,7 +270,7 @@ class BotFeedFetcher extends Command
                             $this->processPornstars($video, $site_id, $scene);
 
                             if ($site->language_id != 2) {
-                                $exitCodeTranslation = Artisan::call('zbot:translate:video', [
+                                Artisan::call('zbot:translate:video', [
                                     'from'     => 'en',
                                     'to'       => $site->language->code,
                                     'scene_id' => $scene->id,
@@ -393,15 +302,19 @@ class BotFeedFetcher extends Command
     {
         $scene = new Scene();
 
-        $scene->preview    = $video["preview"];
         if ($video["iframe"] !== false) {
-            $scene->iframe     = $video["iframe"];
+            $scene->iframe = $video["iframe"];
         }
 
         if ($video["url"] !== false) {
             $scene->url = $video["url"];
         }
 
+        if ($video["id"] !== false) {
+            $scene->origin_id = $video["id"];
+        }
+
+        $scene->preview    = $video["preview"];
         $scene->status     = $default_status;
         $scene->views      = is_integer($video["views"]) ? $video["views"] : 0;
         $scene->channel_id = $feed->id;
@@ -409,7 +322,6 @@ class BotFeedFetcher extends Command
         $scene->duration   = $video["duration"];
         $scene->rate       = $video["rate"];
         $scene->site_id    = $site_id;
-
         $scene->save();
 
         // thumbnail
@@ -483,7 +395,7 @@ class BotFeedFetcher extends Command
 
     public function processTags($video, $site_id, $scene, $languages)
     {
-        if ( $video["tags"] == null ) {
+        if ($video["tags"] == null) {
             return false;
         }
 
@@ -496,10 +408,10 @@ class BotFeedFetcher extends Command
             }
 
             if (TagTranslation::join('tags', 'tags.id', '=', 'tag_translations.tag_id')
-                ->where('site_id', '=', $site_id)
-                ->where('name', $tagTxt)
-                ->where('language_id', 2)
-                ->count() == 0
+                    ->where('site_id', '=', $site_id)
+                    ->where('name', $tagTxt)
+                    ->where('language_id', 2)
+                    ->count() == 0
             ) {
                 //echo "TAG: creando tag en la colección" . PHP_EOL;
                 $tag = new Tag();
@@ -537,6 +449,113 @@ class BotFeedFetcher extends Command
             $sceneTag->save();
             //echo "TAG: asociando el tag $tagTxt" . PHP_EOL;
         }
+    }
+    public function setupVideoData($datos, $mapped_colums, $feed_config, $only_with_pornstars = false)
+    {
+        $video = [];
+
+        // likes/unlikes
+        $videorate = 0;
+        if ($mapped_colums['unlikes'] !== false && $mapped_colums['likes'] !== false) {
+            $unlikes = $datos[$mapped_colums['unlikes']];
+            $likes = $datos[$mapped_colums['likes']];
+        } else {
+            $unlikes = $likes = 0;
+        }
+
+        if ($likes+$unlikes != 0) {
+            $videorate = ($likes*100)/($likes+$unlikes);
+        }
+
+        // mount $video data array
+        $video = array(
+            "iframe"    => $datos[$mapped_colums['iframe']],
+            "url"       => $datos[$mapped_colums['url']],
+            "title"     => $datos[$mapped_colums['title']],
+            "duration"  => $feed_config["parse_duration"]($datos[$mapped_colums['duration']]),
+            "likes"     => $likes,
+            "unlikes"   => $unlikes,
+            "views"     => ($mapped_colums['views'] !== false) ? $datos[$mapped_colums['views']] : 0,
+            "rate"      => $videorate
+        );
+
+        // description (no todos los feeds llevan description)
+        if (isset($mapped_colums['id'])) {
+            $video["id"] = $datos[$mapped_colums['id']];
+        } else {
+            $video["id"] = null;
+        }
+
+        // description (no todos los feeds llevan description)
+        if (isset($mapped_colums['description'])) {
+            $video["description"] = $datos[$mapped_colums['description']];
+        }
+        // ************************************************************ parse field individually arrays
+
+        // tags
+        if ($mapped_colums['tags'] !== false && strlen($datos[$mapped_colums['tags']])) {
+            $video["tags"] = explode($feed_config["tags_separator"], $datos[$mapped_colums['tags']]);
+        } else {
+            $video["tags"] = [];
+        }
+
+        // categories
+        if ($mapped_colums['categories'] !== false && strlen($datos[$mapped_colums['categories']]) > 0) {
+            $video["categories"] = explode($feed_config["categories_separator"], $datos[$mapped_colums['categories']]);
+        } else {
+            $video["categories"] = [];
+        }
+
+        // unimos las categorías del video con los tags. Para nosotros serán tags
+        $video['tags'] = array_merge($video["tags"], $video["categories"]);
+        $video['tags'] = array_unique($video['tags']);
+
+        // pornstars
+        if ($mapped_colums['pornstars'] !== false && strlen($datos[$mapped_colums['pornstars']]) > 0) {
+            $video["pornstars"] = explode($feed_config["pornstars_separator"], $datos[$mapped_colums['pornstars']]);
+        } else {
+            $video["pornstars"] = null;
+        }
+
+        // thumbs
+        if ($mapped_colums['thumbs'] !== false) {
+            $video["thumbs"] = explode($feed_config["thumbs_separator"], $datos[$mapped_colums['thumbs']]);
+        } else {
+            // if not have thumbs, try set only preview, else, empty
+            if ($mapped_colums['preview'] !== false) {
+                $video["thumbs"] = array($datos[$mapped_colums['preview']]);
+            } else {
+                $video["thumbs"] = null;
+            }
+        }
+
+        // preview
+        if ($mapped_colums['preview'] !== false) {
+            $video["preview"] = $datos[$mapped_colums['preview']];
+        } else {
+            // if not have preview, try set only preview, else, empty
+            if ($mapped_colums['thumbs'] !== false) {
+                $video["preview"] = explode($feed_config["thumbs_separator"], $datos[$mapped_colums['thumbs']])[0];
+            } else {
+                $video["preview"] = null;
+            }
+        }
+
+        if ($only_with_pornstars !== "false") {
+
+            // Si el feed no tiene pornstars directamente fuera
+            if ( $video["pornstars"] == null) {
+                rZeBotUtils::message("[PORNSTAR FLAG SKIPPED. CHANNEL NOT HAVE PORNSTAR]", "yellow", true, false);
+                continue;
+            } else {
+                if (count($video["pornstars"]) == 0) {
+                    rZeBotUtils::message("[PORNSTAR FLAG SKIPPED. NO PORNSTARS IN SCENE]", "yellow", true, false);
+                    continue;
+                }
+            }
+        }
+
+        return $video;
     }
 
 }
