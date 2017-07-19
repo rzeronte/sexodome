@@ -55,8 +55,6 @@ Route::group(['domain' => 'accounts.'.\App\rZeBot\sexodomeKernel::getMainPlatafo
     Route::match(['get'], '/ajax/savePopunder/{site_id}', 'ConfigController@ajaxSavePopunder')->name('ajaxSavePopunder');
     Route::match(['get'], '/ajax/deletePopunder/{popunder_id}', 'ConfigController@ajaxDeletePopunder')->name('ajaxDeletePopunder');
 
-    Route::match(['get'], '/workers/{site_id}', 'ConfigController@ajaxSiteWorkers')->name('ajaxSiteWorkers');
-
     Route::match(['get'], '/ajax/preview/{scene_id}', 'ConfigController@scenePreview')->name('scenePreview');
 
     Route::match(['get'], '/ajax/cronjobs/{site_id}', 'ConfigController@ajaxCronJobs')->name('ajaxCronJobs');
@@ -137,4 +135,3 @@ if (!App::runningInConsole() && App::make('site')) {
     });
 
 }
-

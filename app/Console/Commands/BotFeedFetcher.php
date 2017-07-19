@@ -3,27 +3,20 @@
 namespace App\Console\Commands;
 
 use App\Model\Channel;
-use App\Model\LanguageTag;
 use App\Model\ScenePornstar;
 use Illuminate\Console\Command;
 use App\rZeBot\rZeBotUtils;
-use App\Model\Host;
 use App\Model\Site;
 use App\Model\Tag;
-use App\Model\InfoJobs;
 use App\Model\Language;
 use App\Model\Scene;
 use App\Model\SceneTranslation;
 use App\Model\TagTranslation;
-use App\Model\Category;
-use App\Model\CategoryTranslation;
 use App\Model\SceneTag;
-use App\Model\SceneCategory;
 use App\rZeBot\sexodomeKernel;
 use App\Model\Pornstar;
-use DB;
-use Artisan;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Artisan;
 
 class BotFeedFetcher extends Command
 {
@@ -41,7 +34,6 @@ class BotFeedFetcher extends Command
                             {--spin=false : Spin scene title and description}
                             {--only_with_pornstars=false : Only import scenes with pornstars}
                             {--categorize=false : Categorize scene}
-                            {--job=false : Infojob Id}
                             {--test=false : Test}';
 
     /**
@@ -68,7 +60,6 @@ class BotFeedFetcher extends Command
         $minDuration = $this->option('duration');
         $spin        = $this->option('spin');
         $test        = $this->option('test');
-        $job         = $this->option('job');
         $only_with_pornstars = $this->option('only_with_pornstars');
         $categorize  = $this->option('categorize');
 
@@ -93,11 +84,6 @@ class BotFeedFetcher extends Command
         // instance class dynamically from mapping_class field in bbdd
         $cfg = new $feed->mapping_class;
 
-        // Info debug
-        if ($job !== "false") {
-            rZeBotUtils::message('Job: '. $job, "green");
-        }
-
         $this->parseCSV(
             $site,
             $feed,
@@ -115,18 +101,6 @@ class BotFeedFetcher extends Command
             $categorize
         );
 
-        // delete infojob
-        if ($job !== "false") {
-            rZeBotUtils::message('Finalizamos InfoJob: '. $job, "yellow");
-            $infojob = InfoJobs::find($job);
-            if ($infojob) {
-                $infojob->finished = true;
-                $infojob->finished_at = date("Y-m-d H:i:s");
-                $infojob->save();
-            } else {
-                rZeBotUtils::message('[ERROR : '. $job, "yellow");
-            }
-        }
     }
 
     public function parseTagsOption($tags)
@@ -168,9 +142,9 @@ class BotFeedFetcher extends Command
             $fila = 1;
             $languages = Language::all();
             $added = 0;
-            $fileCSV = sexodomeKernel::getDumpsFolder().$feed->file;
+            $fileCSV = base_path() .'/'. sexodomeKernel::getDumpsFolder().$feed->file;
 
-            if (!file_exists($fileCSV)) {
+            if (! file_exists($fileCSV)) {
                 rZeBotUtils::message("[ERROR] $fileCSV not exist...", "red", true, true);
             }
 

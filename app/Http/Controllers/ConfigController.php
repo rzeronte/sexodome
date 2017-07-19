@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ImportScenesWorker;
 use App\Model\Language;
 use App\Model\Type;
 use App\rZeBot\rZeBotUtils;
@@ -12,7 +13,6 @@ use App\Model\Scene;
 use App\Model\Category;
 use App\Model\Tag;
 use App\Model\CronJob;
-use App\Model\InfoJobs;
 use App\Model\CategoryTranslation;
 use App\rZeBot\sexodomeKernel;
 use Illuminate\Http\Request;
@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 use App\Model\TagTranslation;
+use Illuminate\Support\Facades\Log;
 
 class ConfigController extends Controller
 {
@@ -131,26 +132,6 @@ class ConfigController extends Controller
         return view('panel.ajax._ajax_site_categories', [
             'site'       => $site,
             'categories' => $categories,
-        ]);
-    }
-
-    public function ajaxSiteWorkers($site_id)
-    {
-        $site = Site::find($site_id);
-
-        if (!$site) {
-            abort(404, "Site not found");
-        }
-
-        if (!(Auth::user()->id == $site->user->id)) {
-            abort(401, "Unauthorized");
-        }
-
-        $infojobs = $site->infojobs()->paginate(10);
-
-        return view('panel.ajax._ajax_site_workers', [
-            'site'     => $site,
-            'infojobs' => $infojobs,
         ]);
     }
 
@@ -306,16 +287,10 @@ class ConfigController extends Controller
             abort(401, "Unauthorized");
         }
 
-        $channel = Channel::where('name', '=', $request->input('feed_name'))->first();
+        $channel = Channel::where('name', '=', $request->input('feed_name', false))->first();
 
         if (!$channel) {
             abort(404, "Channel not found");
-        }
-
-        // categories y tags son 'false' en string, por requisito del comando (refact)
-        $categories = $request->input('categories', false);
-        if (strlen($categories) == 0) {
-            $categories = 'false';
         }
 
         $tags = $request->input('tags', false);
@@ -329,7 +304,6 @@ class ConfigController extends Controller
             'max'        => $request->input('max'),
             'duration'   => $request->input('duration'),
             'tags'       => $tags,
-            'categories' => $categories,
         ];
 
         if ($request->input('only_with_pornstars') == 1) {
@@ -338,23 +312,14 @@ class ConfigController extends Controller
             $queueParams['only_with_pornstars'] = 'false';
         }
 
-        $newInfoJob = new InfoJobs();
-        $newInfoJob->site_id = $site_id;
-        $newInfoJob->feed_id = $channel->id;
-        $newInfoJob->created_at = date("Y:m:d H:i:s");
-        $newInfoJob->serialized = json_encode($queueParams);
-        $newInfoJob->save();
-
-        $queueParams['job'] = $newInfoJob->id;
-
         try {
-            $job = (new importScenesFromFeed($queueParams));
-            $this->dispatch($job);
+            $job = new ImportScenesWorker($queueParams);
+            dispatch($job);
 
             return json_encode(['status' => true]);
 
         } catch (\Exception $e) {
-            Log::info('[ERROR Al lanzar importScenesFromFeed]');
+            Log::info('[ERROR Al lanzar importScenesFromFeed] ' . $e->getMessage());
 
             return json_encode(['status' => false]);
         }

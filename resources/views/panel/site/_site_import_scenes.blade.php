@@ -50,14 +50,6 @@
                             <input type="text" name="tags" class="form-control" placeholder="tags comma separated">
                         @endif
 
-                        @if (!$mappedColumn['categories'])
-                            <div class="alert alert-danger" role="alert" style="margin-top:10px;">
-                                <i class='glyphicon glyphicon-ban-circle'></i> No categories filter available
-                            </div>
-                        @else
-                            <input type="text" name="categories" class="form-control" placeholder="categories comma separated" style="margin-top: 10px;">
-                        @endif
-
                     </div>
 
                     <div class="col-md-2">
@@ -88,16 +80,4 @@
         @endforeach
 
     </div>
-    <div class="row">
-        <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;margin-top: 20px;">
-            <p><i class="glyphicon glyphicon-hd-video"></i> <b>Historical imports</b></p>
-        </div>
-
-        <?php $infojobs = $site->infojobs()->paginate(10); ?>
-
-        <div class="workers_ajax_container">
-            @include('panel.ajax._ajax_site_workers')
-        </div>
-    </div>
-
 </div>
