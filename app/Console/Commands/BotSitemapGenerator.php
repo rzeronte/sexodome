@@ -60,7 +60,7 @@ class BotSitemapGenerator extends Command
             ->get()
         ;
 
-        $categories = $site->categories()->where('status', 1)->get();
+        $categories = $site->categories()->where('categories.status', 1)->get();
         $i = 0;
         foreach($categories as $category) {
             $categoryTranslation = $category->translations()->whereNotNull('permalink')->where('language_id', $language_id)->first();
