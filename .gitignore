@@ -1,8 +1,11 @@
 !/storage/app/laravel-analytics-cache
 /node_modules
-/public/hot
+/public/categories_custom
+/public/categories_market
+/public/categories_market_gay
 /public/logos
 /public/storage
+/public/sitemaps
 /storage/*.key
 /vendor
 /.idea

@@ -193,7 +193,7 @@ class TubeController extends Controller
     {
         if (App::make('sexodomeKernel')->site) {
             $sitemapFile = App::make('sexodomeKernel')->site->getSitemap();
-            $file = Storage::disk('web')->get($sitemapFile);
+            $file = Storage::disk('web')->get('sitemaps/'.$sitemapFile);
         } else {
             $file = Storage::disk('web')->get('sexodome-sitemap.xml');
         }

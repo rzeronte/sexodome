@@ -95,7 +95,7 @@ class BotSitemapGenerator extends Command
                         }
                     }
                 }
-                $sitemapScenes->store('xml', $site->getHost().".scenes.".$num_scenes_chunks, '');
+                $sitemapScenes->store('xml', $site->getHost().".scenes.".$num_scenes_chunks, public_path().'/sitemaps');
                 $num_scenes_chunks++;
             }
         }
@@ -111,8 +111,8 @@ class BotSitemapGenerator extends Command
                 $i++;
             }
 
-            $sitemapPornstars->store('xml', $site->getHost().".pornstars", '');
-            $sitemap->addSitemap($protocol. $site->getHost() . "/" . $site->getHost().".pornstars.xml", date('Y-m-d\TH:i:s') );
+            $sitemapPornstars->store('xml', $site->getHost().".pornstars", public_path().'/sitemaps');
+            $sitemap->addSitemap($protocol. $site->getHost() . "/sitemaps/" . $site->getHost().".pornstars.xml", date('Y-m-d\TH:i:s') );
         }
 
         // Home
@@ -122,18 +122,18 @@ class BotSitemapGenerator extends Command
         if (count($pornstars) > 0) {
             $sitemapDefault->add($protocol.$site->getHost().'/'.$site->pornstars_url, date('Y-m-d') . 'T00:00:00+00:00', '1.0', 'daily');
         }
-        $sitemapDefault->store('xml', $site->getHost().".default", '');
+        $sitemapDefault->store('xml', $site->getHost().".default", public_path().'/sitemaps');
 
         $sitemapCategories->store('xml', $site->getHost().".categories", '');
-        $sitemap->addSitemap($protocol. $site->getHost() . "/" . $site->getHost().".default.xml", date('Y-m-d\TH:i:s') );
-        $sitemap->addSitemap($protocol. $site->getHost() . "/" . $site->getHost().".categories.xml", date('Y-m-d\TH:i:s') );
+        $sitemap->addSitemap($protocol. $site->getHost() . "/sitemaps/" . $site->getHost().".default.xml", date('Y-m-d\TH:i:s') );
+        $sitemap->addSitemap($protocol. $site->getHost() . "/sitemaps/" . $site->getHost().".categories.xml", date('Y-m-d\TH:i:s') );
 
         if ($num_scenes_chunks !== false) {
             for ($n = 1; $n <= $num_scenes_chunks-1; $n++) {
-                $sitemap->addSitemap($protocol.$site->getHost() . "/".$site->getHost() . ".scenes.".$n.".xml", date('Y-m-d\TH:i:s') );
+                $sitemap->addSitemap($protocol.$site->getHost() . "/sitemaps/".$site->getHost() . ".scenes.".$n.".xml", date('Y-m-d\TH:i:s') );
             }
         }
 
-        $sitemap->store('sitemapindex', $site->getHost(), '');
+        $sitemap->store('sitemapindex', $site->getHost(), public_path().'/sitemaps');
     }
 }
