@@ -1,178 +1,121 @@
-/*Layout*/
-    body {
-        background-color: #ffffff !important;
+/* 1 Color Body Bg */
+body {
+    background-color: #d2d2d2 !important;
+}
+
+h1 {
+    margin-top: 10px !important;
+}
+
+.thumbnail {
+    background-color: #d2d2d2 !important;
+}
+
+/* 2 Color Header Bg */
+body > .navbar-default
+{
+    background-color: #000000 !important;
+
     }
 
-    .header{
-        background-color: #000000 !important;
-        border-bottom: solid 3px #0000ff;
+/* 3 Color Header Right Text */
+.navbar p.right_text
+{
+    color: #ffffff !important;
+}
+
+/* 4 Color Billboard bg */
+/* 5 Color Text Billboard */
+.billboard{
+    background-color: #160ccb !important;
+    color: #ffffff !important;
+}
+
+.billboard a{
+    background-color: #160ccb !important;
+    color: #ffffff !important;
+}
+
+/* 6 Color Section Text */
+/* 7 Color Section Text Secondary */
+.page-header h2{
+    color: #000000 !important;
+    font-size: 1.5em;
+    color: #fff;
+    padding: 0;
+    margin: 0;
+}
+
+.page-header h3{
+    color: #000000 !important;
+    font-size: 1.5em;
+    color: #fff;
+    padding: 0;
+    margin: 0;
+}
+
+.page-header .mdi{
+    color: #000000 !important;
+}
+
+.page-header h2 small{
+    color: #d02121 !important;
+}
+
+.scene-description{
+    font-size: 18px;
+    color: #000000 !important;
+}
+
+/* 8 Color Video Text */
+.main .thumbnail a h5{
+    color: #000000 !important;
+}
+
+/* 9 Color Tag */
+.main .thumbnail .list-inline li .label {
+    background-color: #ffffff !important;
+    color: transparent;
+}
+
+/* 10 Buttons BG */
+/* 11 Buttons text */
+.main .pagination li a{
+    background-color: #ff0000 !important;
+    color: #ffffff !important;
+}
+
+.navbar .btn-default{
+    background-color: #ff0000 !important;
+    color: #ffffff !important;
+}
+
+.page-header .text-right .btn-secondary.active {
+    background-color: #ff0000 !important;
+    border-color: #ff0000 !important;
+    color: #ffffff !important;
+}
+
+/* 12 On Video BG */
+.main .thumbnail .thumb-image .floater-b-c,
+.main .thumbnail .thumb-image .floater-b-l,
+.main .thumbnail .thumb-image .floater-t-l {
+    background-color: #000000 !important;
+    opacity: 0.7;
+}
+
+/* Fixes */
+.main .thumbnail .thumb-image img{
+    height: auto !important;
+    width: 100%;
+}
+
+@media (max-width: 767px) {
+    .page-header h2 {
+        font-size: 1em;
     }
 
-    .navbar-default {
-        background-color: #000000 !important;
+    h1 {
+        margin: 11px 0 0 10px !important;
     }
-
-    .header .billboard{
-        color: #ffffff !important;
-    }
-
-    .footer{
-        background-color: #e7e7e7 !important;
-    }
-
-    .footer a{
-        color: #ffffff;
-    }
-
-    .col-logo a{
-        color: #ffffff;
-    }
-
-    .input-search .btn{
-        background-color: #0000ff;
-        color: #00ff30 !important;
-    }
-
-    .btn-header-pornstars{
-        background-color: #0000ff;
-        color: #00ff30;
-    }
-
-    .btn-header-pornstars:hover{
-        color: #00ff30;
-    }
-
-    .btn-custom-user{
-        background-color: #0000ff;
-        color: #00ff30;
-    }
-
-    .btn-custom-user:hover{
-        color: #00ff30;
-    }
-
-    /****************************************************************************************** Categories*/
-    .category_outer figure {
-        border-bottom: solid 3px #0000ff;
-    }
-
-    .category_outer .link_image img {
-        border: solid 0px #000000;
-    }
-
-    .category_outer .category_info{
-        background-color: #000000 !important;
-    }
-
-    .category_outer .category_info .link_category {
-        color: #ffffff !important;
-    }
-
-    .category_outer .category_info .link_nvideos {
-        color: #ffd200;
-    }
-
-    .header_title_section{
-        border-bottom: solid 2px #ffa100 !important;
-        color: #ffa100;
-    }
-    .header_title_section_mobile{
-        color: #ffa100;
-    }
-
-    /****************************************************************************************** Video*/
-    .video_outer .link_image img {
-        border: solid 0px #000000;
-    }
-
-    .video_outer .info_video{
-        background-color: #000000 !important;
-        border-bottom: solid 3px #0000ff;
-    }
-
-    .video_outer .info_video .title {
-        color: #ff2600;
-    }
-
-    .video_outer .info_video .extra_info{
-        color: #ff0000 !important;
-    }
-
-    .video_outer .info_video .extra_info .channel_link {
-        color: #ff0000 !important;
-    }
-
-    .video_outer .info_video .category_link {
-        background-color: #0000ff;
-        color: #00ff30;
-    }
-
-    /****************************************************************************************** Pornstar*/
-    .pornstar_outer .link_image img {
-        border: solid 0px #000000;
-    }
-
-    .pornstar_outer .pornstar_info {
-        background-color: #000000 !important;
-    }
-
-    .pornstar_outer .pornstar_info .pornstar_link{
-        color: #ffffff;
-    }
-
-    /****************************************************************************************** paginator */
-
-    .pagination li a{
-        background-color: #000000;
-        color: #ffd200;
-    }
-
-    .pagination li a:hover{
-        background-color: #000000;
-        color: #ffd200;
-    }
-
-    .pagination .active > span {
-        background-color: #000000;
-        color: #ffd200;
-    }
-
-    .pagination .disabled > span {
-        background-color: #000000;
-        color: #ffd200;
-    }
-
-    .pagination .active > span:hover{
-        background-color: #000000;
-        color: #ffd200;
-    }
-
-    .pagination .disabled > span:hover{
-        background-color: #000000;
-        color: #ffd200;
-    }
-
-    .link_order{
-        background-color: #0000ff !important;
-        color: #00ff30 !important;
-    }
-
-    .alphabetical_categories{
-        color: #ffa100;
-        border-bottom: solid 1px #ffa100;;
-    }
-
-    .alphabetical_letter{
-        background-color: #0000ff;
-        color: #ffa100;
-    }
-
-    .alphabetical_category_link a{
-        color: #ffa100;
-    }
-
-    .related_header{
-        color: #ffa100;
-        border-bottom: solid 1px #ffa100;;
-    }
-
+}
