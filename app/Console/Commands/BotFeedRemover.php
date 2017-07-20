@@ -3,16 +3,12 @@
 namespace App\Console\Commands;
 
 use App\Model\Channel;
-use App\Model\LanguageTag;
 use App\Model\Site;
 use Illuminate\Console\Command;
 use App\rZeBot\rZeBotUtils;
-use App\Model\Host;
-use App\Model\Tweet;
-use App\rZeBot\TwitterAPIExchange;
 use App\rZeBot\sexodomeKernel;
 use App\Model\Scene;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class BotFeedRemover extends Command
 {

@@ -6,7 +6,6 @@ use Illuminate\Console\Command;
 use App\Model\Category;
 use App\rZeBot\rZeBotUtils;
 use App\Model\Site;
-use App\Model\Scene;
 
 class BotCategoriesRecount extends Command
 {

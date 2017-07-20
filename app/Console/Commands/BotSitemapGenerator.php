@@ -5,10 +5,7 @@ namespace App\Console\Commands;
 use App\rZeBot\rZeBotUtils;
 use Illuminate\Console\Command;
 use Roumen\Sitemap\Sitemap;
-use Illuminate\Support\Facades\App;
-use App\Model\Language;
 use App\Model\Scene;
-use Request;
 use App\Model\Site;
 
 class BotSitemapGenerator extends Command

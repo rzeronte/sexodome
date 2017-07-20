@@ -2,15 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\rZeBot\rZeBotUtils;
 use Illuminate\Console\Command;
-use Roumen\Sitemap\Sitemap;
-use Illuminate\Support\Facades\App;
-use App\Model\Language;
-use App\Model\Scene;
-use Request;
 use App\Model\Site;
-use Artisan;
+use Illuminate\Support\Facades\Artisan;
 
 class BotSitemapGeneratorAll extends Command
 {
@@ -38,7 +32,7 @@ class BotSitemapGeneratorAll extends Command
         $sites = Site::all();
 
         foreach($sites as $site) {
-            $siteSitemapGeneratorCode = Artisan::call('zbot:sitemap:site', [
+            Artisan::call('zbot:sitemap:site', [
                 'site_id' => $site->id
             ]);
         }

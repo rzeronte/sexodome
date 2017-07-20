@@ -4,14 +4,10 @@ namespace App\Console\Commands;
 
 use App\Model\CronJob;
 use App\rZeBot\rZeBotUtils;
-use App\Tag;
-use App\TagClick;
 use Illuminate\Console\Command;
-use App\Scene;
-use App\SceneTag;
 use App\Model\Site;
-use Log;
-use Artisan;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Artisan;
 
 class BotCronJobs extends Command
 {

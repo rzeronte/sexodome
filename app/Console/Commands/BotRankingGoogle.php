@@ -2,11 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Model\LanguageTag;
-use App\Model\Site;
 use Illuminate\Console\Command;
 use App\rZeBot\rZeBotUtils;
-use DB;
 use App\rZeBot\GoogleScrapper;
 
 class BotRankingGoogle extends Command

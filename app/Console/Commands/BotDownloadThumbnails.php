@@ -2,13 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Model\LanguageTag;
 use App\Model\Site;
 use Illuminate\Console\Command;
 use App\rZeBot\rZeBotUtils;
-use App\Model\Host;
 use App\Model\Scene;
-use DB;
 
 class BotDownloadThumbnails extends Command
 {

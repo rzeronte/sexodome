@@ -6,7 +6,7 @@ use App\rZeBot\rZeBotUtils;
 use Illuminate\Console\Command;
 use App\Model\Scene;
 use App\Model\Site;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class BotCheckDuplicatedScenes extends Command
 {

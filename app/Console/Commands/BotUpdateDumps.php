@@ -3,14 +3,9 @@
 namespace App\Console\Commands;
 
 use App\Model\Channel;
-use App\Model\LanguageTag;
 use App\rZeBot\sexodomeKernel;
 use App\rZeBot\rZeBotUtils;
 use Illuminate\Console\Command;
-use App\Model\Host;
-use App\rZeBot\TwitterAPIExchange;
-use DB;
-
 
 class BotUpdateDumps extends Command
 {

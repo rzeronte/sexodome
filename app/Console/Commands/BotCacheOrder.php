@@ -2,18 +2,14 @@
 
 namespace App\Console\Commands;
 
-use App\Model\LanguageTag;
 use App\Model\Site;
 use Illuminate\Console\Command;
 use App\rZeBot\rZeBotUtils;
-use App\Model\Host;
-use App\Model\Tweet;
-use App\rZeBot\TwitterAPIExchange;
 use App\Model\Scene;
-use DB;
 use Spatie\LaravelAnalytics\LaravelAnalyticsFacade;
 use App\Model\CategoryTranslation;
 use App\Model\Category;
+use Illuminate\Support\Facades\DB;
 
 class BotCacheOrder extends Command
 {

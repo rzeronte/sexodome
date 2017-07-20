@@ -3,12 +3,7 @@
 namespace App\Console\Commands;
 
 use App\rZeBot\rZeBotUtils;
-use App\Tag;
-use App\TagClick;
 use Illuminate\Console\Command;
-use App\rZeBot\rZeBot;
-use App\Scene;
-use App\SceneTag;
 use App\Model\Site;
 use App\Model\Analytics;
 use Spatie\LaravelAnalytics\LaravelAnalyticsFacade;

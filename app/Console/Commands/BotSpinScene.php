@@ -2,17 +2,11 @@
 
 namespace App\Console\Commands;
 
-use App\Model\LanguageTag;
-use App\Model\Site;
 use App\Model\Language;
 use App\Model\Scene;
 use App\rZeBot\rZeWordAI;
 use Illuminate\Console\Command;
 use App\rZeBot\rZeBotUtils;
-use App\Model\Host;
-use App\Model\Tweet;
-use App\rZeBot\TwitterAPIExchange;
-use DB;
 
 class BotSpinScene extends Command
 {

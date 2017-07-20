@@ -2,16 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Model\CategoryTranslation;
-use App\Model\LanguageTag;
 use Illuminate\Console\Command;
 use App\rZeBot\rZeBotUtils;
 use App\Model\Language;
 use App\Model\Scene;
-use App\Model\Host;
-use App\Model\TagTranslation;
-use App\Model\Tag;
-use Illuminate\Support\Str;
 
 class BotTranslateVideo extends Command
 {

@@ -2,16 +2,11 @@
 
 namespace App\Console\Commands;
 
-use App\Tag;
-use App\TagClick;
 use Illuminate\Console\Command;
-use App\Scene;
-use App\SceneTag;
-use Log;
-use Artisan;
 use App\rZeBot\rZeBotUtils;
 use App\Model\Site;
-use DB;
+use Illuminate\Support\Facades\DB;
+use App\Model\Tag;
 
 class BotScenesTaggerize extends Command
 {
@@ -57,8 +52,8 @@ class BotScenesTaggerize extends Command
 
                 foreach ($palabras as $palabra) {
                     if (strlen($palabra) >= 4) {
-                        if (\App\Model\Tag::getTranslationSearch($palabra, 2, $site_id)->count() > 0) {
-                            foreach (\App\Model\Tag::getTranslationSearch($palabra, 2, $site_id)->orderBy(DB::raw('LENGTH(name)'))->limit(7)->get() as $tag) {
+                        if (Tag::getTranslationSearch($palabra, 2, $site_id)->count() > 0) {
+                            foreach (Tag::getTranslationSearch($palabra, 2, $site_id)->orderBy(DB::raw('LENGTH(name)'))->limit(7)->get() as $tag) {
                                 $associated_tag_ids[] = $tag->id;
                             }
                         }

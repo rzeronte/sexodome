@@ -8,6 +8,7 @@ use Illuminate\Console\Command;
 use App\Model\Category;
 use App\rZeBot\rZeBotUtils;
 use App\Model\Site;
+use Illuminate\Support\Facades\DB;
 
 class BotCategoriesLanguageCopy extends Command
 {
