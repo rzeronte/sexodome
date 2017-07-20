@@ -5,6 +5,9 @@
 /public/categories_market_gay
 /public/logos
 /public/storage
+/public/tubeThemes
+/public/favicons/
+/public/headers/
 /public/sitemaps
 /storage/*.key
 /vendor
