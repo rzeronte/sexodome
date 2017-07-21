@@ -40,7 +40,7 @@ class BotCacheOrder extends Command
             }
 
             DB::table('categories')->where('site_id', $site->id)->update(['cache_order' => 0]);
-            rZeBotUtils::message("RESETTING CACHE CATEGORY ORDER for " . $site->getHost(), "yellow", true, true);
+            rZeBotUtils::message("RESETTING CACHE CATEGORY ORDER for " . $site->getHost(), "yellow", false, false, 'cache_order');
 
             foreach($categoriesOrder as $categoryOrder) {
                 $categoryTranslation = CategoryTranslation::join('categories','categories.id', '=', 'categories_translations.category_id')
@@ -52,18 +52,16 @@ class BotCacheOrder extends Command
                     $category = Category::find($categoryTranslation->category_id);
                     $category->cache_order = $categoryOrder["views"];
                     $category->save();
-                    rZeBotUtils::message("[SETTING ORDER FROM ANALYTICS] " . $categoryOrder['permalink'] . ": " . $categoryOrder['views'] . " for " . $site->getHost(), "green", true, true);
+                    rZeBotUtils::message("[SETTING ORDER FROM ANALYTICS] " . $categoryOrder['permalink'] . ": " . $categoryOrder['views'] . " for " . $site->getHost(), "green", false, false, 'cache_order');
                 }
             }
 
             // ORDER SCENES
             DB::transaction(function () use ($site) {
-                //rZeBotUtils::message("Generating CACHE SCENES ORDER for " . $site->getHost(), "green", true, true);
                 $scenes = Scene::getScenesOrderBySceneClicks($site->id)->get();
 
                 $i = 1;
                 foreach($scenes as $scene) {
-                    //rZeBotUtils::message("Scene: " . $scene->id . ", Clicks: " . $scene->clicks . ", order: " . $i, "green", true, true);
                     $scene->cache_order = $i;
                     $scene->save();
                     $i++;

@@ -40,15 +40,15 @@ class BotCronJobs extends Command
             $site = Site::find($site_id);
 
             if (!$site) {
-                rZeBotUtils::message("Error el site id: $site_id no existe", "red");
+                rZeBotUtils::message("Error el site id: $site_id no existe", "red", false, false, 'cronjobs');
                 exit;
             }
-            rZeBotUtils::message("Error el site id: $site_id no existe", "red");
+            rZeBotUtils::message("Error el site id: $site_id no existe", "red", false, false, 'cronjobs');
 
-            rZeBotUtils::message("Running cronjobs for " . $site->getHost(), "green", true, true);
+            rZeBotUtils::message("Running cronjobs for " . $site->getHost(), "green", false, false, 'cronjobs');
             $cronjobs = CronJob::where('site_id', $site->id)->get();
         } else{
-            rZeBotUtils::message("Running all cronjobs", "green", true, true);
+            rZeBotUtils::message("Running all cronjobs", "green", false, false, 'cronjobs');
             $cronjobs = CronJob::all();
         }
 

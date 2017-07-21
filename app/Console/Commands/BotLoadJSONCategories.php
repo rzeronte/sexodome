@@ -26,7 +26,7 @@ class BotLoadJSONCategories extends Command
         $site = Site::find($site_id);
 
         if (!$site) {
-            rZeBotUtils::message("Error el site id: $site_id no existe", "red");
+            rZeBotUtils::message("Error el site id: $site_id no existe", "red", false, false, 'kernel');
             return;
         }
 
@@ -39,7 +39,7 @@ class BotLoadJSONCategories extends Command
         $categories = Storage::get('categories.json');
         $categories = json_decode($categories, true);
         
-        rZeBotUtils::message("Load categories for ". $site->getHost(), "cyan", false, false);
+        rZeBotUtils::message("Load categories for ". $site->getHost(), "cyan", false, false, 'kernel');
 
         DB::transaction(function () use ($categories, $site, $gays) {
             $i = 0;
@@ -48,16 +48,16 @@ class BotLoadJSONCategories extends Command
                 $category_en = $c['text_en'];
 
                 if ($gays == true && !str_contains(strtolower($category_en), 'gay')) {
-                    rZeBotUtils::message("Jump '$category_en'' for ". $site->getHost() . " -> Not Gay with --gays=true", "cyan", false, false);
+                    rZeBotUtils::message("Jump '$category_en' for ". $site->getHost() . " -> Not Gay with --gays=true", "cyan", false, false, 'kernel');
                     continue;
                 }
 
                 if ($gays == false && str_contains(strtolower($category_en), 'gay')) {
-                    rZeBotUtils::message("Jump '$category_en'' for ". $site->getHost() . " -> Gay", "cyan", false, false);
+                    rZeBotUtils::message("Jump '$category_en' for ". $site->getHost() . " -> Gay", "cyan", false, false, 'kernel');
                     continue;
                 }
 
-                rZeBotUtils::message("Loading $category_en for ". $site->getHost(), "cyan", false, false);
+                rZeBotUtils::message("Loading $category_en for ". $site->getHost(), "cyan", false, false, 'kernel');
 
                 if (Category::getTranslationByName(trim($category_en), 2, $site->id)->count() == 0) {
                     $newCategory = new Category();
@@ -78,7 +78,7 @@ class BotLoadJSONCategories extends Command
                         }
                     }
                 } else {
-                    $this->error("$i) Categoría ya existe: " . $category_en);
+                    rZeBotUtils::message("$i) Categoría ya existe: " . $category_en, "yellow", false, false, 'kernel');
                 }
             }
         });

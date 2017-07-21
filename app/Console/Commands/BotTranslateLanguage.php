@@ -59,7 +59,7 @@ class BotTranslateLanguage extends Command
         $site = Site::find($site_id);
 
         if (!$site) {
-            rZeBotUtils::message('[ERROR]: El site_id: '. $site_id . " no existe", "red");
+            rZeBotUtils::message('[BotTranslateLanguage]: El site_id: '. $site_id . " no existe", "red", false, false, 'kernel');
             die();
         }
 
@@ -95,35 +95,37 @@ class BotTranslateLanguage extends Command
         $languageTo = Language::where('code', $to)->first();
 
         if (!$languageFrom || !$languageTo) {
-            echo "[ERROR] Languages not found. Remember use his code. (es, de, it, en, de, br)";
+            rZeBotUtils::message("[ERROR] Languages not found. Remember use his code. (es, de, it, en, de, br)", "red", false, false, 'kernel');
             exit;
         }
 
         $scenes = Scene::where('site_id', $site_id)->get();
         $i=0;
         foreach ($scenes as $scene) {
-            echo "[ " . number_format(($i*100)/ count($scenes), 0) ."% ]";
+            rZeBotUtils::message("[ " . number_format(($i*100)/ count($scenes), 0) ."% ]", "green", false, false, 'kernel');
+
             $i++;
 
             $textFrom = $scene->translations()->where('language_id', $languageFrom->id)->first();
             $translationTo = $scene->translations()->where('language_id', $languageTo->id)->first();
 
             if (!$textFrom || !$translationTo) {
-                echo "[ERROR SCENE] Can't get from and to objects".PHP_EOL;
+                rZeBotUtils::message("[ERROR SCENE] Can't get 'from' and 'to' objects", "green", false, false, 'kernel');
                 continue;
             }
 
-            echo " | Current From: " . $textFrom->title . " ";
-            echo " | Current To: " . $translationTo->title . " ";
+            rZeBotUtils::message(" | Current From: " . $textFrom->title . " ", "green", false, false, 'kernel');
+            rZeBotUtils::message(" | Current To: " . $translationTo->title . " ", "green", false, false, 'kernel');
+
             $translationTitle = $this->translateText($textFrom->title, $from, $to);
 
             if ($translationTitle != false) {
                 $translationTo->title = $translationTitle;
                 $translationTo->permalink = str_slug($translationTitle);
                 $translationTo->save();
-                echo "[SCENE] " . $textFrom->title . " - " . $translationTitle.PHP_EOL;
+                rZeBotUtils::message("[SCENE] " . $textFrom->title . " - " . $translationTitle, "green", false, false, 'kernel');
             } else {
-                echo "[ERROR SCENES TRANSLATION] $from <-> $to " . $textFrom->name . " - " . $translationTitle .PHP_EOL;
+                rZeBotUtils::message("[ERROR SCENES TRANSLATION] $from <-> $to " . $textFrom->name . " - " . $translationTitle, "green", false, false, 'kernel');
             }
         }
 

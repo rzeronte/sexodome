@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Model\Site;
+use App\rZeBot\sexodomeKernel;
 use Illuminate\Console\Command;
 use App\rZeBot\rZeBotUtils;
 use App\Model\Scene;
@@ -31,7 +32,7 @@ class BotDownloadThumbnails extends Command
             $site = Site::find($site_id);
 
             if (!$site) {
-                rZeBotUtils::message("Error el site id: $site_id no existe", "red");
+                rZeBotUtils::message("Error el site id: $site_id no existe", "red", false, false, 'kernel');
                 exit;
             }
 
@@ -42,14 +43,14 @@ class BotDownloadThumbnails extends Command
         }
 
         foreach($sites as $site) {
-            rZeBotUtils::message("[DOWNLOAD FOR ".$site->getHost()."]", "cyan", true, true);
+            rZeBotUtils::message("[DOWNLOAD FOR ".$site->getHost()."]", "cyan", false, false, 'kernel');
 
             $scenes = Scene::select("id", "preview")->where("site_id", $site->id)->get();
 
             $i = 0;
             foreach($scenes as $scene) {
                 $i++;
-                rZeBotUtils::downloadThumbnail($scene->preview, $i, $scene, $overwrite);
+                sexodomeKernel::downloadThumbnail($scene->preview, $i, $scene, $overwrite);
             }
         }
     }

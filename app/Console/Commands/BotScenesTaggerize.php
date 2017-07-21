@@ -36,7 +36,7 @@ class BotScenesTaggerize extends Command
         $site = Site::find($site_id);
 
         if (!$site) {
-            rZeBotUtils::message("Error el site id: $site_id no existe", "red");
+            rZeBotUtils::message("Error el site id: $site_id no existe", "red", false, false, 'kernel');
             return;
         }
 
@@ -61,7 +61,7 @@ class BotScenesTaggerize extends Command
                 }
 
                 $associated_tag_ids = array_unique($associated_tag_ids);
-                rZeBotUtils::message("Escena " . $scene->id . " asociada con " . count($associated_tag_ids) . " tags", "cyan", false, false);
+                rZeBotUtils::message("Escena " . $scene->id . " asociada con " . count($associated_tag_ids) . " tags", "cyan", false, false, 'kernel');
 
                 $scene->tags()->sync($associated_tag_ids);
             }

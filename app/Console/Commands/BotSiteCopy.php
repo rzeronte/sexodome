@@ -31,7 +31,7 @@ class BotSiteCopy extends Command
         $site_from = Site::find($origin_site_id);
 
         if (!$site_from) {
-            rZeBotUtils::message("site_id: $origin_site_id not found", "red", true, true);
+            rZeBotUtils::message("site_id: $origin_site_id not found", "red", false, false, 'kernel');
             return;
         }
 
@@ -43,10 +43,10 @@ class BotSiteCopy extends Command
         $domain = Site::where('domain', $domain_txt)->first();
 
         if (!$domain) {
-            rZeBotUtils::message("El sitio '$domain_txt' NO existe, creando... ", "green", true, true);
+            rZeBotUtils::message("El sitio '$domain_txt' NO existe, creando... ", "green", false, false, 'kernel');
             $newSite = $this->createSite($domain, $site_from);
         } else {
-            rZeBotUtils::message("El sitio '$domain_txt' SI existe, recuperando... ", "green", true, true);
+            rZeBotUtils::message("El sitio '$domain_txt' SI existe, recuperando... ", "green", false, false, 'kernel');
             $newSite = $domain;
 
             if ($this->confirm('Do you want remove categories and tags from existing site?')) {
@@ -84,7 +84,7 @@ class BotSiteCopy extends Command
     public function copyTags($newSite, $site_from)
     {
         foreach($site_from->tags()->get() as $tag) {
-            rZeBotUtils::message("Clonando Tag: $tag->id (" . $site_from->getHost() . ':'.$site_from->id.' -> ' .$newSite->getHost(). ':'.$newSite->id.')', "green", true, false);
+            rZeBotUtils::message("Clonando Tag: $tag->id (" . $site_from->getHost() . ':'.$site_from->id.' -> ' .$newSite->getHost(). ':'.$newSite->id.')', "green", false, false, 'kernel');
             $newTag = $tag->replicate();
             $newTag->site_id = $newSite->id;
             $newTag->push();
@@ -101,7 +101,7 @@ class BotSiteCopy extends Command
     public function copyCategories($newSite, $site_from)
     {
         foreach($site_from->categories()->get() as $category) {
-            rZeBotUtils::message("Clonando Category: $category->id (". $site_from->getHost() . ':'.$site_from->id.' -> ' .$newSite->getHost(). ':'.$newSite->id.')', "green", true, false);
+            rZeBotUtils::message("Clonando Category: $category->id (". $site_from->getHost() . ':'.$site_from->id.' -> ' .$newSite->getHost(). ':'.$newSite->id.')', "green", false, false, 'kernel');
             $newCategory = $category->replicate();
             $newCategory->site_id = $newSite->id;
             $newCategory->push();
@@ -123,7 +123,7 @@ class BotSiteCopy extends Command
 
             if (!$permalink_english) {
                 print_r($permalink_english);
-                rZeBotUtils::message("[copyRelationshipsCategoriesTags] No existe categoría en origen: " . $cat->id . " - original site_id: " . $site_from->id, "red", true, false);
+                rZeBotUtils::message("[copyRelationshipsCategoriesTags] No existe categoría en origen: " . $cat->id . " - original site_id: " . $site_from->id, "red", false, false, 'kernel');
                 exit;
             }
 
@@ -131,7 +131,7 @@ class BotSiteCopy extends Command
             $destinyCategory = Category::getTranslationFromPermalink($permalink_english->permalink, $newSite->id, 2);
 
             if (!$destinyCategory) {
-                rZeBotUtils::message("[copyRelationshipsCategoriesTags] No existe categoría en destino: " . $permalink_english . " - new site_id: " . $newSite->id, "red", true, false);
+                rZeBotUtils::message("[copyRelationshipsCategoriesTags] No existe categoría en destino: " . $permalink_english . " - new site_id: " . $newSite->id, "red", false, false, 'kernel');
                 continue;
             }
 
@@ -142,14 +142,14 @@ class BotSiteCopy extends Command
                 $en_tags[] = $trans->permalink;
             }
 
-            rZeBotUtils::message("Generando relaciones category-tags (".$site_from->getHost() . ':'.$site_from->id.' -> ' .$newSite->getHost(). ':'.$newSite->id.')', "cyan", true, false);
+            rZeBotUtils::message("Generando relaciones category-tags (".$site_from->getHost() . ':'.$site_from->id.' -> ' .$newSite->getHost(). ':'.$newSite->id.')', "cyan", false, false, 'kernel');
 
             // Buscamos tags por 'permalink' en destino y asociamos cada uno con la categoría en destino
             foreach($en_tags as $tag_txt) {
                 $destinyTag = Tag::getByPermalink($tag_txt, 2, $newSite->id);
 
                 if (!$destinyTag) {
-                    rZeBotUtils::message("Error clonando relación categoría-tag (".$site_from->getHost() . ':'.$site_from->id.' -> ' .$newSite->getHost(). ':'.$newSite->id.')', "red", true, true);
+                    rZeBotUtils::message("Error clonando relación categoría-tag (".$site_from->getHost() . ':'.$site_from->id.' -> ' .$newSite->getHost(). ':'.$newSite->id.')', "red", false, false, 'kernel');
                     continue;
                 }
 

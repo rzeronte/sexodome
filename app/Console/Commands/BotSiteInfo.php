@@ -19,7 +19,7 @@ class BotSiteInfo extends Command
         $site = Site::where('domain', $domain)->first();
 
         if (!$site) {
-            rZeBotUtils::message($domain . " not found", "red", true, true);
+            rZeBotUtils::message($domain . " not found", "red", true, true, 'kernel');
             return;
         }
 
@@ -38,18 +38,18 @@ class BotSiteInfo extends Command
             }
         }
 
-        rZeBotUtils::message("About " . $site->getHost(), "green", true, true);
+        rZeBotUtils::message("About " . $site->getHost(), "green", true, true, 'kernel');
 
-        rZeBotUtils::message("Num. Scenes getTotalScenes(): " . $site->getTotalScenes(), "green", true, true);
-        rZeBotUtils::message("Num. Scenes No Tags: " . $scene_no_tags, "green", true, true);
-        rZeBotUtils::message("Num. Scenes BBDD: " . $site->scenes()->count(), "green", true, true);
-        rZeBotUtils::message("Num. Categories: " . $site->categories()->count(), "green", true, true);
-        rZeBotUtils::message("Num. Categories No Tags: " . $categories_no_tags, "green", true, true);
-        rZeBotUtils::message("Num. Tags: " . $site->tags()->count(), "green", true, true);
-        rZeBotUtils::message("Status: " . ($site->status == 1) ? "On": "Off", "green", true, true);
-        rZeBotUtils::message("Title: " . str_replace("{domain}", $site->getHost(), $site->title_index), "green", true, true);
-        rZeBotUtils::message("Description: " . str_replace("{domain}", $site->getHost(), $site->description_index), "green", true, true);
-        rZeBotUtils::message("Analytics GA: " . $site->ga_account, "green", true, true);
+        rZeBotUtils::message("Num. Scenes getTotalScenes(): " . $site->getTotalScenes(), "green", true, true, 'kernel');
+        rZeBotUtils::message("Num. Scenes No Tags: " . $scene_no_tags, "green", true, true, 'kernel');
+        rZeBotUtils::message("Num. Scenes BBDD: " . $site->scenes()->count(), "green", true, true, 'kernel');
+        rZeBotUtils::message("Num. Categories: " . $site->categories()->count(), "green", true, true, 'kernel');
+        rZeBotUtils::message("Num. Categories No Tags: " . $categories_no_tags, "green", true, true, 'kernel');
+        rZeBotUtils::message("Num. Tags: " . $site->tags()->count(), "green", true, true, 'kernel');
+        rZeBotUtils::message("Status: " . ($site->status == 1) ? "On": "Off", "green", true, true, 'kernel');
+        rZeBotUtils::message("Title: " . str_replace("{domain}", $site->getHost(), $site->title_index), "green", true, true, 'kernel');
+        rZeBotUtils::message("Description: " . str_replace("{domain}", $site->getHost(), $site->description_index), "green", true, true, 'kernel');
+        rZeBotUtils::message("Analytics GA: " . $site->ga_account, "green", true, true, 'kernel');
 
     }
 

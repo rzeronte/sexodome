@@ -82,7 +82,7 @@ class sexodomeKernel extends Controller {
     }
 
     /**
-     * comprueba si el acceso es al frontal de 'sexodome.com'
+     * Check if request for Web-Front for sexodome.com
      *
      * @return bool
      */
@@ -105,7 +105,7 @@ class sexodomeKernel extends Controller {
     }
 
     /**
-     * comprueba si el acceso es al backend 'accounts.sexodome.com'
+     * Check if request for backend
      *
      * @return bool
      */
@@ -125,7 +125,7 @@ class sexodomeKernel extends Controller {
     }
 
     /**
-     * comprueba si el acceso es a un dominio dado de alta en sexodome
+     * Check if request for domain in sexodome
      *
      * @return bool
      */
@@ -145,7 +145,7 @@ class sexodomeKernel extends Controller {
     }
 
     /**
-     * comprueba si el acceso es a un subdominio dado de alta en sexodome
+     * Check if request for subdomain in sexodome
      *
      * @return bool
      */
@@ -163,7 +163,7 @@ class sexodomeKernel extends Controller {
     }
 
     /**
-     * Obtiene el sitio en función del dominio o tira 403 si el dominio está inactivo
+     * Set site form sexodomeKernel if url matched with any DOMAIN is enabled.
      */
     public function setSiteFromDomainOrFail()
     {
@@ -187,7 +187,7 @@ class sexodomeKernel extends Controller {
     }
 
     /**
-     * Obtiene el sitio en función del sub-dominio o tira 403 si el dominio está inactivo
+     * Set site form sexodomeKernel if url matched with any SUB-DOMAIN is enabled.
      */
     public function setSiteFromSubDomainOrFail()
     {
@@ -212,7 +212,7 @@ class sexodomeKernel extends Controller {
     }
 
     /**
-     * Instancia la variable global 'site' para utilizar mediante App::make('site')
+     * Set global 'site' accesor. Used for routing
      */
     public function instanciateSite()
     {
@@ -232,7 +232,7 @@ class sexodomeKernel extends Controller {
     }
 
     /**
-     * Establece el idioma de sexodome, si no especificamos, utiliza el del locale q exista
+     * Set language for sexodomeKernel. If not specify use default locale for get language.
      *
      * @param bool $language_id
      */
@@ -252,7 +252,7 @@ class sexodomeKernel extends Controller {
     }
 
     /**
-     * Establece sitio y language en función de si estámos en frontend o backend, con sitio activo o sin él.
+     * Set site and language in function if is frontend-backend access and if any site is request
      */
     public function setSiteAndLanguageOrFail()
     {
@@ -273,58 +273,314 @@ class sexodomeKernel extends Controller {
         }
     }
 
+    /**
+     * Return sexodome domain. First level.
+     *
+     * @return mixed
+     */
     public static function getMainPlataformDomain()
     {
         return env("MAIN_PLATAFORMA_DOMAIN", "sexodome.loc");
     }
 
+    /**
+     * Return folder for logos
+     *
+     * @return mixed
+     */
     public static function getLogosFolder()
     {
         return env("FOLDER_LOGOS", "../public/logos/");
     }
 
+    /**
+     * Return folder for favicons
+     *
+     * @return mixed
+     */
     public static function getFaviconsFolder()
     {
         return env("FOLDER_LOGOS", "../public/favicons/");
     }
 
+    /**
+     * Return folder for image custom headers
+     *
+     * @return mixed
+     */
     public static function getHeadersFolder()
     {
         return env("FOLDER_LOGOS", "../public/headers/");
     }
 
+    /**
+     * Return folder for feed dumps
+     *
+     * @return mixed
+     */
     public static function getDumpsFolder()
     {
         return env("DEFAULT_DUMPS_FOLDER", "../dumps/");
     }
 
+    /**
+     * Return temp folders path
+     *
+     * @return string
+     */
     public static function getDumpsFolderTmp()
     {
         return sexodomeKernel::getDumpsFolder()."tmp/";
     }
 
+    /**
+     * Return Thumbnails
+     * @return mixed
+     */
     public static function getThumbnailsFolder()
     {
-        return env("DEFAULT_THUMBNAILS_FOLDER", "../dumps/");
+        return env("DEFAULT_THUMBNAILS_FOLDER", "../thumbnails/");
     }
 
+    /**
+     * Return current site
+     *
+     * @return mixed
+     */
     public function getSite()
     {
         return $this->site;
     }
 
+    /**
+     * Return current language
+     *
+     * @return mixed
+     */
     public function getLanguage()
     {
         return $this->language;
     }
 
+    /**
+     * Return all sexodome's languages
+     *
+     * @return mixed
+     */
     public function getLanguages()
     {
         return $this->languages;
     }
 
+    /**
+     * Return User Agent for current request
+     *
+     * @return Agent
+     */
     public function getUA() {
         return $this->agent;
     }
 
+    /**
+     * Download dump for a dump
+     *
+     * @param $feed
+     * @return string
+     */
+    public static function downloadDump($feed)
+    {
+        $fileCSV = sexodomeKernel::getDumpsFolderTmp().$feed->file;
+
+        $cfg = new $feed->mapping_class;
+        $feedConfig = $cfg->configFeed();
+
+        // Si el fichero del feed no existe, intentamos descargar
+        if ($feed->is_compressed !== 1) {
+            if (isset($feedConfig["is_xml"])) {
+                if ($feedConfig["is_xml"] == true) {
+                    rZeBotUtils::message("[DOWNLOADING JSON FILE] $fileCSV", "green", false, true, 'kernel');
+                    $cmd = "wget -c '" . $feed->url . "' --output-document=". $fileCSV.".json";
+                    exec($cmd);
+                    $json_string = file_get_contents($fileCSV.".json");
+                    sexodomeKernel::jsonToCSV($feed, $json_string, $fileCSV);
+                }
+            } else {
+                // Si no está comprimido directamente descargamos con el nombre en bbdd (forzamos nombre para mayor ordenación)
+                if (!file_exists($fileCSV)) {
+                    rZeBotUtils::message("[DOWNLOADING FILE] $fileCSV", "green", false, false, 'kernel');
+                    $cmd = "wget -c '" . $feed->url . "' --output-document=". $fileCSV;
+                    exec($cmd);
+                } else {
+                    rZeBotUtils::message("[ALREADY EXISTSh] $fileCSV", "yellow", false, false, 'kernel');
+                }
+
+            }
+        } else {
+            $tgz = $gz = $zip = false;
+
+            if ((substr($feed->url, -8) == '.tar.gz') OR (substr($feed->url, -4) == '.tgz')) {
+                $tgz = true;
+                $ext = '.tar.gz';
+            } elseif (substr($feed->url, -4) == '.gz') {
+                $ext = '.gz';
+                $gz = true;
+            } elseif (substr($feed->url, -4) == '.zip') {
+                $ext = '.zip';
+                $zip = true;
+            }
+
+            // Si es un fichero comprimido
+            $compressFile = $fileCSV.$ext;
+            $cmd = "wget -c '" . $feed->url . "' --directory-prefix=".sexodomeKernel::getDumpsFolderTmp() . " --output-document=" . $compressFile;
+            exec($cmd);
+
+            rZeBotUtils::message("[EXTRACTING DUMP] $compressFile", "yellow", false, false, 'kernel');
+            if ($zip) {
+                $cmd = "unzip $compressFile -d ". sexodomeKernel::getDumpsFolderTmp();
+            } elseif($tgz) {
+                $cmd = "tar xf $compressFile -C ". sexodomeKernel::getDumpsFolderTmp();
+            }
+            exec($cmd);
+
+            $cmd = "mv " . sexodomeKernel::getDumpsFolderTmp() . $feed->compressed_filename ." " . sexodomeKernel::getDumpsFolderTmp() . $feed->file;
+            rZeBotUtils::message("[RENAMING FILE] $cmd", "yellow", false, false, 'kernel');
+            exec($cmd);
+        }
+
+        return $fileCSV;
+    }
+
+    /**
+     * Download dump deletedfor a dump
+     *
+     * @param $feed
+     * @return string
+     */
+    public static function downloadDumpDeleted($feed)
+    {
+        $fileCSV = sexodomeKernel::getDumpsFolderTmp()."deleted_".$feed->file;
+
+        if (!file_exists($fileCSV)) {
+            rZeBotUtils::message("[DOWNLOADING FILE] $fileCSV", "green", false, false, 'kernel');
+            $cmd = "wget -c '" . $feed->url_deleted . "' --output-document=". $fileCSV;
+            exec($cmd);
+        } else {
+            rZeBotUtils::message("[ALREADY EXISTSh] $fileCSV", "yellow", false, false, 'kernel');
+        }
+
+        return $fileCSV;
+    }
+
+    /**
+     * Descarga una thumbnail. Si se indica una escena, se eliminará si no se ha podido descargar su thumbnail
+     * o esta no es válida.
+     *
+     * @param $src
+     * @param string $i
+     * @param bool $scene
+     * @param null $overwrite
+     * @return bool|void
+     */
+    public static function downloadThumbnail($src, $i = "", $scene = false, $overwrite = null)
+    {
+        $filename = md5($src).".jpg";   // El nombre del fichero esel md5 de la img tal como viene
+
+        // Fix para cuando redtube viene con '//thumbs.redtube'. La imágen es buena pero no se puede
+        // descargar mediante cURL sin añadirle el 'http:'
+        $start_url = substr($src, 0, 2);
+        if ($start_url == "//") {
+            $src = "http:" . $src;
+        }
+
+        if (filter_var($src, FILTER_VALIDATE_URL) === false) {
+            rZeBotUtils::message("[$i INVALID THUMBNAIL] $src", "red", false, false, 'kernel');
+            if ($scene !== false) {
+                rZeBotUtils::message("[$i DELETE SCENE] $src", "red", false, false, 'kernel');
+                $scene->delete();
+            }
+
+            return;
+        }
+
+        $filepath = sexodomeKernel::getThumbnailsFolder().$filename;
+
+        if ($overwrite == false) {
+            if (file_exists($filepath)) {
+                rZeBotUtils::message("[$i ALREADY EXISTS] $src", "yellow", false, false, 'kernel');
+                return false;
+            }
+        }
+
+        try {
+
+            $fp = fopen ( $filepath , 'w+');
+            $ch = curl_init( str_replace(" ", "%20", $src) );  // cambiamos los espacios por %20
+            curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+            curl_setopt($ch, CURLOPT_FILE, $fp);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_VERBOSE, FALSE);
+            curl_exec($ch);
+
+            //$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            rZeBotUtils::message("[$i DOWNLOADING THUMBNAIL] $src", "cyan", false, false, 'kernel');
+
+        } catch(\Exception $e) {
+            rZeBotUtils::message("[$i ERROR DOWNLOAD THUMBNAIL. DELETING] $src", "red", false, false, 'kernel');
+            if ($scene !== false) {
+                $scene->delete();
+            }
+        }
+
+        try {
+            sexodomeKernel::redimensionateThumbnail($filepath, 190, 135);
+        } catch(\Exception $e) {
+            if ($scene !== false) {
+                $scene->delete();
+            }
+
+        }
+
+        return true;
+    }
+
+    public static function redimensionateThumbnail($file, $width, $height)
+    {
+        rZeBotUtils::message("[RESIZING THUMBNAIL] $file", "cyan", false, false, 'kernel');
+
+        $uploadedfile = $file;
+        $src = \imagecreatefromjpeg($uploadedfile);
+        list($width_origin, $height_origin) = getimagesize($uploadedfile);
+
+        $tmp = imagecreatetruecolor($width, $height);
+
+        imagecopyresampled($tmp, $src, 0, 0, 0, 0, $width, $height, $width_origin, $height_origin);
+        imagejpeg($tmp, $file, 100);
+    }
+
+    public static function jsonToCSV($feed, $json, $filename)
+    {
+        if (!rZeBotUtils::isJson($json)) {
+            rZeBotUtils::message("[JSON TO CSV ERROR] Not JSON valid", "red", true, true, 'kernel');
+            return false;
+        }
+
+        $cfg = new $feed->mapping_class;
+
+        $array = json_decode($json, true);
+        $f = fopen($filename, 'w');
+        rZeBotUtils::message("[JSON TO CSV] $filename, Total: " . count($cfg->getVideosFromJSON($array)), "green", false, false, 'kernel');
+
+        if (!is_array($array)) {
+            rZeBotUtils::message("[JSON TO CSV ERROR] Not Array from JSON", "red", false, false, 'kernel');
+            return false;
+        }
+
+        foreach ($cfg->getVideosFromJSON($array) as $line)
+        {
+            $lineCSV = $cfg->getCSVLineFromJSON($line);
+            fputcsv($f, array_values($lineCSV), "|");
+        }
+
+        fclose($f);
+    }
 }

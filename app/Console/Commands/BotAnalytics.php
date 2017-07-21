@@ -37,7 +37,7 @@ class BotAnalytics extends Command
             if ($site->ga_account != '') {
                 try {
                     $analyticsData = LaravelAnalyticsFacade::setSiteId('ga:' . $site->ga_account)->getVisitorsAndPageViews(5);
-                    rZeBotUtils::message("[ANALYTICS " . $site->getHost() . "]", "yellow", true, true);
+                    rZeBotUtils::message("[ANALYTICS " . $site->getHost() . "]", "yellow", false, false, "analytics");
 
                     foreach ($analyticsData as $data) {
 
@@ -48,7 +48,7 @@ class BotAnalytics extends Command
                             "pageViews" => $data["pageViews"]
                         );
 
-                        rZeBotUtils::message("[ANALYTICS] " . $fecha . " | " . $arrayData["visitors"] . " | " . $arrayData["pageViews"], true, true);
+                        rZeBotUtils::message("[ANALYTICS] " . $fecha . " | " . $arrayData["visitors"] . " | " . $arrayData["pageViews"], false, false, 'analytics');
 
                         Analytics::where('site_id', $site->id)->where('date', $arrayData["fecha"])->delete();
 
@@ -60,7 +60,7 @@ class BotAnalytics extends Command
                         $analytics->save();
                     }
                 } catch(\Exception $e) {
-                    rZeBotUtils::message("[ERROR ANALYTICS: " . $site->getHost() . "]", "red", true, true);
+                    rZeBotUtils::message("[ERROR ANALYTICS: " . $site->getHost() . "]", "red", false, false, 'analytics');
                 }
             }
         }

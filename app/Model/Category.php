@@ -157,4 +157,48 @@ class Category extends Model
             ->first()
         ;
     }
+
+    /**
+     * update thumbnail for a category
+     *
+     * @param $category
+     * @param null $exclude_scene_ids
+     * @return bool
+     */
+    public static function updateCategoryThumbnail($category, $exclude_scene_ids = null, $ignore_locked = false)
+    {
+        $sceneRNDquery = $category->scenes()
+            ->select('scenes.id', 'scenes.preview')
+            ->orderBy('scenes.cache_order', 'desc');
+        ;
+
+        if ($exclude_scene_ids !== null) {
+            $sceneRNDquery->whereNotIn('scenes.id', $exclude_scene_ids);
+        }
+
+        $sceneRND = $sceneRNDquery->first();
+
+        if ($sceneRND) {
+            $img = $sceneRND->preview;
+
+            // la thumb es dependiente al idioma, seteamos todos con esta thumbnail
+            foreach($category->translations()->where('language_id', $category->site->language_id)->get() as $translation) {
+
+                if ($translation->thumb_locked == 1 && $ignore_locked == false) {
+                    rZeBotUtils::message("[THUMBNAIL LOCKED (site_id: $category->site_id)] $category->text($category->id), tiene " . $category->scenes()->count() . " escenas | Excluyendo: ". count($exclude_scene_ids), "green", false, false, 'kernel');
+                    continue;
+                }
+
+                rZeBotUtils::message("[UPDATING THUMBNAIL (site_id: $category->site_id)] $category->text($category->id), tiene " . $category->scenes()->count() . " escenas | Excluyendo: ". count($exclude_scene_ids), "green", false, false, 'kernel');
+                $translation->thumb = $img;
+                $translation->save();
+            }
+
+            return $sceneRND->id;
+        } else {
+            rZeBotUtils::message("[WARNING THUMBNAIL (site_id: $category->site_id)] $category->text($category->id), tiene " . $category->scenes()->count() . " escenas", "red", false, false, 'kernel');
+
+            return false;
+        }
+    }
 }

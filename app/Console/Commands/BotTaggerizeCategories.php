@@ -19,7 +19,7 @@ class BotTaggerizeCategories extends Command
         $site = Site::find($site_id);
 
         if (!$site) {
-            rZeBotUtils::message("Error el site id: $site_id no existe", "red");
+            rZeBotUtils::message("Error el site id: $site_id no existe", "red", false, false, 'kernel');
             return;
         }
 
@@ -36,7 +36,7 @@ class BotTaggerizeCategories extends Command
 
             // Asociamos los nuevos ids, con los que ya había
             $total_ids = array_unique(array_merge($category->tags()->get()->pluck('id')->all(), $category_tags_ids));
-            rZeBotUtils::message("Asociando la categoría $category_txt con " . count($total_ids) . " tags", "green", false, false);
+            rZeBotUtils::message("Asociando la categoría $category_txt con " . count($total_ids) . " tags", "green", false, false, 'kernel');
             $category->tags()->sync($total_ids);
         }
     }

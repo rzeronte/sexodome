@@ -15,16 +15,16 @@ class BotSitesList extends Command
     public function handle()
     {
         $sites = Site::all();
-        rZeBotUtils::message("ALL SITES", "yellow", true, true);
-        rZeBotUtils::message("---------", "yellow", true, true);
-        rZeBotUtils::message("", "yellow", true, true);
+        rZeBotUtils::message("ALL SITES", "yellow", true, true, 'kernel');
+        rZeBotUtils::message("---------", "yellow", true, true, 'kernel');
+        rZeBotUtils::message("", "yellow", true, true, 'kernel');
 
         foreach($sites as $site) {
             $msg = "id: " . $site->id . " | http://". $site->getHost() . " | " . $site->user()->first()->name. " | " . $site->language->name;
-            rZeBotUtils::message($msg, "yellow", true, true);
+            rZeBotUtils::message($msg, "yellow", true, true, 'kernel');
         }
 
-        rZeBotUtils::message("", "yellow", true, true);
-        rZeBotUtils::message("Total: " . Site::all()->count() . " sites", "yellow", true, true);
+        rZeBotUtils::message("", "yellow", true, true, 'kernel');
+        rZeBotUtils::message("Total: " . Site::all()->count() . " sites", "yellow", true, true, 'kernel');
     }
 }
