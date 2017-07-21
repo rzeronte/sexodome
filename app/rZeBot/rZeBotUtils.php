@@ -121,7 +121,7 @@ class rZeBotUtils
         $time_end = microtime(true);
         $execution_time = ($time_end - $time_start);
 
-        rZeBotUtils::message("[TIEMPO DE EJECUCIÓN: ". gmdate("H:i:s", $execution_time)."]", "green", true, true, 'kernel');
+        rZeBotUtils::message("[TIEMPO DE EJECUCIÓN: ". gmdate("H:i:s", $execution_time)."]", "green", false, false, 'kernel');
     }
 
 }

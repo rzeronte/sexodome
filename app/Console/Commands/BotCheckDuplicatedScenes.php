@@ -65,9 +65,9 @@ class BotCheckDuplicatedScenes extends Command
                 ->groupBy('url')
                 ->get();
 
-            rZeBotUtils::message($site->getHost() . ": " .count($scenes). " scenes with URL (out) repeat", "yellow", true, true, 'kernel');
+            rZeBotUtils::message($site->getHost() . ": " .count($scenes). " scenes with URL (out) repeat", "yellow", false, false, 'kernel');
             if ($remove == true) {
-                rZeBotUtils::message("Removing scenes in " . $site->getHost(), "red", true, true, 'kernel');
+                rZeBotUtils::message("Removing scenes in " . $site->getHost(), "red", false, false, 'kernel');
                 foreach ($scenes as $s) {
                     $s->delete();
                 }
