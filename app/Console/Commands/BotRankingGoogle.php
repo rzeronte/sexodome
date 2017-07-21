@@ -18,14 +18,14 @@ class BotRankingGoogle extends Command
         $keyword = $this->argument('keyword');
         $url = $this->argument('site_url');
 
-        rZeBotUtils::message("[GOOGLE RANKING] $url -> $keyword", "green", false, false, 'kernel');
+        rZeBotUtils::message("[BotRankingGoogle] Google Ranking for $url -> $keyword", "info",'kernel');
 
         $position = GoogleScrapper::scrape($keyword, array($url));
 
         if ($position == 0) {
-            rZeBotUtils::message("No encontrados resultados para $url con '$keyword'", "red", false, false, 'kernel');
+            rZeBotUtils::message("[BotRankingGoogle] No encontrados resultados para $url con '$keyword'", "error", 'kernel');
         } else {
-            rZeBotUtils::message("Posición de $url para '$keyword': " . $position, "green", false, false, 'kernel');
+            rZeBotUtils::message("[BotRankingGoogle] Posición de '$url' para '$keyword': " . $position, "info", 'kernel');
         }
     }
 }

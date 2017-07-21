@@ -398,7 +398,7 @@ class sexodomeKernel extends Controller {
         if ($feed->is_compressed !== 1) {
             if (isset($feedConfig["is_xml"])) {
                 if ($feedConfig["is_xml"] == true) {
-                    rZeBotUtils::message("[DOWNLOADING JSON FILE] $fileCSV", "green", false, true, 'kernel');
+                    rZeBotUtils::message("[downloadDump] Downloading json file $fileCSV", "info",'kernel');
                     $cmd = "wget -c '" . $feed->url . "' --output-document=". $fileCSV.".json";
                     exec($cmd);
                     $json_string = file_get_contents($fileCSV.".json");
@@ -407,11 +407,11 @@ class sexodomeKernel extends Controller {
             } else {
                 // Si no está comprimido directamente descargamos con el nombre en bbdd (forzamos nombre para mayor ordenación)
                 if (!file_exists($fileCSV)) {
-                    rZeBotUtils::message("[DOWNLOADING FILE] $fileCSV", "green", false, false, 'kernel');
+                    rZeBotUtils::message("[downloadDump] Downloading file $fileCSV", "info",'kernel');
                     $cmd = "wget -c '" . $feed->url . "' --output-document=". $fileCSV;
                     exec($cmd);
                 } else {
-                    rZeBotUtils::message("[ALREADY EXISTSh] $fileCSV", "yellow", false, false, 'kernel');
+                    rZeBotUtils::message("[downloadDump] Already exists $fileCSV", "warning",'kernel');
                 }
 
             }
@@ -434,7 +434,7 @@ class sexodomeKernel extends Controller {
             $cmd = "wget -c '" . $feed->url . "' --directory-prefix=".sexodomeKernel::getDumpsFolderTmp() . " --output-document=" . $compressFile;
             exec($cmd);
 
-            rZeBotUtils::message("[EXTRACTING DUMP] $compressFile", "yellow", false, false, 'kernel');
+            rZeBotUtils::message("[downloadDump] Extracting dump $compressFile", "warning",'kernel');
             if ($zip) {
                 $cmd = "unzip $compressFile -d ". sexodomeKernel::getDumpsFolderTmp();
             } elseif($tgz) {
@@ -443,7 +443,7 @@ class sexodomeKernel extends Controller {
             exec($cmd);
 
             $cmd = "mv " . sexodomeKernel::getDumpsFolderTmp() . $feed->compressed_filename ." " . sexodomeKernel::getDumpsFolderTmp() . $feed->file;
-            rZeBotUtils::message("[RENAMING FILE] $cmd", "yellow", false, false, 'kernel');
+            rZeBotUtils::message("[downloadDump] Renaming file $cmd", "warning",'kernel');
             exec($cmd);
         }
 
@@ -461,11 +461,11 @@ class sexodomeKernel extends Controller {
         $fileCSV = sexodomeKernel::getDumpsFolderTmp()."deleted_".$feed->file;
 
         if (!file_exists($fileCSV)) {
-            rZeBotUtils::message("[DOWNLOADING FILE] $fileCSV", "green", false, false, 'kernel');
+            rZeBotUtils::message("[downloadDump] Downloading file $fileCSV", "info",'kernel');
             $cmd = "wget -c '" . $feed->url_deleted . "' --output-document=". $fileCSV;
             exec($cmd);
         } else {
-            rZeBotUtils::message("[ALREADY EXISTSh] $fileCSV", "yellow", false, false, 'kernel');
+            rZeBotUtils::message("[downloadDump] Already exists $fileCSV", "warning",'kernel');
         }
 
         return $fileCSV;
@@ -493,9 +493,9 @@ class sexodomeKernel extends Controller {
         }
 
         if (filter_var($src, FILTER_VALIDATE_URL) === false) {
-            rZeBotUtils::message("[$i INVALID THUMBNAIL] $src", "red", false, false, 'kernel');
+            rZeBotUtils::message("[downloadThumbnail] $i - Invalid thumbnails '$src'", "error",'kernel');
             if ($scene !== false) {
-                rZeBotUtils::message("[$i DELETE SCENE] $src", "red", false, false, 'kernel');
+                rZeBotUtils::message("[downloadThumbnail] $i - Delete scene '$src'", "warning",'kernel');
                 $scene->delete();
             }
 
@@ -506,7 +506,7 @@ class sexodomeKernel extends Controller {
 
         if ($overwrite == false) {
             if (file_exists($filepath)) {
-                rZeBotUtils::message("[$i ALREADY EXISTS] $src", "yellow", false, false, 'kernel');
+                rZeBotUtils::message("[downloadThumbnail] $i - Already exists '$src'", "warning",'kernel');
                 return false;
             }
         }
@@ -522,10 +522,10 @@ class sexodomeKernel extends Controller {
             curl_exec($ch);
 
             //$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            rZeBotUtils::message("[$i DOWNLOADING THUMBNAIL] $src", "cyan", false, false, 'kernel');
+            rZeBotUtils::message("[downloadThumbnail] $i - Downloading thumbnail '$src'", "error", 'kernel');
 
         } catch(\Exception $e) {
-            rZeBotUtils::message("[$i ERROR DOWNLOAD THUMBNAIL. DELETING] $src", "red", false, false, 'kernel');
+            rZeBotUtils::message("[downloadThumbnail] $i - Error downloading thumbnail '$src'. Deleting scene... ", "red", 'kernel');
             if ($scene !== false) {
                 $scene->delete();
             }
@@ -545,7 +545,7 @@ class sexodomeKernel extends Controller {
 
     public static function redimensionateThumbnail($file, $width, $height)
     {
-        rZeBotUtils::message("[RESIZING THUMBNAIL] $file", "cyan", false, false, 'kernel');
+        rZeBotUtils::message("[redimensionateThumbnail] Resizing thumbnail '$file'", "info",'kernel');
 
         $uploadedfile = $file;
         $src = \imagecreatefromjpeg($uploadedfile);
@@ -560,7 +560,7 @@ class sexodomeKernel extends Controller {
     public static function jsonToCSV($feed, $json, $filename)
     {
         if (!rZeBotUtils::isJson($json)) {
-            rZeBotUtils::message("[JSON TO CSV ERROR] Not JSON valid", "red", true, true, 'kernel');
+            rZeBotUtils::message("[jsonToCSV] Not JSON valid", "error",'kernel');
             return false;
         }
 
@@ -568,10 +568,10 @@ class sexodomeKernel extends Controller {
 
         $array = json_decode($json, true);
         $f = fopen($filename, 'w');
-        rZeBotUtils::message("[JSON TO CSV] $filename, Total: " . count($cfg->getVideosFromJSON($array)), "green", false, false, 'kernel');
+        rZeBotUtils::message("[jsonToCSV] $filename, Total: " . count($cfg->getVideosFromJSON($array)), "info",'kernel');
 
         if (!is_array($array)) {
-            rZeBotUtils::message("[JSON TO CSV ERROR] Not Array from JSON", "red", false, false, 'kernel');
+            rZeBotUtils::message("[jsonToCSV] Not Array from JSON", "error",'kernel');
             return false;
         }
 

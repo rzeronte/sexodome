@@ -20,13 +20,13 @@ class BotCategoriesRecount extends Command
         $site = Site::find($site_id);
 
         if (!$site) {
-            rZeBotUtils::message("Error el site id: $site_id no existe", "red", false, false, 'kernel');
+            rZeBotUtils::message("[BotCategoriesRecount] El site id: $site_id no existe", "error", 'kernel');
             exit;
         }
 
         $categories = Category::where('site_id', '=', $site->id)->get();
 
-        rZeBotUtils::message("Updating number scenes for " . $site->getHost(). ' - MIN_SCENES_CATEGORY_ACTIVATION: ' . env('MIN_SCENES_CATEGORY_ACTIVATION'), "cyan", false, false, 'kernel');
+        rZeBotUtils::message("[BotCategoriesRecount] Updating num scenes for " . $site->getHost(). ' - MIN_SCENES_CATEGORY_ACTIVATION: ' . env('MIN_SCENES_CATEGORY_ACTIVATION'),"info",'kernel');
 
         $i = 0;
         foreach($categories as $category) {
@@ -35,7 +35,7 @@ class BotCategoriesRecount extends Command
             $translation = $category->translations()->where('language_id', $english = 2)->first();
 
             if (!$translation) {
-                rZeBotUtils::message("[$i][ERROR] $category->id no tiene traducción al inglés! | count: " . $countScenes, "red", false, false, 'kernel');
+                rZeBotUtils::message("[BotCategoriesRecount] La categoría: $category->id no tiene traducción al inglés! | count: " . $countScenes, "error",'kernel');
                 continue;
             }
 
@@ -48,7 +48,7 @@ class BotCategoriesRecount extends Command
                     $category->status = 1;
                 }
                 $category->save();
-                rZeBotUtils::message("[$i][SUCCESS] $translation->name ($category->id) => count: $countScenes | nscenes bbdd: $category->nscenes", "yellow", false, false, 'kernel');
+                rZeBotUtils::message("[BotCategoriesRecount] OK $translation->name ($category->id) => count: $countScenes | nscenes bbdd: $category->nscenes", "info",'kernel');
             } else {
                 // Aunque no haya cambiado el nº de escenas, revisamos de nuevo por si ha cambiado MIN_SCENES_CATEGORY_ACTIVATION
                 if ($countScenes < env('MIN_SCENES_CATEGORY_ACTIVATION')) {
@@ -58,7 +58,7 @@ class BotCategoriesRecount extends Command
                 }
                 $category->save();
 
-                rZeBotUtils::message("[$i][SUCCESS] $translation->name ($category->id) => count: $countScenes | nscenes bbdd: $category->nscenes", "green", false, false, 'kernel');
+                rZeBotUtils::message("[BotCategoriesRecount] $translation->name ($category->id) => count: $countScenes | nscenes bbdd: $category->nscenes", "info",'kernel');
             }
         }
     }

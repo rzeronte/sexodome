@@ -32,7 +32,7 @@ class BotUpdateCategoriesThumbnails extends Command
             $site = Site::find($site_id);
 
             if (!$site) {
-                rZeBotUtils::message("Error el site id: $site_id no existe", "red", false, false, 'kernel');
+                rZeBotUtils::message("[BotUpdateCategoriesThumbnails] El site id: $site_id no existe", "error",'kernel');
                 exit;
             }
 
@@ -47,7 +47,7 @@ class BotUpdateCategoriesThumbnails extends Command
             foreach ($sites as $site) {
                 $categories = Category::where('site_id', '=', $site->id)->get();
 
-                rZeBotUtils::message("[UPDATE THUMBNAILS] " . $site->getHost(), "yellow", false, false, 'kernel');
+                rZeBotUtils::message("[BotUpdateCategoriesThumbnails] Updating thumbnails for '" . $site->getHost() . "'", "warning",'kernel');
 
                 $scenes_id_used = [];
                 foreach($categories as $category) {

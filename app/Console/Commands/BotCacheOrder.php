@@ -40,7 +40,7 @@ class BotCacheOrder extends Command
             }
 
             DB::table('categories')->where('site_id', $site->id)->update(['cache_order' => 0]);
-            rZeBotUtils::message("RESETTING CACHE CATEGORY ORDER for " . $site->getHost(), "yellow", false, false, 'cache_order');
+            rZeBotUtils::message("[BotCacheOrder] Reset cache order for " . $site->getHost(), "yellow", 'cache_order');
 
             foreach($categoriesOrder as $categoryOrder) {
                 $categoryTranslation = CategoryTranslation::join('categories','categories.id', '=', 'categories_translations.category_id')
@@ -52,7 +52,7 @@ class BotCacheOrder extends Command
                     $category = Category::find($categoryTranslation->category_id);
                     $category->cache_order = $categoryOrder["views"];
                     $category->save();
-                    rZeBotUtils::message("[SETTING ORDER FROM ANALYTICS] " . $categoryOrder['permalink'] . ": " . $categoryOrder['views'] . " for " . $site->getHost(), "green", false, false, 'cache_order');
+                    rZeBotUtils::message("[BotCacheOrder] Set order from analytics for " . $categoryOrder['permalink'] . ": " . $categoryOrder['views'] . " for " . $site->getHost(), "info", 'cache_order');
                 }
             }
 

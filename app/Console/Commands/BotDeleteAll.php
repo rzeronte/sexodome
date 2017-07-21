@@ -16,16 +16,16 @@ class BotDeleteAll extends Command
     {
         if ($this->confirm("Se eliminarán 'scenes', 'tags' y 'categories' y sus relaciones en cascada? [y|N]")) {
             DB::table('scenes')->delete();
-            rZeBotUtils::message("Deleting scenes... ", "yellow", false, false, 'kernel');
+            rZeBotUtils::message("[BotDeleteAll] Deleting scenes... ", "warning",'kernel');
 
             DB::table('tags')->delete();
-            rZeBotUtils::message("Deleting tags... ", "yellow", false, false, 'kernel');
+            rZeBotUtils::message("[BotDeleteAll] Deleting tags... ", "warning",'kernel');
 
             DB::table('categories')->delete();
-            rZeBotUtils::message("Deleting categories... ", "yellow", false, false, 'kernel');
+            rZeBotUtils::message("[BotDeleteAll] Deleting categories... ", "warning",'kernel');
 
             DB::table('pornstars')->delete();
-            rZeBotUtils::message("Deleting pornstars... ", "yellow", false, false, 'kernel');
+            rZeBotUtils::message("[BotDeleteAll] Deleting pornstars... ", "warning", 'kernel');
         }
     }
 }

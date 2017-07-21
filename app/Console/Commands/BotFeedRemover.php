@@ -31,11 +31,11 @@ class BotFeedRemover extends Command
             $deleteCfg = $cfg->configDeleteFeed();
 
             if (!file_exists($fileCSV)) {
-                rZeBotUtils::message("[ERROR] $fileCSV not exist...", "red", false, false, 'remover');
+                rZeBotUtils::message("[BotFeedRemover] $fileCSV not exist...", "error",'remover');
 
                 continue;
             }
-            rZeBotUtils::message("Processing delete dumps for " . $channel->name, "cyan", false, false, 'remover');
+            rZeBotUtils::message("[BotFeedRemover] Processing delete dumps for " . $channel->name, "info",'remover');
 
             DB::transaction(function () use ($fileCSV, $deleteCfg, $sites, $chunk_limit, $total_processed) {
                 if (($gestor = fopen($fileCSV, "r")) !== FALSE) {
@@ -44,7 +44,7 @@ class BotFeedRemover extends Command
                     $chunk_ids = [];
                     $chunk_iterator = 0;
 
-                    rZeBotUtils::message("Delete dump type:  " . $deleteCfg["type"], "yellow", false, false, 'remover');
+                    rZeBotUtils::message("[BotFeedRemover] Delete dump type:  " . $deleteCfg["type"], "info",'remover');
 
                     while (($datos = fgets($gestor, 2000)) !== FALSE) {
 
@@ -94,7 +94,8 @@ class BotFeedRemover extends Command
                     $this->EraseChunkIdInSite($chunk_ids, $total_processed);
                 }
             });
-            rZeBotUtils::message("TOTAL DE BORRADOS: " . Scene::withTrashed()->whereNotNull('deleted_at')->count(), "cyan", false, false, 'remover');
+
+            rZeBotUtils::message("[BotFeedRemover] Total removed: " . Scene::withTrashed()->whereNotNull('deleted_at')->count(), "info",'remover');
         }
     }
 
@@ -105,7 +106,7 @@ class BotFeedRemover extends Command
 
     public function EraseChunkUrlInSite(&$chunk_urls, $total_processed)
     {
-        rZeBotUtils::message("[PROCESSING CHUNK] Amount ". count($chunk_urls) . " / total: "  . number_format($total_processed, 0, ".", ","), "green", false, false, 'remover');
+        rZeBotUtils::message("[BotFeedRemover] Processing chunk of ". count($chunk_urls) . " / total: "  . number_format($total_processed, 0, ".", ","), "info",'remover');
 
         $scenes = Scene::select('id')
             ->whereIn('iframe', $chunk_urls)
@@ -113,12 +114,12 @@ class BotFeedRemover extends Command
         ;
 
         if (count($scenes) > 0) {
-            rZeBotUtils::message("[DELETE] Chunk of ". count($chunk_urls).", Deleting: " . count($scenes), "yellow", false, false, 'remover');
+            rZeBotUtils::message("[BotFeedRemover] Delete chunk URL of ". count($chunk_urls).", Deleting: " . count($scenes), "info", 'remover');
             foreach ($scenes as $scene) {
                 $scene->delete();
             }
         } else {
-            rZeBotUtils::message("[CHUNK NOT FOUND] Chunk of ". count($chunk_urls), "yellow", false, false, 'remover');
+            rZeBotUtils::message("[BotFeedRemover] Chunk URL not found | Chunk of ". count($chunk_urls), "warning",'remover');
         }
 
         $chunk_urls = [];

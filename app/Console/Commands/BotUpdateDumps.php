@@ -41,7 +41,7 @@ class BotUpdateDumps extends Command
         }
 
         foreach ($channels as $feed) {
-            rZeBotUtils::message("[$feed->name] $feed->url", "green", false, false, 'kernel');
+            rZeBotUtils::message("[BotUpdateDumps] $feed->name", "info",'kernel');
             rZeBotUtils::downloadDump($feed);
             rZeBotUtils::downloadDumpDeleted($feed);
 
@@ -51,7 +51,7 @@ class BotUpdateDumps extends Command
             $feed->save();
         }
 
-        rZeBotUtils::message("[MOVING DUMPS]", "green", false, false, 'kernel');
+        rZeBotUtils::message("[BotUpdateDumps] Moving dumps...", "info",'kernel');
         $cmd = "mv " . sexodomeKernel::getDumpsFolderTmp() . "* " . sexodomeKernel::getDumpsFolder();
         exec($cmd);
     }

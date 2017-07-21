@@ -185,18 +185,18 @@ class Category extends Model
             foreach($category->translations()->where('language_id', $category->site->language_id)->get() as $translation) {
 
                 if ($translation->thumb_locked == 1 && $ignore_locked == false) {
-                    rZeBotUtils::message("[THUMBNAIL LOCKED (site_id: $category->site_id)] $category->text($category->id), tiene " . $category->scenes()->count() . " escenas | Excluyendo: ". count($exclude_scene_ids), "green", false, false, 'kernel');
+                    rZeBotUtils::message("[updateCategoryThumbnail] Thumbnail locked | site_id: $category->site_id | $category->text($category->id), tiene " . $category->scenes()->count() . " escenas | Excluyendo: ". count($exclude_scene_ids), "info", 'kernel');
                     continue;
                 }
 
-                rZeBotUtils::message("[UPDATING THUMBNAIL (site_id: $category->site_id)] $category->text($category->id), tiene " . $category->scenes()->count() . " escenas | Excluyendo: ". count($exclude_scene_ids), "green", false, false, 'kernel');
+                rZeBotUtils::message("[updateCategoryThumbnail] Updating thumbnail  | site_id: $category->site_id) | $category->text($category->id), tiene " . $category->scenes()->count() . " escenas | Excluyendo: ". count($exclude_scene_ids), "info", 'kernel');
                 $translation->thumb = $img;
                 $translation->save();
             }
 
             return $sceneRND->id;
         } else {
-            rZeBotUtils::message("[WARNING THUMBNAIL (site_id: $category->site_id)] $category->text($category->id), tiene " . $category->scenes()->count() . " escenas", "red", false, false, 'kernel');
+            rZeBotUtils::message("[updateCategoryThumbnail] Thumbnail | site_id: $category->site_id) | $category->text($category->id), tiene " . $category->scenes()->count() . " escenas", "error", 'kernel');
 
             return false;
         }

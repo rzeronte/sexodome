@@ -59,7 +59,7 @@ class BotTranslateLanguage extends Command
         $site = Site::find($site_id);
 
         if (!$site) {
-            rZeBotUtils::message('[BotTranslateLanguage]: El site_id: '. $site_id . " no existe", "red", false, false, 'kernel');
+            rZeBotUtils::message('[BotTranslateLanguage] El site_id: '. $site_id . " no existe", "error",'kernel');
             die();
         }
 
@@ -68,6 +68,7 @@ class BotTranslateLanguage extends Command
                 $this->translateScenes($from, $to, $site_id);
             }
         } else {
+            rZeBotUtils::message("[BotTranslateLanguage] jump scenes", "error",'kernel');
             echo "[SCENES] jump scenes".PHP_EOL;
         }
 
@@ -95,14 +96,14 @@ class BotTranslateLanguage extends Command
         $languageTo = Language::where('code', $to)->first();
 
         if (!$languageFrom || !$languageTo) {
-            rZeBotUtils::message("[ERROR] Languages not found. Remember use his code. (es, de, it, en, de, br)", "red", false, false, 'kernel');
+            rZeBotUtils::message("[BotTranslateLanguage] Languages not found. Remember use his code. (es, de, it, en, de, br)", "error",'kernel');
             exit;
         }
 
         $scenes = Scene::where('site_id', $site_id)->get();
         $i=0;
         foreach ($scenes as $scene) {
-            rZeBotUtils::message("[ " . number_format(($i*100)/ count($scenes), 0) ."% ]", "green", false, false, 'kernel');
+            rZeBotUtils::message("[BotTranslateLanguage] ( " . number_format(($i*100)/ count($scenes), 0) ."% )", "info",'kernel');
 
             $i++;
 
@@ -110,12 +111,12 @@ class BotTranslateLanguage extends Command
             $translationTo = $scene->translations()->where('language_id', $languageTo->id)->first();
 
             if (!$textFrom || !$translationTo) {
-                rZeBotUtils::message("[ERROR SCENE] Can't get 'from' and 'to' objects", "green", false, false, 'kernel');
+                rZeBotUtils::message("[BotTranslateLanguage] Error scene: Can't get 'from' and 'to' objects", "info",'kernel');
                 continue;
             }
 
-            rZeBotUtils::message(" | Current From: " . $textFrom->title . " ", "green", false, false, 'kernel');
-            rZeBotUtils::message(" | Current To: " . $translationTo->title . " ", "green", false, false, 'kernel');
+            rZeBotUtils::message("[BotTranslateLanguage] Current From: " . $textFrom->title . " ", "info",'kernel');
+            rZeBotUtils::message("[BotTranslateLanguage] Current To: " . $translationTo->title . " ", "info",'kernel');
 
             $translationTitle = $this->translateText($textFrom->title, $from, $to);
 
@@ -123,9 +124,9 @@ class BotTranslateLanguage extends Command
                 $translationTo->title = $translationTitle;
                 $translationTo->permalink = str_slug($translationTitle);
                 $translationTo->save();
-                rZeBotUtils::message("[SCENE] " . $textFrom->title . " - " . $translationTitle, "green", false, false, 'kernel');
+                rZeBotUtils::message("[BotTranslateLanguage] Translating '" . $textFrom->title . "' - '" . $translationTitle. "'", "info", 'kernel');
             } else {
-                rZeBotUtils::message("[ERROR SCENES TRANSLATION] $from <-> $to " . $textFrom->name . " - " . $translationTitle, "green", false, false, 'kernel');
+                rZeBotUtils::message("[BotTranslateLanguage] $from <-> $to '" . $textFrom->name . "' - '" . $translationTitle . "'", "info",'kernel');
             }
         }
 

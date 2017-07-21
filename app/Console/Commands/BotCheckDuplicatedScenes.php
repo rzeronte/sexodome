@@ -47,7 +47,7 @@ class BotCheckDuplicatedScenes extends Command
             $site = Site::find($site_id);
 
             if (!$site) {
-                rZeBotUtils::message("Error el site id: $site_id no existe", "red", false, false, 'kernel');
+                rZeBotUtils::message("[BotCheckDuplicatedScenes] Error el site id: $site_id no existe", "error", 'kernel');
                 exit;
             }
 
@@ -65,9 +65,9 @@ class BotCheckDuplicatedScenes extends Command
                 ->groupBy('url')
                 ->get();
 
-            rZeBotUtils::message($site->getHost() . ": " .count($scenes). " scenes with URL (out) repeat", "yellow", false, false, 'kernel');
+            rZeBotUtils::message("[BotCheckDuplicatedScenes] " . $site->getHost() . ": " .count($scenes). " scenes with URL (out) repeat", "info",'kernel');
             if ($remove == true) {
-                rZeBotUtils::message("Removing scenes in " . $site->getHost(), "red", false, false, 'kernel');
+                rZeBotUtils::message("[BotCheckDuplicatedScenes] Removing scenes in " . $site->getHost(), "info",'kernel');
                 foreach ($scenes as $s) {
                     $s->delete();
                 }

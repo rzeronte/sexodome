@@ -7,41 +7,36 @@ use Illuminate\Support\Facades\Log;
 
 class rZeBotUtils
 {
-    static function message($message, $type = 'default', $returnLine = true, $showConsole = false, $file = false) {
-        switch($type) {
-            case 'green':
-                $initColor = "\033[32m";
-                break;
-            case 'red':
-                $initColor = "\033[31m";
-                break;
-            case 'yellow':
-                $initColor = "\033[1;33m";
-                break;
-            case 'blue':
-                $initColor = "\033[34m";
-                break;
-            case 'brown':
-                $initColor = "\033[33m";
-                break;
-            case 'cyan':
-                $initColor = "\033[36m";
-                break;
-            default:    //white
-                $initColor = "\033[0m";
-        }
+    static function message($message, $type = 'default', $file = false, $returnLine = true, $showConsole = false)
+    {
+        $msg = $message;
 
-        $endColor = "\033[0m";
         if ($file !== false) {
             $customLog = new Logger($file);
-            $customLog->pushHandler(new StreamHandler(storage_path('logs/'. $file .'.log')), Logger::INFO);
-            $customLog->info($initColor.$message.$endColor);
+            $customLog->pushHandler(new StreamHandler(storage_path('logs/'. $file .'.log')));
+
+            if ($type == 'info') {
+                $customLog->info($msg);
+            } else if ($type == 'error') {
+                $customLog->error($msg);
+            } else if ($type == 'warning') {
+                $customLog->warning($msg);
+            }
         } else {
-            Log::info($initColor.$message.$endColor);
+
+            if ($type == 'info') {
+                Log::info($msg);
+            } else if ($type == 'error') {
+                Log::error($msg);
+            } else if ($type == 'warning') {
+                Log::warning($msg);
+            }
+
         }
 
+        // Si hay salida por consola
         if ($showConsole !== false) {
-            echo $initColor.$message.$endColor;
+            echo $message;
             if ($returnLine == true) {
                 echo PHP_EOL;
             }
@@ -121,7 +116,7 @@ class rZeBotUtils
         $time_end = microtime(true);
         $execution_time = ($time_end - $time_start);
 
-        rZeBotUtils::message("[TIEMPO DE EJECUCIÓN: ". gmdate("H:i:s", $execution_time)."]", "green", false, false, 'kernel');
+        rZeBotUtils::message("[TIEMPO DE EJECUCIÓN: ". gmdate("H:i:s", $execution_time)."]", "info", false, false, 'kernel');
     }
 
 }

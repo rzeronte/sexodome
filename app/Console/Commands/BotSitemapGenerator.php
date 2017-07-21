@@ -42,13 +42,13 @@ class BotSitemapGenerator extends Command
         $protocol = "http://";
 
         if (!$site) {
-            rZeBotUtils::message("El site_id indicado no existe", "red", false, false, 'sitemaps');
+            rZeBotUtils::message("[BotSitemapGenerator] El site_id indicado no existe", "error", 'sitemaps');
             exit;
         }
 
         $language_id = $site->language_id;
 
-        rZeBotUtils::message("Generating sitemap for " . $site->getSitemap(), "green", true, false, 'sitemaps');
+        rZeBotUtils::message("[BotSitemapGenerator] Generating sitemap for " . $site->getSitemap(), "info",'sitemaps');
 
         // Scenes only for embed feeds
         $scenes = Scene::join('channels', 'channels.id', '=', 'scenes.channel_id')
@@ -66,11 +66,11 @@ class BotSitemapGenerator extends Command
             $categoryTranslation = $category->translations()->whereNotNull('permalink')->where('language_id', $language_id)->first();
 
             if (!$categoryTranslation) {
-                rZeBotUtils::message("$i - [ERROR] Ignorando URL, la categoría " .$category->id ." no tiene traducción para el idioma id: $language_id", "red", false, false, 'sitemaps');
+                rZeBotUtils::message("[BotSitemapGenerator] $i - Ignorando URL, la categoría " .$category->id ." no tiene traducción para el idioma id: $language_id", "error",'sitemaps');
             } else {
                 if (strlen($categoryTranslation->permalink) > 0) {
                     $ruta = $protocol . $site->getHost() . '/' . $site->category_url . '/'.$categoryTranslation->permalink;
-                    rZeBotUtils::message("$i - [SUCCESS] Url: " . $ruta, "green", false, false, 'sitemaps');
+                    rZeBotUtils::message("[BotSitemapGenerator] $i - [SUCCESS] Url: " . $ruta, "info",'sitemaps');
                     $sitemapCategories->add($ruta, date('Y-m-d').'T00:00:00+00:00', '1.0', 'daily');
                 }
             }
@@ -83,7 +83,7 @@ class BotSitemapGenerator extends Command
             $num_scenes_chunks = 1;
             foreach ($scenes->chunk(20000) as $chunk) {
                 $sitemapScenes = new Sitemap(["use_styles" => false]);
-                rZeBotUtils::message("Procesando página $num_scenes_chunks de videos en " . $site->getHost(), false, false, 'sitemaps');
+                rZeBotUtils::message("[BotSitemapGenerator] Procesando página $num_scenes_chunks de videos en " . $site->getHost(),'info', 'sitemaps');
 
                 foreach($chunk as $scene) {
                     $translation = $scene->translations()->whereNotNull('permalink')->where('language_id', $language_id)->first();
@@ -106,7 +106,7 @@ class BotSitemapGenerator extends Command
         if (count($pornstars) > 0) {
             foreach ($pornstars as $pornstar) {
                 $ruta = $protocol . $site->getHost() . '/' . $site->pornstar_url . '/'.$pornstar->permalink;
-                rZeBotUtils::message("$i - [SUCCESS] Url: " . $ruta, false, false, 'sitemaps');
+                rZeBotUtils::message("[BotSitemapGenerator] $i - [SUCCESS] Url: " . $ruta, 'info', 'sitemaps');
 
                 $sitemapPornstars->add($ruta, date('Y-m-d').'T00:00:00+00:00', '1.0', 'daily');
                 $i++;

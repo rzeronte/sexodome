@@ -20,11 +20,12 @@ class BotCategorizeSite extends Command
         $site = Site::find($site_id);
 
         if (!$site) {
-            rZeBotUtils::message("Error el site id: $site_id no existe", "red", false, false, 'kernel');
+            rZeBotUtils::message("[BotCategorizeSite] El site id: $site_id no existe", "error",'kernel');
             exit;
         }
 
-        rZeBotUtils::message("Recategorizando ". $site->getHost(), "cyan", false, false, 'kernel');
+        rZeBotUtils::message("[BotCategorizeSite] Recategorizando ". $site->getHost(), "info",'kernel');
+
         $scenes = $site->scenes()->select('id')->get();
         foreach ($scenes as $scene) {
             Artisan::call('zbot:categorize:scene', [

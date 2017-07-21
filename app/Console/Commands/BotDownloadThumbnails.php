@@ -32,7 +32,7 @@ class BotDownloadThumbnails extends Command
             $site = Site::find($site_id);
 
             if (!$site) {
-                rZeBotUtils::message("Error el site id: $site_id no existe", "red", false, false, 'kernel');
+                rZeBotUtils::message("[BotDownloadThumbnails] El site id: $site_id no existe", "error",'kernel');
                 exit;
             }
 
@@ -43,7 +43,7 @@ class BotDownloadThumbnails extends Command
         }
 
         foreach($sites as $site) {
-            rZeBotUtils::message("[DOWNLOAD FOR ".$site->getHost()."]", "cyan", false, false, 'kernel');
+            rZeBotUtils::message("[BotDownloadThumbnails] Downloading thumbnails for '".$site->getHost()."'", "info",'kernel');
 
             $scenes = Scene::select("id", "preview")->where("site_id", $site->id)->get();
 

@@ -21,7 +21,7 @@ class BotSpinScene extends Command
         $scene = Scene::find($scene_id);
 
         if (!$scene) {
-            rZeBotUtils::message('[ERROR]', 'red', false, false, 'kernel');
+            rZeBotUtils::message("[BotSpinScene] Scene '$scene_id' not found", 'error','kernel');
             exit;
         }
 
@@ -32,7 +32,7 @@ class BotSpinScene extends Command
         $title = $translation->title;
         $description = $translation->description;
 
-        rZeBotUtils::message('[SPIN] Language: ' . $language->code . " | Title: " . $title . " | Desc: " . $description, 'green', false, false, 'kernel');
+        rZeBotUtils::message('[BotSpinScene] Spin Language: ' . $language->code . " | Title: " . $title . " | Desc: " . $description, 'info','kernel');
 
         $spinTitleData = rZeWordAI::api($title, env('WORDAI_QUALITY', 60));
         $spinTitleData = json_decode($spinTitleData, true);
@@ -53,7 +53,7 @@ class BotSpinScene extends Command
                 $translation->description = $spinnedDesc;
             }
         } else {
-            rZeBotUtils::message('[SPIN WARNING] NOT DESCRIPTION for $scene_id', 'yellow', false, false, 'kernel');
+            rZeBotUtils::message("[BotSpinScene] Not descripcion for scene: $scene_id", 'warning','kernel');
         }
 
         $scene->save();

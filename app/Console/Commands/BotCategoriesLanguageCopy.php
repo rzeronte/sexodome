@@ -25,7 +25,7 @@ class BotCategoriesLanguageCopy extends Command
         $site = Site::find($site_id);
 
         if (!$site) {
-            rZeBotUtils::message("Error el site id: $site_id no existe", "red", false, false, 'kernel');
+            rZeBotUtils::message("Error el site id: $site_id no existe", "error", 'kernel');
             exit;
         }
 
@@ -33,7 +33,7 @@ class BotCategoriesLanguageCopy extends Command
         $languageTo = Language::where('code', $code_to)->first();
 
         if (!$languageTo || !$languageFrom) {
-            rZeBotUtils::message("Hay algún problema para cargar los idiomas '$code_from' y/o '$code_to'", "red", false, false, 'kernel');
+            rZeBotUtils::message("[BotCategoriesLanguageCopy] Problemas para cargar los idiomas '$code_from' y/o '$code_to'", "error", 'kernel');
             exit;
         }
 
@@ -47,17 +47,17 @@ class BotCategoriesLanguageCopy extends Command
 
         $categories = Category::where('site_id', '=', $site->id)->get();
 
-        rZeBotUtils::message("Copy language '$code_from' to '$code_to' in " . $site->getHost(), "cyan", false, false, 'kernel');
+        rZeBotUtils::message("[BotCategoriesLanguageCopy] Copy lang '$code_from' to '$code_to' in " . $site->getHost(), "info", 'kernel');
 
         foreach($categories as $category) {
 
             $translation = $category->translations()->where('language_id', $languageFrom->id)->first();
             if (!$translation) {
-                rZeBotUtils::message("[ERROR CategoryLanguageCopy] $category->id no tiene traducción desde '$code_from'", "red", false, false, 'kernel');
+                rZeBotUtils::message("[[BotCategoriesLanguageCopy] Categoría: '$category->id' no tiene traducción desde '$code_from'", "error", 'kernel');
                 exit;
             }
 
-            rZeBotUtils::message("[SUCCESS] $category->id  '$code_from' -> '$code_to'", "green", false, false, 'kernel');
+            rZeBotUtils::message("[BotCategoriesLanguageCopy] Copy category_id: $category->id | '$code_from' -> '$code_to'", "info", 'kernel');
 
             $newTranslation = new CategoryTranslation();
             $newTranslation->category_id = $category->id;
