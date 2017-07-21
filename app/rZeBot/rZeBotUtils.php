@@ -3,6 +3,7 @@ namespace App\rZeBot;
 
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+use Illuminate\Support\Facades\Log;
 
 class rZeBotUtils
 {
