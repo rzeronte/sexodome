@@ -32,7 +32,7 @@ class rZeBotUtils
 
         $endColor = "\033[0m";
         if ($file !== false) {
-            $customLog = new Logger();
+            $customLog = new Logger($file);
             $customLog->pushHandler(new StreamHandler(storage_path('logs/'. $file .'.log')), Logger::INFO);
             $customLog->info($initColor.$message.$endColor);
         } else {
