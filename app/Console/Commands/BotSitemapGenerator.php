@@ -85,7 +85,6 @@ class BotSitemapGenerator extends Command
                 $sitemapScenes = new Sitemap(["use_styles" => false]);
                 rZeBotUtils::message("Procesando página $num_scenes_chunks de videos en " . $site->getHost(), false, false, 'sitemaps');
 
-                $this->info();
                 foreach($chunk as $scene) {
                     $translation = $scene->translations()->whereNotNull('permalink')->where('language_id', $language_id)->first();
 
