@@ -31,7 +31,6 @@ class rZeBotUtils
             } else if ($type == 'warning') {
                 Log::warning($msg);
             }
-
         }
 
         // Si hay salida por consola
@@ -107,16 +106,14 @@ class rZeBotUtils
     public static function timesStart()
     {
         $time_start = microtime(true);
-
         return $time_start;
     }
 
-    public static function timesEnd($time_start)
+    public static function timesEnd($time_start, $type = 'info')
     {
         $time_end = microtime(true);
         $execution_time = ($time_end - $time_start);
-
-        rZeBotUtils::message("[TIEMPO DE EJECUCIÓN: ". gmdate("H:i:s", $execution_time)."]", "info", false, false, 'kernel');
+        rZeBotUtils::message("[Tiempo de ejecución: ". gmdate("H:i:s", $execution_time)."]", $type,'kernel');
     }
 
 }

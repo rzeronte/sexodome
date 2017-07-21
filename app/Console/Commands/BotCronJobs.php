@@ -67,6 +67,6 @@ class BotCronJobs extends Command
             Artisan::call('zbot:feed:fetch', $paramsCommand);
         }
 
-        rZeBotUtils::timesEnd($start_time);
+        rZeBotUtils::timesEnd($start_time, 'cronjobs');
     }
 }
