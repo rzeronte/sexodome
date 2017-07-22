@@ -63,7 +63,7 @@ class BotCronJobs extends Command
                 '--categorize' => 'true'
             ];
 
-            rZeBotUtils::message("[BotCronJobs] " . $paramsCommand["feed_name"], 'info','cronjobs');
+            rZeBotUtils::message("[BotCronJobs] " . \json_encode($paramsCommand), 'info','cronjobs');
 
             Artisan::call('zbot:feed:fetch', $paramsCommand);
         }

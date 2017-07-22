@@ -51,7 +51,7 @@ class BotUpdateCategoriesThumbnails extends Command
 
                 $scenes_id_used = [];
                 foreach($categories as $category) {
-                    $scene_id = rZeBotUtils::updateCategoryThumbnail($category, $scenes_id_used, $ignore_locked);
+                    $scene_id = Category::updateCategoryThumbnail($category, $scenes_id_used, $ignore_locked);
                     if ($scene_id) {
                         $scenes_id_used[] = $scene_id;
                     }
