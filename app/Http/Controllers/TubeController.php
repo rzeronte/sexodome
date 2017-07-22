@@ -27,7 +27,7 @@ class TubeController extends Controller
                 App::make('sexodomeKernel')->site->id,
                 App::make('sexodomeKernel')->language->id
             )
-            ->limit(60)
+            ->limit(120)
             ->get()
         ;
 
