@@ -2,13 +2,12 @@
 
 namespace App\rZeBot;
 
-use App;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Routing\Controller;
 use Jenssegers\Agent\Agent;
 use App\Model\Language;
 use App\Model\Site;
-use Illuminate\Support\Facades\Route;
 
 class sexodomeKernel extends Controller {
 
@@ -25,7 +24,6 @@ class sexodomeKernel extends Controller {
     public $routeParameters;
     public $cloudFlareCfg;
     public $perPageCategories;
-    public $redirectWWWToNoWWW301 = false;
     public $perPagePanelPornstars;
     public $sex_types;
 
@@ -257,19 +255,13 @@ class sexodomeKernel extends Controller {
     public function setSiteAndLanguageOrFail()
     {
         if ($this->isSexodomeBackend()) {
-
             $this->setLanguage();
-
         } elseif ($this->isSexodomeDomain()) {
-
             $this->setSiteFromDomainOrFail();
             $this->setLanguage($this->site->language->id);
-
         } elseif ($this->isSexodomeSubDomain()) {
-
             $this->setSiteFromSubDomainOrFail();
             $this->setLanguage($this->site->language->id);
-
         }
     }
 
@@ -575,12 +567,24 @@ class sexodomeKernel extends Controller {
             return false;
         }
 
-        foreach ($cfg->getVideosFromJSON($array) as $line)
-        {
+        foreach ($cfg->getVideosFromJSON($array) as $line) {
             $lineCSV = $cfg->getCSVLineFromJSON($line);
             fputcsv($f, array_values($lineCSV), "|");
         }
 
         fclose($f);
+    }
+
+    public static function getSitemapFile()
+    {
+        if (App::make('sexodomeKernel')->site) {
+            $sitemapFile = App::make('sexodomeKernel')->site->getSitemap();
+            $file = Storage::disk('web')->get('sitemaps/'.$sitemapFile);
+        } else {
+            // www.sexodome.com sitemap
+            $file = Storage::disk('web')->get('sexodome-sitemap.xml');
+        }
+
+        return response($file, "200")->header('Content-Type', "application/xml");
     }
 }

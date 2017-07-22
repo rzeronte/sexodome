@@ -135,34 +135,6 @@ class Scene extends Model
         return $query;
     }
 
-    static function hasTag($scene_id, $tag_id)
-    {
-        $tag = Scene::select('scenes.*')
-            ->join('scene_tag', 'scene_tag.scene_id', '=', 'scenes.id')
-            ->where('scene_tag.scene_id', $scene_id)
-            ->where('scene_tag.tag_id', $tag_id)->count();
-
-        if ($tag > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    static function hasCategory($scene_id, $category_id)
-    {
-        $category = Scene::select('scenes.*')
-            ->join('scene_category', 'scene_category.scene_id', '=', 'scenes.id')
-            ->where('scene_category.scene_id', $scene_id)
-            ->where('scene_category.category_id', $category_id)->count();
-
-        if ($category > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     static function getScenesForExporterSearch($query_string, $tag_query_string, $language, $duration, $scene_id, $category_string, $empty_title, $empty_description, $user_id = false, $site_id = false) {
 
         $scenes = Scene::select(

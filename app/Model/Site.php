@@ -73,22 +73,6 @@ class Site extends Model
         return $analytics;
     }
 
-    static function hasCategory($category_id, $site_id)
-    {
-        $category = Site::select('sites.*')
-            ->join('site_category', 'site_category.site_id', '=', 'sites.id')
-            ->join('categories', 'categories.id', '=', 'site_category.category_id')
-            ->where('site_category.site_id', $site_id)
-            ->where('categories.id', $category_id)->count()
-        ;
-
-        if ($category > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     public function getHost()
     {
         if ($this->have_domain == 0) {
@@ -266,6 +250,6 @@ class Site extends Model
         }
 
         return $seo_description;
-
     }
+
 }

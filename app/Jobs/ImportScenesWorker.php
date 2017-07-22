@@ -40,6 +40,6 @@ class ImportScenesWorker implements ShouldQueue
 
     public function failed(\Exception $exception)
     {
-        Log::info('[ERROR] ' . $exception->getMessage());
+        Log::error('[ImportScenesWorker] ' . $exception->getMessage());
     }
 }

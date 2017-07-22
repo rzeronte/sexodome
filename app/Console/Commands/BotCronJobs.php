@@ -34,8 +34,8 @@ class BotCronJobs extends Command
     public function handle()
     {
         $start_time = rZeBotUtils::timesStart();
-
         $site_id = $this->option('site_id');
+
         if ($site_id !== "false") {
             $site = Site::find($site_id);
 
@@ -60,10 +60,11 @@ class BotCronJobs extends Command
                 '--max'        => ($params->max != "") ? $params->max: 'false',
                 '--duration'   => ($params->duration != "") ? $params->duration : 'false',
                 '--tags'       => $params->tags,
-                    '--categorize' => 'true'
+                '--categorize' => 'true'
             ];
 
-            Log::info('[CronJob] ' . $paramsCommand["feed_name"]);
+            rZeBotUtils::message("[BotCronJobs] " . $paramsCommand["feed_name"], 'info','cronjobs');
+
             Artisan::call('zbot:feed:fetch', $paramsCommand);
         }
 

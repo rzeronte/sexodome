@@ -3,15 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\rZeBot\sexodomeKernel;
 
 class WebController extends Controller
 {
 
     public function home()
     {
-        return view('web.home', [
-        ]);
+        return view('web.home');
     }
 
     public function GooglePosition()
@@ -29,8 +27,8 @@ class WebController extends Controller
                 'url'      => $url
             ]);
         }
-        return view('web.google_keyword_position', [
-        ]);
+
+        return view('web.google_keyword_position');
     }
 
     public function webping()

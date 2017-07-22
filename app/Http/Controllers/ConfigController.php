@@ -34,6 +34,17 @@ class ConfigController extends Controller
         $this->middleware('auth');
     }
 
+    public function unverified()
+    {
+        Auth::logout();
+        return view('panel.unverified');
+    }
+
+    public function welcome()
+    {
+        return view('panel.welcome');
+    }
+
     public function home()
     {
         return redirect()->route('sites');
@@ -319,7 +330,7 @@ class ConfigController extends Controller
             return json_encode(['status' => true]);
 
         } catch (\Exception $e) {
-            Log::info('[ERROR Al lanzar importScenesFromFeed] ' . $e->getMessage());
+            Log::error("[fetch siteid:$site_id] " . $e->getMessage());
 
             return json_encode(['status' => false]);
         }
@@ -960,17 +971,6 @@ class ConfigController extends Controller
             'category_tags' => $category_tags,
             'tags'          => $site_tags,
         ]);
-    }
-
-    public function unverified()
-    {
-        Auth::logout();
-        return view('panel.unverified');
-    }
-
-    public function welcome()
-    {
-        return view('panel.welcome');
     }
 
     public function createCategory($site_id, Request $request)

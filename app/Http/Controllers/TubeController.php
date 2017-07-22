@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App;
+use Illuminate\Support\Facades\App;
 use App\Model\Category;
 use App\Model\Scene;
 use App\Model\Pornstar;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Cache;
+use App\rZeBot\sexodomeKernel;
 
 class TubeController extends Controller
 {
@@ -52,13 +52,6 @@ class TubeController extends Controller
         ]);
     }
 
-    /**
-     * @param $profile
-     * @param $permalinkCategory
-     * @param int $page
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function category($profile, $permalinkCategory, $page = 1, Request $request)
     {
         $categoryTranslation = Category::getTranslationFromPermalink(
@@ -157,11 +150,8 @@ class TubeController extends Controller
 
     public function iframe($profile, $scene_id)
     {
-        $scene = Scene::find($scene_id);
+        $scene = Scene::findOrFail($scene_id);
 
-        if (!$scene) {
-            abort(404, 'Scene not found');
-        }
         return view('tube.iframe', [
             'scene' => $scene,
         ]);
@@ -169,20 +159,14 @@ class TubeController extends Controller
 
     public function ads($profile)
     {
-        $categories = App::make('sexodomeKernel')->site->categories()->where('status', 1)->limit(18)->get();
-
         return response()->view('tube.ads', [
-            'categories' => $categories,
+            'categories' => App::make('sexodomeKernel')->site->categories()->where('status', 1)->limit(18)->get()
         ]);
     }
 
     public function out($profile, $scene_id, Request $request)
     {
-        $scene = Scene::find($scene_id);
-
-        if (!$scene) {
-            abort(404, "Scene not found");
-        }
+        $scene = Scene::findOrFail($scene_id);
 
         Scene::addSceneClick($scene, $ua = $request->header('User-Agent'));
 
@@ -191,14 +175,7 @@ class TubeController extends Controller
 
     public function sitemap()
     {
-        if (App::make('sexodomeKernel')->site) {
-            $sitemapFile = App::make('sexodomeKernel')->site->getSitemap();
-            $file = Storage::disk('web')->get('sitemaps/'.$sitemapFile);
-        } else {
-            $file = Storage::disk('web')->get('sexodome-sitemap.xml');
-        }
-
-        return response($file, "200")->header('Content-Type', "application/xml");
+        return sexodomeKernel::getSitemapFile();
     }
 
     public function dmca($profile)
