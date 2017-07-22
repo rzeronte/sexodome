@@ -515,10 +515,10 @@ class sexodomeKernel extends Controller {
             curl_exec($ch);
 
             //$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            rZeBotUtils::message("[downloadThumbnail] Downloading thumbnail '$src'", "error", 'kernel');
+            rZeBotUtils::message("[downloadThumbnail] Downloading thumbnail '$src'", "kernel", 'kernel');
 
         } catch(\Exception $e) {
-            rZeBotUtils::message("[downloadThumbnail] Error downloading thumbnail '$src'. Deleting scene... ", "error", 'kernel');
+            rZeBotUtils::message("[downloadThumbnail] Error downloading thumbnail '$src' in '$filepath'. Deleting scene... ", "error", 'kernel');
             if ($scene !== false) {
                 $scene->delete();
             }
