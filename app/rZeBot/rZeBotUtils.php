@@ -16,20 +16,19 @@ class rZeBotUtils
             $customLog->pushHandler(new StreamHandler(storage_path('logs/'. $file .'.log')));
 
             if ($type == 'info') {
-                $customLog->info($msg);
+                $customLog->info("\033[32m".$msg."\033[0m");
             } else if ($type == 'error') {
-                $customLog->error($msg);
+                $customLog->error("\033[31m".$msg."\033[0m");
             } else if ($type == 'warning') {
-                $customLog->warning($msg);
+                $customLog->warning("\033[1;33m".$msg."\033[0m");
             }
         } else {
-
             if ($type == 'info') {
-                Log::info($msg);
+                Log::info("\033[32m".$msg."\033[0m");
             } else if ($type == 'error') {
-                Log::error($msg);
+                Log::error("\033[31m".$msg."\033[0m");
             } else if ($type == 'warning') {
-                Log::warning($msg);
+                Log::warning("\033[1;33m".$msg."\033[0m");
             }
         }
 
