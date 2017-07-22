@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Artisan;
+use App\rZeBot\rZeBotUtils;
 
 class ImportScenesWorker implements ShouldQueue
 {
@@ -25,8 +26,6 @@ class ImportScenesWorker implements ShouldQueue
 
     public function handle()
     {
-        Log::info('[ImportScenesWorker]');
-
         $paramsCommand = [
             'feed_name'    => $this->queueParams["feed_name"],
             'site_id'      => $this->queueParams["site_id"],
@@ -34,6 +33,8 @@ class ImportScenesWorker implements ShouldQueue
             '--duration'   => ($this->queueParams["duration"] != "") ? $this->queueParams["duration"] : 'false',
             '--tags' => $this->queueParams["tags"],
         ];
+
+        rZeBotUtils::message("[ImportScenesWorker] " . \json_encode($paramsCommand), "info",'kernel');
 
         Artisan::call('zbot:feed:fetch', $paramsCommand);
     }
