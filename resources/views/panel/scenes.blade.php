@@ -112,7 +112,7 @@
                             <i class="fa fa-eye"></i> preview
                         </button>
                     @else
-                        <a href="{{$scene->iframe}}" target="_blank" class="btn btn-primary xs"  style="width:100%"><i class="fa fa-eye"></i> preview</a>
+                        <a href="{{$scene->url}}" target="_blank" class="btn btn-primary xs"  style="width:100%"><i class="fa fa-eye"></i> preview</a>
                     @endif
 
                     <br/>
