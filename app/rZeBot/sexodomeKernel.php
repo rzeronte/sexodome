@@ -498,7 +498,7 @@ class sexodomeKernel extends Controller {
 
         if ($overwrite == false) {
             if (file_exists($filepath)) {
-                rZeBotUtils::message("[downloadThumbnail] $i - Already exists '$src'", "warning",'kernel');
+                rZeBotUtils::message("[downloadThumbnail] Already exists '$src'", "warning",'kernel');
                 return false;
             }
         }
@@ -528,6 +528,7 @@ class sexodomeKernel extends Controller {
         try {
             sexodomeKernel::redimensionateThumbnail($filepath, 190, 135);
         } catch(\Exception $e) {
+            rZeBotUtils::message("[downloadThumbnail] Resimensionate thumbnail '$src'. Deleting scene... ", "error", 'kernel');
             if ($scene !== false) {
                 $scene->delete();
             }
