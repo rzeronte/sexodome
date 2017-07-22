@@ -500,12 +500,11 @@ class sexodomeKernel extends Controller {
         if ($overwrite == false) {
             if (file_exists($filepath)) {
                 rZeBotUtils::message("[downloadThumbnail] Already exists '$src'", "warning",'kernel');
-                return false;
+                return true;
             }
         }
 
         try {
-
             $fp = fopen ( $filepath , 'w+');
             $ch = curl_init( str_replace(" ", "%20", $src) );  // cambiamos los espacios por %20
             curl_setopt($ch, CURLOPT_TIMEOUT, 10);
@@ -516,7 +515,6 @@ class sexodomeKernel extends Controller {
 
             //$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             rZeBotUtils::message("[downloadThumbnail] Downloading thumbnail '$src'", "kernel", 'kernel');
-
         } catch(\Exception $e) {
             rZeBotUtils::message("[downloadThumbnail] Error downloading thumbnail '$src' in '$filepath'. Deleting scene... ", "error", 'kernel');
             if ($scene !== false) {
@@ -529,7 +527,7 @@ class sexodomeKernel extends Controller {
         try {
             sexodomeKernel::redimensionateThumbnail($filepath, 190, 135);
         } catch(\Exception $e) {
-            rZeBotUtils::message("[downloadThumbnail] Resimensionate thumbnail '$src'. Deleting scene... ", "error", 'kernel');
+            rZeBotUtils::message("[downloadThumbnail] Resimensionate thumbnail '$filepath'. Deleting scene... ", "error", 'kernel');
             if ($scene !== false) {
                 $scene->delete();
             }

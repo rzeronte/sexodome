@@ -27,20 +27,20 @@ class ImportScenesWorker implements ShouldQueue
     public function handle()
     {
         $paramsCommand = [
-            'feed_name'    => $this->queueParams["feed_name"],
-            'site_id'      => $this->queueParams["site_id"],
-            '--max'        => ($this->queueParams["max"] != "") ? $this->queueParams["max"]: 'false',
-            '--duration'   => ($this->queueParams["duration"] != "") ? $this->queueParams["duration"] : 'false',
-            '--tags' => $this->queueParams["tags"],
+            'feed_name'  => $this->queueParams["feed_name"],
+            'site_id'    => $this->queueParams["site_id"],
+            '--max'      => ($this->queueParams["max"] != "") ? $this->queueParams["max"]: 'false',
+            '--duration' => ($this->queueParams["duration"] != "") ? $this->queueParams["duration"] : 'false',
+            '--tags'     => $this->queueParams["tags"],
         ];
 
-        rZeBotUtils::message("[ImportScenesWorker] " . \json_encode($paramsCommand), "info",'kernel');
+        rZeBotUtils::message("[ImportScenesWorker] " . \json_encode($paramsCommand), "info",'workers');
 
         Artisan::call('zbot:feed:fetch', $paramsCommand);
     }
 
     public function failed(\Exception $exception)
     {
-        Log::error('[ImportScenesWorker] ' . $exception->getMessage());
+        rZeBotUtils::message("[ImportScenesWorker] Failed job: " . $exception->getMessage(), "error",'workers');
     }
 }

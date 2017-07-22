@@ -250,7 +250,7 @@ class BotFeedFetcher extends Command
                                 exit;
                             }
 
-                            rZeBotUtils::message("[BotFeedFetcher] $fila -'". $video['title']."' | (site_id: ".$site_id.")", "info",'import');
+                            rZeBotUtils::message("[BotFeedFetcher] $fila -'". $video['title']."' | site_id: ".$site_id, "info",'import');
 
                             $scene = $this->createScene($video, $default_status, $feed, $site_id, $languages);
 
