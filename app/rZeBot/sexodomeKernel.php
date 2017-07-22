@@ -473,7 +473,7 @@ class sexodomeKernel extends Controller {
      * @param null $overwrite
      * @return bool|void
      */
-    public static function downloadThumbnail($src, $i = "", $scene = false, $overwrite = null)
+    public static function downloadThumbnail($src, $scene = false, $overwrite = null)
     {
         $filename = md5($src).".jpg";   // El nombre del fichero esel md5 de la img tal como viene
 
@@ -485,13 +485,13 @@ class sexodomeKernel extends Controller {
         }
 
         if (filter_var($src, FILTER_VALIDATE_URL) === false) {
-            rZeBotUtils::message("[downloadThumbnail] $i - Invalid thumbnails '$src'", "error",'kernel');
+            rZeBotUtils::message("[downloadThumbnail] Invalid thumbnails '$src'", "error",'kernel');
             if ($scene !== false) {
-                rZeBotUtils::message("[downloadThumbnail] $i - Delete scene '$src'", "warning",'kernel');
+                rZeBotUtils::message("[downloadThumbnail] Delete scene($scene->id) '$src'", "warning",'kernel');
                 $scene->delete();
             }
 
-            return;
+            return false;
         }
 
         $filepath = sexodomeKernel::getThumbnailsFolder().$filename;
@@ -514,13 +514,15 @@ class sexodomeKernel extends Controller {
             curl_exec($ch);
 
             //$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            rZeBotUtils::message("[downloadThumbnail] $i - Downloading thumbnail '$src'", "error", 'kernel');
+            rZeBotUtils::message("[downloadThumbnail] Downloading thumbnail '$src'", "error", 'kernel');
 
         } catch(\Exception $e) {
-            rZeBotUtils::message("[downloadThumbnail] $i - Error downloading thumbnail '$src'. Deleting scene... ", "red", 'kernel');
+            rZeBotUtils::message("[downloadThumbnail] Error downloading thumbnail '$src'. Deleting scene... ", "error", 'kernel');
             if ($scene !== false) {
                 $scene->delete();
             }
+
+            return false;
         }
 
         try {
@@ -530,6 +532,7 @@ class sexodomeKernel extends Controller {
                 $scene->delete();
             }
 
+            return false;
         }
 
         return true;

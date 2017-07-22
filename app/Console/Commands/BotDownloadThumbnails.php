@@ -47,10 +47,8 @@ class BotDownloadThumbnails extends Command
 
             $scenes = Scene::select("id", "preview")->where("site_id", $site->id)->get();
 
-            $i = 0;
             foreach($scenes as $scene) {
-                $i++;
-                sexodomeKernel::downloadThumbnail($scene->preview, $i, $scene, $overwrite);
+                sexodomeKernel::downloadThumbnail($scene->preview, $scene, $overwrite);
             }
         }
     }

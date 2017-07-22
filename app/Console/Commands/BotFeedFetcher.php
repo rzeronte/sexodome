@@ -254,6 +254,10 @@ class BotFeedFetcher extends Command
 
                             $scene = $this->createScene($video, $default_status, $feed, $site_id, $languages);
 
+                            if (!$scene) {
+                                continue;
+                            }
+
                             // Create tags from CSV
                             $this->processTags($video, $site_id, $scene, $languages);
 
@@ -315,7 +319,9 @@ class BotFeedFetcher extends Command
         $scene->save();
 
         // thumbnail
-        sexodomeKernel::downloadThumbnail($scene->preview);
+        if (!sexodomeKernel::downloadThumbnail($scene->preview)) {
+            return false;
+        }
 
         //translations
         foreach ($languages as $language) {
