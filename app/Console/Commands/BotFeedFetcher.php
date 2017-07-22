@@ -319,7 +319,7 @@ class BotFeedFetcher extends Command
         $scene->save();
 
         // thumbnail
-        if (!sexodomeKernel::downloadThumbnail($scene->preview)) {
+        if (!sexodomeKernel::downloadThumbnail($scene->preview, $scene)) {
             return false;
         }
 
