@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 use Jenssegers\Agent\Agent;
 use App\Model\Language;
 use App\Model\Site;
+use Illuminate\Support\Facades\Storage;
 
 class sexodomeKernel extends Controller {
 
