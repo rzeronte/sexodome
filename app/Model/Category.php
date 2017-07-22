@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use App\rZeBot\rZeBotUtils;
 
 class Category extends Model
 {
