@@ -495,7 +495,7 @@ class sexodomeKernel extends Controller {
             return false;
         }
 
-        $filepath = sexodomeKernel::getThumbnailsFolder().$filename;
+        $filepath = base_path() . "/" . sexodomeKernel::getThumbnailsFolder().$filename;
 
         if ($overwrite == false) {
             if (file_exists($filepath)) {
