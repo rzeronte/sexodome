@@ -137,15 +137,12 @@ class Category extends Model
 
     static function getTranslationFromPermalink($permalink, $site_id, $language_id)
     {
-        $category = CategoryTranslation::join('categories','categories.id', '=', 'categories_translations.category_id')
+        return CategoryTranslation::join('categories','categories.id', '=', 'categories_translations.category_id')
             ->where('categories_translations.permalink', $permalink)
             ->where('categories.site_id', $site_id)
             ->where('categories_translations.language_id', $language_id)
-        ;
-
-        $category->first();
-
-        return $category;
+            ->first()
+            ;
     }
 
     static function getTranslationById($category_id, $site_id, $language_id)
