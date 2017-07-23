@@ -60,7 +60,7 @@ class TubeController extends Controller
             $permalinkCategory,
             App::make('sexodomeKernel')->getSite()->id,
             App::make('sexodomeKernel')->getLanguage()->id,
-            $status = true
+            $status = 1
         );
 
         if (!$categoryTranslation) {
