@@ -1,4 +1,10 @@
 <?php $loop = 0 ?>
+
+<div class="row site_categories_paginator" style="padding:10px;">
+    <?php $categories->setPath('categories/'.$site->id);?>
+    <?php echo $categories->appends('q', Request::get('q'))->render() ?>
+</div>
+
 <div class="row">
     @if (count($categories) == 0)
         <div class="row" style="margin:0px;padding:15px;">

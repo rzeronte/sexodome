@@ -61,8 +61,8 @@
             <p class="right_text">{{App::make('sexodomeKernel')->getSite()->header_text}}</p>
 
         </span>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
+        </div>
+    </div>
 </nav>
 
 @include('tube.commons._link_billboard')

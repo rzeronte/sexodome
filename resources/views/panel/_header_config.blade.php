@@ -10,8 +10,10 @@
     </div>
 
     <div class="col-md-4" style="margin-top:10px;">
-        @if (isset($site))
-        <a href="{{route('content', ['site_id' => $site->id])}}" class="btn @if (\Request::route()->getName() == "content") btn-success @else btn-primary @endif"><i class="glyphicon glyphicon-th"></i> Scenes</a>
+        @if (isset($site) and Request::route()->getName() != 'content')
+            <a href="{{route('content', ['site_id' => $site->id])}}" class="btn @if (\Request::route()->getName() == "content") btn-success @else btn-primary @endif"><i class="glyphicon glyphicon-th"></i> Scenes</a>
+        @else
+            <a href="{{route('site', ['site_id' => $site->id])}}" class="btn @if (\Request::route()->getName() == "site") btn-success @else btn-primary @endif"><i class="glyphicon glyphicon-cog"></i> Setup site</a>
         @endif
         <a href="{{route('addSite', [])}}" class="btn btn-warning" ><i class="glyphicon glyphicon-plus-sign"></i> Add site </a>
     </div>
