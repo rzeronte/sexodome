@@ -60,10 +60,14 @@ class TubeController extends Controller
             $permalinkCategory,
             App::make('sexodomeKernel')->getSite()->id,
             App::make('sexodomeKernel')->getLanguage()->id,
-            $status = 1
+            $status = true
         );
 
         if (!$categoryTranslation) {
+            abort(404, 'Category not found');
+        }
+
+        if ($categoryTranslation->category->status != 1) {
             abort(404, 'Category not found');
         }
 
