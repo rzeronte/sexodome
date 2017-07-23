@@ -77,7 +77,7 @@ class BotFeedFetcher extends Command
         $site = Site::find($site_id);
 
         if (!$site) {
-            rZeBotUtils::message("[BotFeedFetcher] El sitio '$site_id' indicado no existe. Abortando ejecución.", "error",'import');
+            rZeBotUtils::message("[BotFeedFetcher] Site 'site_id: $site_id' not exits. Aborting...", "error",'import');
             exit;
         }
 
@@ -112,8 +112,6 @@ class BotFeedFetcher extends Command
                 $tmp[] = trim(strtolower($tag));
             }
             $tags = $tmp;
-            echo "tags selected: ". implode(", ", $tags) . PHP_EOL;
-
         } else {
             $tags = false;
         }
@@ -125,7 +123,6 @@ class BotFeedFetcher extends Command
     {
         if ($categories !== 'false') {
             $categories = explode(",", $categories);
-            echo "Categories selected: ". implode(", ", $categories) . PHP_EOL;
         } else {
             $categories = false;
         }
