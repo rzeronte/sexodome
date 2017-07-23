@@ -40,10 +40,12 @@ class TubeController extends Controller
 
     public function search($profile, Request $request)
     {
-        $scenes = Scene::getTranslationSearch( $request->input('q', false), App::make('sexodomeKernel')->language->id)
-            ->where('site_id', App::make('sexodomeKernel')->site->id)
-            ->where('status', 1)
-            ->orderBy('scene_id', 'desc')
+        $scenes = Scene::getTranslationSearch(
+                $request->input('q', false),
+                App::make('sexodomeKernel')->language->id,
+                App::make('sexodomeKernel')->site->id,
+                $status = true
+            )
             ->paginate(App::make('sexodomeKernel')->perPage)
         ;
 

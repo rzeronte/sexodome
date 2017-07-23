@@ -53,10 +53,12 @@ class Handler extends ExceptionHandler
             if (Route::current() !== null) {
                 $commons = new sexodomeKernel();
 
-                $scenes = Scene::getTranslationSearch(false, $commons->language->id)
-                    ->where('site_id', $commons->site->id)
-                    ->where('status', 1)
-                    ->orderBy('scene_id', 'desc')
+                $scenes = Scene::getTranslationSearch(
+                        $query_string = false,
+                        $commons->language->id,
+                        $commons->site->id,
+                        $status = true
+                    )
                     ->paginate(24)
                 ;
 

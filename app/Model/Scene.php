@@ -66,15 +66,26 @@ class Scene extends Model
         return $iframe;
     }
 
-    static function getTranslationSearch($query_string = false, $language_id)
+    static function getTranslationSearch($query_string = false, $language_id, $site_id = false, $status = null)
     {
         $scenes = Scene::select('scenes.*', 'scene_translations.title', 'scene_translations.permalink')
             ->join('scene_translations', 'scene_translations.scene_id', '=', 'scenes.id')
-            ->where('scene_translations.language_id', $language_id);
+            ->where('scene_translations.language_id', $language_id)
+        ;
 
         if (strlen($query_string) > 0) {
             $scenes->where('scene_translations.title', 'like', '%'.$query_string.'%');
         }
+
+        if ($site_id !== false) {
+            $scenes->where('scenes.site_id', $site_id);
+        }
+
+        if ($status !== null) {
+            $scenes->where('scenes.status', $status);
+        }
+
+        $scenes->orderBy('scene_id', 'desc');
 
         return $scenes;
     }
