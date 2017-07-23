@@ -135,17 +135,13 @@ class Category extends Model
         ;
     }
 
-    static function getTranslationFromPermalink($permalink, $site_id, $language_id, $status = null)
+    static function getTranslationFromPermalink($permalink, $site_id, $language_id)
     {
         $category = CategoryTranslation::join('categories','categories.id', '=', 'categories_translations.category_id')
             ->where('categories_translations.permalink', $permalink)
             ->where('categories.site_id', $site_id)
             ->where('categories_translations.language_id', $language_id)
         ;
-
-        if ($status !== null) {
-            $category->where('categories.status', $status);
-        }
 
         $category->first();
 

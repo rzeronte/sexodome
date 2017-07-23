@@ -59,8 +59,7 @@ class TubeController extends Controller
         $categoryTranslation = Category::getTranslationFromPermalink(
             $permalinkCategory,
             App::make('sexodomeKernel')->getSite()->id,
-            App::make('sexodomeKernel')->getLanguage()->id,
-            $status = true
+            App::make('sexodomeKernel')->getLanguage()->id
         );
 
         if (!$categoryTranslation) {
@@ -70,6 +69,7 @@ class TubeController extends Controller
         if ($categoryTranslation->category->status != 1) {
             abort(404, 'Category not found');
         }
+
 
         // get scenes
         $scenes = Scene::getTranslationsForCategory(
