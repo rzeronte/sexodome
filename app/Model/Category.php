@@ -141,12 +141,13 @@ class Category extends Model
             ->where('categories_translations.permalink', $permalink)
             ->where('categories.site_id', $site_id)
             ->where('categories_translations.language_id', $language_id)
-            ->first()
         ;
 
         if ($status !== null) {
             $category->where('categories.status', $status);
         }
+
+        $category->first();
 
         return $category;
     }
