@@ -101,10 +101,7 @@ class TubeController extends Controller
 
     public function pornstar($profile, $permalinkPornstar, $page = 1)
     {
-        $pornstar = Pornstar::where('pornstars.site_id', '=', App::make('sexodomeKernel')->site->id)
-            ->where('permalink', $permalinkPornstar)
-            ->first()
-        ;
+        $pornstar = Pornstar::getPornstarByPermalink($permalinkPornstar, App::make('sexodomeKernel')->site->id);
 
         if (!$pornstar) {
             abort(404, "Pornstar not found");

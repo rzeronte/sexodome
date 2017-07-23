@@ -20,4 +20,12 @@ class Pornstar extends Model
         return $this->belongsToMany('App\Model\Scene', 'scene_pornstar', 'pornstar_id', 'scene_id');
     }
 
+    public static function getPornstarByPermalink($permalink, $site_id)
+    {
+        return Pornstar::where('pornstars.site_id', '=', $site_id)
+            ->where('permalink', $permalink)
+            ->first()
+        ;
+    }
+
 }
