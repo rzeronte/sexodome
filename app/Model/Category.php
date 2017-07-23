@@ -81,7 +81,7 @@ class Category extends Model
         return $categories;
     }
 
-    static function getForTranslation($status = false, $site_id, $language_id)
+    static function getForTranslation($status = false, $site_id, $language_id, $limit = false)
     {
         $categories = Category::select(
             'categories.*',
@@ -99,6 +99,10 @@ class Category extends Model
 
         if ($status !== false) {
             $categories->where('categories.status',$status);
+        }
+
+        if ($limit !== false) {
+            $categories->limit($limit);
         }
 
         return $categories;

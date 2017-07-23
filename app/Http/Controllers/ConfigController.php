@@ -927,17 +927,18 @@ class ConfigController extends Controller
             return json_encode(['status' => true]);
         }
 
-        $site = Site::find($site_id);
-
-        if (!$site) {
-            abort(404, 'Site not found');
-        }
+        $site = Site::findOrFail($site_id);
 
         DB::table('categories')->where('site_id', $site->id)->update(['cache_order' => -999999]);
 
-        $categories = Category::getForTranslation(1, $site->id, App::make('sexodomeKernel')->language->id)
-            ->limit(40)
-            ->get();
+        $categories = Category::getForTranslation(
+                $status = true,
+                $site->id,
+                App::make('sexodomeKernel')->language->id,
+                $limit = 40
+            )
+            ->get()
+        ;
 
         return view('panel.categories_order', [
             'sites'      => $sites,

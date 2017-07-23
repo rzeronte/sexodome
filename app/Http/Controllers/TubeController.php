@@ -25,9 +25,9 @@ class TubeController extends Controller
         $categoriesAlphabetical = Category::getForTranslation(
                 $status = true,
                 App::make('sexodomeKernel')->site->id,
-                App::make('sexodomeKernel')->language->id
+                App::make('sexodomeKernel')->language->id,
+                $limit = 120
             )
-            ->limit(120)
             ->get()
         ;
 
