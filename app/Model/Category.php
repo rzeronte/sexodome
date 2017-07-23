@@ -135,14 +135,19 @@ class Category extends Model
         ;
     }
 
-    static function getTranslationFromPermalink($permalink, $site_id, $language_id)
+    static function getTranslationFromPermalink($permalink, $site_id, $language_id, $status = null)
     {
-        return CategoryTranslation::join('categories','categories.id', '=', 'categories_translations.category_id')
+        $category = CategoryTranslation::join('categories','categories.id', '=', 'categories_translations.category_id')
             ->where('categories_translations.permalink', $permalink)
             ->where('categories.site_id', $site_id)
             ->where('categories_translations.language_id', $language_id)
-            ->first()
-            ;
+        ;
+
+        if ($status !== null) {
+            $category->where('categories.status', '=', $status);
+        }
+
+        return $category->first();
     }
 
     static function getTranslationById($category_id, $site_id, $language_id)
