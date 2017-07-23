@@ -154,19 +154,19 @@ class BotFeedFetcher extends Command
                     $fila++;
 
                     if ($feed_config["skip_first_list"] == true && $fila == 2) {
-                        rZeBotUtils::message("[BotFeedFetcher] Saltando primera linea del fichero...", "warning",'import');
+                        rZeBotUtils::message("[BotFeedFetcher] Jumping first line...", "info",'import');
                         continue;
                     }
 
                     // check total cols matched CSV <-> config array
                     if ($feed_config["totalCols"] != count($datos)) {
-                        rZeBotUtils::message("[BotFeedFetcher] Error en el número de columnas, deteniendo ejecución...", "warning",'import');
+                        rZeBotUtils::message("[BotFeedFetcher] Number columns doesnt match...", "warning",'import');
                         continue;
                     }
 
                     // check limit import
                     if ($max != 'false' && is_numeric($max) && $added >= $max) {
-                        rZeBotUtils::message("[BotFeedFetcher] Alcanzado número máximo de escenas indicado: $max", "info",'import');
+                        rZeBotUtils::message("[BotFeedFetcher] End for max scenes: $max", "info",'import');
                         break;
                     }
 
@@ -196,18 +196,18 @@ class BotFeedFetcher extends Command
                             foreach ($video["tags"] as $tagTxt) {
                                 if (in_array(strtolower($tagTxt), $tags)) {
                                     $tags_check = true;
-                                    rZeBotUtils::message("[BotFeedFetcher] Found desired tag: " . $tagTxt, "info",'import');
+                                    rZeBotUtils::message("[BotFeedFetcher] Found requested tag: " . $tagTxt, "info",'import');
                                 }
                             }
                         } else {
-                            rZeBotUtils::message("[BotFeedFetcher] No hay TAGS en el video y hay filtro existente: " . implode(",", $tags), "info",'import');
+                            rZeBotUtils::message("[BotFeedFetcher] No video tags and tag filter exists: " . implode(",", $tags), "info",'import');
                             continue;
                         }
                     }
 
                     // check categories matched
                     if (!$tags_check) {
-                        rZeBotUtils::message("[BotFeedFetcher] Skipped scene by tag filter...", "warning",'import');
+                        //rZeBotUtils::message("[BotFeedFetcher] Skipped scene by tag filter...", "warning",'import');
                         continue;
                     }
 
