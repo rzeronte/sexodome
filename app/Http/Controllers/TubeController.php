@@ -59,14 +59,11 @@ class TubeController extends Controller
         $categoryTranslation = Category::getTranslationFromPermalink(
             $permalinkCategory,
             App::make('sexodomeKernel')->getSite()->id,
-            App::make('sexodomeKernel')->getLanguage()->id
+            App::make('sexodomeKernel')->getLanguage()->id,
+            $status = true
         );
 
         if (!$categoryTranslation) {
-            abort(404, 'Category not found');
-        }
-
-        if ($categoryTranslation->category->status != 1) {
             abort(404, 'Category not found');
         }
 
@@ -151,9 +148,7 @@ class TubeController extends Controller
     {
         $scene = Scene::findOrFail($scene_id);
 
-        return view('tube.iframe', [
-            'scene' => $scene,
-        ]);
+        return view('tube.iframe', ['scene' => $scene]);
     }
 
     public function ads($profile)
