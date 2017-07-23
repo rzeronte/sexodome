@@ -81,11 +81,6 @@ class sexodomeKernel extends Controller {
         $this->agent = new Agent();
     }
 
-    /**
-     * Check if request for Web-Front for sexodome.com
-     *
-     * @return bool
-     */
     public function isSexodomeFront()
     {
         $urlData = parse_url($_SERVER["HTTP_HOST"]);
@@ -104,11 +99,6 @@ class sexodomeKernel extends Controller {
         return false;
     }
 
-    /**
-     * Check if request for backend
-     *
-     * @return bool
-     */
     public function isSexodomeBackend()
     {
         $urlData = parse_url($_SERVER["HTTP_HOST"]);
@@ -124,11 +114,6 @@ class sexodomeKernel extends Controller {
         return false;
     }
 
-    /**
-     * Check if request for domain in sexodome
-     *
-     * @return bool
-     */
     public function isSexodomeDomain()
     {
         $urlData = parse_url($_SERVER["HTTP_HOST"]);
@@ -144,11 +129,6 @@ class sexodomeKernel extends Controller {
         return false;
     }
 
-    /**
-     * Check if request for subdomain in sexodome
-     *
-     * @return bool
-     */
     public function isSexodomeSubDomain()
     {
         $urlData = parse_url($_SERVER["HTTP_HOST"]);
@@ -162,9 +142,6 @@ class sexodomeKernel extends Controller {
         return false;
     }
 
-    /**
-     * Set site form sexodomeKernel if url matched with any DOMAIN is enabled.
-     */
     public function setSiteFromDomainOrFail()
     {
         $urlData = parse_url($_SERVER["HTTP_HOST"]);
@@ -186,9 +163,6 @@ class sexodomeKernel extends Controller {
         $this->site = $site;
     }
 
-    /**
-     * Set site form sexodomeKernel if url matched with any SUB-DOMAIN is enabled.
-     */
     public function setSiteFromSubDomainOrFail()
     {
         $urlData = parse_url($_SERVER["HTTP_HOST"]);
@@ -211,9 +185,6 @@ class sexodomeKernel extends Controller {
         }
     }
 
-    /**
-     * Set global 'site' accesor. Used for routing
-     */
     public function instanciateFrontEndSite()
     {
         if (isset($_SERVER['HTTP_HOST'])) {
@@ -231,11 +202,6 @@ class sexodomeKernel extends Controller {
         }
     }
 
-    /**
-     * Set language for sexodomeKernel. If not specify use default locale for get language.
-     *
-     * @param bool $language_id
-     */
     public function setLanguage($language_id = false)
     {
         if ($language_id !== false) {
@@ -251,9 +217,6 @@ class sexodomeKernel extends Controller {
         }
     }
 
-    /**
-     * Set site and language in function if is frontend-backend access and if any site is request
-     */
     public function setSiteAndLanguageOrFail()
     {
         if ($this->isSexodomeBackend()) {
@@ -266,121 +229,60 @@ class sexodomeKernel extends Controller {
             $this->setLanguage($this->site->language->id);
         }
     }
-
-    /**
-     * Return sexodome domain. First level.
-     *
-     * @return mixed
-     */
     public static function getMainPlataformDomain()
     {
         return env("MAIN_PLATAFORMA_DOMAIN", "sexodome.loc");
     }
 
-    /**
-     * Return folder for logos
-     *
-     * @return mixed
-     */
     public static function getLogosFolder()
     {
         return env("FOLDER_LOGOS", "../public/logos/");
     }
 
-    /**
-     * Return folder for favicons
-     *
-     * @return mixed
-     */
     public static function getFaviconsFolder()
     {
         return env("FOLDER_LOGOS", "../public/favicons/");
     }
 
-    /**
-     * Return folder for image custom headers
-     *
-     * @return mixed
-     */
     public static function getHeadersFolder()
     {
         return env("FOLDER_LOGOS", "../public/headers/");
     }
 
-    /**
-     * Return folder for feed dumps
-     *
-     * @return mixed
-     */
     public static function getDumpsFolder()
     {
         return env("DEFAULT_DUMPS_FOLDER", "../dumps/");
     }
 
-    /**
-     * Return temp folders path
-     *
-     * @return string
-     */
     public static function getDumpsFolderTmp()
     {
         return sexodomeKernel::getDumpsFolder()."tmp/";
     }
 
-    /**
-     * Return Thumbnails
-     * @return mixed
-     */
     public static function getThumbnailsFolder()
     {
         return env("DEFAULT_THUMBNAILS_FOLDER", "../thumbnails/");
     }
 
-    /**
-     * Return current site
-     *
-     * @return mixed
-     */
     public function getSite()
     {
         return $this->site;
     }
 
-    /**
-     * Return current language
-     *
-     * @return mixed
-     */
     public function getLanguage()
     {
         return $this->language;
     }
 
-    /**
-     * Return all sexodome's languages
-     *
-     * @return mixed
-     */
     public function getLanguages()
     {
         return $this->languages;
     }
 
-    /**
-     * Return User Agent for current request
-     *
-     * @return Agent
-     */
     public function getUA() {
         return $this->agent;
     }
 
-    /**
-     * Download dump for a dump
-     *
-     * @param $feed
-     * @return string
-     */
     public static function downloadDump($feed)
     {
         $fileCSV = sexodomeKernel::getDumpsFolderTmp().$feed->file;
@@ -444,12 +346,6 @@ class sexodomeKernel extends Controller {
         return $fileCSV;
     }
 
-    /**
-     * Download dump deletedfor a dump
-     *
-     * @param $feed
-     * @return string
-     */
     public static function downloadDumpDeleted($feed)
     {
         $fileCSV = sexodomeKernel::getDumpsFolderTmp()."deleted_".$feed->file;
@@ -465,17 +361,7 @@ class sexodomeKernel extends Controller {
         return $fileCSV;
     }
 
-    /**
-     * Descarga una thumbnail. Si se indica una escena, se eliminará si no se ha podido descargar su thumbnail
-     * o esta no es válida.
-     *
-     * @param $src
-     * @param string $i
-     * @param bool $scene
-     * @param null $overwrite
-     * @return bool|void
-     */
-    public static function downloadThumbnail($src, $scene = false, $overwrite = null)
+    public static function downloadThumbnail($src, $sceneForRemoval = false, $overwrite = null)
     {
         $filename = md5($src).".jpg";   // El nombre del fichero esel md5 de la img tal como viene
 
@@ -488,9 +374,9 @@ class sexodomeKernel extends Controller {
 
         if (filter_var($src, FILTER_VALIDATE_URL) === false) {
             rZeBotUtils::message("[downloadThumbnail] Invalid thumbnails '$src'", "error",'kernel');
-            if ($scene !== false) {
-                rZeBotUtils::message("[downloadThumbnail] Delete scene($scene->id) '$src'", "warning",'kernel');
-                $scene->delete();
+            if ($sceneForRemoval !== false) {
+                rZeBotUtils::message("[downloadThumbnail] Delete scene($sceneForRemoval->id) '$src'", "warning",'kernel');
+                $sceneForRemoval->delete();
             }
 
             return false;
@@ -514,12 +400,11 @@ class sexodomeKernel extends Controller {
             curl_setopt($ch, CURLOPT_VERBOSE, FALSE);
             curl_exec($ch);
 
-            //$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             rZeBotUtils::message("[downloadThumbnail] Downloading thumbnail '$src'", "kernel", 'kernel');
         } catch(\Exception $e) {
             rZeBotUtils::message("[downloadThumbnail] Error downloading thumbnail '$src' in '$filepath'. Deleting scene... ", "error", 'kernel');
-            if ($scene !== false) {
-                $scene->delete();
+            if ($sceneForRemoval !== false) {
+                $sceneForRemoval->delete();
             }
 
             return false;
@@ -529,8 +414,8 @@ class sexodomeKernel extends Controller {
             sexodomeKernel::redimensionateThumbnail($filepath, 190, 135);
         } catch(\Exception $e) {
             rZeBotUtils::message("[downloadThumbnail] Resimensionate thumbnail '$filepath'. Deleting scene... ", "error", 'kernel');
-            if ($scene !== false) {
-                $scene->delete();
+            if ($sceneForRemoval !== false) {
+                $sceneForRemoval->delete();
             }
 
             return false;

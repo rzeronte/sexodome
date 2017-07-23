@@ -34,4 +34,5 @@ class WebController extends Controller
     public function webping()
     {
         return "ping";
-    }}
+    }
+}

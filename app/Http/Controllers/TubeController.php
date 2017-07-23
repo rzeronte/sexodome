@@ -14,11 +14,7 @@ class TubeController extends Controller
 {
     public function categories($profile, $page = 1)
     {
-        $categories = Category::getForTranslation(
-                $status = true,
-                App::make('sexodomeKernel')->site->id,
-                App::make('sexodomeKernel')->language->id
-            )
+        $categories = Category::getForTranslation( true, App::make('sexodomeKernel')->site->id, App::make('sexodomeKernel')->language->id )
             ->paginate(App::make('sexodomeKernel')->perPageCategories, $columns = ['*'], $pageName = 'page', $page)
         ;
 
@@ -49,9 +45,7 @@ class TubeController extends Controller
             ->paginate(App::make('sexodomeKernel')->perPage)
         ;
 
-        return response()->view('tube.search', [
-            'scenes' => $scenes,
-        ]);
+        return response()->view('tube.search', ['scenes' => $scenes]);
     }
 
     public function category($profile, $permalinkCategory, $page = 1, Request $request)
@@ -90,10 +84,7 @@ class TubeController extends Controller
             ->paginate(App::make('sexodomeKernel')->perPageCategories, $columns = ['*'], $pageName = 'page', $page)
         ;
 
-        return response()->view('tube.pornstars', [
-            'pornstars' => $pornstars,
-            'page'      => $page,
-        ]);
+        return response()->view('tube.pornstars', ['pornstars' => $pornstars, 'page' => $page]);
     }
 
     public function pornstar($profile, $permalinkPornstar, $page = 1)
@@ -108,10 +99,7 @@ class TubeController extends Controller
             ->paginate(App::make('sexodomeKernel')->perPageScenes, $columns = ['*'], $pageName = 'page', $page)
         ;
 
-        return response()->view('tube.pornstar', [
-            'scenes'   => $scenes,
-            'pornstar' => $pornstar,
-        ]);
+        return response()->view('tube.pornstar', ['scenes'   => $scenes, 'pornstar' => $pornstar]);
     }
 
     public function video($profile, $permalink)
