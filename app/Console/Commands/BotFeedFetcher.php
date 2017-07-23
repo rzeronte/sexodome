@@ -220,7 +220,7 @@ class BotFeedFetcher extends Command
                         if ($rate !== 'false') {
                             if ($video["rate"] < $rate) {
                                 $mixed_check = false;
-                                rZeBotUtils::message("[BotFeedFetcher] RATE: Rate insuficiente", "warning",'import');
+                                //rZeBotUtils::message("[BotFeedFetcher] Rate insuficiente", "warning",'import');
                             }
                         }
 
@@ -228,7 +228,7 @@ class BotFeedFetcher extends Command
                         if ($minViews !== 'false') {
                             if ($video["views"] < $minViews) {
                                 $mixed_check = false;
-                                rZeBotUtils::message("[BotFeedFetcher] VIEWS: Views insuficiente", "warning",'import');
+                                //rZeBotUtils::message("[BotFeedFetcher] Views insuficiente", "warning",'import');
                             }
                         }
 
@@ -236,7 +236,7 @@ class BotFeedFetcher extends Command
                         if ($minDuration !== 'false') {
                             if ($video["duration"] < $minDuration) {
                                 $mixed_check = false;
-                                rZeBotUtils::message("[BotFeedFetcher] DURATION: duration insuficiente", "warning",'import');
+                                //rZeBotUtils::message("[BotFeedFetcher] Duration insuficiente", "warning",'import');
                             }
                         }
 
@@ -278,13 +278,13 @@ class BotFeedFetcher extends Command
                             }
 
                             if ($categorize !== 'false') {
-                                $exitCodeCategorize = Artisan::call('zbot:categorize:scene', [
+                                Artisan::call('zbot:categorize:scene', [
                                     'scene_id' => $scene->id,
                                 ]);
                             }
                         }
                     } else {
-                        rZeBotUtils::message("[BotFeedFetcher] Scene de ".$feed->name." ya existente en " . $site->getHost().", saltando...", "warning",'import');
+                        rZeBotUtils::message("[BotFeedFetcher] Scene already exists | ".$feed->name." | " . $site->getHost()."| Skipping...", "warning",'import');
                     }
                 }
                 fclose($gestor);
