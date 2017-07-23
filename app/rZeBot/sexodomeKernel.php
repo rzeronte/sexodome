@@ -30,11 +30,12 @@ class sexodomeKernel extends Controller {
 
     public function __construct()
     {
-        $this->instanciateSite();
+        $this->instanciateFrontEndSite();
 
         if (App::runningInConsole()) {
             return;
         }
+
         $this->setSiteAndLanguageOrFail();
 
         // per page setups
@@ -213,7 +214,7 @@ class sexodomeKernel extends Controller {
     /**
      * Set global 'site' accesor. Used for routing
      */
-    public function instanciateSite()
+    public function instanciateFrontEndSite()
     {
         if (isset($_SERVER['HTTP_HOST'])) {
             $domain = $_SERVER['HTTP_HOST'];

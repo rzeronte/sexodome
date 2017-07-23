@@ -213,6 +213,8 @@ class Scene extends Model
             $scenes->where('sites.user_id', '=', $user_id);
         }
 
+        $scenes->orderBy('scenes.id', 'desc');
+
         return $scenes;
     }
 

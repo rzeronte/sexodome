@@ -14,13 +14,13 @@
         <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
             <p><i class="glyphicon glyphicon-th"></i> <b>Scenes</b>
             <b>{{ number_format($scenes->total(), 0, ",", ".") }}</b> found for:
-                @if ($query_string != "")
-                    <b><i>"{{$query_string}}"</i></b> in title
+                @if (Request::input('q', false) != "")
+                    <b><i>"{{Request::input('q', false)}}"</i></b> in title
                 @else
                     <b><i>any title</i></b>
                 @endif
-                @if ($tag_q != "")
-                    and <b><i>"{{$tag_q}}"</i></b> tag
+                @if (Request::input('tag_q', false) != "")
+                    and <b><i>"{{Request::input('tag_q', false)}}"</i></b> tag
                 @endif
             </p>
         </div>
@@ -29,25 +29,25 @@
     <div class="row" style="padding:10px;">
         <form action="{{ route('content', ['site_id' => $site->id]) }}" method="get" style="width:100%">
             <div class="col-md-2">
-                <input id="query_string" name="q" type="text" placeholder="title search" class="form-control query_string" value="{{$query_string}}" style="width:100%;">
+                <input id="query_string" name="q" type="text" placeholder="title search" class="form-control query_string" value="{{Request::input('q', false)}}" style="width:100%;">
             </div>
             <div class="col-md-2">
-                <input name="category_string" class="form-control" style="width:100%;" placeholder="category search">
+                <input name="category_string" value="{{Request::input('category_string', false)}}" class="form-control" style="width:100%;" placeholder="category search">
             </div>
             <div class="col-md-1">
-                <input id="query_tags" name="tag_q" type="text" placeholder="tag" class="form-control query_string" value="{{$tag_q}}" style="width:100%;">
+                <input id="query_tags" name="tag_q" type="text" placeholder="tag" class="form-control query_string" value="{{Request::input('tag_q', false)}}" style="width:100%;">
             </div>
             <div class="col-md-2">
                 <select name="duration" class="form-control">
                     <option value="">any duration</option>
-                    <option value="300" @if($duration == 300) selected @endif>5min</option>
-                    <option value="360" @if($duration == 360) selected @endif>6min</option>
-                    <option value="420" @if($duration == 420) selected @endif>7min</option>
-                    <option value="480" @if($duration == 480) selected @endif>8min</option>
-                    <option value="540" @if($duration == 540) selected @endif>9min</option>
-                    <option value="600" @if($duration == 600) selected @endif>10min</option>
-                    <option value="600" @if($duration == 900) selected @endif>15min</option>
-                    <option value="600" @if($duration == 1200) selected @endif>20min</option>
+                    <option value="300" @if(Request::input('duration', false) == 300) selected @endif>5min</option>
+                    <option value="360" @if(Request::input('duration', false) == 360) selected @endif>6min</option>
+                    <option value="420" @if(Request::input('duration', false) == 420) selected @endif>7min</option>
+                    <option value="480" @if(Request::input('duration', false) == 480) selected @endif>8min</option>
+                    <option value="540" @if(Request::input('duration', false) == 540) selected @endif>9min</option>
+                    <option value="600" @if(Request::input('duration', false) == 600) selected @endif>10min</option>
+                    <option value="600" @if(Request::input('duration', false) == 900) selected @endif>15min</option>
+                    <option value="600" @if(Request::input('duration', false) == 1200) selected @endif>20min</option>
                 </select>
             </div>
 
@@ -67,9 +67,9 @@
 
     <div class="row">
         <?php echo $scenes->appends([
-                'q'           => $query_string,
-                'tag_q'       => $tag_q,
-                'duration'    => $duration
+                'q'           => Request::input('q', false),
+                'tag_q'       => Request::input('tag_q', false),
+                'duration'    => Request::input('duration', false)
         ])->render(); ?>
     </div>
 
@@ -82,13 +82,11 @@
         <div class="row coloreable" style="padding: 5px;">
             <form action="{{route('saveTranslation', ['scene_id'=>$scene->id])}}" class="ajax-form">
                 <div class="col-md-2">
-
                     @if ($scene->thumb_index > 0)
                         <img title="{{$scene->permalink}}" src="<?=htmlspecialchars($thumbs[$scene->thumb_index])?>" class="img-responsive thumbnail selected-thumb-for-{{$scene->id}}"/>
                     @else
                         <img title="{{$scene->permalink}}" src="<?=htmlspecialchars($scene->preview)?>" class="img-responsive thumbnail selected-thumb-for-{{$scene->id}}"/>
                     @endif
-
                 </div>
 
                 <div class="col-md-2">
@@ -155,9 +153,9 @@
 
     <div class="row">
         <?php echo $scenes->appends([
-                'q'           => $query_string,
-                'tag_q'       => $tag_q,
-                'duration'    => $duration
+                'q'        => Request::input('q', false),
+                'tag_q'    => Request::input('tag_q', false),
+                'duration' => Request::input('duration', false)
         ])->render(); ?>
     </div>
 

@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Model\Site;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -39,5 +41,13 @@ class User extends Authenticatable
     public function setVerifyToken($token)
     {
         $this->verify_token = $token;
+    }
+
+    public function getSites()
+    {
+        return Site::where('user_id', '=', Auth::user()->id)
+            ->orderBy('language_id', 'asc')
+            ->get()
+        ;
     }
 }

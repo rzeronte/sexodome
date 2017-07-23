@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 use App\Model\TagTranslation;
 use Illuminate\Support\Facades\Log;
+use App\Model\Pornstar;
 
 class ConfigController extends Controller
 {
@@ -52,60 +53,38 @@ class ConfigController extends Controller
 
     public function scenes($site_id, Request $request)
     {
-        $query_string = $request->input('q', false);
-        $tag_query_string = $request->input('tag_q');
-        $duration = $request->input('duration');
-        $scene_id = $request->input('scene_id');
-        $category_string = $request->input('category_string');
-        $empty_title = ($request->input('empty_title') == "on") ? true : false;
-        $empty_description = ($request->input('empty_description') == "on") ? true : false;
-
-        $site = Site::find($site_id);
-        if (!$site) {
-            abort(404, "Site not found");
-        }
+        $site = Site::findOrFail($site_id);
 
         $scenes = Scene::getScenesForExporterSearch(
-            $query_string,
-            $tag_query_string,
+            $request->input('q', false),
+            $request->input('tag_q'),
             $site->language->id,
-            $duration,
-            $scene_id,
-            $category_string,
-            $empty_title,
-            $empty_description,
+            $request->input('duration'),
+            $request->input('scene_id'),
+            $request->input('category_string'),
+            ($request->input('empty_title') == "on") ? true : false,
+            ($request->input('empty_description') == "on") ? true : false,
             Auth::user()->id,
             $site->id
         );
 
         return view('panel.scenes', [
-            'scenes'       => $scenes->orderBy('scenes.id', 'desc')->paginate(App::make('sexodomeKernel')->perPageScenes),
-            'query_string' => $query_string,
-            'tag_q'        => $tag_query_string,
-            'site'         => $site,
-            'title'        => "Admin Panel",
-            'sites'        => Site::where('user_id', '=', Auth::user()->id)->get(),
-            'duration'     => $duration,
+            'scenes' => $scenes->paginate(App::make('sexodomeKernel')->perPageScenes),
+            'site'   => $site,
+            'title'  => "Admin Panel",
+            'sites'  => Site::where('user_id', '=', Auth::user()->id)->get(),
         ]);
     }
 
     public function ajaxSiteTags($site_id, Request $request)
     {
-        $query_string = $request->input('q');
-
-        $site = Site::find($site_id);
-        if (!$site) {
-            abort(404, "Site not found");
-        }
+        $site = Site::findOrFail($site_id);
 
         if (!(Auth::user()->id == $site->user->id)) {
             abort(401, "Unauthorized");
         }
 
-        $tags = Tag::getTranslationSearch(
-                $query_string,
-                $site->language->id
-            )->where('site_id', $site_id)
+        $tags = Tag::getTranslationSearch($request->input('q'), $site->language->id, $site_id)
             ->paginate(App::make('sexodomeKernel')->perPageScenes)
         ;
 
@@ -119,23 +98,17 @@ class ConfigController extends Controller
     {
         $query_string = $request->input('q');
 
-        $site = Site::find($site_id);
-
-        if (!$site) {
-            abort(404, "Site not found");
-        }
+        $site = Site::findOrFail($site_id);
 
         if (!(Auth::user()->id == $site->user->id)) {
             abort(401, "Unauthorized");
         }
 
-        $order_by_nscenes = $request->input('order_by_nscenes', false);
-
         $categories = Category::getTranslationSearch(
                 $query_string,
                 $site->language->id,
                 $site->id,
-                $order_by_nscenes
+                $request->input('order_by_nscenes', false)
             )
             ->paginate(30)
         ;
@@ -152,34 +125,34 @@ class ConfigController extends Controller
 
         $tagTranslation = TagTranslation::where('tag_id', $tag_id)
             ->where('language_id', App::make('sexodomeKernel')->language->id)
-            ->first();
+            ->first()
+        ;
 
         $tagTranslation->name = $name;
         $tagTranslation->permalink = str_slug($name);
         $tagTranslation->save();
 
-        $tag = Tag::find($tag_id);
-        $tag->status = $request->input('status');
-        $tag->save();
+        try {
+            $tag = Tag::findOrFail($tag_id);
+            $tag->status = $request->input('status');
+            $tag->save();
 
-        // response json if ajax request
-        return json_encode(array('status' => 1));
+        } catch (\Exception $e) {
+            return json_encode(['status' => false]);
+        }
+
+        return json_encode(['status' => true]);
     }
 
     public function saveCategoryTranslation($category_id, Request $request)
     {
-        $category = Category::find($category_id);
-
-        if (!$category) {
-            abort(404, "Category not found");
-        }
+        $category = Category::findOrFail($category_id);
 
         if (!(Auth::user()->id == $category->site->user->id)) {
             abort(401, "Unauthorized");
         }
 
         $site = $category->site;
-
         $name = $request->input('language_' . $site->language->id);
         $thumb = $request->input('thumbnail');
 
@@ -193,74 +166,63 @@ class ConfigController extends Controller
             ->first();
 
         if ($alreadyCategoryTranslation) {
-            return json_encode(array('status' => 0));
+            return json_encode(['status' => false]);
         }
 
         $categoryTranslation = CategoryTranslation::where('category_id', $category_id)
             ->where('language_id', $site->language->id)
-            ->first();
+            ->first()
+        ;
 
         $categoryTranslation->name = $name;
         $categoryTranslation->permalink = str_slug($name);
-        $categoryTranslation->thumb_locked = 1;
         $categoryTranslation->thumb = $thumb;
         $categoryTranslation->save();
 
         $category->status = $request->input('status');
         $category->save();
 
-        return json_encode(array('status' => 1));
+        return json_encode(['status' => true]);
     }
 
     public function saveTranslation($scene_id, Request $request)
     {
-        $scene = Scene::find($scene_id);
-
-        if (!$scene) {
-            abort(404, "Scene not found");
-        }
+        $scene = Scene::findOrFail($scene_id);
 
         if (!(Auth::user()->id == $scene->site->user->id)) {
             abort(401, "Unauthorized");
         }
 
-        $title = $request->input('title');
-        $description = $request->input('description');
-        $selectedThumb = $request->input('selectedThumb', null);
-
         $sceneTranslation = SceneTranslation::where('scene_id', $scene_id)
             ->where('language_id', App::make('sexodomeKernel')->language->id)
-            ->first();
+            ->first()
+        ;
 
-        $scene->thumb_index = $selectedThumb;
+        $scene->thumb_index = $request->input('selectedThumb', null);
         $scene->save();
 
         if ($sceneTranslation) {
 
-            $sceneTranslation->title = $title;
-            $sceneTranslation->permalink = str_slug($title);
-            $sceneTranslation->description = $description;
+            $sceneTranslation->title = $request->input('title');
+            $sceneTranslation->permalink = str_slug($request->input('title'));
+            $sceneTranslation->description = $request->input('description');
             $sceneTranslation->save();
 
-            return json_encode(array(
+            return json_encode([
                 'description' => $sceneTranslation->description,
-                'scene_id' => $scene_id,
-                'status' => 1
-            ));
+                'scene_id'    => $scene_id,
+                'status'      => true
+            ]);
         } else {
-            return json_encode(array('status' => 0));
+            return json_encode(['status' => false]);
         }
     }
 
     public function ajaxSitePornstars($site_id)
     {
-        $site = Site::find($site_id);
+        $site = Site::findOrFail($site_id);
 
-        if (!$site) {
-            abort(404, "Site not found");
-        }
-
-        $pornstars = \App\Model\Pornstar::where('site_id', '=', $site_id)->paginate(App::make('sexodomeKernel')->perPagePanelPornstars);
+        $pornstars = Pornstar::where('site_id', '=', $site_id)->paginate(App::make('sexodomeKernel')->perPagePanelPornstars);
 
         return view('panel.ajax._ajax_site_pornstars', [
             'site'      => $site,
@@ -270,11 +232,7 @@ class ConfigController extends Controller
 
     public function scenePreview($scene_id)
     {
-        $scene = Scene::find($scene_id);
-
-        if (!$scene) {
-            abort("404", "Scene not found");
-        }
+        $scene = Scene::findOrFail($scene_id);
 
         if (!(Auth::user()->id == $scene->site->user->id)) {
             abort(401, "Unauthorized");
@@ -288,20 +246,10 @@ class ConfigController extends Controller
 
     public function fetch($site_id, Request $request)
     {
-        $site = Site::find($site_id);
-
-        if (!$site) {
-            abort(401, "Site not found");
-        }
+        $site = Site::findOrFail($site_id);
 
         if (!(Auth::user()->id == $site->user->id)) {
             abort(401, "Unauthorized");
-        }
-
-        $channel = Channel::where('name', '=', $request->input('feed_name', false))->first();
-
-        if (!$channel) {
-            abort(404, "Channel not found");
         }
 
         $tags = $request->input('tags', false);
@@ -317,10 +265,9 @@ class ConfigController extends Controller
             'tags'       => $tags,
         ];
 
+        $queueParams['only_with_pornstars'] = 'false';
         if ($request->input('only_with_pornstars') == 1) {
             $queueParams['only_with_pornstars'] = 'true';
-        } else {
-            $queueParams['only_with_pornstars'] = 'false';
         }
 
         try {
@@ -330,12 +277,9 @@ class ConfigController extends Controller
             return json_encode(['status' => true]);
 
         } catch (\Exception $e) {
-            Log::error("[fetch siteid:$site_id] " . $e->getMessage());
-
+            Log::error("[fetch siteid: $site_id] " . $e->getMessage());
             return json_encode(['status' => false]);
         }
-
-        return json_encode(['status' => false]);
     }
 
     public function sites()
@@ -343,9 +287,7 @@ class ConfigController extends Controller
         $ff = date("Y-m-d");
         $fi = date("Y-m-d", strtotime($ff . " -30 days"));
 
-        $sites = Site::where('user_id', '=', Auth::user()->id)
-            ->orderBy('language_id', 'asc')
-            ->get();
+        $sites = Auth::user()->getSites();
 
         return view('panel.sites', [
             'channels' => Channel::all(),
@@ -358,11 +300,7 @@ class ConfigController extends Controller
 
     public function site($site_id)
     {
-        $site = Site::find($site_id);
-
-        if (!$site) {
-            abort(404, "Site not found");
-        }
+        $site = Site::findOrFail($site_id);
 
         if (!(Auth::user()->id == $site->user->id)) {
             abort(401, "Unauthorized");
@@ -381,7 +319,7 @@ class ConfigController extends Controller
             'channels'  => Channel::all(),
             'title'     => "Admin Panel",
             'site'      => $site,
-            'sites'     => Site::where('user_id', Auth::user()->id)->orderBy('language_id', 'asc')->get(),
+            'sites'     => Auth::user()->getSites(),
             'fi'        => $fi,
             'ff'        => $ff,
             'types'     => Type::all(),
@@ -390,34 +328,20 @@ class ConfigController extends Controller
 
     public function sceneThumbs($scene_id)
     {
-        $scene = Scene::find($scene_id);
-        if (!$scene) {
-            abort(404, "Not found");
-        }
-
-        return view('panel.ajax._ajax_scene_thumbs', [
-            'scene' => $scene,
-        ]);
+        return view('panel.ajax._ajax_scene_thumbs', ['scene' => Scene::findOrFail($scene_id)]);
     }
 
     public function ajaxCronJobs($site_id)
     {
-        $site = Site::find($site_id);
-        $scene = Scene::find($site_id);
-
         return view('panel.ajax._ajax_site_cronjobs', [
-            'site'  => $site,
-            'scene' => $scene,
+            'site'  => Site::findOrFail($site_id),
+            'scene' => Scene::findOrFail($site_id),
         ]);
     }
 
     public function updateSiteSEO($site_id, Request $request)
     {
-        $site = Site::find($site_id);
-
-        if (!$site) {
-            abort(404, "Site not found");
-        }
+        $site = Site::findOrFail($site_id);
 
         if (!(Auth::user()->id == $site->user->id)) {
             abort(401, "Unauthorized");
@@ -466,7 +390,7 @@ class ConfigController extends Controller
 
         $site->save();
 
-        return json_encode(array('status' => true));
+        return json_encode(['status' => true]);
     }
 
     public function addSite(Request $request)
@@ -482,9 +406,7 @@ class ConfigController extends Controller
             if ($site) {
                 $request->session()->flash('error_domain', 'Domain <' . trim($request->input('domain')) . '> already exists!');
 
-                return view('panel.add_site', [
-                    'sites' => $sites
-                ]);
+                return view('panel.add_site', ['sites' => $sites]);
             }
 
             // create new site for current user
@@ -495,26 +417,17 @@ class ConfigController extends Controller
             $newSite->domain = $request->input('domain');
             $newSite->have_domain = 1;
             $newSite->header_text = "";
-
             $newSite->save();
 
-            return redirect()->route('site', [
-                'site_id' => $newSite->id,
-            ]);
+            return redirect()->route('site', ['site_id' => $newSite->id]);
         }
 
-        return view('panel.add_site', [
-            'sites' => $sites
-        ]);
+        return view('panel.add_site', ['sites' => $sites]);
     }
 
     public function deleteSite($site_id)
     {
-        $site = Site::find($site_id);
-
-        if (!$site) {
-            abort(404, "Site not found");
-        }
+        $site = Site::findOrFail($site_id);
 
         if (!(Auth::user()->id == $site->user->id)) {
             abort(401, "Unauthorized");
@@ -527,89 +440,57 @@ class ConfigController extends Controller
 
     public function checkSubdomain(Request $request)
     {
-        $subdomain = $request->input('subdomain');
-
-        if (strlen($subdomain) == 0) {
-            abort(404, 'Not allowed');
+        if (strlen($request->input('subdomain')) == 0) {
+            abort(406, 'Not acceptable');
         }
 
-        $sites = Site::where('name', '=', $subdomain)->count();
+        $sites = Site::where('name', '=', $request->input('subdomain'))->count();
 
-        if ($sites == 0) {
-            $status = 1;
-        } else {
-            $status = 0;
-        }
-
-        return json_encode(array('status' => $status));
+        return json_encode(['status' => ($sites == 0) ? true : false]);
     }
 
     public function checkDomain(Request $request)
     {
-        $domain = $request->input('domain');
-
-        if (strlen($domain) == 0) {
+        if (strlen($request->input('domain')) == 0) {
             abort(404, 'Not allowed');
         }
 
-        $sites = Site::where('domain', '=', $domain)->count();
+        $sites = Site::where('domain', '=', $request->input('domain'))->count();
 
-        if ($sites == 0) {
-            $status = 1;
-        } else {
-            $status = 0;
-        }
-
-        return json_encode(array('status' => $status));
+        return json_encode(['status' => ($sites == 0) ? true : false]);
     }
 
     public function updateGoogleData($site_id, Request $request)
     {
-        $site = Site::find($site_id);
-
-        if (!$site) {
-            abort(404, "Site not found");
-        }
-
-        $site->ga_account = $request->input('ga_view_' . $site->id);
-
         try {
+            $site = Site::findOrFail($site_id);
+            $site->ga_account = $request->input('ga_view_' . $site->id);
             $site->save();
             $status = true;
         } catch (\Exception $e) {
             $status = false;
         }
 
-        return json_encode(array('status' => $status));
+        return json_encode(['status' => $status]);
     }
 
     public function updateIframeData($site_id, Request $request)
     {
-        $site = Site::find($site_id);
-
-        if (!$site) {
-            abort(404, "Site not found");
-        }
-
-        $site->iframe_site_id = ($request->input('iframe_site_id_' . $site->id) != "") ? $request->input('iframe_site_id_' . $site->id) : null;
-
         try {
+            $site = Site::findOrFail($site_id);
+            $site->iframe_site_id = ($request->input('iframe_site_id_' . $site->id) != "") ? $request->input('iframe_site_id_' . $site->id) : null;
             $site->save();
             $status = true;
         } catch (\Exception $e) {
             $status = false;
         }
 
-        return json_encode(array('status' => $status));
+        return json_encode(['status' => $status]);
     }
 
     public function updateLogo($site_id, Request $request)
     {
-        $site = Site::find($site_id);
-
-        if (!$site) {
-            abort(404, "Site not found");
-        }
+        $site = Site::findOrFail($site_id);
 
         $delete_header = $request->input('header_delete');
 
@@ -629,7 +510,7 @@ class ConfigController extends Controller
         ]);
 
         $v->after(function ($validator) {
-            $extensions_acepted = array("png");
+            $extensions_acepted = ["png"];
             $extension = Input::file('logo')->getClientOriginalExtension();
 
             if (!in_array(strtolower($extension), $extensions_acepted)) {
@@ -638,7 +519,7 @@ class ConfigController extends Controller
         });
 
         $vF->after(function ($validator) {
-            $extensions_acepted = array("png");
+            $extensions_acepted = ["png"];
             $extension = Input::file('favicon')->getClientOriginalExtension();
 
             if (!in_array(strtolower($extension), $extensions_acepted)) {
@@ -647,7 +528,7 @@ class ConfigController extends Controller
         });
 
         $vH->after(function ($validator) {
-            $extensions_acepted = array("png");
+            $extensions_acepted = ["png"];
             $extension = Input::file('header')->getClientOriginalExtension();
 
             if (!in_array(strtolower($extension), $extensions_acepted)) {
@@ -685,46 +566,34 @@ class ConfigController extends Controller
 
     public function updateColors($site_id, Request $request)
     {
-        $site = Site::find($site_id);
-
-        if (!$site) {
-            abort(404, "Site not found");
-        }
+        $site = Site::findOrFail($site_id);
 
         if (!(Auth::user()->id == $site->user->id)) {
             abort(401, "Unauthorized");
         }
 
-        $site->color = ($request->input('color') != "") ? $request->input('color') : null;
-        $site->color2 = ($request->input('color2') != "") ? $request->input('color2') : null;
-        $site->color3 = ($request->input('color3') != "") ? $request->input('color3') : null;
-        $site->color4 = ($request->input('color4') != "") ? $request->input('color4') : null;
-        $site->color5 = ($request->input('color5') != "") ? $request->input('color5') : null;
-        $site->color6 = ($request->input('color6') != "") ? $request->input('color6') : null;
-        $site->color7 = ($request->input('color7') != "") ? $request->input('color7') : null;
-        $site->color8 = ($request->input('color8') != "") ? $request->input('color8') : null;
-        $site->color9 = ($request->input('color9') != "") ? $request->input('color9') : null;
-        $site->color10 = ($request->input('color10') != "") ? $request->input('color10') : null;
-        $site->color11 = ($request->input('color11') != "") ? $request->input('color11') : null;
-        $site->color12 = ($request->input('color12') != "") ? $request->input('color12') : null;
-
+        $site->color   = $request->input('color') != "" ? $request->input('color') : null;
+        $site->color2  = $request->input('color2') != "" ? $request->input('color2') : null;
+        $site->color3  = $request->input('color3') != "" ? $request->input('color3') : null;
+        $site->color4  = $request->input('color4') != "" ? $request->input('color4') : null;
+        $site->color5  = $request->input('color5') != "" ? $request->input('color5') : null;
+        $site->color6  = $request->input('color6') != "" ? $request->input('color6') : null;
+        $site->color7  = $request->input('color7') != "" ? $request->input('color7') : null;
+        $site->color8  = $request->input('color8') != "" ? $request->input('color8') : null;
+        $site->color9  = $request->input('color9') != "" ? $request->input('color9') : null;
+        $site->color10 = $request->input('color10') != "" ? $request->input('color10') : null;
+        $site->color11 = $request->input('color11') != "" ? $request->input('color11') : null;
+        $site->color12 = $request->input('color12') != "" ? $request->input('color12') : null;
         $site->save();
-        $status = true;
 
-        Artisan::call('zbot:css:update', [
-            '--site_id' => $site->id
-        ]);
+        Artisan::call('zbot:css:update', ['--site_id' => $site->id]);
 
-        return json_encode(array('status' => $status));
+        return json_encode(['status' => true]);
     }
 
     public function ajaxSaveCronJob(Request $request)
     {
-        $channel = Channel::where('name', $request->input('feed_name'))->first();
-
-        if (!$channel) {
-            abort(404, "Channel not found");
-        }
+        $channel = Channel::where('name', $request->input('feed_name'))->firstOrFail();
 
         $tags = $request->input('tags', false);
 
@@ -754,81 +623,62 @@ class ConfigController extends Controller
 
         $status = true;
 
-        return json_encode(array('status' => $status));
+        return json_encode(['status' => $status]);
     }
 
     public function deleteCronJob($cronjob_id)
     {
-        $cronjob = CronJob::find($cronjob_id);
+        try {
+            $cronjob = CronJob::findOrFail($cronjob_id);
 
-        if (!$cronjob) {
-            abort(404, "Cronjob not found");
+            if (!(Auth::user()->id == $cronjob->site->user->id)) {
+                abort(401, "Unauthorized");
+            }
+
+            $cronjob->delete();
+            $status = true;
+        } catch(\Exception $e) {
+            $status = false;
         }
 
-        if (!(Auth::user()->id == $cronjob->site->user->id)) {
-            abort(401, "Unauthorized");
-        }
-
-        $cronjob->delete();
-
-        $status = true;
-
-        return json_encode(array('status' => $status));
+        return json_encode(['status' => $status]);
     }
 
     public function ajaxPopunders($site_id)
     {
-        $site = Site::find($site_id);
+        $site = Site::findOrFail($site_id);
 
-        if (!$site) {
-            abort(404, "Site not found");
-        }
-
-        $popunders = $site->popunders()->get();
-
-        return view('panel.ajax._ajax_site_popunders', [
-            'popunders' => $popunders,
-        ]);
+        return view('panel.ajax._ajax_site_popunders', ['popunders' => $site->popunders()->get()]);
     }
 
     public function ajaxSavePopunder($site_id, Request $request)
     {
-        $site = Site::find($site_id);
-
-        if (!$site) {
-            abort(404, "Site not found");
+        try {
+            $site = Site::findOrFail($site_id);
+            $newPopunder = new Popunder();
+            $newPopunder->url = $request->input('url', false);
+            $newPopunder->site_id = $site->id;
+            $newPopunder->save();
+            return json_encode(['status' => $status = true]);
+        } catch (\Exception $e) {
+            return json_encode(['status' => $status = false]);
         }
-
-        $url = $request->input('url', false);
-
-        $newPopunder = new Popunder();
-        $newPopunder->url = $url;
-        $newPopunder->site_id = $site->id;
-        $newPopunder->save();
-
-        return json_encode(array('status' => $status = true));
     }
 
     public function ajaxDeletePopunder($popunder_id)
     {
-        $popunder = Popunder::find($popunder_id);
-
-        if (!$popunder) {
-            abort(404, "Popunder not found");
+        try {
+            $popunder = Popunder::findOrFail($popunder_id);
+            $popunder->delete();
+            return json_encode(['status' => $status = true]);
+        } catch (\Exception $e) {
+            return json_encode(['status' => $status = false]);
         }
-
-        $popunder->delete();
-
-        return json_encode(array('status' => $status = true));
     }
 
     public function categoryThumbs($category_id)
     {
-        $category = Category::find($category_id);
-
-        if (!$category) {
-            abort(404, "Category not found");
-        }
+        $category = Category::findOrFail($category_id);
 
         $site_type_id = $category->site->type_id;
 
@@ -839,8 +689,7 @@ class ConfigController extends Controller
         }
 
         $filenames = [];
-        foreach ($files as $file)
-        {
+        foreach ($files as $file) {
             $filenames[] = $file->getFilename();
         }
 
@@ -862,16 +711,12 @@ class ConfigController extends Controller
             $categoryTranslation->save();
         }
 
-        return json_encode(array('status' => $status));
+        return json_encode(['status' => $status]);
     }
 
     public function uploadCategory($category_id, Request $request)
     {
-        $category = Category::find($category_id);
-
-        if (!$category) {
-            abort(404, "Category not found");
-        }
+        $category = Category::findOrFail($category_id);
 
         // logo validator
 /*        $v = Validator::make($request->all(), [
@@ -899,23 +744,17 @@ class ConfigController extends Controller
 
         $request->file('file')->move($destinationPath, $fileName);
 
-        $data = ["files" => [
-            [
-                "category_id" => $category_id,
-                "name"        => $fileName,
-                "url"         => $final_url,
-            ]
-        ]];
+        $data = ["files" => [[
+            "category_id" => $category_id,
+            "name"        => $fileName,
+            "url"         => $final_url,
+        ]]];
 
         return json_encode($data);
     }
 
     public function orderCategories($site_id, Request $request)
     {
-        $sites = Site::where('user_id', '=', Auth::user()->id)
-            ->orderBy('language_id', 'asc')
-            ->get();
-
         if ($request->input('o') != "") {
 
             foreach ($request->input('o') as $category) {
@@ -941,7 +780,7 @@ class ConfigController extends Controller
         ;
 
         return view('panel.categories_order', [
-            'sites'      => $sites,
+            'sites'      => Auth::user()->getSites(),
             'site'       => Site::find($site_id),
             'categories' => $categories
         ]);
@@ -949,17 +788,13 @@ class ConfigController extends Controller
 
     public function categoryTags($category_id, Request $request)
     {
-        $category = Category::find($category_id);
-
-        if (!$category) {
-            abort(404, "Category not found");
-        }
+        $category = Category::findOrFail($category_id);
 
         if ($request->isMethod('post')) {
             $categories_ids = $request->input('categories');
             $category->tags()->sync($categories_ids);
 
-            return json_encode(array('status' => 1));
+            return json_encode(['status' => 1]);
         }
 
         $category_tags = Tag::getTranslationByCategory($category, 2)->get()->pluck('id');
@@ -976,11 +811,7 @@ class ConfigController extends Controller
 
     public function createCategory($site_id, Request $request)
     {
-        $site = Site::find($site_id);
-
-        if (!$site) {
-            abort(404, 'Site not found');
-        }
+        $site = Site::findOrFail($site_id);
 
         // Si venimos por post, devolvemos resultado por json en lugar del twig.
         if ($request->isMethod('post')) {
@@ -998,21 +829,15 @@ class ConfigController extends Controller
                 $newCategoryTranslation->permalink = rZeBotUtils::slugify($request->input('language_'.$language->code));
                 $newCategoryTranslation->save();
             }
-            return json_encode(array('status' => true));
+            return json_encode(['status' => true]);
         } else {
-            return view('panel.ajax._ajax_site_create_category', [
-                'site' => $site
-            ]);
+            return view('panel.ajax._ajax_site_create_category', ['site' => $site]);
         }
     }
 
     public function createTag($site_id, Request $request)
     {
-        $site = Site::find($site_id);
-
-        if (!$site) {
-            abort(404, 'Site not found');
-        }
+        $site = Site::findOrFail($site_id);
 
         // Si venimos por post, devolvemos resultado por json en lugar del twig.
         if ($request->isMethod('post')) {
@@ -1029,65 +854,42 @@ class ConfigController extends Controller
                 $newTagTranslation->permalink = rZeBotUtils::slugify($request->input('language_'.$language->code));
                 $newTagTranslation->save();
             }
-            return json_encode(array('status' => true));
+            return json_encode(['status' => true]);
         } else {
-            return view('panel.ajax._ajax_site_create_tag', [
-                'site' => $site
-            ]);
+            return view('panel.ajax._ajax_site_create_tag', ['site' => $site]);
         }
     }
 
     public function ajaxDeleteCategory($category_id)
     {
-        $category = Category::find($category_id);
-
-        if (!$category) {
-            abort(404, 'Category not found');
-        }
-
         try {
+            $category = Category::findOrFail($category_id);
             $category->delete();
-
+            return json_encode(['status' => true]);
         } catch(\Exception $e) {
-            return json_encode(array('status' => false));
+            return json_encode(['status' => false]);
         }
-
-        return json_encode(array('status' => true));
     }
 
     public function ajaxDeleteTag($tag_id)
     {
-        $tag = Tag::find($tag_id);
-
-        if (!$tag) {
-            abort(404, 'Tag not found');
-        }
-
         try {
+            $tag = Tag::findOfFail($tag_id);
             $tag->delete();
-
+            return json_encode(['status' => true]);
         } catch(\Exception $e) {
-            return json_encode(array('status' => false));
+            return json_encode(['status' => false]);
         }
-
-        return json_encode(array('status' => true));
-
     }
 
     public function ajaxDeleteScene($scene_id)
     {
-        $scene = Scene::find($scene_id);
-
-        if (!$scene) {
-            abort(404, 'Scene not found');
-        }
-
         try {
+            $scene = Scene::findOrFail($scene_id);
             $scene->delete();
+            return json_encode(['status' => true]);
         } catch(\Exception $e) {
-            return json_encode(array('status' => false));
+            return json_encode(['status' => false]);
         }
-
-        return json_encode(array('status' => true));
     }
 }

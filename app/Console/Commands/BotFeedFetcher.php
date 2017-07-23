@@ -69,7 +69,7 @@ class BotFeedFetcher extends Command
         $feed = Channel::where("name", "=", $feed_name)->first();
 
         if (!$feed) {
-            rZeBotUtils::message("[BotFeedFetcher] El feed '$feed_name' indicado no existe. Abortando ejecución.", "error",'import');
+            rZeBotUtils::message("[BotFeedFetcher] Feed '$feed_name' not exists. Aborting...", "error",'import');
             exit;
         }
 
