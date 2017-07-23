@@ -19,7 +19,7 @@ class BotSitesList extends Command
         rZeBotUtils::message("[BotSitesList] ---------", "info",'kernel', true, true);
 
         foreach($sites as $site) {
-            $msg = "id: " . $site->id . " | status: " . $site->status . " | http://". $site->getHost() . " | " . $site->user()->first()->name. " | " . $site->language->name;
+            $msg = "id: " . $site->id . " | status: " . intval($site->status) . " | http://". $site->getHost() . " | " . $site->user()->first()->name. " | " . $site->language->name;
             rZeBotUtils::message("[BotSitesList] " . $msg, "info",'kernel', true, true);
         }
 
