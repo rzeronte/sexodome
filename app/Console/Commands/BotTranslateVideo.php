@@ -108,19 +108,19 @@ class BotTranslateVideo extends Command
         if ($translationTitle != false) {
             $translationTo->title = substr($translationTitle, 0, 255);
             $translationTo->permalink = str_slug($translationTitle);
-            rZeBotUtils::message("[BotTranslateVideo] Translating title for scene_id: $scene->id, '". $textFrom->title . "' => '$translationTo->title'", "info",'kernel');
+            rZeBotUtils::message("[BotTranslateVideo] Translating title ($from => $to) for scene_id: $scene->id, '". $textFrom->title . "' => '$translationTo->title'", "info",'kernel');
         } else {
             $translation = false;
-            rZeBotUtils::message('[BotTranslateVideo] Translating title for scene_id: '. $scene->id. ', '. $textFrom->title . '" => "'.$translationTo->title.'"', "error",'kernel');
+            rZeBotUtils::message("[BotTranslateVideo] Translating title ($from => $to) for scene_id: ". $scene->id. ', '. $textFrom->title . '" => "'.$translationTo->title.'"', "error",'kernel');
         }
 
         if (strlen($textFrom->description) > 0){
             if ($translationDescription != false) {
                 $translationTo->description = substr(utf8_encode($translationDescription), 0, 255);
-                rZeBotUtils::message("[BotTranslateVideo] Translating description for scene_id: $scene->id, '". $textFrom->title . "' => '$translationTo->title'", "info",'kernel');
+                rZeBotUtils::message("[BotTranslateVideo] Translating description ($from => $to) for scene_id: $scene->id, '". $textFrom->title . "' => '$translationTo->title'", "info",'kernel');
             } else {
                 $translation = false;
-                rZeBotUtils::message('[BotTranslateVideo] Translation description for scene_id: '. $scene->id. ', '. $translationDescription, "error",'kernel');
+                rZeBotUtils::message("[BotTranslateVideo] Translation description ($from => $to) for scene_id: ". $scene->id. ', '. $translationDescription, "error",'kernel');
             }
         }
 
@@ -153,7 +153,7 @@ class BotTranslateVideo extends Command
             $translationTo = $tag->translations()->where('language_id', $languageTo->id)->first();
 
             if (!$translationTo->title == null || !$translationTo->permalink == null) {
-                rZeBotUtils::message('[BotTranslateVideo] Translation already exists for tag_id(' . $tag->id . ') ' . $translationTo->title, "warning",'kernel');
+                //rZeBotUtils::message('[BotTranslateVideo] Translation already exists for tag_id(' . $tag->id . ') ' . $translationTo->title, "warning",'kernel');
                 continue;
             }
 
@@ -170,7 +170,7 @@ class BotTranslateVideo extends Command
                 $translationTo->name = $translationName;
                 $translationTo->permalink = str_slug($translationName);
                 $translationTo->save();
-                rZeBotUtils::message('[BotTranslateVideo] Translating tag ' . $textFrom->name . " - " . $translationName, "info",'kernel');
+                rZeBotUtils::message("[BotTranslateVideo] Translating tag ($from => $to) | " . $textFrom->name . " - " . $translationName, "info",'kernel');
             } else {
                 rZeBotUtils::message('[BotTranslateVideo] Api translation failed for tag_id: ' . $tag->id, "error",'kernel');
             }
@@ -193,7 +193,7 @@ class BotTranslateVideo extends Command
 
             // Evitamos traducir de nuevo si ya existe traducción
             if (!$translationTo->title == null || !$translationTo->permalink == null) {
-                rZeBotUtils::message('[BotTranslateVideo] Translation already exists for category_id(' .$category->id.')' . $translationTo->title, "warning", 'kernel');
+                //rZeBotUtils::message('[BotTranslateVideo] Translation already exists for category_id(' .$category->id.')' . $translationTo->title, "warning", 'kernel');
                 continue;
             }
 
@@ -210,7 +210,7 @@ class BotTranslateVideo extends Command
                 $translationTo->name = $translationName;
                 $translationTo->permalink = str_slug($translationName);
                 $translationTo->save();
-                rZeBotUtils::message('[BotTranslateVideo] Translating category ' . $textFrom->name . " - " . $translationName, "info",'kernel');
+                rZeBotUtils::message("[BotTranslateVideo] Translating category ($from => $to) | " . $textFrom->name . " - " . $translationName, "info",'kernel');
             } else {
                 rZeBotUtils::message('[BotTranslateVideo] Api Translation failed for category_id: ' . $category->id, "error",'kernel');
             }
