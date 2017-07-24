@@ -165,8 +165,8 @@ class BotFeedFetcher extends Command
                     }
 
                     // check limit import
-                    if ($max != 'false' && is_numeric($max) && $added >= $max) {
-                        rZeBotUtils::message("[BotFeedFetcher] End for max scenes: $max", "info",'import');
+                    if ($args['max'] != 'false' && is_numeric($args['max']) && $added >= $args['max']) {
+                        rZeBotUtils::message("[BotFeedFetcher] End for max scenes: " . $args['max'], "info",'import');
                         break;
                     }
 
@@ -226,7 +226,7 @@ class BotFeedFetcher extends Command
 
                         // views check
                         if ($args['minViews'] !== 'false') {
-                            if ($video["views"] < $minViews) {
+                            if ($video["views"] < $args['minViews']) {
                                 $mixed_check = false;
                                 //rZeBotUtils::message("[BotFeedFetcher] Views insuficiente", "warning",'import');
                             }
