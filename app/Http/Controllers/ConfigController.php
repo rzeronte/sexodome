@@ -51,6 +51,50 @@ class ConfigController extends Controller
         return redirect()->route('sites');
     }
 
+    public function sites()
+    {
+        $ff = date("Y-m-d");
+        $fi = date("Y-m-d", strtotime($ff . " -30 days"));
+
+        $sites = Auth::user()->getSites();
+
+        return view('panel.sites', [
+            'channels' => Channel::all(),
+            'title'    => "Admin Panel",
+            'sites'    => $sites,
+            'fi'       => $fi,
+            'ff'       => $ff,
+        ]);
+    }
+
+    public function site($site_id)
+    {
+        $site = Site::findOrFail($site_id);
+
+        if (!(Auth::user()->id == $site->user->id)) {
+            abort(401, "Unauthorized");
+        }
+
+        // Si el idioma es distinto, actualizamos locale e idioma
+        if ($site->language->code != App::getLocale()) {
+            App::setLocale($site->language->code);
+            App::make('sexodomeKernel')->language = $site->language;
+        }
+
+        $ff = date("Y-m-d");
+        $fi = date("Y-m-d", strtotime($ff . " -50 days"));
+
+        return view('panel.site', [
+            'channels'  => Channel::all(),
+            'title'     => "Admin Panel",
+            'site'      => $site,
+            'sites'     => Auth::user()->getSites(),
+            'fi'        => $fi,
+            'ff'        => $ff,
+            'types'     => Type::all(),
+        ]);
+    }
+
     public function scenes($site_id, Request $request)
     {
         $site = Site::findOrFail($site_id);
@@ -73,49 +117,6 @@ class ConfigController extends Controller
             'site'   => $site,
             'title'  => "Admin Panel",
             'sites'  => Site::where('user_id', '=', Auth::user()->id)->get(),
-        ]);
-    }
-
-    public function ajaxSiteTags($site_id, Request $request)
-    {
-        $site = Site::findOrFail($site_id);
-
-        if (!(Auth::user()->id == $site->user->id)) {
-            abort(401, "Unauthorized");
-        }
-
-        $tags = Tag::getTranslationSearch($request->input('q'), $site->language->id, $site_id)
-            ->paginate(App::make('sexodomeKernel')->perPageScenes)
-        ;
-
-        return view('panel.ajax._ajax_site_tags', [
-            'site' => $site,
-            'tags' => $tags,
-        ]);
-    }
-
-    public function ajaxSiteCategories($site_id, Request $request)
-    {
-        $query_string = $request->input('q');
-
-        $site = Site::findOrFail($site_id);
-
-        if (!(Auth::user()->id == $site->user->id)) {
-            abort(401, "Unauthorized");
-        }
-
-        $categories = Category::getTranslationSearch(
-                $query_string,
-                $site->language->id,
-                $site->id,
-                $request->input('order_by_nscenes', false)
-            )
-            ->paginate(30)
-        ;
-
-        return view('panel.ajax._ajax_site_categories', [
-            'site'       => $site,
-            'categories' => $categories,
         ]);
     }
 
@@ -218,18 +219,6 @@ class ConfigController extends Controller
         }
     }
 
-    public function ajaxSitePornstars($site_id)
-    {
-        $site = Site::findOrFail($site_id);
-
-        $pornstars = Pornstar::where('site_id', '=', $site_id)->paginate(App::make('sexodomeKernel')->perPagePanelPornstars);
-
-        return view('panel.ajax._ajax_site_pornstars', [
-            'site'      => $site,
-            'pornstars' => $pornstars,
-        ]);
-    }
-
     public function scenePreview($scene_id)
     {
         $scene = Scene::findOrFail($scene_id);
@@ -282,23 +271,84 @@ class ConfigController extends Controller
         }
     }
 
-    public function sites()
+    public function sceneThumbs($scene_id)
     {
-        $ff = date("Y-m-d");
-        $fi = date("Y-m-d", strtotime($ff . " -30 days"));
-
-        $sites = Auth::user()->getSites();
-
-        return view('panel.sites', [
-            'channels' => Channel::all(),
-            'title'    => "Admin Panel",
-            'sites'    => $sites,
-            'fi'       => $fi,
-            'ff'       => $ff,
-        ]);
+        return view('panel.ajax._ajax_scene_thumbs', ['scene' => Scene::findOrFail($scene_id)]);
     }
 
-    public function site($site_id)
+    public function addSite(Request $request)
+    {
+        $sites = Site::where('user_id', '=', Auth::user()->id)->get();
+
+        if ($request->isMethod('post')) {
+
+            // check if already exists
+            $site = Site::where('domain', '=', trim($request->input('domain')))->first();
+
+            // if exists return with custom error
+            if ($site) {
+                $request->session()->flash('error_domain', 'Domain <' . trim($request->input('domain')) . '> already exists!');
+
+                return view('panel.add_site', ['sites' => $sites]);
+            }
+
+            // create new site for current user
+            $newSite = new Site();
+            $newSite->user_id = Auth::user()->id;
+            $newSite->name = $request->input('subdomain');
+            $newSite->language_id = env("DEFAULT_FETCH_LANGUAGE", 2);
+            $newSite->domain = $request->input('domain');
+            $newSite->have_domain = 1;
+            $newSite->header_text = "";
+            $newSite->save();
+
+            return redirect()->route('site', ['site_id' => $newSite->id]);
+        }
+
+        return view('panel.add_site', ['sites' => $sites]);
+    }
+
+    public function checkSubdomain(Request $request)
+    {
+        if (strlen($request->input('subdomain')) == 0) {
+            abort(406, 'Not acceptable');
+        }
+
+        $sites = Site::where('name', '=', $request->input('subdomain'))->count();
+
+        return json_encode(['status' => ($sites == 0) ? true : false]);
+    }
+
+    public function checkDomain(Request $request)
+    {
+        if (strlen($request->input('domain')) == 0) {
+            abort(404, 'Not allowed');
+        }
+
+        $sites = Site::where('domain', '=', $request->input('domain'))->count();
+
+        return json_encode(['status' => ($sites == 0) ? true : false]);
+    }
+
+    public function deleteCronJob($cronjob_id)
+    {
+        try {
+            $cronjob = CronJob::findOrFail($cronjob_id);
+
+            if (!(Auth::user()->id == $cronjob->site->user->id)) {
+                abort(401, "Unauthorized");
+            }
+
+            $cronjob->delete();
+            $status = true;
+        } catch(\Exception $e) {
+            $status = false;
+        }
+
+        return json_encode(['status' => $status]);
+    }
+
+    public function deleteSite($site_id)
     {
         $site = Site::findOrFail($site_id);
 
@@ -306,37 +356,154 @@ class ConfigController extends Controller
             abort(401, "Unauthorized");
         }
 
-        // Si el idioma es distinto, actualizamos locale e idioma
-        if ($site->language->code != App::getLocale()) {
-            App::setLocale($site->language->code);
-            App::make('sexodomeKernel')->language = $site->language;
+        $site->delete();
+
+        return redirect()->route('sites', []);
+    }
+
+    public function categoryThumbs($category_id)
+    {
+        $category = Category::findOrFail($category_id);
+
+        $site_type_id = $category->site->type_id;
+
+        if ($site_type_id == App::make('sexodomeKernel')->sex_types['straigth']) {
+            $files = File::allFiles(public_path()."/categories_market");
+        } else {
+            $files = File::allFiles(public_path()."/categories_market_gay");
         }
 
-        $ff = date("Y-m-d");
-        $fi = date("Y-m-d", strtotime($ff . " -50 days"));
+        $filenames = [];
+        foreach ($files as $file) {
+            $filenames[] = $file->getFilename();
+        }
 
-        return view('panel.site', [
-            'channels'  => Channel::all(),
-            'title'     => "Admin Panel",
-            'site'      => $site,
-            'sites'     => Auth::user()->getSites(),
-            'fi'        => $fi,
-            'ff'        => $ff,
-            'types'     => Type::all(),
+        return view('panel.ajax._ajax_category_thumbs', [
+            'category'  => $category,
+            'filenames' => $filenames,
         ]);
     }
 
-    public function sceneThumbs($scene_id)
+    public function categoryUnlock($category_translation_id)
     {
-        return view('panel.ajax._ajax_scene_thumbs', ['scene' => Scene::findOrFail($scene_id)]);
+        $categoryTranslation = CategoryTranslation::find($category_translation_id);
+
+        if (!$categoryTranslation) {
+            $status = false;
+        } else {
+            $status = true;
+            $categoryTranslation->thumb_locked = NULL;
+            $categoryTranslation->save();
+        }
+
+        return json_encode(['status' => $status]);
     }
 
-    public function ajaxCronJobs($site_id)
+    public function orderCategories($site_id, Request $request)
     {
-        return view('panel.ajax._ajax_site_cronjobs', [
-            'site'  => Site::findOrFail($site_id),
-            'scene' => Scene::findOrFail($site_id),
+        if ($request->input('o') != "") {
+
+            foreach ($request->input('o') as $category) {
+                $categoyBBDD = Category::find($category['i']);
+                $categoyBBDD->cache_order = -1 * $category['o'];
+                $categoyBBDD->save();
+            }
+
+            return json_encode(['status' => true]);
+        }
+
+        $site = Site::findOrFail($site_id);
+
+        DB::table('categories')->where('site_id', $site->id)->update(['cache_order' => -999999]);
+
+        $categories = Category::getForTranslation(
+                $status = true,
+                $site->id,
+                App::make('sexodomeKernel')->language->id,
+                $limit = 40
+            )
+            ->get()
+        ;
+
+        return view('panel.categories_order', [
+            'sites'      => Auth::user()->getSites(),
+            'site'       => Site::find($site_id),
+            'categories' => $categories
         ]);
+    }
+
+    public function categoryTags($category_id, Request $request)
+    {
+        $category = Category::findOrFail($category_id);
+
+        if ($request->isMethod('post')) {
+            $categories_ids = $request->input('categories');
+            $category->tags()->sync($categories_ids);
+
+            return json_encode(['status' => 1]);
+        }
+
+        $category_tags = Tag::getTranslationByCategory($category, 2)->get()->pluck('id');
+        $category_tags = $category_tags->all();
+
+        $site_tags = Tag::getTranslationSearch(false, 2, $category->site->id)->orderBy('permalink', 'asc')->get();
+
+        return view('panel.ajax._ajax_category_tags', [
+            'category'      => $category,
+            'category_tags' => $category_tags,
+            'tags'          => $site_tags,
+        ]);
+    }
+
+    public function createCategory($site_id, Request $request)
+    {
+        $site = Site::findOrFail($site_id);
+
+        // Si venimos por post, devolvemos resultado por json en lugar del twig.
+        if ($request->isMethod('post')) {
+            $newCategory = new Category();
+            $newCategory->site_id = $site->id;
+            $newCategory->status = 0;
+            $newCategory->text = $request->input('language_en');
+            $newCategory->save();
+
+            foreach(Language::getAddLanguages($site->language_id) as $language) {
+                $newCategoryTranslation = new CategoryTranslation();
+                $newCategoryTranslation->category_id = $newCategory->id;
+                $newCategoryTranslation->language_id = $language->id;
+                $newCategoryTranslation->name = $request->input('language_'.$language->code);
+                $newCategoryTranslation->permalink = rZeBotUtils::slugify($request->input('language_'.$language->code));
+                $newCategoryTranslation->save();
+            }
+            return json_encode(['status' => true]);
+        } else {
+            return view('panel.ajax._ajax_site_create_category', ['site' => $site]);
+        }
+    }
+
+    public function createTag($site_id, Request $request)
+    {
+        $site = Site::findOrFail($site_id);
+
+        // Si venimos por post, devolvemos resultado por json en lugar del twig.
+        if ($request->isMethod('post')) {
+            $newTag = new Tag();
+            $newTag->site_id = $site->id;
+            $newTag->status = 1;
+            $newTag->save();
+
+            foreach(Language::getAddLanguages($site->language_id) as $language) {
+                $newTagTranslation = new TagTranslation();
+                $newTagTranslation->tag_id = $newTag->id;
+                $newTagTranslation->language_id = $language->id;
+                $newTagTranslation->name = $request->input('language_'.$language->code);
+                $newTagTranslation->permalink = rZeBotUtils::slugify($request->input('language_'.$language->code));
+                $newTagTranslation->save();
+            }
+            return json_encode(['status' => true]);
+        } else {
+            return view('panel.ajax._ajax_site_create_tag', ['site' => $site]);
+        }
     }
 
     public function updateSiteSEO($site_id, Request $request)
@@ -391,73 +558,6 @@ class ConfigController extends Controller
         $site->save();
 
         return json_encode(['status' => true]);
-    }
-
-    public function addSite(Request $request)
-    {
-        $sites = Site::where('user_id', '=', Auth::user()->id)->get();
-
-        if ($request->isMethod('post')) {
-
-            // check if already exists
-            $site = Site::where('domain', '=', trim($request->input('domain')))->first();
-
-            // if exists return with custom error
-            if ($site) {
-                $request->session()->flash('error_domain', 'Domain <' . trim($request->input('domain')) . '> already exists!');
-
-                return view('panel.add_site', ['sites' => $sites]);
-            }
-
-            // create new site for current user
-            $newSite = new Site();
-            $newSite->user_id = Auth::user()->id;
-            $newSite->name = $request->input('subdomain');
-            $newSite->language_id = env("DEFAULT_FETCH_LANGUAGE", 2);
-            $newSite->domain = $request->input('domain');
-            $newSite->have_domain = 1;
-            $newSite->header_text = "";
-            $newSite->save();
-
-            return redirect()->route('site', ['site_id' => $newSite->id]);
-        }
-
-        return view('panel.add_site', ['sites' => $sites]);
-    }
-
-    public function deleteSite($site_id)
-    {
-        $site = Site::findOrFail($site_id);
-
-        if (!(Auth::user()->id == $site->user->id)) {
-            abort(401, "Unauthorized");
-        }
-
-        $site->delete();
-
-        return redirect()->route('sites', []);
-    }
-
-    public function checkSubdomain(Request $request)
-    {
-        if (strlen($request->input('subdomain')) == 0) {
-            abort(406, 'Not acceptable');
-        }
-
-        $sites = Site::where('name', '=', $request->input('subdomain'))->count();
-
-        return json_encode(['status' => ($sites == 0) ? true : false]);
-    }
-
-    public function checkDomain(Request $request)
-    {
-        if (strlen($request->input('domain')) == 0) {
-            abort(404, 'Not allowed');
-        }
-
-        $sites = Site::where('domain', '=', $request->input('domain'))->count();
-
-        return json_encode(['status' => ($sites == 0) ? true : false]);
     }
 
     public function updateGoogleData($site_id, Request $request)
@@ -591,6 +691,110 @@ class ConfigController extends Controller
         return json_encode(['status' => true]);
     }
 
+    public function uploadCategory($category_id, Request $request)
+    {
+        $category = Category::findOrFail($category_id);
+
+        // logo validator
+        /*        $v = Validator::make($request->all(), [
+                    'file' => 'required|mimes:jpg,jpeg',      // max=50*1024; min=3*1024
+                ]);
+
+                if ($v->fails()) {
+                    $data = ["error" => "Upload invalid file. Check your file, size ane extension (JPG only)!"];
+
+                    return json_encode($data);
+                }
+        */
+        $fileName = md5(microtime() . $category_id) . ".jpg";
+
+        $final_url = "http://" . $category->site->getHost() . "/categories_custom/" . $fileName;
+
+        $destinationPath = public_path()."/categories_custom/";
+
+        // lock category thumbnail
+        foreach($category->translations()->get() as $translation) {
+            $translation->thumb_locked = 1;
+            $translation->thumb = $final_url;
+            $translation->save();
+        }
+
+        $request->file('file')->move($destinationPath, $fileName);
+
+        $data = ["files" => [[
+            "category_id" => $category_id,
+            "name"        => $fileName,
+            "url"         => $final_url,
+        ]]];
+
+        return json_encode($data);
+    }
+
+    public function ajaxDeleteCategory($category_id)
+    {
+        try {
+            $category = Category::findOrFail($category_id);
+            $category->delete();
+            return json_encode(['status' => true]);
+        } catch(\Exception $e) {
+            return json_encode(['status' => false]);
+        }
+    }
+
+    public function ajaxDeleteTag($tag_id)
+    {
+        try {
+            $tag = Tag::findOfFail($tag_id);
+            $tag->delete();
+            return json_encode(['status' => true]);
+        } catch(\Exception $e) {
+            return json_encode(['status' => false]);
+        }
+    }
+
+    public function ajaxDeleteScene($scene_id)
+    {
+        try {
+            $scene = Scene::findOrFail($scene_id);
+            $scene->delete();
+            return json_encode(['status' => true]);
+        } catch(\Exception $e) {
+            return json_encode(['status' => false]);
+        }
+    }
+
+    public function ajaxPopunders($site_id)
+    {
+        $site = Site::findOrFail($site_id);
+
+        return view('panel.ajax._ajax_site_popunders', ['popunders' => $site->popunders()->get()]);
+    }
+
+    public function ajaxSavePopunder($site_id, Request $request)
+    {
+        try {
+            $site = Site::findOrFail($site_id);
+            $newPopunder = new Popunder();
+            $newPopunder->url = $request->input('url', false);
+            $newPopunder->site_id = $site->id;
+            $newPopunder->save();
+            return json_encode(['status' => $status = true]);
+        } catch (\Exception $e) {
+            return json_encode(['status' => $status = false]);
+        }
+    }
+
+    public function ajaxDeletePopunder($popunder_id)
+    {
+        try {
+            $popunder = Popunder::findOrFail($popunder_id);
+            $popunder->delete();
+            return json_encode(['status' => $status = true]);
+        } catch (\Exception $e) {
+            return json_encode(['status' => $status = false]);
+        }
+    }
+
     public function ajaxSaveCronJob(Request $request)
     {
         $channel = Channel::where('name', $request->input('feed_name'))->firstOrFail();
@@ -626,270 +830,67 @@ class ConfigController extends Controller
         return json_encode(['status' => $status]);
     }
 
-    public function deleteCronJob($cronjob_id)
+    public function ajaxCronJobs($site_id)
     {
-        try {
-            $cronjob = CronJob::findOrFail($cronjob_id);
-
-            if (!(Auth::user()->id == $cronjob->site->user->id)) {
-                abort(401, "Unauthorized");
-            }
-
-            $cronjob->delete();
-            $status = true;
-        } catch(\Exception $e) {
-            $status = false;
-        }
-
-        return json_encode(['status' => $status]);
-    }
-
-    public function ajaxPopunders($site_id)
-    {
-        $site = Site::findOrFail($site_id);
-
-        return view('panel.ajax._ajax_site_popunders', ['popunders' => $site->popunders()->get()]);
-    }
-
-    public function ajaxSavePopunder($site_id, Request $request)
-    {
-        try {
-            $site = Site::findOrFail($site_id);
-            $newPopunder = new Popunder();
-            $newPopunder->url = $request->input('url', false);
-            $newPopunder->site_id = $site->id;
-            $newPopunder->save();
-            return json_encode(['status' => $status = true]);
-        } catch (\Exception $e) {
-            return json_encode(['status' => $status = false]);
-        }
-    }
-
-    public function ajaxDeletePopunder($popunder_id)
-    {
-        try {
-            $popunder = Popunder::findOrFail($popunder_id);
-            $popunder->delete();
-            return json_encode(['status' => $status = true]);
-        } catch (\Exception $e) {
-            return json_encode(['status' => $status = false]);
-        }
-    }
-
-    public function categoryThumbs($category_id)
-    {
-        $category = Category::findOrFail($category_id);
-
-        $site_type_id = $category->site->type_id;
-
-        if ($site_type_id == App::make('sexodomeKernel')->sex_types['straigth']) {
-            $files = File::allFiles(public_path()."/categories_market");
-        } else {
-            $files = File::allFiles(public_path()."/categories_market_gay");
-        }
-
-        $filenames = [];
-        foreach ($files as $file) {
-            $filenames[] = $file->getFilename();
-        }
-
-        return view('panel.ajax._ajax_category_thumbs', [
-            'category'  => $category,
-            'filenames' => $filenames,
+        return view('panel.ajax._ajax_site_cronjobs', [
+            'site'  => Site::findOrFail($site_id),
+            'scene' => Scene::findOrFail($site_id),
         ]);
     }
 
-    public function categoryUnlock($category_translation_id)
+    public function ajaxSiteTags($site_id, Request $request)
     {
-        $categoryTranslation = CategoryTranslation::find($category_translation_id);
-
-        if (!$categoryTranslation) {
-            $status = false;
-        } else {
-            $status = true;
-            $categoryTranslation->thumb_locked = NULL;
-            $categoryTranslation->save();
-        }
-
-        return json_encode(['status' => $status]);
-    }
-
-    public function uploadCategory($category_id, Request $request)
-    {
-        $category = Category::findOrFail($category_id);
-
-        // logo validator
-/*        $v = Validator::make($request->all(), [
-            'file' => 'required|mimes:jpg,jpeg',      // max=50*1024; min=3*1024
-        ]);
-
-        if ($v->fails()) {
-            $data = ["error" => "Upload invalid file. Check your file, size ane extension (JPG only)!"];
-
-            return json_encode($data);
-        }
-*/
-        $fileName = md5(microtime() . $category_id) . ".jpg";
-
-        $final_url = "http://" . $category->site->getHost() . "/categories_custom/" . $fileName;
-
-        $destinationPath = public_path()."/categories_custom/";
-
-        // lock category thumbnail
-        foreach($category->translations()->get() as $translation) {
-            $translation->thumb_locked = 1;
-            $translation->thumb = $final_url;
-            $translation->save();
-        }
-
-        $request->file('file')->move($destinationPath, $fileName);
-
-        $data = ["files" => [[
-            "category_id" => $category_id,
-            "name"        => $fileName,
-            "url"         => $final_url,
-        ]]];
-
-        return json_encode($data);
-    }
-
-    public function orderCategories($site_id, Request $request)
-    {
-        if ($request->input('o') != "") {
-
-            foreach ($request->input('o') as $category) {
-                $categoyBBDD = Category::find($category['i']);
-                $categoyBBDD->cache_order = -1 * $category['o'];
-                $categoyBBDD->save();
-            }
-
-            return json_encode(['status' => true]);
-        }
-
         $site = Site::findOrFail($site_id);
 
-        DB::table('categories')->where('site_id', $site->id)->update(['cache_order' => -999999]);
+        if (!(Auth::user()->id == $site->user->id)) {
+            abort(401, "Unauthorized");
+        }
 
-        $categories = Category::getForTranslation(
-                $status = true,
-                $site->id,
-                App::make('sexodomeKernel')->language->id,
-                $limit = 40
-            )
-            ->get()
+        $tags = Tag::getTranslationSearch($request->input('q'), $site->language->id, $site_id)
+            ->paginate(App::make('sexodomeKernel')->perPageScenes)
         ;
 
-        return view('panel.categories_order', [
-            'sites'      => Auth::user()->getSites(),
-            'site'       => Site::find($site_id),
-            'categories' => $categories
+        return view('panel.ajax._ajax_site_tags', [
+            'site' => $site,
+            'tags' => $tags,
         ]);
     }
 
-    public function categoryTags($category_id, Request $request)
+    public function ajaxSiteCategories($site_id, Request $request)
     {
-        $category = Category::findOrFail($category_id);
+        $query_string = $request->input('q');
 
-        if ($request->isMethod('post')) {
-            $categories_ids = $request->input('categories');
-            $category->tags()->sync($categories_ids);
+        $site = Site::findOrFail($site_id);
 
-            return json_encode(['status' => 1]);
+        if (!(Auth::user()->id == $site->user->id)) {
+            abort(401, "Unauthorized");
         }
 
-        $category_tags = Tag::getTranslationByCategory($category, 2)->get()->pluck('id');
-        $category_tags = $category_tags->all();
+        $categories = Category::getTranslationSearch(
+            $query_string,
+            $site->language->id,
+            $site->id,
+            $request->input('order_by_nscenes', false)
+        )
+            ->paginate(30)
+        ;
 
-        $site_tags = Tag::getTranslationSearch(false, 2, $category->site->id)->orderBy('permalink', 'asc')->get();
-
-        return view('panel.ajax._ajax_category_tags', [
-            'category'      => $category,
-            'category_tags' => $category_tags,
-            'tags'          => $site_tags,
+        return view('panel.ajax._ajax_site_categories', [
+            'site'       => $site,
+            'categories' => $categories,
         ]);
     }
 
-    public function createCategory($site_id, Request $request)
+    public function ajaxSitePornstars($site_id)
     {
         $site = Site::findOrFail($site_id);
 
-        // Si venimos por post, devolvemos resultado por json en lugar del twig.
-        if ($request->isMethod('post')) {
-            $newCategory = new Category();
-            $newCategory->site_id = $site->id;
-            $newCategory->status = 0;
-            $newCategory->text = $request->input('language_en');
-            $newCategory->save();
+        $pornstars = Pornstar::where('site_id', '=', $site_id)->paginate(App::make('sexodomeKernel')->perPagePanelPornstars);
 
-            foreach(Language::getAddLanguages($site->language_id) as $language) {
-                $newCategoryTranslation = new CategoryTranslation();
-                $newCategoryTranslation->category_id = $newCategory->id;
-                $newCategoryTranslation->language_id = $language->id;
-                $newCategoryTranslation->name = $request->input('language_'.$language->code);
-                $newCategoryTranslation->permalink = rZeBotUtils::slugify($request->input('language_'.$language->code));
-                $newCategoryTranslation->save();
-            }
-            return json_encode(['status' => true]);
-        } else {
-            return view('panel.ajax._ajax_site_create_category', ['site' => $site]);
-        }
+        return view('panel.ajax._ajax_site_pornstars', [
+            'site'      => $site,
+            'pornstars' => $pornstars,
+        ]);
     }
 
-    public function createTag($site_id, Request $request)
-    {
-        $site = Site::findOrFail($site_id);
-
-        // Si venimos por post, devolvemos resultado por json en lugar del twig.
-        if ($request->isMethod('post')) {
-            $newTag = new Tag();
-            $newTag->site_id = $site->id;
-            $newTag->status = 1;
-            $newTag->save();
-
-            foreach(Language::getAddLanguages($site->language_id) as $language) {
-                $newTagTranslation = new TagTranslation();
-                $newTagTranslation->tag_id = $newTag->id;
-                $newTagTranslation->language_id = $language->id;
-                $newTagTranslation->name = $request->input('language_'.$language->code);
-                $newTagTranslation->permalink = rZeBotUtils::slugify($request->input('language_'.$language->code));
-                $newTagTranslation->save();
-            }
-            return json_encode(['status' => true]);
-        } else {
-            return view('panel.ajax._ajax_site_create_tag', ['site' => $site]);
-        }
-    }
-
-    public function ajaxDeleteCategory($category_id)
-    {
-        try {
-            $category = Category::findOrFail($category_id);
-            $category->delete();
-            return json_encode(['status' => true]);
-        } catch(\Exception $e) {
-            return json_encode(['status' => false]);
-        }
-    }
-
-    public function ajaxDeleteTag($tag_id)
-    {
-        try {
-            $tag = Tag::findOfFail($tag_id);
-            $tag->delete();
-            return json_encode(['status' => true]);
-        } catch(\Exception $e) {
-            return json_encode(['status' => false]);
-        }
-    }
-
-    public function ajaxDeleteScene($scene_id)
-    {
-        try {
-            $scene = Scene::findOrFail($scene_id);
-            $scene->delete();
-            return json_encode(['status' => true]);
-        } catch(\Exception $e) {
-            return json_encode(['status' => false]);
-        }
-    }
 }

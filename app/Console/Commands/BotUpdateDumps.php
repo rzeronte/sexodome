@@ -42,8 +42,8 @@ class BotUpdateDumps extends Command
 
         foreach ($channels as $feed) {
             rZeBotUtils::message("[BotUpdateDumps] $feed->name", "info",'kernel');
-            rZeBotUtils::downloadDump($feed);
-            rZeBotUtils::downloadDumpDeleted($feed);
+            sexodomeKernel::downloadDump($feed);
+            sexodomeKernel::downloadDumpDeleted($feed);
 
             $filename = sexodomeKernel::getDumpsFolderTmp().$feed->file;
             $totalLines = intval(exec("wc -l '".$filename."'"));
