@@ -25,7 +25,7 @@ class BotCategoriesLanguageCopy extends Command
         $site = Site::find($site_id);
 
         if (!$site) {
-            rZeBotUtils::message("Error el site id: $site_id no existe", "error", 'kernel');
+            rZeBotUtils::message("[BotCategoriesLanguageCopy] site_id: $site_id not exists", "error", 'kernel');
             exit;
         }
 
@@ -33,11 +33,11 @@ class BotCategoriesLanguageCopy extends Command
         $languageTo = Language::where('code', $code_to)->first();
 
         if (!$languageTo || !$languageFrom) {
-            rZeBotUtils::message("[BotCategoriesLanguageCopy] Problemas para cargar los idiomas '$code_from' y/o '$code_to'", "error", 'kernel');
+            rZeBotUtils::message("[BotCategoriesLanguageCopy] Can't load languaes: '$code_from' and '$code_to'", "error", 'kernel');
             exit;
         }
 
-        if (!$this->confirm("Quieres vaciar el idioma '$code_to' de las categorías?")) {
+        if (!$this->confirm("Do you want remove categories for '$code_to' language?")) {
             DB::table('categories_translations')
                 ->where('site_id', $site->id)
                 ->where('language_id', $languageTo->id)
@@ -53,7 +53,7 @@ class BotCategoriesLanguageCopy extends Command
 
             $translation = $category->translations()->where('language_id', $languageFrom->id)->first();
             if (!$translation) {
-                rZeBotUtils::message("[[BotCategoriesLanguageCopy] Categoría: '$category->id' no tiene traducción desde '$code_from'", "error", 'kernel');
+                rZeBotUtils::message("[BotCategoriesLanguageCopy] category_id '$category->id' doesn't have translation from  '$code_from'", "error", 'kernel');
                 exit;
             }
 

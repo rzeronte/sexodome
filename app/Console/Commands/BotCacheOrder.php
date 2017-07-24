@@ -46,13 +46,14 @@ class BotCacheOrder extends Command
                 $categoryTranslation = CategoryTranslation::join('categories','categories.id', '=', 'categories_translations.category_id')
                     ->where('categories.site_id', '=', $site->id)
                     ->where('permalink', $categoryOrder['permalink'])
-                    ->first();
+                    ->first()
+                ;
 
                 if ($categoryTranslation) {
                     $category = Category::find($categoryTranslation->category_id);
                     $category->cache_order = $categoryOrder["views"];
                     $category->save();
-                    rZeBotUtils::message("[BotCacheOrder] Set order from analytics for " . $categoryOrder['permalink'] . ": " . $categoryOrder['views'] . " for " . $site->getHost(), "info", 'cache_order');
+                    rZeBotUtils::message("[BotCacheOrder] Set order from GA for " . $categoryOrder['permalink'] . ": " . $categoryOrder['views'] . " in " . $site->getHost(), "info", 'cache_order');
                 }
             }
 

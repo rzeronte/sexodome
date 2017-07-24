@@ -20,13 +20,13 @@ class BotCategoriesRecount extends Command
         $site = Site::find($site_id);
 
         if (!$site) {
-            rZeBotUtils::message("[BotCategoriesRecount] El site id: $site_id no existe", "error", 'kernel');
+            rZeBotUtils::message("[BotCategoriesRecount] site_id: $site_id not existes", "error", 'kernel');
             exit;
         }
 
         $categories = Category::where('site_id', '=', $site->id)->get();
 
-        rZeBotUtils::message("[BotCategoriesRecount] Updating num scenes for " . $site->getHost(). ' - MIN_SCENES_CATEGORY_ACTIVATION: ' . env('MIN_SCENES_CATEGORY_ACTIVATION'),"info",'kernel');
+        rZeBotUtils::message("[BotCategoriesRecount] Updating number scenes for " . $site->getHost(),"info",'kernel');
 
         $i = 0;
         foreach($categories as $category) {
@@ -35,31 +35,23 @@ class BotCategoriesRecount extends Command
             $translation = $category->translations()->where('language_id', $english = 2)->first();
 
             if (!$translation) {
-                rZeBotUtils::message("[BotCategoriesRecount] La categoría: $category->id no tiene traducción al inglés! | count: " . $countScenes, "error",'kernel');
+                rZeBotUtils::message("[BotCategoriesRecount] category_id: $category->id doesn't have EN translation! | count: " . $countScenes, "error",'kernel');
                 continue;
             }
 
             // Actualizamos solo si ha cambiado el número de escenas
             if ($category->nscenes != $countScenes) {
                 $category->nscenes = $countScenes;
-                if ($countScenes < env('MIN_SCENES_CATEGORY_ACTIVATION')) {
-                    $category->status = 0;
-                } else {
-                    $category->status = 1;
-                }
-                $category->save();
-                rZeBotUtils::message("[BotCategoriesRecount] OK $translation->name ($category->id) => count: $countScenes | nscenes bbdd: $category->nscenes", "info",'kernel');
-            } else {
-                // Aunque no haya cambiado el nº de escenas, revisamos de nuevo por si ha cambiado MIN_SCENES_CATEGORY_ACTIVATION
-                if ($countScenes < env('MIN_SCENES_CATEGORY_ACTIVATION')) {
-                    $category->status = 0;
-                } else {
-                    $category->status = 1;
-                }
-                $category->save();
-
-                rZeBotUtils::message("[BotCategoriesRecount] $translation->name ($category->id) => count: $countScenes | nscenes bbdd: $category->nscenes", "info",'kernel');
             }
+
+            if ($countScenes < env('MIN_SCENES_CATEGORY_ACTIVATION')) {
+                $category->status = 0;
+            } else {
+                $category->status = 1;
+            }
+
+            $category->save();
+            rZeBotUtils::message("[BotCategoriesRecount] Recounting for $translation->name ($category->id) => count: $countScenes | nscenes bbdd: $category->nscenes", "info",'kernel');
         }
     }
 }

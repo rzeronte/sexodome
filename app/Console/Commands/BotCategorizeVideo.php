@@ -31,7 +31,7 @@ class BotCategorizeVideo extends Command
         $categories_ids = $categories->all();
         $scene->categories()->sync($categories_ids);
 
-        rZeBotUtils::message("[BotCategorizeVideo] Asociando scene_id: $scene_id con " . count($categories_ids)  . " categorías", "info", 'kernel');
+        rZeBotUtils::message("[BotCategorizeVideo] Categorizing scene_id: $scene_id with " . count($categories_ids)  . " categories", "info", 'kernel');
 
         return;
     }

@@ -361,7 +361,7 @@ class sexodomeKernel extends Controller {
         return $fileCSV;
     }
 
-    public static function downloadThumbnail($src, $sceneForRemoval = false, $overwrite = null)
+    public static function downloadThumbnail($src, $sceneForRemoval = false, $overwrite = null, $fileLog = 'kernel')
     {
         $filename = md5($src).".jpg";   // El nombre del fichero esel md5 de la img tal como viene
 
@@ -373,9 +373,9 @@ class sexodomeKernel extends Controller {
         }
 
         if (filter_var($src, FILTER_VALIDATE_URL) === false) {
-            rZeBotUtils::message("[downloadThumbnail] Invalid thumbnails '$src'", "error",'kernel');
+            rZeBotUtils::message("[downloadThumbnail] Invalid thumbnails '$src'", "error",$fileLog);
             if ($sceneForRemoval !== false) {
-                rZeBotUtils::message("[downloadThumbnail] Delete scene($sceneForRemoval->id) '$src'", "warning",'kernel');
+                rZeBotUtils::message("[downloadThumbnail] Delete scene($sceneForRemoval->id) '$src'", "warning", $fileLog);
                 $sceneForRemoval->delete();
             }
 
@@ -386,7 +386,7 @@ class sexodomeKernel extends Controller {
 
         if ($overwrite == false) {
             if (file_exists($filepath)) {
-                rZeBotUtils::message("[downloadThumbnail] Already exists '$src'", "warning",'kernel');
+                rZeBotUtils::message("[downloadThumbnail] Already exists '$src' in $filepath", "warning", $fileLog);
                 return true;
             }
         }
@@ -400,9 +400,9 @@ class sexodomeKernel extends Controller {
             curl_setopt($ch, CURLOPT_VERBOSE, FALSE);
             curl_exec($ch);
 
-            rZeBotUtils::message("[downloadThumbnail] Downloading thumbnail '$src'", "kernel", 'kernel');
+            rZeBotUtils::message("[downloadThumbnail] Downloading thumbnail '$src'", "kernel", $fileLog);
         } catch(\Exception $e) {
-            rZeBotUtils::message("[downloadThumbnail] Error downloading thumbnail '$src' in '$filepath'. Deleting scene... ", "error", 'kernel');
+            rZeBotUtils::message("[downloadThumbnail] Thumbnail can't be downloaded: $src' in '$filepath'. Deleting scene... ", "error", $fileLog);
             if ($sceneForRemoval !== false) {
                 $sceneForRemoval->delete();
             }
@@ -413,7 +413,7 @@ class sexodomeKernel extends Controller {
         try {
             sexodomeKernel::redimensionateThumbnail($filepath, 190, 135);
         } catch(\Exception $e) {
-            rZeBotUtils::message("[downloadThumbnail] Resimensionate thumbnail '$filepath'. Deleting scene... ", "error", 'kernel');
+            rZeBotUtils::message("[downloadThumbnail] Thumbnail can't be resized: '$filepath'. Deleting scene... ", "error", $fileLog);
             if ($sceneForRemoval !== false) {
                 $sceneForRemoval->delete();
             }

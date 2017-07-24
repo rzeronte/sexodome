@@ -84,21 +84,24 @@ class BotFeedFetcher extends Command
         // instance class dynamically from mapping_class field in bbdd
         $cfg = new $feed->mapping_class;
 
+        $cmdArguments = [
+            'max'                 => $max,
+            'tags'                => $minViews,
+            'rate'                => $rate,
+            'minViews'            => $minViews,
+            'minDuration'         => $minDuration,
+            'test'                => $test,
+            'only_with_pornstars' => $only_with_pornstars,
+            'spin'                => $spin,
+            'categorize'          => $categorize
+        ];
+
         $this->parseCSV(
             $site,
             $feed,
-            $max,
             $cfg->mappingColumns(),
             $cfg->configFeed(),
-            $tags,
-            $rate,
-            $minViews,
-            $minDuration,
-            $default_status = env("DEFAULT_FETCH_STATUS", 1),
-            $test,
-            $only_with_pornstars,
-            $spin,
-            $categorize
+            $cmdArguments
         );
 
     }
@@ -130,9 +133,9 @@ class BotFeedFetcher extends Command
         return $categories;
     }
 
-    public function parseCSV($site, $feed, $max, $mapped_colums, $feed_config, $tags, $rate, $minViews, $minDuration, $default_status, $test, $only_with_pornstars, $spin, $categorize)
+    public function parseCSV($site, $feed, $mapped_colums, $feed_config, $args)
     {
-        DB::transaction(function () use ($site, $feed, $max, $mapped_colums, $feed_config, $tags, $rate, $minViews, $minDuration, $default_status, $test, $only_with_pornstars, $spin, $categorize) {
+        DB::transaction(function () use ($site, $feed, $mapped_colums, $feed_config, $args) {
 
             $site_id = $site->id;
 
@@ -151,7 +154,7 @@ class BotFeedFetcher extends Command
                     $fila++;
 
                     if ($feed_config["skip_first_list"] == true && $fila == 2) {
-                        rZeBotUtils::message("[BotFeedFetcher] Jumping first line...", "info",'import');
+                        //rZeBotUtils::message("[BotFeedFetcher] Jumping first line...", "info",'import');
                         continue;
                     }
 
@@ -167,19 +170,19 @@ class BotFeedFetcher extends Command
                         break;
                     }
 
-                    $video = $this->setupVideoData($datos, $mapped_colums, $feed_config, $only_with_pornstars);
+                    $video = $this->setupVideoData($datos, $mapped_colums, $feed_config, $args['only_with_pornstars']);
 
 
                     // pornstars checked
-                    if ($only_with_pornstars !== "false") {
+                    if ($args['only_with_pornstars'] !== "false") {
 
                         // Si el feed no tiene pornstars directamente fuera
                         if ( $video["pornstars"] == null) {
-                            rZeBotUtils::message("[BotFeedFetcher] Pornstar skipped by flag. No pornstars in feed", "warning",'import');
+                            //rZeBotUtils::message("[BotFeedFetcher] Pornstar skipped by flag. No pornstars in feed", "warning",'import');
                             continue;
                         } else {
                             if (count($video["pornstars"]) == 0) {
-                                rZeBotUtils::message("[BotFeedFetcher] Pornstar skipped by flag. No pornstars in scene", "warning", 'import');
+                                //rZeBotUtils::message("[BotFeedFetcher] Pornstar skipped by flag. No pornstars in scene", "warning", 'import');
                                 continue;
                             }
                         }
@@ -187,17 +190,17 @@ class BotFeedFetcher extends Command
 
                     // check tags matched
                     $tags_check = true;
-                    if ($tags !== false) {
+                    if ($args['tags'] !== false) {
                         $tags_check = false;
                         if (is_array($video["tags"])) {
                             foreach ($video["tags"] as $tagTxt) {
-                                if (in_array(strtolower($tagTxt), $tags)) {
+                                if (in_array(strtolower($tagTxt), $args['tags'])) {
                                     $tags_check = true;
-                                    rZeBotUtils::message("[BotFeedFetcher] Found requested tag: " . $tagTxt, "info",'import');
+                                    //rZeBotUtils::message("[BotFeedFetcher] Found requested tag: " . $tagTxt, "info",'import');
                                 }
                             }
                         } else {
-                            rZeBotUtils::message("[BotFeedFetcher] No video tags and tag filter exists: " . implode(",", $tags), "info",'import');
+                            //rZeBotUtils::message("[BotFeedFetcher] No video tags and tag filter exists: " . implode(",", $tags), "info",'import');
                             continue;
                         }
                     }
@@ -214,15 +217,15 @@ class BotFeedFetcher extends Command
                         $mixed_check = true;
 
                         // rate check
-                        if ($rate !== 'false') {
-                            if ($video["rate"] < $rate) {
+                        if ($args['rate'] !== 'false') {
+                            if ($video["rate"] < $args['rate']) {
                                 $mixed_check = false;
                                 //rZeBotUtils::message("[BotFeedFetcher] Rate insuficiente", "warning",'import');
                             }
                         }
 
                         // views check
-                        if ($minViews !== 'false') {
+                        if ($args['minViews'] !== 'false') {
                             if ($video["views"] < $minViews) {
                                 $mixed_check = false;
                                 //rZeBotUtils::message("[BotFeedFetcher] Views insuficiente", "warning",'import');
@@ -230,8 +233,8 @@ class BotFeedFetcher extends Command
                         }
 
                         // duration check
-                        if ($minDuration !== 'false') {
-                            if ($video["duration"] < $minDuration) {
+                        if ($args['minDuration'] !== 'false') {
+                            if ($video["duration"] < $args['minDuration']) {
                                 $mixed_check = false;
                                 //rZeBotUtils::message("[BotFeedFetcher] Duration insuficiente", "warning",'import');
                             }
@@ -240,14 +243,14 @@ class BotFeedFetcher extends Command
                         if ($mixed_check) {
                             $added++;
 
-                            if ($test !== 'false') {
+                            if ($args['test'] !== 'false') {
                                 rZeBotUtils::message("[BotFeedFetcher] Testing mapping from feed", "warning",'import');
                                 print_r($video);
                                 sleep(10);
                                 exit;
                             }
 
-                            $scene = $this->createScene($video, $default_status, $feed, $site_id, $languages);
+                            $scene = $this->createScene($video, $feed, $site_id, $languages);
 
                             rZeBotUtils::message("[BotFeedFetcher] Create scene | scene_id: $scene->id | feed: $feed->name | site_id: ".$site_id, "info",'import');
 
@@ -267,14 +270,14 @@ class BotFeedFetcher extends Command
                                     'scene_id' => $scene->id,
                                 ]);
                             } else {
-                                if ($spin !== 'false') {
-                                    $exitCodeSpin = Artisan::call('zbot:spin:scene', [
+                                if ($args['spin'] !== 'false') {
+                                    Artisan::call('zbot:spin:scene', [
                                         'scene_id' => $scene->id,
                                     ]);
                                 }
                             }
 
-                            if ($categorize !== 'false') {
+                            if ($args['categorize'] !== 'false') {
                                 Artisan::call('zbot:categorize:scene', [
                                     'scene_id' => $scene->id,
                                 ]);
@@ -289,9 +292,10 @@ class BotFeedFetcher extends Command
         });
     }
 
-    public function createScene($video, $default_status, $feed, $site_id, $languages)
+    public function createScene($video, $feed, $site_id, $languages)
     {
         $scene = new Scene();
+        $default_status = env("DEFAULT_FETCH_STATUS", 1);
 
         if ($video["iframe"] !== false) {
             $scene->iframe = $video["iframe"];
@@ -316,7 +320,7 @@ class BotFeedFetcher extends Command
         $scene->save();
 
         // thumbnail
-        if (!sexodomeKernel::downloadThumbnail($scene->preview, $scene)) {
+        if (!sexodomeKernel::downloadThumbnail($scene->preview, $scene, null, 'import')) {
             return false;
         }
 
