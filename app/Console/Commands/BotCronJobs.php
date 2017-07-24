@@ -40,7 +40,7 @@ class BotCronJobs extends Command
             $site = Site::find($site_id);
 
             if (!$site) {
-                rZeBotUtils::message("[BotCronJobs] El site id: $site_id no existe", "error",'cronjobs');
+                rZeBotUtils::message("[BotCronJobs] site_id: $site_id not exists", "error",'cronjobs');
                 exit;
             }
 

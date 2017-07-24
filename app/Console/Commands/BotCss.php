@@ -33,7 +33,7 @@ class BotCss extends Command
             $fullPath = "/tubeThemes/".$filename;
             Storage::disk('web')->put($fullPath, $css);
 
-            rZeBotUtils::message("[BotCss] " . $site->getHost() . ": " . $fullPath, "info",'kernel');
+            rZeBotUtils::message("[BotCss] Updating theme for " . $site->getHost() . ": " . $fullPath, "info",'kernel');
         }
     }
 }

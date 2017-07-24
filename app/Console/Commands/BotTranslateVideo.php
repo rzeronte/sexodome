@@ -54,7 +54,7 @@ class BotTranslateVideo extends Command
         $scene = Scene::find($scene_id);
 
         if (!$scene) {
-            rZeBotUtils::message('[BotTranslateVideo] La scene: '. $scene_id. " no existe", "error",'kernel');
+            rZeBotUtils::message('[BotTranslateVideo] site_id '. $scene_id. " not exists", "error",'kernel');
             die();
         }
 
@@ -65,7 +65,7 @@ class BotTranslateVideo extends Command
                 $this->translateTags($from, $to, $scene);
             }
         } else {
-            rZeBotUtils::message('[BotTranslateVideo] Ignorando traducción de TAGS para el video: '.$scene_id, "warning",'kernel');
+            rZeBotUtils::message('[BotTranslateVideo] Ignoring translations tags for scene_id: '.$scene_id, "warning",'kernel');
         }
 
         if ($categories == 'true') {
@@ -73,7 +73,7 @@ class BotTranslateVideo extends Command
                 $this->translateCategories($from, $to, $scene);
             }
         } else {
-            rZeBotUtils::message('[BotTranslateVideo] Ignorando traducción de CATEGORIES para el video: '.$scene_id, "warning",'kernel');
+            rZeBotUtils::message('[BotTranslateVideo] Ignoring translations categories for scene_id: '.$scene_id, "warning",'kernel');
         }
     }
 
@@ -183,7 +183,7 @@ class BotTranslateVideo extends Command
         $languageTo = Language::where('code', $to)->first();
 
         if (!$languageFrom || !$languageTo) {
-            rZeBotUtils::message('[BotTranslateVideo]  Languages not found. Remember use his code. (es, en, de, it, de, fr)', "error",'kernel');
+            rZeBotUtils::message('[BotTranslateVideo] Languages not found. Remember use his code. (es, en, de, it, de, fr)', "error",'kernel');
             exit;
         }
 

@@ -77,7 +77,7 @@ class BotFeedFetcher extends Command
         $site = Site::find($site_id);
 
         if (!$site) {
-            rZeBotUtils::message("[BotFeedFetcher] Site 'site_id: $site_id' not exits. Aborting...", "error",'import');
+            rZeBotUtils::message("[BotFeedFetcher] site_id $site_id not exits. Aborting...", "error",'import');
             exit;
         }
 
@@ -247,9 +247,9 @@ class BotFeedFetcher extends Command
                                 exit;
                             }
 
-                            rZeBotUtils::message("[BotFeedFetcher] '". $video['title']."' | site_id: ".$site_id, "info",'import');
-
                             $scene = $this->createScene($video, $default_status, $feed, $site_id, $languages);
+
+                            rZeBotUtils::message("[BotFeedFetcher] Create scene | scene_id: $scene->id | feed: $feed->name | site_id: ".$site_id, "info",'import');
 
                             if (!$scene) {
                                 continue;
@@ -281,7 +281,7 @@ class BotFeedFetcher extends Command
                             }
                         }
                     } else {
-                        rZeBotUtils::message("[BotFeedFetcher] Scene already exists | ".$feed->name." | " . $site->getHost()."| Skipping...", "warning",'import');
+                        //rZeBotUtils::message("[BotFeedFetcher] Scene already exists | ".$feed->name." | " . $site->getHost()."| Skipping...", "warning",'import');
                     }
                 }
                 fclose($gestor);

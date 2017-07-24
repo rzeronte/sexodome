@@ -32,7 +32,7 @@ class BotUpdateCategoriesThumbnails extends Command
             $site = Site::find($site_id);
 
             if (!$site) {
-                rZeBotUtils::message("[BotUpdateCategoriesThumbnails] El site id: $site_id no existe", "error",'kernel');
+                rZeBotUtils::message("[BotUpdateCategoriesThumbnails] site id: $site_id not exists", "error",'kernel');
                 exit;
             }
 

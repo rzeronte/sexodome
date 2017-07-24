@@ -26,7 +26,7 @@ class BotLoadJSONCategories extends Command
         $site = Site::find($site_id);
 
         if (!$site) {
-            rZeBotUtils::message("[BotLoadJSONCategories] El site id: $site_id no existe", "error",'kernel');
+            rZeBotUtils::message("[BotLoadJSONCategories] site id: $site_id not exists", "error",'kernel');
             return;
         }
 
@@ -78,7 +78,7 @@ class BotLoadJSONCategories extends Command
                         }
                     }
                 } else {
-                    rZeBotUtils::message("[BotLoadJSONCategories] $i - Categoría ya existe: " . $category_en, "warning",'kernel');
+                    //rZeBotUtils::message("[BotLoadJSONCategories] Category already exists " . $category_en, "warning",'kernel');
                 }
             }
         });
