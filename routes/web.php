@@ -1,21 +1,8 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-
 // Web Plataforma formato domain.com
 // *********************************************************************************************************************
 Route::group(['domain' => \App\rZeBot\sexodomeKernel::getMainPlataformDomain()], function () {
-
     Route::match(['get', 'post'], "/", [ 'as' => 'home_website', 'uses' => 'WebController@home' ]);
     Route::match(['get', 'post'], "/google-keyword-position", [ 'as' => 'GoogleKeywordPosition', 'uses' => 'WebController@GooglePosition' ]);
     Route::match(['get', 'post'], "/webping", [ 'as' => 'webping', 'uses' => 'WebController@webping' ]);
@@ -25,76 +12,74 @@ Route::group(['domain' => \App\rZeBot\sexodomeKernel::getMainPlataformDomain()],
 // Web Plataforma formato www.domain.com
 // *********************************************************************************************************************
 Route::group(['domain' => "www.".\App\rZeBot\sexodomeKernel::getMainPlataformDomain()], function () {
-
     Route::match(['get', 'post'], "/", [ 'as' => 'home_website', 'uses' => 'WebController@home' ]);
 });
 
 // Zona accounts
 // *********************************************************************************************************************
 Route::group(['domain' => 'accounts.'.\App\rZeBot\sexodomeKernel::getMainPlataformDomain()], function () {
-    Route::match(['get', 'post'], "/", ['as' => 'home', 'uses' => 'ConfigController@home']);
+    Route::match(['get', 'post'], "/", ['as' => 'home', 'uses' => 'AdminController@home']);
 
-    Route::match(['get', 'post'], '/sites', 'ConfigController@sites')->name('sites');
-    Route::match(['get', 'post'], '/site/{site_id}', 'ConfigController@site')->name('site');
+    Route::match(['get', 'post'], '/sites', 'AdminController@sites')->name('sites');
+    Route::match(['get', 'post'], '/site/{site_id}', 'AdminController@site')->name('site');
 
     Route::get('verify/{token}', 'Auth\LoginController@verify')->name('verify');
 
-    Route::get('welcome', 'ConfigController@welcome')->name('welcome');
-    Route::get('unverified', 'ConfigController@unverified')->name('unverified');
+    Route::get('welcome', 'AdminController@welcome')->name('welcome');
+    Route::get('unverified', 'AdminController@unverified')->name('unverified');
 
-    // ConfigController
-    Route::match(['get', 'post'], "/fetch/{site_id}", ['as' => 'fetch', 'uses' => 'ConfigController@fetch']);
+    Route::match(['get', 'post'], "/fetch/{site_id}", ['as' => 'fetch', 'uses' => 'AdminController@fetch']);
 
-    Route::match(['get', 'post'], '/site/tags/{site_id}', 'ConfigController@ajaxSiteTags')->name('ajaxSiteTags');
-    Route::match(['get', 'post'], '/site/categories/{site_id}', 'ConfigController@ajaxSiteCategories')->name('ajaxSiteCategories');
-    Route::match(['get', 'post'], '/ajax/updateSiteSEO/{site_id}', 'ConfigController@updateSiteSEO')->name('updateSiteSEO');
+    Route::match(['get', 'post'], '/site/tags/{site_id}', 'AdminController@ajaxSiteTags')->name('ajaxSiteTags');
+    Route::match(['get', 'post'], '/site/categories/{site_id}', 'AdminController@ajaxSiteCategories')->name('ajaxSiteCategories');
+    Route::match(['get', 'post'], '/ajax/updateSiteSEO/{site_id}', 'AdminController@updateSiteSEO')->name('updateSiteSEO');
 
-    Route::match(['get', 'post'], '/site/{site_id}/order_categories/', 'ConfigController@orderCategories')->name('orderCategories');
+    Route::match(['get', 'post'], '/site/{site_id}/order_categories/', 'AdminController@orderCategories')->name('orderCategories');
 
-    Route::match(['get'], '/ajax/popunders/{site_id}', 'ConfigController@ajaxPopunders')->name('ajaxPopunders');
-    Route::match(['get'], '/ajax/savePopunder/{site_id}', 'ConfigController@ajaxSavePopunder')->name('ajaxSavePopunder');
-    Route::match(['get'], '/ajax/deletePopunder/{popunder_id}', 'ConfigController@ajaxDeletePopunder')->name('ajaxDeletePopunder');
+    Route::match(['get'], '/ajax/popunders/{site_id}', 'AdminController@ajaxPopunders')->name('ajaxPopunders');
+    Route::match(['get'], '/ajax/savePopunder/{site_id}', 'AdminController@ajaxSavePopunder')->name('ajaxSavePopunder');
+    Route::match(['get'], '/ajax/deletePopunder/{popunder_id}', 'AdminController@ajaxDeletePopunder')->name('ajaxDeletePopunder');
 
-    Route::match(['get'], '/ajax/preview/{scene_id}', 'ConfigController@scenePreview')->name('scenePreview');
+    Route::match(['get'], '/ajax/preview/{scene_id}', 'AdminController@scenePreview')->name('scenePreview');
 
-    Route::match(['get'], '/ajax/cronjobs/{site_id}', 'ConfigController@ajaxCronJobs')->name('ajaxCronJobs');
-    Route::match(['post'],'/ajaxSaveCronJob', 'ConfigController@ajaxSaveCronJob')->name('ajaxSaveCronJob');
-    Route::match(['get'], '/deleteCronJob/{cronjob_id}', 'ConfigController@deleteCronJob')->name('deleteCronJob');
+    Route::match(['get'], '/ajax/cronjobs/{site_id}', 'AdminController@ajaxCronJobs')->name('ajaxCronJobs');
+    Route::match(['post'],'/ajaxSaveCronJob', 'AdminController@ajaxSaveCronJob')->name('ajaxSaveCronJob');
+    Route::match(['get'], '/deleteCronJob/{cronjob_id}', 'AdminController@deleteCronJob')->name('deleteCronJob');
 
 
-    Route::match(['get'], '/ajax/scene/thumbs/{site_id}', 'ConfigController@sceneThumbs')->name('sceneThumbs');
-    Route::match(['get'], '/ajax/category/thumbs/{category_id}', 'ConfigController@categoryThumbs')->name('categoryThumbs');
-    Route::match(['get'], '/ajax/category/unlock/{category_translation_id}', 'ConfigController@categoryUnlock')->name('categoryUnlock');
+    Route::match(['get'], '/ajax/scene/thumbs/{site_id}', 'AdminController@sceneThumbs')->name('sceneThumbs');
+    Route::match(['get'], '/ajax/category/thumbs/{category_id}', 'AdminController@categoryThumbs')->name('categoryThumbs');
+    Route::match(['get'], '/ajax/category/unlock/{category_translation_id}', 'AdminController@categoryUnlock')->name('categoryUnlock');
 
-    Route::match(['get'], '/ajax/category/delete/{category_id}', 'ConfigController@ajaxDeleteCategory')->name('ajaxDeleteCategory');
-    Route::match(['get'], '/ajax/tag/delete/{tag_id}', 'ConfigController@ajaxDeleteTag')->name('ajaxDeleteTag');
-    Route::match(['get'], '/ajax/scene/delete/{scene_id}', 'ConfigController@ajaxDeleteScene')->name('ajaxDeleteScene');
+    Route::match(['get'], '/ajax/category/delete/{category_id}', 'AdminController@ajaxDeleteCategory')->name('ajaxDeleteCategory');
+    Route::match(['get'], '/ajax/tag/delete/{tag_id}', 'AdminController@ajaxDeleteTag')->name('ajaxDeleteTag');
+    Route::match(['get'], '/ajax/scene/delete/{scene_id}', 'AdminController@ajaxDeleteScene')->name('ajaxDeleteScene');
 
-    Route::match(['get', 'post'], '/ajax/category/tags/{category_id}', 'ConfigController@categoryTags')->name('categoryTags');
+    Route::match(['get', 'post'], '/ajax/category/tags/{category_id}', 'AdminController@categoryTags')->name('categoryTags');
 
-    Route::match(['get', 'post'], '/saveTranslation/{scene_id}', 'ConfigController@saveTranslation')->name('saveTranslation');
+    Route::match(['get', 'post'], '/saveTranslation/{scene_id}', 'AdminController@saveTranslation')->name('saveTranslation');
 
-    Route::match(['get', 'post'], '/site/pornstars/{site_id}', 'ConfigController@ajaxSitePornstars')->name('ajaxSitePornstars');
+    Route::match(['get', 'post'], '/site/pornstars/{site_id}', 'AdminController@ajaxSitePornstars')->name('ajaxSitePornstars');
 
-    Route::match(['get', 'post'], '/admin/saveTagTranslation/{tag_id}', 'ConfigController@saveTagTranslation')->name('saveTagTranslation');
-    Route::match(['get', 'post'], '/admin/saveCategoryTranslation/{scene_id}', 'ConfigController@saveCategoryTranslation')->name('saveCategoryTranslation');
-    Route::match(['get', 'post'], '/admin/translateTag/{tag_id}', 'ConfigController@translateTag')->name('translateTag');
-    Route::match(['get', 'post'], '/admin/category/create/{site_id}', 'ConfigController@createCategory')->name('createCategory');
-    Route::match(['get', 'post'], '/admin/tag/create/{site_id}', 'ConfigController@createTag')->name('createTag');
+    Route::match(['get', 'post'], '/admin/saveTagTranslation/{tag_id}', 'AdminController@saveTagTranslation')->name('saveTagTranslation');
+    Route::match(['get', 'post'], '/admin/saveCategoryTranslation/{scene_id}', 'AdminController@saveCategoryTranslation')->name('saveCategoryTranslation');
+    Route::match(['get', 'post'], '/admin/translateTag/{tag_id}', 'AdminController@translateTag')->name('translateTag');
+    Route::match(['get', 'post'], '/admin/category/create/{site_id}', 'AdminController@createCategory')->name('createCategory');
+    Route::match(['get', 'post'], '/admin/tag/create/{site_id}', 'AdminController@createTag')->name('createTag');
 
-    Route::match(['get', 'post'], '/admin/addSite/', 'ConfigController@addSite')->name('addSite');
-    Route::match(['get', 'post'], '/delete/{site_id}/', 'ConfigController@deleteSite')->name('deleteSite');
-    Route::match(['get', 'post'], '/check_subdomain/', 'ConfigController@checkSubdomain')->name('checkSubdomain');
-    Route::match(['get', 'post'], '/check_domain/', 'ConfigController@checkDomain')->name('checkDomain');
+    Route::match(['get', 'post'], '/admin/addSite/', 'AdminController@addSite')->name('addSite');
+    Route::match(['get', 'post'], '/delete/{site_id}/', 'AdminController@deleteSite')->name('deleteSite');
+    Route::match(['get', 'post'], '/check_subdomain/', 'AdminController@checkSubdomain')->name('checkSubdomain');
+    Route::match(['get', 'post'], '/check_domain/', 'AdminController@checkDomain')->name('checkDomain');
 
-    Route::match(['get', 'post'], '/scenes/{site_id}', 'ConfigController@scenes')->name('content');
+    Route::match(['get', 'post'], '/scenes/{site_id}', 'AdminController@scenes')->name('content');
 
-    Route::match(['get', 'post'], '/uploadCategory/{category_id}', 'ConfigController@uploadCategory')->name('uploadCategory');
+    Route::match(['get', 'post'], '/uploadCategory/{category_id}', 'AdminController@uploadCategory')->name('uploadCategory');
 
-    Route::match(['get', 'post'], '/updateGoogleData/{site_id}', ['as'=> 'updateGoogleData','uses' => 'ConfigController@updateGoogleData']);
-    Route::match(['get', 'post'], '/updateIframeData/{site_id}', ['as'=> 'updateIframeData','uses' => 'ConfigController@updateIframeData']);
-    Route::match(['get', 'post'], '/updateLogo/{site_id}', ['as'=> 'updateLogo','uses' => 'ConfigController@updateLogo']);
-    Route::match(['get', 'post'], '/updateColors/{site_id}', ['as'=> 'updateColors','uses' => 'ConfigController@updateColors']);
+    Route::match(['get', 'post'], '/updateGoogleData/{site_id}', ['as'=> 'updateGoogleData','uses' => 'AdminController@updateGoogleData']);
+    Route::match(['get', 'post'], '/updateIframeData/{site_id}', ['as'=> 'updateIframeData','uses' => 'AdminController@updateIframeData']);
+    Route::match(['get', 'post'], '/updateLogo/{site_id}', ['as'=> 'updateLogo','uses' => 'AdminController@updateLogo']);
+    Route::match(['get', 'post'], '/updateColors/{site_id}', ['as'=> 'updateColors','uses' => 'AdminController@updateColors']);
     Auth::routes();
 
 });

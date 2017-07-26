@@ -27,7 +27,7 @@ use App\Model\TagTranslation;
 use Illuminate\Support\Facades\Log;
 use App\Model\Pornstar;
 
-class ConfigController extends Controller
+class AdminController extends Controller
 {
     public function __construct()
     {

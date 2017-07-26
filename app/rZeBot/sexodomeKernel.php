@@ -19,6 +19,7 @@ class sexodomeKernel extends Controller {
     public $tagsStatus;
     public $agent;
     public $perPageScenes;
+    public $perPagePornstars;
     public $perPageTags;
     public $perPageJobs;
     public $site;
@@ -40,11 +41,12 @@ class sexodomeKernel extends Controller {
 
         // per page setups
         $this->perPage = 48;
-        $this->perPageScenes = 10;
+        $this->perPageScenes = 48;
         $this->perPageTags = 30;
         $this->perPageCategories = 60;
         $this->perPageJobs = 15;
         $this->perPagePanelPornstars = 12;
+        $this->perPagePornstars = 48;
 
         // sex types
         $this->sex_types = [
@@ -229,6 +231,7 @@ class sexodomeKernel extends Controller {
             $this->setLanguage($this->site->language->id);
         }
     }
+
     public static function getMainPlataformDomain()
     {
         return env("MAIN_PLATAFORMA_DOMAIN", "sexodome.loc");
