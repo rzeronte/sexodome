@@ -15,7 +15,7 @@ class getVideoService
         });
 
         if (!$scene) {
-            abort(404, 'Scene not found');
+            return [ 'status' => false, 'message' => "Scene $site_id not found" ];
         }
 
         Scene::addSceneClick($scene);
@@ -34,6 +34,7 @@ class getVideoService
         $related = $related->orderBy('rate', 'desc')->limit(4)->get();
         
         return [
+            'status'  => true,
             'video'   => $scene,
             'related' => $related,
         ];
