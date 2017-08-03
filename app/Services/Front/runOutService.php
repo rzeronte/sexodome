@@ -16,6 +16,6 @@ class runOutService
 
         Scene::addSceneClick($scene, $ua = false);
 
-        return $scene->url;
+        return [ 'status' => true, 'url' => $scene->url];
     }
 }

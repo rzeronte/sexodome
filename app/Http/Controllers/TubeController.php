@@ -56,27 +56,45 @@ class TubeController extends Controller
 
     public function pornstar($domain, $permalinkPornstar, $page = 1)
     {
-        return view('tube.pornstar', App::make('getPornstarService')->execute(
+        $data = App::make('getPornstarService')->execute(
             $permalinkPornstar,
             App::make('sexodomeKernel')->getSite()->id,
             App::make('sexodomeKernel')->getLanguage()->id,
             App::make('sexodomeKernel')->perPageScenes,
             $page
-        ));
+        );
+
+        if ($data['status'] == false) {
+            abort(404, $data['message']);
+        }
+
+        return view('tube.pornstar', $data);
     }
 
     public function video($domain, $permalink)
     {
-        return view('tube.video', App::make('getVideoService')->execute(
+        $data = App::make('getVideoService')->execute(
             $permalink,
             App::make('sexodomeKernel')->getSite()->id,
             App::make('sexodomeKernel')->getLanguage()->id
-        ));
+        );
+
+        if ($data['status'] == false) {
+            abort(404, $data['message']);
+        }
+
+        return view('tube.video', $data);
     }
 
     public function iframe($domain, $scene_id)
     {
-        return view('tube.iframe', App::make('getSceneIframeService')->execute($scene_id));
+        $data = App::make('getSceneIframeService')->execute($scene_id);
+
+        if ($data['status'] == false) {
+            abort(404, $data['message']);
+        }
+
+        return view('tube.iframe', $data);
     }
 
     public function ads($domain)
@@ -88,7 +106,13 @@ class TubeController extends Controller
 
     public function out($domain, $scene_id)
     {
-        return redirect(App::make('runOutService')->execute($scene_id));
+        $data = App::make('runOutService')->execute($scene_id);
+
+        if ($data['status'] == false) {
+            abort(404, $data['message']);
+        }
+
+        return redirect($data['url']);
     }
 
     public function sitemap()
