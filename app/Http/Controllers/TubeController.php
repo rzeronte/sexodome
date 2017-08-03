@@ -29,14 +29,20 @@ class TubeController extends Controller
 
     public function category($domain, $permalinkCategory, $page = 1)
     {
-        return view('tube.category', App::make('getCategoryService')->execute(
+        $data = App::make('getCategoryService')->execute(
             $permalinkCategory,
             App::make('sexodomeKernel')->getSite()->id,
             App::make('sexodomeKernel')->getLanguage()->id,
             App::make('sexodomeKernel')->perPageScenes,
             $page,
             Request::input('order', false)
-        ));
+        );
+
+        if ($data['status'] == false) {
+            abort(404, $data['message']);
+        }
+
+        return view('tube.category', $data);
     }
 
     public function pornstars($domain, $page = 1)
