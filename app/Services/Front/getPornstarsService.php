@@ -13,6 +13,7 @@ class getPornstarsService
         ;
 
         return [
+            'status' => true,
             'pornstars' => $pornstars,
             'page' => $page
         ];

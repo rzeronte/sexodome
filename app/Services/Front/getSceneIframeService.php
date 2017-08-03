@@ -11,9 +11,9 @@ class getSceneIframeService
         $scene = Scene::find($scene_id);
 
         if (!$scene) {
-            return [ 'status' => false, 'message' => 'Scene not found'];
+            return [ 'status' => false, 'message' => "Scene $scene_id not found"];
         }
 
-        return [ 'scene' => $scene ];
+        return [ 'status' => true, 'scene' => $scene ];
     }
 }

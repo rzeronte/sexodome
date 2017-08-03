@@ -12,7 +12,7 @@ class getPornstarService
         $pornstar = Pornstar::getPornstarByPermalink($permalink, $site_id);
 
         if (!$pornstar) {
-            abort(404, "Pornstar not found");
+            return [ 'status' => false, 'message' => "Site $site_id not found" ];
         }
 
         $scenes = Scene::getTranslationsForPornstar($pornstar->id, $language_id)
@@ -20,6 +20,7 @@ class getPornstarService
         ;
 
         return [
+            'status' => true,
             'pornstar' => $pornstar,
             'scenes' => $scenes,
             'page' => $page

@@ -15,6 +15,6 @@ class getSearchService
             $status = true
         )->paginate($per_page_search_results);
 
-        return [ 'scenes' => $scenes ];
+        return [ 'status' => true, 'scenes' => $scenes ];
     }
 }

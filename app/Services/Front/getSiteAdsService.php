@@ -15,6 +15,7 @@ class getSiteAdsService
         }
 
         return [
+            "status" => true,
             "categories" => $site->categories()->where('status', 1)->limit(18)->get()
         ];
     }

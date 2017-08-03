@@ -112,7 +112,7 @@ class rZeBotUtils
     {
         $time_end = microtime(true);
         $execution_time = ($time_end - $time_start);
-        rZeBotUtils::message("[Tiempo de ejecución: ". gmdate("H:i:s", $execution_time)."]", $type,'kernel');
+        rZeBotUtils::message("[Execution time: ". gmdate("H:i:s", $execution_time)."]", $type,'kernel');
     }
 
 }

@@ -27,6 +27,7 @@ class getCategoriesService
         )->get();
 
         return [
+            'status' => true,
             'categories'             => $categories,
             'categoriesAlphabetical' => $categories_extra,
             'page'                   => $page
