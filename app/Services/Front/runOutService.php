@@ -6,12 +6,12 @@ use App\Model\Scene;
 
 class runOutService
 {
-    public function execute(integer $scene_id)
+    public function execute($scene_id)
     {
         $scene = Scene::find($scene_id);
 
         if (!$scene) {
-            return [ 'status' => false, 'message' => 'Scene not found'];
+            return [ 'status' => false, 'message' => "Scene $scene_id not found"];
         }
 
         Scene::addSceneClick($scene, $ua = false);
