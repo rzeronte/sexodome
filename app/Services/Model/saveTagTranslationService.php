@@ -1,13 +1,16 @@
 <?php
 
-namespace DDD\Application\Service\Admin;
+namespace App\Services\Model;
+
+use App\Model\TagTranslation;
+use App\Model\Tag;
 
 class saveTagTranslationService
 {
-    public function execute($tag_id, $name, $status)
+    public function execute($tag_id, $language_id, $name, $status)
     {
         $tagTranslation = TagTranslation::where('tag_id', $tag_id)
-            ->where('language_id', App::make('sexodomeKernel')->language->id)
+            ->where('language_id', $language_id)
             ->first()
         ;
 
@@ -19,10 +22,10 @@ class saveTagTranslationService
             $tag = Tag::findOrFail($tag_id);
             $tag->status = $status;
             $tag->save();
-            return json_encode(['status' => true]);
+            return ['status' => true];
 
         } catch (\Exception $e) {
-            return json_encode(['status' => false]);
+            return ['status' => false, 'message' => $e->getMessage()];
         }
 
     }

@@ -1,17 +1,25 @@
 <?php
 
-namespace DDD\Application\Service\Admin;
+namespace App\Services\Model;
+
+use App\Model\Scene;
 
 class deleteSceneService
 {
     public function execute($scene_id)
     {
         try {
-            $scene = Scene::findOrFail($scene_id);
+            $scene = Scene::find($scene_id);
+
+            if (!$scene) {
+                return [ 'status' => false, 'message' => "Scene $scene_id not found" ];
+            }
+
             $scene->delete();
-            return json_encode(['status' => true]);
+
+            return ['status' => true ];
         } catch(\Exception $e) {
-            return json_encode(['status' => false]);
+            return ['status' => false, 'message' => $e->getMessage() ];
         }
     }
 }

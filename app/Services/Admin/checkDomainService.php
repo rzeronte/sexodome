@@ -1,17 +1,29 @@
 <?php
 
-namespace DDD\Application\Service\Admin;
+namespace App\Services\Admin;
+
+use App\Model\Site;
 
 class checkDomainService
 {
     public function execute($domain)
     {
         if (strlen($domain) == 0) {
-            abort(404, 'Not allowed');
+            return [ 'status' => false, 'message' => 'Domain too short!'];
         }
 
         $sites = Site::where('domain', '=', $domain)->count();
 
-        return json_encode(['status' => ($sites == 0) ? true : false]);
+        if ($sites == 0) {
+            return [
+                'status'  => true,
+                'message' => 'Domain is available'
+            ];
+        } else {
+            return [
+                'status'  => true,
+                'message' => 'Domain not available'
+            ];
+        }
     }
 }

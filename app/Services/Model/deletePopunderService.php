@@ -1,17 +1,25 @@
 <?php
 
-namespace DDD\Application\Service\Admin;
+namespace App\Services\Model;
+
+use App\Model\Popunder;
 
 class deletePopunderService
 {
     public function execute($popunder_id)
     {
         try {
-            $popunder = Popunder::findOrFail($popunder_id);
+            $popunder = Popunder::find($popunder_id);
+
+            if (!$popunder) {
+                return [ 'status' => false, 'message' => "Popunder $popunder_id not found" ];
+            }
+
             $popunder->delete();
-            return json_encode(['status' => $status = true]);
+
+            return ['status' => $status = true ];
         } catch (\Exception $e) {
-            return json_encode(['status' => $status = false]);
+            return ['status' => $status = false, 'message' => $e->getMessage() ];
         }
     }
 }

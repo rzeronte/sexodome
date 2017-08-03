@@ -25,7 +25,7 @@
     </div>
 
     <div class="clearfix"></div>
-    <?php $categories = \App\Model\Category::getTranslationSearch(false, $site->language->id, $site->id)->paginate(30) ?>
+    <?php $categories = \App\Model\Category::getTranslationSearch(false, $site->language->id, $site->id)->paginate(App::make('sexodomeKernel')->perPagePanelCategories) ?>
 
     <div class="categories_ajax_container" style="margin-top: 20px;">
         @include('panel.ajax._ajax_site_categories')

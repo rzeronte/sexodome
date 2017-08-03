@@ -34,7 +34,6 @@ $( document ).ready(function() {
                 });
 
                 if (data.result.files.length == 0) {
-                    alert("error");
                     showGenericalErrorMessage();
                     return;
                 }
@@ -43,6 +42,30 @@ $( document ).ready(function() {
         });
     }
     eventFileUpload();
+
+    function eventFileSiteLogoUpload() {
+        $('.fileuploadSiteLogo').fileupload({
+            dataType: 'json',
+            done: function (e, data) {
+                if (data.result.status == false) {
+                    showGenericalErrorMessage();
+                    return;
+                } else {
+                    $.each(data.result.files, function (index, file) {
+                        if (file.logo_url) {
+                            $("#site_logo_image").attr('src', file.logo_url)
+                        } else if (file.favicon_url) {
+                            $("#site_favicon_image").attr('src', file.favicon_url)
+                        } else if (file.header_url) {
+                            $("#site_header_image").attr('src', file.header_url)
+                        }
+                    });
+                    showGenericalSuccessMessage();
+                }
+            }
+        });
+    }
+    eventFileSiteLogoUpload();
 
     $('#selector_site').on('loaded.bs.select', function (e) {
        $('.loading-panel-img').hide();
@@ -329,6 +352,8 @@ $( document ).ready(function() {
             }).done(function( data ) {
                 $(".categories_ajax_container").html(data);
                 eventPaginatorCategories();
+                eventFileUpload();
+
                 $("html, body").animate({ scrollTop: 0 }, "fast");
 
             });
@@ -718,39 +743,6 @@ $( document ).ready(function() {
 
     console.log("[DEBUG] All load");
 });
-
-function checkSubdomain(me) {
-    var subdomain = $(me).val();
-
-    if (subdomain.length <=3) {
-        $(".result_subdomain").html('min. 3 characters');
-        return false;
-    }
-
-    var action = $("#form_check_subdomain").attr("action");
-    $("#form_check_subdomain .subdomain").val(subdomain);
-
-    $.ajax({
-        url: action,
-        data: $("#form_check_subdomain").serialize(),
-        method: 'post'
-    }).done(function( data ) {
-        jsonData = $.parseJSON(data);
-        if (jsonData["status"] == true) {
-            $(".result_subdomain").html('<p>Subdomain is <b>available</b></p>');
-            $(".result_subdomain").removeClass('check_domain_ok');
-            $(".result_subdomain").removeClass('check_domain_ko');
-
-            $(".result_subdomain").addClass('check_domain_ok');
-        } else {
-            $(".result_subdomain").html('<p>Subdomain is <b>unavailable</b></p>');
-            $(".result_subdomain").removeClass('check_domain_ko');
-            $(".result_subdomain").removeClass('check_domain_ko');
-
-            $(".result_subdomain").addClass('check_domain_ko');
-        }
-    });
-}
 
 function checkDomain(me) {
     var domain = $(me).val();

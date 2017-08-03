@@ -1,16 +1,18 @@
 <div class="col-md-12 detail-logo">
 
-    <form action="{{route('updateLogo', ['site_id' => $site->id])}}" enctype="multipart/form-data" method="post">
+    <form action="{{route('updateLogo', ['site_id' => $site->id])}}" enctype="multipart/form-data" method="post" class="ajax-form">
         <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
 
         <div class="col-md-5">
             <label>Logo:</label>
-            <input type="file" name="logo"/>
+            <input type="file" name="logo" class="fileuploadSiteLogo" data-url="{{ route( 'updateLogo', [ 'site_id'  => $site->id ] ) }}"/>
         </div>
 
         <div class="col-md-2">
             @if (file_exists(\App\rZeBot\sexodomeKernel::getLogosFolder()."/".md5($site->id).".png"))
-                <img src="{{asset('/logos/'.md5($site->id).".png")}}" style="border: solid 1px gray; width:100%;"/>
+                <img src="{{asset('/logos/'.md5($site->id).".png")}}" style="border: solid 1px gray; width:100%;" id="site_logo_image"/>
+            @else
+                <img src="{{asset('/images/image_not_found.png')}}" style="border: solid 1px gray; width:100%;" id="site_logo_image"/>
             @endif
         </div>
 
@@ -18,12 +20,14 @@
 
         <div class="col-md-5">
             <label>Favicon:</label>
-            <input type="file" name="favicon"/>
+            <input type="file" name="favicon" class="fileuploadSiteLogo" data-url="{{ route( 'updateLogo', [ 'site_id'  => $site->id ] ) }}"/>
         </div>
 
         <div class="col-md-2">
             @if (file_exists(\App\rZeBot\sexodomeKernel::getFaviconsFolder()."/".md5($site->id).".png"))
-                <img src="{{asset('/favicons/'.md5($site->id).".png")}}" style="border: solid 1px gray; width:16px;"/>
+                <img src="{{asset('/favicons/'.md5($site->id).".png")}}" style="border: solid 1px gray; width:16px;" id="site_favicon_image"/>
+            @else
+                <img src="{{asset('/images/image_not_found.png')}}" style="border: solid 1px gray; width:100%;" id="site_logo_image"/>
             @endif
         </div>
 
@@ -31,12 +35,14 @@
 
         <div class="col-md-5">
             <label>Header:</label>
-            <input type="file" name="header"/>
+            <input type="file" name="header" class="fileuploadSiteLogo" data-url="{{ route( 'updateLogo', [ 'site_id'  => $site->id ] ) }}"/>
         </div>
 
         <div class="col-md-2">
             @if (file_exists(\App\rZeBot\sexodomeKernel::getHeadersFolder()."/".md5($site->id).".png"))
-                <img src="{{asset('/headers/'.md5($site->id).".png")}}" style="border: solid 1px gray; width:400px;"/>
+                <img src="{{asset('/headers/'.md5($site->id).".png")}}" style="border: solid 1px gray; width:200px;" id="site_header_image"/>
+            @else
+                <img src="{{asset('/images/image_not_found.png')}}" style="border: solid 1px gray; width:100%;" id="site_logo_image"/>
             @endif
         </div>
         <div class="clearfix"></div>

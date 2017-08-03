@@ -1,15 +1,18 @@
 <?php
 
-namespace DDD\Application\Service\Admin;
+namespace App\Services\Admin;
 
-class showScenesService
+use App\Model\Scene;
+use App\Model\Site;
+
+class getSiteScenesService
 {
-    public function execute($site_id, $searchParameters, $per_page_scenes)
+    public function execute($site_id, $per_page_scenes, $searchParameters)
     {
         $site = Site::find($site_id);
 
         if (!$site) {
-            return false;
+            return ['status' => false, 'message' => 'Site not found'];
         }
 
         $scenes = Scene::getScenesForExporterSearch(
@@ -17,8 +20,7 @@ class showScenesService
             $searchParameters['tag_query'],
             $site->language->id,
             $searchParameters['duration'],
-            $searchParameters['scene_id'],
-            $searchParameters['category_string'],
+            $searchParameters['category_query'],
             ($searchParameters['empty_title'] == "on") ? true : false,
             ($searchParameters['empty_description'] == "on") ? true : false,
             $site->user->id,
@@ -26,6 +28,7 @@ class showScenesService
         );
 
         return [
+            'site'   => $site,
             'scenes' => $scenes->paginate($per_page_scenes),
         ];
     }

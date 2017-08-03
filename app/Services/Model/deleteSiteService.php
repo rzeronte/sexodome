@@ -1,6 +1,8 @@
 <?php
 
-namespace DDD\Application\Service\Admin;
+namespace App\Services\Model;
+
+use App\Model\Site;
 
 class deleteSiteService
 {
@@ -8,12 +10,8 @@ class deleteSiteService
     {
         $site = Site::findOrFail($site_id);
 
-        if (!(Auth::user()->id == $site->user->id)) {
-            abort(401, "Unauthorized");
-        }
-
         $site->delete();
 
-        return redirect()->route('sites', []);
+        return [ 'status' => true ];
     }
 }

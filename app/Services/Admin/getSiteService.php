@@ -1,8 +1,14 @@
 <?php
 
-namespace DDD\Application\Service\Admin;
+namespace App\Services\Admin;
 
-class showSiteService
+use App\Model\Site;
+use App\Model\Channel;
+use App\Model\Type;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
+
+class getSiteService
 {
     public function execute($site_id)
     {

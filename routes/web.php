@@ -57,7 +57,7 @@ Route::group(['domain' => 'accounts.'.\App\rZeBot\sexodomeKernel::getMainPlatafo
 
     Route::match(['get', 'post'], '/ajax/category/tags/{category_id}', 'AdminController@categoryTags')->name('categoryTags');
 
-    Route::match(['get', 'post'], '/saveTranslation/{scene_id}', 'AdminController@saveTranslation')->name('saveTranslation');
+    Route::match(['get', 'post'], '/saveSceneTranslation/{scene_id}', 'AdminController@saveSceneTranslation')->name('saveSceneTranslation');
 
     Route::match(['get', 'post'], '/site/pornstars/{site_id}', 'AdminController@ajaxSitePornstars')->name('ajaxSitePornstars');
 
@@ -68,13 +68,13 @@ Route::group(['domain' => 'accounts.'.\App\rZeBot\sexodomeKernel::getMainPlatafo
     Route::match(['get', 'post'], '/admin/tag/create/{site_id}', 'AdminController@createTag')->name('createTag');
 
     Route::match(['get', 'post'], '/admin/addSite/', 'AdminController@addSite')->name('addSite');
+
     Route::match(['get', 'post'], '/delete/{site_id}/', 'AdminController@deleteSite')->name('deleteSite');
-    Route::match(['get', 'post'], '/check_subdomain/', 'AdminController@checkSubdomain')->name('checkSubdomain');
     Route::match(['get', 'post'], '/check_domain/', 'AdminController@checkDomain')->name('checkDomain');
 
     Route::match(['get', 'post'], '/scenes/{site_id}', 'AdminController@scenes')->name('content');
 
-    Route::match(['get', 'post'], '/uploadCategory/{category_id}', 'AdminController@uploadCategory')->name('uploadCategory');
+    Route::match(['get', 'post'], '/uploadCategoryThumbnail/{category_id}', 'AdminController@uploadCategoryThumbnail')->name('uploadCategoryThumbnail');
 
     Route::match(['get', 'post'], '/updateGoogleData/{site_id}', ['as'=> 'updateGoogleData','uses' => 'AdminController@updateGoogleData']);
     Route::match(['get', 'post'], '/updateIframeData/{site_id}', ['as'=> 'updateIframeData','uses' => 'AdminController@updateIframeData']);

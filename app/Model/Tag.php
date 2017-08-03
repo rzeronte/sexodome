@@ -23,6 +23,11 @@ class Tag extends Model
         return $this->hasMany('App\Model\CategoryTag');
     }
 
+    public function site()
+    {
+        return $this->belongsTo('App\Model\Site');
+    }
+
     public function countScenesLang($language_id)
     {
         return Scene::select('scenes.id')

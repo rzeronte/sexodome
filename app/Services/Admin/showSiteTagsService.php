@@ -1,22 +1,30 @@
 <?php
 
-namespace DDD\Application\Service\Admin;
+namespace App\Services\Admin;
+
+use App\Model\Site;
+use App\Model\Tag;
 
 class showSiteTagsService
 {
-    public function execute($site_id, $query_string)
+    public function execute($site_id, $query_string, $perPage)
     {
-        $site = Site::findOrFail($site_id);
+        $site = Site::find($site_id);
+
+        if (!$site) {
+            return [ 'status' => false, 'message' => "Site $site_id not found" ];
+        }
 
         $tags = Tag::getTranslationSearch(
             $query_string,
             $site->language->id,
             $site_id
-        )->paginate(App::make('sexodomeKernel')->perPageScenes);
+        )->paginate($perPage);
 
         return [
-            'site' => $site,
-            'tags' => $tags
+            'status' => true,
+            'site'   => $site,
+            'tags'   => $tags
         ];
     }
 }

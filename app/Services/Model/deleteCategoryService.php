@@ -1,17 +1,25 @@
 <?php
 
-namespace DDD\Application\Service\Admin;
+namespace App\Services\Model;
+
+use App\Model\Category;
 
 class deleteCategoryService
 {
     public function execute($category_id)
     {
         try {
-            $category = Category::findOrFail($category_id);
+            $category = Category::find($category_id);
+
+            if (!$category) {
+                return [ 'status' => false, 'message' => "Category $category_id not found" ];
+            }
+
             $category->delete();
-            return json_encode(['status' => true]);
+
+            return ['status' => true ];
         } catch(\Exception $e) {
-            return json_encode(['status' => false]);
+            return ['status' => false, 'message' => $e->getMessage() ];
         }
     }
 }

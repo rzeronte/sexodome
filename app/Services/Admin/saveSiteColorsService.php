@@ -1,15 +1,18 @@
 <?php
 
-namespace DDD\Application\Service\Admin;
+namespace App\Services\Admin;
+
+use App\Model\Site;
+use Illuminate\Support\Facades\Artisan;
 
 class saveSiteColorsService
 {
-    public function execute($site_id, $parameters)
+    public function execute($site_id, $parameters, $updateTheme = true)
     {
         $site = Site::find($site_id);
 
         if (!$site) {
-            return json_encode(['status' => false, 'message' => 'Site not found']);
+            return [ 'status' => false, 'message' => "Site $site_id not found" ];
         }
 
         $site->color   = $parameters['color'] != "" ? $parameters['color'] : null;
@@ -26,8 +29,10 @@ class saveSiteColorsService
         $site->color12 = $parameters['color12'] != "" ? $parameters['color12'] : null;
         $site->save();
 
-        Artisan::call('zbot:css:update', ['--site_id' => $site->id]);
+        if ($updateTheme) {
+            Artisan::call('zbot:css:update', ['--site_id' => $site->id]);
+        }
 
-        return json_encode(['status' => true]);
+        return [ 'status' => true ];
     }
 }

@@ -1,29 +1,23 @@
 <?php
 
-namespace DDD\Application\Service\Admin;
+namespace App\Services\Admin;
+
+use App\Model\Category;
+use Illuminate\Support\Facades\Request;
 
 class uploadCategoryThumbnailService
 {
-    public function execute($category_id, Request $request)
+    public function execute($category_id)
     {
         try {
-            $category = Category::findOrFail($category_id);
+            $category = Category::find($category_id);
 
-            // logo validator
-            /*        $v = Validator::make($request->all(), [
-                        'file' => 'required|mimes:jpg,jpeg',      // max=50*1024; min=3*1024
-                    ]);
+            if (!$category){
+                return [ 'status' => false, 'message' => "Category $category_id not found" ];
+            }
 
-                    if ($v->fails()) {
-                        $data = ["error" => "Upload invalid file. Check your file, size ane extension (JPG only)!"];
-
-                        return json_encode($data);
-                    }
-            */
             $fileName = md5(microtime() . $category_id) . ".jpg";
-
             $final_url = "http://" . $category->site->getHost() . "/categories_custom/" . $fileName;
-
             $destinationPath = public_path()."/categories_custom/";
 
             // lock category thumbnail
@@ -33,9 +27,9 @@ class uploadCategoryThumbnailService
                 $translation->save();
             }
 
-            $request->file('file')->move($destinationPath, $fileName);
+            Request::file('file')->move($destinationPath, $fileName);
 
-            $data = [
+            return [
                 "status" => true,
                 "files"  => [
                     [
@@ -46,9 +40,8 @@ class uploadCategoryThumbnailService
                 ]
             ];
 
-            return json_encode($data);
         } catch (\Exception $e) {
-            return json_encode(['status' => false]);
+            return [ 'status' => false, 'message' => $e->getMessage() ];
         }
     }
 }

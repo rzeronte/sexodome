@@ -50,14 +50,13 @@
                         <div class="col-md-3">
                             <button data-toggle="modal" data-target="#modal-sexodome" data-url="{{route('categoryTags', ['category_id' => $category->id])}}" class="btn btn-primary btn-change-category-tags" style="margin-top:10px; width:160px;"><i class="glyphicon glyphicon-th"></i> Change tags</button>
                             <button data-toggle="modal" data-target="#modal-sexodome" data-url="{{route('categoryThumbs', ['category_id' => $category->id])}}" class="btn btn-primary btn-change-category-thumbnail" style="width:160px; margin-top:10px;"><i class="glyphicon glyphicon-picture"></i> Change Thumbnail</button>
-                            <form style="margin-top:20px;" action="{{route('uploadCategory', ['category_id'=>$category->id])}}" method="post" enctype="multipart/form-data">
+                            <form style="margin-top:20px;" action="{{route('uploadCategoryThumbnail', ['category_id'=>$category->id])}}" method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
-                                <input class="fileupload" type="file" name="file" data-url="{{ route( 'uploadCategory', [ 'category_id'  => $category->id ] ) }}">
+                                <input class="fileupload" type="file" name="file" data-url="{{ route( 'uploadCategoryThumbnail', [ 'category_id'  => $category->id ] ) }}">
                             </form>
 
                         </div>
                     </div>
-
                 </div>
 
                 <form action="{{route('saveCategoryTranslation', ['category_id' => $category->id, 'q'=> Request::input("q"), 'page' => Request::input("page")])}}" method="post" class="ajax-form">

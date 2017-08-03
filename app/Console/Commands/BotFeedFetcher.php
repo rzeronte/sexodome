@@ -86,7 +86,7 @@ class BotFeedFetcher extends Command
 
         $cmdArguments = [
             'max'                 => $max,
-            'tags'                => $minViews,
+            'tags'                => $tags,
             'rate'                => $rate,
             'minViews'            => $minViews,
             'minDuration'         => $minDuration,

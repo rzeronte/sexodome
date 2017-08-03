@@ -1,6 +1,8 @@
 <?php
 
-namespace DDD\Application\Service\Admin;
+namespace App\Services\Admin;
+
+use App\Model\CategoryTranslation;
 
 class categoryUnlockService
 {
@@ -9,18 +11,16 @@ class categoryUnlockService
         $categoryTranslation = CategoryTranslation::find($category_translation_id);
 
         if (!$categoryTranslation) {
-
-            return json_encode(['status' => true]);
-
+            return [ 'status' => false, 'message' => "CategoryTranslation $categoryTranslation not found"];
         } else {
             try {
                 $categoryTranslation->thumb_locked = NULL;
                 $categoryTranslation->save();
 
-                return json_encode(['status' => true]);
+                return ['status' => true];
 
             } catch (\Exception $e) {
-                return json_encode(['status' => false]);
+                return [ 'status' => false , 'message' => $e->getMessage() ];
             }
         }
     }

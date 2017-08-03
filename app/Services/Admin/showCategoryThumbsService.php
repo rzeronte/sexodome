@@ -1,16 +1,23 @@
 <?php
 
-namespace DDD\Application\Service\Admin;
+namespace App\Services\Admin;
+
+use Illuminate\Support\Facades\File;
+use App\Model\Category;
 
 class showCategoryThumbsService
 {
-    public function execute($category_id)
+    public function execute($category_id, $sex_types)
     {
-        $category = Category::findOrFail($category_id);
+        $category = Category::find($category_id);
+
+        if (!$category) {
+            return [ 'status' => false, 'message' => "Category $category_id not found"];
+        }
 
         $site_type_id = $category->site->type_id;
 
-        if ($site_type_id == App::make('sexodomeKernel')->sex_types['straigth']) {
+        if ($site_type_id == $sex_types['straigth']) {
             $files = File::allFiles(public_path()."/categories_market");
         } else {
             $files = File::allFiles(public_path()."/categories_market_gay");

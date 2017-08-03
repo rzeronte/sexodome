@@ -1,15 +1,18 @@
 <?php
 
-namespace DDD\Application\Service\Admin;
+namespace App\Services\Model;
+
+use App\Model\CategoryTranslation;
+use App\Model\Category;
 
 class saveCategoryTranslationService
 {
-    public function execute($category_id, $name, $thumb, $status)
+    public function execute($category_id, $language_id, $name, $thumb, $status)
     {
         $category = Category::find($category_id);
 
         if (!$category) {
-            return json_encode(['status' => false, 'message' => 'Category not exists']);
+            return ['status' => false, 'message' => 'Category not exists'];
         }
 
         $site = $category->site;
@@ -17,7 +20,7 @@ class saveCategoryTranslationService
         // Buscamos si existe otra categoría en el idioma del site con el mismo nombre
         $alreadyCategoryTranslation = CategoryTranslation::join('categories', 'categories.id', '=', 'categories_translations.category_id')
             ->where('categories.site_id', $category->site->id)
-            ->where('language_id', $site->language->id)
+            ->where('language_id', $language_id)
             ->where('name', 'like', $name)
             ->where('categories.status', 1)
             ->where('categories.id', '<>', $category_id)
@@ -25,7 +28,7 @@ class saveCategoryTranslationService
         ;
 
         if ($alreadyCategoryTranslation) {
-            return json_encode(['status' => false]);
+            return ['status' => false, 'message' => 'CategoryTranslation not found'];
         }
 
         $categoryTranslation = CategoryTranslation::where('category_id', $category_id)
@@ -41,6 +44,6 @@ class saveCategoryTranslationService
         $category->status = $status;
         $category->save();
 
-        return json_encode(['status' => true]);
+        return ['status' => true];
     }
 }

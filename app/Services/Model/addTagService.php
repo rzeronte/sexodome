@@ -1,12 +1,22 @@
 <?php
 
-namespace DDD\Application\Service\Admin;
+namespace App\Services\Model;
+
+use App\Model\Site;
+use App\Model\Language;
+use App\Model\TagTranslation;
+use App\rZeBot\rZeBotUtils;
+use App\Model\Tag;
 
 class addTagService
 {
-    public function execute($site_id, Request $request)
+    public function execute($site_id, $languagesData)
     {
-        $site = Site::findOrFail($site_id);
+        $site = Site::find($site_id);
+
+        if (!$site) {
+            return [ 'status' => false, 'message' => "Site $site_id not found" ];
+        }
 
         try {
             $newTag = new Tag();
@@ -18,14 +28,14 @@ class addTagService
                 $newTagTranslation = new TagTranslation();
                 $newTagTranslation->tag_id = $newTag->id;
                 $newTagTranslation->language_id = $language->id;
-                $newTagTranslation->name = $request->input('language_'.$language->code);
-                $newTagTranslation->permalink = rZeBotUtils::slugify($request->input('language_'.$language->code));
+                $newTagTranslation->name = $languagesData[$language->code];
+                $newTagTranslation->permalink = rZeBotUtils::slugify($languagesData[$language->code]);
                 $newTagTranslation->save();
             }
 
-            return json_encode(['status' => true]);
+            return [ 'status' => true ];
         } catch (\Exception $e) {
-            return json_encode(['status' => false]);
+            return [ 'status' => false ];
         }
     }
 }

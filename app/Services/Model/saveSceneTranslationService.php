@@ -1,6 +1,9 @@
 <?php
 
-namespace DDD\Application\Service\Admin;
+namespace App\Services\Model;
+
+use App\Model\SceneTranslation;
+use App\Model\Scene;
 
 class saveSceneTranslationService
 {
@@ -29,14 +32,14 @@ class saveSceneTranslationService
             $sceneTranslation->description = $description;
             $sceneTranslation->save();
 
-            return json_encode([
+            return [
                 'title'       => $sceneTranslation->title,
                 'description' => $sceneTranslation->description,
                 'scene_id'    => $scene_id,
                 'status'      => true
-            ]);
+            ];
         } else {
-            return json_encode(['status' => false]);
+            return ['status' => false, 'message' => 'SceneTranslation not found'];
         }
     }
 }

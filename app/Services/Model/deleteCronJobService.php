@@ -1,6 +1,8 @@
 <?php
 
-namespace DDD\Application\Service\Admin;
+namespace App\Services\Model;
+
+use App\Model\CronJob;
 
 class deleteCronJobService
 {
@@ -8,17 +10,11 @@ class deleteCronJobService
     {
         try {
             $cronjob = CronJob::findOrFail($cronjob_id);
-
-            if (!(Auth::user()->id == $cronjob->site->user->id)) {
-                abort(401, "Unauthorized");
-            }
-
             $cronjob->delete();
-            $status = true;
-        } catch(\Exception $e) {
-            $status = false;
-        }
 
-        return json_encode(['status' => $status]);
+            return ['status' => true];
+        } catch(\Exception $e) {
+            return [ 'status' => false, 'message' => $e->getMessage() ];
+        }
     }
 }

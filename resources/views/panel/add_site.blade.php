@@ -44,11 +44,6 @@
             </div>
         </form>
 
-        <form id="form_check_subdomain" action="{{ route('checkSubdomain', []) }}">
-            <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
-            <input type="hidden" name="subdomain" value="" class="subdomain">
-        </form>
-
         <form id="form_check_domain" action="{{ route('checkDomain', []) }}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
             <input type="hidden" name="domain" value="" class="domain">

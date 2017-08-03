@@ -1,18 +1,23 @@
 <?php
 
-namespace DDD\Application\Service\Admin;
+namespace App\Services\Admin;
 
 class saveSiteIframeService
 {
     public function execute($site_id, $iframe_site_id)
     {
         try {
-            $site = Site::findOrFail($site_id);
+            $site = Site::find($site_id);
+
+            if (!$site) {
+                return [ 'status' => false, 'message' => "Site $site_id not found" ];
+            }
+
             $site->iframe_site_id = $iframe_site_id;
             $site->save();
-            return json_encode(['status' => true]);
+            return [ 'status' => true ];
         } catch (\Exception $e) {
-            return json_encode(['status' => false]);
+            return [ 'status' => false, 'message' => $e->getMessage() ];
         }
     }
 }

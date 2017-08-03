@@ -1,6 +1,6 @@
 <?php
 
-namespace DDD\Application\Service\Admin;
+namespace App\Services\Admin;
 
 class saveSiteGoogleUAService
 {
@@ -9,15 +9,15 @@ class saveSiteGoogleUAService
         $site = Site::find($site_id);
 
         if (!$site) {
-            return json_encode(['status' => false, 'message' => 'Site not exists']);
+            return json_encode(['status' => false, 'message' => "Site $site_id not exists"]);
         }
 
         try {
             $site->ga_account = $ga_view;
             $site->save();
-            return json_encode(['status' => true]);
+            return [ 'status' => true ];
         } catch (\Exception $e) {
-            return json_encode(['status' => false]);
+            return [ 'status' => false ];
         }
     }
 }

@@ -1,6 +1,8 @@
 <?php
 
-namespace DDD\Application\Service\Admin;
+namespace App\Services\Model;
+
+use App\Model\Category;
 
 class saveCategoryTagsService
 {
@@ -11,10 +13,9 @@ class saveCategoryTagsService
         if ($category) {
             $category->tags()->sync($tag_ids);
 
-            return json_encode(['status' => true]);
+            return [ 'status' => true ];
         } else {
-
-            return json_encode(['status' => false, 'message' => 'Category not found']);
+            return [ 'status' => false, 'message' => 'Category not found' ];
         }
     }
 }

@@ -1,17 +1,25 @@
 <?php
 
-namespace DDD\Application\Service\Admin;
+namespace App\Services\Model;
+
+use App\Model\Tag;
 
 class deleteTagService
 {
     public function execute($tag_id)
     {
         try {
-            $tag = Tag::findOfFail($tag_id);
+            $tag = Tag::find($tag_id);
+
+            if (!$tag) {
+                return [ 'status' => false, 'message' => "Tag $tag_id not found" ];
+            }
+
             $tag->delete();
-            return json_encode(['status' => true]);
+
+            return ['status' => true ];
         } catch(\Exception $e) {
-            return json_encode(['status' => false]);
+            return ['status' => false, 'message' => $e->getMessage() ];
         }
     }
 }

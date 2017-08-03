@@ -1,8 +1,11 @@
 <?php
 
-namespace DDD\Application\Service\Admin;
+namespace App\Services\Admin;
 
-class editCategoryTagsService
+use App\Model\Category;
+use App\Model\Tag;
+
+class showCategoryTagsService
 {
     public function execute($category_id)
     {
@@ -18,6 +21,7 @@ class editCategoryTagsService
         $site_tags = Tag::getTranslationSearch(false, 2, $category->site->id)->orderBy('permalink', 'asc')->get();
 
         return [
+            'status'        => true,
             'category'      => $category,
             'category_tags' => $category_tags,
             'tags'          => $site_tags,

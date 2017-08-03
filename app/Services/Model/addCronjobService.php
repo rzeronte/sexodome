@@ -1,14 +1,26 @@
 <?php
 
-namespace DDD\Application\Service\Admin;
+namespace App\Services\Model;
+
+use App\Model\Site;
+use App\Model\CronJob;
+use App\Model\Channel;
 
 class addCronjobService
 {
     public function execute($feed_name, $site_id, $parameters)
     {
-        Site::findOrFail($site_id);
+        $site = Site::find($site_id);
 
-        $channel = Channel::where('name', $feed_name)->firstOrFail();
+        if (!$site) {
+            return [ 'status' => false, 'message' => "Site $site_id not found"];
+        }
+
+        $channel = Channel::where('name', $feed_name)->first();
+
+        if (!$channel) {
+            return [ 'status' => false, 'message' => 'Channel not found'];
+        }
 
         try {
             $queueParams = [
@@ -31,9 +43,9 @@ class addCronjobService
             $cronjob->params = json_encode($queueParams);
             $cronjob->save();
 
-            return json_encode(['status' => true]);
+            return ['status' => true];
         } catch(\Exception $e) {
-            return json_encode(['status' => false, 'message' => $e->getMessage()]);
+            return [ 'status' => false, 'message' => $e->getMessage() ];
         }
     }
 }

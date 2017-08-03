@@ -1,6 +1,9 @@
 <?php
 
-namespace DDD\Application\Service\Admin;
+namespace App\Services\Admin;
+
+use App\Model\Category;
+use Illuminate\Support\Facades\DB;
 
 class saveOrderCategoriesService
 {
@@ -15,9 +18,9 @@ class saveOrderCategoriesService
                 $categoyBBDD->save();
             }
 
-            return json_encode(['status' => true]);
+            return [ 'status' => true ];
         } catch(\Exception $e) {
-            return json_encode(['status' => false]);
+            return [ 'status' => false, 'message' => $e->getMessage() ];
         }
     }
 }

@@ -146,7 +146,7 @@ class Scene extends Model
         return $query;
     }
 
-    static function getScenesForExporterSearch($query_string, $tag_query_string, $language, $duration, $scene_id, $category_string, $empty_title, $empty_description, $user_id = false, $site_id = false) {
+    static function getScenesForExporterSearch($query_string, $tag_query_string, $language, $duration, $category_string, $empty_title, $empty_description, $user_id = false, $site_id = false) {
 
         $scenes = Scene::select(
             'scenes.*',
@@ -167,10 +167,6 @@ class Scene extends Model
 
         if ($site_id != "") {
             $scenes->where('scenes.site_id', $site_id);
-        }
-
-        if ($scene_id != "") {
-            $scenes->where('scenes.id', $scene_id);
         }
 
         if ($tag_query_string != "") {

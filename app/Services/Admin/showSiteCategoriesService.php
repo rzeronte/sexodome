@@ -1,15 +1,18 @@
 <?php
 
-namespace DDD\Application\Service\Admin;
+namespace App\Services\Admin;
+
+use App\Model\Site;
+use App\Model\Category;
 
 class showSiteCategoriesService
 {
-    public function execute($site_id, $query_string, $order = false)
+    public function execute($site_id, $query_string, $perPage, $order = false)
     {
         $site = Site::find($site_id);
 
         if (!$site) {
-            return false;
+            return [ 'status' => false, 'message' => "Site $site_id not found" ];
         }
 
         $categories = Category::getTranslationSearch(
@@ -17,9 +20,10 @@ class showSiteCategoriesService
             $site->language->id,
             $site->id,
             $order
-        )->paginate(30);
+        )->paginate($perPage);
 
         return [
+            'site' => $site,
             'categories' => $categories,
         ];
     }

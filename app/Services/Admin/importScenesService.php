@@ -1,6 +1,8 @@
 <?php
 
-namespace DDD\Application\Service\Admin;
+namespace App\Services\Admin;
+
+use App\Jobs\ImportScenesWorker;
 
 class importScenesService
 {
@@ -23,10 +25,10 @@ class importScenesService
             $job = new ImportScenesWorker($queueParams);
             dispatch($job);
 
-            return json_encode(['status' => true]);
+            return [ 'status' => true ];
 
         } catch (\Exception $e) {
-            return json_encode(['status' => false, 'message' => $e->getMessage()]);
+            return [ 'status' => false, 'message' => $e->getMessage() ];
         }
     }
 }

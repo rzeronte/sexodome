@@ -80,7 +80,7 @@
         ?>
 
         <div class="row coloreable" style="padding: 5px;">
-            <form action="{{route('saveTranslation', ['scene_id'=>$scene->id])}}" class="ajax-form">
+            <form action="{{route('saveSceneTranslation', ['scene_id'=>$scene->id])}}" class="ajax-form">
                 <div class="col-md-2">
                     @if ($scene->thumb_index > 0)
                         <img title="{{$scene->permalink}}" src="<?=htmlspecialchars($thumbs[$scene->thumb_index])?>" class="img-responsive thumbnail selected-thumb-for-{{$scene->id}}"/>

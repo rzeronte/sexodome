@@ -4,7 +4,7 @@
         <div class="form-group">
             <select id="selector_site" name="site_id" class="selectpicker show-tick" data-width="100%" data-live-search="true" data-style="btn-primary" >
                 <option value=""> -- Select your website -- </option>
-                @foreach($sites as $s)
+                @foreach(Auth::user()->getSites() as $s)
                     @if (isset($site))
                         @if ($s->id != $site->id)
                             <option value="{{$s->id}}" data-content="@include('panel._selector_site_option')" data-action="{{route('site', ['site_id' => $s->id])}}">{{$s->getHost()}}</option>

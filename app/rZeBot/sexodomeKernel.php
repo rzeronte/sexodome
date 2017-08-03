@@ -5,10 +5,12 @@ namespace App\rZeBot;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Request;
 use Jenssegers\Agent\Agent;
 use App\Model\Language;
 use App\Model\Site;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Route;
 
 class sexodomeKernel extends Controller {
 
@@ -47,6 +49,7 @@ class sexodomeKernel extends Controller {
         $this->perPageJobs = 15;
         $this->perPagePanelPornstars = 12;
         $this->perPagePornstars = 48;
+        $this->perPagePanelCategories = 20;
 
         // sex types
         $this->sex_types = [
@@ -230,6 +233,11 @@ class sexodomeKernel extends Controller {
             $this->setSiteFromSubDomainOrFail();
             $this->setLanguage($this->site->language->id);
         }
+    }
+
+    public function setSite($site)
+    {
+        $this->site = $site;
     }
 
     public static function getMainPlataformDomain()
@@ -479,4 +487,5 @@ class sexodomeKernel extends Controller {
 
         return response($file, "200")->header('Content-Type', "application/xml");
     }
+
 }
