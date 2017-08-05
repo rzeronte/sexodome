@@ -54,7 +54,7 @@ class checkDomainServiceTest extends TestCase
 
     public function testRandomCharacteres()
     {
-        $domain = "......34234%d'a6&f/a·d!!f.com";
+        $domain = "34234%d'a6&f/a·d!!f.com";
         $service = new checkDomainService();
         $result = $service->execute( $domain );
 
