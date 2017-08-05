@@ -9,7 +9,7 @@ class TubeController extends Controller
 {
     public function categories($domain, $page = 1)
     {
-        return view('tube.categories', App::make('getCategoriesService')->execute(
+            return view('tube.categories', App::make('getCategoriesService')->execute(
             App::make('sexodomeKernel')->getSite()->id,
             App::make('sexodomeKernel')->getLanguage()->id,
             App::make('sexodomeKernel')->perPageCategories,

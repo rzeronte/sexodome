@@ -9,6 +9,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Support\Facades\Route;
 use App\Model\Scene;
+use Illuminate\Support\Facades\App;
 
 class Handler extends ExceptionHandler
 {
@@ -50,15 +51,15 @@ class Handler extends ExceptionHandler
     {
         if ($exception instanceof NotFoundHttpException) {
 
-            if (Route::current() !== null) {
+            if (App::make('sexodomeKernel')->isSexodomeDomain()) {
                 $commons = new sexodomeKernel();
 
                 $scenes = Scene::getTranslationSearch(
-                        $query_string = false,
-                        $commons->language->id,
-                        $commons->site->id,
-                        $status = true
-                    )
+                    $query_string = false,
+                    $commons->language->id,
+                    $commons->site->id,
+                    $status = true
+                )
                     ->paginate(24)
                 ;
 
@@ -67,6 +68,7 @@ class Handler extends ExceptionHandler
                     'sexodomeKernel' => $commons,
                 ], 404);
             }
+
         }
 
         return parent::render($request, $exception);
