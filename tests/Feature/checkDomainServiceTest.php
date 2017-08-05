@@ -7,6 +7,15 @@ use App\Services\Admin\checkDomainService;
 
 class checkDomainServiceTest extends TestCase
 {
+    public function testSimpleAndNotValid()
+    {
+        $domain = "hola";
+        $service = new checkDomainService();
+        $result = $service->execute( $domain );
+
+        $this->assertFalse($result['status']);
+    }
+
     public function testDomainWithHttp()
     {
         $domain = "http://prueba.com";
