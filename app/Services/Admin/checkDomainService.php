@@ -21,7 +21,11 @@ class checkDomainService
             return [ 'status' => false, 'message' => "$domain is not valid first level domain"];
         }
 
-        if (strpos($domain, 'http:') !== false || strpos($domain, 'https:') !== false) {
+        if (strpos($domain, 'http:') !== false ||
+            strpos($domain, 'https:') !== false ||
+            strpos($domain, 'http://') !== false ||
+            strpos($domain, 'https://') !== false
+        ) {
             return [ 'status' => false, 'message' => "Domain $domain should not include protocol"];
         }
 
