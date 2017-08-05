@@ -199,14 +199,14 @@ class Category extends Model
                     continue;
                 }
 
-                rZeBotUtils::message("[updateCategoryThumbnail] Updating thumbnail  | site_id: $category->site_id | $category->text($category->id), have " . $category->scenes()->count() . " scenes | Exclude: ". count($exclude_scene_ids), "info", 'kernel');
+                rZeBotUtils::message("[updateCategoryThumbnail] Updating thumbnail | site_id: $category->site_id | $category->text($category->id), have " . $category->scenes()->count() . " scenes | Exclude: ". count($exclude_scene_ids), "info", 'kernel');
                 $translation->thumb = $img;
                 $translation->save();
             }
 
             return $sceneRND->id;
         } else {
-            rZeBotUtils::message("[updateCategoryThumbnail] No scenes for get thumbnails| site_id: $category->site_id | $category->text($category->id), have " . $category->scenes()->count() . " scenes", "error", 'kernel');
+            rZeBotUtils::message("[updateCategoryThumbnail] No scenes for get thumbnails | site_id: $category->site_id | $category->text($category->id), have " . $category->scenes()->count() . " scenes", "warning", 'kernel');
 
             return false;
         }
