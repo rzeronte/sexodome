@@ -8,7 +8,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-                <a class="navbar-brand" href="{{route('categories', ['profile' => Route::current()->parameter('host')])}}" title="{{App::make('sexodomeKernel')->getSite()->getHost()}}" style="margin: 0;padding:0;">
+                <a class="navbar-brand" href="{{route('categories', ['profile' => App::make('sexodomeKernel')->getHost() ])}}" title="{{App::make('sexodomeKernel')->getSite()->getHost()}}" style="margin: 0;padding:0;">
                     <h1>
                     @if (file_exists(\App\rZeBot\sexodomeKernel::getLogosFolder()."/".md5(App::make('sexodomeKernel')->getSite()->id).".png"))
                         <img src="{{asset('/logos/'.md5(App::make('sexodomeKernel')->getSite()->id).".png")}}" alt="{{App::make('sexodomeKernel')->getSite()->logo_h1}}" title="{{ App::make('sexodomeKernel')->getSite()->logo_h1}}"/>
