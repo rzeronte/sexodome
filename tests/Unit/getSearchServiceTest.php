@@ -55,7 +55,7 @@ class getSearchServiceTest extends TestCase
 
         $result = $service->execute(
             "anal",
-            47,
+            env('DEMO_SITE_ID'),
             1312312323,
             10
         );
@@ -69,7 +69,7 @@ class getSearchServiceTest extends TestCase
 
         $result = $service->execute(
             "anal",
-            47,
+            env('DEMO_SITE_ID'),
             1,
             0
         );
@@ -83,7 +83,7 @@ class getSearchServiceTest extends TestCase
 
         $result = $service->execute(
             "anal",
-            47,
+            env('DEMO_SITE_ID'),
             1,
             10
         );
