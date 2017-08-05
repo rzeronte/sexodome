@@ -21,7 +21,7 @@ class checkDomainService
             ];
         } else {
             return [
-                'status'  => true,
+                'status'  => false,
                 'message' => 'Domain not available'
             ];
         }
