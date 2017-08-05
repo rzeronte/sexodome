@@ -30,7 +30,7 @@ class TubeController extends Controller
             abort(404, $data['message']);
         }
 
-        return view('tube.search', );
+        return view('tube.search', $data);
     }
 
     public function category($domain, $permalinkCategory, $page = 1)
