@@ -66,7 +66,7 @@ class BotSitemapGenerator extends Command
             $categoryTranslation = $category->translations()->whereNotNull('permalink')->where('language_id', $language_id)->first();
 
             if (!$categoryTranslation) {
-                rZeBotUtils::message("[BotSitemapGenerator] Ignorando URL, la categoría " .$category->id ." no tiene traducción para el idioma id: $language_id", "error",'sitemaps');
+                rZeBotUtils::message("[BotSitemapGenerator] Ignore URL, the category " .$category->id ." doesn't have translation for language_id: $language_id", "error",'sitemaps');
             } else {
                 if (strlen($categoryTranslation->permalink) > 0) {
                     $ruta = $protocol . $site->getHost() . '/' . $site->category_url . '/'.$categoryTranslation->permalink;
@@ -82,7 +82,7 @@ class BotSitemapGenerator extends Command
             $num_scenes_chunks = 1;
             foreach ($scenes->chunk(20000) as $chunk) {
                 $sitemapScenes = new Sitemap(["use_styles" => false]);
-                rZeBotUtils::message("[BotSitemapGenerator] Procesando página $num_scenes_chunks de videos en " . $site->getHost(),'info', 'sitemaps');
+                rZeBotUtils::message("[BotSitemapGenerator] Processing page $num_scenes_chunks of scenes " . $site->getHost(),'info', 'sitemaps');
 
                 foreach($chunk as $scene) {
                     $translation = $scene->translations()->whereNotNull('permalink')->where('language_id', $language_id)->first();
