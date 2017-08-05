@@ -125,7 +125,7 @@ class BotSitemapGenerator extends Command
         }
         $sitemapDefault->store('xml', $site->getHost().".default", public_path().'/sitemaps');
 
-        $sitemapCategories->store('xml', $site->getHost().".categories", '');
+        $sitemapCategories->store('xml', $site->getHost().".categories", public_path().'/sitemaps');
         $sitemap->addSitemap($protocol. $site->getHost() . "/sitemaps/" . $site->getHost().".default.xml", date('Y-m-d\TH:i:s') );
         $sitemap->addSitemap($protocol. $site->getHost() . "/sitemaps/" . $site->getHost().".categories.xml", date('Y-m-d\TH:i:s') );
 
