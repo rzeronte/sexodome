@@ -91,13 +91,13 @@ if (!App::runningInConsole() && App::make('site')) {
     Route::group(['domain' => '{host}'], function () {
 
         Route::get('/' . App::make('site')->pornstars_url, 'TubeController@pornstars')->name('pornstars');
-        Route::get('/' . App::make('site')->pornstars_url."/{page}/", 'TubeController@pornstars')->name('pornstars_page');
+        Route::get('/' . App::make('site')->pornstars_url."/{page}/", 'TubeController@pornstars')->name('pornstars_page')->where('page', '[0-9]+');
 
         Route::get('/' . App::make('site')->category_url . '/{permalinkCategory}', 'TubeController@category')->name('category');
-        Route::get('/' . App::make('site')->category_url . '/{permalinkCategory}/{page}', 'TubeController@category')->name('category_page');
+        Route::get('/' . App::make('site')->category_url . '/{permalinkCategory}/{page}', 'TubeController@category')->name('category_page')->where('page', '[0-9]+');
 
         Route::get('/' . App::make('site')->pornstar_url . '/{permalinkPornstar}', 'TubeController@pornstar')->name('pornstar');
-        Route::get('/' . App::make('site')->pornstar_url . '/{permalinkPornstar}/{page}', 'TubeController@pornstar')->name('pornstar_page');
+        Route::get('/' . App::make('site')->pornstar_url . '/{permalinkPornstar}/{page}', 'TubeController@pornstar')->name('pornstar_page')->where('page', '[0-9]+');
 
         Route::get('/' . App::make('site')->video_url . '/{permalink}', 'TubeController@video')->name('video');
 
@@ -115,7 +115,7 @@ if (!App::runningInConsole() && App::make('site')) {
         Route::get('/contact/', 'TubeController@contact')->name('contact');
 
         Route::get('/', 'TubeController@categories')->name('categories');
-        Route::get('/{page}', 'TubeController@categories')->name('categories_page');
+        Route::get('/{page}', 'TubeController@categories')->name('categories_page')->where('page', '[0-9]+');
 
     });
 
