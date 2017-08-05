@@ -70,7 +70,6 @@ class BotSitemapGenerator extends Command
             } else {
                 if (strlen($categoryTranslation->permalink) > 0) {
                     $ruta = $protocol . $site->getHost() . '/' . $site->category_url . '/'.$categoryTranslation->permalink;
-                    rZeBotUtils::message("[BotSitemapGenerator] Url: " . $ruta, "info",'sitemaps');
                     $sitemapCategories->add($ruta, date('Y-m-d').'T00:00:00+00:00', '1.0', 'daily');
                 }
             }
@@ -96,6 +95,7 @@ class BotSitemapGenerator extends Command
                     }
                 }
                 $sitemapScenes->store('xml', $site->getHost().".scenes.".$num_scenes_chunks, public_path().'/sitemaps');
+                rZeBotUtils::message("[BotSitemapGenerator] Saving scenes sitemap... " . $site->getSitemap(), "info",'sitemaps');
                 $num_scenes_chunks++;
             }
         }
@@ -106,13 +106,12 @@ class BotSitemapGenerator extends Command
         if (count($pornstars) > 0) {
             foreach ($pornstars as $pornstar) {
                 $ruta = $protocol . $site->getHost() . '/' . $site->pornstar_url . '/'.$pornstar->permalink;
-                rZeBotUtils::message("[BotSitemapGenerator] Url: " . $ruta, 'info', 'sitemaps');
-
                 $sitemapPornstars->add($ruta, date('Y-m-d').'T00:00:00+00:00', '1.0', 'daily');
                 $i++;
             }
 
             $sitemapPornstars->store('xml', $site->getHost().".pornstars", public_path().'/sitemaps');
+            rZeBotUtils::message("[BotSitemapGenerator] Saving pornstars sitemap... " . $site->getSitemap(), "info",'sitemaps');
             $sitemap->addSitemap($protocol. $site->getHost() . "/sitemaps/" . $site->getHost().".pornstars.xml", date('Y-m-d\TH:i:s') );
         }
 
@@ -124,8 +123,11 @@ class BotSitemapGenerator extends Command
             $sitemapDefault->add($protocol.$site->getHost().'/'.$site->pornstars_url, date('Y-m-d') . 'T00:00:00+00:00', '1.0', 'daily');
         }
         $sitemapDefault->store('xml', $site->getHost().".default", public_path().'/sitemaps');
+        rZeBotUtils::message("[BotSitemapGenerator] Saving default sitemap... " . $site->getSitemap(), "info",'sitemaps');
 
         $sitemapCategories->store('xml', $site->getHost().".categories", public_path().'/sitemaps');
+        rZeBotUtils::message("[BotSitemapGenerator] Saving categories sitemap... " . $site->getSitemap(), "info",'sitemaps');
+
         $sitemap->addSitemap($protocol. $site->getHost() . "/sitemaps/" . $site->getHost().".default.xml", date('Y-m-d\TH:i:s') );
         $sitemap->addSitemap($protocol. $site->getHost() . "/sitemaps/" . $site->getHost().".categories.xml", date('Y-m-d\TH:i:s') );
 
@@ -136,5 +138,6 @@ class BotSitemapGenerator extends Command
         }
 
         $sitemap->store('sitemapindex', $site->getHost(), public_path().'/sitemaps');
+        rZeBotUtils::message("[BotSitemapGenerator] Saving main sitemap... " . $site->getSitemap(), "info",'sitemaps');
     }
 }
