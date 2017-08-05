@@ -19,7 +19,7 @@ class getCategoriesService
             return [ 'status' => false, 'message' => "Invalid per page records" ];
         }
 
-        if ($page <= 0) {
+        if ($page <= 0 || !is_numeric($page)) {
             return [ 'status' => false, 'message' => "Invalid page" ];
         }
 
