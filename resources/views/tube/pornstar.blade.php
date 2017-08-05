@@ -6,11 +6,11 @@
 @section('pagination_seo')
     @if (isset($scenes))
         @if ( $scenes->currentPage() > 1)
-            <link rel="prev" href="{{  route('pornstar_page', ['profile' => Route::current()->parameter('host'), 'permalinkPornstar'=> $pornstar->permalink,  'page' => $scenes->currentPage() - 1]) }} " />
+            <link rel="prev" href="{{  route('pornstar_page', ['profile' => App::make('sexodomeKernel')->getSite()->getHost(), 'permalinkPornstar'=> $pornstar->permalink,  'page' => $scenes->currentPage() - 1]) }} " />
         @endif
 
         @if ( $scenes->currentPage() < ($scenes->lastPage()))
-            <link rel="next" href="{{ route('pornstar_page', ['profile' => Route::current()->parameter('host'), 'permalinkPornstar'=> $pornstar->permalink,  'page' => $scenes->currentPage() + 1])}}" />
+            <link rel="next" href="{{ route('pornstar_page', ['profile' => App::make('sexodomeKernel')->getSite()->getHost(), 'permalinkPornstar'=> $pornstar->permalink,  'page' => $scenes->currentPage() + 1])}}" />
         @endif
     @endif
 @endsection

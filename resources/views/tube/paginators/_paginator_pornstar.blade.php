@@ -3,7 +3,7 @@
 @if ($paginator->lastPage() > 1)
     <ul class="pagination justify-content-center">
         <li class="page-item {{ ($paginator->currentPage() == 1) ? ' disabled' : '' }}">
-            <a href="{{ route(str_replace("_page", "", $route_name), ['profile' => Route::current()->parameter('host'), 'permalinkPornstar' => $pornstar->permalink]) }}">First</a>
+            <a href="{{ route(str_replace("_page", "", $route_name), ['profile' => App::make('sexodomeKernel')->getSite()->getHost(), 'permalinkPornstar' => $pornstar->permalink]) }}">First</a>
         </li>
         @for ($i = 1; $i <= $paginator->lastPage(); $i++)
             <?php
@@ -20,16 +20,16 @@
             @if ($from < $i && $i < $to)
                 <li class="page-item {{ ($paginator->currentPage() == $i) ? ' active' : '' }}">
                     @if ($i == 1)
-                        <a href="{{ route(str_replace("_page", "", $route_name), [ 'profile' => Route::current()->parameter('host'), 'permalinkPornstar' => $pornstar->permalink]) }}">{{ $i }}</a>
+                        <a href="{{ route(str_replace("_page", "", $route_name), [ 'profile' => App::make('sexodomeKernel')->getSite()->getHost(), 'permalinkPornstar' => $pornstar->permalink]) }}">{{ $i }}</a>
                     @else
-                        <a href="{{ route($route_name, [ 'profile' => Route::current()->parameter('host'), 'permalinkPornstar' => $pornstar->permalink, 'page' => $i]) }}">{{ $i }}</a>
+                        <a href="{{ route($route_name, [ 'profile' => App::make('sexodomeKernel')->getSite()->getHost(), 'permalinkPornstar' => $pornstar->permalink, 'page' => $i]) }}">{{ $i }}</a>
                     @endif
 
                 </li>
             @endif
         @endfor
         <li class="page-item {{ ($paginator->currentPage() == $paginator->lastPage()) ? ' disabled' : '' }}">
-            <a href="{{ route($route_name, [ 'profile' => Route::current()->parameter('host'), 'page' => $paginator->lastPage(), 'permalinkPornstar' => $pornstar->permalink])  }}">Last</a>
+            <a href="{{ route($route_name, [ 'profile' => App::make('sexodomeKernel')->getSite()->getHost(), 'page' => $paginator->lastPage(), 'permalinkPornstar' => $pornstar->permalink])  }}">Last</a>
         </li>
     </ul>
 @endif

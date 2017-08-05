@@ -9,7 +9,7 @@
             <?php $previous = null; ?>
             @foreach($categoriesAlphabetical as $category)
                 <div class="col-md-2 col-xs-6 text-left alphabetical_category_link">
-                    <a class="text-left cat_text_link" href="{{route('category', ['profile' => Route::current()->parameter('host'), 'permalink'=>str_slug($category->name)])}}" title="{{ucwords($category->name)}}">{{str_limit(ucwords($category->name), $limit = 15, $end = '...')}} ({{$category->nscenes}})</a>
+                    <a class="text-left cat_text_link" href="{{route('category', ['profile' => App::make('sexodomeKernel')->getSite()->getHost(), 'permalink'=>str_slug($category->name)])}}" title="{{ucwords($category->name)}}">{{str_limit(ucwords($category->name), $limit = 15, $end = '...')}} ({{$category->nscenes}})</a>
                 </div>
             @endforeach
         </div>

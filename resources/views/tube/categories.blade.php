@@ -6,11 +6,11 @@
 @section('pagination_seo')
     @if (isset($categories))
         @if ( $categories->currentPage() > 1)
-            <link rel="prev" href="{{  route('categories_page', ['profile' => Route::current()->parameter('host'), 'page' => $categories->currentPage() - 1]) }} " />
+            <link rel="prev" href="{{  route('categories_page', ['profile' => App::make('sexodomeKernel')->getSite()->getHost(), 'page' => $categories->currentPage() - 1]) }} " />
         @endif
 
         @if ( $categories->currentPage() < ($categories->lastPage()))
-            <link rel="next" href="{{ route('categories_page', ['profile' => Route::current()->parameter('host'), 'page' => $categories->currentPage() + 1])}}" />
+            <link rel="next" href="{{ route('categories_page', ['profile' => App::make('sexodomeKernel')->getSite()->getHost(), 'page' => $categories->currentPage() + 1])}}" />
         @endif
     @endif
 @endsection

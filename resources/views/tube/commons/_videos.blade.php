@@ -35,7 +35,7 @@
                             <?php \Jenssegers\Date\Date::setLocale(App::getLocale());?>
 
                             @if ($scene->channel->embed == 1)
-                                <?php $href = route('video', ['profile' => Route::current()->parameter('host'), 'permalink' => $scene->permalink]);?>
+                                <?php $href = route('video', ['profile' => App::make('sexodomeKernel')->getSite()->getHost(), 'permalink' => $scene->permalink]);?>
                                 <a
                                     href="{{$href}}"
                                     class="img link_image"
@@ -50,9 +50,9 @@
                                    </span>
                                 </a>
                             @else
-                                <?php $href = route('out', ['profile' => Route::current()->parameter('host'), 'scene_id' => $scene->id, 'p' => $i]); ?>
+                                <?php $href = route('out', ['profile' => App::make('sexodomeKernel')->getSite()->getHost(), 'scene_id' => $scene->id, 'p' => $i]); ?>
                                 <a
-                                    href="{{ route('out', ['profile' => Route::current()->parameter('host'), 'scene_id' => $scene->id, 'p' => $i]) }}"
+                                    href="{{ route('out', ['profile' => App::make('sexodomeKernel')->getSite()->getHost(), 'scene_id' => $scene->id, 'p' => $i]) }}"
                                     rel="nofollow"
                                     target="_blank"
                                     class="img link_image"
@@ -69,9 +69,9 @@
 
                             <figcaption>
                                 @if ($scene->channel->embed == 1)
-                                    <?php $href = route('video', ['profile' => Route::current()->parameter('host'), 'permalink' => $scene->permalink]); ?>
+                                    <?php $href = route('video', ['profile' => App::make('sexodomeKernel')->getSite()->getHost(), 'permalink' => $scene->permalink]); ?>
                                 @else
-                                    <?php $href = route('out', ['profile' => Route::current()->parameter('host'), 'scene_id' => $scene->id, 'p' => $i]) ?>
+                                    <?php $href = route('out', ['profile' => App::make('sexodomeKernel')->getSite()->getHost(), 'scene_id' => $scene->id, 'p' => $i]) ?>
                                 @endif
 
                                 <!--
