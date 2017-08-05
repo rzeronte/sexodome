@@ -8,7 +8,7 @@ class checkDomainService
 {
     public function execute($domain)
     {
-        if (preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $domain))
+        if (preg_match('/[\'^£$%&*()}{@#~?><>,|=_+!¬-]/', $domain))
         {
             return [ 'status' => false, 'message' => "$domain have not valid valid characteres"];
         }
