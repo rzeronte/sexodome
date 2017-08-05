@@ -47,7 +47,7 @@ class saveSiteConfigService
             $site->save();
             return [ 'status' => true ];
         } catch (\Exception $e){
-            return [ 'status' => true, 'message' => $e->getMessage() ];
+            return [ 'status' => false, 'message' => $e->getMessage() ];
         }
     }
 }

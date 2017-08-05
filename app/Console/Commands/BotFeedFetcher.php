@@ -252,11 +252,12 @@ class BotFeedFetcher extends Command
 
                             $scene = $this->createScene($video, $feed, $site_id, $languages);
 
-                            rZeBotUtils::message("[BotFeedFetcher] Create scene | scene_id: $scene->id | feed: $feed->name | site_id: ".$site_id, "info",'import');
-
                             if (!$scene) {
+                                rZeBotUtils::message("[BotFeedFetcher] Creating scene | feed: $feed->name | site_id: ".$site_id, "error",'import');
                                 continue;
                             }
+
+                            rZeBotUtils::message("[BotFeedFetcher] Create scene | scene_id: $scene->id | feed: $feed->name | site_id: ".$site_id, "info",'import');
 
                             // Create tags from CSV
                             $this->processTags($video, $site_id, $scene, $languages);
