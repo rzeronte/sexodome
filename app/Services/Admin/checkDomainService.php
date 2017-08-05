@@ -17,7 +17,7 @@ class checkDomainService
             return [ 'status' => false, 'message' => "Domain $domain too short!"];
         }
 
-        if (count(explode('.', $domain)) > 2) {
+        if (count(explode('.', $domain)) !== 2) {
             return [ 'status' => false, 'message' => "$domain is not valid first level domain"];
         }
 
