@@ -19,12 +19,18 @@ class TubeController extends Controller
 
     public function search($domain)
     {
-        return view('tube.search', App::make('getSearchService')->execute(
+        $data = App::make('getSearchService')->execute(
             Request::input('q', false),
             App::make('sexodomeKernel')->getSite()->id,
             App::make('sexodomeKernel')->getLanguage()->id,
             App::make('sexodomeKernel')->perPageScenes
-        ));
+        );
+
+        if ($data['status'] == false) {
+            abort(404, $data['message']);
+        }
+
+        return view('tube.search', );
     }
 
     public function category($domain, $permalinkCategory, $page = 1)
