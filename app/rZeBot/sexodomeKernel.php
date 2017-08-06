@@ -35,9 +35,6 @@ class sexodomeKernel extends Controller {
     {
         $this->instanciateFrontEndSite();
 
-        if (App::runningInConsole()) {
-            return;
-        }
 
         $this->setSiteAndLanguageOrFail();
 
@@ -106,6 +103,10 @@ class sexodomeKernel extends Controller {
 
     public function isSexodomeBackend()
     {
+        if ( App::environment() == 'testing') {
+            return false;
+        }
+
         $urlData = parse_url($_SERVER["HTTP_HOST"]);
         $path = $urlData["path"];
 
@@ -121,6 +122,10 @@ class sexodomeKernel extends Controller {
 
     public function isSexodomeDomain()
     {
+        if ( App::environment() == 'testing') {
+            return true;
+        }
+
         $urlData = parse_url($_SERVER["HTTP_HOST"]);
         $path = $urlData["path"];
         $parts = explode(".", $path);
@@ -149,6 +154,11 @@ class sexodomeKernel extends Controller {
 
     public function setSiteFromDomainOrFail()
     {
+        if ( App::environment() == 'testing') {
+            $this->site = Site::where('id', env('DEMO_SITE_ID'))->where('status', 1)->first();
+            return;
+        }
+
         $urlData = parse_url($_SERVER["HTTP_HOST"]);
         $path = $urlData["path"];
         $parts = explode(".", $path);
@@ -192,9 +202,14 @@ class sexodomeKernel extends Controller {
 
     public function instanciateFrontEndSite()
     {
+        if ( App::environment() == 'testing') {
+            $site = Site::where('id', env('DEMO_SITE_ID'))->where('status', 1)->first();
+            App::instance('site', $site);
+            return;
+        }
+
         if (isset($_SERVER['HTTP_HOST'])) {
             $domain = $_SERVER['HTTP_HOST'];
-
             $site = Cache::remember('domain_'.$domain, env('MEMCACHED_QUERY_TIME', 30), function() use ($domain) {
                 return Site::where('domain', $domain)->where('status', 1)->first();
             });

@@ -59,9 +59,7 @@ class Handler extends ExceptionHandler
                     $commons->language->id,
                     $commons->site->id,
                     $status = true
-                )
-                    ->paginate(24)
-                ;
+                )->paginate(24);
 
                 return response()->view('tube.errors.404', [
                     'scenes'         => $scenes,
