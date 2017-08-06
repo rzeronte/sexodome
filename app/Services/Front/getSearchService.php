@@ -33,6 +33,6 @@ class getSearchService
             $status = true
         )->paginate($per_page_search_results);
 
-        return [ 'status' => true, 'scenes' => $scenes ];
+        return [ 'status' => true, 'scenes' => $scenes , 'noindex' => true];
     }
 }

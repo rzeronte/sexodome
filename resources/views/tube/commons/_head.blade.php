@@ -33,7 +33,7 @@
 <meta charset="UTF-8">
 
 {{-- meta noindex en demo --}}
-@if (App::make('sexodomeKernel')->getSite()->id == env('DEMO_SITE_ID'))
+@if (App::make('sexodomeKernel')->getSite()->id == env('DEMO_SITE_ID') OR isset($noindex))
 <meta name="robots" content="noindex">
 @endif
 

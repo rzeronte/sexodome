@@ -52,4 +52,32 @@ class HttpCategoryTest extends TestCase
 
         $this->assertTrue($h1_count == 1 ? true : false);
     }
+
+    public function testCheckNonEmptyTitle()
+    {
+        $client = new Client();
+        $site = Site::find(env('DEMO_SITE_ID'))->first();
+
+        $category = $site->categories()->where('status', 1)->first();
+        $uri = '/' . $site->category_url . '/' . $category->translation($site->language->id)->permalink;
+        $url = 'http://' . $site->getHost() . $uri;
+        $crawler = $client->request('GET', $url);
+        $title = $crawler->filter('title')->text();
+
+        $this->assertTrue(strlen($title) > 0 ? true : false);
+    }
+
+    public function testCheckNonEmptyDescription()
+    {
+        $client = new Client();
+        $site = Site::find(env('DEMO_SITE_ID'))->first();
+
+        $category = $site->categories()->where('status', 1)->first();
+        $uri = '/' . $site->category_url . '/' . $category->translation($site->language->id)->permalink;
+        $url = 'http://' . $site->getHost() . $uri;
+        $crawler = $client->request('GET', $url);
+        $description = $crawler->filterXpath('//meta[@name="description"]')->attr('content');
+
+        $this->assertTrue(strlen($description) > 0 ? true : false);
+    }
 }

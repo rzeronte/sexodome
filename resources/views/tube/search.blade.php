@@ -4,6 +4,9 @@
     <h2><i class="mdi mdi-home"></i> {{App::make('sexodomeKernel')->getSite()->getH2Home()}}</h2>
 @endsection
 
+@section('seo_title'){{ App::make('sexodomeKernel')->getSite()->getCategoriesTitle() }}@endsection
+@section('seo_description'){{ App::make('sexodomeKernel')->getSite()->getCategoriesDescription() }}@endsection
+
 @section('paginator')
     @include('tube.paginators._paginator_search', ['paginator' => $scenes, 'route_name' => 'search_page'])
 @endsection
