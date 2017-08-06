@@ -24,6 +24,12 @@
 
     </div>
 
+    <div class="conteiner" style="margin-top:20px;">
+        <div style="border-bottom: solid 1px darkorange;margin-bottom:0px;">
+            <p><i class="glyphicon glyphicon-time"></i> <b>Categories found:</b></p>
+        </div>
+    </div>
+
     <div class="clearfix"></div>
     <?php $categories = \App\Model\Category::getTranslationSearch(false, $site->language->id, $site->id)->paginate(App::make('sexodomeKernel')->perPagePanelCategories) ?>
 

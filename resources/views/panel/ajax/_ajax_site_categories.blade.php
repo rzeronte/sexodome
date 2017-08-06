@@ -5,7 +5,7 @@
     <?php echo $categories->appends('q', Request::get('q'))->render() ?>
 </div>
 
-<div class="row">
+<div class="row coloreable">
     @if (count($categories) == 0)
         <div class="row" style="margin:0px;padding:15px;">
             No categories founded for this search.
@@ -14,10 +14,10 @@
 
     @foreach($categories as $category)
 
-        <div class="col-md-12 coloreable category-form-{{$category->id}}" style="padding:10px;">
+        <div class="col-md-12 category-form-{{$category->id}} alternate_coloreable" style="padding:10px;border-bottom: solid 1px lightgray;">
             <div class="row container">
 
-                <?php $translation = $category->translations()->where('language_id', $site->language->id)->first(); ?>
+                <?php $translation = $category->translation($site->language->id); ?>
 
                 <div class="col-md-4">
                     <div class="row">
@@ -37,22 +37,24 @@
                             @endif
 
                             <img src="{{$srcThumbnail}}" class="border-thumb category-preview" style="width:100%; border: solid 1px black;margin-bottom: 10px;"/>
+                            <div class="container-lock-action" data-unlock-category-url="{{route('categoryUnlock', ['category_translation_id' => $translation->id])}}">
+                                @if ($translation->thumb_locked == 1)
+                                    <a href="{{route('categoryUnlock', ['category_translation_id' => $translation->id])}}" class="btn btn-success btn-xs btn-category-unlock"><i class="glyphicon glyphicon-cog"></i> Unlock</a>
+                                @endif
+                            </div>
 
                         </div>
 
-                        <div class="col-md-6 container-lock-action" data-unlock-category-url="{{route('categoryUnlock', ['category_translation_id' => $translation->id])}}">
-                            @if ($translation->thumb_locked == 1)
-                                <span class="locked"><i class="glyphicon glyphicon-ban-circle"></i> Thumbnail locked</span>
-                                <div class="clearfix"></div>
-                                <a href="{{route('categoryUnlock', ['category_translation_id' => $translation->id])}}" class="btn btn-success btn-xs btn-category-unlock"><i class="glyphicon glyphicon-cog"></i> Unlock</a>
-                            @endif
-                        </div>
                         <div class="col-md-3">
                             <button data-toggle="modal" data-target="#modal-sexodome" data-url="{{route('categoryTags', ['category_id' => $category->id])}}" class="btn btn-primary btn-change-category-tags" style="margin-top:10px; width:160px;"><i class="glyphicon glyphicon-th"></i> Change tags</button>
                             <button data-toggle="modal" data-target="#modal-sexodome" data-url="{{route('categoryThumbs', ['category_id' => $category->id])}}" class="btn btn-primary btn-change-category-thumbnail" style="width:160px; margin-top:10px;"><i class="glyphicon glyphicon-picture"></i> Change Thumbnail</button>
-                            <form style="margin-top:20px;" action="{{route('uploadCategoryThumbnail', ['category_id'=>$category->id])}}" method="post" enctype="multipart/form-data">
+                            <form style="margin-top:10px;" action="{{route('uploadCategoryThumbnail', ['category_id'=>$category->id])}}" method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
-                                <input class="fileupload" type="file" name="file" data-url="{{ route( 'uploadCategoryThumbnail', [ 'category_id'  => $category->id ] ) }}">
+                                <span class="btn btn-success fileinput-button">
+                                    <i class="glyphicon glyphicon-floppy-disk"></i>
+                                    <span>Thumbnail Upload</span>
+                                    <input class="fileupload" type="file" name="file" data-url="{{ route( 'uploadCategoryThumbnail', [ 'category_id'  => $category->id ] ) }}">
+                                </span>
                             </form>
 
                         </div>

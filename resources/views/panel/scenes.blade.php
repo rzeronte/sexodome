@@ -79,7 +79,7 @@
             $index = rand(0, count($thumbs)-1);
         ?>
 
-        <div class="row coloreable" style="padding: 5px;">
+        <div class="row" style="padding: 5px;">
             <form action="{{route('saveSceneTranslation', ['scene_id'=>$scene->id])}}" class="ajax-form">
                 <div class="col-md-2">
                     @if ($scene->thumb_index > 0)

@@ -17,16 +17,11 @@ $( document ).ready(function() {
 
                     // Añadimos boton para desbloquear la thumbnail
                     category_container.html('');
-                    var spanLocked = $('<span/>', {class: 'locked'});
-                    var icon = $('<i/>', {class: 'glyphicon glyphicon-cog'});
                     var hrefUnlockButton = $('<a/>', {
                         href: category_container.attr('data-unlock-category-url'),
                         class: 'btn btn-success btn-xs btn-category-unlock'
                     });
                     hrefUnlockButton.text(' Unlock');
-                    icon.prependTo(hrefUnlockButton);
-                    $('<span class="locked"><i class="glyphicon glyphicon-ban-circle"></i> Thumbnail locked</span>').appendTo(category_container);
-                    spanLocked.appendTo(category_container);
                     hrefUnlockButton.appendTo(category_container);
                     eventUnlockCategories(); // De lo contrario no está enganchando el on.
 
@@ -579,18 +574,12 @@ $( document ).ready(function() {
 
                 // Añadimos boton para desbloquear la thumbnail
                 category_container.html('');
-                var spanLocked = $('<span/>', {class: 'locked'});
-                var icon = $('<i/>', {class: 'glyphicon glyphicon-cog'});
                 var hrefUnlockButton = $('<a/>', {
                     href: category_container.attr('data-unlock-category-url'),
                     class: 'btn btn-success btn-xs btn-category-unlock'
                 });
                 hrefUnlockButton.text(' Unlock');
-                icon.prependTo(hrefUnlockButton);
-                $('<span class="locked"><i class="glyphicon glyphicon-ban-circle"></i> Thumbnail locked</span>').appendTo(category_container);
-                spanLocked.appendTo(category_container);
                 hrefUnlockButton.appendTo(category_container);
-
                 $('#modal-sexodome').modal('hide')
 
                 eventUnlockCategories(); // De lo contrario no está enganchando el on.

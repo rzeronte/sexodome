@@ -1,5 +1,5 @@
 <?php $loop = 0 ?>
-<div class="row">
+<div class="row coloreable">
     @if (count($tags) == 0)
         <div class="row" style="margin:0px;padding:15px;">
             Currently no tags
@@ -7,7 +7,7 @@
     @endif
 
     @foreach($tags as $tag)
-        <div class="col-md-4 coloreable" style="padding:10px;">
+        <div class="col-md-4 alternate_coloreable" style="padding:10px;">
             <form action="{{route('saveTagTranslation', ['tag_id' => $tag->id, 'q'=> Request::input("q"), 'page' => Request::input("page")])}}" method="post" class="ajax-form">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                 <?php $translation = $tag->translations()->where('language_id', $site->language->id)->first(); ?>

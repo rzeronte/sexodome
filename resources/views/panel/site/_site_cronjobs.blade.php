@@ -1,7 +1,13 @@
-<div class="col-md-12 detail-cronjobs">
+<div class="col-md-12 detail-cronjobs coloreable">
 
     <div class="row cronjobs_ajax_container">
         <?php $loop = 0 ?>
+
+        <div class="conteiner" style="margin-top:20px;">
+            <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
+                <p><i class="glyphicon glyphicon-time"></i> <b>Cronjobs saved</b></p>
+            </div>
+        </div>
 
         @if ($site->cronjobs()->count() == 0)
             <div class="row" style="margin:0px;padding:15px;">
@@ -10,7 +16,7 @@
         @endif
 
         @foreach($site->cronjobs()->get() as $cronjob)
-            <div class="row" style="margin:0px;padding:15px;">
+            <div class="row alternate_coloreable" style="margin:0px;padding:15px;">
                 <div class="col-md-1">
                     <img src="{{asset('channels/'.$cronjob->channel->logo)}}" style="width:40px; border: solid 1px black;"/>
                 </div>
@@ -58,10 +64,10 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row coloreable">
         <?php $loop = 0 ?>
         @foreach($channels as $channel)
-            <div class="row" style="margin:0px;padding:15px;">
+            <div class="row alternate_coloreable" style="margin:0px;padding:15px;">
                 <form class="form-create-cronjob" data-update-cronjobs-url="{{route('ajaxCronJobs', ['site_id' => $site->id])}}" action="{{route('ajaxSaveCronJob', [])}}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                     <input type="hidden" name="feed_name" value="{{ $channel->name }}"/>
