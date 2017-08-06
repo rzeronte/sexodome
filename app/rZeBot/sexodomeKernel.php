@@ -35,6 +35,11 @@ class sexodomeKernel extends Controller {
     {
         $this->instanciateFrontEndSite();
 
+        // php artisan active flag runningInConsole
+        // but in 'testing' too and we want continue...
+        if (App::runningInConsole() and App::environment() !== 'testing') {
+            return false;
+        }
 
         $this->setSiteAndLanguageOrFail();
 
@@ -141,6 +146,10 @@ class sexodomeKernel extends Controller {
 
     public function isSexodomeSubDomain()
     {
+        if (App::runningInConsole()) {
+            return false;
+        }
+
         $urlData = parse_url($_SERVER["HTTP_HOST"]);
         $path = $urlData["path"];
         $parts = explode(".", $path);
@@ -203,6 +212,12 @@ class sexodomeKernel extends Controller {
     public function instanciateFrontEndSite()
     {
         if ( App::environment() == 'testing') {
+            $site = Site::where('id', env('DEMO_SITE_ID'))->where('status', 1)->first();
+            App::instance('site', $site);
+            return;
+        }
+
+        if (App::runningInConsole()) {
             $site = Site::where('id', env('DEMO_SITE_ID'))->where('status', 1)->first();
             App::instance('site', $site);
             return;
