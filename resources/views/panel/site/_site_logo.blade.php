@@ -1,4 +1,4 @@
-<div class="col-md-12 detail-logo coloreable">
+<div class="col-md-12 detail-logo">
 
     <form action="{{route('updateLogo', ['site_id' => $site->id])}}" enctype="multipart/form-data" method="post" class="ajax-form">
         <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
@@ -33,7 +33,7 @@
 
         <div class="clearfix" style="margin-bottom:20px;"></div>
 
-        <div class="col-md-4 text-center alternate_coloreable">
+        <div class="col-md-4 text-center">
             @if (file_exists(\App\rZeBot\sexodomeKernel::getLogosFolder()."/".md5($site->id).".png"))
                 <img src="{{asset('/logos/'.md5($site->id).".png")}}" style="border: solid 1px gray;" id="site_logo_image"/>
             @else
@@ -41,7 +41,7 @@
             @endif
         </div>
 
-        <div class="col-md-4 text-center alternate_coloreable">
+        <div class="col-md-4 text-center">
             @if (file_exists(\App\rZeBot\sexodomeKernel::getFaviconsFolder()."/".md5($site->id).".png"))
                 <img src="{{asset('/favicons/'.md5($site->id).".png")}}" style="border: solid 1px gray; width:16px;" id="site_favicon_image"/>
             @else
@@ -49,7 +49,7 @@
             @endif
         </div>
 
-        <div class="col-md-4 text-center alternate_coloreable">
+        <div class="col-md-4 text-center">
             @if (file_exists(\App\rZeBot\sexodomeKernel::getHeadersFolder()."/".md5($site->id).".png"))
                 <img src="{{asset('/headers/'.md5($site->id).".png")}}" style="border: solid 1px gray;" id="site_header_image"/>
             @else
