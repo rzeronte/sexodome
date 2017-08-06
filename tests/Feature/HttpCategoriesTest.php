@@ -3,6 +3,8 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
+use Goutte\Client;
+use App\Model\Site;
 
 class HttpCategoriesTest extends TestCase
 {
@@ -12,10 +14,16 @@ class HttpCategoriesTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function testForH1Tag()
+    public function testCheckForH1()
     {
-        $response = $this->get("/");
-        $response->assertStatus(200);
+        $client = new Client();
+        $site = Site::find(env('DEMO_SITE_ID'))->first();
+
+        $url = 'http://' . $site->getHost();
+        $crawler = $client->request('GET', $url);
+        $h1_count = $crawler->filter('h1')->count();
+
+        $this->assertTrue($h1_count == 1 ? true : false);
     }
 
 }

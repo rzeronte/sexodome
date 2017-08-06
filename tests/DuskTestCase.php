@@ -5,6 +5,7 @@ namespace Tests;
 use Laravel\Dusk\TestCase as BaseTestCase;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
+use Facebook\WebDriver\Chrome\ChromeOptions;
 
 abstract class DuskTestCase extends BaseTestCase
 {
@@ -28,8 +29,20 @@ abstract class DuskTestCase extends BaseTestCase
      */
     protected function driver()
     {
+        $chromeOptions = new ChromeOptions();
+        $chromeOptions->addArguments([
+            '--disable-remote-fonts',
+            '--start-maximized',
+            '--disable-extensions',
+            '--no-sandbox',
+            '--disable-gpu',
+        ]);
+        $capabilities = DesiredCapabilities::chrome();
+        $capabilities->setCapability(ChromeOptions::CAPABILITY, $chromeOptions);
+
         return RemoteWebDriver::create(
-            'http://localhost:9515', DesiredCapabilities::chrome()
+            'http://localhost:8888', $capabilities
         );
+
     }
 }
