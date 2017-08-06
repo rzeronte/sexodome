@@ -55,6 +55,7 @@ use App\Services\Front\getSceneIframeService;
 use App\Services\Front\getSiteAdsService;
 use App\Services\Front\getSitemapService;
 use App\Services\Front\runOutService;
+use Laravel\Dusk\DuskServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -130,6 +131,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
+        if ($this->app->environment('local', 'testing')) {
+            $this->app->register(DuskServiceProvider::class);
+        }
     }
 }
