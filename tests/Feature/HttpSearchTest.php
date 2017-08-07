@@ -73,4 +73,16 @@ class HttpSearchTest extends TestCase
 
         $this->assertTrue(strlen($description) > 0 ? true : false);
     }
+
+    public function testCheckMetaNoIndex()
+    {
+        $client = new Client();
+        $site = Site::find(env('DEMO_SITE_ID'))->first();
+
+        $url = 'http://' . $site->getHost() . "/search?q=anal";
+        $crawler = $client->request('GET', $url);
+        $noindex = $crawler->filterXpath('//meta[@name="robots"]')->attr('content');
+
+        $this->assertTrue($noindex == 'noindex' ? true : false);
+    }
 }
