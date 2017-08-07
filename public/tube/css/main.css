@@ -6855,7 +6855,7 @@ body {
 .main .thumbnail .thumb-image {
   border-radius: 3px;
   overflow: hidden;
-  height: 10em;
+  height: 9em;
   margin-right: .1em;
   display: block;
   position: relative;
