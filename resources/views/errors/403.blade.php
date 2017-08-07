@@ -2,9 +2,9 @@
 <html>
 
 <head>
-    <title>Not found</title>
+    <title></title>
+    <meta name="robots" content="noindex">
 </head>
 
 <body style="font-size:5em;">
-This domain is not available!
 </body>
