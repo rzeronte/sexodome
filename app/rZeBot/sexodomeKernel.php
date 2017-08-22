@@ -30,6 +30,8 @@ class sexodomeKernel extends Controller {
     public $perPageCategories;
     public $perPagePanelPornstars;
     public $sex_types;
+    public $secret;
+    public $isPreview;
 
     public function __construct()
     {
@@ -52,6 +54,7 @@ class sexodomeKernel extends Controller {
         $this->perPagePanelPornstars = 12;
         $this->perPagePornstars = 48;
         $this->perPagePanelCategories = 20;
+        $this->secret = "3%3_K3/)!-8jZ&";
 
         // sex types
         $this->sex_types = [
@@ -112,6 +115,9 @@ class sexodomeKernel extends Controller {
             return false;
         }
 
+        if (!isset($_SERVER["HTTP_HOST"])) {
+            return false;
+        }
         $urlData = parse_url($_SERVER["HTTP_HOST"]);
         $path = $urlData["path"];
 
@@ -129,6 +135,10 @@ class sexodomeKernel extends Controller {
     {
         if ( App::environment() == 'testing') {
             return true;
+        }
+
+        if (!isset($_SERVER["HTTP_HOST"])) {
+            return false;
         }
 
         $urlData = parse_url($_SERVER["HTTP_HOST"]);
@@ -168,6 +178,10 @@ class sexodomeKernel extends Controller {
             return;
         }
 
+        if (!isset($_SERVER["HTTP_HOST"])) {
+            return false;
+        }
+
         $urlData = parse_url($_SERVER["HTTP_HOST"]);
         $path = $urlData["path"];
         $parts = explode(".", $path);
@@ -176,9 +190,15 @@ class sexodomeKernel extends Controller {
         $ext = $parts[1];
         $fullDomain = $domain . "." . $ext;
 
-        $site = Cache::remember('site_'.$fullDomain, env('MEMCACHED_QUERY_TIME', 30), function() use ($fullDomain) {
-            return Site::where('domain', $fullDomain)->where('status', 1)->first();
-        });
+        // Preview is not cached
+        if ($this->isPreview) {
+            $site =  Site::where('domain', $fullDomain)->first();
+        } else {
+            $site = Cache::remember('site_'.$fullDomain, env('MEMCACHED_QUERY_TIME', 30), function() use ($fullDomain) {
+                return Site::where('domain', $fullDomain)->where('status', 1)->first();
+            });
+        }
+
 
         if (!$site) {
             abort(403, 'Site not available');
@@ -189,6 +209,10 @@ class sexodomeKernel extends Controller {
 
     public function setSiteFromSubDomainOrFail()
     {
+        if (!isset($_SERVER["HTTP_HOST"])) {
+            return false;
+        }
+
         $urlData = parse_url($_SERVER["HTTP_HOST"]);
         $path = $urlData["path"];
         $parts = explode(".", $path);
@@ -196,9 +220,14 @@ class sexodomeKernel extends Controller {
         // ----------------------------------- Subdominio de la plataforma formato 'subdominio.plataforma.com'
         $subdomain = $parts[0];
 
-        $site = Cache::remember('site_'.$subdomain, env('MEMCACHED_QUERY_TIME', 30), function() use ($subdomain) {
-            return Site::where('name', $subdomain)->where('status', 1)->first();
-        });
+        // preview not cached
+        if ($this->isPreview) {
+            $site = Site::where('name', $subdomain)->first();
+        } else {
+            $site = Cache::remember('site_'.$subdomain, env('MEMCACHED_QUERY_TIME', 30), function() use ($subdomain) {
+                return Site::where('name', $subdomain)->where('status', 1)->first();
+            });
+        }
 
         if (!$site) {
             abort("403", "Site is not available");
@@ -219,20 +248,40 @@ class sexodomeKernel extends Controller {
 
         if (App::runningInConsole()) {
             $site = Site::where('id', env('DEMO_SITE_ID'))->where('status', 1)->first();
-            App::instance('site', $site);
+            if ($site) {
+                App::instance('site', $site);
+            } else {
+                App::instance('site', false);
+            }
             return;
         }
 
         if (isset($_SERVER['HTTP_HOST'])) {
             $domain = $_SERVER['HTTP_HOST'];
-            $site = Cache::remember('domain_'.$domain, env('MEMCACHED_QUERY_TIME', 30), function() use ($domain) {
+/*
+           $site = Cache::remember('domain_'.$domain, env('MEMCACHED_QUERY_TIME', 30), function() use ($domain) {
                 return Site::where('domain', $domain)->where('status', 1)->first();
             });
+*/
+            $site = Site::where('domain', $domain)->where('status', 1)->first();;
 
             if ($site) {
                 App::instance('site', $site);
             } else {
-                App::instance('site', false);
+                if (Request::input('p') != "") {
+                    $site =  Site::where('domain', $domain)->first();
+
+                    if (!$site) {
+                        App::instance('site', false);
+                    } else {
+                        if ($this->successPreviewCode($site->getHost())) {
+                            $this->isPreview = true;
+                            App::instance('site', $site);
+                        } else {
+                            App::instance('site', false);
+                        }
+                    }
+                }
             }
         }
     }
@@ -516,6 +565,21 @@ class sexodomeKernel extends Controller {
         }
 
         return response($file, "200")->header('Content-Type', "application/xml");
+    }
+
+    public function getPreviewCode($host)
+    {
+        $code = $host . "@@@@". "3%3_K3/)!-8jZ&" . "@@@@" . date('G');
+        return md5($code);
+    }
+
+    public function successPreviewCode($host)
+    {
+        if (Request::input('p') == $this->getPreviewCode($host)) {
+            return true;
+        }
+
+        return false;
     }
 
 }

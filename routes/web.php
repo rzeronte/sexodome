@@ -86,7 +86,7 @@ Route::group(['domain' => 'accounts.'.\App\rZeBot\sexodomeKernel::getMainPlatafo
 
 // TubeFronts domains
 // *********************************************************************************************************************
-if (App::make('site')) {
+if (App::make('sexodomeKernel')->isSexodomeBackend() !== true and App::make('site')) {
 
     Route::group(['domain' => '{host}'], function () {
 

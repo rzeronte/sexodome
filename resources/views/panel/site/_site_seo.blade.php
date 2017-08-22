@@ -154,6 +154,7 @@
                 </div>
                 <div class="col-md-7">
                     <input type="text" class="form-control" value="{{$site->logo_h1}}" name="logo_h1">
+                    <small><b>Example:</b> ExamplePorn</small>
                 </div>
             </div>
 
@@ -163,6 +164,7 @@
                 </div>
                 <div class="col-md-7">
                     <input type="text" class="form-control" value="{{$site->h2_home}}" name="h2_home">
+                    <small><b>Example:</b> Porn Videos</small>
                 </div>
             </div>
 
@@ -172,6 +174,7 @@
                 </div>
                 <div class="col-md-7">
                     <input type="text" class="form-control" value="{{$site->h2_category}}" name="h2_category">
+                    <small><b>Example:</b> {category} Porn Videos</small>
                 </div>
             </div>
 
@@ -181,6 +184,7 @@
                 </div>
                 <div class="col-md-7">
                     <input type="text" class="form-control" value="{{$site->h2_pornstars}}" name="h2_pornstars">
+                    <small><b>Example:</b> Pornstars videos compilation</small>
                 </div>
             </div>
 
@@ -190,6 +194,7 @@
                 </div>
                 <div class="col-md-7">
                     <input type="text" class="form-control" value="{{$site->h2_pornstar}}" name="h2_pornstar">
+                    <small><b>Example:</b> {pornstar} videos compilation</small>
                 </div>
             </div>
 
@@ -199,6 +204,7 @@
                 </div>
                 <div class="col-md-7">
                     <input type="text" class="form-control" value="{{$site->categories_h3}}" name="categories_h3">
+                    <small><b>Example:</b> All Categories A / Z</small>
                 </div>
             </div>
 
