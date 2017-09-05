@@ -152,6 +152,10 @@ class BotTranslateVideo extends Command
 
             $translationTo = $tag->translations()->where('language_id', $languageTo->id)->first();
 
+            if (!$translationTo) {
+                continue;
+            }
+
             if (!$translationTo->title == null || !$translationTo->permalink == null) {
                 //rZeBotUtils::message('[BotTranslateVideo] Translation already exists for tag_id(' . $tag->id . ') ' . $translationTo->title, "warning",'kernel');
                 continue;
