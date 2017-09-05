@@ -93,6 +93,10 @@ class sexodomeKernel extends Controller {
 
     public function isSexodomeFront()
     {
+        if (!isset($_SERVER["HTTP_HOST"])) {
+            return false;
+        }
+
         $urlData = parse_url($_SERVER["HTTP_HOST"]);
         $path = $urlData["path"];
 
