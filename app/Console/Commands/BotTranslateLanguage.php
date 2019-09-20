@@ -37,7 +37,7 @@ class BotTranslateLanguage extends Command
     {
         parent::__construct();
 
-        $this->apiKey = "AIzaSyBgQ5lWXiC4vqpVseZTD9fYHQkmEc5mrV4";
+        $this->apiKey = env('GOOGLE_TRANSLATE_APIKEY');
         $this->urlTranslation = "https://www.googleapis.com/language/translate/v2?";
     }
 
