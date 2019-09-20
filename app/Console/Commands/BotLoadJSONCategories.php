@@ -16,7 +16,7 @@ class BotLoadJSONCategories extends Command
     protected $signature = 'zbot:categories:json {site_id}
                             {--gays=false : Filter for Gay categories}';
 
-    protected $description = 'Load categories from json for one ste';
+    protected $description = 'Load categories from json for one site';
 
     public function handle()
     {

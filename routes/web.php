@@ -86,8 +86,7 @@ Route::group(['domain' => 'accounts.'.\App\rZeBot\sexodomeKernel::getMainPlatafo
 
 // TubeFronts domains
 // *********************************************************************************************************************
-if (App::make('sexodomeKernel')->isSexodomeBackend() !== true and App::make('sexodomeKernel')->isSexodomeFront() !== true and App::make('site')) {
-
+if (!App::make('sexodomeKernel')->isSexodomeBackend() and !App::make('sexodomeKernel')->isSexodomeFront() and App::make('site')) {
     Route::group(['domain' => '{host}'], function () {
 
         Route::get('/' . App::make('site')->pornstars_url, 'TubeController@pornstars')->name('pornstars');
@@ -118,5 +117,4 @@ if (App::make('sexodomeKernel')->isSexodomeBackend() !== true and App::make('sex
         Route::get('/{page}', 'TubeController@categories')->name('categories_page')->where('page', '[0-9]+');
 
     });
-
 }

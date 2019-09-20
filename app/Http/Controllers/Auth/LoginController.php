@@ -44,7 +44,7 @@ class LoginController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function verify($token) {
-
+        echo "verify";
         $user = User::where('verify_token', $token)->first();
 
         if ($user) {

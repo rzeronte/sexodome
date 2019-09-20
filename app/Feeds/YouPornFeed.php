@@ -49,7 +49,12 @@ class YouPornFeed
             "pornstars_separator"  => ";",
             "skip_first_list"      => true,
             "parse_duration"       => function($string) {
-                return $string;
+                //00:00s format
+                $values = explode(":", $string);
+                $min = intval($values[0]);
+                $sec = intval($values[1]);
+
+                return ($min*60)+$sec;
             }
         );
 

@@ -35,6 +35,7 @@ class addSiteService
             ];
 
         } catch(\Exception $e) {
+            echo $e->getMessage();
             return ['status' => false, 'message' => $e->getMessage()];
         }
     }

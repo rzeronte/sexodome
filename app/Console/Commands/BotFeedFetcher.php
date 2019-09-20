@@ -64,7 +64,6 @@ class BotFeedFetcher extends Command
         $categorize  = $this->option('categorize');
 
         $tags       = $this->parseTagsOption($tags);
-
         // get feed
         $feed = Channel::where("name", "=", $feed_name)->first();
 

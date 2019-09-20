@@ -1,40 +1,45 @@
 /* 1 Color Body Bg */
 body {
-    background-color: #d2d2d2 !important;
+    background-color: #ffffff !important;
 }
+
+h1 {
+    margin-top: 10px !important;
+}
+
 .thumbnail {
-    background-color: #d2d2d2 !important;
+    background-color: #ffffff !important;
 }
 
 /* 2 Color Header Bg */
 body > .navbar-default
 {
-    background-color: #d02121 !important;
+    background-color: #000000 !important;
 
     }
 
 /* 3 Color Header Right Text */
-.navbar h4
+.navbar p.right_text
 {
-    color: #ffffff !important;
+    color: #e7e7e7 !important;
 }
 
 /* 4 Color Billboard bg */
 /* 5 Color Text Billboard */
 .billboard{
-    background-color: #160ccb !important;
-    color: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #ffd200 !important;
 }
 
 .billboard a{
-    background-color: #160ccb !important;
-    color: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #ffd200 !important;
 }
 
 /* 6 Color Section Text */
 /* 7 Color Section Text Secondary */
 .page-header h2{
-    color: #004fff !important;
+    color: #0000ff !important;
     font-size: 1.5em;
     color: #fff;
     padding: 0;
@@ -42,7 +47,7 @@ body > .navbar-default
 }
 
 .page-header h3{
-    color: #004fff !important;
+    color: #0000ff !important;
     font-size: 1.5em;
     color: #fff;
     padding: 0;
@@ -50,57 +55,67 @@ body > .navbar-default
 }
 
 .page-header .mdi{
-    color: #004fff !important;
+    color: #0000ff !important;
 }
 
 .page-header h2 small{
-    color: #d02121 !important;
+    color: #00ff30 !important;
 }
 
 .scene-description{
     font-size: 18px;
-    color: #000000 !important;
+    color: #ffa100 !important;
 }
 
 /* 8 Color Video Text */
 .main .thumbnail a h5{
-    color: #000000 !important;
+    color: #ffa100 !important;
 }
 
 /* 9 Color Tag */
 .main .thumbnail .list-inline li .label {
-    background-color: #ffffff !important;
+    background-color: #ff2600 !important;
     color: transparent;
 }
 
 /* 10 Buttons BG */
 /* 11 Buttons text */
 .main .pagination li a{
-    background-color: #a80000 !important;
-    color: #ffffff !important;
+    background-color: #ff0000 !important;
+    color:  !important;
 }
 
 .navbar .btn-default{
-    background-color: #a80000 !important;
-    color: #ffffff !important;
+    background-color: #ff0000 !important;
+    color:  !important;
 }
 
 .page-header .text-right .btn-secondary.active {
-    background-color: #a80000 !important;
-    border-color: #a80000 !important;
-    color: #ffffff !important;
+    background-color: #ff0000 !important;
+    border-color: #ff0000 !important;
+    color:  !important;
 }
 
 /* 12 On Video BG */
 .main .thumbnail .thumb-image .floater-b-c,
 .main .thumbnail .thumb-image .floater-b-l,
 .main .thumbnail .thumb-image .floater-t-l {
-    background-color: #000000 !important;
+    background-color:  !important;
     opacity: 0.7;
 }
 
 /* Fixes */
 .main .thumbnail .thumb-image img{
     height: auto !important;
+    width: 100%;
 }
 
+@media (max-width: 767px) {
+    .page-header h2 {
+        font-size: 1em;
+    }
+
+    h1 {
+        margin: 11px 0 0 10px !important;
+    }
+}

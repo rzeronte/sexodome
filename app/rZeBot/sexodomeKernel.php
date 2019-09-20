@@ -35,7 +35,15 @@ class sexodomeKernel extends Controller {
 
     public function __construct()
     {
-        $this->instanciateFrontEndSite();
+        $isBackend = $this->isSexodomeBackend();
+        $isFront = $this->isSexodomeFront();
+
+        if (!$this->isSexodomeBackend() && !$this->isSexodomeFront()) {
+            $this->setSiteFromDomainOrFail();
+            $this->instanciateFrontEndSite();
+        } else {
+            App::instance('site', false);
+        }
 
         // php artisan active flag runningInConsole
         // but in 'testing' too and we want continue...
@@ -43,7 +51,7 @@ class sexodomeKernel extends Controller {
             return false;
         }
 
-        $this->setSiteAndLanguageOrFail();
+        $this->setLanguageOrFail();
 
         // per page setups
         $this->perPage = 48;
@@ -98,15 +106,9 @@ class sexodomeKernel extends Controller {
         }
 
         $urlData = parse_url($_SERVER["HTTP_HOST"]);
-        $path = $urlData["path"];
-
-        $parts = explode(".", $path);
-
-        if (count($parts) == 2 && $_SERVER["HTTP_HOST"] === sexodomeKernel::getMainPlataformDomain()) {
-            // ----------------------------------- Dominio de la propia plataforma formato 'sexodome.com'
-            return true;
-        } elseif (count($parts) == 3 && $parts[0] == 'www' && $_SERVER["HTTP_HOST"] === "www.".sexodomeKernel::getMainPlataformDomain()) {
-            // ----------------------------------- Dominio de la propia plataforma formato 'www.domain.com'
+        if ($urlData["host"] == sexodomeKernel::getMainPlataformDomain() ||
+            $urlData["host"] == "www." . sexodomeKernel::getMainPlataformDomain()
+        ) {
             return true;
         }
 
@@ -122,12 +124,10 @@ class sexodomeKernel extends Controller {
         if (!isset($_SERVER["HTTP_HOST"])) {
             return false;
         }
+
         $urlData = parse_url($_SERVER["HTTP_HOST"]);
-        $path = $urlData["path"];
 
-        $parts = explode(".", $path);
-
-        if (count($parts) == 3 && $_SERVER["HTTP_HOST"] === "accounts.".sexodomeKernel::getMainPlataformDomain()) {
+        if ($urlData["host"] === "accounts.".sexodomeKernel::getMainPlataformDomain()) {
             // ----------------------------------- Dominio de miembros formato 'accounts.domain.com'
             return true;
         }
@@ -146,12 +146,10 @@ class sexodomeKernel extends Controller {
         }
 
         $urlData = parse_url($_SERVER["HTTP_HOST"]);
-        $path = $urlData["path"];
-        $parts = explode(".", $path);
 
-        if (count($parts) == 2 && $_SERVER["HTTP_HOST"] != sexodomeKernel::getMainPlataformDomain()) {
-            return true;
-        } elseif (count($parts) == 3 && $parts[0] == 'www' && $_SERVER["HTTP_HOST"] != "www.".sexodomeKernel::getMainPlataformDomain()) {
+        if ($urlData["host"] == sexodomeKernel::getMainPlataformDomain() ||
+            $urlData["host"] == "www.".sexodomeKernel::getMainPlataformDomain()
+        ) {
             return true;
         }
 
@@ -165,6 +163,10 @@ class sexodomeKernel extends Controller {
         }
 
         $urlData = parse_url($_SERVER["HTTP_HOST"]);
+        if (!isset($urlData["path"])) {
+            return false;
+        }
+
         $path = $urlData["path"];
         $parts = explode(".", $path);
 
@@ -187,28 +189,22 @@ class sexodomeKernel extends Controller {
         }
 
         $urlData = parse_url($_SERVER["HTTP_HOST"]);
-        $path = $urlData["path"];
-        $parts = explode(".", $path);
-
-        $domain = $parts[0];
-        $ext = $parts[1];
-        $fullDomain = $domain . "." . $ext;
+        $domain = $urlData["host"];
 
         // Preview is not cached
         if ($this->isPreview) {
-            $site =  Site::where('domain', $fullDomain)->first();
+            $site =  Site::where('domain', $domain)->first();
         } else {
-            $site = Cache::remember('site_'.$fullDomain, env('MEMCACHED_QUERY_TIME', 30), function() use ($fullDomain) {
-                return Site::where('domain', $fullDomain)->where('status', 1)->first();
+            $site = Cache::remember('site_'.$domain, env('MEMCACHED_QUERY_TIME', 30), function() use ($domain) {
+                return Site::where('domain', $domain)->where('status', 1)->first();
             });
         }
-
 
         if (!$site) {
             abort(403, 'Site not available');
         }
 
-        $this->site = $site;
+        $this->setSite($site);
     }
 
     public function setSiteFromSubDomainOrFail()
@@ -251,6 +247,7 @@ class sexodomeKernel extends Controller {
         }
 
         if (App::runningInConsole()) {
+
             $site = Site::where('id', env('DEMO_SITE_ID'))->where('status', 1)->first();
             if ($site) {
                 App::instance('site', $site);
@@ -261,14 +258,9 @@ class sexodomeKernel extends Controller {
         }
 
         if (isset($_SERVER['HTTP_HOST'])) {
-            $domain = $_SERVER['HTTP_HOST'];
-/*
-           $site = Cache::remember('domain_'.$domain, env('MEMCACHED_QUERY_TIME', 30), function() use ($domain) {
-                return Site::where('domain', $domain)->where('status', 1)->first();
-            });
-*/
-            $site = Site::where('domain', $domain)->where('status', 1)->first();;
-
+            $urlData = parse_url($_SERVER['HTTP_HOST']);
+            $domain = $urlData["host"];
+            $site = Site::where('domain', $domain)->where('status', 1)->first();
             if ($site) {
                 App::instance('site', $site);
             } else {
@@ -285,6 +277,8 @@ class sexodomeKernel extends Controller {
                             App::instance('site', false);
                         }
                     }
+                } else {
+                    App::instance('site', false);
                 }
             }
         }
@@ -305,15 +299,13 @@ class sexodomeKernel extends Controller {
         }
     }
 
-    public function setSiteAndLanguageOrFail()
+    public function setLanguageOrFail()
     {
         if ($this->isSexodomeBackend()) {
             $this->setLanguage();
         } elseif ($this->isSexodomeDomain()) {
-            $this->setSiteFromDomainOrFail();
-            $this->setLanguage($this->site->language->id);
-        } elseif ($this->isSexodomeSubDomain()) {
-            $this->setSiteFromSubDomainOrFail();
+            $this->setLanguage(env('DEFAULT_LANGUAGE_ID', 2));
+        } else {
             $this->setLanguage($this->site->language->id);
         }
     }
@@ -377,7 +369,7 @@ class sexodomeKernel extends Controller {
         return $this->agent;
     }
 
-    public static function downloadDump($feed)
+    public static function  downloadDump($feed)
     {
         $fileCSV = sexodomeKernel::getDumpsFolderTmp().$feed->file;
 

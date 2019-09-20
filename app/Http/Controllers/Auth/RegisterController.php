@@ -65,11 +65,11 @@ class RegisterController extends Controller
     {
         $data['verifyToken'] = md5(microtime().rand(0, 100));
 
-        Mail::send('emails.verify', $data, function ($message) use ($data) {
+        /*Mail::send('emails.verify', $data, function ($message) use ($data) {
             $message->from('sexodomeweb@gmail.com', 'Sexodome - Porn Tube Generator');
             $message->subject('Sexodome Account Registration Verify');
             $message->to($data['email']);
-        });
+        });*/
 
         return User::create([
             'name' => $data['name'],
