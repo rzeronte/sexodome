@@ -51,7 +51,7 @@ class Handler extends ExceptionHandler
     {
         if ($exception instanceof NotFoundHttpException) {
 
-            if (App::make('sexodomeKernel')->isSexodomeDomain()) {
+            if (App::make('site')) {
                 $commons = new sexodomeKernel();
 
                 $scenes = Scene::getTranslationSearch(
@@ -66,7 +66,6 @@ class Handler extends ExceptionHandler
                     'sexodomeKernel' => $commons,
                 ], 404);
             }
-
         }
 
         return parent::render($request, $exception);
