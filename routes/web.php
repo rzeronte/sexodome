@@ -88,17 +88,16 @@ Route::group(['domain' => 'accounts.'.\App\rZeBot\sexodomeKernel::getMainPlatafo
 // *********************************************************************************************************************
 if (!App::make('sexodomeKernel')->isSexodomeBackend() and !App::make('sexodomeKernel')->isSexodomeFront() and App::make('site')) {
     Route::group(['domain' => '{host}'], function () {
+        Route::get('/' . App::make('site')->seo->pornstars_url, 'TubeController@pornstars')->name('pornstars');
+        Route::get('/' . App::make('site')->seo->pornstars_url."/{page}/", 'TubeController@pornstars')->name('pornstars_page')->where('page', '[0-9]+');
 
-        Route::get('/' . App::make('site')->pornstars_url, 'TubeController@pornstars')->name('pornstars');
-        Route::get('/' . App::make('site')->pornstars_url."/{page}/", 'TubeController@pornstars')->name('pornstars_page')->where('page', '[0-9]+');
+        Route::get('/' . App::make('site')->seo->category_url . '/{permalinkCategory}', 'TubeController@category')->name('category');
+        Route::get('/' . App::make('site')->seo->category_url . '/{permalinkCategory}/{page}', 'TubeController@category')->name('category_page')->where('page', '[0-9]+');
 
-        Route::get('/' . App::make('site')->category_url . '/{permalinkCategory}', 'TubeController@category')->name('category');
-        Route::get('/' . App::make('site')->category_url . '/{permalinkCategory}/{page}', 'TubeController@category')->name('category_page')->where('page', '[0-9]+');
+        Route::get('/' . App::make('site')->seo->pornstar_url . '/{permalinkPornstar}', 'TubeController@pornstar')->name('pornstar');
+        Route::get('/' . App::make('site')->seo->pornstar_url . '/{permalinkPornstar}/{page}', 'TubeController@pornstar')->name('pornstar_page')->where('page', '[0-9]+');
 
-        Route::get('/' . App::make('site')->pornstar_url . '/{permalinkPornstar}', 'TubeController@pornstar')->name('pornstar');
-        Route::get('/' . App::make('site')->pornstar_url . '/{permalinkPornstar}/{page}', 'TubeController@pornstar')->name('pornstar_page')->where('page', '[0-9]+');
-
-        Route::get('/' . App::make('site')->video_url . '/{permalink}', 'TubeController@video')->name('video');
+        Route::get('/' . App::make('site')->seo->video_url . '/{permalink}', 'TubeController@video')->name('video');
 
         Route::get('/search', 'TubeController@search')->name('search');
         Route::get('/ads/', 'TubeController@ads')->name('ads');

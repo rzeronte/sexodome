@@ -37,7 +37,6 @@ class sexodomeKernel extends Controller {
     {
         $isBackend = $this->isSexodomeBackend();
         $isFront = $this->isSexodomeFront();
-
         if (!$this->isSexodomeBackend() && !$this->isSexodomeFront()) {
             $this->setSiteFromDomainOrFail();
             $this->instanciateFrontEndSite();
@@ -151,11 +150,16 @@ class sexodomeKernel extends Controller {
 
         // Preview is not cached
         if ($this->isPreview) {
-            $site =  Site::where('domain', $domain)->first();
+            $site = Site::where('domain', $domain)->first();
         } else {
-            $site = Cache::remember('site_'.$domain, env('MEMCACHED_QUERY_TIME', 30), function() use ($domain) {
+            $site = Cache::remember('site_'.$domain, env('MEMCACHED_QUERY_TIME', 5), function() use ($domain) {
                 return Site::where('domain', $domain)->where('status', 1)->first();
             });
+
+            if (!$site) {
+                echo "no hay site";exit;
+                abort(404, 'Site not available');
+            }
         }
 
         if (!$site) {

@@ -2,6 +2,7 @@
 
 namespace App\Services\Model;
 
+use App\Model\Seo;
 use App\Model\Site;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,12 +23,16 @@ class addSiteService
             // create new site for current user
             $newSite = new Site();
             $newSite->user_id = Auth::user()->id;
+            $newSite->type_id = env("DEFAULT_TYPE", 1);
             $newSite->name = $domain;
             $newSite->language_id = env("DEFAULT_FETCH_LANGUAGE", 2);
             $newSite->domain = $domain;
             $newSite->have_domain = 1;
-            $newSite->header_text = "";
-            $newSite->save();
+            $newSite->push();
+
+            $seo = new Seo();
+            $seo->site()->associate($newSite);
+            $seo->save();
 
             return [
                 'status' => true,
@@ -35,7 +40,6 @@ class addSiteService
             ];
 
         } catch(\Exception $e) {
-            echo $e->getMessage();
             return ['status' => false, 'message' => $e->getMessage()];
         }
     }

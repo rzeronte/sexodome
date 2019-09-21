@@ -10,8 +10,8 @@ use App;
 class Site extends Model
 {
     protected $table = 'sites';
-
     public $timestamps = false;
+    public $primaryKey  = 'id';
 
     public function user()
     {
@@ -63,6 +63,11 @@ class Site extends Model
         return $this->hasMany('App\Model\CronJob');
     }
 
+    public function seo()
+    {
+        return $this->hasOne('App\Model\Seo');
+    }
+
     public function getAnalytics($fi, $ff)
     {
         $analytics = Analytics::where('site_id', $this->id)
@@ -75,11 +80,7 @@ class Site extends Model
 
     public function getHost()
     {
-        if ($this->have_domain == 0) {
-            return $this->name.".".sexodomeKernel::getMainPlataformDomain();
-        } else {
-            return  $this->domain;
-        }
+        return  $this->domain;
     }
 
     public function getTotalScenes($feed_id = false)

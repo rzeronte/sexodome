@@ -12,7 +12,7 @@
     <div class="col-md-4" style="margin-top:10px;">
         @if (isset($site) and Request::route()->getName() != 'content')
             <a href="{{route('content', ['site_id' => $site->id])}}" class="btn @if (\Request::route()->getName() == "content") btn-success @else btn-primary @endif"><i class="glyphicon glyphicon-th"></i> Scenes</a>
-            <a href="http://{{$site->getHost()}}?p={{App::make('sexodomeKernel')->getPreviewCode($site->getHost())}}" target="_blank" class="btn btn-primary"><i class="glyphicon glyphicon-eye-open"></i> Preview</a>
+            <a href="http://{{$site->getHost()}}:8080?p={{App::make('sexodomeKernel')->getPreviewCode($site->getHost())}}" target="_blank" class="btn btn-primary"><i class="glyphicon glyphicon-eye-open"></i> Preview</a>
         @endif
         @if (isset($site) and Request::route()->getName() == 'content')
             <a href="{{route('site', ['site_id' => $site->id])}}" class="btn @if (\Request::route()->getName() == "site") btn-success @else btn-primary @endif"><i class="glyphicon glyphicon-cog"></i> Setup site</a>

@@ -4,7 +4,6 @@
 @include('panel._head')
 
 <body>
-
 <div class="container">
     <div class="header row">
         @include('panel._header_config')

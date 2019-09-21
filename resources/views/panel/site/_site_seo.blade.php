@@ -83,7 +83,7 @@
 
             <div style="margin-top:20px;">
                 <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
-                    <p><i class="glyphicon glyphicon-cog"></i> <b>URL Setup</b></p>
+                    <p><i class="glyphicon glyphicon-cog"></i> <b>SEO/URL Setup</b></p>
                 </div>
             </div>
 
@@ -92,7 +92,7 @@
                     Category URL:
                 </div>
                 <div class="col-md-7">
-                    <input type="text" class="form-control" value="{{$site->category_url}}" name="category_url">
+                    <input type="text" class="form-control" value="{{$site->seo->category_url}}" name="category_url">
                     <small><b>Example:</b> www.domain.com/{category_url}/blonde</small>
                 </div>
             </div>
@@ -102,7 +102,7 @@
                     Pornstars URL:
                 </div>
                 <div class="col-md-7">
-                    <input type="text" class="form-control" value="{{$site->pornstars_url}}" name="pornstars_url">
+                    <input type="text" class="form-control" value="{{$site->seo->pornstars_url}}" name="pornstars_url">
                     <small><b>Example:</b> www.domain.com/{pornstars_url}/</small>
                 </div>
             </div>
@@ -112,7 +112,7 @@
                     Pornstar URL:
                 </div>
                 <div class="col-md-7">
-                    <input type="text" class="form-control" value="{{$site->pornstar_url}}" name="pornstar_url">
+                    <input type="text" class="form-control" value="{{$site->seo->pornstar_url}}" name="pornstar_url">
                     <small><b>Example:</b> www.domain.com/{pornstar_url/jenna_jameson</small>
                 </div>
             </div>
@@ -122,10 +122,224 @@
                     Video URL:
                 </div>
                 <div class="col-md-7">
-                    <input type="text" class="form-control" value="{{$site->video_url}}" name="video_url">
+                    <input type="text" class="form-control" value="{{$site->seo->video_url}}" name="video_url">
                     <small><b>Example:</b> www.domain.com/{video_url}/title_example_for_video_permalink</small>
                 </div>
             </div>
+
+            <div style="margin-top:20px;">
+                <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
+                    <p><i class="glyphicon glyphicon-signal"></i> <b>Headers</b></p>
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Logo H1:
+                </div>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" value="{{$site->seo->logo_h1}}" name="logo_h1">
+                    <small><b>Example:</b> ExamplePorn</small>
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Home H2:
+                </div>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" value="{{$site->seo->h2_home}}" name="h2_home">
+                    <small><b>Example:</b> Porn Videos</small>
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Category H2:
+                </div>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" value="{{$site->seo->h2_category}}" name="h2_category">
+                    <small><b>Example:</b> {category} Porn Videos</small>
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Pornstars H2:
+                </div>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" value="{{$site->seo->h2_pornstars}}" name="h2_pornstars">
+                    <small><b>Example:</b> Pornstars videos compilation</small>
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Pornstar H2:
+                </div>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" value="{{$site->seo->h2_pornstar}}" name="h2_pornstar">
+                    <small><b>Example:</b> {pornstar} videos compilation</small>
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Categories H3:
+                </div>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" value="{{$site->seo->categories_h3}}" name="categories_h3">
+                    <small><b>Example:</b> All Categories A / Z</small>
+                </div>
+            </div>
+
+            <div style="margin-top:20px;">
+                <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
+                    <p><i class="glyphicon glyphicon-signal"></i> <b>Title/Description SEO</b></p>
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Title Index:
+                </div>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" value="{{$site->seo->title_index}}" name="title_index">
+                    <small><b>Variables:</b> {domain}</small>
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Description Index:
+                </div>
+
+                <div class="col-md-7">
+                    <textarea class="form-control" name="description_index">{{$site->seo->description_index}}</textarea>
+                    <small><b>Variables:</b> {domain}</small>
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Title Category:
+                </div>
+
+                <div class="col-md-7">
+                    <input type="text" class="form-control" value="{{$site->seo->title_category}}" name="title_category">
+                    <small><b>Variables:</b> {domain}, {category}</small>
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Description Category:
+                </div>
+
+                <div class="col-md-7">
+                    <textarea class="form-control" name="description_category">{{$site->seo->description_category}}</textarea>
+                    <small><b>Variables:</b> {domain}, {category}</small>
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Title index Pornstars:
+                </div>
+
+                <div class="col-md-7">
+                    <input type="text" class="form-control" value="{{$site->seo->title_pornstars}}" name="title_pornstars">
+                    <small><b>Variables:</b> {domain}</small>
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Description index Pornstars:
+                </div>
+
+                <div class="col-md-7">
+                    <textarea class="form-control" name="description_pornstars">{{$site->seo->description_pornstars}}</textarea>
+                    <small><b>Variables:</b> {domain}</small>
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Title Pornstar:
+                </div>
+
+                <div class="col-md-7">
+                    <input type="text" class="form-control" value="{{$site->seo->title_pornstar}}" name="title_pornstar">
+                    <small><b>Variables:</b> {domain}, {pornstar}</small>
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Description Pornstar:
+                </div>
+
+                <div class="col-md-7">
+                    <textarea class="form-control" name="description_pornstar">{{$site->seo->description_pornstar}}</textarea>
+                    <small><b>Variables:</b> {domain}, {pornstar}</small>
+                </div>
+            </div>
+            --
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Title Tag:
+                </div>
+
+                <div class="col-md-7">
+                    <input type="text" class="form-control" value="{{$site->seo->title_tag}}" name="title_tag">
+                    <small><b>Variables:</b> {domain}, {tag}</small>
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Description Tag:
+                </div>
+
+                <div class="col-md-7">
+                    <textarea class="form-control" name="description_tag">{{$site->seo->description_tag}}</textarea>
+                    <small><b>Variables:</b> {domain}, {tag}</small>
+                </div>
+            </div>
+            --
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Title TopScenes:
+                </div>
+
+                <div class="col-md-7">
+                    <input type="text" class="form-control" value="{{$site->seo->title_topscenes}}" name="title_topscenes">
+                    <small><b>Variables:</b> {domain}</small>
+                </div>
+            </div>
+
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Description TopScenes:
+                </div>
+
+                <div class="col-md-7">
+                    <textarea class="form-control" name="description_topscenes">{{$site->seo->description_topscenes}}</textarea>
+                    <small><b>Variables:</b> {domain}</small>
+                </div>
+            </div>
+            --
+            <div class="row" style="padding:10px;">
+                <div class="col-md-3">
+                    Head Text:
+                </div>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" value="{{$site->seo->header_text}}" name="header_text">
+                </div>
+            </div>
+
+            <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
             <div style="margin-top:20px;">
                 <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
@@ -142,178 +356,9 @@
                 </div>
             </div>
 
-            <div style="margin-top:20px;">
-                <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
-                    <p><i class="glyphicon glyphicon-signal"></i> <b>Headers</b></p>
-                </div>
-            </div>
-
-            <div class="row" style="padding:10px;">
-                <div class="col-md-3">
-                    Logo H1:
-                </div>
-                <div class="col-md-7">
-                    <input type="text" class="form-control" value="{{$site->logo_h1}}" name="logo_h1">
-                    <small><b>Example:</b> ExamplePorn</small>
-                </div>
-            </div>
-
-            <div class="row" style="padding:10px;">
-                <div class="col-md-3">
-                    Home H2:
-                </div>
-                <div class="col-md-7">
-                    <input type="text" class="form-control" value="{{$site->h2_home}}" name="h2_home">
-                    <small><b>Example:</b> Porn Videos</small>
-                </div>
-            </div>
-
-            <div class="row" style="padding:10px;">
-                <div class="col-md-3">
-                    Category H2:
-                </div>
-                <div class="col-md-7">
-                    <input type="text" class="form-control" value="{{$site->h2_category}}" name="h2_category">
-                    <small><b>Example:</b> {category} Porn Videos</small>
-                </div>
-            </div>
-
-            <div class="row" style="padding:10px;">
-                <div class="col-md-3">
-                    Pornstars H2:
-                </div>
-                <div class="col-md-7">
-                    <input type="text" class="form-control" value="{{$site->h2_pornstars}}" name="h2_pornstars">
-                    <small><b>Example:</b> Pornstars videos compilation</small>
-                </div>
-            </div>
-
-            <div class="row" style="padding:10px;">
-                <div class="col-md-3">
-                    Pornstar H2:
-                </div>
-                <div class="col-md-7">
-                    <input type="text" class="form-control" value="{{$site->h2_pornstar}}" name="h2_pornstar">
-                    <small><b>Example:</b> {pornstar} videos compilation</small>
-                </div>
-            </div>
-
-            <div class="row" style="padding:10px;">
-                <div class="col-md-3">
-                    Categories H3:
-                </div>
-                <div class="col-md-7">
-                    <input type="text" class="form-control" value="{{$site->categories_h3}}" name="categories_h3">
-                    <small><b>Example:</b> All Categories A / Z</small>
-                </div>
-            </div>
-
-            <div style="margin-top:20px;">
-                <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
-                    <p><i class="glyphicon glyphicon-signal"></i> <b>Title/Description SEO</b></p>
-                </div>
-            </div>
-
-            <div class="row" style="padding:10px;">
-                <div class="col-md-3">
-                    Title Index:
-                </div>
-                <div class="col-md-7">
-                    <input type="text" class="form-control" value="{{$site->title_index}}" name="title_index">
-                    <small><b>Variables:</b> {domain}</small>
-                </div>
-            </div>
-
-            <div class="row" style="padding:10px;">
-                <div class="col-md-3">
-                    Description Index:
-                </div>
-
-                <div class="col-md-7">
-                    <textarea class="form-control" name="description_index">{{$site->description_index}}</textarea>
-                    <small><b>Variables:</b> {domain}</small>
-                </div>
-            </div>
-
-            <div class="row" style="padding:10px;">
-                <div class="col-md-3">
-                    Title Category:
-                </div>
-
-                <div class="col-md-7">
-                    <input type="text" class="form-control" value="{{$site->title_category}}" name="title_category">
-                    <small><b>Variables:</b> {domain}, {category}</small>
-                </div>
-            </div>
-
-            <div class="row" style="padding:10px;">
-                <div class="col-md-3">
-                    Description Category:
-                </div>
-
-                <div class="col-md-7">
-                    <textarea class="form-control" name="description_category">{{$site->description_category}}</textarea>
-                    <small><b>Variables:</b> {domain}, {category}</small>
-                </div>
-            </div>
-
-            <div class="row" style="padding:10px;">
-                <div class="col-md-3">
-                    Title index Pornstars:
-                </div>
-
-                <div class="col-md-7">
-                    <input type="text" class="form-control" value="{{$site->title_pornstars}}" name="title_pornstars">
-                    <small><b>Variables:</b> {domain}</small>
-                </div>
-            </div>
-
-            <div class="row" style="padding:10px;">
-                <div class="col-md-3">
-                    Description index Pornstars:
-                </div>
-
-                <div class="col-md-7">
-                    <textarea class="form-control" name="description_pornstars">{{$site->description_pornstars}}</textarea>
-                    <small><b>Variables:</b> {domain}</small>
-                </div>
-            </div>
-
-            <div class="row" style="padding:10px;">
-                <div class="col-md-3">
-                    Title Pornstar:
-                </div>
-
-                <div class="col-md-7">
-                    <input type="text" class="form-control" value="{{$site->title_pornstar}}" name="title_pornstar">
-                    <small><b>Variables:</b> {domain}, {pornstar}</small>
-                </div>
-            </div>
-
-            <div class="row" style="padding:10px;">
-                <div class="col-md-3">
-                    Description Pornstar:
-                </div>
-
-                <div class="col-md-7">
-                    <textarea class="form-control" name="description_pornstar">{{$site->description_pornstar}}</textarea>
-                    <small><b>Variables:</b> {domain}, {pornstar}</small>
-                </div>
-            </div>
-
-            <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
             <div style="border-bottom: solid 1px darkorange;margin-bottom:20px;">
                 <p><i class="glyphicon glyphicon-certificate"></i> <b>Miscelaneous</b></p>
-            </div>
-
-            <div class="row" style="padding:10px;">
-                <div class="col-md-3">
-                    Head Text:
-                </div>
-                <div class="col-md-7">
-                    <input type="text" class="form-control" value="{{$site->header_text}}" name="header_text">
-                </div>
             </div>
 
             <div class="row" style="padding:10px;">
