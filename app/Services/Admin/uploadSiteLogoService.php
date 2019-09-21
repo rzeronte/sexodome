@@ -43,7 +43,7 @@ class uploadSiteLogoService
             if (!$v->fails()) {
                 $fileName = md5($site_id) . "." . Request::file('logo')->getClientOriginalExtension();
                 Request::file('logo')->move($logosFolder, $fileName);
-                $files[] = ['logo_url' => 'http://' . $site->getHost() . "/logos/" . $fileName];
+                $files[] = ['logo_url' => $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . "/logos/" . $fileName];
             } else {
                 return ['status' => false, 'message' => 'Check logo image'];
             }
@@ -53,7 +53,7 @@ class uploadSiteLogoService
             if (!$vF->fails()) {
                 $fileName = md5($site_id) . "." . Request::file('favicon')->getClientOriginalExtension();
                 Request::file('favicon')->move($faviconsFolder, $fileName);
-                $files[] = ['favicon_url' => 'http://' . $site->getHost() . "/favicons/" .  $fileName];
+                $files[] = ['favicon_url' => $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . "/favicons/" .  $fileName];
             } else {
                 return ['status' => false, 'message' => 'Check favicon image'];;
             }
@@ -63,7 +63,7 @@ class uploadSiteLogoService
             if (!$vH->fails()) {
                 $fileName = md5($site_id) . "." . Request::file('header')->getClientOriginalExtension();
                 Request::file('header')->move($headersFolder, $fileName);
-                $files[] = ['header_url' => 'http://' . $site->getHost() . "/headers/" . $fileName];
+                $files[] = ['header_url' => $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . "/headers/" . $fileName];
             } else {
                 return ['status' => false, 'message' => 'Check header image'];;
             }

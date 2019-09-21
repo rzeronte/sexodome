@@ -47,12 +47,13 @@ $( document ).ready(function() {
                     return;
                 } else {
                     $.each(data.result.files, function (index, file) {
+                        d = new Date();
                         if (file.logo_url) {
-                            $("#site_logo_image").attr('src', file.logo_url)
+                            $("#site_logo_image").attr('src', file.logo_url + "?" + d.getTime());
                         } else if (file.favicon_url) {
-                            $("#site_favicon_image").attr('src', file.favicon_url)
+                            $("#site_favicon_image").attr('src', file.favicon_url + "?" + d.getTime());
                         } else if (file.header_url) {
-                            $("#site_header_image").attr('src', file.header_url)
+                            $("#site_header_image").attr('src', file.header_url + "?" + d.getTime());
                         }
                     });
                     showGenericalSuccessMessage();

@@ -67,9 +67,9 @@
 
     <div class="row">
         <?php echo $scenes->appends([
-                'q'           => Request::input('q', false),
-                'tag_q'       => Request::input('tag_q', false),
-                'duration'    => Request::input('duration', false)
+                'q'           => trim(Request::input('q', false)),
+                'tag_q'       => trim(Request::input('tag_q', false)),
+                'duration'    => trim(Request::input('duration', false))
         ])->render(); ?>
     </div>
 
@@ -153,9 +153,9 @@
 
     <div class="row">
         <?php echo $scenes->appends([
-                'q'        => Request::input('q', false),
-                'tag_q'    => Request::input('tag_q', false),
-                'duration' => Request::input('duration', false)
+                'q'        => trim(Request::input('q', false)),
+                'tag_q'    => trim(Request::input('tag_q', false)),
+                'duration' => trim(Request::input('duration', false))
         ])->render(); ?>
     </div>
 

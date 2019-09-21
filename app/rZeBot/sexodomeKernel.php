@@ -296,7 +296,7 @@ class sexodomeKernel extends Controller {
         return $this->agent;
     }
 
-    public static function  downloadDump($feed)
+    public static function downloadDump($feed)
     {
         $fileCSV = sexodomeKernel::getDumpsFolderTmp().$feed->file;
 
