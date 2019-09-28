@@ -35,8 +35,6 @@ class sexodomeKernel extends Controller {
 
     public function __construct()
     {
-        $isBackend = $this->isSexodomeBackend();
-        $isFront = $this->isSexodomeFront();
         if (!$this->isSexodomeBackend() && !$this->isSexodomeFront()) {
             $this->setSiteFromDomainOrFail();
             $this->instanciateFrontEndSite();
@@ -403,7 +401,7 @@ class sexodomeKernel extends Controller {
 
         if ($overwrite == false) {
             if (file_exists($filepath)) {
-                rZeBotUtils::message("[downloadThumbnail] Already exists '$src' in $filepath", "warning", $fileLog);
+                //rZeBotUtils::message("[downloadThumbnail] Already exists '$src' in $filepath", "warning", $fileLog);
                 return true;
             }
         }

@@ -23,7 +23,7 @@ use DB;
 class BotSiteCopy extends Command
 {
     protected $signature = 'zbot:site:copy {origin_site_id}';
-    protected $description = 'Create new site from another';
+    protected $description = 'Create new site from another (Copy categories/tags)';
 
     public function handle()
     {
@@ -44,7 +44,7 @@ class BotSiteCopy extends Command
 
         if (!$domain) {
             rZeBotUtils::message("[BotSiteCopy] El sitio '$domain_txt' NO existe, creando... ", "info",'kernel');
-            $newSite = $this->createSite($domain, $site_from);
+            $newSite = $this->createSite($domain_txt, $site_from);
         } else {
             rZeBotUtils::message("[BotSiteCopy] El sitio '$domain_txt' SI existe, recuperando... ", "info",'kernel');
             $newSite = $domain;

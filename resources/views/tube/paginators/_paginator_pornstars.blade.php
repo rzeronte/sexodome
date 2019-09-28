@@ -4,7 +4,7 @@
 @if ($paginator->lastPage() > 1)
     <ul class="pagination justify-content-center">
         <li class="page-item {{ ($paginator->currentPage() == 1) ? ' disabled' : '' }}">
-            <a href="{{ route(str_replace("_page", "", $route_name), ['profile' => App::make('sexodomeKernel')->getSite()->getHost()]) }}">First</a>
+            <a href="{{ route(str_replace("_page", "", $route_name), ['profile' => App::make('sexodomeKernel')->getSite()->domain]) }}">First</a>
         </li>
         @for ($i = 1; $i <= $paginator->lastPage(); $i++)
             <?php
@@ -21,16 +21,15 @@
             @if ($from < $i && $i < $to)
                 <li class="page-item {{ ($paginator->currentPage() == $i) ? ' active' : '' }}">
                     @if ($i == 1)
-                        <a href="{{ route(str_replace("_page", "", $route_name), [ 'profile' => App::make('sexodomeKernel')->getSite()->getHost()]) }}">{{ $i }}</a>
+                        <a href="{{ route(str_replace("_page", "", $route_name), [ 'profile' => App::make('sexodomeKernel')->getSite()->domain]) }}">{{ $i }}</a>
                     @else
-                        <a href="{{ route($route_name, [ 'profile' => App::make('sexodomeKernel')->getSite()->getHost(), 'page' => $i]) }}">{{ $i }}</a>
+                        <a href="{{ route($route_name, [ 'profile' => App::make('sexodomeKernel')->getSite()->domain, 'page' => $i]) }}">{{ $i }}</a>
                     @endif
-
                 </li>
             @endif
         @endfor
         <li class="page-item {{ ($paginator->currentPage() == $paginator->lastPage()) ? ' disabled' : '' }}">
-            <a href="{{ route($route_name, [ 'profile' => App::make('sexodomeKernel')->getSite()->getHost(), 'page' => $paginator->lastPage()])  }}">Last</a>
+            <a href="{{ route($route_name, [ 'profile' => App::make('sexodomeKernel')->getSite()->domain, 'page' => $paginator->lastPage()])  }}">Last</a>
         </li>
     </ul>
 @endif

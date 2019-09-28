@@ -22,7 +22,8 @@ class getSitesService
 
         return [
             'status'   => true,
-            'channels' => Channel::all(),
+            'message'  => 'A total of' . count($sites) . " are returned",
+            'channels' => Channel::all(),   // wtf?
             'title'    => "Admin Panel",
             'sites'    => $sites,
             'fi'       => $fi,

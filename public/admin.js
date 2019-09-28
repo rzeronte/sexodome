@@ -25,11 +25,11 @@ $( document ).ready(function() {
                     hrefUnlockButton.appendTo(category_container);
                     eventUnlockCategories(); // De lo contrario no está enganchando el on.
 
-                    showGenericalSuccessMessage();
+                    showGenericalSuccessMessage(data.result.message);
                 });
 
                 if (data.result.files.length == 0) {
-                    showGenericalErrorMessage();
+                    showGenericalErrorMessage(data.result.message);
                     return;
                 }
 
@@ -43,7 +43,7 @@ $( document ).ready(function() {
             dataType: 'json',
             done: function (e, data) {
                 if (data.result.status == false) {
-                    showGenericalErrorMessage();
+                    showGenericalErrorMessage(data.result.message);
                     return;
                 } else {
                     $.each(data.result.files, function (index, file) {
@@ -56,7 +56,7 @@ $( document ).ready(function() {
                             $("#site_header_image").attr('src', file.header_url + "?" + d.getTime());
                         }
                     });
-                    showGenericalSuccessMessage();
+                    showGenericalSuccessMessage(data.result.message);
                 }
             }
         });
@@ -91,10 +91,10 @@ $( document ).ready(function() {
                     method: 'get'
                 }).done(function( data ) {
                     $('.container-ajax-popunders').html(data);
-                    showGenericalSuccessMessage();
+                    showGenericalSuccessMessage(jsonData["message"]);
                 });
             } else {
-                showGenericalErrorMessage();
+                showGenericalErrorMessage(jsonData["message"]);
             }
         });
         event.preventDefault();
@@ -111,9 +111,9 @@ $( document ).ready(function() {
         }).done(function( data ) {
             jsonData = $.parseJSON(data);
             if (jsonData["status"] == true) {
-                showGenericalSuccessMessage();
+                showGenericalSuccessMessage(jsonData["message"]);
             } else {
-                showGenericalErrorMessage();
+                showGenericalErrorMessage(jsonData["message"]);
             }
 
         });
@@ -131,9 +131,9 @@ $( document ).ready(function() {
         }).done(function( data ) {
             jsonData = $.parseJSON(data);
             if (jsonData["status"] == true) {
-                showGenericalSuccessMessage();
+                showGenericalSuccessMessage(jsonData["message"]);
             } else {
-                showGenericalErrorMessage();
+                showGenericalErrorMessage(jsonData["message"]);
             }
 
         });
@@ -158,12 +158,11 @@ $( document ).ready(function() {
                     method: 'get'
                 }).done(function( data ) {
                     $('.cronjobs_ajax_container').html(data);
-                    showGenericalSuccessMessage();
+                    showGenericalSuccessMessage(jsonData["message"]);
                 });
             } else {
-                showGenericalErrorMessage();
+                showGenericalErrorMessage(jsonData["message"]);
             }
-
         });
         event.preventDefault();
     });
@@ -179,9 +178,9 @@ $( document ).ready(function() {
         }).done(function( data ) {
             jsonData = $.parseJSON(data);
             if (jsonData["status"] == true) {
-                showGenericalSuccessMessage();
+                showGenericalSuccessMessage(jsonData["message"]);
             } else {
-                showGenericalErrorMessage();
+                showGenericalErrorMessage(jsonData["message"]);
             }
 
         });
@@ -199,9 +198,9 @@ $( document ).ready(function() {
         }).done(function( data ) {
             jsonData = $.parseJSON(data);
             if (jsonData["status"] == true) {
-                showGenericalSuccessMessage();
+                showGenericalSuccessMessage(jsonData["message"]);
             } else {
-                showGenericalErrorMessage();
+                showGenericalErrorMessage(jsonData["message"]);
             }
 
         });
@@ -220,9 +219,9 @@ $( document ).ready(function() {
         }).done(function( data ) {
             jsonData = $.parseJSON(data);
             if (jsonData["status"] == true) {
-                showGenericalSuccessMessage();
+                showGenericalSuccessMessage(jsonData["message"]);
             } else {
-                showGenericalErrorMessage();
+                showGenericalErrorMessage(jsonData["message"]);
             }
         });
         event.preventDefault();
@@ -239,9 +238,9 @@ $( document ).ready(function() {
         }).done(function( data ) {
             var data = $.parseJSON(data);
             if (data['status'] == true) {
-                showGenericalSuccessMessage();
+                showGenericalSuccessMessage(data['message']);
             } else {
-                showGenericalErrorMessage();
+                showGenericalErrorMessage(data['message']);
             }
         });
         event.preventDefault();
@@ -260,10 +259,10 @@ $( document ).ready(function() {
             var data = $.parseJSON(data);
             if (data['status'] == true) {
                 $('#modal-sexodome').modal('hide')
-                showGenericalSuccessMessage();
+                showGenericalSuccessMessage(data['message']);
             } else {
                 $('#modal-sexodome').modal('hide')
-                showGenericalErrorMessage();
+                showGenericalErrorMessage(data['message']);
             }
         });
         event.preventDefault();
@@ -282,10 +281,10 @@ $( document ).ready(function() {
             var data = $.parseJSON(data);
             if (data['status'] == true) {
                 $('#modal-sexodome').modal('hide')
-                showGenericalSuccessMessage();
+                showGenericalSuccessMessage(data['message']);
             } else {
                 $('#modal-sexodome').modal('hide')
-                showGenericalErrorMessage();
+                showGenericalErrorMessage(data['message']);
             }
         });
         event.preventDefault();
@@ -393,9 +392,9 @@ $( document ).ready(function() {
             jsonData = $.parseJSON(data);
             if (jsonData["status"] == true) {
                 site_container.remove();
-                showGenericalSuccessMessage();
+                showGenericalSuccessMessage(jsonData["message"]);
             } else {
-                showGenericalErrorMessage();
+                showGenericalErrorMessage(jsonData["message"]);
             }
         });
 
@@ -451,9 +450,9 @@ $( document ).ready(function() {
                 if (jsonData["status"] == true) {
                     lock_container.remove();
                     btnunlock.remove();
-                    showGenericalSuccessMessage();
+                    showGenericalSuccessMessage(jsonData["message"]);
                 } else {
-                    showGenericalErrorMessage();
+                    showGenericalErrorMessage(jsonData["message"]);
                 }
             });
 
@@ -472,10 +471,10 @@ $( document ).ready(function() {
         }).done(function( data ) {
             jsonData = $.parseJSON(data);
             if (jsonData["status"] == true) {
-                showGenericalSuccessMessage();
+                showGenericalSuccessMessage(jsonData["message"]);
                 site_container.remove();
             } else {
-                showGenericalErrorMessage();
+                showGenericalErrorMessage(jsonData["message"]);
             }
         });
 
@@ -491,10 +490,10 @@ $( document ).ready(function() {
         }).done(function( data ) {
             jsonData = $.parseJSON(data);
             if (jsonData["status"] == true) {
-                showGenericalSuccessMessage();
+                showGenericalSuccessMessage(jsonData["message"]);
                 site_container.slideUp().remove();
             } else {
-                showGenericalErrorMessage();
+                showGenericalErrorMessage(jsonData["message"]);
             }
         });
 
@@ -510,10 +509,10 @@ $( document ).ready(function() {
         }).done(function( data ) {
             jsonData = $.parseJSON(data);
             if (jsonData["status"] == true) {
-                showGenericalSuccessMessage();
+                showGenericalSuccessMessage(jsonData["message"]);
                 site_container.slideUp().remove();
             } else {
-                showGenericalErrorMessage();
+                showGenericalErrorMessage(jsonData["message"]);
             }
         });
 
@@ -529,10 +528,10 @@ $( document ).ready(function() {
         }).done(function( data ) {
             jsonData = $.parseJSON(data);
             if (jsonData["status"] == true) {
-                showGenericalSuccessMessage();
+                showGenericalSuccessMessage(jsonData["message"]);
                 site_container.slideUp().remove();
             } else {
-                showGenericalErrorMessage();
+                showGenericalErrorMessage(jsonData["message"]);
             }
         });
 
@@ -671,9 +670,9 @@ $( document ).ready(function() {
         }).done(function( data ) {
             jsonData = $.parseJSON(data);
             if (jsonData["status"] == true) {
-                showGenericalSuccessMessage();
+                showGenericalSuccessMessage(jsonData["message"]);
             } else {
-                showGenericalErrorMessage();
+                showGenericalErrorMessage(jsonData["message"]);
             }
         });
 
@@ -795,18 +794,18 @@ function changeThumb(video) {
 }
 
 // Sticker messages
-function showGenericalErrorMessage() {
+function showGenericalErrorMessage(errorMessage) {
     $("#sticker").removeClass('sticker_ok');
     $("#sticker").addClass('sticker_ko');
-    $("#sticker").find('.text-muted').html("<i class='glyphicon glyphicon-remove-sign'></i> Ooops some error has been encountered...");
+    $("#sticker").find('.text-muted').html("<i class='glyphicon glyphicon-remove-sign'></i> " + errorMessage);
     $("#sticker").fadeIn('slow').animate({opacity: 1.0}, 1500).effect("pulsate", { times: 2 }, 800).fadeOut('slow');
 }
 
-function showGenericalSuccessMessage() {
+function showGenericalSuccessMessage(message) {
     $("#sticker").show();
     $("#sticker").removeClass('sticker_ko');
     $("#sticker").addClass('sticker_ok');
-    $("#sticker").find('.text-muted').html("<i class='glyphicon glyphicon-ok-sign'></i> Operation done successfully");
+    $("#sticker").find('.text-muted').html("<i class='glyphicon glyphicon-ok-sign'></i> " + message);
     $("#sticker").fadeIn('slow').animate({opacity: 1.0}, 1500).effect("pulsate", { times: 2 }, 800).fadeOut('slow');
 }
 

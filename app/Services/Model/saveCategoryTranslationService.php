@@ -39,11 +39,12 @@ class saveCategoryTranslationService
         $categoryTranslation->name = $name;
         $categoryTranslation->permalink = str_slug($name);
         $categoryTranslation->thumb = $thumb;
+        $categoryTranslation->thumb_locked = true;
         $categoryTranslation->save();
 
         $category->status = $status;
         $category->save();
 
-        return ['status' => true];
+        return ['status' => true, 'thumb' => $thumb];
     }
 }

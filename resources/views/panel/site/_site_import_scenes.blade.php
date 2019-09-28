@@ -3,6 +3,7 @@
     <div class="row coloreable" style="background-color:white;">
         <?php $loop = 0 ?>
         @foreach($channels as $channel)
+            @if ($channel->existDump())
             <div class="row alternate_coloreable" style="margin:0px;padding:15px;">
                 <form action="{{route('fetch', ['site_id' => $site->id])}}" class="submit-feed-site-form">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
@@ -77,6 +78,7 @@
 
                 </form>
             </div>
+            @endif
         @endforeach
 
     </div>

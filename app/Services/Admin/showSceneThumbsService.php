@@ -14,6 +14,10 @@ class showSceneThumbsService
             return [ 'status' => false, 'message' => 'Scene not found'];
         }
 
-        return [ 'status' => true, 'scene' => $scene];
+        return [
+            'status'  => true,
+            'message' => 'showSceneThumbsService has been executed',
+            'scene'   => $scene,
+        ];
     }
 }

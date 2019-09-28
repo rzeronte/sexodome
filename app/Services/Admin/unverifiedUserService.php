@@ -10,6 +10,6 @@ class unverifiedUserService
     {
         Auth::logout();
 
-        return [ 'status' => true ];
+        return [ 'status' => true, 'message' => 'User set as not verified'];
     }
 }

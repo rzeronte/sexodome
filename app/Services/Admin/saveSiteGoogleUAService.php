@@ -17,9 +17,9 @@ class saveSiteGoogleUAService
         try {
             $site->ga_account = $ga_view;
             $site->save();
-            return [ 'status' => true ];
+            return [ 'status' => true, 'message' => "GoogleUA for $site->domain has been updated" ];
         } catch (\Exception $e) {
-            return [ 'status' => false ];
+            return [ 'status' => false, 'message' => $e->getMessage() ];
         }
     }
 }

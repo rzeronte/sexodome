@@ -17,7 +17,7 @@ class categoryUnlockService
                 $categoryTranslation->thumb_locked = NULL;
                 $categoryTranslation->save();
 
-                return ['status' => true];
+                return ['status' => true, 'message' => "CategoryTranslation($categoryTranslation->name) is locked"];
 
             } catch (\Exception $e) {
                 return [ 'status' => false , 'message' => $e->getMessage() ];

@@ -27,7 +27,7 @@ class BotTranslateVideo extends Command
      *
      * @var string
      */
-    protected $description = 'Translate a video from a site (with lang codes)';
+    protected $description = 'Translate a video for a site (with lang codes)';
 
     function __construct()
     {

@@ -28,6 +28,7 @@ class getSiteScenesService
         );
 
         return [
+            'status' => true,
             'site'   => $site,
             'scenes' => $scenes->paginate($per_page_scenes),
         ];

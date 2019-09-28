@@ -15,8 +15,9 @@ class showSiteCronjobsService
         }
 
         return [
-            'status' => true,
-            'site'   => $site,
+            'status'  => true,
+            'message' => 'showSiteCronjobsService has been executed',
+            'site'    => $site,
         ];
     }
 }

@@ -14,7 +14,7 @@ class BotFeedRemover extends Command
 {
     protected $signature = 'zbot:feed:remover';
 
-    protected $description = "Delete from delete dumps";
+    protected $description = "Delete videos when has been removed in feed";
 
     public function handle()
     {
@@ -101,6 +101,23 @@ class BotFeedRemover extends Command
 
     public function EraseChunkIdInSite($chunk_ids, $total_processed)
     {
+        rZeBotUtils::message("[BotFeedRemover] Processing chunk of ". count($chunk_ids) . " / total: "  . number_format($total_processed, 0, ".", ","), "info",'remover');
+
+        $scenes = Scene::select('id')
+            ->whereIn('id', $chunk_ids)
+            ->get()
+        ;
+
+        if (count($scenes) > 0) {
+            rZeBotUtils::message("[BotFeedRemover] Delete chunk IDs of ". count($chunk_ids).", Deleting: " . count($scenes), "info", 'remover');
+            foreach ($scenes as $scene) {
+                $scene->delete();
+            }
+        } else {
+            rZeBotUtils::message("[BotFeedRemover] Chunk IDs not found | Chunk of ". count($chunk_ids), "warning",'remover');
+        }
+
+        $chunk_urls = [];
 
     }
 
@@ -109,7 +126,7 @@ class BotFeedRemover extends Command
         rZeBotUtils::message("[BotFeedRemover] Processing chunk of ". count($chunk_urls) . " / total: "  . number_format($total_processed, 0, ".", ","), "info",'remover');
 
         $scenes = Scene::select('id')
-            ->whereIn('iframe', $chunk_urls)
+            ->whereIn('url', $chunk_urls)
             ->get()
         ;
 

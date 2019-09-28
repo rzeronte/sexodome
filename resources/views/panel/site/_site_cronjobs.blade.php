@@ -67,59 +67,61 @@
     <div class="row coloreable">
         <?php $loop = 0 ?>
         @foreach($channels as $channel)
+            @if ($channel->existDump())
             <div class="row alternate_coloreable" style="margin:0px;padding:15px;">
-                <form class="form-create-cronjob" data-update-cronjobs-url="{{route('ajaxCronJobs', ['site_id' => $site->id])}}" action="{{route('ajaxSaveCronJob', [])}}">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
-                    <input type="hidden" name="feed_name" value="{{ $channel->name }}"/>
-                    <input type="hidden" name="site_id" value="{{$site->id}}"/>
+            <form class="form-create-cronjob" data-update-cronjobs-url="{{route('ajaxCronJobs', ['site_id' => $site->id])}}" action="{{route('ajaxSaveCronJob', [])}}">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+                <input type="hidden" name="feed_name" value="{{ $channel->name }}"/>
+                <input type="hidden" name="site_id" value="{{$site->id}}"/>
 
-                    <div class="col-md-1" style="text-align:center;">
-                        <img src="{{asset('channels/'.$channel->logo)}}" style="width:40px; border: solid 1px black;"/><br/>
-                        <p>{{$channel->name}}</p><br/>
+                <div class="col-md-1" style="text-align:center;">
+                    <img src="{{asset('channels/'.$channel->logo)}}" style="width:40px; border: solid 1px black;"/><br/>
+                    <p>{{$channel->name}}</p><br/>
+                </div>
+
+                <div class="col-md-2">
+                    <select class="form-control" name="max" style="width:100%" required>
+                        <option value="">-- select amount --</option>
+                        <option value="1">1</option>
+                        <option value="5">5</option>
+                        <option value="25">25</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <?php $cfg = new $channel->mapping_class; ?>
+                    <?php $mappedColumn = $cfg->mappingColumns(); ?>
+
+                    <input type="text" name="tags" class="form-control" placeholder="tags comma separated">
+
+                </div>
+
+                <div class="col-md-2">
+                    <select class="form-control" name="duration" style="width:100%">
+                        <option value="">time</option>
+                        <option value="60">1 min</option>
+                        <option value="300">5 min</option>
+                        <option value="600">10 min</option>
+                        <option value="900">15 min</option>
+                        <option value="1200">20 min</option>
+                        <option value="1500">25 min</option>
+                        <option value="1800">30 min</option>
+                    </select>
+
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="only_with_pornstars" value="1"> <small>Only with pornstars</small>
+                        </label>
                     </div>
 
-                    <div class="col-md-2">
-                        <select class="form-control" name="max" style="width:100%" required>
-                            <option value="">-- select amount --</option>
-                            <option value="1">1</option>
-                            <option value="5">5</option>
-                            <option value="25">25</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <?php $cfg = new $channel->mapping_class; ?>
-                        <?php $mappedColumn = $cfg->mappingColumns(); ?>
+                </div>
 
-                        <input type="text" name="tags" class="form-control" placeholder="tags comma separated">
+                <div class="col-md-2">
+                    <input type="submit" class="btn btn-primary" value="Create cronjob">
+                </div>
 
-                    </div>
-
-                    <div class="col-md-2">
-                        <select class="form-control" name="duration" style="width:100%">
-                            <option value="">time</option>
-                            <option value="60">1 min</option>
-                            <option value="300">5 min</option>
-                            <option value="600">10 min</option>
-                            <option value="900">15 min</option>
-                            <option value="1200">20 min</option>
-                            <option value="1500">25 min</option>
-                            <option value="1800">30 min</option>
-                        </select>
-
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" name="only_with_pornstars" value="1"> <small>Only with pornstars</small>
-                            </label>
-                        </div>
-
-                    </div>
-
-                    <div class="col-md-2">
-                        <input type="submit" class="btn btn-primary" value="Create cronjob">
-                    </div>
-
-                </form>
+            </form>
             </div>
+            @endif
         @endforeach
 
     </div>

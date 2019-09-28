@@ -55,7 +55,7 @@ class saveSiteConfigService
         try {
             $site->save();
             $site->seo->save();
-            return [ 'status' => true ];
+            return [ 'status' => true , 'message' => "SiteConfig for $site->domain has been updated"];
         } catch (\Exception $e){
             return [ 'status' => false, 'message' => $e->getMessage() ];
         }

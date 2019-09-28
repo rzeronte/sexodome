@@ -29,6 +29,8 @@ class showCategoryThumbsService
         }
 
         return [
+            'status'   => true,
+            'message'   => 'showCategoryThumbsService has been executed',
             'category'  => $category,
             'filenames' => $filenames,
         ];

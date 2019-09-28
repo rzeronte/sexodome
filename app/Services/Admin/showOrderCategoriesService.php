@@ -25,6 +25,7 @@ class showOrderCategoriesService
 
         return [
             'status'     => true,
+            'message'    => 'showOrderCategoriesService has been executed',
             'sites'      => Auth::user()->getSites(),
             'site'       => Site::find($site_id),
             'categories' => $categories

@@ -31,7 +31,7 @@ class BotTranslateLanguage extends Command
      *
      * @var string
      */
-    protected $description = 'Translate a full language for a site';
+    protected $description = 'Translate a full language for a site with Google Translation';
 
     function __construct()
     {

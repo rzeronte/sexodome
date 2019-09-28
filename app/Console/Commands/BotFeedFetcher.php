@@ -31,7 +31,6 @@ class BotFeedFetcher extends Command
                             {--rate=false : Only rate min imported}
                             {--views=false : Only views min imported}
                             {--duration=false : Only duration min imported}
-                            {--spin=false : Spin scene title and description}
                             {--only_with_pornstars=false : Only import scenes with pornstars}
                             {--categorize=false : Categorize scene}
                             {--test=false : Test}';
@@ -50,6 +49,7 @@ class BotFeedFetcher extends Command
      */
     public function handle()
     {
+
         $feed_name     = $this->argument('feed_name');
         $site_id       = $this->argument('site_id');
 
@@ -58,7 +58,6 @@ class BotFeedFetcher extends Command
         $rate        = $this->option('rate');
         $minViews    = $this->option('views');
         $minDuration = $this->option('duration');
-        $spin        = $this->option('spin');
         $test        = $this->option('test');
         $only_with_pornstars = $this->option('only_with_pornstars');
         $categorize  = $this->option('categorize');
@@ -66,6 +65,8 @@ class BotFeedFetcher extends Command
         $tags       = $this->parseTagsOption($tags);
         // get feed
         $feed = Channel::where("name", "=", $feed_name)->first();
+
+        rZeBotUtils::message("[BotFeedFetcher] Starting for '$feed_name' ", "info",'import');
 
         if (!$feed) {
             rZeBotUtils::message("[BotFeedFetcher] Feed '$feed_name' not exists. Aborting...", "error",'import');
@@ -91,7 +92,6 @@ class BotFeedFetcher extends Command
             'minDuration'         => $minDuration,
             'test'                => $test,
             'only_with_pornstars' => $only_with_pornstars,
-            'spin'                => $spin,
             'categorize'          => $categorize
         ];
 
@@ -159,13 +159,13 @@ class BotFeedFetcher extends Command
 
                     // check total cols matched CSV <-> config array
                     if ($feed_config["totalCols"] != count($datos)) {
-                        rZeBotUtils::message("[BotFeedFetcher] Number columns doesnt match...", "warning",'import');
+                        rZeBotUtils::message("[BotFeedFetcher] (".$feed->name.") Number columns doesnt match...", "warning",'import');
                         continue;
                     }
 
                     // check limit import
                     if ($args['max'] != 'false' && is_numeric($args['max']) && $added >= $args['max']) {
-                        rZeBotUtils::message("[BotFeedFetcher] End for max scenes: " . $args['max'], "info",'import');
+                        rZeBotUtils::message("[BotFeedFetcher] (".$feed->name.") End for max scenes: " . $args['max'], "info",'import');
                         break;
                     }
 
@@ -269,12 +269,6 @@ class BotFeedFetcher extends Command
                                     'to'       => $site->language->code,
                                     'scene_id' => $scene->id,
                                 ]);
-                            } else {
-                                if ($args['spin'] !== 'false') {
-                                    Artisan::call('zbot:spin:scene', [
-                                        'scene_id' => $scene->id,
-                                    ]);
-                                }
                             }
 
                             if ($args['categorize'] !== 'false') {

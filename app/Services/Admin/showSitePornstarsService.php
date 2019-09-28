@@ -19,6 +19,7 @@ class showSitePornstarsService
 
         return [
             'status'    => true,
+            'message'   => 'showSitePornstarsService has been executed',
             'site'      => $site,
             'pornstars' => $pornstars,
         ];

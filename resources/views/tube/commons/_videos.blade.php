@@ -35,7 +35,7 @@
                             <?php \Jenssegers\Date\Date::setLocale(App::getLocale());?>
 
                             @if ($scene->channel->embed == 1)
-                                <?php $href = route('video', ['profile' => App::make('sexodomeKernel')->getSite()->getHost(), 'permalink' => $scene->permalink]);?>
+                                <?php $href = route('video', ['profile' => App::make('sexodomeKernel')->getSite()->domain, 'permalink' => $scene->permalink]);?>
                                 <a
                                     href="{{$href}}"
                                     class="img link_image"
@@ -50,9 +50,9 @@
                                    </span>
                                 </a>
                             @else
-                                <?php $href = route('out', ['profile' => App::make('sexodomeKernel')->getSite()->getHost(), 'scene_id' => $scene->id, 'p' => $i]); ?>
+                                <?php $href = route('out', ['profile' => App::make('sexodomeKernel')->getSite()->domain, 'scene_id' => $scene->id, 'p' => $i]); ?>
                                 <a
-                                    href="{{ route('out', ['profile' => App::make('sexodomeKernel')->getSite()->getHost(), 'scene_id' => $scene->id, 'p' => $i]) }}"
+                                    href="{{ route('out', ['profile' => App::make('sexodomeKernel')->getSite()->domain, 'scene_id' => $scene->id, 'p' => $i]) }}"
                                     rel="nofollow"
                                     target="_blank"
                                     class="img link_image"
@@ -62,16 +62,16 @@
                                    <span class="thumb-image">
                                         <span class="floater-t-l"><i class="mdi mdi-access-time"></i> {{gmdate("i:s", $scene->duration)}}</span>
                                         <span class="floater-b-l">{{$date->diffForHumans()}}</span>
-                                        <img class="img" src="{{$srcThumbnail}}" onmouseout="outThumb(this)" onmouseover="changeThumb(this)" data-thumbs="{{$scene->thumbs}}" data-current-frame="{{$index}}" data-status="stop" alt="{{$scene->title}}"/>
+                                        <img class="img" src="{{$srcThumbnail}}" data-thumbs="{{$scene->thumbs}}" data-current-frame="{{$index}}" data-status="stop" alt="{{$scene->title}}"/>
                                    </span>
                                 </a>
                             @endif
 
                             <figcaption>
                                 @if ($scene->channel->embed == 1)
-                                    <?php $href = route('video', ['profile' => App::make('sexodomeKernel')->getSite()->getHost(), 'permalink' => $scene->permalink]); ?>
+                                    <?php $href = route('video', ['profile' => App::make('sexodomeKernel')->getSite()->domain, 'permalink' => $scene->permalink]); ?>
                                 @else
-                                    <?php $href = route('out', ['profile' => App::make('sexodomeKernel')->getSite()->getHost(), 'scene_id' => $scene->id, 'p' => $i]) ?>
+                                    <?php $href = route('out', ['profile' => App::make('sexodomeKernel')->getSite()->domain, 'scene_id' => $scene->id, 'p' => $i]) ?>
                                 @endif
 
                                 <!--

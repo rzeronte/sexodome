@@ -108,7 +108,7 @@ class AdminController extends Controller
             $parameters = [
                 'max'                 => Request::input('max'),
                 'duration'            => Request::input('duration'),
-                'tags'                => Request::input('duration'),
+                'tags'                => Request::input('tags'),
                 'only_with_pornstars' => Request::input('only_with_pornstars') == 1 ? true : false
             ]
         ));

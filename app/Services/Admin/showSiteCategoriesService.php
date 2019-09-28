@@ -23,7 +23,9 @@ class showSiteCategoriesService
         )->paginate($perPage);
 
         return [
-            'site' => $site,
+            'status'     => true,
+            'message'    => 'showSiteCategoriesService has been executed',
+            'site'       => $site,
             'categories' => $categories,
         ];
     }

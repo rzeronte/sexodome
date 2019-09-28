@@ -80,7 +80,15 @@ class Site extends Model
 
     public function getHost()
     {
-        return  $this->domain;
+        if (App::environment('local') && !App::runningInConsole()) {
+            $host = $_SERVER["HTTP_HOST"];
+            $urlData = parse_url($host);
+            $port = $urlData["port"];
+
+            return $this->domain . ":" .$port;
+        }
+
+        return $this->domain;
     }
 
     public function getTotalScenes($feed_id = false)

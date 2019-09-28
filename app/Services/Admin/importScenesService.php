@@ -25,7 +25,7 @@ class importScenesService
             $job = new ImportScenesWorker($queueParams);
             dispatch($job);
 
-            return [ 'status' => true ];
+            return [ 'status' => true , 'message' => 'ImportScenesWorker launched successfuly'];
 
         } catch (\Exception $e) {
             return [ 'status' => false, 'message' => $e->getMessage() ];

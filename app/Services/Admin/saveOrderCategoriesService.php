@@ -18,7 +18,7 @@ class saveOrderCategoriesService
                 $categoyBBDD->save();
             }
 
-            return [ 'status' => true ];
+            return [ 'status' => true , 'message' => 'OrderCategories updated succesfuly'];
         } catch(\Exception $e) {
             return [ 'status' => false, 'message' => $e->getMessage() ];
         }

@@ -78,8 +78,9 @@ class uploadSiteLogoService
         }
 
         return [
-            'status' => true,
-            "files"  => $files
+            'status'  => true,
+            'message' => 'File has been uploaded',
+            "files"   => $files
         ];
     }
 }

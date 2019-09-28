@@ -175,7 +175,7 @@ class Category extends Model
      * @param null $exclude_scene_ids
      * @return bool
      */
-    public static function updateCategoryThumbnail($category, $exclude_scene_ids = null, $ignore_locked = false)
+    public static function updateCategoryThumbnail($category, $exclude_scene_ids = null, $ignore_locked = false, $ignore_no_videos = false)
     {
         $sceneRNDquery = $category->scenes()
             ->select('scenes.id', 'scenes.preview')
@@ -187,6 +187,22 @@ class Category extends Model
         }
 
         $sceneRND = $sceneRNDquery->first();
+
+        if (!$sceneRND && $ignore_no_videos) {
+            rZeBotUtils::message("[updateCategoryThumbnail] Forcing thumbnail | site_id: $category->site_id | $category->text($category->id), have " . $category->scenes()->count() . " scenes | Exclude: ". count($exclude_scene_ids), "info", 'kernel');
+            $sceneRND = Scene::getTranslationSearch(
+                $category->text,
+                $category->site->lang_id,
+                $category->site->id,
+                $status = true
+            )->first();
+
+            if (!$sceneRND) {
+                rZeBotUtils::message("[updateCategoryThumbnail] Forced failed | site_id: $category->site_id | $category->text($category->id), have " . $category->scenes()->count() . " scenes", "warning", 'kernel');
+            } else {
+                rZeBotUtils::message("[updateCategoryThumbnail] Forced success | site_id: $category->site_id | $category->text($category->id), have " . $category->scenes()->count() . " scenes", "warning", 'kernel');
+            }
+        }
 
         if ($sceneRND) {
             $img = $sceneRND->preview;

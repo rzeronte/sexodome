@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\Storage;
 class BotLoadJSONCategories extends Command
 {
     protected $signature = 'zbot:categories:json {site_id}
-                            {--gays=false : Filter for Gay categories}';
+                            {--gays=false : Filter for Gay categories}
+                            {--enable : Active categories}';
 
     protected $description = 'Load categories from json for one site';
 
@@ -22,6 +23,7 @@ class BotLoadJSONCategories extends Command
     {
         $site_id = $this->argument('site_id');
         $gays = $this->option('gays');
+        $enable = $this->option('enable', false);
 
         $site = Site::find($site_id);
 
@@ -41,7 +43,7 @@ class BotLoadJSONCategories extends Command
         
         rZeBotUtils::message("[BotLoadJSONCategories] Load categories for ". $site->getHost(), "info",'kernel');
 
-        DB::transaction(function () use ($categories, $site, $gays) {
+        DB::transaction(function () use ($categories, $site, $gays, $enable) {
             $i = 0;
             foreach ($categories as $c) {
                 $i++;
@@ -61,7 +63,7 @@ class BotLoadJSONCategories extends Command
 
                 if (Category::getTranslationByName(trim($category_en), 2, $site->id)->count() == 0) {
                     $newCategory = new Category();
-                    $newCategory->status = 0;
+                    $newCategory->status = intVal($enable);
                     $newCategory->site_id = $site->id;
                     $newCategory->text = $category_en;
                     $newCategory->nscenes = 0;

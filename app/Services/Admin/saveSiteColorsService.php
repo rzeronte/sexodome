@@ -33,6 +33,6 @@ class saveSiteColorsService
             Artisan::call('zbot:css:update', ['--site_id' => $site->id]);
         }
 
-        return [ 'status' => true ];
+        return [ 'status' => true , 'message' => "Colors for $site->domain has been updated"];
     }
 }

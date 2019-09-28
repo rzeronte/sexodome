@@ -2,6 +2,8 @@
 
 namespace App\Services\Admin;
 
+use App\Model\Site;
+
 class saveSiteIframeService
 {
     public function execute($site_id, $iframe_site_id)
@@ -15,7 +17,7 @@ class saveSiteIframeService
 
             $site->iframe_site_id = $iframe_site_id;
             $site->save();
-            return [ 'status' => true ];
+            return [ 'status' => true, 'message' => "Iframe for $site->domain has been updated" ];
         } catch (\Exception $e) {
             return [ 'status' => false, 'message' => $e->getMessage() ];
         }

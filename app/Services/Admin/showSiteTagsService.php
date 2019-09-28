@@ -22,9 +22,10 @@ class showSiteTagsService
         )->paginate($perPage);
 
         return [
-            'status' => true,
-            'site'   => $site,
-            'tags'   => $tags
+            'status'  => true,
+            'message' => 'showSiteTagsService has been executed',
+            'site'    => $site,
+            'tags'    => $tags
         ];
     }
 }

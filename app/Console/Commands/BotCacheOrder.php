@@ -15,7 +15,7 @@ class BotCacheOrder extends Command
 {
     protected $signature = 'zbot:cache:order';
 
-    protected $description = 'Reset cache order for categories';
+    protected $description = 'Reset cache order in categories for "AnalyticsOrder" sites';
 
     public function handle()
     {

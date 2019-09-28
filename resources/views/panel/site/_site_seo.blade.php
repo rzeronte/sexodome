@@ -6,7 +6,7 @@
                 Domain:
             </div>
             <div class="col-md-7">
-                <input type="text" class="form-control" value="{{$site->getHost()}}" name="domain" onfocus="blur()">
+                <input type="text" class="form-control" value="{{$site->domain}}" name="domain" onfocus="blur()">
             </div>
         </div>
 

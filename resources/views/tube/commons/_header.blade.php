@@ -8,7 +8,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-                <a class="navbar-brand" href="{{route('categories', ['profile' => App::make('sexodomeKernel')->getSite()->getHost() ])}}" title="{{App::make('sexodomeKernel')->getSite()->getHost()}}" style="margin: 0;padding:0;">
+                <a class="navbar-brand" href="{{route('categories', ['profile' => App::make('sexodomeKernel')->getSite()->domain ])}}" title="{{ App::make('sexodomeKernel')->getSite()->domain }}" style="margin: 0;padding:0;">
                     <h1>
                     @if (file_exists(\App\rZeBot\sexodomeKernel::getLogosFolder()."/".md5(App::make('sexodomeKernel')->getSite()->id).".png"))
                         <img src="{{asset('/logos/'.md5(App::make('sexodomeKernel')->getSite()->id).".png")}}" alt="{{App::make('sexodomeKernel')->getSite()->logo_h1}}" title="{{ App::make('sexodomeKernel')->getSite()->logo_h1}}"/>
@@ -24,7 +24,7 @@
             <ul class="navbar navbar-nav list-inline" style="background-color: transparent !important;">
                 <li>
                     <p class="navbar-btn">
-                        <a href="{{route('categories', ['profile' => App::make('sexodomeKernel')->getSite()->getHost() ])}}" class="btn btn-default">{{ucwords(trans('tube.h1_info_categories'))}}</a>
+                        <a href="{{route('categories', ['profile' => App::make('sexodomeKernel')->getSite()->domain ])}}" class="btn btn-default">{{ucwords(trans('tube.h1_info_categories'))}}</a>
                     </p>
                 </li>
 
@@ -45,13 +45,13 @@
                 @if (App::make('sexodomeKernel')->getSite()->pornstars()->count() > 0)
                 <li>
                     <p class="navbar-btn">
-                        <a href="{{route('pornstars', ["profile" => App::make('sexodomeKernel')->getSite()->getHost() ])}}" class="btn btn-default btn-header-pornstars">{{trans('tube.header_pornstars_btn')}}</a>
+                        <a href="{{route('pornstars', ["profile" => App::make('sexodomeKernel')->getSite()->domain ])}}" class="btn btn-default btn-header-pornstars">{{trans('tube.header_pornstars_btn')}}</a>
                     </p>
                 </li>
                 @endif
 
             </ul>
-            <form action="{{ route('search', ['profile' => App::make('sexodomeKernel')->getSite()->getHost() ]) }}" method="get" class="navbar-form navbar-left">
+            <form action="{{ route('search', ['profile' => App::make('sexodomeKernel')->getSite()->domain ]) }}" method="get" class="navbar-form navbar-left">
                 <div class="form-group">
                     <input name="q" type="text" placeholder="{{trans('tube.header_inputsearch_placeholder')}}" class="form-control" value="{{ Request::input('q') }}" required>
                 </div>

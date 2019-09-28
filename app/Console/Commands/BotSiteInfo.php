@@ -45,7 +45,7 @@ class BotSiteInfo extends Command
         rZeBotUtils::message("[BotSiteInfo] Num. Categories: " . $site->categories()->count(), "info",'kernel', true, true);
         rZeBotUtils::message("[BotSiteInfo] Num. Categories No Tags: " . $categories_no_tags, "info", 'kernel', true, true);
         rZeBotUtils::message("[BotSiteInfo] Num. Tags: " . $site->tags()->count(), "info",'kernel', true, true);
-        rZeBotUtils::message("[BotSiteInfo] Status: " . ($site->status == 1) ? "On": "Off", "info",'kernel', true, true);
+        rZeBotUtils::message("[BotSiteInfo] Status: " .  (($site->status == 1) ? "On": "Off"), "info",'kernel', true, true);
         rZeBotUtils::message("[BotSiteInfo] Title: " . str_replace("{domain}", $site->getHost(), $site->title_index), "info", 'kernel', true, true);
         rZeBotUtils::message("[BotSiteInfo] Description: " . str_replace("{domain}", $site->getHost(), $site->description_index), "info",'kernel', true, true);
         rZeBotUtils::message("[BotSiteInfo] Analytics GA: " . $site->ga_account, "info",'kernel', true, true);

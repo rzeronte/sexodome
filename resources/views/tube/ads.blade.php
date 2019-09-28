@@ -16,14 +16,14 @@
 <body style="background-color: @if (ctype_xdigit(Request::input('c', 'ffffff'))) #{{Request::input('c', 'ffffff')}} @else #fffff @endif;">
         <!-- Wrapper for slides -->
     <?php $i = 0 ?>
-    <h4> <p><i class="glyphicon glyphicon-th"></i> {{App::make('sexodomeKernel')->getSite()->getHost()}}</p></h4>
+    <h4> <p><i class="glyphicon glyphicon-th"></i> {{App::make('sexodomeKernel')->getSite()->domain}}</p></h4>
 
     <div class="slick">
         @foreach ($categories as $scene)
             <?php $translation = $scene->translations()->where('language_id',App::make('sexodomeKernel')->getLanguage()->id)->first(); ?>
             <div class="scene">
                 @if ($translation)
-                    <a href="{{route('category', ['profile'=>App::make('sexodomeKernel')->getSite()->getHost(),'permalink' => $translation->permalink])}}?utm_source={{App::make('sexodomeKernel')->getSite()->domain}}&utm_medium={{$translation->name}}&utm_campaign=iframe_sexodome" alt="{{$translation->title}}" target="_blank">
+                    <a href="{{route('category', ['profile'=>App::make('sexodomeKernel')->getSite()->domain'permalink' => $translation->permalink])}}?utm_source={{App::make('sexodomeKernel')->getSite()->domain}}&utm_medium={{$translation->name}}&utm_campaign=iframe_sexodome" alt="{{$translation->title}}" target="_blank">
                         <p class="text">{{ucwords($translation->name)}}</p>
 
                         @if ($translation->thumb_locked == 1)

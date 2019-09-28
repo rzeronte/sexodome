@@ -12,7 +12,7 @@ class uploadCategoryThumbnailService
         try {
             $category = Category::find($category_id);
 
-            if (!$category){
+            if (!$category) {
                 return [ 'status' => false, 'message' => "Category $category_id not found" ];
             }
 
@@ -31,6 +31,7 @@ class uploadCategoryThumbnailService
 
             return [
                 "status" => true,
+                "message" => "$fileName  has been saved for category_id($category_id)",
                 "files"  => [
                     [
                         "category_id" => $category_id,
