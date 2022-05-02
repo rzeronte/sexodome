@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Unit;
 
 use Tests\TestCase;
-use App\Services\Front\getCategoriesService;
+use Sexodome\SexodomeTube\Application\getCategoriesService;
 
 class getCategoriesServiceTest extends TestCase
 {

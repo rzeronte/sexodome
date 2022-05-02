@@ -6,10 +6,10 @@ use App\Model\Site;
 use Illuminate\Console\Command;
 use App\rZeBot\rZeBotUtils;
 use App\Model\Scene;
-use Spatie\LaravelAnalytics\LaravelAnalyticsFacade;
 use App\Model\CategoryTranslation;
 use App\Model\Category;
 use Illuminate\Support\Facades\DB;
+use Spatie\Analytics\AnalyticsFacade;
 
 class BotCacheOrder extends Command
 {
@@ -26,7 +26,7 @@ class BotCacheOrder extends Command
             $categoriesOrder = [];
 
             if ($site->ga_account != "") {
-                $pageViews = LaravelAnalyticsFacade::setSiteId('ga:'.$site->ga_account)->getMostVisitedPages(90, $maxResults = 100);
+                $pageViews = AnalyticsFacade::setSiteId('ga:'.$site->ga_account)->getMostVisitedPages(90, $maxResults = 100);
 
                 foreach ($pageViews as $pv) {
                     if (str_contains($pv["url"], "/category/") == true && str_contains($pv["url"], "?") == false) {

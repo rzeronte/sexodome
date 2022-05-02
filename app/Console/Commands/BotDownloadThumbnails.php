@@ -11,8 +11,9 @@ use App\Model\Scene;
 class BotDownloadThumbnails extends Command
 {
     protected $signature = 'zbot:thumbnails:download
-                            {--site_id=false : Only update for a site_id}
-                            {--overwrite=false : Overwrite images}';
+        {--site_id=false : Only update for a site_id}
+        {--overwrite=false : Overwrite images}'
+    ;
 
     protected $description = 'Download all thumbnails';
 

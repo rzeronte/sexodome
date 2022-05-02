@@ -11,12 +11,12 @@ use Illuminate\Support\Facades\DB;
 class BotUpdateCategoriesThumbnails extends Command
 {
     protected $signature = 'zbot:categories:thumbnails
-                            {--site_id=false : Only update for a site_id}
-                            {--ignore_locked=false : Update category ignoring lock}
-                            {--ignore_no_videos=false : Update even if there are no videos}
-                            {--ignore_no_videos=false : Update even if there are no videos}
-                            {--category_id=false : Only update for this category}
-                            ';
+        {--site_id=false : Only update for a site_id}
+        {--ignore_locked=false : Update category ignoring lock}
+        {--ignore_no_videos=false : Update even if there are no videos}
+        {--ignore_no_videos=false : Update even if there are no videos}
+        {--category_id=false : Only update for this category}
+    ';
 
     protected $description = 'Update category thumbnails';
 

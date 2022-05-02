@@ -2,6 +2,33 @@
 
 namespace App\Console;
 
+use App\Console\Commands\BotAnalytics;
+use App\Console\Commands\BotCacheOrder;
+use App\Console\Commands\BotCategoriesLanguageCopy;
+use App\Console\Commands\BotCategoriesRecount;
+use App\Console\Commands\BotCategorizeSite;
+use App\Console\Commands\BotCategorizeVideo;
+use App\Console\Commands\BotCheckDuplicatedScenes;
+use App\Console\Commands\BotCronJobs;
+use App\Console\Commands\BotCss;
+use App\Console\Commands\BotDeleteAll;
+use App\Console\Commands\BotDownloadThumbnails;
+use App\Console\Commands\BotFeedFetcher;
+use App\Console\Commands\BotFeedRemover;
+use App\Console\Commands\BotLoadJSONCategories;
+use App\Console\Commands\BotRankingGoogle;
+use App\Console\Commands\BotScenesTaggerize;
+use App\Console\Commands\BotSiteCopy;
+use App\Console\Commands\BotSiteInfo;
+use App\Console\Commands\BotSitemapGenerator;
+use App\Console\Commands\BotSitemapGeneratorAll;
+use App\Console\Commands\BotSitesList;
+use App\Console\Commands\BotTaggerizeCategories;
+use App\Console\Commands\BotTest;
+use App\Console\Commands\BotTranslateLanguage;
+use App\Console\Commands\BotTranslateVideo;
+use App\Console\Commands\BotUpdateCategoriesThumbnails;
+use App\Console\Commands\BotUpdateDumps;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -13,39 +40,39 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        \App\Console\Commands\BotFeedFetcher::class,
-        \App\Console\Commands\BotTranslateLanguage::class,
-        \App\Console\Commands\BotTranslateVideo::class,
-        \App\Console\Commands\BotAnalytics::class,
-        \App\Console\Commands\BotUpdateCategoriesThumbnails::class,
-        \App\Console\Commands\BotUpdateDumps::class,
-        \App\Console\Commands\BotSitesList::class,
-        \App\Console\Commands\BotSitemapGenerator::class,
-        \App\Console\Commands\BotSitemapGeneratorAll::class,
-        \App\Console\Commands\BotCategoriesRecount::class,
-        \App\Console\Commands\BotDeleteAll::class,
-        \App\Console\Commands\BotCronJobs::class,
-        \App\Console\Commands\BotCacheOrder::class,
-        \App\Console\Commands\BotFeedRemover::class,
-        \App\Console\Commands\BotRankingGoogle::class,
-        \App\Console\Commands\BotDownloadThumbnails::class,
-        \App\Console\Commands\BotCss::class,
-        \App\Console\Commands\BotSiteCopy::class,
-        \App\Console\Commands\BotCheckDuplicatedScenes::class,
-        \App\Console\Commands\BotTest::class,
-        \App\Console\Commands\BotCategorizeVideo::class,
-        \App\Console\Commands\BotCategorizeSite::class,
-        \App\Console\Commands\BotLoadJSONCategories::class,
-        \App\Console\Commands\BotTaggerizeCategories::class,
-        \App\Console\Commands\BotSiteInfo::class,
-        \App\Console\Commands\BotScenesTaggerize::class,
-        \App\Console\Commands\BotCategoriesLanguageCopy::class,
+        BotFeedFetcher::class,
+        BotTranslateLanguage::class,
+        BotTranslateVideo::class,
+        BotAnalytics::class,
+        BotUpdateCategoriesThumbnails::class,
+        BotUpdateDumps::class,
+        BotSitesList::class,
+        BotSitemapGenerator::class,
+        BotSitemapGeneratorAll::class,
+        BotCategoriesRecount::class,
+        BotDeleteAll::class,
+        BotCronJobs::class,
+        BotCacheOrder::class,
+        BotFeedRemover::class,
+        BotRankingGoogle::class,
+        BotDownloadThumbnails::class,
+        BotCss::class,
+        BotSiteCopy::class,
+        BotCheckDuplicatedScenes::class,
+        BotTest::class,
+        BotCategorizeVideo::class,
+        BotCategorizeSite::class,
+        BotLoadJSONCategories::class,
+        BotTaggerizeCategories::class,
+        BotSiteInfo::class,
+        BotScenesTaggerize::class,
+        BotCategoriesLanguageCopy::class,
     ];
 
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param  Schedule  $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)

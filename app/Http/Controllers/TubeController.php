@@ -2,6 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Sexodome\SexodomeTube\Application\getCategoriesService;
+use Sexodome\SexodomeTube\Application\getCategoryService;
+use Sexodome\SexodomeTube\Application\getPornstarService;
+use Sexodome\SexodomeTube\Application\getPornstarsService;
+use Sexodome\SexodomeTube\Application\getSceneIframeService;
+use Sexodome\SexodomeTube\Application\getSearchService;
+use Sexodome\SexodomeTube\Application\getSiteAdsService;
+use Sexodome\SexodomeTube\Application\getSitemapService;
+use Sexodome\SexodomeTube\Application\getVideoService;
+use Sexodome\SexodomeTube\Application\runOutService;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\App;
 
@@ -9,7 +19,7 @@ class TubeController extends Controller
 {
     public function categories($domain, $page = 1)
     {
-            return view('tube.categories', App::make('getCategoriesService')->execute(
+        return view('tube.categories', (new getCategoriesService())->execute(
             App::make('sexodomeKernel')->getSite()->id,
             App::make('sexodomeKernel')->getLanguage()->id,
             App::make('sexodomeKernel')->perPageCategories,
@@ -19,7 +29,7 @@ class TubeController extends Controller
 
     public function search($domain)
     {
-        $data = App::make('getSearchService')->execute(
+        $data = (new getSearchService())->execute(
             Request::input('q', false),
             App::make('sexodomeKernel')->getSite()->id,
             App::make('sexodomeKernel')->getLanguage()->id,
@@ -35,7 +45,7 @@ class TubeController extends Controller
 
     public function category($domain, $permalinkCategory, $page = 1)
     {
-        $data = App::make('getCategoryService')->execute(
+        $data = (new getCategoryService())->execute(
             $permalinkCategory,
             App::make('sexodomeKernel')->getSite()->id,
             App::make('sexodomeKernel')->getLanguage()->id,
@@ -53,7 +63,7 @@ class TubeController extends Controller
 
     public function pornstars($domain, $page = 1)
     {
-        return view('tube.pornstars', App::make('getPornstarsService')->execute(
+        return view('tube.pornstars', (new getPornstarsService())->execute(
             App::make('sexodomeKernel')->getSite()->id,
             App::make('sexodomeKernel')->perPagePornstars,
             $page
@@ -62,7 +72,7 @@ class TubeController extends Controller
 
     public function pornstar($domain, $permalinkPornstar, $page = 1)
     {
-        $data = App::make('getPornstarService')->execute(
+        $data = (new getPornstarService())->execute(
             $permalinkPornstar,
             App::make('sexodomeKernel')->getSite()->id,
             App::make('sexodomeKernel')->getLanguage()->id,
@@ -79,7 +89,7 @@ class TubeController extends Controller
 
     public function video($domain, $permalink)
     {
-        $data = App::make('getVideoService')->execute(
+        $data = (new getVideoService())->execute(
             $permalink,
             App::make('sexodomeKernel')->getSite()->id,
             App::make('sexodomeKernel')->getLanguage()->id
@@ -94,7 +104,7 @@ class TubeController extends Controller
 
     public function iframe($domain, $scene_id)
     {
-        $data = App::make('getSceneIframeService')->execute($scene_id);
+        $data = (new getSceneIframeService())->execute($scene_id);
 
         if ($data['status'] == false) {
             abort(404, $data['message']);
@@ -105,14 +115,14 @@ class TubeController extends Controller
 
     public function ads($domain)
     {
-        return view('tube.ads', App::make('getSiteAdsService')->execute(
+        return view('tube.ads', (new getSiteAdsService())->execute(
             App::make('sexodomeKernel')->getSite()->id
         ));
     }
 
     public function out($domain, $scene_id)
     {
-        $data = App::make('runOutService')->execute($scene_id);
+        $data = (new runOutService())->execute($scene_id);
 
         if ($data['status'] == false) {
             abort(404, $data['message']);
@@ -123,7 +133,7 @@ class TubeController extends Controller
 
     public function sitemap()
     {
-        return App::make('getSitemapService')->execute();
+        return (new getSitemapService())->execute();
     }
 
     public function dmca($domain)

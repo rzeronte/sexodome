@@ -16,8 +16,9 @@ class BotCheckDuplicatedScenes extends Command
      * @var string
      */
     protected $signature = 'zbot:check:duplicated
-                            {--site_id=false : Only update for a site_id}
-                            {--remove=false : Remove duplicated}';
+        {--site_id=false : Only update for a site_id}
+        {--remove=false : Remove duplicated}'
+    ;
 
     /**
      * The console command description.

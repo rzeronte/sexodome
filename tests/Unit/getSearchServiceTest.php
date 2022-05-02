@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Unit;
 
-use App\Services\Front\getSearchService;
+use Sexodome\SexodomeTube\Application\getSearchService;
 use Tests\TestCase;
 
 class getSearchServiceTest extends TestCase

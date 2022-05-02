@@ -11,9 +11,8 @@ use Illuminate\Support\Facades\Storage;
 class BotCss extends Command
 {
     protected $signature = 'zbot:css:update
-                        {--site_id=false : Only update concrete site }
+        {--site_id=false : Only update concrete site }
     ';
-
 
     protected $description = 'Generate css for all';
 

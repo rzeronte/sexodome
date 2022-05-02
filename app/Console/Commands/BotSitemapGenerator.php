@@ -10,25 +10,10 @@ use App\Model\Site;
 
 class BotSitemapGenerator extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'zbot:sitemap:site {site_id}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Generate a new sitemap for a site';
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
     public function handle()
     {
         $sitemap = new Sitemap(["use_styles" => false]);

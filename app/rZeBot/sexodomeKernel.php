@@ -10,7 +10,6 @@ use Jenssegers\Agent\Agent;
 use App\Model\Language;
 use App\Model\Site;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Route;
 
 class sexodomeKernel extends Controller {
 
@@ -266,7 +265,7 @@ class sexodomeKernel extends Controller {
 
     public static function getDumpsFolder()
     {
-        return env("DEFAULT_DUMPS_FOLDER", "../dumps/");
+        return env("DEFAULT_DUMPS_FOLDER", "./dumps/");
     }
 
     public static function getDumpsFolderTmp()

@@ -17,7 +17,8 @@ class BotCronJobs extends Command
      * @var string
      */
     protected $signature = 'zbot:crons:run
-                            {--site_id=false : Only update for a site_id}';
+        {--site_id=false : Only update for a site_id}'
+    ;
 
     /**
      * The console command description.

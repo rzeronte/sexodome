@@ -2,6 +2,44 @@
 
 namespace App\Http\Controllers;
 
+use Sexodome\SexodomeApi\Application\CategoryUnlockCommandHandler;
+use Sexodome\SexodomeApi\Application\CheckDomainCommandHandler;
+use Sexodome\SexodomeApi\Application\CreateCategoryCommandHandler;
+use Sexodome\SexodomeApi\Application\CreatePopunderCommandHandler;
+use Sexodome\SexodomeApi\Application\CreateTagCommandHandler;
+use Sexodome\SexodomeApi\Application\DeleteCategoryCommandHandler;
+use Sexodome\SexodomeApi\Application\DeleteCronjobCommandHandler;
+use Sexodome\SexodomeApi\Application\DeletePopunderCommandHandler;
+use Sexodome\SexodomeApi\Application\DeleteSceneCommandHandler;
+use Sexodome\SexodomeApi\Application\DeleteSiteCommandHandler;
+use Sexodome\SexodomeApi\Application\DeleteTagCommandHandler;
+use Sexodome\SexodomeApi\Application\GetSiteScenesCommandHandler;
+use Sexodome\SexodomeApi\Application\GetSiteCommandHandler;
+use Sexodome\SexodomeApi\Application\GetSitesCommandHandler;
+use Sexodome\SexodomeApi\Application\ImportScenesCommandHandler;
+use Sexodome\SexodomeApi\Application\UpdateCategoryTagsCommandHandler;
+use Sexodome\SexodomeApi\Application\UpdateCategoryTranslationCommandHandler;
+use Sexodome\SexodomeApi\Application\UpdateOrderCategoriesCommandHandler;
+use Sexodome\SexodomeApi\Application\SaveSiteColorsCommandHandler;
+use Sexodome\SexodomeApi\Application\UpdateSceneTranslationCommandHandler;
+use Sexodome\SexodomeApi\Application\UpdateSiteConfigCommandHandler;
+use Sexodome\SexodomeApi\Application\UpdateSiteGoogleUACommandHandler;
+use Sexodome\SexodomeApi\Application\UpdateSiteIframeCommandHandler;
+use Sexodome\SexodomeApi\Application\ShowCategoryTagsCommandHandler;
+use Sexodome\SexodomeApi\Application\ShowCategoryThumbsCommandHandler;
+use Sexodome\SexodomeApi\Application\ShowOrderCategoriesCommandHandler;
+use Sexodome\SexodomeApi\Application\ShowScenePreviewCommandHandler;
+use Sexodome\SexodomeApi\Application\ShowSceneThumbsCommandHandler;
+use Sexodome\SexodomeApi\Application\ShowSiteCategoriesCommandHandler;
+use Sexodome\SexodomeApi\Application\ShowSiteCronjobsCommandHandler;
+use Sexodome\SexodomeApi\Application\ShowSitePornstarsCommandHandler;
+use Sexodome\SexodomeApi\Application\ShowSiteTagsCommandHandler;
+use Sexodome\SexodomeApi\Application\UnverifiedUserCommandHandler;
+use Sexodome\SexodomeApi\Application\UpdateTagTranslationCommandHandler;
+use Sexodome\SexodomeApi\Application\UploadCategoryThumbnailCommandHandler;
+use Sexodome\SexodomeApi\Application\UploadSiteLogoCommandHandler;
+use Sexodome\SexodomeApi\Application\CreateCronjobCommandHandler;
+use Sexodome\SexodomeApi\Application\CreateSiteCommandHandler;
 use Illuminate\Support\Facades\Request;
 use App\Model\Language;
 use App\Model\Site;
@@ -13,6 +51,7 @@ use Illuminate\Support\Facades\App;
 
 class AdminController extends Controller
 {
+
     public function __construct()
     {
         $this->middleware('CheckVerifyUser');
@@ -21,7 +60,6 @@ class AdminController extends Controller
 
     public function unverified()
     {
-        return view('panel.unverified', App::make('AdminUnverifiedUserService')->execute());
     }
 
     public function welcome()
@@ -36,17 +74,17 @@ class AdminController extends Controller
 
     public function sites()
     {
-        return view('panel.sites', App::make('AdminGetSitesService')->execute(Auth::user()->id));
+        return view('panel.sites', (new GetSitesCommandHandler())->execute(Auth::user()->id));
     }
 
     public function site($site_id)
     {
-        return view('panel.site', App::make('AdminGetSiteService')->execute($site_id));
+        return view('panel.site', (new GetSiteCommandHandler())->execute($site_id));
     }
 
     public function scenes($site_id)
     {
-        return view('panel.scenes', App::make('AdminGetSiteScenesService')->execute(
+        return view('panel.scenes', (new GetSiteScenesCommandHandler())->execute(
             $site_id,
             App::make('sexodomeKernel')->perPageScenes,
             $searchParameters = [
@@ -54,8 +92,8 @@ class AdminController extends Controller
                 'tag_query'         => Request::input('tag_q'),
                 'duration'          => Request::input('duration'),
                 'category_query'    => Request::input('category_string'),
-                'empty_title'       => Request::input('empty_title') == "on" ? true : false,
-                'empty_description' => Request::input('empty_description') == "on" ? true : false,
+                'empty_title'       => Request::input('empty_title') == "on",
+                'empty_description' => Request::input('empty_description') == "on",
             ]
         ));
     }
@@ -64,7 +102,7 @@ class AdminController extends Controller
     {
         $tag = Tag::findOrFail($tag_id);
 
-        return json_encode(App::make('AdminSaveTagTranslationService')->execute(
+        return json_encode((new UpdateTagTranslationCommandHandler())->execute(
             $tag_id,
             $tag->site->language->id,
             Request::input('language_' . $tag->site->language->id),
@@ -76,7 +114,7 @@ class AdminController extends Controller
     {
         $category = Category::findOrFail($category_id);
 
-        return json_encode(App::make('AdminSaveCategoryTranslationService')->execute(
+        return json_encode((new UpdateCategoryTranslationCommandHandler())->execute(
             $category_id,
             $category->site->language_id,
             Request::input('language_' . $category->site->language->id),
@@ -87,7 +125,7 @@ class AdminController extends Controller
 
     public function saveSceneTranslation($scene_id)
     {
-        return json_encode(App::make('AdminSaveSceneTranslationService')->execute(
+        return json_encode((new UpdateSceneTranslationCommandHandler())->execute(
             $scene_id,
             Request::input('title'),
             Request::input('description'),
@@ -97,12 +135,12 @@ class AdminController extends Controller
 
     public function scenePreview($scene_id)
     {
-        return view('panel.ajax._ajax_preview', App::make('AdminShowScenePreviewService')->execute($scene_id));
+        return view('panel.ajax._ajax_preview', (new ShowScenePreviewCommandHandler())->execute($scene_id));
     }
 
     public function fetch($site_id)
     {
-        return json_encode(App::make('AdminImportScenesService')->execute(
+        return json_encode((new ImportScenesCommandHandler())->execute(
             $site_id,
             Request::input('feed_name'),
             $parameters = [
@@ -116,13 +154,13 @@ class AdminController extends Controller
 
     public function sceneThumbs($scene_id)
     {
-        return view('panel.ajax._ajax_scene_thumbs', App::make('AdminShowSceneThumbsService')->execute($scene_id));
+        return view('panel.ajax._ajax_scene_thumbs', (new ShowSceneThumbsCommandHandler())->execute($scene_id));
     }
 
     public function addSite()
     {
         if (Request::isMethod('post')) {
-            return view('panel.add_site', App::make('AdminAddSiteService')->execute( Request::input('domain') ));
+            return view('panel.add_site', (new CreateSiteCommandHandler())->execute( Request::input('domain') ));
         }
 
         return view('panel.add_site', [ 'sites' => Site::where('user_id', '=', Auth::user()->id)->get() ]);
@@ -130,24 +168,24 @@ class AdminController extends Controller
 
     public function checkDomain()
     {
-        return json_encode(App::make('AdminCheckDomainService')->execute( Request::input('domain') ));
+        return json_encode((new CheckDomainCommandHandler())->execute( Request::input('domain') ));
     }
 
     public function deleteCronJob($cronjob_id)
     {
-        return json_encode(App::make('AdminDeleteCronJobService')->execute( $cronjob_id ));
+        return json_encode((new DeleteCronjobCommandHandler())->execute( $cronjob_id ));
     }
 
     public function deleteSite($site_id)
     {
-        App::make('AdminDeleteSiteService')->execute( $site_id );
+        (new DeleteSiteCommandHandler())->execute( $site_id );
 
         return redirect()->route('sites', []);
     }
 
     public function categoryThumbs($category_id)
     {
-        return view('panel.ajax._ajax_category_thumbs', App::make('AdminShowCategoryThumbsService')->execute(
+        return view('panel.ajax._ajax_category_thumbs', (new ShowCategoryThumbsCommandHandler())->execute(
             $category_id,
             App::make('sexodomeKernel')->sex_types
         ));
@@ -155,31 +193,31 @@ class AdminController extends Controller
 
     public function categoryUnlock($category_translation_id)
     {
-        return json_encode(App::make('AdminCategoryUnlockService')->execute( $category_translation_id ));
+        return json_encode((new CategoryUnlockCommandHandler())->execute( $category_translation_id ));
     }
 
     public function orderCategories($site_id)
     {
         if (Request::input('o') != "") {
-            return json_encode(App::make('AdminSaveOrderCategoriesService')->execute( $site_id, Request::input('o') ));
+            return json_encode((new UpdateOrderCategoriesCommandHandler())->execute( $site_id, Request::input('o') ));
         }
 
-        return view('panel.categories_order', App::make('AdminShowOrderCategoriesService')->execute( $site_id, 100 ));
+        return view('panel.categories_order', (new ShowOrderCategoriesCommandHandler())->execute( $site_id, 100 ));
     }
 
     public function categoryTags($category_id)
     {
         if ( Request::isMethod('post') ) {
-            return json_encode(App::make('AdminSaveCategoryTagsService')->execute( $category_id, Request::input('categories') ));
+            return json_encode((new UpdateCategoryTagsCommandHandler())->execute( $category_id, Request::input('categories') ));
         }
 
-        return view('panel.ajax._ajax_category_tags', App::make('AdminShowCategoryTagsService')->execute( $category_id ));
+        return view('panel.ajax._ajax_category_tags', (new ShowCategoryTagsCommandHandler())->execute( $category_id ));
     }
 
     public function createCategory($site_id)
     {
         if (Request::isMethod('post')) {
-            return json_encode(App::make('AdminAddCategoryService')->execute(
+            return json_encode((new CreateCategoryCommandHandler())->execute(
                 $site_id,
                 Request::input('language_en'),
                 $this->prepareCategoryRequestData($site_id)
@@ -192,7 +230,7 @@ class AdminController extends Controller
     public function createTag($site_id)
     {
         if (Request::isMethod('post')) {
-            return json_encode(App::make('AdminAddTagService')->execute( $site_id, $this->prepareTagRequestData($site_id) ));
+            return json_encode((new CreateTagCommandHandler())->execute( $site_id, $this->prepareTagRequestData($site_id) ));
         } else {
             return view('panel.ajax._ajax_site_create_tag', [ 'site' => Site::findOrFail($site_id) ]);
         }
@@ -200,7 +238,7 @@ class AdminController extends Controller
 
     public function updateSiteSEO($site_id)
     {
-        return json_encode(App::make('AdminSaveSiteConfigService')->execute( $site_id, $configData = [
+        return json_encode((new UpdateSiteConfigCommandHandler())->execute( $site_id, $configData = [
             'status' => Request::input('status'),
             'language_id' => Request::input('language_id'),
             'category_url' => Request::input('category_url'),
@@ -238,12 +276,12 @@ class AdminController extends Controller
 
     public function updateGoogleData($site_id, Request $request)
     {
-        return json_encode(App::make('AdminSaveSiteGoogleUAService')->execute( $site_id, Request::input('ga_view_' . $site_id) ));
+        return json_encode((new UpdateSiteGoogleUACommandHandler())->execute( $site_id, Request::input('ga_view_' . $site_id) ));
     }
 
     public function updateIframeData($site_id)
     {
-        return json_encode(App::make('AdminSaveSiteIframeService')->execute(
+        return json_encode((new UpdateSiteIframeCommandHandler())->execute(
             $site_id,
             (Request::input('iframe_site_id_' . $site_id) != "") ? Request::input('iframe_site_id_' . $site_id) : null
         ));
@@ -251,7 +289,7 @@ class AdminController extends Controller
 
     public function updateLogo($site_id)
     {
-        return json_encode(App::make('AdminUploadSiteLogoService')->execute(
+        return json_encode((new UploadSiteLogoCommandHandler())->execute(
             $site_id,
             sexodomeKernel::getLogosFolder(),
             sexodomeKernel::getFaviconsFolder(),
@@ -261,7 +299,7 @@ class AdminController extends Controller
 
     public function updateColors($site_id)
     {
-        return json_encode(App::make('AdminSaveSiteColorsService')->execute( $site_id, [
+        return json_encode((new SaveSiteColorsCommandHandler())->execute( $site_id, [
             'color'   => Request::input('color') != "" ? Request::input('color') : null,
             'color2'  => Request::input('color2') != "" ? Request::input('color2') : null,
             'color3'  => Request::input('color3') != "" ? Request::input('color3') : null,
@@ -279,22 +317,22 @@ class AdminController extends Controller
 
     public function uploadCategoryThumbnail($category_id)
     {
-        return json_encode(App::make('AdminUploadCategoryThumbnailService')->execute($category_id ));
+        return json_encode((new UploadCategoryThumbnailCommandHandler())->execute($category_id ));
     }
 
     public function ajaxDeleteCategory($category_id)
     {
-        return json_encode(App::make('AdminDeleteCategoryService')->execute($category_id ));
+        return json_encode((new DeleteCategoryCommandHandler())->execute($category_id ));
     }
 
     public function ajaxDeleteTag($tag_id)
     {
-        return json_encode(App::make('AdminDeleteTagService')->execute( $tag_id ));
+        return json_encode((new DeleteTagCommandHandler())->execute( $tag_id ));
     }
 
     public function ajaxDeleteScene($scene_id)
     {
-        return json_encode(App::make('AdminDeleteSceneService')->execute( $scene_id ));
+        return json_encode((new DeleteSceneCommandHandler())->execute( $scene_id ));
     }
 
     public function ajaxPopunders($site_id)
@@ -304,17 +342,17 @@ class AdminController extends Controller
 
     public function ajaxSavePopunder($site_id, Request $request)
     {
-        return json_encode(App::make('AdminAddPopunderService')->execute( $site_id, Request::input('url', false)) );
+        return json_encode((new CreatePopunderCommandHandler())->execute( $site_id, Request::input('url', false)) );
     }
 
     public function ajaxDeletePopunder($popunder_id)
     {
-        return json_encode(App::make('AdminDeletePopunderService')->execute( $popunder_id));
+        return json_encode((new DeletePopunderCommandHandler())->execute( $popunder_id));
     }
 
     public function ajaxSaveCronJob()
     {
-        return json_encode(App::make('AdminAddCronjobService')->execute(
+        return json_encode((new CreateCronjobCommandHandler())->execute(
             Request::input('feed_name'),
             Request::input('site_id'),
             $parameters = [
@@ -328,12 +366,12 @@ class AdminController extends Controller
 
     public function ajaxCronJobs($site_id)
     {
-        return view('panel.ajax._ajax_site_cronjobs', App::make('AdminShowSiteCronjobsService')->execute( $site_id ));
+        return view('panel.ajax._ajax_site_cronjobs', (new ShowSiteCronjobsCommandHandler())->execute( $site_id ));
     }
 
     public function ajaxSiteTags($site_id, Request $request)
     {
-        return view('panel.ajax._ajax_site_tags', App::make('AdminShowSiteTagsService')->execute(
+        return view('panel.ajax._ajax_site_tags', (new ShowSiteTagsCommandHandler())->execute(
             $site_id,
             Request::input('q'),
             App::make('sexodomeKernel')->perPageTags
@@ -342,7 +380,7 @@ class AdminController extends Controller
 
     public function ajaxSiteCategories($site_id)
     {
-        return view('panel.ajax._ajax_site_categories', App::make('AdminShowSiteCategoriesService')->execute(
+        return view('panel.ajax._ajax_site_categories', (new ShowSiteCategoriesCommandHandler())->execute(
             $site_id,
             Request::input('q'),
             App::make('sexodomeKernel')->perPagePanelCategories,
@@ -352,7 +390,7 @@ class AdminController extends Controller
 
     public function ajaxSitePornstars($site_id)
     {
-        return view('panel.ajax._ajax_site_pornstars', App::make('AdminShowSitePornstarsService')->execute(
+        return view('panel.ajax._ajax_site_pornstars', (new ShowSitePornstarsCommandHandler())->execute(
             $site_id,
             App::make('sexodomeKernel')->perPagePanelPornstars
         ));

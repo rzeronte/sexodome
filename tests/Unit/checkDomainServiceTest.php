@@ -1,16 +1,16 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Unit;
 
 use Tests\TestCase;
-use App\Services\Admin\checkDomainService;
+use Sexodome\SexodomeApi\Application\CheckDomainCommandHandler;
 
 class checkDomainServiceTest extends TestCase
 {
     public function testSimpleAndNotValid()
     {
         $domain = "hola";
-        $service = new checkDomainService();
+        $service = new CheckDomainCommandHandler();
         $result = $service->execute( $domain );
 
         $this->assertFalse($result['status']);
@@ -19,7 +19,7 @@ class checkDomainServiceTest extends TestCase
     public function testDomainWithHttp()
     {
         $domain = "http://prueba.com";
-        $service = new checkDomainService();
+        $service = new CheckDomainCommandHandler();
         $result = $service->execute( $domain );
 
         $this->assertFalse($result['status']);
@@ -28,7 +28,7 @@ class checkDomainServiceTest extends TestCase
     public function testDomainWithSubdomain()
     {
         $domain = "dominio.prueba2.com";
-        $service = new checkDomainService();
+        $service = new CheckDomainCommandHandler();
         $result = $service->execute( $domain );
 
         $this->assertFalse($result['status']);
@@ -37,7 +37,7 @@ class checkDomainServiceTest extends TestCase
     public function testEmptyDomain()
     {
         $domain = "";
-        $service = new checkDomainService();
+        $service = new CheckDomainCommandHandler();
         $result = $service->execute( $domain );
 
         $this->assertFalse($result['status']);
@@ -46,7 +46,7 @@ class checkDomainServiceTest extends TestCase
     public function testSuccessDomain()
     {
         $domain = "randomdomain.com";
-        $service = new checkDomainService();
+        $service = new CheckDomainCommandHandler();
         $result = $service->execute( $domain );
 
         $this->assertTrue($result['status']);
@@ -55,7 +55,7 @@ class checkDomainServiceTest extends TestCase
     public function testRandomCharacteres()
     {
         $domain = "34234%d'a6&f/a·d!!f.com";
-        $service = new checkDomainService();
+        $service = new CheckDomainCommandHandler();
         $result = $service->execute( $domain );
 
         $this->assertFalse($result['status']);

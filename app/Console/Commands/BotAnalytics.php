@@ -6,29 +6,14 @@ use App\rZeBot\rZeBotUtils;
 use Illuminate\Console\Command;
 use App\Model\Site;
 use App\Model\Analytics;
-use Spatie\LaravelAnalytics\LaravelAnalyticsFacade;
+use Spatie\Analytics\AnalyticsFacade;
 
 class BotAnalytics extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'zbot:sites:analytics';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Update Analytics data for all sites';
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
     public function handle()
     {
         $sites = Site::all();
@@ -36,7 +21,7 @@ class BotAnalytics extends Command
         foreach($sites as $site) {
             if ($site->ga_account != '') {
                 try {
-                    $analyticsData = LaravelAnalyticsFacade::setSiteId('ga:' . $site->ga_account)->getVisitorsAndPageViews(5);
+                    $analyticsData = AnalyticsFacade::setSiteId('ga:' . $site->ga_account)->getVisitorsAndPageViews(5);
                     rZeBotUtils::message("[BotAnalytics] Get GA data for: " . $site->getHost(), "info",  "analytics");
 
                     foreach ($analyticsData as $data) {

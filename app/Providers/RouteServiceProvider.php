@@ -35,11 +35,13 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
-        $this->mapApiRoutes();
+        //$this->mapApiRoutes();
 
-        $this->mapWebRoutes();
 
-        //
+        //$this->mapSexodomeRoutes();
+        $this->mapTubeRoutes();
+        //$this->mapBackendRoutes();
+        //$this->mapApiV1Routes();
     }
 
     /**
@@ -69,5 +71,31 @@ class RouteServiceProvider extends ServiceProvider
              ->middleware('api')
              ->namespace($this->namespace)
              ->group(base_path('routes/api.php'));
+    }
+
+    private function mapTubeRoutes()
+    {
+        Route::namespace($this->namespace)
+            ->group(base_path('routes/v1/tube.php'));
+    }
+
+    private function mapSexodomeRoutes()
+    {
+        Route::namespace($this->namespace)
+            ->group(base_path('routes/v1/web.php'));
+    }
+
+    private function mapBackendRoutes()
+    {
+        Route::namespace($this->namespace)
+            //->prefix('v1')
+            ->group(base_path('routes/v1/backend.php'));
+    }
+
+    private function mapApiV1Routes()
+    {
+        Route::namespace($this->namespace)
+            //->prefix('v1')
+            ->group(base_path('routes/v1/api.php'));
     }
 }

@@ -14,8 +14,9 @@ use Illuminate\Support\Facades\Storage;
 class BotLoadJSONCategories extends Command
 {
     protected $signature = 'zbot:categories:json {site_id}
-                            {--gays=false : Filter for Gay categories}
-                            {--enable : Active categories}';
+        {--gays=false : Filter for Gay categories}
+        {--enable : Active categories}'
+    ;
 
     protected $description = 'Load categories from json for one site';
 
@@ -40,7 +41,7 @@ class BotLoadJSONCategories extends Command
 
         $categories = Storage::get('categories.json');
         $categories = json_decode($categories, true);
-        
+
         rZeBotUtils::message("[BotLoadJSONCategories] Load categories for ". $site->getHost(), "info",'kernel');
 
         DB::transaction(function () use ($categories, $site, $gays, $enable) {

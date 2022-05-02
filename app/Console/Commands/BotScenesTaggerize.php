@@ -10,25 +10,11 @@ use App\Model\Tag;
 
 class BotScenesTaggerize extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
+
     protected $signature = 'zbot:scenes:taggerize {site_id}';
 
-    /**a
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Auto associate tags for scenes from title (words >=2 length)';
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
     public function handle()
     {
         $site_id = $this->argument('site_id');
